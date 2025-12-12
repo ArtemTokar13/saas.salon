@@ -1,14 +1,14 @@
 {% extends 'Layout.html' %}
 {% load i18n %}
 
-{% block title %}Register Your Company{% endblock %}
+{% block title %}{% trans "Register Your Company" %}{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
         <div class="text-center mb-8">
-            <h2 class="text-4xl font-bold text-gray-900 mb-2">Start Your Free Trial</h2>
-            <p class="text-gray-600">Create your company account and start accepting bookings today</p>
+            <h2 class="text-4xl font-bold text-gray-900 mb-2">{% trans "Start Your Free Trial" %}</h2>
+            <p class="text-gray-600">{% trans "Create your company account and start accepting bookings today" %}</p>
         </div>
 
         <div class="bg-white rounded-lg shadow-lg p-8">
@@ -23,31 +23,31 @@
 
                 <!-- User Information -->
                 <div class="border-b pb-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Account Information</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Account Information" %}</h3>
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Username *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Username" %} *</label>
                             {{ form.username }}
                             {% if form.username.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.username.errors.0 }}</p>
                             {% endif %}
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Email" %} *</label>
                             {{ form.email }}
                             {% if form.email.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
                             {% endif %}
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Password" %} *</label>
                             {{ form.password1 }}
                             {% if form.password1.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.password1.errors.0 }}</p>
                             {% endif %}
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Confirm Password" %} *</label>
                             {{ form.password2 }}
                             {% if form.password2.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.password2.errors.0 }}</p>
@@ -58,17 +58,17 @@
 
                 <!-- Company Information -->
                 <div class="border-b pb-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Company Information</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Company Information" %}</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Company Name *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Company Name" %} *</label>
                             {{ form.company_name }}
                             {% if form.company_name.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.company_name.errors.0 }}</p>
                             {% endif %}
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Description" %}</label>
                             {{ form.company_description }}
                             {% if form.company_description.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.company_description.errors.0 }}</p>
@@ -76,14 +76,14 @@
                         </div>
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Address" %} *</label>
                                 {{ form.company_address }}
                                 {% if form.company_address.errors %}
                                     <p class="mt-1 text-sm text-red-600">{{ form.company_address.errors.0 }}</p>
                                 {% endif %}
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "City" %} *</label>
                                 {{ form.company_city }}
                                 {% if form.company_city.errors %}
                                     <p class="mt-1 text-sm text-red-600">{{ form.company_city.errors.0 }}</p>
@@ -92,14 +92,14 @@
                         </div>
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Phone" %}</label>
                                 {{ form.company_phone }}
                                 {% if form.company_phone.errors %}
                                     <p class="mt-1 text-sm text-red-600">{{ form.company_phone.errors.0 }}</p>
                                 {% endif %}
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Company Email</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Company Email" %}</label>
                                 {{ form.company_email }}
                                 {% if form.company_email.errors %}
                                     <p class="mt-1 text-sm text-red-600">{{ form.company_email.errors.0 }}</p>
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Company Logo</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Company Logo" %}</label>
                             {{ form.company_logo }}
                             {% if form.company_logo.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.company_logo.errors.0 }}</p>
@@ -118,7 +118,7 @@
 
                 <!-- Subscription Plan -->
                 <div class="pb-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Choose Your Plan *</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Choose Your Plan" %} *</h3>
                     <div>
                         {{ form.plan }}
                         {% if form.plan.errors %}
@@ -129,10 +129,10 @@
 
                 <div class="flex items-center justify-between pt-6">
                     <a href="{% url 'index' %}" class="text-sm text-gray-600 hover:text-gray-900">
-                        ← Back to home
+                        ← {% trans "Back to home" %}
                     </a>
                     <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Create Account
+                        {% trans "Create Account" %}
                     </button>
                 </div>
             </form>

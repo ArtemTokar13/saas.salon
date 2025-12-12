@@ -1,38 +1,39 @@
 {% extends 'Layout.html' %}
 {% load i18n %}
 
-{% block title %}Salon Booking Platform{% endblock %}
+{% block title %}{% trans "Salon Booking Platform" %}{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
+ {% if not user.is_authenticated %}
 <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div class="text-center">
-            <h1 class="text-5xl font-bold mb-6">Manage Your Salon Bookings</h1>
+            <h1 class="text-5xl font-bold mb-6">{% trans "Manage Your Salon Bookings" %}</h1>
             <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                The complete booking platform for salons, spas, and service businesses. 
-                Accept appointments online 24/7.
+                {% trans "The complete booking platform for salons, spas, and service businesses. Accept appointments online 24/7." %}
             </p>
             <div class="flex justify-center space-x-4">
                 <a href="{% url 'register_company' %}" 
                    class="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
-                    Start Free Trial
+                    {% trans "Start Free Trial" %}
                 </a>
                 <a href="{% url 'login' %}" 
                    class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-blue-600 transition">
-                    Sign In
+                    {% trans "Sign In" %}
                 </a>
             </div>
         </div>
     </div>
 </div>
+{% endif %}
 
 <!-- Features Section -->
 <div class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">Everything You Need</h2>
-            <p class="text-xl text-gray-600">Simple, powerful tools to grow your business</p>
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">{% trans "Everything You Need" %}</h2>
+            <p class="text-xl text-gray-600">{% trans "Simple, powerful tools to grow your business" %}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -40,10 +41,9 @@
                 <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
                     <i class="fas fa-calendar-check text-blue-600 text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Online Booking</h3>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Online Booking" %}</h3>
                 <p class="text-gray-600">
-                    Let customers book appointments 24/7 from any device. 
-                    Automatic confirmations and reminders.
+                    {% trans "Let customers book appointments 24/7 from any device. Automatic confirmations and reminders." %}
                 </p>
             </div>
 
@@ -51,10 +51,9 @@
                 <div class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
                     <i class="fas fa-users text-green-600 text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Staff Management</h3>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Staff Management" %}</h3>
                 <p class="text-gray-600">
-                    Manage your team, assign services, and track schedules. 
-                    Each staff member gets their own calendar.
+                    {% trans "Manage your team, assign services, and track schedules. Each staff member gets their own calendar." %}
                 </p>
             </div>
 
@@ -62,10 +61,9 @@
                 <div class="bg-purple-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
                     <i class="fas fa-chart-line text-purple-600 text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Business Insights</h3>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Business Insights" %}</h3>
                 <p class="text-gray-600">
-                    Track bookings, revenue, and customer data. 
-                    Make informed decisions with real-time analytics.
+                    {% trans "Track bookings, revenue, and customer data. Make informed decisions with real-time analytics." %}
                 </p>
             </div>
         </div>
@@ -76,8 +74,8 @@
 <div class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-            <p class="text-xl text-gray-600">Get started in minutes</p>
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">{% trans "How It Works" %}</h2>
+            <p class="text-xl text-gray-600">{% trans "Get started in minutes" %}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -85,32 +83,32 @@
                 <div class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
                     1
                 </div>
-                <h3 class="font-bold text-gray-900 mb-2">Sign Up</h3>
-                <p class="text-gray-600 text-sm">Create your company account in under 2 minutes</p>
+                <h3 class="font-bold text-gray-900 mb-2">{% trans "Sign Up" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Create your company account in under 2 minutes" %}</p>
             </div>
 
             <div class="text-center">
                 <div class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
                     2
                 </div>
-                <h3 class="font-bold text-gray-900 mb-2">Setup</h3>
-                <p class="text-gray-600 text-sm">Add your staff, services, and working hours</p>
+                <h3 class="font-bold text-gray-900 mb-2">{% trans "Setup" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Add your staff, services, and working hours" %}</p>
             </div>
 
             <div class="text-center">
                 <div class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
                     3
                 </div>
-                <h3 class="font-bold text-gray-900 mb-2">Share</h3>
-                <p class="text-gray-600 text-sm">Share your booking link with customers</p>
+                <h3 class="font-bold text-gray-900 mb-2">{% trans "Share" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Share your booking link with customers" %}</p>
             </div>
 
             <div class="text-center">
                 <div class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
                     4
                 </div>
-                <h3 class="font-bold text-gray-900 mb-2">Grow</h3>
-                <p class="text-gray-600 text-sm">Accept bookings and manage your business</p>
+                <h3 class="font-bold text-gray-900 mb-2">{% trans "Grow" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Accept bookings and manage your business" %}</p>
             </div>
         </div>
     </div>
@@ -119,13 +117,13 @@
 <!-- CTA Section -->
 <div class="bg-blue-600 text-white py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl font-bold mb-4">Ready to Get Started?</h2>
+        <h2 class="text-4xl font-bold mb-4">{% trans "Ready to Get Started?" %}</h2>
         <p class="text-xl text-blue-100 mb-8">
-            Join hundreds of businesses managing their bookings smarter
+            {% trans "Join hundreds of businesses managing their bookings smarter" %}
         </p>
         <a href="{% url 'register_company' %}" 
            class="inline-block bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
-            Start Your Free Trial
+            {% trans "Start Your Free Trial" %}
         </a>
     </div>
 </div>

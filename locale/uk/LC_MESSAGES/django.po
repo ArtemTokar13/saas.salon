@@ -2,10 +2,246 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-12 15:08+0000\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Salon Booking Platform"
+msgstr "Платформа Бронювання для Салонів"
+
+msgid "Manage Your Salon Bookings"
+msgstr "Керуйте Бронюваннями Вашого Салону"
+
+msgid "The complete booking platform for salons, spas, and service businesses. Accept appointments online 24/7."
+msgstr "Повна платформа бронювання для салонів, спа та сервісних підприємств. Приймайте записи онлайн 24/7."
+
+msgid "Start Free Trial"
+msgstr "Почати Безкоштовну Пробну Версію"
+
+msgid "Sign In"
+msgstr "Увійти"
+
+msgid "Sign in"
+msgstr "Увійти"
+
+msgid "Everything You Need"
+msgstr "Все Що Вам Потрібно"
+
+msgid "Simple, powerful tools to grow your business"
+msgstr "Прості та потужні інструменти для розвитку вашого бізнесу"
+
+msgid "Online Booking"
+msgstr "Онлайн Бронювання"
+
+msgid "Let customers book appointments 24/7 from any device. Automatic confirmations and reminders."
+msgstr "Дозвольте клієнтам бронювати записи 24/7 з будь-якого пристрою. Автоматичні підтвердження та нагадування."
+
+msgid "Staff Management"
+msgstr "Управління Персоналом"
+
+msgid "Manage your team, assign services, and track schedules. Each staff member gets their own calendar."
+msgstr "Керуйте командою, призначайте послуги та відстежуйте розклади. Кожен співробітник має власний календар."
+
+msgid "Business Insights"
+msgstr "Бізнес Аналітика"
+
+msgid "Track bookings, revenue, and customer data. Make informed decisions with real-time analytics."
+msgstr "Відстежуйте бронювання, дохід та дані клієнтів. Приймайте обґрунтовані рішення з аналітикою в реальному часі."
+
+msgid "How It Works"
+msgstr "Як Це Працює"
+
+msgid "Get started in minutes"
+msgstr "Почніть за кілька хвилин"
+
+msgid "Sign Up"
+msgstr "Зареєструватися"
+
+msgid "Create your company account in under 2 minutes"
+msgstr "Створіть обліковий запис компанії менш ніж за 2 хвилини"
+
+msgid "Setup"
+msgstr "Налаштування"
+
+msgid "Add your staff, services, and working hours"
+msgstr "Додайте персонал, послуги та робочі години"
+
+msgid "Share"
+msgstr "Поділитися"
+
+msgid "Share your booking link with customers"
+msgstr "Поділіться посиланням для бронювання з клієнтами"
+
+msgid "Grow"
+msgstr "Зростати"
+
+msgid "Accept bookings and manage your business"
+msgstr "Приймайте бронювання та керуйте бізнесом"
+
+msgid "Ready to Get Started?"
+msgstr "Готові Почати?"
+
+msgid "Join hundreds of businesses managing their bookings smarter"
+msgstr "Приєднуйтесь до сотень підприємств, які керують своїми бронюваннями розумніше"
+
+msgid "Login"
+msgstr "Увійти"
+
+msgid "Sign in to your account"
+msgstr "Увійдіть у свій обліковий запис"
+
+msgid "Or"
+msgstr "Або"
+
+msgid "create a new company account"
+msgstr "створити новий обліковий запис компанії"
+
+msgid "Please correct the errors below."
+msgstr "Будь ласка, виправте помилки нижче."
+
+msgid "Username"
+msgstr "Ім'я користувача"
+
+msgid "Enter your username"
+msgstr "Введіть ваше ім'я користувача"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Enter your password"
+msgstr "Введіть ваш пароль"
+
+msgid "Remember me"
+msgstr "Запам'ятати мене"
+
+msgid "Forgot password?"
+msgstr "Забули пароль?"
+
+msgid "Register Your Company"
+msgstr "Зареєструйте Вашу Компанію"
+
+msgid "Create your company account and start accepting bookings today"
+msgstr "Створіть обліковий запис компанії та почніть приймати бронювання сьогодні"
+
+msgid "Account Information"
+msgstr "Інформація Облікового Запису"
+
+msgid "Email"
+msgstr "Електронна Пошта"
+
+msgid "Confirm Password"
+msgstr "Підтвердити Пароль"
+
+msgid "Company Information"
+msgstr "Інформація Про Компанію"
+
+msgid "Company Name"
+msgstr "Назва Компанії"
+
+msgid "Description"
+msgstr "Опис"
+
+msgid "Address"
+msgstr "Адреса"
+
+msgid "City"
+msgstr "Місто"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Company Email"
+msgstr "Електронна Пошта Компанії"
+
+msgid "Company Logo"
+msgstr "Логотип Компанії"
+
+msgid "Choose Your Plan"
+msgstr "Оберіть Ваш План"
+
+msgid "Back to home"
+msgstr "Повернутися на головну"
+
+msgid "Create Account"
+msgstr "Створити Обліковий Запис"
+
+msgid "Select the plan that best fits your business needs"
+msgstr "Виберіть план, який найкраще відповідає потребам вашого бізнесу"
+
+msgid "Current Plan"
+msgstr "Поточний План"
+
+msgid "Unlimited bookings"
+msgstr "Необмежена кількість бронювань"
+
+msgid "staff management"
+msgstr "управління персоналом"
+
+msgid "Calendar view"
+msgstr "Вигляд календаря"
+
+msgid "Public booking page"
+msgstr "Публічна сторінка бронювання"
+
+msgid "No plans available at the moment"
+msgstr "Наразі немає доступних планів"
+
+msgid "Select Plan"
+msgstr "Вибрати План"
+
+msgid "Are you sure you want to switch to"
+msgstr "Ви впевнені, що хочете змінити на"
+
+msgid "Back to Subscription Details"
+msgstr "Повернутися до Деталей Підписки"
+
+msgid "Company Dashboard"
+msgstr "Панель Компанії"
+
+msgid "Edit Profile"
+msgstr "Редагувати Профіль"
+
+msgid "Calendar"
+msgstr "Календар"
+
+msgid "Staff Members"
+msgstr "Члени Персоналу"
+
+msgid "Services"
+msgstr "Послуги"
+
+msgid "Subscription"
+msgstr "Підписка"
+
+msgid "Expires:"
+msgstr "Закінчується:"
+
+msgid "No Active Plan"
+msgstr "Немає Активного Плану"
+
+msgid "Quick Actions"
+msgstr "Швидкі Дії"
+
+msgid "Add Staff"
+msgstr "Додати Персонал"
+
+msgid "Add Service"
+msgstr "Додати Послугу"
+
+msgid "Set Hours"
+msgstr "Встановити Години"
+
+msgid "View Public Page"
+msgstr "Переглянути Публічну Сторінку"
+
+msgid "Company"
+msgstr "Компанія"
+
+msgid "Bookings"
+msgstr "Бронювання"
 
 msgid "Home"
 msgstr "Головна"
@@ -17,7 +253,7 @@ msgid "Hello"
 msgstr "Привіт"
 
 msgid "Platform Admin"
-msgstr "Адмін платформи"
+msgstr "Адмін Платформи"
 
 msgid "Dashboard"
 msgstr "Панель"
@@ -25,56 +261,23 @@ msgstr "Панель"
 msgid "Logout"
 msgstr "Вийти"
 
-msgid "Login"
-msgstr "Увійти"
-
 msgid "Register"
-msgstr "Зареєструватися"
+msgstr "Реєстрація"
 
-msgid "Sign in to your account"
-msgstr "Увійдіть у свій обліковий запис"
+msgid "Booking Link"
+msgstr "Посилання для Бронювання"
 
-msgid "Or"
-msgstr "Або"
+msgid "Share this link with your customers:"
+msgstr "Поділіться цим посиланням з вашими клієнтами:"
 
-msgid "create a new company account"
-msgstr "створіть новий обліковий запис компанії"
+msgid "Copy"
+msgstr "Копіювати"
 
-msgid "Please correct the errors below."
-msgstr "Будь ласка, виправте помилки нижче."
+msgid "Preview booking page"
+msgstr "Попередній перегляд сторінки бронювання"
 
-msgid "Username"
-msgstr "Ім'я користувача"
+msgid "Link copied to clipboard!"
+msgstr "Посилання скопійовано в буфер обміну!"
 
-msgid "Password"
-msgstr "Пароль"
-
-msgid "Enter your username"
-msgstr "Введіть ваше ім'я користувача"
-
-msgid "Enter your password"
-msgstr "Введіть ваш пароль"
-
-msgid "Remember me"
-msgstr "Запам'ятати мене"
-
-msgid "Forgot password?"
-msgstr "Забули пароль?"
-
-msgid "Sign in"
-msgstr "Увійти"
-
-msgid "Email"
-msgstr "Електронна пошта"
-
-msgid "Company"
-msgstr "Компанія"
-
-msgid "Services"
-msgstr "Послуги"
-
-msgid "Bookings"
-msgstr "Бронювання"
-
-msgid "Subscription"
-msgstr "Підписка"
+msgid "Website"
+msgstr "Веб-сайт"

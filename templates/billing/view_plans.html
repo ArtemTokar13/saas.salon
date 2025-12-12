@@ -1,14 +1,14 @@
 {% extends 'Layout.html' %}
 {% load i18n %}
 
-{% block title %}Choose Your Plan - {{ company.name }}{% endblock %}
+{% block title %}{% trans "Choose Your Plan" %} - {{ company.name }}{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
         <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Choose Your Plan</h1>
-            <p class="text-xl text-gray-600">Select the plan that best fits your business needs</p>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">{% trans "Choose Your Plan" %}</h1>
+            <p class="text-xl text-gray-600">{% trans "Select the plan that best fits your business needs" %}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -16,7 +16,7 @@
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden {% if current_subscription and current_subscription.plan.id == plan.id %}ring-4 ring-blue-500{% endif %}">
                     {% if current_subscription and current_subscription.plan.id == plan.id %}
                         <div class="bg-blue-500 text-white text-center py-2 text-sm font-semibold">
-                            Current Plan
+                            {% trans "Current Plan" %}
                         </div>
                     {% endif %}
                     
@@ -34,45 +34,45 @@
                         <div class="space-y-3 mb-8">
                             <div class="flex items-start">
                                 <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
-                                <span class="text-gray-700">Unlimited bookings</span>
+                                <span class="text-gray-700">{% trans "Unlimited bookings" %}</span>
                             </div>
                             <div class="flex items-start">
                                 <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
-                                <span class="text-gray-700">Staff management</span>
+                                <span class="text-gray-700">{% trans "Staff management" %}</span>
                             </div>
                             <div class="flex items-start">
                                 <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
-                                <span class="text-gray-700">Calendar view</span>
+                                <span class="text-gray-700">{% trans "Calendar view" %}</span>
                             </div>
                             <div class="flex items-start">
                                 <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
-                                <span class="text-gray-700">Public booking page</span>
+                                <span class="text-gray-700">{% trans "Public booking page" %}</span>
                             </div>
                         </div>
 
                         {% if current_subscription and current_subscription.plan.id == plan.id %}
                             <button disabled class="w-full bg-gray-300 text-gray-600 px-6 py-3 rounded-lg font-semibold cursor-not-allowed">
-                                Current Plan
+                                {% trans "Current Plan" %}
                             </button>
                         {% else %}
                             <a href="{% url 'change_plan' plan.id %}" 
-                               onclick="return confirm('Are you sure you want to switch to {{ plan.name }}?')"
+                               onclick="return confirm('{% trans 'Are you sure you want to switch to' %} {{ plan.name }}?')"
                                class="block w-full bg-blue-600 text-white text-center px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                                Select Plan
+                                {% trans "Select Plan" %}
                             </a>
                         {% endif %}
                     </div>
                 </div>
             {% empty %}
                 <div class="col-span-3 text-center py-12">
-                    <p class="text-gray-500 text-lg">No plans available at the moment</p>
+                    <p class="text-gray-500 text-lg">{% trans "No plans available at the moment" %}</p>
                 </div>
             {% endfor %}
         </div>
 
         <div class="text-center">
             <a href="{% url 'subscription_details' %}" class="text-blue-600 hover:text-blue-800">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Subscription Details
+                <i class="fas fa-arrow-left mr-2"></i>{% trans "Back to Subscription Details" %}
             </a>
         </div>
     </div>

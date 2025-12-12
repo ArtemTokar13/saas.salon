@@ -2,10 +2,246 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-12 15:08+0000\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Salon Booking Platform"
+msgstr "Plataforma de Reservas para Salones"
+
+msgid "Manage Your Salon Bookings"
+msgstr "Gestiona las Reservas de tu Salón"
+
+msgid "The complete booking platform for salons, spas, and service businesses. Accept appointments online 24/7."
+msgstr "La plataforma completa de reservas para salones, spas y negocios de servicios. Acepta citas en línea 24/7."
+
+msgid "Start Free Trial"
+msgstr "Comenzar Prueba Gratuita"
+
+msgid "Sign In"
+msgstr "Iniciar Sesión"
+
+msgid "Sign in"
+msgstr "Iniciar sesión"
+
+msgid "Everything You Need"
+msgstr "Todo lo que Necesitas"
+
+msgid "Simple, powerful tools to grow your business"
+msgstr "Herramientas simples y potentes para hacer crecer tu negocio"
+
+msgid "Online Booking"
+msgstr "Reservas en Línea"
+
+msgid "Let customers book appointments 24/7 from any device. Automatic confirmations and reminders."
+msgstr "Permite a los clientes reservar citas 24/7 desde cualquier dispositivo. Confirmaciones y recordatorios automáticos."
+
+msgid "Staff Management"
+msgstr "Gestión de Personal"
+
+msgid "Manage your team, assign services, and track schedules. Each staff member gets their own calendar."
+msgstr "Gestiona tu equipo, asigna servicios y rastrea horarios. Cada miembro del personal tiene su propio calendario."
+
+msgid "Business Insights"
+msgstr "Estadísticas del Negocio"
+
+msgid "Track bookings, revenue, and customer data. Make informed decisions with real-time analytics."
+msgstr "Rastrea reservas, ingresos y datos de clientes. Toma decisiones informadas con analíticas en tiempo real."
+
+msgid "How It Works"
+msgstr "Cómo Funciona"
+
+msgid "Get started in minutes"
+msgstr "Comienza en minutos"
+
+msgid "Sign Up"
+msgstr "Registrarse"
+
+msgid "Create your company account in under 2 minutes"
+msgstr "Crea tu cuenta de empresa en menos de 2 minutos"
+
+msgid "Setup"
+msgstr "Configurar"
+
+msgid "Add your staff, services, and working hours"
+msgstr "Añade tu personal, servicios y horarios de trabajo"
+
+msgid "Share"
+msgstr "Compartir"
+
+msgid "Share your booking link with customers"
+msgstr "Comparte tu enlace de reservas con los clientes"
+
+msgid "Grow"
+msgstr "Crecer"
+
+msgid "Accept bookings and manage your business"
+msgstr "Acepta reservas y gestiona tu negocio"
+
+msgid "Ready to Get Started?"
+msgstr "¿Listo para Comenzar?"
+
+msgid "Join hundreds of businesses managing their bookings smarter"
+msgstr "Únete a cientos de negocios gestionando sus reservas de manera más inteligente"
+
+msgid "Login"
+msgstr "Iniciar Sesión"
+
+msgid "Sign in to your account"
+msgstr "Inicia sesión en tu cuenta"
+
+msgid "Or"
+msgstr "O"
+
+msgid "create a new company account"
+msgstr "crea una nueva cuenta de empresa"
+
+msgid "Please correct the errors below."
+msgstr "Por favor corrige los errores a continuación."
+
+msgid "Username"
+msgstr "Nombre de usuario"
+
+msgid "Enter your username"
+msgstr "Ingresa tu nombre de usuario"
+
+msgid "Password"
+msgstr "Contraseña"
+
+msgid "Enter your password"
+msgstr "Ingresa tu contraseña"
+
+msgid "Remember me"
+msgstr "Recuérdame"
+
+msgid "Forgot password?"
+msgstr "¿Olvidaste tu contraseña?"
+
+msgid "Register Your Company"
+msgstr "Registra tu Empresa"
+
+msgid "Create your company account and start accepting bookings today"
+msgstr "Crea tu cuenta de empresa y comienza a aceptar reservas hoy"
+
+msgid "Account Information"
+msgstr "Información de la Cuenta"
+
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "Confirm Password"
+msgstr "Confirmar Contraseña"
+
+msgid "Company Information"
+msgstr "Información de la Empresa"
+
+msgid "Company Name"
+msgstr "Nombre de la Empresa"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Address"
+msgstr "Dirección"
+
+msgid "City"
+msgstr "Ciudad"
+
+msgid "Phone"
+msgstr "Teléfono"
+
+msgid "Company Email"
+msgstr "Correo de la Empresa"
+
+msgid "Company Logo"
+msgstr "Logo de la Empresa"
+
+msgid "Choose Your Plan"
+msgstr "Elige tu Plan"
+
+msgid "Back to home"
+msgstr "Volver al inicio"
+
+msgid "Create Account"
+msgstr "Crear Cuenta"
+
+msgid "Select the plan that best fits your business needs"
+msgstr "Selecciona el plan que mejor se adapte a las necesidades de tu negocio"
+
+msgid "Current Plan"
+msgstr "Plan Actual"
+
+msgid "Unlimited bookings"
+msgstr "Reservas ilimitadas"
+
+msgid "staff management"
+msgstr "gestión de personal"
+
+msgid "Calendar view"
+msgstr "Vista de calendario"
+
+msgid "Public booking page"
+msgstr "Página de reservas pública"
+
+msgid "No plans available at the moment"
+msgstr "No hay planes disponibles en este momento"
+
+msgid "Select Plan"
+msgstr "Seleccionar Plan"
+
+msgid "Are you sure you want to switch to"
+msgstr "¿Estás seguro de que quieres cambiar a"
+
+msgid "Back to Subscription Details"
+msgstr "Volver a Detalles de Suscripción"
+
+msgid "Company Dashboard"
+msgstr "Panel de la Empresa"
+
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+msgid "Calendar"
+msgstr "Calendario"
+
+msgid "Staff Members"
+msgstr "Miembros del Personal"
+
+msgid "Services"
+msgstr "Servicios"
+
+msgid "Subscription"
+msgstr "Suscripción"
+
+msgid "Expires:"
+msgstr "Expira:"
+
+msgid "No Active Plan"
+msgstr "Sin Plan Activo"
+
+msgid "Quick Actions"
+msgstr "Acciones Rápidas"
+
+msgid "Add Staff"
+msgstr "Añadir Personal"
+
+msgid "Add Service"
+msgstr "Añadir Servicio"
+
+msgid "Set Hours"
+msgstr "Establecer Horarios"
+
+msgid "View Public Page"
+msgstr "Ver Página Pública"
+
+msgid "Company"
+msgstr "Empresa"
+
+msgid "Bookings"
+msgstr "Reservas"
 
 msgid "Home"
 msgstr "Inicio"
@@ -25,56 +261,23 @@ msgstr "Panel"
 msgid "Logout"
 msgstr "Cerrar sesión"
 
-msgid "Login"
-msgstr "Iniciar sesión"
-
 msgid "Register"
 msgstr "Registrarse"
 
-msgid "Sign in to your account"
-msgstr "Inicia sesión en tu cuenta"
+msgid "Booking Link"
+msgstr "Enlace de Reservas"
 
-msgid "Or"
-msgstr "O"
+msgid "Share this link with your customers:"
+msgstr "Comparte este enlace con tus clientes:"
 
-msgid "create a new company account"
-msgstr "crea una nueva cuenta de empresa"
+msgid "Copy"
+msgstr "Copiar"
 
-msgid "Please correct the errors below."
-msgstr "Por favor, corrija los errores a continuación."
+msgid "Preview booking page"
+msgstr "Vista previa de página de reservas"
 
-msgid "Username"
-msgstr "Nombre de usuario"
+msgid "Link copied to clipboard!"
+msgstr "¡Enlace copiado al portapapeles!"
 
-msgid "Password"
-msgstr "Contraseña"
-
-msgid "Enter your username"
-msgstr "Ingrese su nombre de usuario"
-
-msgid "Enter your password"
-msgstr "Ingrese su contraseña"
-
-msgid "Remember me"
-msgstr "Recuérdame"
-
-msgid "Forgot password?"
-msgstr "¿Olvidaste tu contraseña?"
-
-msgid "Sign in"
-msgstr "Iniciar sesión"
-
-msgid "Email"
-msgstr "Correo electrónico"
-
-msgid "Company"
-msgstr "Empresa"
-
-msgid "Services"
-msgstr "Servicios"
-
-msgid "Bookings"
-msgstr "Reservas"
-
-msgid "Subscription"
-msgstr "Suscripción"
+msgid "Website"
+msgstr "Sitio Web"

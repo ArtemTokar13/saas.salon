@@ -2,10 +2,246 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-12 15:08+0000\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Salon Booking Platform"
+msgstr "Plataforma de Reserves per a Salons"
+
+msgid "Manage Your Salon Bookings"
+msgstr "Gestiona les Reserves del teu Saló"
+
+msgid "The complete booking platform for salons, spas, and service businesses. Accept appointments online 24/7."
+msgstr "La plataforma completa de reserves per a salons, spas i negocis de servicis. Accepta cites en línia 24/7."
+
+msgid "Start Free Trial"
+msgstr "Començar Prova Gratuïta"
+
+msgid "Sign In"
+msgstr "Iniciar Sessió"
+
+msgid "Sign in"
+msgstr "Iniciar sessió"
+
+msgid "Everything You Need"
+msgstr "Tot el que Necessites"
+
+msgid "Simple, powerful tools to grow your business"
+msgstr "Eines simples i potents per fer créixer el teu negoci"
+
+msgid "Online Booking"
+msgstr "Reserves en Línia"
+
+msgid "Let customers book appointments 24/7 from any device. Automatic confirmations and reminders."
+msgstr "Permet als clients reservar cites 24/7 des de qualsevol dispositiu. Confirmacions i recordatoris automàtics."
+
+msgid "Staff Management"
+msgstr "Gestió de Personal"
+
+msgid "Manage your team, assign services, and track schedules. Each staff member gets their own calendar."
+msgstr "Gestiona el teu equip, assigna servicis i rastreja horaris. Cada membre del personal té el seu propi calendari."
+
+msgid "Business Insights"
+msgstr "Estadístiques del Negoci"
+
+msgid "Track bookings, revenue, and customer data. Make informed decisions with real-time analytics."
+msgstr "Rastreja reserves, ingressos i dades de clients. Pren decisions informades amb analítiques en temps real."
+
+msgid "How It Works"
+msgstr "Com Funciona"
+
+msgid "Get started in minutes"
+msgstr "Comença en minuts"
+
+msgid "Sign Up"
+msgstr "Registrar-se"
+
+msgid "Create your company account in under 2 minutes"
+msgstr "Crea el teu compte d'empresa en menys de 2 minuts"
+
+msgid "Setup"
+msgstr "Configurar"
+
+msgid "Add your staff, services, and working hours"
+msgstr "Afig el teu personal, servicis i horaris de treball"
+
+msgid "Share"
+msgstr "Compartir"
+
+msgid "Share your booking link with customers"
+msgstr "Compartix el teu enllaç de reserves amb els clients"
+
+msgid "Grow"
+msgstr "Créixer"
+
+msgid "Accept bookings and manage your business"
+msgstr "Accepta reserves i gestiona el teu negoci"
+
+msgid "Ready to Get Started?"
+msgstr "Preparat per Començar?"
+
+msgid "Join hundreds of businesses managing their bookings smarter"
+msgstr "Uneix-te a centenars de negocis gestionant les seues reserves de manera més intel·ligent"
+
+msgid "Login"
+msgstr "Iniciar Sessió"
+
+msgid "Sign in to your account"
+msgstr "Inicia sessió en el teu compte"
+
+msgid "Or"
+msgstr "O"
+
+msgid "create a new company account"
+msgstr "crea un nou compte d'empresa"
+
+msgid "Please correct the errors below."
+msgstr "Per favor corregix els errors a continuació."
+
+msgid "Username"
+msgstr "Nom d'usuari"
+
+msgid "Enter your username"
+msgstr "Introduïx el teu nom d'usuari"
+
+msgid "Password"
+msgstr "Contrasenya"
+
+msgid "Enter your password"
+msgstr "Introduïx la teua contrasenya"
+
+msgid "Remember me"
+msgstr "Recorda'm"
+
+msgid "Forgot password?"
+msgstr "Has oblidat la contrasenya?"
+
+msgid "Register Your Company"
+msgstr "Registra la teua Empresa"
+
+msgid "Create your company account and start accepting bookings today"
+msgstr "Crea el teu compte d'empresa i comença a acceptar reserves hui"
+
+msgid "Account Information"
+msgstr "Informació del Compte"
+
+msgid "Email"
+msgstr "Correu Electrònic"
+
+msgid "Confirm Password"
+msgstr "Confirmar Contrasenya"
+
+msgid "Company Information"
+msgstr "Informació de l'Empresa"
+
+msgid "Company Name"
+msgstr "Nom de l'Empresa"
+
+msgid "Description"
+msgstr "Descripció"
+
+msgid "Address"
+msgstr "Adreça"
+
+msgid "City"
+msgstr "Ciutat"
+
+msgid "Phone"
+msgstr "Telèfon"
+
+msgid "Company Email"
+msgstr "Correu de l'Empresa"
+
+msgid "Company Logo"
+msgstr "Logo de l'Empresa"
+
+msgid "Choose Your Plan"
+msgstr "Tria el teu Pla"
+
+msgid "Back to home"
+msgstr "Tornar a l'inici"
+
+msgid "Create Account"
+msgstr "Crear Compte"
+
+msgid "Select the plan that best fits your business needs"
+msgstr "Selecciona el pla que millor s'adapte a les necessitats del teu negoci"
+
+msgid "Current Plan"
+msgstr "Pla Actual"
+
+msgid "Unlimited bookings"
+msgstr "Reserves il·limitades"
+
+msgid "staff management"
+msgstr "gestió de personal"
+
+msgid "Calendar view"
+msgstr "Vista de calendari"
+
+msgid "Public booking page"
+msgstr "Pàgina de reserves pública"
+
+msgid "No plans available at the moment"
+msgstr "No hi ha plans disponibles en este moment"
+
+msgid "Select Plan"
+msgstr "Seleccionar Pla"
+
+msgid "Are you sure you want to switch to"
+msgstr "Estàs segur que vols canviar a"
+
+msgid "Back to Subscription Details"
+msgstr "Tornar a Detalls de Subscripció"
+
+msgid "Company Dashboard"
+msgstr "Tauler de l'Empresa"
+
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+msgid "Calendar"
+msgstr "Calendari"
+
+msgid "Staff Members"
+msgstr "Membres del Personal"
+
+msgid "Services"
+msgstr "Servicis"
+
+msgid "Subscription"
+msgstr "Subscripció"
+
+msgid "Expires:"
+msgstr "Caduca:"
+
+msgid "No Active Plan"
+msgstr "Sense Pla Actiu"
+
+msgid "Quick Actions"
+msgstr "Accions Ràpides"
+
+msgid "Add Staff"
+msgstr "Afig Personal"
+
+msgid "Add Service"
+msgstr "Afig Servici"
+
+msgid "Set Hours"
+msgstr "Establir Horaris"
+
+msgid "View Public Page"
+msgstr "Vore Pàgina Pública"
+
+msgid "Company"
+msgstr "Empresa"
+
+msgid "Bookings"
+msgstr "Reserves"
 
 msgid "Home"
 msgstr "Inici"
@@ -25,56 +261,23 @@ msgstr "Tauler"
 msgid "Logout"
 msgstr "Tancar sessió"
 
-msgid "Login"
-msgstr "Iniciar sessió"
-
 msgid "Register"
 msgstr "Registrar-se"
 
-msgid "Sign in to your account"
-msgstr "Inicia sessió en el teu compte"
+msgid "Booking Link"
+msgstr "Enllaç de Reserves"
 
-msgid "Or"
-msgstr "O"
+msgid "Share this link with your customers:"
+msgstr "Compartix este enllaç amb els teus clients:"
 
-msgid "create a new company account"
-msgstr "crea un nou compte d'empresa"
+msgid "Copy"
+msgstr "Copiar"
 
-msgid "Please correct the errors below."
-msgstr "Si us plau, corregiu els errors següents."
+msgid "Preview booking page"
+msgstr "Vista prèvia de pàgina de reserves"
 
-msgid "Username"
-msgstr "Nom d'usuari"
+msgid "Link copied to clipboard!"
+msgstr "Enllaç copiat al porta-retalls!"
 
-msgid "Password"
-msgstr "Contrasenya"
-
-msgid "Enter your username"
-msgstr "Introduïu el vostre nom d'usuari"
-
-msgid "Enter your password"
-msgstr "Introduïu la vostra contrasenya"
-
-msgid "Remember me"
-msgstr "Recorda'm"
-
-msgid "Forgot password?"
-msgstr "Has oblidat la contrasenya?"
-
-msgid "Sign in"
-msgstr "Iniciar sessió"
-
-msgid "Email"
-msgstr "Correu electrònic"
-
-msgid "Company"
-msgstr "Empresa"
-
-msgid "Services"
-msgstr "Serveis"
-
-msgid "Bookings"
-msgstr "Reserves"
-
-msgid "Subscription"
-msgstr "Subscripció"
+msgid "Website"
+msgstr "Lloc Web"

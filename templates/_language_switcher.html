@@ -1,0 +1,29 @@
+{% load i18n %}
+{% load i18n %}
+<div class="relative inline-block text-left" x-data="{ open: false }">
+  <button @click="open = !open" @click.away="open = false" type="button" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600">
+    <i class="fas fa-globe"></i>
+    <span class="hidden sm:inline">{{ LANGUAGE_CODE|upper }}</span>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+
+  <div x-show="open" x-transition class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+    <div class="py-1">
+      {% get_current_language as LANGUAGE_CODE %}
+      {% get_available_languages as LANGUAGES %}
+      {% get_language_info_list for LANGUAGES as languages %}
+      {% for language in languages %}
+        <form action="{% url 'set_language' %}" method="post" class="block">
+          {% csrf_token %}
+          <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+          <input name="language" type="hidden" value="{{ language.code }}" />
+          <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 {% if language.code == LANGUAGE_CODE %}bg-blue-50 font-semibold{% endif %}">
+            {{ language.name_local }}
+          </button>
+        </form>
+      {% endfor %}
+    </div>
+  </div>
+</div>

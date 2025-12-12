@@ -1,0 +1,80 @@
+# Spanish translations for ReservaYa.
+msgid ""
+msgstr ""
+"Project-Id-Version: ReservaYa 1.0\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid "Pricing"
+msgstr "Precios"
+
+msgid "Hello"
+msgstr "Hola"
+
+msgid "Platform Admin"
+msgstr "Admin de Plataforma"
+
+msgid "Dashboard"
+msgstr "Panel"
+
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+msgid "Login"
+msgstr "Iniciar sesión"
+
+msgid "Register"
+msgstr "Registrarse"
+
+msgid "Sign in to your account"
+msgstr "Inicia sesión en tu cuenta"
+
+msgid "Or"
+msgstr "O"
+
+msgid "create a new company account"
+msgstr "crea una nueva cuenta de empresa"
+
+msgid "Please correct the errors below."
+msgstr "Por favor, corrija los errores a continuación."
+
+msgid "Username"
+msgstr "Nombre de usuario"
+
+msgid "Password"
+msgstr "Contraseña"
+
+msgid "Enter your username"
+msgstr "Ingrese su nombre de usuario"
+
+msgid "Enter your password"
+msgstr "Ingrese su contraseña"
+
+msgid "Remember me"
+msgstr "Recuérdame"
+
+msgid "Forgot password?"
+msgstr "¿Olvidaste tu contraseña?"
+
+msgid "Sign in"
+msgstr "Iniciar sesión"
+
+msgid "Email"
+msgstr "Correo electrónico"
+
+msgid "Company"
+msgstr "Empresa"
+
+msgid "Services"
+msgstr "Servicios"
+
+msgid "Bookings"
+msgstr "Reservas"
+
+msgid "Subscription"
+msgstr "Suscripción"

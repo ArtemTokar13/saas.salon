@@ -1,0 +1,80 @@
+# Valencian translations for ReservaYa.
+msgid ""
+msgstr ""
+"Project-Id-Version: ReservaYa 1.0\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Home"
+msgstr "Inici"
+
+msgid "Pricing"
+msgstr "Preus"
+
+msgid "Hello"
+msgstr "Hola"
+
+msgid "Platform Admin"
+msgstr "Admin de Plataforma"
+
+msgid "Dashboard"
+msgstr "Tauler"
+
+msgid "Logout"
+msgstr "Tancar sessió"
+
+msgid "Login"
+msgstr "Iniciar sessió"
+
+msgid "Register"
+msgstr "Registrar-se"
+
+msgid "Sign in to your account"
+msgstr "Inicia sessió en el teu compte"
+
+msgid "Or"
+msgstr "O"
+
+msgid "create a new company account"
+msgstr "crea un nou compte d'empresa"
+
+msgid "Please correct the errors below."
+msgstr "Si us plau, corregiu els errors següents."
+
+msgid "Username"
+msgstr "Nom d'usuari"
+
+msgid "Password"
+msgstr "Contrasenya"
+
+msgid "Enter your username"
+msgstr "Introduïu el vostre nom d'usuari"
+
+msgid "Enter your password"
+msgstr "Introduïu la vostra contrasenya"
+
+msgid "Remember me"
+msgstr "Recorda'm"
+
+msgid "Forgot password?"
+msgstr "Has oblidat la contrasenya?"
+
+msgid "Sign in"
+msgstr "Iniciar sessió"
+
+msgid "Email"
+msgstr "Correu electrònic"
+
+msgid "Company"
+msgstr "Empresa"
+
+msgid "Services"
+msgstr "Serveis"
+
+msgid "Bookings"
+msgstr "Reserves"
+
+msgid "Subscription"
+msgstr "Subscripció"

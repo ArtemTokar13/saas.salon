@@ -1,0 +1,78 @@
+{% extends 'Layout.html' %}
+
+{% block title %}Manage Billing Plans - Platform Admin{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <div class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Manage Billing Plans</h1>
+                    <p class="text-gray-600 mt-1">All subscription plans</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="/admin/billing/plan/add/" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-plus mr-2"></i>Add New Plan
+                    </a>
+                    <a href="{% url 'admin_dashboard' %}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                        <i class="fas fa-arrow-left mr-2"></i>Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for plan in plans %}
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
+                        <h3 class="text-2xl font-bold mb-2">{{ plan.name }}</h3>
+                        <div class="flex items-baseline">
+                            <span class="text-4xl font-bold">${{ plan.price }}</span>
+                            <span class="text-blue-100 ml-2">/month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        {% if plan.description %}
+                            <p class="text-gray-600 mb-4">{{ plan.description }}</p>
+                        {% endif %}
+                        
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-gray-600">Active Subscriptions</span>
+                                <span class="font-bold text-gray-900">{{ plan.active_subscriptions }}</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-gray-600">Total Revenue</span>
+                                <span class="font-bold text-green-600">${{ plan.total_revenue|default:"0" }}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex space-x-2">
+                            <a href="/admin/billing/plan/{{ plan.id }}/change/" 
+                               class="flex-1 bg-blue-600 text-white text-center px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="/admin/billing/plan/{{ plan.id }}/delete/" 
+                               class="flex-1 bg-red-600 text-white text-center px-4 py-2 rounded-lg hover:bg-red-700 transition">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-span-3 bg-white rounded-lg shadow p-12 text-center">
+                    <i class="fas fa-inbox text-gray-300 text-6xl mb-4"></i>
+                    <p class="text-gray-500 text-lg mb-4">No billing plans created yet</p>
+                    <a href="/admin/billing/plan/add/" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                        Create First Plan
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

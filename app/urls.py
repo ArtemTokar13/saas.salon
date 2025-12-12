@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from app.views import Index
+from app import admin_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,13 @@ urlpatterns = [
     path('bookings/', include('bookings.urls')),
     path('users/', include('users.urls')),
     path('billing/', include('billing.urls')),
+    
+    # Super admin dashboard
+    path('platform-admin/', admin_views.admin_dashboard, name='admin_dashboard'),
+    path('platform-admin/users/', admin_views.manage_users, name='manage_users'),
+    path('platform-admin/companies/', admin_views.manage_companies, name='manage_companies'),
+    path('platform-admin/plans/', admin_views.manage_plans, name='manage_plans'),
+    path('platform-admin/subscriptions/', admin_views.manage_subscriptions, name='manage_subscriptions'),
 ]
 
 if settings.DEBUG:

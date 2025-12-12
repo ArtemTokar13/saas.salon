@@ -16,11 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from app.views import Index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('i18n/', include('django.conf.urls.i18n')),
-    # path('set_language/', include('django.conf.urls.i18n'), name='set_language'),
     path('', Index, name='index'),
+    path('companies/', include('companies.urls')),
+    path('bookings/', include('bookings.urls')),
+    path('users/', include('users.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

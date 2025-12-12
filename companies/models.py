@@ -36,6 +36,7 @@ class Staff(models.Model):
     specialization = models.CharField(max_length=255, blank=True)
     avatar = models.ImageField(upload_to="uploads/staff_avatars/", blank=True, null=True)
     is_active = models.BooleanField(default=True)
+    services = models.ManyToManyField('Service', blank=True, related_name='staff_members')
 
     def __str__(self):
         return f"{self.name} ({self.company.name})"
@@ -49,7 +50,7 @@ class Service(models.Model):
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.name} — {self.salon.name}"
+        return f"{self.name} — {self.company.name}"
 
 
 class WorkingHours(models.Model):
@@ -61,3 +62,17 @@ class WorkingHours(models.Model):
 
     def __str__(self):
         return f"{self.company.name} — {self.get_day_of_week_display()}"
+
+
+class CompanyImage(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to="uploads/company_images/")
+    caption = models.CharField(max_length=255, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return f"{self.company.name} - Image {self.id}"

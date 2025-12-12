@@ -1,0 +1,184 @@
+{% extends 'Layout.html' %}
+
+{% block title %}Booking Calendar - {{ company.name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Booking Calendar</h1>
+                    <p class="text-gray-600 mt-1">{{ company.name }}</p>
+                </div>
+                <a href="{% url 'company_dashboard' %}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Month Navigation -->
+        <div class="bg-white rounded-lg shadow mb-6 p-6">
+            <div class="flex items-center justify-between">
+                <a href="?month={{ prev_month }}&year={{ prev_year }}" 
+                   class="text-blue-600 hover:text-blue-800 flex items-center">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous
+                </a>
+                <h2 class="text-2xl font-bold text-gray-900">
+                    {{ current_year }}-{{ current_month|stringformat:"02d" }}
+                </h2>
+                <a href="?month={{ next_month }}&year={{ next_year }}" 
+                   class="text-blue-600 hover:text-blue-800 flex items-center">
+                    Next<i class="fas fa-chevron-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Bookings List -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-900">All Bookings</h3>
+            </div>
+            
+            {% if bookings %}
+                <div class="divide-y divide-gray-200">
+                    {% for booking in bookings %}
+                        <div class="p-6 hover:bg-gray-50 transition">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-4 mb-2">
+                                        <span class="text-lg font-semibold text-gray-900">
+                                            {{ booking.date|date:"F d, Y" }}
+                                        </span>
+                                        <span class="text-gray-600">
+                                            {{ booking.start_time|time:"H:i" }} - {{ booking.end_time|time:"H:i" }}
+                                        </span>
+                                        <span class="px-3 py-1 rounded-full text-xs font-semibold
+                                            {% if booking.status == 0 %}bg-yellow-100 text-yellow-800
+                                            {% elif booking.status == 1 %}bg-green-100 text-green-800
+                                            {% else %}bg-red-100 text-red-800{% endif %}">
+                                            {{ booking.get_status_display }}
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                        <div>
+                                            <span class="text-gray-600">Customer:</span>
+                                            <span class="font-medium text-gray-900">{{ booking.customer.name }}</span>
+                                            <div class="text-gray-500">{{ booking.customer.phone }}</div>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-600">Service:</span>
+                                            <span class="font-medium text-gray-900">{{ booking.service.name }}</span>
+                                            <div class="text-gray-500">{{ booking.service.duration }} min - ${{ booking.service.price }}</div>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-600">Specialist:</span>
+                                            <span class="font-medium text-gray-900">{{ booking.staff.name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col space-y-2 ml-4">
+                                    {% if booking.status == 0 %}
+                                        <button onclick="updateStatus({{ booking.id }}, '1')" 
+                                                class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition">
+                                            <i class="fas fa-check mr-1"></i>Confirm
+                                        </button>
+                                        <button onclick="updateStatus({{ booking.id }}, '2')" 
+                                                class="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700 transition">
+                                            <i class="fas fa-times mr-1"></i>Cancel
+                                        </button>
+                                    {% elif booking.status == 1 %}
+                                        <button onclick="updateStatus({{ booking.id }}, '2')" 
+                                                class="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700 transition">
+                                            <i class="fas fa-times mr-1"></i>Cancel
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="p-12 text-center">
+                    <i class="fas fa-calendar-times text-gray-300 text-6xl mb-4"></i>
+                    <p class="text-gray-500 text-lg">No bookings for this month</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="text-center">
+                    <p class="text-gray-600 mb-2">Total Bookings</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ bookings|length }}</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="text-center">
+                    <p class="text-gray-600 mb-2">Pending</p>
+                    <p class="text-3xl font-bold text-yellow-600">
+                        {{ bookings|length }}
+                        {% comment %}TODO: Add filter for pending{% endcomment %}
+                    </p>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="text-center">
+                    <p class="text-gray-600 mb-2">Confirmed</p>
+                    <p class="text-3xl font-bold text-green-600">
+                        {{ bookings|length }}
+                        {% comment %}TODO: Add filter for confirmed{% endcomment %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+async function updateStatus(bookingId, status) {
+    const csrftoken = getCookie('csrftoken');
+    
+    try {
+        const response = await fetch(`/bookings/update-status/${bookingId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrftoken
+            },
+            body: `status=${status}`
+        });
+        
+        if (response.ok) {
+            location.reload();
+        } else {
+            alert('Error updating booking status');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error updating booking status');
+    }
+}
+</script>
+{% endblock %}

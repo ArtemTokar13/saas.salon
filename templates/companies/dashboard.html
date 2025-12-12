@@ -1,0 +1,171 @@
+{% extends 'Layout.html' %}
+
+{% block title %}Dashboard - {{ company.name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ company.name }}</h1>
+                    <p class="text-gray-600 mt-1">Company Dashboard</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="{% url 'edit_company_profile' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-edit mr-2"></i>Edit Profile
+                    </a>
+                    <a href="{% url 'booking_calendar' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                        <i class="fas fa-calendar-alt mr-2"></i>Calendar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-blue-100 rounded-full p-3">
+                        <i class="fas fa-users text-blue-600 text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Staff Members</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ staff_count }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-green-100 rounded-full p-3">
+                        <i class="fas fa-cut text-green-600 text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Services</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ service_count }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-purple-100 rounded-full p-3">
+                        <i class="fas fa-crown text-purple-600 text-2xl"></i>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <p class="text-sm font-medium text-gray-600">Subscription</p>
+                        {% if subscription %}
+                            <p class="text-lg font-bold text-gray-900">{{ subscription.plan.name }}</p>
+                            <p class="text-xs text-gray-500">Expires: {{ subscription.end_date|date:"M d, Y" }}</p>
+                        {% else %}
+                            <p class="text-lg font-bold text-red-600">No Active Plan</p>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'subscription_details' %}" class="text-purple-600 hover:text-purple-800">
+                        <i class="fas fa-cog text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-lg shadow mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">Quick Actions</h2>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <a href="/admin/companies/staff/add/" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                        <i class="fas fa-user-plus text-blue-600 text-2xl mr-3"></i>
+                        <span class="font-medium">Add Staff</span>
+                    </a>
+                    <a href="/admin/companies/service/add/" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                        <i class="fas fa-plus-circle text-green-600 text-2xl mr-3"></i>
+                        <span class="font-medium">Add Service</span>
+                    </a>
+                    <a href="/admin/companies/workinghours/add/" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                        <i class="fas fa-clock text-yellow-600 text-2xl mr-3"></i>
+                        <span class="font-medium">Set Hours</span>
+                    </a>
+                    <a href="{% url 'company_public_page' company.id %}" target="_blank" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                        <i class="fas fa-external-link-alt text-purple-600 text-2xl mr-3"></i>
+                        <span class="font-medium">View Public Page</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company Info -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900">Company Information</h2>
+                </div>
+                <div class="p-6">
+                    <dl class="space-y-3">
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Address</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ company.address }}, {{ company.city }}</dd>
+                        </div>
+                        {% if company.phone %}
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Phone</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ company.phone }}</dd>
+                        </div>
+                        {% endif %}
+                        {% if company.email %}
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Email</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ company.email }}</dd>
+                        </div>
+                        {% endif %}
+                        {% if company.website %}
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Website</dt>
+                            <dd class="mt-1 text-sm text-blue-600"><a href="{{ company.website }}" target="_blank">{{ company.website }}</a></dd>
+                        </div>
+                        {% endif %}
+                    </dl>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-xl font-semibold text-gray-900">Booking Link</h2>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm text-gray-600 mb-3">Share this link with your customers:</p>
+                    <div class="flex items-center bg-gray-50 p-3 rounded border border-gray-200">
+                        <input type="text" readonly value="{{ request.scheme }}://{{ request.get_host }}{% url 'create_booking' company.id %}" 
+                               id="bookingLink" class="flex-1 bg-transparent text-sm text-gray-700 outline-none">
+                        <button onclick="copyLink()" class="ml-2 text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{% url 'create_booking' company.id %}" target="_blank" 
+                           class="inline-flex items-center text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-eye mr-2"></i>Preview booking page
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyLink() {
+    const input = document.getElementById('bookingLink');
+    input.select();
+    document.execCommand('copy');
+    alert('Link copied to clipboard!');
+}
+</script>
+{% endblock %}

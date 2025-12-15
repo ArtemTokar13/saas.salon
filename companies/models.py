@@ -22,7 +22,7 @@ class Company(models.Model):
     phone = models.CharField(max_length=50, blank=True)
     email = models.EmailField(blank=True)
     website = models.URLField(blank=True)
-    social_media = models.JSONField(blank=True)
+    social_media = models.JSONField(blank=True, default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to="uploads/company_logos/", blank=True, null=True)
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bookings',
     'users',
     'billing',
+    'api',
 ]
 
 MIDDLEWARE = [

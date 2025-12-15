@@ -21,9 +21,6 @@ class CompanyRegistrationForm(forms.Form):
     company_email = forms.EmailField(required=False)
     company_logo = forms.ImageField(required=False)
     
-    # Subscription plan
-    plan = forms.ModelChoiceField(queryset=Plan.objects.all(), required=True)
-
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():

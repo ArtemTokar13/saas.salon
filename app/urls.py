@@ -33,6 +33,7 @@ urlpatterns += i18n_patterns(
     path('bookings/', include('bookings.urls')),
     path('users/', include('users.urls')),
     path('billing/', include('billing.urls')),
+    path('api/', include('api.urls')),
     
     # Super admin dashboard
     path('platform-admin/', admin_views.admin_dashboard, name='admin_dashboard'),

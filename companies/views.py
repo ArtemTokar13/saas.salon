@@ -16,14 +16,12 @@ def register_company(request):
     if request.method == 'POST':
         form = CompanyRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            # Create user
             user = User.objects.create_user(
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1']
             )
             
-            # Create company
             company = Company.objects.create(
                 administrator=user,
                 name=form.cleaned_data['company_name'],
@@ -35,27 +33,12 @@ def register_company(request):
                 logo=form.cleaned_data.get('company_logo')
             )
             
-            # Create user profile
             UserProfile.objects.create(
                 user=user,
                 company=company,
                 is_admin=True
             )
             
-            # Create subscription
-            plan = form.cleaned_data['plan']
-            start_date = timezone.now().date()
-            end_date = start_date + timedelta(days=30)  # 30-day subscription
-            
-            Subscription.objects.create(
-                company=company,
-                plan=plan,
-                start_date=start_date,
-                end_date=end_date,
-                is_active=True
-            )
-            
-            # Log the user in
             login(request, user)
             messages.success(request, 'Company registered successfully!')
             return redirect('company_dashboard')

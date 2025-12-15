@@ -38,7 +38,7 @@
                     
                     <div class="p-6">
                         {% if plan.description %}
-                            <p class="text-gray-600 mb-4">{{ plan.description }}</p>
+                            <p class="text-gray-600 mb-4">{{ plan.description|linebreaks }}</p>
                         {% endif %}
                         
                         <div class="border-t border-gray-200 pt-4">

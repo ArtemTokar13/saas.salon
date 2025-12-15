@@ -6,10 +6,26 @@ from decimal import Decimal
 
 class Plan(models.Model):
     """Base plan with monthly pricing"""
+    PERIOD_MULTIPLIERS = {
+        'monthly': 1,
+        'three_months': 3,
+        'six_months': 6,
+        'yearly': 12,
+    }
+    PERIOD_DISCOUNTS = {
+        'monthly': Decimal('0.00'),      # 0% discount - full price
+        'three_months': Decimal('0.10'),  # 10% discount
+        'six_months': Decimal('0.20'),    # 20% discount
+        'yearly': Decimal('0.40'),        # 40% discount
+    }
+    
     name = models.CharField(max_length=255)
-    number_of_staff = models.PositiveIntegerField(default=1)
+    max_number_of_staff = models.PositiveIntegerField(default=1)
     monthly_price = models.DecimalField(max_digits=8, decimal_places=2, default=0, help_text="Base monthly price")
     description = models.TextField(blank=True)
+    features = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -17,22 +33,9 @@ class Plan(models.Model):
     
     def get_price_for_period(self, period):
         """Calculate price based on billing period with discounts"""
-        PERIOD_DISCOUNTS = {
-            'monthly': Decimal('0.00'),      # 0% discount - full price
-            'three_months': Decimal('0.10'),  # 10% discount
-            'six_months': Decimal('0.20'),    # 20% discount
-            'yearly': Decimal('0.40'),        # 40% discount
-        }
         
-        PERIOD_MULTIPLIERS = {
-            'monthly': 1,
-            'three_months': 3,
-            'six_months': 6,
-            'yearly': 12,
-        }
-        
-        discount = PERIOD_DISCOUNTS.get(period, Decimal('0.00'))
-        multiplier = PERIOD_MULTIPLIERS.get(period, 1)
+        discount = self.PERIOD_DISCOUNTS.get(period, Decimal('0.00'))
+        multiplier = self.PERIOD_MULTIPLIERS.get(period, 1)
         
         # Calculate: (monthly_price * months) * (1 - discount)
         total_price = self.monthly_price * multiplier * (Decimal('1.00') - discount)

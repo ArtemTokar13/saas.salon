@@ -138,7 +138,7 @@ def company_public_page(request, company_id):
     """Public-facing company page for customers"""
     company = get_object_or_404(Company, id=company_id)
     staff = Staff.objects.filter(company=company, is_active=True)
-    services = Service.objects.filter(company=company, active=True)
+    services = Service.objects.filter(company=company, is_active=True)
     working_hours = WorkingHours.objects.filter(company=company).order_by('day_of_week')
     images = CompanyImage.objects.filter(company=company)
     

@@ -24,7 +24,7 @@ def create_booking(request, company_id):
     else:
         form = BookingForm(company=company)
     
-    services = Service.objects.filter(company=company, active=True)
+    services = Service.objects.filter(company=company, is_active=True)
     staff = Staff.objects.filter(company=company, is_active=True)
     
     context = {

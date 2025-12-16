@@ -21,7 +21,7 @@ class BookingForm(forms.ModelForm):
     def __init__(self, *args, company=None, **kwargs):
         super().__init__(*args, **kwargs)
         if company:
-            self.fields['service'].queryset = Service.objects.filter(company=company, active=True)
+            self.fields['service'].queryset = Service.objects.filter(company=company, is_active=True)
             self.fields['staff'].queryset = Staff.objects.filter(company=company, is_active=True)
             self.company = company
 

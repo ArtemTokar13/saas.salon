@@ -1,0 +1,59 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}Services{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-semibold text-gray-900">{% trans "Services" %}</h1>
+        <a href="{% url 'add_service' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            <i class="fas fa-plus mr-2"></i>{% trans "Add Service" %}
+        </a>
+    </div>
+    {% if services %}
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Name" %}</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Price" %}</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Duration" %}</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Active" %}</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for service in services %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ service.name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ service.price|floatformat:2 }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ service.duration }} {% trans "minutes" %}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {% if service.is_active %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{% trans "Active" %}</span>
+                    {% else %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">{% trans "Inactive" %}</span>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <a href="{% url 'edit_service' service.id %}" class="text-indigo-600 hover:text-indigo-900">{% trans "Edit" %}</a>
+                    <a href="{% url 'delete_service' service.id %}" onclick="return confirm('Are you sure you want to delete {{ service.name }}?')" class="text-red-600 hover:text-red-900 ml-4">{% trans "Delete" %}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-20">
+        <i class="fas fa-concierge-bell text-gray-300 text-6xl mb-4"></i>
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">{% trans "No Services Found" %}</h2>
+        <p class="text-gray-600 mb-6">{% trans "You haven't added any services yet." %}</p>
+        <a href="{% url 'add_service' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            <i class="fas fa-plus mr-2"></i>{% trans "Add Your First Service" %}
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

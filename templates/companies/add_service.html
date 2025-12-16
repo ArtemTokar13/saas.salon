@@ -1,0 +1,87 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}Add Service{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+        <div class="mb-6">
+            <a href="{% url 'service_list' %}" class="text-blue-600 hover:text-blue-800">
+                <i class="fas fa-arrow-left mr-2"></i>{% trans "Back to Services List" %}
+            </a>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">{% trans "Add Service" %}</h2>
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Name" %} *</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Duration (minutes)" %} *</label>
+                    {{ form.duration }}
+                    {% if form.duration.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.duration.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Price" %} *</label>
+                    {{ form.price }}
+                    {% if form.price.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.price.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="flex items-center">
+                    <label class="inline-flex items-center cursor-pointer">
+                        {{ form.is_active }}
+                        <span class="ml-2 text-sm text-gray-700">{% trans "Active" %}</span>
+                    </label>
+                    {% if form.active.errors %}
+                        <p class="ml-2 text-sm text-red-600">{{ form.active.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="flex justify-end space-x-4 pt-6">
+                    <a href="{% url 'service_list' %}" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                        {% trans "Cancel" %}
+                    </a>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                        {% trans "Add Service" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type="text"], input[type="number"], input[type="email"], textarea, select {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+    }
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}Staff Members{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-semibold text-gray-900">{% trans "Staff Members" %}</h1>
+        <a href="{% url 'add_staff' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            <i class="fas fa-plus mr-2"></i>{% trans "Add Staff" %}
+        </a>
+    </div>
+    {% if staff_members %}
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-6 py-3 text-center"></th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Name" %}</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Specialization" %}</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Active" %}</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for staff in staff_members %}
+                <tr>
+                    <td class="px-6 py-4 text-center">
+                        {% if staff.photo %}
+                            <img class="h-12 w-12 rounded-full object-cover mx-auto" src="{{ staff.photo.url }}" alt="{{ staff.name }}">
+                        {% else %}
+                            <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center mx-auto">
+                                <i class="fas fa-user text-gray-400"></i>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ staff.name }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ staff.specialization }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {% if staff.is_active %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{% trans "Active" %}</span>
+                        {% else %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">{% trans "Inactive" %}</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <a href="{% url 'edit_staff' staff.id %}" class="text-indigo-600 hover:text-indigo-900">{% trans "Edit" %}</a>
+                        <a href="{% url 'delete_staff' staff.id %}" onclick="return confirm('Are you sure you want to delete {{ staff.name }}?')" class="text-red-600 hover:text-red-900 ml-4">{% trans "Delete" %}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-20">
+        <i class="fas fa-users-cog text-gray-300 text-6xl mb-4"></i>
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">{% trans "No Staff Members Found" %}</h2>
+        <p class="text-gray-600 mb-6">{% trans "You haven't added any staff members yet." %}</p>
+        <a href="{% url 'add_staff' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            <i class="fas fa-plus mr-2"></i>{% trans "Add Your First Staff Member" %}
+        </a>
+    </div>
+    {% endif %}
+{% endblock %}

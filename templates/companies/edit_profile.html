@@ -91,12 +91,26 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Social Media (JSON format)</label>
-                    {{ form.social_media }}
-                    <p class="mt-1 text-xs text-gray-500">Example: {"facebook": "url", "instagram": "url"}</p>
-                    {% if form.social_media.errors %}
-                        <p class="mt-1 text-sm text-red-600">{{ form.social_media.errors.0 }}</p>
-                    {% endif %}
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Social Media</label>
+                    <div id="social-media-container" class="space-y-3">
+                        {% if company.social_media %}
+                            {% for key, value in company.social_media.items %}
+                                <div class="social-media-row flex gap-2">
+                                    <input type="text" name="social_media_key[]" value="{{ key }}" placeholder="Platform (e.g., facebook)" class="flex-1">
+                                    <input type="text" name="social_media_value[]" value="{{ value }}" placeholder="URL" class="flex-1">
+                                    <button type="button" class="remove-social bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600" onclick="removeSocialRow(this)">−</button>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="social-media-row flex gap-2">
+                                <input type="text" name="social_media_key[]" placeholder="Platform (e.g., facebook)" class="flex-1">
+                                <input type="text" name="social_media_value[]" placeholder="URL" class="flex-1">
+                                <button type="button" class="remove-social bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600" onclick="removeSocialRow(this)">−</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="mt-3 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="addSocialRow()">+ Add Social Media</button>
+                    <p class="mt-1 text-xs text-gray-500">Add your social media profiles (e.g., facebook, instagram, twitter)</p>
                 </div>
 
                 <div>
@@ -111,6 +125,22 @@
                     {% if form.logo.errors %}
                         <p class="mt-1 text-sm text-red-600">{{ form.logo.errors.0 }}</p>
                     {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Images ({{ company_images|length }}/3)</label>
+                    <div id="images-container" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+                        {% for image in company_images %}
+                            <div class="image-item relative" data-image-id="{{ image.id }}">
+                                <img src="{{ image.image.url }}" alt="Company image" class="h-24 w-24 object-cover rounded">
+                                <button type="button" onclick="deleteImage({{ image.id }})" class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transform translate-x-2 -translate-y-2">
+                                    ×
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <input type="file" name="images" multiple accept="image/*" class="w-full">
+                    <p class="mt-1 text-xs text-gray-500">You can upload up to 3 images.</p>
                 </div>
 
                 <div class="flex justify-end space-x-4 pt-6">
@@ -143,4 +173,64 @@
         min-height: 100px;
     }
 </style>
+
+<script>
+function addSocialRow() {
+    const container = document.getElementById('social-media-container');
+    const newRow = document.createElement('div');
+    newRow.className = 'social-media-row flex gap-2';
+    newRow.innerHTML = `
+        <input type="text" name="social_media_key[]" placeholder="Platform (e.g., facebook)" class="flex-1">
+        <input type="text" name="social_media_value[]" placeholder="URL" class="flex-1">
+        <button type="button" class="remove-social bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600" onclick="removeSocialRow(this)">−</button>
+    `;
+    container.appendChild(newRow);
+}
+
+function removeSocialRow(button) {
+    const container = document.getElementById('social-media-container');
+    const rows = container.querySelectorAll('.social-media-row');
+    if (rows.length > 1) {
+        button.parentElement.remove();
+    } else {
+        // Clear the inputs instead of removing the last row
+        const inputs = button.parentElement.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+    }
+}
+
+function deleteImage(imageId) {
+    if (!confirm('Are you sure you want to delete this image?')) {
+        return;
+    }
+    
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    fetch(`/companies/delete-image/${imageId}/`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove the image element from the DOM
+            const imageElement = document.querySelector(`[data-image-id="${imageId}"]`);
+            if (imageElement) {
+                imageElement.remove();
+            }
+            // Reload page to update image count and upload availability
+            location.reload();
+        } else {
+            alert('Error deleting image: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting image. Please try again.');
+    });
+}
+</script>
 {% endblock %}

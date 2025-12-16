@@ -1,0 +1,97 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}Edit Working Hours{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-semibold text-gray-900 mb-6">{% trans "Edit Working Hours" %}</h1>
+    
+    <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        <div class="overflow-x-auto bg-white shadow rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {% trans "Day" %}
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {% trans "Working Day" %}
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {% trans "Start Time" %}
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {% trans "End Time" %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for day in days_data %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ day.name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <input type="checkbox" 
+                                   id="is_working_{{ day.number }}" 
+                                   name="is_working_{{ day.number }}"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                   {% if day.is_working %}checked{% endif %}
+                                   onchange="toggleTimeInputs({{ day.number }})">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <input type="time" 
+                                   id="start_time_{{ day.number }}"
+                                   name="start_time_{{ day.number }}" 
+                                   value="{{ day.start_time }}"
+                                   class="time-input-{{ day.number }} block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                   {% if not day.is_working %}disabled{% endif %}>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <input type="time" 
+                                   id="end_time_{{ day.number }}"
+                                   name="end_time_{{ day.number }}" 
+                                   value="{{ day.end_time }}"
+                                   class="time-input-{{ day.number }} block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                   {% if not day.is_working %}disabled{% endif %}>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="flex justify-end">
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-medium">
+                {% trans "Save Changes" %}
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+function toggleTimeInputs(dayNumber) {
+    const checkbox = document.getElementById('is_working_' + dayNumber);
+    const timeInputs = document.querySelectorAll('.time-input-' + dayNumber);
+    
+    timeInputs.forEach(input => {
+        input.disabled = !checkbox.checked;
+        if (!checkbox.checked) {
+            input.classList.add('bg-gray-100', 'cursor-not-allowed');
+        } else {
+            input.classList.remove('bg-gray-100', 'cursor-not-allowed');
+        }
+    });
+}
+
+// Initialize the state on page load
+document.addEventListener('DOMContentLoaded', function() {
+    {% for day in days_data %}
+    toggleTimeInputs({{ day.number }});
+    {% endfor %}
+});
+</script>
+{% endblock %}

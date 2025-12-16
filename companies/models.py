@@ -47,7 +47,7 @@ class Service(models.Model):
     name = models.CharField(max_length=255)
     duration = models.PositiveIntegerField(help_text="Duration in minutes")
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.name} — {self.company.name}"

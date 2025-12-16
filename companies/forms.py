@@ -48,8 +48,42 @@ class CompanyProfileForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['name', 'description', 'address', 'city', 'map_location', 
-                  'phone', 'email', 'website', 'social_media', 'logo']
+                  'phone', 'email', 'website', 'logo']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
-            'social_media': forms.Textarea(attrs={'rows': 3}),
+            'email': forms.EmailInput(attrs={'readonly': 'readonly'}),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['email'].disabled = True
+
+
+class CompanyStaffForm(forms.Form):
+    name = forms.CharField(max_length=255, required=True)
+    specialization = forms.CharField(max_length=255, required=False)
+    avatar = forms.ImageField(required=False)
+    is_active = forms.BooleanField(initial=True, required=False)
+    services = forms.ModelMultipleChoiceField(
+        queryset=None,
+        required=False,
+        widget=forms.CheckboxSelectMultiple
+    )
+    
+    def __init__(self, *args, **kwargs):
+        company = kwargs.pop('company', None)
+        super().__init__(*args, **kwargs)
+        if company:
+            self.fields['services'].queryset = company.service_set.all()
+
+
+class ServiceForm(forms.Form):
+    name = forms.CharField(max_length=255, required=True)
+    duration = forms.IntegerField(min_value=1, required=True, help_text="Duration in minutes")
+    price = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=True)
+    is_active = forms.BooleanField(initial=True, required=False)
+
+    def __init__(self, *args, **kwargs):
+        company = kwargs.pop('company', None)
+        super().__init__(*args, **kwargs)

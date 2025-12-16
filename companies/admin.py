@@ -19,8 +19,8 @@ class StaffAdmin(admin.ModelAdmin):
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ['name', 'company', 'duration', 'price', 'active']
-    list_filter = ['company', 'active']
+    list_display = ['name', 'company', 'duration', 'price', 'is_active']
+    list_filter = ['company', 'is_active']
     search_fields = ['name']
 
 

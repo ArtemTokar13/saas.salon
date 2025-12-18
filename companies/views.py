@@ -9,6 +9,7 @@ from .models import Company, Staff, Service, WorkingHours, CompanyImage
 from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, ServiceForm
 from billing.models import Subscription
 from users.models import UserProfile
+from companies.models import DAYS_OF_WEEK
 
 
 def register_company(request):
@@ -398,14 +399,11 @@ def working_hours(request):
         company = profile.company
         
         if request.method == 'POST':
-            # Process all days at once
-            from companies.models import DAYS_OF_WEEK
             for day_num, day_name in DAYS_OF_WEEK:
                 is_working = request.POST.get(f'is_working_{day_num}') == 'on'
                 start_time = request.POST.get(f'start_time_{day_num}')
                 end_time = request.POST.get(f'end_time_{day_num}')
                 
-                # Get or create working hours for this day
                 working_hour, created = WorkingHours.objects.get_or_create(
                     company=company,
                     day_of_week=day_num,
@@ -416,7 +414,6 @@ def working_hours(request):
                     }
                 )
                 
-                # Update existing record
                 if not created:
                     working_hour.is_day_off = not is_working
                     if start_time:
@@ -427,15 +424,9 @@ def working_hours(request):
             
             messages.success(request, 'Working hours updated successfully.')
             return redirect('working_hours')
-        
-        # Get existing working hours
         working_hours = WorkingHours.objects.filter(company=company).order_by('day_of_week')
-        
-        # Create a dictionary for easy lookup by day
-        from companies.models import DAYS_OF_WEEK
         working_hours_dict = {wh.day_of_week: wh for wh in working_hours}
         
-        # Prepare days data with existing values or defaults
         days_data = []
         for day_num, day_name in DAYS_OF_WEEK:
             if day_num in working_hours_dict:

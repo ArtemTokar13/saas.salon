@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Q
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time as dtime
+import json
 from .models import Booking, Customer
 from .forms import BookingForm
 from companies.models import Company, Staff, Service, WorkingHours
@@ -131,58 +132,72 @@ def booking_calendar(request):
         
         company = profile.company
         
-        # Get date range (default to current month)
         today = timezone.now().date()
-        month = int(request.GET.get('month', today.month))
-        year = int(request.GET.get('year', today.year))
+        date_str = request.GET.get('date')
+        try:
+            current_date = datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else today
+        except Exception:
+            current_date = today
+
+        # support quick prev/next day links
+        if request.GET.get('prev'):
+            current_date = current_date - timedelta(days=1)
+        if request.GET.get('next'):
+            current_date = current_date + timedelta(days=1)
         
-        # Get first and last day of the month
-        first_day = datetime(year, month, 1).date()
-        if month == 12:
-            last_day = datetime(year + 1, 1, 1).date() - timedelta(days=1)
+        # We'll render a day-view schedule for `current_date` with columns per staff
+        staff_list = list(Staff.objects.filter(company=company, is_active=True).order_by('name'))
+
+        working_hours = WorkingHours.objects.filter(company=company, day_of_week=current_date.weekday()).first()
+        if working_hours:
+            day_start = dtime(hour=working_hours.start_time.hour, minute=0)
+            day_end = dtime(hour=working_hours.end_time.hour, minute=0)
         else:
-            last_day = datetime(year, month + 1, 1).date() - timedelta(days=1)
-        
-        # Get all bookings for this month
+            day_start = dtime(hour=8, minute=0)
+            day_end = dtime(hour=20, minute=0)
+
+        # Get bookings for the selected date
         bookings = Booking.objects.filter(
             company=company,
-            date__gte=first_day,
-            date__lte=last_day
-        ).select_related('customer', 'staff', 'service').order_by('date', 'start_time')
-        
-        # Group bookings by date
-        bookings_by_date = {}
-        for booking in bookings:
-            date_str = booking.date.strftime('%Y-%m-%d')
-            if date_str not in bookings_by_date:
-                bookings_by_date[date_str] = []
-            bookings_by_date[date_str].append(booking)
-        
-        # Calculate previous and next month
-        if month == 1:
-            prev_month = 12
-            prev_year = year - 1
-        else:
-            prev_month = month - 1
-            prev_year = year
-        
-        if month == 12:
-            next_month = 1
-            next_year = year + 1
-        else:
-            next_month = month + 1
-            next_year = year
-        
+            date=current_date,
+            status__in=[0, 1]
+        ).select_related('customer', 'staff', 'service').order_by('start_time')
+
+        # Serialize staff and bookings into JSON-friendly structures
+        staff_data = [
+            {'id': s.id, 'title': s.name}
+            for s in staff_list
+        ]
+
+        bookings_data = []
+        for b in bookings:
+            start_dt = datetime.combine(current_date, b.start_time)
+            end_dt = datetime.combine(current_date, b.end_time)
+            bookings_data.append({
+                'id': b.id,
+                'resourceId': b.staff_id,
+                'title': f"{b.customer.name} — {b.service.name}",
+                'start': start_dt.isoformat(),
+                'end': end_dt.isoformat(),
+                'backgroundColor': '#3b82f6' if b.status == 0 else '#10b981',
+                'borderColor': '#1e40af' if b.status == 0 else '#047857',
+                'extendedProps': {
+                    'staff_id': b.staff_id,
+                    'status': b.get_status_display(),
+                    'service': b.service.name,
+                    'customer': b.customer.name,
+                }
+            })
+
         context = {
             'company': company,
+            'staff_list': staff_list,
+            'resources_json': json.dumps(staff_data),
             'bookings': bookings,
-            'bookings_by_date': bookings_by_date,
-            'current_month': month,
-            'current_year': year,
-            'prev_month': prev_month,
-            'prev_year': prev_year,
-            'next_month': next_month,
-            'next_year': next_year,
+            'events_json': json.dumps(bookings_data),
+            'current_date': current_date,
+            'day_start': day_start.strftime('%H:%M'),
+            'day_end': day_end.strftime('%H:%M'),
             'today': today,
         }
         
@@ -212,5 +227,52 @@ def update_booking_status(request, booking_id):
         
         return JsonResponse({'error': 'Invalid request'}, status=400)
     
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'error': 'User profile not found'}, status=403)
+
+
+@login_required
+def update_booking_ajax(request, booking_id):
+    """AJAX endpoint to move a booking (change staff and/or start time). Expects POST with `staff_id` and `start_time` (HH:MM)."""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            return JsonResponse({'error': 'Access denied'}, status=403)
+
+        booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+
+        if request.method != 'POST':
+            return JsonResponse({'error': 'Invalid method'}, status=400)
+
+        staff_id = request.POST.get('staff_id')
+        start_time_str = request.POST.get('start_time')
+
+        if not staff_id or not start_time_str:
+            return JsonResponse({'error': 'Missing parameters'}, status=400)
+
+        try:
+            new_staff = Staff.objects.get(id=int(staff_id), company=profile.company)
+        except Staff.DoesNotExist:
+            return JsonResponse({'error': 'Staff not found'}, status=404)
+
+        # parse start_time
+        try:
+            h, m = map(int, start_time_str.split(':'))
+            new_start = dtime(hour=h, minute=m)
+        except Exception:
+            return JsonResponse({'error': 'Invalid start_time format'}, status=400)
+
+        # compute new end_time based on service duration
+        duration = booking.service.duration
+        dt_start = datetime.combine(booking.date, new_start)
+        dt_end = dt_start + timedelta(minutes=duration)
+
+        booking.staff = new_staff
+        booking.start_time = new_start
+        booking.end_time = dt_end.time()
+        booking.save()
+
+        return JsonResponse({'success': True, 'start_time': booking.start_time.strftime('%H:%M'), 'end_time': booking.end_time.strftime('%H:%M'), 'staff_id': booking.staff_id})
+
     except UserProfile.DoesNotExist:
         return JsonResponse({'error': 'User profile not found'}, status=403)

@@ -21,95 +21,34 @@
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Month Navigation -->
-        <div class="bg-white rounded-lg shadow mb-6 p-6">
-            <div class="flex items-center justify-between">
-                <a href="?month={{ prev_month }}&year={{ prev_year }}" 
-                   class="text-blue-600 hover:text-blue-800 flex items-center">
-                    <i class="fas fa-chevron-left mr-2"></i>Previous
-                </a>
-                <h2 class="text-2xl font-bold text-gray-900">
-                    {{ current_year }}-{{ current_month|stringformat:"02d" }}
-                </h2>
-                <a href="?month={{ next_month }}&year={{ next_year }}" 
-                   class="text-blue-600 hover:text-blue-800 flex items-center">
-                    Next<i class="fas fa-chevron-right ml-2"></i>
-                </a>
+        <!-- Day Schedule Calendar -->
+        <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-4">
+                    <a href="?date={{ current_date|date:"Y-m-d" }}&prev=1" class="text-blue-600 hover:text-blue-800 flex items-center">
+                        <i class="fas fa-chevron-left mr-2"></i>
+                    </a>
+                    <h2 class="text-2xl font-bold text-gray-900">{{ current_date }}</h2>
+                    <a href="?date={{ current_date|date:"Y-m-d" }}&next=1" class="text-blue-600 hover:text-blue-800 flex items-center">
+                        <i class="fas fa-chevron-right ml-2"></i>
+                    </a>
+                </div>
+                <div>
+                    <a href="?date={{ today|date:"Y-m-d" }}" class="text-sm text-gray-600 hover:text-gray-800">Today</a>
+                </div>
             </div>
-        </div>
-
-        <!-- Bookings List -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-900">All Bookings</h3>
-            </div>
-            
-            {% if bookings %}
-                <div class="divide-y divide-gray-200">
-                    {% for booking in bookings %}
-                        <div class="p-6 hover:bg-gray-50 transition">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <div class="flex items-center space-x-4 mb-2">
-                                        <span class="text-lg font-semibold text-gray-900">
-                                            {{ booking.date|date:"F d, Y" }}
-                                        </span>
-                                        <span class="text-gray-600">
-                                            {{ booking.start_time|time:"H:i" }} - {{ booking.end_time|time:"H:i" }}
-                                        </span>
-                                        <span class="px-3 py-1 rounded-full text-xs font-semibold
-                                            {% if booking.status == 0 %}bg-yellow-100 text-yellow-800
-                                            {% elif booking.status == 1 %}bg-green-100 text-green-800
-                                            {% else %}bg-red-100 text-red-800{% endif %}">
-                                            {{ booking.get_status_display }}
-                                        </span>
-                                    </div>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                                        <div>
-                                            <span class="text-gray-600">Customer:</span>
-                                            <span class="font-medium text-gray-900">{{ booking.customer.name }}</span>
-                                            <div class="text-gray-500">{{ booking.customer.phone }}</div>
-                                        </div>
-                                        <div>
-                                            <span class="text-gray-600">Service:</span>
-                                            <span class="font-medium text-gray-900">{{ booking.service.name }}</span>
-                                            <div class="text-gray-500">{{ booking.service.duration }} min - ${{ booking.service.price }}</div>
-                                        </div>
-                                        <div>
-                                            <span class="text-gray-600">Specialist:</span>
-                                            <span class="font-medium text-gray-900">{{ booking.staff.name }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex flex-col space-y-2 ml-4">
-                                    {% if booking.status == 0 %}
-                                        <button onclick="updateStatus({{ booking.id }}, '1')" 
-                                                class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition">
-                                            <i class="fas fa-check mr-1"></i>Confirm
-                                        </button>
-                                        <button onclick="updateStatus({{ booking.id }}, '2')" 
-                                                class="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700 transition">
-                                            <i class="fas fa-times mr-1"></i>Cancel
-                                        </button>
-                                    {% elif booking.status == 1 %}
-                                        <button onclick="updateStatus({{ booking.id }}, '2')" 
-                                                class="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700 transition">
-                                            <i class="fas fa-times mr-1"></i>Cancel
-                                        </button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
+            <!-- Staff tabs -->
+            <div class="mb-4">
+                <div class="flex space-x-2 flex-wrap" id="staff-tabs">
+                    <button class="staff-tab px-3 py-1 rounded bg-blue-600 text-white text-sm" data-staff-id="all">All</button>
+                    {% for s in staff_list %}
+                        <button class="staff-tab px-3 py-1 rounded bg-gray-100 text-gray-700 text-sm" data-staff-id="{{ s.id }}">{{ s.name }}</button>
                     {% endfor %}
                 </div>
-            {% else %}
-                <div class="p-12 text-center">
-                    <i class="fas fa-calendar-times text-gray-300 text-6xl mb-4"></i>
-                    <p class="text-gray-500 text-lg">No bookings for this month</p>
-                </div>
-            {% endif %}
+            </div>
+            <div id="calendar" class="overflow-auto border rounded">
+                <div id="fc-calendar" style="min-height:600px;"></div>
+            </div>
         </div>
 
         <!-- Statistics -->
@@ -142,6 +81,9 @@
     </div>
 </div>
 
+<!-- FullCalendar CSS & JS (canonical global bundle) -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 <script>
 function getCookie(name) {
     let cookieValue = null;
@@ -181,5 +123,73 @@ async function updateStatus(bookingId, status) {
         alert('Error updating booking status');
     }
 }
+
+// FullCalendar setup
+document.addEventListener('DOMContentLoaded', () => {
+    const events = {{ events_json|safe }};
+    const staff = {{ resources_json|safe }};
+    const calendarEl = document.getElementById('fc-calendar');
+
+    const allEvents = events.slice();
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridDay',
+        headerToolbar: false,
+        editable: true,
+        eventDurationEditable: true,
+        events: [],
+        eventDrop: function(info) {
+            const event = info.event;
+            const staffId = event.extendedProps.staff_id;
+            const startTime = event.start.toISOString().split('T')[1].substring(0, 5);
+
+            const csrftoken = getCookie('csrftoken');
+            fetch(`/bookings/api/update-booking/${event.id}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `staff_id=${staffId}&start_time=${startTime}`
+            }).then(r => r.json()).then(data => {
+                if (!data.success) {
+                    alert('Error: ' + (data.error || 'Could not update booking'));
+                    info.revert();
+                }
+            }).catch(err => {
+                console.error(err);
+                alert('Error updating booking');
+                info.revert();
+            });
+        },
+        eventResize: function(info) {
+            alert('Duration changes not yet implemented');
+            info.revert();
+        }
+    });
+
+    calendar.render();
+
+    function loadEvents(filter) {
+        calendar.removeAllEvents();
+        const toShow = (filter === 'all') ? allEvents : allEvents.filter(e => String(e.extendedProps.staff_id) === String(filter));
+        toShow.forEach(e => calendar.addEvent(e));
+    }
+
+    // initial load
+    loadEvents('all');
+
+    // setup tabs
+    const tabs = document.querySelectorAll('.staff-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // update active state
+            tabs.forEach(t => t.classList.remove('bg-blue-600','text-white'));
+            tab.classList.add('bg-blue-600','text-white');
+            const staffId = tab.dataset.staffId || 'all';
+            loadEvents(staffId);
+        });
+    });
+});
 </script>
 {% endblock %}

@@ -1,7 +1,10 @@
 {% extends 'Layout.html' %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block title %}Booking Calendar - {{ company.name }}{% endblock %}
+{% block header %}
+<script src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-gray-50">
@@ -46,8 +49,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div id="calendar" class="overflow-auto border rounded">
-                <div id="fc-calendar" style="min-height:600px;"></div>
+            <div id="calendar" class="border rounded" style="height: 700px;">
             </div>
         </div>
 
@@ -81,115 +83,14 @@
     </div>
 </div>
 
-<!-- FullCalendar CSS & JS (canonical global bundle) -->
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 <script>
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-async function updateStatus(bookingId, status) {
-    const csrftoken = getCookie('csrftoken');
-    
-    try {
-        const response = await fetch(`/bookings/update-status/${bookingId}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': csrftoken
-            },
-            body: `status=${status}`
-        });
-        
-        if (response.ok) {
-            location.reload();
-        } else {
-            alert('Error updating booking status');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error updating booking status');
-    }
-}
-
-// FullCalendar setup
 document.addEventListener('DOMContentLoaded', () => {
-    const events = {{ events_json|safe }};
-    const staff = {{ resources_json|safe }};
-    const calendarEl = document.getElementById('fc-calendar');
-
-    const allEvents = events.slice();
-
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'timeGridDay',
-        headerToolbar: false,
-        editable: true,
-        eventDurationEditable: true,
-        events: [],
-        eventDrop: function(info) {
-            const event = info.event;
-            const staffId = event.extendedProps.staff_id;
-            const startTime = event.start.toISOString().split('T')[1].substring(0, 5);
-
-            const csrftoken = getCookie('csrftoken');
-            fetch(`/bookings/api/update-booking/${event.id}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': csrftoken,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `staff_id=${staffId}&start_time=${startTime}`
-            }).then(r => r.json()).then(data => {
-                if (!data.success) {
-                    alert('Error: ' + (data.error || 'Could not update booking'));
-                    info.revert();
-                }
-            }).catch(err => {
-                console.error(err);
-                alert('Error updating booking');
-                info.revert();
-            });
-        },
-        eventResize: function(info) {
-            alert('Duration changes not yet implemented');
-            info.revert();
-        }
-    });
-
-    calendar.render();
-
-    function loadEvents(filter) {
-        calendar.removeAllEvents();
-        const toShow = (filter === 'all') ? allEvents : allEvents.filter(e => String(e.extendedProps.staff_id) === String(filter));
-        toShow.forEach(e => calendar.addEvent(e));
-    }
-
-    // initial load
-    loadEvents('all');
-
-    // setup tabs
-    const tabs = document.querySelectorAll('.staff-tab');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // update active state
-            tabs.forEach(t => t.classList.remove('bg-blue-600','text-white'));
-            tab.classList.add('bg-blue-600','text-white');
-            const staffId = tab.dataset.staffId || 'all';
-            loadEvents(staffId);
-        });
-    });
+    const rawBookings = {{ events_json|safe }};
+    const staffList = {{ resources_json|safe }};
+    const currentDate = new Date('{{ current_date|date:"Y-m-d" }}');
+    const dayStart = {{ day_start }};
+    const dayEnd = {{ day_end }};
+    buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd);
 });
 </script>
 {% endblock %}

@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta, time as dtime
 import json
 from .models import Booking, Customer
@@ -131,6 +133,11 @@ def booking_calendar(request):
             return redirect('home')
         
         company = profile.company
+
+        status_in = [0, 1]  # Pending and Confirmed
+        status = request.GET.get('status')
+        if status:
+            status_in = [int(status)]
         
         today = timezone.now().date()
         date_str = request.GET.get('date')
@@ -160,7 +167,7 @@ def booking_calendar(request):
         bookings = Booking.objects.filter(
             company=company,
             date=current_date,
-            status__in=[0, 1]
+            status__in=status_in
         ).select_related('customer', 'staff', 'service').order_by('start_time')
 
         # Serialize staff and bookings into JSON-friendly structures
@@ -173,14 +180,22 @@ def booking_calendar(request):
         for b in bookings:
             start_dt = datetime.combine(current_date, b.start_time)
             end_dt = datetime.combine(current_date, b.end_time)
+            background_color = '#3b82f6'
+            border_color = '#1e40af'
+            if b.status == 1:
+                background_color = '#10b981'
+                border_color = '#047857'
+            if b.status == 2:
+                background_color = '#ef4444'
+                border_color = '#b91c1c'
             bookings_data.append({
                 'id': b.id,
                 'resourceId': b.staff_id,
                 'title': f"{b.customer.name} — {b.service.name}",
                 'start': start_dt.isoformat(),
                 'end': end_dt.isoformat(),
-                'backgroundColor': '#3b82f6' if b.status == 0 else '#10b981',
-                'borderColor': '#1e40af' if b.status == 0 else '#047857',
+                'backgroundColor': background_color,
+                'borderColor': border_color,
                 'extendedProps': {
                     'staff_id': b.staff_id,
                     'status': b.get_status_display(),
@@ -196,8 +211,8 @@ def booking_calendar(request):
             'bookings': bookings,
             'events_json': json.dumps(bookings_data),
             'current_date': current_date,
-            'day_start': day_start.strftime('%H:%M'),
-            'day_end': day_end.strftime('%H:%M'),
+            'day_start': day_start.strftime('%H'),
+            'day_end': day_end.strftime('%H'),
             'today': today,
         }
         
@@ -231,6 +246,7 @@ def update_booking_status(request, booking_id):
         return JsonResponse({'error': 'User profile not found'}, status=403)
 
 
+@csrf_exempt
 @login_required
 def update_booking_ajax(request, booking_id):
     """AJAX endpoint to move a booking (change staff and/or start time). Expects POST with `staff_id` and `start_time` (HH:MM)."""
@@ -242,10 +258,15 @@ def update_booking_ajax(request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
 
         if request.method != 'POST':
-            return JsonResponse({'error': 'Invalid method'}, status=400)
+            return JsonResponse({'error': f'Invalid method: {request.method}, Content-Type: {request.content_type}'}, status=400)
 
-        staff_id = request.POST.get('staff_id')
-        start_time_str = request.POST.get('start_time')
+        # Parse JSON body instead of request.POST
+        try:
+            data = json.loads(request.body)
+            staff_id = data.get('staff_id')
+            start_time_str = data.get('start_time')
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
 
         if not staff_id or not start_time_str:
             return JsonResponse({'error': 'Missing parameters'}, status=400)
@@ -273,6 +294,27 @@ def update_booking_ajax(request, booking_id):
         booking.save()
 
         return JsonResponse({'success': True, 'start_time': booking.start_time.strftime('%H:%M'), 'end_time': booking.end_time.strftime('%H:%M'), 'staff_id': booking.staff_id})
+
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'error': 'User profile not found'}, status=403)
+
+
+@csrf_exempt
+@login_required
+def delete_booking_ajax(request, booking_id):
+    """AJAX endpoint to delete a booking"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            return JsonResponse({'error': 'Access denied'}, status=403)
+
+        booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+
+        if request.method != 'DELETE':
+            return JsonResponse({'error': f'Invalid method: {request.method}'}, status=400)
+
+        booking.delete()
+        return JsonResponse({'success': True})
 
     except UserProfile.DoesNotExist:
         return JsonResponse({'error': 'User profile not found'}, status=403)

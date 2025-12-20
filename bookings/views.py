@@ -260,37 +260,26 @@ def update_booking_ajax(request, booking_id):
         if request.method != 'POST':
             return JsonResponse({'error': f'Invalid method: {request.method}, Content-Type: {request.content_type}'}, status=400)
 
-        # Parse JSON body instead of request.POST
         try:
             data = json.loads(request.body)
-            staff_id = data.get('staff_id')
             start_time_str = data.get('start_time')
+            end_time_str = data.get('end_time')
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
 
-        if not staff_id or not start_time_str:
+        if not start_time_str or not end_time_str:
             return JsonResponse({'error': 'Missing parameters'}, status=400)
 
         try:
-            new_staff = Staff.objects.get(id=int(staff_id), company=profile.company)
-        except Staff.DoesNotExist:
-            return JsonResponse({'error': 'Staff not found'}, status=404)
-
-        # parse start_time
-        try:
-            h, m = map(int, start_time_str.split(':'))
-            new_start = dtime(hour=h, minute=m)
+            sh, sm = map(int, start_time_str.split(':'))
+            new_start = dtime(hour=sh, minute=sm)
+            eh, em = map(int, end_time_str.split(':'))
+            new_end = dtime(hour=eh, minute=em)
         except Exception:
             return JsonResponse({'error': 'Invalid start_time format'}, status=400)
 
-        # compute new end_time based on service duration
-        duration = booking.service.duration
-        dt_start = datetime.combine(booking.date, new_start)
-        dt_end = dt_start + timedelta(minutes=duration)
-
-        booking.staff = new_staff
         booking.start_time = new_start
-        booking.end_time = dt_end.time()
+        booking.end_time = new_end
         booking.save()
 
         return JsonResponse({'success': True, 'start_time': booking.start_time.strftime('%H:%M'), 'end_time': booking.end_time.strftime('%H:%M'), 'staff_id': booking.staff_id})

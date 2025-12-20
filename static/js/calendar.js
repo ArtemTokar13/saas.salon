@@ -82,13 +82,38 @@ async function deleteBooking(bookingId) {
 
 function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     const calendarEl = document.getElementById('calendar');
-    // Convert staff to Toast UI Calendar calendars (neutral colors, events will use status colors)
-    const calendars = staffList.map(s => ({
-        id: String(s.id),
-        name: s.title,
-        backgroundColor: '#e5e7eb',
-        borderColor: '#9ca3af'
-    }));
+    
+    // Generate distinct colors for each staff member
+    const staffColors = [
+        { bg: '#3b82f6', border: '#1e40af' }, // Blue
+        { bg: '#10b981', border: '#047857' }, // Green
+        { bg: '#f59e0b', border: '#d97706' }, // Amber
+        { bg: '#8b5cf6', border: '#6d28d9' }, // Purple
+        { bg: '#ec4899', border: '#be185d' }, // Pink
+        { bg: '#14b8a6', border: '#0d9488' }, // Teal
+        { bg: '#f97316', border: '#ea580c' }, // Orange
+        { bg: '#06b6d4', border: '#0891b2' }, // Cyan
+        { bg: '#84cc16', border: '#65a30d' }, // Lime
+        { bg: '#a855f7', border: '#7e22ce' }, // Violet
+    ];
+    
+    // Create a map of staff ID to colors
+    const staffColorMap = {};
+    staffList.forEach((s, index) => {
+        const colorIndex = index % staffColors.length;
+        staffColorMap[s.id] = staffColors[colorIndex];
+    });
+    
+    // Convert staff to Toast UI Calendar calendars with distinct colors
+    const calendars = staffList.map((s, index) => {
+        const colorIndex = index % staffColors.length;
+        return {
+            id: String(s.id),
+            name: s.title,
+            backgroundColor: staffColors[colorIndex].bg,
+            borderColor: staffColors[colorIndex].border
+        };
+    });
     
     // Add "All Staff" view
     calendars.unshift({
@@ -98,25 +123,32 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
         borderColor: '#9ca3af'
     });
     
-    // Convert events to Toast UI format - preserve status-based colors from Django
-    const allEvents = rawBookings.map(b => ({
-        id: String(b.id),
-        calendarId: String(b.extendedProps.staff_id),
-        title: b.title,
-        start: new Date(b.start),
-        end: new Date(b.end),
-        backgroundColor: b.backgroundColor, // Blue for pending, green for confirmed
-        borderColor: b.borderColor,
-        color: '#ffffff', // white text
-        isReadOnly: false,
-        raw: {
-            booking_id: b.id,
-            staff_id: b.extendedProps.staff_id,
-            status: b.extendedProps.status,
-            service: b.extendedProps.service,
-            customer: b.extendedProps.customer
-        }
-    }));
+    // Convert events to Toast UI format - use staff colors with opacity for pending
+    const allEvents = rawBookings.map(b => {
+        const staffColor = staffColorMap[b.extendedProps.staff_id] || staffColors[0];
+        const isPending = b.extendedProps.status === 'Pending';
+        
+        return {
+            id: String(b.id),
+            calendarId: String(b.extendedProps.staff_id),
+            title: b.title,
+            start: new Date(b.start),
+            end: new Date(b.end),
+            backgroundColor: staffColor.bg,
+            borderColor: staffColor.border,
+            color: '#ffffff', // white text
+            isReadOnly: false,
+            // Add opacity for pending bookings
+            customStyle: isPending ? 'opacity: 0.7;' : '',
+            raw: {
+                booking_id: b.id,
+                staff_id: b.extendedProps.staff_id,
+                status: b.extendedProps.status,
+                service: b.extendedProps.service,
+                customer: b.extendedProps.customer
+            }
+        };
+    });
     
     // Initialize Toast UI Calendar
     const calendar = new tui.Calendar(calendarEl, {
@@ -127,16 +159,27 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
         calendars: calendars,
         template: {
             time(event) {
-                return `<span style="color: white;">${event.title}</span>`;
+                const isPending = event.raw.status === 'Pending';
+                const opacity = isPending ? 'opacity: 0.7;' : '';
+                const startDate = event.start.toDate ? event.start.toDate() : new Date(event.start);
+                return `<div style="color: white; ${opacity}">
+                            <span>${event.title}</span><br/>
+                            <span>(${staffList.find(s => String(s.id) === String(event.calendarId))?.title || 'Staff'})</span><br/>
+                            <span>${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                        </div>`;
             },
             popupDetailBody(event) {
                 const raw = event.raw || {};
+                // Convert TZDate to regular Date if needed
+                const startDate = event.start.toDate ? event.start.toDate() : new Date(event.start);
+                const endDate = event.end.toDate ? event.end.toDate() : new Date(event.end);
+                
                 return `
                     <div class="p-4">
                         <p class="mb-2"><strong>Customer:</strong> ${raw.customer || 'N/A'}</p>
                         <p class="mb-2"><strong>Service:</strong> ${raw.service || 'N/A'}</p>
                         <p class="mb-2"><strong>Status:</strong> ${raw.status || 'N/A'}</p>
-                        <p class="mb-2"><strong>Time:</strong> ${event.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${event.end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                        <p class="mb-2"><strong>Time:</strong> ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${endDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
                         <div class="mt-4 flex gap-2">
                             <button onclick="editBooking(${raw.booking_id})" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
                                 Edit
@@ -179,14 +222,13 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     calendar.on('beforeUpdateEvent', (eventData) => {
         const { event, changes } = eventData;
         const bookingId = event.raw.booking_id;
-        const newStaffId = changes.calendarId || event.calendarId;
         
-        // Handle TZDate objects from Toast UI Calendar
         let startDate = changes.start ? changes.start.toDate() : event.start.toDate();
         const startTime = startDate.toTimeString().substring(0, 5);
+        let endDate = changes.end ? changes.end.toDate() : event.end.toDate();
+        const endTime = endDate.toTimeString().substring(0, 5);
         
-        // Prevent default update until server confirms
-        console.log('Updating booking:', bookingId, 'Staff:', newStaffId, 'Time:', startTime);
+        console.log('Updating booking:', bookingId, 'Start Time:', startTime, 'End Time:', endTime);
         const csrf_token = getCookie('csrftoken');
         // Use current page's path prefix to preserve language code
         const urlPrefix = window.location.pathname.split('/').slice(0, 2).join('/');
@@ -197,7 +239,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': `${csrf_token}`
             },
-            body: JSON.stringify({ staff_id: newStaffId, start_time: startTime })
+            body: JSON.stringify({ start_time: startTime, end_time: endTime })
         })
         .then(r => {
             console.log('Response status:', r.status, 'URL:', r.url);

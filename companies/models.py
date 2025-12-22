@@ -35,6 +35,11 @@ class Staff(models.Model):
     name = models.CharField(max_length=255)
     specialization = models.CharField(max_length=255, blank=True)
     avatar = models.ImageField(upload_to="uploads/staff_avatars/", blank=True, null=True)
+    break_start = models.TimeField(blank=True, null=True)
+    break_end = models.TimeField(blank=True, null=True)
+    out_of_office = models.BooleanField(default=False)
+    out_of_office_start = models.DateField(blank=True, null=True)
+    out_of_office_end = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     services = models.ManyToManyField('Service', blank=True, related_name='staff_members')
 

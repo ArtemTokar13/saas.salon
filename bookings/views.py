@@ -1,3 +1,5 @@
+import json
+from hashlib import md5
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,7 +9,6 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta, time as dtime
-import json
 from .models import Booking, Customer
 from .forms import BookingForm
 from companies.models import Company, Staff, Service, WorkingHours
@@ -21,23 +22,53 @@ def create_booking(request, company_id):
     if request.method == 'POST':
         form = BookingForm(request.POST, company=company)
         if form.is_valid():
-            booking = form.save()
+            booking = form.save(commit=False)
+            booking.delete_code = md5(f"{booking.customer.email}{timezone.now().timestamp()}".encode()).hexdigest()
+            booking.save()
             messages.success(request, 'Booking created successfully! We will contact you soon.')
             return redirect('booking_confirmation', booking_id=booking.id)
     else:
         form = BookingForm(company=company)
     
     services = Service.objects.filter(company=company, is_active=True)
-    staff = Staff.objects.filter(company=company, is_active=True)
     
     context = {
         'company': company,
         'form': form,
         'services': services,
-        'staff': staff,
     }
     
     return render(request, 'bookings/create_booking.html', context)
+
+
+def check_staff_availability(request):
+    """API endpoint to check if a staff member is available for a given date and time"""
+    staff_id = request.GET.get('staff_id')
+    date_str = request.GET.get('date')
+    start_time_str = request.GET.get('start_time')
+    end_time_str = request.GET.get('end_time')
+    
+    try:
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        sh, sm = map(int, start_time_str.split(':'))
+        eh, em = map(int, end_time_str.split(':'))
+        start_time = dtime(hour=sh, minute=sm)
+        end_time = dtime(hour=eh, minute=em)
+        
+        overlapping_bookings = Booking.objects.filter(
+            staff_id=staff_id,
+            date=date,
+            status__in=[0, 1],  # Pending or Confirmed
+        ).filter(
+            Q(start_time__lt=end_time) & Q(end_time__gt=start_time)
+        )
+        
+        is_available = not overlapping_bookings.exists()
+        
+        return JsonResponse({'is_available': is_available})
+    
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 def booking_confirmation(request, booking_id):
@@ -69,11 +100,45 @@ def get_available_staff(request, company_id, service_id):
     return JsonResponse({'staff': staff_data})
 
 
-def get_available_times(request, company_id, staff_id, date_str):
+def get_available_dates(request, company_id, staff_id):
+    """API endpoint to get available dates for a staff member (next 30 days)"""
+    try:
+        staff = get_object_or_404(Staff, id=staff_id, company_id=company_id)
+        company = staff.company
+        
+        available_dates = []
+        today = timezone.now().date()
+        
+        # Check next 90 days (3 months) to support calendar navigation
+        for i in range(90):
+            date = today + timedelta(days=i)
+            day_of_week = date.weekday()
+            
+            # Check if this day has working hours
+            working_hours = WorkingHours.objects.filter(
+                company=company,
+                day_of_week=day_of_week,
+                is_day_off=False
+            ).first()
+            
+            if working_hours:
+                available_dates.append({
+                    'date': date.strftime('%Y-%m-%d'),
+                    'display': date.strftime('%a, %b %d')
+                })
+        
+        return JsonResponse({'available_dates': available_dates})
+    
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+def get_available_times(request, company_id, staff_id, service_id, date_str):
     """API endpoint to get available time slots for a staff member on a specific date"""
     try:
         date = datetime.strptime(date_str, '%Y-%m-%d').date()
         staff = get_object_or_404(Staff, id=staff_id, company_id=company_id)
+        service = get_object_or_404(Service, id=service_id, company_id=company_id)
         company = staff.company
         
         # Get working hours for this day
@@ -99,16 +164,28 @@ def get_available_times(request, company_id, staff_id, date_str):
         current_time = datetime.combine(date, working_hours.start_time)
         end_time = datetime.combine(date, working_hours.end_time)
         
+        # Calculate the end time of the new booking based on service duration
+        service_duration = timedelta(minutes=service.duration)
+        
         while current_time < end_time:
             time_str = current_time.strftime('%H:%M')
             
-            # Check if this time slot is available
+            # Calculate when this service would end
+            potential_end_time = current_time + service_duration
+            
+            # Check if the service can fit within working hours
+            if potential_end_time > end_time:
+                break  # Can't start a service that would end after working hours
+            
+            # Check if this time slot is available (no overlap with existing bookings)
             is_available = True
             for booking_start, booking_end in existing_bookings:
                 booking_start_dt = datetime.combine(date, booking_start)
                 booking_end_dt = datetime.combine(date, booking_end)
                 
-                if booking_start_dt <= current_time < booking_end_dt:
+                # Check if the new booking would overlap with existing booking
+                # Overlap occurs if: new_start < existing_end AND new_end > existing_start
+                if current_time < booking_end_dt and potential_end_time > booking_start_dt:
                     is_available = False
                     break
             
@@ -224,6 +301,43 @@ def booking_calendar(request):
 
 
 @login_required
+def edit_booking(request, booking_id):
+    """Edit an existing booking"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            messages.error(request, 'Access denied.')
+            return redirect('home')
+        
+        staff_list = Staff.objects.filter(company=profile.company, is_active=True)
+        services = Service.objects.filter(company=profile.company, is_active=True)
+        booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+        
+        if request.method == 'POST':
+            form = BookingForm(request.POST, instance=booking, company=profile.company)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Booking updated successfully.')
+                return redirect('booking_calendar')
+        else:
+            form = BookingForm(instance=booking, company=profile.company)
+        
+        context = {
+            'form': form,
+            'booking': booking,
+            'company': profile.company,
+            'staff_list': staff_list,
+            'services': services,
+        }
+        
+        return render(request, 'bookings/edit_booking.html', context)
+    
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'User profile not found.')
+        return redirect('home')
+
+
+@login_required
 def update_booking_status(request, booking_id):
     """Update booking status (confirm or cancel)"""
     try:
@@ -234,7 +348,7 @@ def update_booking_status(request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
         
         if request.method == 'POST':
-            status = request.POST.get('status')
+            status = json.loads(request.body).get('status')
             if status in ['0', '1', '2']:
                 booking.status = status
                 booking.save()
@@ -307,3 +421,14 @@ def delete_booking_ajax(request, booking_id):
 
     except UserProfile.DoesNotExist:
         return JsonResponse({'error': 'User profile not found'}, status=403)
+
+
+def cancel_booking(request, booking_id, delete_code):
+    """Customer-facing booking cancellation page"""
+    booking = get_object_or_404(Booking, id=booking_id, delete_code=delete_code)
+    
+    if request.method == 'POST':
+        booking.status = 2  # Cancelled
+        booking.save()
+        messages.success(request, 'Your booking has been cancelled.')
+    return redirect('home')

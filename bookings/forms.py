@@ -1,8 +1,8 @@
+from datetime import datetime, timedelta
 from django import forms
+from django.utils import timezone
 from .models import Booking, Customer
 from companies.models import Company, Staff, Service
-from django.utils import timezone
-from datetime import datetime, timedelta
 
 
 class BookingForm(forms.ModelForm):
@@ -24,27 +24,51 @@ class BookingForm(forms.ModelForm):
             self.fields['service'].queryset = Service.objects.filter(company=company, is_active=True)
             self.fields['staff'].queryset = Staff.objects.filter(company=company, is_active=True)
             self.company = company
+        
+        # When editing existing booking, customer fields are not required (read-only in template)
+        if self.instance and self.instance.pk:
+            self.fields['customer_name'].required = False
+            self.fields['customer_phone'].required = False
+            self.fields['customer_email'].required = False
+            
+            # Pre-populate customer fields if editing existing booking
+            if hasattr(self.instance, 'customer'):
+                self.fields['customer_name'].initial = self.instance.customer.name
+                self.fields['customer_phone'].initial = self.instance.customer.phone
+                self.fields['customer_email'].initial = self.instance.customer.email
 
     def clean_date(self):
         date = self.cleaned_data.get('date')
-        if date and date < timezone.now().date():
+        # Allow past dates when editing existing bookings
+        if date and date < timezone.now().date() and not self.instance.pk:
             raise forms.ValidationError("Cannot book in the past.")
         return date
 
     def save(self, commit=True):
         booking = super().save(commit=False)
         
-        # Get or create customer
-        customer, created = Customer.objects.get_or_create(
-            phone=self.cleaned_data['customer_phone'],
-            defaults={
-                'name': self.cleaned_data['customer_name'],
-                'email': self.cleaned_data.get('customer_email', '')
-            }
-        )
-        
-        booking.customer = customer
-        booking.company = self.company
+        # If editing existing booking, keep the existing customer
+        if self.instance.pk:
+            # Customer stays the same, just update booking details
+            pass
+        else:
+            # New booking - get or create customer
+            customer, created = Customer.objects.get_or_create(
+                phone=self.cleaned_data['customer_phone'],
+                defaults={
+                    'name': self.cleaned_data['customer_name'],
+                    'email': self.cleaned_data.get('customer_email', ''),
+                }
+            )
+            
+            # Update customer info if it changed
+            if not created:
+                customer.name = self.cleaned_data['customer_name']
+                customer.email = self.cleaned_data.get('customer_email', '')
+                customer.save()
+            
+            booking.customer = customer
+            booking.company = self.company
         
         # Calculate end time based on service duration
         service = self.cleaned_data['service']

@@ -64,6 +64,11 @@ class CompanyStaffForm(forms.Form):
     name = forms.CharField(max_length=255, required=True)
     specialization = forms.CharField(max_length=255, required=False)
     avatar = forms.ImageField(required=False)
+    break_start = forms.TimeField(required=False)
+    break_end = forms.TimeField(required=False)
+    out_of_office = forms.BooleanField(required=False)
+    out_of_office_start = forms.DateField(required=False)
+    out_of_office_end = forms.DateField(required=False)
     is_active = forms.BooleanField(initial=True, required=False)
     services = forms.ModelMultipleChoiceField(
         queryset=None,

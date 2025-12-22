@@ -126,7 +126,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     // Convert events to Toast UI format - use staff colors with opacity for pending
     const allEvents = rawBookings.map(b => {
         const staffColor = staffColorMap[b.extendedProps.staff_id] || staffColors[0];
-        const isPending = b.extendedProps.status === 'Pending';
+        const isPending = b.extendedProps.status == 0;
         
         return {
             id: String(b.id),
@@ -138,14 +138,13 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
             borderColor: staffColor.border,
             color: '#ffffff', // white text
             isReadOnly: false,
-            // Add opacity for pending bookings
-            customStyle: isPending ? 'opacity: 0.7;' : '',
             raw: {
                 booking_id: b.id,
                 staff_id: b.extendedProps.staff_id,
                 status: b.extendedProps.status,
                 service: b.extendedProps.service,
-                customer: b.extendedProps.customer
+                customer: b.extendedProps.customer,
+                isPending: isPending
             }
         };
     });
@@ -155,46 +154,18 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
         defaultView: 'day',
         isReadOnly: false,
         useFormPopup: false,
-        useDetailPopup: true,
+        useDetailPopup: false, // Disable default popup to use custom modal
         calendars: calendars,
         template: {
             time(event) {
-                const isPending = event.raw.status === 'Pending';
-                const opacity = isPending ? 'opacity: 0.7;' : '';
+                const isPending = event.raw.isPending || event.raw.status == 0;
+                const opacity = isPending ? 0.7 : 1;
                 const startDate = event.start.toDate ? event.start.toDate() : new Date(event.start);
-                return `<div style="color: white; ${opacity}">
+                return `<div style="color: white; opacity: ${opacity};">
                             <span>${event.title}</span><br/>
                             <span>(${staffList.find(s => String(s.id) === String(event.calendarId))?.title || 'Staff'})</span><br/>
                             <span>${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                         </div>`;
-            },
-            popupDetailBody(event) {
-                const raw = event.raw || {};
-                // Convert TZDate to regular Date if needed
-                const startDate = event.start.toDate ? event.start.toDate() : new Date(event.start);
-                const endDate = event.end.toDate ? event.end.toDate() : new Date(event.end);
-                
-                return `
-                    <div class="p-4">
-                        <p class="mb-2"><strong>Customer:</strong> ${raw.customer || 'N/A'}</p>
-                        <p class="mb-2"><strong>Service:</strong> ${raw.service || 'N/A'}</p>
-                        <p class="mb-2"><strong>Status:</strong> ${raw.status || 'N/A'}</p>
-                        <p class="mb-2"><strong>Time:</strong> ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${endDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
-                        <div class="mt-4 flex gap-2">
-                            <button onclick="editBooking(${raw.booking_id})" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
-                                Edit
-                            </button>
-                            <button onclick="deleteBooking(${raw.booking_id})" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
-                                Delete
-                            </button>
-                            ${raw.status === 'Pending' ? `
-                                <button onclick="confirmBooking(${raw.booking_id})" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700">
-                                    Confirm
-                                </button>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
             }
         },
         week: {
@@ -217,7 +188,12 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     
     // Set events
     calendar.createEvents(allEvents);
-    
+
+    // Handle clicking on events - show custom modal
+    calendar.on('clickEvent', ({ event }) => {
+        showBookingModal(event);
+    });
+
     // Handle event updates (drag & drop and resize)
     calendar.on('beforeUpdateEvent', (eventData) => {
         const { event, changes } = eventData;
@@ -298,4 +274,67 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     
     // Make calendar globally accessible for debugging
     window.calendar = calendar;
+}
+
+// Show custom booking modal
+function showBookingModal(event) {
+    const raw = event.raw || {};
+    const startDate = event.start.toDate ? event.start.toDate() : new Date(event.start);
+    const endDate = event.end.toDate ? event.end.toDate() : new Date(event.end);
+    const isPending = raw.status == 0;
+    
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('booking-detail-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'booking-detail-modal';
+        modal.className = 'hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.innerHTML = '<div class="bg-white rounded-lg p-6 max-w-md w-full mx-4"><div id="booking-detail-content"></div></div>';
+        document.body.appendChild(modal);
+        
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    }
+    
+    const content = `
+        <h3 class="text-xl font-bold mb-4">Booking Details</h3>
+        <p class="mb-2"><strong>Customer:</strong> ${raw.customer || 'N/A'}</p>
+        <p class="mb-2"><strong>Service:</strong> ${raw.service || 'N/A'}</p>
+        <p class="mb-2"><strong>Time:</strong> ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${endDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+        
+        <div class="mt-6 flex gap-2 flex-wrap">
+            <button onclick="editBooking(${raw.booking_id})" 
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Edit
+            </button>
+            <button onclick="deleteBooking(${raw.booking_id})" 
+                    class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                Delete
+            </button>
+            ${isPending ? `
+                <button onclick="confirmBooking(${raw.booking_id})" 
+                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    Confirm
+                </button>
+            ` : ''}
+            <button onclick="closeBookingDetailModal()" 
+                    class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                Close
+            </button>
+        </div>
+    `;
+    
+    document.getElementById('booking-detail-content').innerHTML = content;
+    modal.classList.remove('hidden');
+}
+
+function closeBookingDetailModal() {
+    const modal = document.getElementById('booking-detail-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
 }

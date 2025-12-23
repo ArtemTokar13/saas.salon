@@ -2,9 +2,6 @@
 {% load i18n static %}
 
 {% block title %}Edit Booking - {{ company.name }}{% endblock %}
-{% block header %}
-<script src="{% static 'js/booking.js' %}"></script>
-{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-gray-50">
@@ -22,99 +19,565 @@
             </div>
         </div>
     </div>
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="bg-white rounded-lg shadow p-6">
-            <form method="POST">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-white rounded-lg shadow p-8">
+            <!-- Validation Error Message -->
+            <div id="validationError" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+                <div class="flex items-start">
+                    <svg class="h-5 w-5 text-red-400 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                    <div>
+                        <h3 class="font-medium mb-1">Please complete the following fields:</h3>
+                        <ul id="validationErrorList" class="list-disc list-inside text-sm"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <form method="POST" id="bookingForm">
                 {% csrf_token %}
                 
+                {% if form.non_field_errors %}
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                
                 <!-- Customer Information -->
-                <div class="mb-6">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">Customer Information</h2>
+                <div class="mb-6 border-b pb-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Customer Information</h2>
                     
                     <div class="mb-4">
-                        <label class="block text-gray-700 font-bold mb-2">Customer Name</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Customer Name</label>
                         <p class="text-gray-900 px-3 py-2 bg-gray-50 border border-gray-200 rounded">{{ booking.customer.name }}</p>
                     </div>
                     
                     <div class="mb-4">
-                        <label class="block text-gray-700 font-bold mb-2">Phone Number</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                         <p class="text-gray-900 px-3 py-2 bg-gray-50 border border-gray-200 rounded">{{ booking.customer.phone }}</p>
                     </div>
                     
                     <div class="mb-4">
-                        <label class="block text-gray-700 font-bold mb-2">Email</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
                         <p class="text-gray-900 px-3 py-2 bg-gray-50 border border-gray-200 rounded">{{ booking.customer.email|default:"N/A" }}</p>
                     </div>
                 </div>
                 
-                <!-- Booking Information -->
-                <div class="mb-6">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">Booking Information</h2>
-                    
-                    <div class="mb-4">
-                        <label for="id_service" class="block text-gray-700 font-bold mb-2">Service *</label>
-                        {{ form.service }}
+                <!-- Service Selection -->
+                <div class="mb-6 border-b pb-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Select Service</h2>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Service *</label>
+                        <select name="service" id="serviceSelect" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">Choose a service...</option>
+                            {% for service in services %}
+                                <option value="{{ service.id }}" data-duration="{{ service.duration }}" data-price="{{ service.price }}" {% if service.id == booking.service.id %}selected{% endif %}>
+                                    {{ service.name }} - {{ service.duration }} min - ${{ service.price }}
+                                </option>
+                            {% endfor %}
+                        </select>
                         {% if form.service.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.service.errors.0 }}</p>
+                            <p class="mt-1 text-sm text-red-600">{{ form.service.errors.0 }}</p>
                         {% endif %}
                     </div>
-                    
-                    <div class="mb-4">
-                        <label for="id_staff" class="block text-gray-700 font-bold mb-2">Staff Member *</label>
-                        {{ form.staff }}
+                </div>
+
+                <!-- Staff Selection -->
+                <div class="mb-6 border-b pb-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Select Specialist</h2>
+                    <div id="staffContainer">
+                        <p class="text-gray-500 text-sm">Please select a service first</p>
+                    </div>
+                    <div id="staffSelectContainer" class="hidden">
+                        <div class="overflow-x-auto -mx-2 px-2">
+                            <div id="staffGrid" class="flex space-x-6 pt-4 pb-4">
+                                <!-- Staff members will be populated here dynamically -->
+                            </div>
+                        </div>
+                        <input type="hidden" name="staff" id="selectedStaff">
                         {% if form.staff.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.staff.errors.0 }}</p>
+                            <p class="mt-1 text-sm text-red-600">{{ form.staff.errors.0 }}</p>
                         {% endif %}
                     </div>
+                </div>
+
+                <!-- Date & Time -->
+                <div class="mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Select Date & Time</h2>
                     
-                    <div class="mb-4">
-                        <label for="id_date" class="block text-gray-700 font-bold mb-2">Date *</label>
-                        {{ form.date }}
+                    <!-- Available Dates -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="block text-sm font-medium text-gray-700">Available Dates *</label>
+                            <div id="monthNavigation" class="hidden flex items-center space-x-2">
+                                <button type="button" id="prevMonth" class="p-1 hover:bg-gray-100 rounded">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                    </svg>
+                                </button>
+                                <span id="currentMonth" class="text-sm font-medium min-w-32 text-center"></span>
+                                <button type="button" id="nextMonth" class="p-1 hover:bg-gray-100 rounded">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="datesContainer">
+                            <p class="text-gray-500 text-sm">Please select a specialist first</p>
+                        </div>
+                        <div id="calendarContainer" class="hidden">
+                            <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                                <div class="text-xs font-medium text-gray-500 py-2">Sun</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">Mon</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">Tue</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">Wed</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">Thu</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">Fri</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">Sat</div>
+                            </div>
+                            <div id="datesGrid" class="grid grid-cols-7 gap-1"></div>
+                        </div>
+                        <input type="hidden" name="date" id="selectedDate" required>
                         {% if form.date.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.date.errors.0 }}</p>
+                            <p class="mt-1 text-sm text-red-600">{{ form.date.errors.0 }}</p>
                         {% endif %}
                     </div>
-                    
-                    <div class="mb-4">
-                        <label for="id_start_time" class="block text-gray-700 font-bold mb-2">Start Time *</label>
-                        {{ form.start_time }}
+
+                    <!-- Available Time Slots -->
+                    <div id="timeSlotsSection" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Available Time *</label>
+                        <div class="overflow-x-auto -mx-2 px-2">
+                            <div id="timeSlotsGrid" class="flex flex-wrap gap-2"></div>
+                        </div>
+                        <input type="hidden" name="start_time" id="selectedTime" required>
                         {% if form.start_time.errors %}
-                            <p class="text-red-600 text-sm mt-1">{{ form.start_time.errors.0 }}</p>
+                            <p class="mt-1 text-sm text-red-600">{{ form.start_time.errors.0 }}</p>
                         {% endif %}
                     </div>
                 </div>
                 
                 <!-- Buttons -->
-                <div class="flex gap-4">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-                        Save Changes
-                    </button>
+                <div class="flex justify-between pt-6">
                     <a href="{% url 'booking_calendar' %}" class="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition">
                         Cancel
                     </a>
+                    <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Save Changes
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+<script>
+const companyId = {{ company.id }};
+const currentBookingStaffId = {{ booking.staff.id }};
+const currentBookingDate = "{{ booking.date|date:'Y-m-d' }}";
+const currentBookingTime = "{{ booking.start_time|time:'H:i' }}";
+
+const serviceSelect = document.getElementById('serviceSelect');
+const staffSelectContainer = document.getElementById('staffSelectContainer');
+const bookingForm = document.getElementById('bookingForm');
+const validationError = document.getElementById('validationError');
+const validationErrorList = document.getElementById('validationErrorList');
+const staffContainer = document.getElementById('staffContainer');
+const staffGrid = document.getElementById('staffGrid');
+const selectedStaffInput = document.getElementById('selectedStaff');
+const datesContainer = document.getElementById('datesContainer');
+const calendarContainer = document.getElementById('calendarContainer');
+const datesGrid = document.getElementById('datesGrid');
+const monthNavigation = document.getElementById('monthNavigation');
+const currentMonthSpan = document.getElementById('currentMonth');
+const prevMonthBtn = document.getElementById('prevMonth');
+const nextMonthBtn = document.getElementById('nextMonth');
+const timeSlotsSection = document.getElementById('timeSlotsSection');
+const timeSlotsGrid = document.getElementById('timeSlotsGrid');
+const selectedDateInput = document.getElementById('selectedDate');
+const selectedTimeInput = document.getElementById('selectedTime');
+
+let selectedDate = null;
+let selectedStaff = null;
+let currentMonth = new Date();
+let availableDates = [];
+
+// Form validation on submit
+bookingForm.addEventListener('submit', function(e) {
+    const errors = [];
+    
+    if (!serviceSelect.value) {
+        errors.push('Service');
+    }
+    
+    if (!selectedStaffInput.value) {
+        errors.push('Staff');
+    }
+    
+    if (!selectedDateInput.value) {
+        errors.push('Date');
+    }
+    
+    if (!selectedTimeInput.value) {
+        errors.push('Time');
+    }
+    
+    if (errors.length > 0) {
+        e.preventDefault();
+        validationErrorList.innerHTML = errors.map(field => `<li>${field}</li>`).join('');
+        validationError.classList.remove('hidden');
+        validationError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+        validationError.classList.add('hidden');
+    }
+});
+
+// When service is selected, load available staff
+serviceSelect.addEventListener('change', async function() {
+    const serviceId = this.value;
+    if (!serviceId) {
+        staffSelectContainer.classList.add('hidden');
+        staffContainer.classList.remove('hidden');
+        staffContainer.innerHTML = '<p class="text-gray-500 text-sm">Please select a service first</p>';
+        resetDatesAndTimes();
+        return;
+    }
+
+    try {
+        const response = await fetch(`/bookings/api/staff/${companyId}/${serviceId}/`);
+        const data = await response.json();
+        
+        staffGrid.innerHTML = '';
+        
+        if (data.staff && data.staff.length > 0) {
+            // Add staff members
+            data.staff.forEach(member => {
+                const staffCard = document.createElement('div');
+                staffCard.className = 'flex-shrink-0 text-center cursor-pointer staff-card';
+                staffCard.style.minWidth = '120px';
+                staffCard.dataset.staffId = member.id;
+                
+                const avatarHtml = member.avatar 
+                    ? `<img src="${member.avatar}" alt="${member.name}" class="h-24 w-24 rounded-full object-cover mx-auto border-4 border-gray-100 shadow-md">`
+                    : `<div class="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center mx-auto border-4 border-gray-100 shadow-md">
+                           <i class="fas fa-user text-gray-500 text-3xl"></i>
+                       </div>`;
+                
+                staffCard.innerHTML = `
+                    ${avatarHtml}
+                    <div class="mt-3">
+                        <h3 class="font-semibold text-gray-900 text-sm">${member.name}</h3>
+                        ${member.specialization ? `<p class="text-xs text-gray-600 mt-1">${member.specialization}</p>` : ''}
+                    </div>
+                `;
+                
+                staffCard.addEventListener('click', function() {
+                    selectStaff(member.id, this);
+                });
+                
+                staffGrid.appendChild(staffCard);
+            });
+            
+            staffContainer.classList.add('hidden');
+            staffSelectContainer.classList.remove('hidden');
+            
+            // Auto-select current booking staff if available
+            if (currentBookingStaffId) {
+                const currentStaffCard = staffGrid.querySelector(`[data-staff-id="${currentBookingStaffId}"]`);
+                if (currentStaffCard) {
+                    selectStaff(currentBookingStaffId, currentStaffCard);
+                }
+            }
+        } else {
+            staffContainer.classList.remove('hidden');
+            staffContainer.innerHTML = '<p class="text-red-500 text-sm">No staff available for this service</p>';
+            staffSelectContainer.classList.add('hidden');
+        }
+        
+        if (!currentBookingStaffId) {
+            resetDatesAndTimes();
+        }
+    } catch (error) {
+        console.error('Error loading staff:', error);
+        staffContainer.classList.remove('hidden');
+        staffContainer.innerHTML = '<p class="text-red-500 text-sm">Error loading staff</p>';
+    }
+});
+
+// Initialize: trigger service change to load staff
+if (serviceSelect.value) {
+    serviceSelect.dispatchEvent(new Event('change'));
+}
+
+// Select a staff member
+function selectStaff(staffId, element) {
+    selectedStaff = staffId;
+    selectedStaffInput.value = staffId;
+    
+    // Update visual selection
+    document.querySelectorAll('.staff-card').forEach(card => {
+        const avatar = card.querySelector('img, div');
+        avatar.classList.remove('ring-4', 'ring-blue-500');
+        avatar.classList.add('border-4', 'border-gray-100');
+    });
+    
+    const selectedAvatar = element.querySelector('img, div');
+    selectedAvatar.classList.remove('border-gray-100');
+    selectedAvatar.classList.add('ring-4', 'ring-blue-500');
+    
+    currentMonth = currentBookingDate ? new Date(currentBookingDate) : new Date();
+    loadAvailableDates();
+}
+
+// Month navigation
+prevMonthBtn.addEventListener('click', () => {
+    currentMonth.setMonth(currentMonth.getMonth() - 1);
+    renderCalendar();
+});
+
+nextMonthBtn.addEventListener('click', () => {
+    currentMonth.setMonth(currentMonth.getMonth() + 1);
+    renderCalendar();
+});
+
+// Load available dates
+async function loadAvailableDates() {
+    if (!serviceSelect.value || !selectedStaff) return;
+    
+    try {
+        const url = `/bookings/api/dates/${companyId}/${selectedStaff}/`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        availableDates = data.available_dates ? data.available_dates.map(d => d.date || d) : [];
+        
+        if (availableDates.length > 0) {
+            datesContainer.classList.add('hidden');
+            calendarContainer.classList.remove('hidden');
+            monthNavigation.classList.remove('hidden');
+            renderCalendar();
+            
+            // Auto-select current booking date if available
+            if (currentBookingDate && availableDates.includes(currentBookingDate)) {
+                selectedDate = currentBookingDate;
+                selectedDateInput.value = currentBookingDate;
+                setTimeout(() => {
+                    const dateBtn = datesGrid.querySelector(`[data-date="${currentBookingDate}"]`);
+                    if (dateBtn) {
+                        dateBtn.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+                        dateBtn.classList.remove('border-gray-300');
+                    }
+                    loadAvailableTimes();
+                }, 100);
+            }
+        } else {
+            datesContainer.classList.remove('hidden');
+            datesContainer.innerHTML = '<p class="text-red-500 text-sm">No available dates</p>';
+            calendarContainer.classList.add('hidden');
+            monthNavigation.classList.add('hidden');
+        }
+        
+    } catch (error) {
+        console.error('Error loading dates:', error);
+        datesContainer.classList.remove('hidden');
+        datesContainer.innerHTML = '<p class="text-red-500 text-sm">Error loading dates</p>';
+    }
+}
+
+// Render calendar
+function renderCalendar() {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    
+    currentMonthSpan.textContent = currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    datesGrid.innerHTML = '';
+    
+    // Add empty cells
+    for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'aspect-square';
+        datesGrid.appendChild(emptyCell);
+    }
+    
+    // Add days
+    for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day);
+        date.setHours(12, 0, 0, 0);
+        const dateStr = date.toISOString().split('T')[0];
+        const isAvailable = availableDates.includes(dateStr);
+        const isPast = date < today;
+        
+        const dayCell = document.createElement('button');
+        dayCell.type = 'button';
+        dayCell.className = 'aspect-square flex items-center justify-center text-sm rounded-lg transition';
+        dayCell.textContent = day;
+        
+        if (isPast || !isAvailable) {
+            dayCell.className += ' bg-red-50 text-red-300 cursor-not-allowed';
+            dayCell.disabled = true;
+        } else {
+            dayCell.className += ' border border-gray-300 hover:bg-blue-50 hover:border-blue-500 cursor-pointer';
+            dayCell.dataset.date = dateStr;
+            
+            if (dateStr === selectedDate) {
+                dayCell.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+                dayCell.classList.remove('border-gray-300');
+            }
+            
+            dayCell.addEventListener('click', function() {
+                selectDate(dateStr, this);
+            });
+        }
+        
+        datesGrid.appendChild(dayCell);
+    }
+}
+
+// Select a date
+function selectDate(date, element) {
+    selectedDate = date;
+    selectedDateInput.value = date;
+    
+    document.querySelectorAll('#datesGrid button[data-date]').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+        btn.classList.add('border-gray-300');
+    });
+    element.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+    element.classList.remove('border-gray-300');
+    
+    loadAvailableTimes();
+}
+
+// Load available times
+async function loadAvailableTimes() {
+    const serviceId = serviceSelect.value;
+    
+    if (!selectedDate || !serviceId || !selectedStaff) {
+        return;
+    }
+
+    try {
+        const url = `/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        timeSlotsGrid.innerHTML = '';
+        
+        if (data.available_times && data.available_times.length > 0) {
+            data.available_times.forEach(time => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'time-btn px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-blue-50 hover:border-blue-500 transition whitespace-nowrap';
+                button.textContent = time;
+                button.dataset.time = time;
+                
+                // Auto-select current booking time if available
+                if (time === currentBookingTime && selectedDate === currentBookingDate) {
+                    button.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+                    button.classList.remove('border-gray-300');
+                    selectedTimeInput.value = time;
+                }
+                
+                button.addEventListener('click', function() {
+                    selectTime(time, this);
+                });
+                
+                timeSlotsGrid.appendChild(button);
+            });
+            
+            timeSlotsSection.classList.remove('hidden');
+        } else {
+            const noTimesMsg = document.createElement('p');
+            noTimesMsg.className = 'text-red-500 text-sm';
+            noTimesMsg.textContent = 'No available time slots';
+            timeSlotsGrid.appendChild(noTimesMsg);
+            timeSlotsSection.classList.remove('hidden');
+        }
+        
+    } catch (error) {
+        console.error('Error loading times:', error);
+        timeSlotsGrid.innerHTML = '<p class="text-red-500 text-sm">Error loading times</p>';
+        timeSlotsSection.classList.remove('hidden');
+    }
+}
+
+// Select a time
+function selectTime(time, element) {
+    selectedTimeInput.value = time;
+    
+    document.querySelectorAll('.time-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+        btn.classList.add('border-gray-300');
+    });
+    element.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+    element.classList.remove('border-gray-300');
+}
+
+// Reset dates and times
+function resetDatesAndTimes() {
+    datesContainer.innerHTML = '<p class="text-gray-500 text-sm">Please select a specialist first</p>';
+    datesContainer.classList.remove('hidden');
+    calendarContainer.classList.add('hidden');
+    monthNavigation.classList.add('hidden');
+    datesGrid.innerHTML = '';
+    timeSlotsSection.classList.add('hidden');
+    timeSlotsGrid.innerHTML = '';
+    selectedDate = null;
+    selectedDateInput.value = '';
+    selectedTimeInput.value = '';
+    availableDates = [];
+}
+</script>
+
 <style>
     input[type="text"],
     input[type="email"],
     input[type="tel"],
-    input[type="date"],
-    input[type="time"],
     select {
         width: 100%;
-        border: 1px solid #d1d5db;
-        border-radius: 0.375rem;
         padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
     }
     input:focus,
     select:focus {
         outline: none;
         border-color: #3b82f6;
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .staff-card {
+        transition: all 0.2s;
+    }
+    
+    .staff-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .time-btn {
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .time-btn:hover:not(.bg-blue-600) {
+        background-color: #eff6ff;
+        border-color: #3b82f6;
+    }
+    
+    .time-btn.bg-blue-600 {
+        background-color: #2563eb;
+        color: white;
+        border-color: #2563eb;
     }
 </style>
 {% endblock %}

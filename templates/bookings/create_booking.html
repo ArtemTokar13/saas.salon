@@ -205,31 +205,24 @@ let availableDates = [];
 bookingForm.addEventListener('submit', function(e) {
     const errors = [];
     
-    // Check service
     if (!serviceSelect.value) {
         errors.push('Service');
     }
     
-    // Staff is optional - will be auto-assigned if not selected
-    
-    // Check date
     if (!selectedDateInput.value) {
         errors.push('Date');
     }
     
-    // Check time
     if (!selectedTimeInput.value) {
         errors.push('Time');
     }
     
-    // If there are errors, prevent submit and show message
     if (errors.length > 0) {
         e.preventDefault();
         validationErrorList.innerHTML = errors.map(field => `<li>${field}</li>`).join('');
         validationError.classList.remove('hidden');
         validationError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else {
-        // Hide error message if previously shown
         validationError.classList.add('hidden');
     }
 });
@@ -249,7 +242,6 @@ serviceSelect.addEventListener('change', async function() {
         return;
     }
 
-    // Fetch available staff for this service
     try {
         const response = await fetch(`/bookings/api/staff/${companyId}/${serviceId}/`);
         const data = await response.json();
@@ -336,21 +328,19 @@ if (preselectedServiceId) {
 // Select a staff member (staffId can be null for "Any Available")
 function selectStaff(staffId, element) {
     selectedStaff = staffId;
-    selectedStaffInput.value = staffId || '';  // Empty string if no specific staff
+    selectedStaffInput.value = staffId || '';
     
-    // Update visual selection - only highlight avatars
+    // Update visual selection
     document.querySelectorAll('.staff-card').forEach(card => {
         const avatar = card.querySelector('img, div, svg').closest('div');
         avatar.classList.remove('ring-4', 'ring-blue-500');
         avatar.classList.add('border-2', 'border-gray-100');
     });
     
-    // Highlight selected avatar only
     const selectedAvatar = element.querySelector('img, div, svg').closest('div');
     selectedAvatar.classList.remove('border-gray-100');
     selectedAvatar.classList.add('ring-4', 'ring-blue-500');
     
-    // Load available dates
     currentMonth = new Date();
     loadAvailableDates();
 }
@@ -366,17 +356,15 @@ nextMonthBtn.addEventListener('click', () => {
     renderCalendar();
 });
 
-// Load available dates for selected staff (or any staff if none selected)
+// Load available dates
 async function loadAvailableDates() {
     if (!serviceSelect.value) return;
     
     try {
         let url;
         if (selectedStaff) {
-            // Specific staff selected
             url = `/bookings/api/dates/${companyId}/${selectedStaff}/`;
         } else {
-            // "Any Available" selected - use service-based endpoint
             url = `/bookings/api/dates-any/${companyId}/${serviceSelect.value}/`;
         }
         
@@ -408,33 +396,31 @@ async function loadAvailableDates() {
     }
 }
 
-// Render calendar for current month
+// Render calendar
 function renderCalendar() {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
     
-    // Update month display
     currentMonthSpan.textContent = currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
     
-    // Get first day of month and number of days
-    const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday, 1 = Monday, etc.
+    const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
     datesGrid.innerHTML = '';
     
-    // Add empty cells for days before month starts
+    // Add empty cells
     for (let i = 0; i < firstDay; i++) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'aspect-square';
         datesGrid.appendChild(emptyCell);
     }
     
-    // Add days of month
+    // Add days
     for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(year, month, day);
-        date.setHours(12, 0, 0, 0); // Set to noon to avoid timezone issues
+        date.setHours(12, 0, 0, 0);
         const dateStr = date.toISOString().split('T')[0];
         const isAvailable = availableDates.includes(dateStr);
         const isPast = date < today;
@@ -464,7 +450,6 @@ function selectDate(date, element) {
     selectedDate = date;
     selectedDateInput.value = date;
     
-    // Update visual selection
     document.querySelectorAll('#datesGrid button[data-date]').forEach(btn => {
         btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
         btn.classList.add('border-gray-300');
@@ -475,7 +460,7 @@ function selectDate(date, element) {
     loadAvailableTimes();
 }
 
-// Load available time slots
+// Load available times
 async function loadAvailableTimes() {
     const serviceId = serviceSelect.value;
     
@@ -486,10 +471,8 @@ async function loadAvailableTimes() {
     try {
         let url;
         if (selectedStaff) {
-            // Specific staff selected
             url = `/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/`;
         } else {
-            // "Any Available" selected - use service-based endpoint
             url = `/bookings/api/times-any/${companyId}/${serviceId}/${selectedDate}/`;
         }
         
@@ -535,7 +518,6 @@ async function loadAvailableTimes() {
 function selectTime(time, element) {
     selectedTimeInput.value = time;
     
-    // Update visual selection
     document.querySelectorAll('.time-btn').forEach(btn => {
         btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
         btn.classList.add('border-gray-300');

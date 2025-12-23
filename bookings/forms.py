@@ -23,6 +23,7 @@ class BookingForm(forms.ModelForm):
         if company:
             self.fields['service'].queryset = Service.objects.filter(company=company, is_active=True)
             self.fields['staff'].queryset = Staff.objects.filter(company=company, is_active=True)
+            self.fields['staff'].required = False  # Make staff optional
             self.company = company
         
         # When editing existing booking, customer fields are not required (read-only in template)
@@ -79,7 +80,75 @@ class BookingForm(forms.ModelForm):
         end_datetime = start_datetime + timedelta(minutes=service.duration)
         booking.end_time = end_datetime.time()
         
+        # Auto-assign staff if not selected
+        if not self.cleaned_data.get('staff'):
+            from companies.models import WorkingHours
+            date = self.cleaned_data['date']
+            start_time = self.cleaned_data['start_time']
+            
+            # Find available staff who can perform this service
+            available_staff = self._find_available_staff(
+                service, 
+                date, 
+                start_datetime, 
+                end_datetime
+            )
+            
+            if available_staff:
+                booking.staff = available_staff[0]  # Assign first available
+            else:
+                raise forms.ValidationError(
+                    "No staff available for the selected date and time. Please choose a different time."
+                )
+        
         if commit:
             booking.save()
         
         return booking
+    
+    def _find_available_staff(self, service, date, start_datetime, end_datetime):
+        """Find staff members who can perform the service and are available at the given time"""
+        from companies.models import WorkingHours
+        
+        # Get all staff who can perform this service
+        staff_members = service.staff_members.filter(is_active=True)
+        available_staff = []
+        
+        for staff in staff_members:
+            # Check if staff is working on this day
+            day_of_week = date.weekday()
+            working_hours = WorkingHours.objects.filter(
+                company=self.company,
+                day_of_week=day_of_week,
+                is_day_off=False
+            ).first()
+            
+            if not working_hours:
+                continue
+            
+            # Check if time is within working hours
+            if (start_datetime.time() < working_hours.start_time or 
+                end_datetime.time() > working_hours.end_time):
+                continue
+            
+            # Check if staff has any conflicting bookings
+            conflicting = Booking.objects.filter(
+                staff=staff,
+                date=date,
+                status__in=[0, 1]  # Pending or Confirmed
+            ).exclude(pk=self.instance.pk if self.instance.pk else None)
+            
+            has_conflict = False
+            for booking in conflicting:
+                booking_start = datetime.combine(date, booking.start_time)
+                booking_end = datetime.combine(date, booking.end_time)
+                
+                # Check for overlap
+                if start_datetime < booking_end and end_datetime > booking_start:
+                    has_conflict = True
+                    break
+            
+            if not has_conflict:
+                available_staff.append(staff)
+        
+        return available_staff

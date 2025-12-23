@@ -401,25 +401,27 @@ def working_hours(request):
         if request.method == 'POST':
             for day_num, day_name in DAYS_OF_WEEK:
                 is_working = request.POST.get(f'is_working_{day_num}') == 'on'
-                start_time = request.POST.get(f'start_time_{day_num}')
-                end_time = request.POST.get(f'end_time_{day_num}')
+                start_time = request.POST.get(f'start_time_{day_num}', '').strip()
+                end_time = request.POST.get(f'end_time_{day_num}', '').strip()
                 
                 working_hour, created = WorkingHours.objects.get_or_create(
                     company=company,
                     day_of_week=day_num,
                     defaults={
-                        'start_time': start_time or '09:00',
-                        'end_time': end_time or '17:00',
+                        'start_time': start_time if start_time else '09:00',
+                        'end_time': end_time if end_time else '17:00',
                         'is_day_off': not is_working
                     }
                 )
                 
                 if not created:
                     working_hour.is_day_off = not is_working
-                    if start_time:
-                        working_hour.start_time = start_time
-                    if end_time:
-                        working_hour.end_time = end_time
+                    # Only update times if working day and times are provided
+                    if is_working:
+                        if start_time:
+                            working_hour.start_time = start_time
+                        if end_time:
+                            working_hour.end_time = end_time
                     working_hour.save()
             
             messages.success(request, 'Working hours updated successfully.')

@@ -3,7 +3,7 @@ from hashlib import md5
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.utils import timezone
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
@@ -15,6 +15,7 @@ from companies.models import Company, Staff, Service, WorkingHours
 from users.models import UserProfile
 
 
+################### BOOKING VIEWS #####################
 def create_booking(request, company_id):
     """Customer-facing booking page"""
     company = get_object_or_404(Company, id=company_id)
@@ -41,34 +42,34 @@ def create_booking(request, company_id):
     return render(request, 'bookings/create_booking.html', context)
 
 
-def check_staff_availability(request):
-    """API endpoint to check if a staff member is available for a given date and time"""
-    staff_id = request.GET.get('staff_id')
-    date_str = request.GET.get('date')
-    start_time_str = request.GET.get('start_time')
-    end_time_str = request.GET.get('end_time')
+# def check_staff_availability(request):
+#     """API endpoint to check if a staff member is available for a given date and time"""
+#     staff_id = request.GET.get('staff_id')
+#     date_str = request.GET.get('date')
+#     start_time_str = request.GET.get('start_time')
+#     end_time_str = request.GET.get('end_time')
     
-    try:
-        date = datetime.strptime(date_str, '%Y-%m-%d').date()
-        sh, sm = map(int, start_time_str.split(':'))
-        eh, em = map(int, end_time_str.split(':'))
-        start_time = dtime(hour=sh, minute=sm)
-        end_time = dtime(hour=eh, minute=em)
+#     try:
+#         date = datetime.strptime(date_str, '%Y-%m-%d').date()
+#         sh, sm = map(int, start_time_str.split(':'))
+#         eh, em = map(int, end_time_str.split(':'))
+#         start_time = dtime(hour=sh, minute=sm)
+#         end_time = dtime(hour=eh, minute=em)
         
-        overlapping_bookings = Booking.objects.filter(
-            staff_id=staff_id,
-            date=date,
-            status__in=[0, 1],  # Pending or Confirmed
-        ).filter(
-            Q(start_time__lt=end_time) & Q(end_time__gt=start_time)
-        )
+#         overlapping_bookings = Booking.objects.filter(
+#             staff_id=staff_id,
+#             date=date,
+#             status__in=[0, 1],  # Pending or Confirmed
+#         ).filter(
+#             Q(start_time__lt=end_time) & Q(end_time__gt=start_time)
+#         )
         
-        is_available = not overlapping_bookings.exists()
+#         is_available = not overlapping_bookings.exists()
         
-        return JsonResponse({'is_available': is_available})
+#         return JsonResponse({'is_available': is_available})
     
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
+#     except Exception as e:
+#         return JsonResponse({'error': str(e)}, status=400)
 
 
 def booking_confirmation(request, booking_id):
@@ -80,6 +81,17 @@ def booking_confirmation(request, booking_id):
     }
     
     return render(request, 'bookings/confirmation.html', context)
+
+
+def cancel_booking(request, booking_id, delete_code):
+    """Customer-facing booking cancellation page"""
+    booking = get_object_or_404(Booking, id=booking_id, delete_code=delete_code)
+    
+    if request.method == 'POST':
+        booking.status = 2
+        booking.save()
+        messages.success(request, 'Your booking has been cancelled.')
+    return HttpResponseRedirect(f'/companies/{booking.company.id}/')
 
 
 def get_available_staff(request, company_id, service_id):
@@ -200,6 +212,119 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         return JsonResponse({'error': str(e)}, status=400)
 
 
+def get_available_dates_any_staff(request, company_id, service_id):
+    """API endpoint to get available dates for ANY staff member who can perform the service"""
+    try:
+        service = get_object_or_404(Service, id=service_id, company_id=company_id)
+        company = get_object_or_404(Company, id=company_id)
+        staff_members = service.staff_members.filter(is_active=True)
+        
+        if not staff_members.exists():
+            return JsonResponse({'available_dates': []})
+        
+        available_dates = []
+        today = timezone.now().date()
+        
+        # Check next 90 days (3 months) to support calendar navigation
+        for i in range(90):
+            date = today + timedelta(days=i)
+            day_of_week = date.weekday()
+            
+            # Check if company is open on this day
+            working_hours = WorkingHours.objects.filter(
+                company=company,
+                day_of_week=day_of_week,
+                is_day_off=False
+            ).first()
+            
+            if working_hours:
+                # Check if ANY staff member is available on this day
+                # (has no bookings or has available slots)
+                available_dates.append(date.strftime('%Y-%m-%d'))
+        
+        return JsonResponse({'available_dates': available_dates})
+    
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+def get_available_times_any_staff(request, company_id, service_id, date_str):
+    """API endpoint to get available time slots when ANY staff can perform the service"""
+    try:
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        service = get_object_or_404(Service, id=service_id, company_id=company_id)
+        company = get_object_or_404(Company, id=company_id)
+        
+        # Get working hours for this day
+        day_of_week = date.weekday()
+        working_hours = WorkingHours.objects.filter(
+            company=company,
+            day_of_week=day_of_week,
+            is_day_off=False
+        ).first()
+        
+        if not working_hours:
+            return JsonResponse({'available_times': []})
+        
+        # Get all staff who can perform this service
+        staff_members = service.staff_members.filter(is_active=True)
+        
+        if not staff_members.exists():
+            return JsonResponse({'available_times': []})
+        
+        # Generate time slots (every 30 minutes)
+        available_times = []
+        current_time = datetime.combine(date, working_hours.start_time)
+        end_time = datetime.combine(date, working_hours.end_time)
+        service_duration = timedelta(minutes=service.duration)
+        
+        while current_time < end_time:
+            time_str = current_time.strftime('%H:%M')
+            potential_end_time = current_time + service_duration
+            
+            # Check if the service can fit within working hours
+            if potential_end_time > end_time:
+                break
+            
+            # Check if AT LEAST ONE staff member is available at this time
+            is_available = False
+            for staff in staff_members:
+                # Get existing bookings for this staff member on this date
+                existing_bookings = Booking.objects.filter(
+                    staff=staff,
+                    date=date,
+                    status__in=[0, 1]  # Pending or Confirmed
+                ).values_list('start_time', 'end_time')
+                
+                # Check if this time slot is available for this staff
+                staff_available = True
+                for booking_start, booking_end in existing_bookings:
+                    booking_start_dt = datetime.combine(date, booking_start)
+                    booking_end_dt = datetime.combine(date, booking_end)
+                    
+                    # Check for overlap
+                    if current_time < booking_end_dt and potential_end_time > booking_start_dt:
+                        staff_available = False
+                        break
+                
+                if staff_available:
+                    is_available = True
+                    break  # At least one staff is available
+            
+            if is_available:
+                available_times.append(time_str)
+            
+            current_time += timedelta(minutes=30)
+        
+        return JsonResponse({'available_times': available_times})
+    
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    
+#################### END BOOKING VIEWS #####################
+
+
+#################### ADMIN VIEWS #####################
 @login_required
 def booking_calendar(request):
     """Calendar view for company administrators"""
@@ -421,14 +546,3 @@ def delete_booking_ajax(request, booking_id):
 
     except UserProfile.DoesNotExist:
         return JsonResponse({'error': 'User profile not found'}, status=403)
-
-
-def cancel_booking(request, booking_id, delete_code):
-    """Customer-facing booking cancellation page"""
-    booking = get_object_or_404(Booking, id=booking_id, delete_code=delete_code)
-    
-    if request.method == 'POST':
-        booking.status = 2  # Cancelled
-        booking.save()
-        messages.success(request, 'Your booking has been cancelled.')
-    return redirect('home')

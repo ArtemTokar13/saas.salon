@@ -55,6 +55,12 @@
                    class="block w-full bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
                     Go to Home
                 </a>
+                <form method="POST" action="{% url 'cancel_booking' booking.id booking.delete_code %}" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                    {% csrf_token %}
+                    <button type="submit" class="block w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition">
+                        Cancel Booking
+                    </button>
+                </form>
             </div>
         </div>
     </div>

@@ -85,17 +85,19 @@
 
                 <!-- Staff Selection -->
                 <div class="border-b pb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Select Specialist</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                        Select Specialist <span class="text-sm font-normal text-gray-500">(Optional)</span>
+                    </h2>
                     <div id="staffContainer">
                         <p class="text-gray-500 text-sm">Please select a service first</p>
                     </div>
                     <div id="staffSelectContainer" class="hidden">
                         <div class="overflow-x-auto -mx-2 px-2">
                             <div id="staffGrid" class="flex space-x-6 pt-4 pb-4">
-                                <!-- Staff members will be populated here -->
+                                <!-- Staff members will be populated here dynamically (including "Any Available") -->
                             </div>
                         </div>
-                        <input type="hidden" name="staff" id="selectedStaff" required>
+                        <input type="hidden" name="staff" id="selectedStaff">
                         {% if form.staff.errors %}
                             <p class="mt-1 text-sm text-red-600">{{ form.staff.errors.0 }}</p>
                         {% endif %}
@@ -208,10 +210,7 @@ bookingForm.addEventListener('submit', function(e) {
         errors.push('Service');
     }
     
-    // Check staff
-    if (!selectedStaffInput.value) {
-        errors.push('Specialist');
-    }
+    // Staff is optional - will be auto-assigned if not selected
     
     // Check date
     if (!selectedDateInput.value) {
@@ -258,6 +257,27 @@ serviceSelect.addEventListener('change', async function() {
         staffGrid.innerHTML = '';
         
         if (data.staff && data.staff.length > 0) {
+            // Add "Any Available" option first
+            const anyStaffCard = document.createElement('div');
+            anyStaffCard.className = 'flex-shrink-0 text-center cursor-pointer staff-card';
+            anyStaffCard.style.minWidth = '120px';
+            anyStaffCard.innerHTML = `
+                <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-2 border-4 border-gray-100 shadow-md ring-4 ring-blue-500">
+                    <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+                <div class="mt-3">
+                    <h3 class="font-semibold text-gray-900 text-sm">Any Available</h3>
+                    <p class="text-xs text-gray-600 mt-1">We'll assign</p>
+                </div>
+            `;
+            anyStaffCard.addEventListener('click', function() {
+                selectStaff(null, this);
+            });
+            staffGrid.appendChild(anyStaffCard);
+            
+            // Add actual staff members
             data.staff.forEach(member => {
                 const staffCard = document.createElement('div');
                 staffCard.className = 'flex-shrink-0 text-center cursor-pointer staff-card';
@@ -284,8 +304,15 @@ serviceSelect.addEventListener('change', async function() {
                 
                 staffGrid.appendChild(staffCard);
             });
+            
             staffContainer.classList.add('hidden');
             staffSelectContainer.classList.remove('hidden');
+            
+            // Auto-select "Any Available" and load dates
+            selectedStaff = null;
+            selectedStaffInput.value = '';
+            currentMonth = new Date();
+            loadAvailableDates();
         } else {
             staffContainer.classList.remove('hidden');
             staffContainer.innerHTML = '<p class="text-red-500 text-sm">No staff available for this service</p>';
@@ -306,20 +333,20 @@ if (preselectedServiceId) {
     serviceSelect.dispatchEvent(new Event('change'));
 }
 
-// Select a staff member
+// Select a staff member (staffId can be null for "Any Available")
 function selectStaff(staffId, element) {
     selectedStaff = staffId;
-    selectedStaffInput.value = staffId;
+    selectedStaffInput.value = staffId || '';  // Empty string if no specific staff
     
     // Update visual selection - only highlight avatars
     document.querySelectorAll('.staff-card').forEach(card => {
-        const avatar = card.querySelector('img, div');
+        const avatar = card.querySelector('img, div, svg').closest('div');
         avatar.classList.remove('ring-4', 'ring-blue-500');
         avatar.classList.add('border-2', 'border-gray-100');
     });
     
     // Highlight selected avatar only
-    const selectedAvatar = element.querySelector('img, div');
+    const selectedAvatar = element.querySelector('img, div, svg').closest('div');
     selectedAvatar.classList.remove('border-gray-100');
     selectedAvatar.classList.add('ring-4', 'ring-blue-500');
     
@@ -339,15 +366,24 @@ nextMonthBtn.addEventListener('click', () => {
     renderCalendar();
 });
 
-// Load available dates for selected staff
+// Load available dates for selected staff (or any staff if none selected)
 async function loadAvailableDates() {
-    if (!selectedStaff) return;
+    if (!serviceSelect.value) return;
     
     try {
-        const response = await fetch(`/bookings/api/dates/${companyId}/${selectedStaff}/`);
+        let url;
+        if (selectedStaff) {
+            // Specific staff selected
+            url = `/bookings/api/dates/${companyId}/${selectedStaff}/`;
+        } else {
+            // "Any Available" selected - use service-based endpoint
+            url = `/bookings/api/dates-any/${companyId}/${serviceSelect.value}/`;
+        }
+        
+        const response = await fetch(url);
         const data = await response.json();
         
-        availableDates = data.available_dates ? data.available_dates.map(d => d.date) : [];
+        availableDates = data.available_dates ? data.available_dates.map(d => d.date || d) : [];
         
         if (availableDates.length > 0) {
             datesContainer.classList.add('hidden');
@@ -443,12 +479,21 @@ function selectDate(date, element) {
 async function loadAvailableTimes() {
     const serviceId = serviceSelect.value;
     
-    if (!selectedStaff || !selectedDate || !serviceId) {
+    if (!selectedDate || !serviceId) {
         return;
     }
 
     try {
-        const response = await fetch(`/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/`);
+        let url;
+        if (selectedStaff) {
+            // Specific staff selected
+            url = `/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/`;
+        } else {
+            // "Any Available" selected - use service-based endpoint
+            url = `/bookings/api/times-any/${companyId}/${serviceId}/${selectedDate}/`;
+        }
+        
+        const response = await fetch(url);
         const data = await response.json();
         
         timeSlotsGrid.innerHTML = '';

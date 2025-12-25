@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from app.constants import COUNTRY_CHOICES
 from .models import Company
 from billing.models import Plan
 
@@ -63,6 +64,11 @@ class CompanyProfileForm(forms.ModelForm):
 class CompanyStaffForm(forms.Form):
     name = forms.CharField(max_length=255, required=True)
     email = forms.EmailField(required=False)
+    country_code = forms.ChoiceField(
+        choices=[('', 'Select Country')] + list(COUNTRY_CHOICES), 
+        required=True, 
+        initial='ES'
+    )
     phone = forms.CharField(max_length=50, required=False)
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
@@ -82,9 +88,17 @@ class CompanyStaffForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         company = kwargs.pop('company', None)
+        # allow callers to indicate whether passwords are required (add vs edit)
+        require_password = kwargs.pop('require_password', True)
         super().__init__(*args, **kwargs)
         if company:
             self.fields['services'].queryset = company.service_set.all()
+
+        # make password fields optional when editing staff
+        if 'password1' in self.fields:
+            self.fields['password1'].required = require_password
+        if 'password2' in self.fields:
+            self.fields['password2'].required = require_password
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

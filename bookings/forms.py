@@ -11,7 +11,7 @@ class BookingForm(forms.ModelForm):
     customer_email = forms.EmailField(required=False)
     customer_country_code = forms.ChoiceField(
         choices=[('', 'Select Country')] + list(COUNTRY_CHOICES), 
-        required=False, 
+        required=True, 
         initial='ES'
     )
     

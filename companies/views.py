@@ -229,6 +229,7 @@ def add_staff(request):
                 UserProfile.objects.create(
                     user=user,
                     company=profile.company,
+                    country_code=form.cleaned_data.get('country_code', ''),
                     phone_number=form.cleaned_data.get('phone', ''),
                     staff=staff_member
                 )
@@ -254,10 +255,13 @@ def edit_staff(request, staff_id):
             return redirect('/')
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         if request.method == 'POST':
-            form = CompanyStaffForm(request.POST, request.FILES, company=profile.company)
+            form = CompanyStaffForm(request.POST, request.FILES, company=profile.company, require_password=False)
             if form.is_valid():
                 staff_member.name = form.cleaned_data['name']
                 staff_member.specialization = form.cleaned_data.get('specialization', '')
+                # Staff model doesn't store phone/country; these are on UserProfile
+                country_code_val = form.cleaned_data.get('country_code', '')
+                phone_val = form.cleaned_data.get('phone', '')
                 staff_member.is_active = form.cleaned_data.get('is_active', True)
                 if form.cleaned_data.get('avatar'):
                     staff_member.avatar = form.cleaned_data.get('avatar')
@@ -265,7 +269,17 @@ def edit_staff(request, staff_id):
                 
                 # Update services relationship
                 staff_member.services.set(form.cleaned_data.get('services', []))
-                
+                # Update associated UserProfile (phone_number, country_code)
+                try:
+                    user_profile = UserProfile.objects.filter(staff=staff_member).first()
+                    if user_profile:
+                        user_profile.country_code = country_code_val
+                        user_profile.phone_number = phone_val
+                        user_profile.save()
+                except Exception:
+                    # Don't block the update if profile update fails
+                    pass
+
                 messages.success(request, 'Staff member updated successfully!')
                 return redirect('staff_list')
         else:
@@ -276,7 +290,13 @@ def edit_staff(request, staff_id):
                 'is_active': staff_member.is_active,
                 'services': staff_member.services.all(),
             }
-            form = CompanyStaffForm(initial=initial_data, company=profile.company)
+            # populate phone and country_code from related UserProfile if available
+            user_profile = UserProfile.objects.filter(staff=staff_member).first()
+            if user_profile:
+                initial_data['country_code'] = user_profile.country_code
+                initial_data['phone'] = user_profile.phone_number
+
+            form = CompanyStaffForm(initial=initial_data, company=profile.company, require_password=False)
         return render(request, 'companies/edit_staff.html', {'form': form, 'staff_member': staff_member})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')

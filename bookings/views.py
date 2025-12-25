@@ -330,10 +330,6 @@ def booking_calendar(request):
     """Calendar view for company administrators"""
     try:
         profile = request.user.userprofile
-        if not profile.is_admin:
-            messages.error(request, 'Access denied.')
-            return redirect('home')
-        
         company = profile.company
 
         status_in = [0, 1]  # Pending and Confirmed
@@ -354,8 +350,11 @@ def booking_calendar(request):
         if request.GET.get('next'):
             current_date = current_date + timedelta(days=1)
         
-        # We'll render a day-view schedule for `current_date` with columns per staff
-        staff_list = list(Staff.objects.filter(company=company, is_active=True).order_by('name'))
+        # We'll render a day-view schedule for `current_date` with columns per staff if user is admin
+        if profile.is_admin:
+            staff_list = list(Staff.objects.filter(company=company, is_active=True).order_by('name'))
+        else:
+            staff_list = list(Staff.objects.filter(company=company, id=profile.staff.id, is_active=True))
 
         working_hours = WorkingHours.objects.filter(company=company, day_of_week=current_date.weekday()).first()
         if working_hours:
@@ -422,7 +421,7 @@ def booking_calendar(request):
     
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 @login_required
@@ -430,12 +429,14 @@ def edit_booking(request, booking_id):
     """Edit an existing booking"""
     try:
         profile = request.user.userprofile
-        if not profile.is_admin:
-            messages.error(request, 'Access denied.')
-            return redirect('home')
-        
-        staff_list = Staff.objects.filter(company=profile.company, is_active=True)
-        services = Service.objects.filter(company=profile.company, is_active=True)
+           
+        if profile.is_admin:
+            staff_list = Staff.objects.filter(company=profile.company, is_active=True)
+            services = Service.objects.filter(company=profile.company, is_active=True)
+        else:
+            staff_list = Staff.objects.filter(company=profile.company, id=profile.staff.id, is_active=True)
+            services = Service.objects.filter(company=profile.company, is_active=True)
+
         booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
         
         if request.method == 'POST':
@@ -459,7 +460,7 @@ def edit_booking(request, booking_id):
     
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 @login_required
@@ -467,10 +468,11 @@ def update_booking_status(request, booking_id):
     """Update booking status (confirm or cancel)"""
     try:
         profile = request.user.userprofile
-        if not profile.is_admin:
-            return JsonResponse({'error': 'Access denied'}, status=403)
-        
-        booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+           
+        if profile.is_admin:
+            booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+        else:
+            booking = get_object_or_404(Booking, id=booking_id, company=profile.company, staff=profile.staff)
         
         if request.method == 'POST':
             status = json.loads(request.body).get('status')
@@ -491,10 +493,10 @@ def update_booking_ajax(request, booking_id):
     """AJAX endpoint to move a booking (change staff and/or start time). Expects POST with `staff_id` and `start_time` (HH:MM)."""
     try:
         profile = request.user.userprofile
-        if not profile.is_admin:
-            return JsonResponse({'error': 'Access denied'}, status=403)
-
-        booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+        if profile.is_admin:
+            booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+        else:
+            booking = get_object_or_404(Booking, id=booking_id, company=profile.company, staff=profile.staff)
 
         if request.method != 'POST':
             return JsonResponse({'error': f'Invalid method: {request.method}, Content-Type: {request.content_type}'}, status=400)
@@ -533,10 +535,10 @@ def delete_booking_ajax(request, booking_id):
     """AJAX endpoint to delete a booking"""
     try:
         profile = request.user.userprofile
-        if not profile.is_admin:
-            return JsonResponse({'error': 'Access denied'}, status=403)
-
-        booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+        if profile.is_admin:
+            booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+        else:
+            booking = get_object_or_404(Booking, id=booking_id, company=profile.company, staff=profile.staff)
 
         if request.method != 'DELETE':
             return JsonResponse({'error': f'Invalid method: {request.method}'}, status=400)

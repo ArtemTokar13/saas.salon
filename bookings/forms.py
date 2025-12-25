@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from django import forms
 from django.utils import timezone
-from .models import Booking, Customer
+from .models import Booking, Customer, COUNTRY_CHOICES
 from companies.models import Company, Staff, Service
 
 
@@ -9,6 +9,11 @@ class BookingForm(forms.ModelForm):
     customer_name = forms.CharField(max_length=255, required=True)
     customer_phone = forms.CharField(max_length=50, required=True)
     customer_email = forms.EmailField(required=False)
+    customer_country_code = forms.ChoiceField(
+        choices=[('', 'Select Country')] + list(COUNTRY_CHOICES), 
+        required=False, 
+        initial='ES'
+    )
     
     class Meta:
         model = Booking
@@ -31,12 +36,14 @@ class BookingForm(forms.ModelForm):
             self.fields['customer_name'].required = False
             self.fields['customer_phone'].required = False
             self.fields['customer_email'].required = False
+            self.fields['customer_country_code'].required = False
             
             # Pre-populate customer fields if editing existing booking
             if hasattr(self.instance, 'customer'):
                 self.fields['customer_name'].initial = self.instance.customer.name
                 self.fields['customer_phone'].initial = self.instance.customer.phone
                 self.fields['customer_email'].initial = self.instance.customer.email
+                self.fields['customer_country_code'].initial = self.instance.customer.country_code
 
     def clean_date(self):
         date = self.cleaned_data.get('date')
@@ -59,6 +66,7 @@ class BookingForm(forms.ModelForm):
                 defaults={
                     'name': self.cleaned_data['customer_name'],
                     'email': self.cleaned_data.get('customer_email', ''),
+                    'country_code': self.cleaned_data.get('customer_country_code', ''),
                 }
             )
             
@@ -66,6 +74,7 @@ class BookingForm(forms.ModelForm):
             if not created:
                 customer.name = self.cleaned_data['customer_name']
                 customer.email = self.cleaned_data.get('customer_email', '')
+                customer.country_code = self.cleaned_data.get('customer_country_code', '')
                 customer.save()
             
             booking.customer = customer

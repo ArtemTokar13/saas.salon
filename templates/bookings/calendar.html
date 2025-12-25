@@ -13,8 +13,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Booking Calendar</h1>
-                    <p class="text-gray-600 mt-1">{{ company.name }}</p>
+                    <h1 class="text-gray-600 font-bold mt-1 text-2xl">{{ company.name }}</h1>
                 </div>
                 <a href="{% url 'create_booking' company.id %}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
                     Add New Booking
@@ -41,14 +40,16 @@
                 </div>
             </div>
             <!-- Staff tabs -->
-            <div class="mb-4">
-                <div class="flex space-x-2 flex-wrap" id="staff-tabs">
-                    <button class="staff-tab px-3 py-1 rounded bg-blue-600 text-white text-sm" data-staff-id="all">All</button>
-                    {% for s in staff_list %}
-                        <button class="staff-tab px-3 py-1 rounded bg-gray-100 text-gray-700 text-sm" data-staff-id="{{ s.id }}">{{ s.name }}</button>
-                    {% endfor %}
+            {% if request.user.userprofile.is_admin %}
+                <div class="mb-4">
+                    <div class="flex space-x-2 flex-wrap" id="staff-tabs">
+                        <button class="staff-tab px-3 py-1 rounded bg-blue-600 text-white text-sm" data-staff-id="all">All</button>
+                        {% for s in staff_list %}
+                            <button class="staff-tab px-3 py-1 rounded bg-gray-100 text-gray-700 text-sm" data-staff-id="{{ s.id }}">{{ s.name }}</button>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
             <div id="calendar" class="border rounded" style="height: 700px;">
             </div>
         </div>

@@ -3,6 +3,12 @@
 
 {% block title %}Book Appointment - {{ company.name }}{% endblock %}
 
+{% block header %}
+    <script src="{% static 'js/booking.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flag-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/countries.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
@@ -48,10 +54,20 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
-                            {{ form.customer_phone }}
-                            {% if form.customer_phone.errors %}
-                                <p class="mt-1 text-sm text-red-600">{{ form.customer_phone.errors.0 }}</p>
-                            {% endif %}
+                            <div class="flex gap-2">
+                                <div class="w-1/4">
+                                    {{ form.customer_country_code }}
+                                    {% if form.customer_country_code.errors %}
+                                        <p class="mt-1 text-sm text-red-600">{{ form.customer_country_code.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-1">
+                                    {{ form.customer_phone }}
+                                    {% if form.customer_phone.errors %}
+                                        <p class="mt-1 text-sm text-red-600">{{ form.customer_phone.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                         <div class="sm:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Email (optional)</label>
@@ -175,6 +191,32 @@
 </div>
 
 <script>
+// Enhance country code display
+document.addEventListener('DOMContentLoaded', function() {
+    const countrySelect = document.getElementById('id_customer_country_code');
+    
+    if (countrySelect) {
+        // Update display when selection changes
+        countrySelect.addEventListener('change', function() {
+            updateCountryDisplay();
+        });
+        
+        // Initial update
+        updateCountryDisplay();
+    }
+    
+    function updateCountryDisplay() {
+        const selected = countrySelect.options[countrySelect.selectedIndex];
+        if (selected && selected.value) {
+            const flagCode = selected.value.toLowerCase();
+            const flagUrl = `https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/flags/4x3/${flagCode}.svg`;
+            countrySelect.style.backgroundImage = `url('${flagUrl}')`;
+        } else {
+            countrySelect.style.backgroundImage = 'none';
+        }
+    }
+});
+
 const companyId = {{ company.id }};
 const serviceSelect = document.getElementById('serviceSelect');
 const staffSelectContainer = document.getElementById('staffSelectContainer');
@@ -552,6 +594,7 @@ function resetDatesAndTimes() {
         border-radius: 0.5rem;
         font-size: 0.875rem;
     }
+    
     input:focus, select:focus {
         outline: none;
         border-color: #3b82f6;
@@ -580,6 +623,10 @@ function resetDatesAndTimes() {
         background-color: #2563eb;
         color: white;
         border-color: #2563eb;
+    }
+
+    .country-flag-select {
+        background-image: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/flags/');
     }
 </style>
 {% endblock %}

@@ -62,6 +62,10 @@ class CompanyProfileForm(forms.ModelForm):
 
 class CompanyStaffForm(forms.Form):
     name = forms.CharField(max_length=255, required=True)
+    email = forms.EmailField(required=False)
+    phone = forms.CharField(max_length=50, required=False)
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
     specialization = forms.CharField(max_length=255, required=False)
     avatar = forms.ImageField(required=False)
     break_start = forms.TimeField(required=False)
@@ -81,6 +85,22 @@ class CompanyStaffForm(forms.Form):
         super().__init__(*args, **kwargs)
         if company:
             self.fields['services'].queryset = company.service_set.all()
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email already registered.")
+        return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
+        
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords don't match.")
+        
+        return cleaned_data
 
 
 class ServiceForm(forms.Form):

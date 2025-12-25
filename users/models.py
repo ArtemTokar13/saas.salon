@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from companies.models import Company
+from companies.models import Company, Staff
 
 
 class UserProfile(models.Model):
@@ -11,6 +11,7 @@ class UserProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
         return self.user.username

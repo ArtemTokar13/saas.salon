@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from app.constants import COUNTRY_CHOICES
 from companies.models import Company, Staff, Service
 
 
 class Customer(models.Model):
     name = models.CharField(max_length=255)
+    country_code = models.CharField(max_length=10, blank=True, null=True, choices=COUNTRY_CHOICES)
     phone = models.CharField(max_length=50)
     email = models.EmailField(blank=True, null=True)
 

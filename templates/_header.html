@@ -29,6 +29,8 @@
             </a>
           {% elif user.userprofile.is_admin %}
             <a href="{% url 'company_dashboard' %}" class="text-sm font-medium text-gray-700 hover:text-blue-600">{% trans "Dashboard" %}</a>
+          {% else %}
+            <a href="{% url 'booking_calendar' %}" class="bg-blue-600 text-white px-2 py-1 rounded-lg font-semibold hover:bg-blue-700 transition">{% trans "Calendar" %}</a>
           {% endif %}
           <form method="post" action="{% url 'logout' %}" class="inline">
             {% csrf_token %}

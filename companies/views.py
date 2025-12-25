@@ -1,10 +1,11 @@
+from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
-from datetime import timedelta
+from django.http import JsonResponse
 from .models import Company, Staff, Service, WorkingHours, CompanyImage
 from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, ServiceForm
 from billing.models import Subscription
@@ -56,7 +57,7 @@ def company_dashboard(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            redirect('/')
         
         company = profile.company
         staff_count = Staff.objects.filter(company=company).count()
@@ -78,7 +79,7 @@ def company_dashboard(request):
         return render(request, 'companies/dashboard.html', context)
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 @login_required
@@ -88,7 +89,7 @@ def edit_company_profile(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         
         company = profile.company
         company_images = CompanyImage.objects.filter(company=company)
@@ -132,7 +133,7 @@ def edit_company_profile(request):
         return render(request, 'companies/edit_profile.html', {'form': form, 'company': company, 'company_images': company_images})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 def company_public_page(request, company_id):
@@ -157,7 +158,6 @@ def company_public_page(request, company_id):
 @login_required
 def delete_company_image(request, image_id):
     """Delete a company image via AJAX"""
-    from django.http import JsonResponse
     
     if request.method != 'DELETE':
         return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
@@ -189,7 +189,7 @@ def staff_list(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         
         company = profile.company
         staff_members = Staff.objects.filter(company=company)
@@ -197,7 +197,7 @@ def staff_list(request):
         return render(request, 'companies/staff_list.html', {'staff_members': staff_members, 'company': company})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 @login_required
@@ -207,7 +207,7 @@ def add_staff(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         
         if request.method == 'POST':
             form = CompanyStaffForm(request.POST, company=profile.company)
@@ -219,6 +219,20 @@ def add_staff(request):
                     avatar=form.cleaned_data.get('avatar')
                 )
                 staff_member.services.set(form.cleaned_data.get('services', []))
+
+                user = User.objects.create_user(
+                    username=form.cleaned_data['email'],
+                    email=form.cleaned_data['email'],
+                    password=form.cleaned_data['password1']
+                )
+
+                UserProfile.objects.create(
+                    user=user,
+                    company=profile.company,
+                    phone_number=form.cleaned_data.get('phone', ''),
+                    staff=staff_member
+                )
+
                 messages.success(request, 'Staff member added successfully!')
                 return redirect('staff_list')
         else:
@@ -227,7 +241,7 @@ def add_staff(request):
         return render(request, 'companies/add_staff.html', {'form': form})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 @login_required
@@ -237,7 +251,7 @@ def edit_staff(request, staff_id):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         if request.method == 'POST':
             form = CompanyStaffForm(request.POST, request.FILES, company=profile.company)
@@ -266,7 +280,7 @@ def edit_staff(request, staff_id):
         return render(request, 'companies/edit_staff.html', {'form': form, 'staff_member': staff_member})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 @login_required
@@ -276,7 +290,7 @@ def delete_staff(request, staff_id):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         staff_member.delete()
@@ -284,7 +298,7 @@ def delete_staff(request, staff_id):
         return redirect('staff_list')
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
     
 
 @login_required
@@ -294,7 +308,7 @@ def service_list(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         
         company = profile.company
         services = Service.objects.filter(company=company)
@@ -302,7 +316,7 @@ def service_list(request):
         return render(request, 'companies/services_list.html', {'services': services, 'company': company})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
     
 
 @login_required
@@ -312,7 +326,7 @@ def add_service(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         
         if request.method == 'POST':
             form = ServiceForm(request.POST)
@@ -332,7 +346,7 @@ def add_service(request):
         return render(request, 'companies/add_service.html', {'form': form})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 @login_required
@@ -342,7 +356,7 @@ def edit_service(request, service_id):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         service = get_object_or_404(Service, id=service_id, company=profile.company)
         if request.method == 'POST':
             form = ServiceForm(request.POST, company=profile.company)
@@ -366,7 +380,7 @@ def edit_service(request, service_id):
         return render(request, 'companies/edit_service.html', {'form': form, 'service': service})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
     
 
 @login_required
@@ -376,7 +390,7 @@ def delete_service(request, service_id):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         
         service = get_object_or_404(Service, id=service_id, company=profile.company)
         service.delete()
@@ -384,7 +398,7 @@ def delete_service(request, service_id):
         return redirect('service_list')
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')
 
 
 @login_required
@@ -394,7 +408,7 @@ def working_hours(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('/')
         
         company = profile.company
         
@@ -455,4 +469,4 @@ def working_hours(request):
         })
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('/')

@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('register/', views.register_company, name='register_company'),
+    path('activate/<uidb64>/<token>/', views.activate_company, name='activate_company'),
     path('dashboard/', views.company_dashboard, name='company_dashboard'),
     path('edit/', views.edit_company_profile, name='edit_company_profile'),
     path('delete-image/<int:image_id>/', views.delete_company_image, name='delete_company_image'),

@@ -11,6 +11,12 @@ from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm
 from billing.models import Subscription
 from users.models import UserProfile
 from companies.models import DAYS_OF_WEEK
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.conf import settings
 
 
 def register_company(request):
@@ -18,12 +24,15 @@ def register_company(request):
     if request.method == 'POST':
         form = CompanyRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
+            # create user as inactive until email confirmation
             user = User.objects.create_user(
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1']
             )
-            
+            user.is_active = False
+            user.save()
+
             company = Company.objects.create(
                 administrator=user,
                 name=form.cleaned_data['company_name'],
@@ -34,20 +43,59 @@ def register_company(request):
                 email=form.cleaned_data.get('company_email', ''),
                 logo=form.cleaned_data.get('company_logo')
             )
-            
+
             UserProfile.objects.create(
                 user=user,
                 company=company,
                 is_admin=True
             )
-            
-            login(request, user)
-            messages.success(request, 'Company registered successfully!')
-            return redirect('company_dashboard')
+
+            # build activation link (uid + token)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            activate_path = reverse('activate_company', args=[uid, token])
+            activate_link = request.build_absolute_uri(activate_path)
+
+            # send activation email
+            subject = 'Activate your account'
+            message = f"Please confirm your registration by clicking the following link:\n{activate_link}\n\nIf you didn't request this, ignore this email."
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+            recipient_list = [user.email]
+            try:
+                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+            except Exception:
+                # If email sending fails, remove created objects to avoid orphaned entries
+                user.delete()
+                company.delete()
+                messages.error(request, 'Failed to send activation email. Please try again later.')
+                return redirect('register_company')
+
+            messages.success(request, 'Registration successful. Check your email for the activation link.')
+            return redirect('register_company')
     else:
         form = CompanyRegistrationForm()
     
     return render(request, 'companies/register.html', {'form': form})
+
+
+def activate_company(request, uidb64, token):
+    """Activate a company user after email confirmation"""
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except Exception:
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        # login the user
+        login(request, user)
+        messages.success(request, 'Your account has been activated.')
+        return redirect('company_dashboard')
+    else:
+        messages.error(request, 'Activation link is invalid or has expired.')
+        return redirect('register_company')
 
 
 @login_required

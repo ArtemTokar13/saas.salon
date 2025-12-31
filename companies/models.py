@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 DAYS_OF_WEEK = [
@@ -11,6 +12,35 @@ DAYS_OF_WEEK = [
     (5, 'Saturday'),
     (6, 'Sunday'),
 ]
+
+
+class EmailLog(models.Model):
+    """Track email sending attempts and failures for debugging"""
+    EMAIL_STATUS_CHOICES = [
+        ('success', 'Success'),
+        ('failed', 'Failed'),
+        ('pending', 'Pending'),
+    ]
+    
+    recipient_email = models.EmailField()
+    subject = models.CharField(max_length=255)
+    email_type = models.CharField(max_length=50, default='registration')  # e.g., registration, password_reset
+    status = models.CharField(max_length=20, choices=EMAIL_STATUS_CHOICES, default='pending')
+    error_message = models.TextField(blank=True, null=True)
+    error_traceback = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    sent_at = models.DateTimeField(blank=True, null=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['-created_at']),
+            models.Index(fields=['status', '-created_at']),
+            models.Index(fields=['recipient_email']),
+        ]
+    
+    def __str__(self):
+        return f"{self.email_type} - {self.recipient_email} - {self.status}"
 
 class Company(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE)

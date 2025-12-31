@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company, Staff, Service, WorkingHours, CompanyImage
+from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
 
 
 @admin.register(Company)
@@ -34,3 +34,17 @@ class WorkingHoursAdmin(admin.ModelAdmin):
 class CompanyImageAdmin(admin.ModelAdmin):
     list_display = ['company', 'caption', 'order', 'created_at']
     list_filter = ['company', 'created_at']
+
+
+@admin.register(EmailLog)
+class EmailLogAdmin(admin.ModelAdmin):
+    list_display = ['recipient_email', 'email_type', 'subject', 'status', 'created_at']
+    list_filter = ['status', 'email_type', 'created_at']
+    search_fields = ['recipient_email', 'subject']
+    readonly_fields = ['created_at', 'sent_at', 'error_traceback']
+    
+    def has_add_permission(self, request):
+        return False  # Don't allow manual creation
+    
+    def has_delete_permission(self, request, obj=None):
+        return True  # Allow deletion for cleanup

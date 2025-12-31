@@ -1,4 +1,6 @@
 from datetime import timedelta
+import logging
+import traceback
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -6,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
 from django.http import JsonResponse
-from .models import Company, Staff, Service, WorkingHours, CompanyImage
+from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
 from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, ServiceForm
 from billing.models import Subscription
 from users.models import UserProfile
@@ -17,6 +19,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.conf import settings
+
+
+logger = logging.getLogger(__name__)
 
 
 def register_company(request):
@@ -61,9 +66,37 @@ def register_company(request):
             message = f"Please confirm your registration by clicking the following link:\n{activate_link}\n\nIf you didn't request this, ignore this email."
             from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
             recipient_list = [user.email]
+            
+            # Create email log entry
+            email_log = EmailLog.objects.create(
+                recipient_email=user.email,
+                subject=subject,
+                email_type='registration',
+                status='pending'
+            )
+            
             try:
                 send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-            except Exception:
+                # Mark as successful
+                email_log.status = 'success'
+                email_log.sent_at = timezone.now()
+                email_log.save()
+            except Exception as e:
+                # Log the error details
+                error_msg = str(e)
+                error_trace = traceback.format_exc()
+                
+                email_log.status = 'failed'
+                email_log.error_message = error_msg
+                email_log.error_traceback = error_trace
+                email_log.save()
+                
+                # Also log to Django's logger for production monitoring
+                logger.error(
+                    f"Email sending failed for registration. User: {user.email}, Error: {error_msg}",
+                    exc_info=True
+                )
+                
                 # If email sending fails, remove created objects to avoid orphaned entries
                 user.delete()
                 company.delete()

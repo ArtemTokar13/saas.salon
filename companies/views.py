@@ -31,7 +31,7 @@ def register_company(request):
         if form.is_valid():
             # create user as inactive until email confirmation
             user = User.objects.create_user(
-                username=form.cleaned_data['username'],
+                username=form.cleaned_data['email'],
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1']
             )

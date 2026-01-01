@@ -8,7 +8,6 @@ from billing.models import Plan
 
 class CompanyRegistrationForm(forms.Form):
     # User information
-    username = forms.CharField(max_length=150, required=True)
     email = forms.EmailField(required=True)
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
     password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
@@ -21,12 +20,6 @@ class CompanyRegistrationForm(forms.Form):
     company_phone = forms.CharField(max_length=50, required=False)
     company_email = forms.EmailField(required=False)
     company_logo = forms.ImageField(required=False)
-    
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("Username already exists.")
-        return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

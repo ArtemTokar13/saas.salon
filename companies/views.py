@@ -9,7 +9,8 @@ from django.contrib import messages
 from django.utils import timezone
 from django.http import JsonResponse
 from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
-from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, ServiceForm
+from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, CompanyStaffActivateForm, ServiceForm
+from .utils import make_random_password
 from billing.models import Subscription
 from users.models import UserProfile
 from companies.models import DAYS_OF_WEEK
@@ -297,14 +298,16 @@ def add_staff(request):
                     company=profile.company,
                     name=form.cleaned_data['name'],
                     specialization=form.cleaned_data.get('specialization', ''),
-                    avatar=form.cleaned_data.get('avatar')
+                    avatar=form.cleaned_data.get('avatar'),
+                    is_active=False
                 )
                 staff_member.services.set(form.cleaned_data.get('services', []))
 
+                simple_password = make_random_password()
                 user = User.objects.create_user(
                     username=form.cleaned_data['email'],
                     email=form.cleaned_data['email'],
-                    password=form.cleaned_data['password1']
+                    password=simple_password
                 )
 
                 UserProfile.objects.create(
@@ -315,6 +318,45 @@ def add_staff(request):
                     staff=staff_member
                 )
 
+                # build activation link (uid + token)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                token = default_token_generator.make_token(user)
+                activate_path = reverse('activate_staff_account', args=[uid, token])
+                activate_link = request.build_absolute_uri(activate_path)
+
+                # send activation email
+                subject = 'Activate your staff account'
+                message = f"Please activate your staff account by clicking the following link:\n{activate_link}\n\nIf you didn't expect this, please ignore this email."
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                recipient_list = [user.email]
+
+                # Create email log entry
+                email_log = EmailLog.objects.create(
+                    recipient_email=user.email,
+                    subject=subject,
+                    email_type='staff_registration',
+                    status='pending'
+                )
+
+                try:
+                    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                    email_log.status = 'success'
+                    email_log.sent_at = timezone.now()
+                    email_log.save()
+                except Exception as e:
+                    error_msg = str(e)
+                    error_trace = traceback.format_exc()
+
+                    email_log.status = 'failed'
+                    email_log.error_message = error_msg
+                    email_log.error_traceback = error_trace
+                    email_log.save()
+
+                    logger.error(
+                        f"Email sending failed for staff registration. User: {user.email}, Error: {error_msg}",
+                        exc_info=True
+                    )
+
                 messages.success(request, 'Staff member added successfully!')
                 return redirect('staff_list')
         else:
@@ -324,6 +366,116 @@ def add_staff(request):
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')
+    
+def activate_staff_account(request, uidb64, token):
+    """Activate staff account via email link (not implemented)"""
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except Exception:
+        user = None
+
+    if request.method == 'POST':
+        form = CompanyStaffActivateForm(request.POST)
+        if form.is_valid():
+            password1 = form.cleaned_data.get('password1')
+            password2 = form.cleaned_data.get('password2')
+            if user is not None and default_token_generator.check_token(user, token):
+                if password1 == password2:
+                    user.set_password(password1)
+                    user.is_active = True
+                    user.save()
+
+                    # send confirmation email
+                    subject = 'Your staff account has been activated'
+                    message = f"Hello {user.first_name},\n\nYour staff account has been successfully activated. You can now log in to your account."
+                    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                    recipient_list = [user.email]
+
+                    try:
+                        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                    except Exception as e:
+                        logger.error(f"Failed to send confirmation email: {e}")
+
+                    login(request, user)
+                    messages.success(request, 'Account activated successfully!')
+                    return redirect('calendar')  # Redirect to staff calendar or login
+                else:
+                    messages.error(request, 'Passwords do not match.')
+            else:
+                messages.error(request, 'Activation link is invalid or has expired. Please contact your administrator.')
+    else:
+        form = CompanyStaffActivateForm()
+    return render(request, 'companies/activate_staff_account.html', {'form': form})
+
+
+def forgot_password(request):
+    """Handle forgot password requests for staff (not implemented)"""
+    email = request.GET.get('email')
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            # build reset link (uid + token)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            reset_path = reverse('reset_password', args=[uid, token])
+            reset_link = request.build_absolute_uri(reset_path)
+
+            # send reset email
+            subject = 'Reset your password'
+            message = f"Please reset your password by clicking the following link:\n{reset_link}\n\nIf you didn't request this, ignore this email."
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+            recipient_list = [user.email]
+
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+            messages.success(request, 'Password reset link sent to your email.')
+        except User.DoesNotExist:
+            messages.error(request, 'No user found with that email address.')
+        return redirect('login')
+
+    return render(request, 'companies/forgot_password.html', {"email": email})
+
+
+def reset_password(request, uidb64, token):
+    """Reset password for staff account via email link (not implemented)"""
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except Exception:
+        user = None
+
+    if request.method == 'POST':
+        form = CompanyStaffActivateForm(request.POST)
+        if form.is_valid():
+            password1 = form.cleaned_data.get('password1')
+            password2 = form.cleaned_data.get('password2')
+            if user is not None and default_token_generator.check_token(user, token):
+                if password1 == password2:
+                    user.set_password(password1)
+                    user.save()
+
+                    # send confirmation email
+                    subject = 'Your password has been reset'
+                    message = f"Hello {user.first_name},\n\nYour password has been successfully reset. You can now log in to your account."
+                    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                    recipient_list = [user.email]
+
+                    try:
+                        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                    except Exception as e:
+                        logger.error(f"Failed to send confirmation email: {e}")
+
+                    messages.success(request, 'Password reset successfully!')
+                    return redirect('login')  # Redirect to login
+                else:
+                    messages.error(request, 'Passwords do not match.')
+            else:
+                messages.error(request, 'Reset link is invalid or has expired. Please contact your administrator.')
+    else:
+        form = CompanyStaffActivateForm()
+    return render(request, 'companies/reset_password.html', {'form': form})
 
 
 @login_required

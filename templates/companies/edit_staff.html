@@ -66,6 +66,47 @@
                     {% endif %}
                 </div>
                 <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Break Start Time" %}</label>
+                    {{ form.break_start }}
+                    {% if form.break_start.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.break_start.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Break End Time" %}</label>
+                    {{ form.break_end }}
+                    {% if form.break_end.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.break_end.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="inline-flex items-center cursor-pointer">
+                        {{ form.out_of_office }}
+                        <span class="ml-2 text-sm text-gray-700">{% trans "Out of Office" %}</span>
+                    </label>
+                    {% if form.out_of_office.errors %}
+                        <p class="ml-2 text-sm text-red-600">{{ form.out_of_office.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Out of Office Start Date" %}</label>
+                    {{ form.out_of_office_start }}
+                    {% if form.out_of_office_start.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.out_of_office_start.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Out of Office End Date" %}</label>
+                    {{ form.out_of_office_end }}
+                    {% if form.out_of_office_end.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.out_of_office_end.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Services" %}</label>
                     <div class="space-y-2">
                         {{ form.services }}

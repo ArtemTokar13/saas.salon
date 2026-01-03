@@ -1,6 +1,9 @@
+import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .utils import company_img_upload
+from PIL import Image
 
 
 DAYS_OF_WEEK = [
@@ -54,7 +57,40 @@ class Company(models.Model):
     website = models.URLField(blank=True)
     social_media = models.JSONField(blank=True, default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
-    logo = models.ImageField(upload_to="uploads/company_logos/", blank=True, null=True)
+    logo = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
+
+    MAX_LOGO_SIZE_KB = 200
+    MAX_DIMENSIONS = (400, 400)
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            try:
+                old_logo = Company.objects.get(pk=self.pk).logo
+                if old_logo and old_logo != self.logo:
+                    if os.path.isfile(old_logo.path):
+                        os.remove(old_logo.path)
+            except Company.DoesNotExist:
+                pass
+
+        super().save(*args, **kwargs)
+
+        if self.logo:
+            self._optimize_logo()
+
+    def _optimize_logo(self):
+        img = Image.open(self.logo.path)
+        img.thumbnail(self.MAX_DIMENSIONS, Image.Resampling.LANCZOS)
+        quality = 85
+        img.save(self.logo.path, optimize=True, quality=quality)
+
+        while os.path.getsize(self.logo.path) > self.MAX_LOGO_SIZE_KB * 1024 and quality > 40:
+            quality -= 5
+            img.save(self.logo.path, optimize=True, quality=quality)
+
+    def delete(self, *args, **kwargs):
+        if self.logo and os.path.isfile(self.logo.path):
+            os.remove(self.logo.path)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -64,7 +100,7 @@ class Staff(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     specialization = models.CharField(max_length=255, blank=True)
-    avatar = models.ImageField(upload_to="uploads/staff_avatars/", blank=True, null=True)
+    avatar = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
     break_start = models.TimeField(blank=True, null=True)
     break_end = models.TimeField(blank=True, null=True)
     out_of_office = models.BooleanField(default=False)
@@ -72,6 +108,39 @@ class Staff(models.Model):
     out_of_office_end = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     services = models.ManyToManyField('Service', blank=True, related_name='staff_members')
+
+    MAX_AVATAR_SIZE_KB = 200
+    MAX_DIMENSIONS = (400, 400)
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            try:
+                old_avatar = Staff.objects.get(pk=self.pk).avatar
+                if old_avatar and old_avatar != self.avatar:
+                    if os.path.isfile(old_avatar.path):
+                        os.remove(old_avatar.path)
+            except Staff.DoesNotExist:
+                pass
+
+        super().save(*args, **kwargs)
+
+        if self.avatar:
+            self._optimize_avatar()
+
+    def _optimize_avatar(self):
+        img = Image.open(self.avatar.path)
+        img.thumbnail(self.MAX_DIMENSIONS, Image.Resampling.LANCZOS)
+        quality = 85
+        img.save(self.avatar.path, optimize=True, quality=quality)
+
+        while os.path.getsize(self.avatar.path) > self.MAX_AVATAR_SIZE_KB * 1024 and quality > 40:
+            quality -= 5
+            img.save(self.avatar.path, optimize=True, quality=quality)
+
+    def delete(self, *args, **kwargs):
+        if self.avatar and os.path.isfile(self.avatar.path):
+            os.remove(self.avatar.path)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} ({self.company.name})"
@@ -101,13 +170,32 @@ class WorkingHours(models.Model):
 
 class CompanyImage(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="uploads/company_images/")
+    image = models.ImageField(upload_to=company_img_upload)
     caption = models.CharField(max_length=255, blank=True)
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['order', '-created_at']
+
+    MAX_IMAGE_SIZE_KB = 300
+    MAX_DIMENSIONS = (1000, 1000)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.image:
+            self._optimize_image()
+
+    def _optimize_image(self):
+        img = Image.open(self.image.path)
+        img.thumbnail(self.MAX_DIMENSIONS, Image.Resampling.LANCZOS)
+        quality = 85
+        img.save(self.image.path, optimize=True, quality=quality)
+
+        while os.path.getsize(self.image.path) > self.MAX_IMAGE_SIZE_KB * 1024 and quality > 40:
+            quality -= 5
+            img.save(self.image.path, optimize=True, quality=quality)
 
     def __str__(self):
         return f"{self.company.name} - Image {self.id}"

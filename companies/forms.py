@@ -63,51 +63,36 @@ class CompanyStaffForm(forms.Form):
         initial='ES'
     )
     phone = forms.CharField(max_length=50, required=False)
-    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
     specialization = forms.CharField(max_length=255, required=False)
     avatar = forms.ImageField(required=False)
-    break_start = forms.TimeField(required=False)
-    break_end = forms.TimeField(required=False)
+    break_start = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'}))
+    break_end = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'}))
     out_of_office = forms.BooleanField(required=False)
-    out_of_office_start = forms.DateField(required=False)
-    out_of_office_end = forms.DateField(required=False)
+    out_of_office_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    out_of_office_end = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     is_active = forms.BooleanField(initial=True, required=False)
     services = forms.ModelMultipleChoiceField(
         queryset=None,
         required=False,
         widget=forms.CheckboxSelectMultiple
     )
-    
+
     def __init__(self, *args, **kwargs):
         company = kwargs.pop('company', None)
-        # allow callers to indicate whether passwords are required (add vs edit)
-        require_password = kwargs.pop('require_password', True)
+        self.company = company
         super().__init__(*args, **kwargs)
         if company:
             self.fields['services'].queryset = company.service_set.all()
 
-        # make password fields optional when editing staff
-        if 'password1' in self.fields:
-            self.fields['password1'].required = require_password
-        if 'password2' in self.fields:
-            self.fields['password2'].required = require_password
-
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Email already registered.")
+        if self.company and User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Staff with this email already registered.")
         return email
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password1 = cleaned_data.get('password1')
-        password2 = cleaned_data.get('password2')
-        
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match.")
-        
-        return cleaned_data
+    
+class CompanyStaffActivateForm(forms.Form):
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
 
 
 class ServiceForm(forms.Form):

@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('register/', views.register_company, name='register_company'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('reset-password/<uidb64>/<token>/', views.reset_password, name='reset_password'),
     path('activate/<uidb64>/<token>/', views.activate_company, name='activate_company'),
     path('dashboard/', views.company_dashboard, name='company_dashboard'),
     path('edit/', views.edit_company_profile, name='edit_company_profile'),
@@ -10,6 +12,7 @@ urlpatterns = [
     path('<int:company_id>/', views.company_public_page, name='company_public_page'),
     path('staff/', views.staff_list, name='staff_list'),
     path('staff/add/', views.add_staff, name='add_staff'),
+    path('staff/activate/<uidb64>/<token>/', views.activate_staff_account, name='activate_staff_account'),
     path('staff/edit/<int:staff_id>/', views.edit_staff, name='edit_staff'),
     path('staff/delete/<int:staff_id>/', views.delete_staff, name='delete_staff'),
     path('services/', views.service_list, name='service_list'),

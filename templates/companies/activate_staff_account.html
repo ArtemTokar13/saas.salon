@@ -1,0 +1,72 @@
+{% extends 'Layout.html' %}
+{% load i18n static %}
+
+{% block title %}Activate Staff Account{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">{% trans "Activate Staff Account" %}</h2>
+            <p class="text-gray-600 mb-6">{% trans "Please set your password to activate your account." %}</p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-4 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Password" %} *</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.password1.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Confirm Password" %} *</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.password2.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-medium">
+                    {% trans "Activate" %}
+                </button>
+            </form>
+
+            <p class="text-center mt-6 text-sm text-gray-600">
+                <a href="/" class="text-blue-600 hover:text-blue-800">{% trans "Return to homepage" %}</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type="password"] {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+    }
+    input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+</style>
+{% endblock %}

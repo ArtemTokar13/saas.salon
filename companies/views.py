@@ -8,18 +8,19 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
 from django.http import JsonResponse
-from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
-from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, CompanyStaffActivateForm, ServiceForm
-from .utils import make_random_password
-from billing.models import Subscription
-from users.models import UserProfile
-from companies.models import DAYS_OF_WEEK
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.conf import settings
+from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
+from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, CompanyStaffActivateForm, ServiceForm
+from .utils import make_random_password
+from billing.models import Subscription
+from users.models import UserProfile
+from companies.models import DAYS_OF_WEEK
+from bookings.models import Customer
 
 
 logger = logging.getLogger(__name__)
@@ -368,7 +369,7 @@ def add_staff(request):
         return redirect('/')
     
 def activate_staff_account(request, uidb64, token):
-    """Activate staff account via email link (not implemented)"""
+    """Activate staff account via email link"""
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -410,7 +411,7 @@ def activate_staff_account(request, uidb64, token):
 
 
 def forgot_password(request):
-    """Handle forgot password requests for staff (not implemented)"""
+    """Handle forgot password requests for staff"""
     email = request.GET.get('email')
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -488,7 +489,7 @@ def edit_staff(request, staff_id):
             return redirect('/')
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         if request.method == 'POST':
-            form = CompanyStaffForm(request.POST, request.FILES, company=profile.company, require_password=False)
+            form = CompanyStaffForm(request.POST, request.FILES, company=profile.company)
             if form.is_valid():
                 staff_member.name = form.cleaned_data['name']
                 staff_member.specialization = form.cleaned_data.get('specialization', '')
@@ -529,7 +530,7 @@ def edit_staff(request, staff_id):
                 initial_data['country_code'] = user_profile.country_code
                 initial_data['phone'] = user_profile.phone_number
 
-            form = CompanyStaffForm(initial=initial_data, company=profile.company, require_password=False)
+            form = CompanyStaffForm(initial=initial_data, company=profile.company)
         return render(request, 'companies/edit_staff.html', {'form': form, 'staff_member': staff_member})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
@@ -589,6 +590,7 @@ def add_service(request):
                     name=form.cleaned_data['name'],
                     duration=form.cleaned_data['duration'],
                     price=form.cleaned_data['price'],
+                    need_staff_confirmation=form.cleaned_data['need_staff_confirmation'],
                     is_active=form.cleaned_data['is_active']
                 )
                 messages.success(request, 'Service added successfully!')
@@ -617,6 +619,7 @@ def edit_service(request, service_id):
                 service.name = form.cleaned_data['name']
                 service.duration = form.cleaned_data['duration']
                 service.price = form.cleaned_data['price']
+                service.need_staff_confirmation = form.cleaned_data['need_staff_confirmation']
                 service.is_active = form.cleaned_data['is_active']
                 service.save()
                 messages.success(request, 'Service updated successfully!')
@@ -626,6 +629,7 @@ def edit_service(request, service_id):
                 'name': service.name,
                 'duration': service.duration,
                 'price': service.price,
+                'need_staff_confirmation': service.need_staff_confirmation,
                 'is_active': service.is_active,
             }
             form = ServiceForm(initial=initial_data, company=profile.company)
@@ -720,6 +724,27 @@ def working_hours(request):
             'days_data': days_data,
             'company': company
         })
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'User profile not found.')
+        return redirect('/')
+    
+
+@login_required
+def customers_list(request):
+    """List of customers for staff/admin"""
+    try:
+        profile = request.user.userprofile
+        if profile.is_admin:
+            customers = Customer.objects.filter(booking__company=profile.company).distinct().order_by('name')
+        else:
+            customers = Customer.objects.filter(booking__company=profile.company, booking__staff=profile.staff).distinct().order_by('name')
+        
+        context = {
+            'customers': customers,
+            'company': profile.company
+        }
+        return render(request, 'companies/customers_list.html', context)
+    
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')

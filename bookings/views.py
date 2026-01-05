@@ -25,6 +25,24 @@ def create_booking(request, company_id):
         if form.is_valid():
             booking = form.save(commit=False)
             booking.delete_code = md5(f"{booking.customer.email}{timezone.now().timestamp()}".encode()).hexdigest()
+            
+            # Check if service requires staff confirmation
+            if booking.service.need_staff_confirmation:
+                # Create as PreBooked - staff will confirm with price and duration
+                booking.status = 3  # PreBooked
+                booking.end_time = None  # Will be set by staff
+                booking.duration = None
+                booking.price = None
+            else:
+                # Calculate end_time based on service duration
+                from datetime import datetime, timedelta
+                start = datetime.combine(booking.date, booking.start_time)
+                end = start + timedelta(minutes=booking.service.duration)
+                booking.end_time = end.time()
+                booking.duration = booking.service.duration
+                booking.price = booking.service.price
+                booking.status = 1  # Confirmed normal confirmation
+            
             booking.save()
             messages.success(request, 'Booking created successfully! We will contact you soon.')
             return redirect('booking_confirmation', booking_id=booking.id)
@@ -548,3 +566,76 @@ def delete_booking_ajax(request, booking_id):
 
     except UserProfile.DoesNotExist:
         return JsonResponse({'error': 'User profile not found'}, status=403)
+
+
+@login_required
+def confirm_prebooked_booking(request, booking_id):
+    """Staff/Admin view to confirm a prebooked booking with duration and price"""
+    booking = get_object_or_404(Booking, id=booking_id, status=3)  # PreBooked status
+    
+    try:
+        profile = request.user.userprofile
+        # Check permission - only admin or staff assigned to this booking
+        if not profile.is_admin and profile.staff != booking.staff:
+            messages.error(request, 'You do not have permission to confirm this booking.')
+            return redirect('/')
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'User profile not found.')
+        return redirect('/')
+    
+    if request.method == 'POST':
+        duration = request.POST.get('duration')
+        price = request.POST.get('price')
+        
+        if not duration or not price:
+            messages.error(request, 'Duration and price are required.')
+            return redirect('confirm_prebooked_booking', booking_id=booking_id)
+        
+        try:
+            duration = int(duration)
+            price = float(price)
+            
+            # Calculate end time based on duration
+            from datetime import datetime, timedelta
+            start = datetime.combine(booking.date, booking.start_time)
+            end = start + timedelta(minutes=duration)
+            
+            booking.duration = duration
+            booking.price = price
+            booking.end_time = end.time()
+            booking.status = 1  # Confirmed
+            booking.confirmed_at = timezone.now()
+            booking.confirmed_by = request.user
+            booking.save()
+            
+            messages.success(request, 'Booking confirmed successfully!')
+            return redirect('bookings_list')
+        except (ValueError, TypeError):
+            messages.error(request, 'Invalid duration or price format.')
+            return redirect('confirm_prebooked_booking', booking_id=booking_id)
+    
+    context = {
+        'booking': booking,
+    }
+    return render(request, 'bookings/confirm_prebooked.html', context)
+
+
+@login_required
+def bookings_list(request):
+    """List of bookings for staff/admin"""
+    try:
+        profile = request.user.userprofile
+        if profile.is_admin:
+            bookings = Booking.objects.filter(company=profile.company).select_related('customer', 'staff', 'service').order_by('-date', '-start_time')
+        else:
+            bookings = Booking.objects.filter(company=profile.company, staff=profile.staff).select_related('customer', 'staff', 'service').order_by('-date', '-start_time')
+        
+        context = {
+            'bookings': bookings,
+            'company': profile.company,
+        }
+        return render(request, 'bookings/bookings_list.html', context)
+    
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'User profile not found.')
+        return redirect('/')

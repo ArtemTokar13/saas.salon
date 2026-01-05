@@ -100,6 +100,7 @@ class ServiceForm(forms.Form):
     duration = forms.IntegerField(min_value=1, required=True, help_text="Duration in minutes")
     price = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=True)
     is_active = forms.BooleanField(initial=True, required=False)
+    need_staff_confirmation = forms.BooleanField(initial=False, required=False)
 
     def __init__(self, *args, **kwargs):
         company = kwargs.pop('company', None)

@@ -19,6 +19,7 @@ class Booking(models.Model):
         (0, "Pending"),
         (1, "Confirmed"),
         (2, "Cancelled"),
+        (3, "PreBooked"),  # Awaiting staff confirmation with price/duration
     ]
 
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -27,10 +28,14 @@ class Booking(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     date = models.DateField()
     start_time = models.TimeField()
-    end_time = models.TimeField()
+    end_time = models.TimeField(blank=True, null=True)  # Can be NULL until staff confirms
+    duration = models.PositiveIntegerField(blank=True, null=True, help_text="Duration in minutes (set by staff if need_staff_confirmation)")
+    price = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True, help_text="Price (set by staff if need_staff_confirmation)")
     status = models.CharField(max_length=20, choices=STATUS, default=0)
     delete_code = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    confirmed_at = models.DateTimeField(blank=True, null=True)  # When staff confirms the booking
+    confirmed_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='confirmed_bookings')
 
     def __str__(self):
         return f"{self.customer.name} → {self.service.name} ({self.date})"

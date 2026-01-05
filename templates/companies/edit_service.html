@@ -45,6 +45,17 @@
                         <p class="mt-1 text-sm text-red-600">{{ form.price.errors.0 }}</p>
                     {% endif %}
                 </div>
+                
+                <div class="flex items-center">
+                    <label class="inline-flex items-center cursor-pointer">
+                        {{ form.need_staff_confirmation }}
+                        <span class="ml-2 text-sm text-gray-700">{% trans "Require Staff Confirmation" %}</span>
+                    </label>
+                    {% if form.need_staff_confirmation.errors %}
+                    <p class="ml-2 text-sm text-red-600">{{ form.need_staff_confirmation.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
                 <div class="flex items-center">
                     <label class="inline-flex items-center cursor-pointer">
                         {{ form.is_active }}

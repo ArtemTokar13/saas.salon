@@ -3,7 +3,9 @@ from . import views
 
 urlpatterns = [
     path('book/<int:company_id>/', views.create_booking, name='create_booking'),
+    path('booking-list/', views.bookings_list, name='bookings_list'),
     path('confirmation/<int:booking_id>/', views.booking_confirmation, name='booking_confirmation'),
+    path('confirm-prebooked/<int:booking_id>/', views.confirm_prebooked_booking, name='confirm_prebooked_booking'),
     path('cancel/<int:booking_id>/<str:delete_code>/', views.cancel_booking, name='cancel_booking'),
     path('calendar/', views.booking_calendar, name='booking_calendar'),
     path('edit/<int:booking_id>/', views.edit_booking, name='edit_booking'),

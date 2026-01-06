@@ -373,6 +373,7 @@ def activate_staff_account(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
+        staff = Staff.objects.filter(userprofile__user=user).first()
     except Exception:
         user = None
 
@@ -387,6 +388,9 @@ def activate_staff_account(request, uidb64, token):
                     user.is_active = True
                     user.save()
 
+                    staff.is_active = True
+                    staff.save()
+
                     # send confirmation email
                     subject = 'Your staff account has been activated'
                     message = f"Hello {user.first_name},\n\nYour staff account has been successfully activated. You can now log in to your account."
@@ -400,7 +404,7 @@ def activate_staff_account(request, uidb64, token):
 
                     login(request, user)
                     messages.success(request, 'Account activated successfully!')
-                    return redirect('calendar')  # Redirect to staff calendar or login
+                    return redirect('login')  # Redirect to staff calendar or login
                 else:
                     messages.error(request, 'Passwords do not match.')
             else:
@@ -488,6 +492,8 @@ def edit_staff(request, staff_id):
             messages.error(request, 'Access denied.')
             return redirect('/')
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
+        user_profile = UserProfile.objects.filter(staff=staff_member).first()
+        staff_email = user_profile.user.email if user_profile else None
         if request.method == 'POST':
             form = CompanyStaffForm(request.POST, request.FILES, company=profile.company)
             if form.is_valid():
@@ -531,7 +537,7 @@ def edit_staff(request, staff_id):
                 initial_data['phone'] = user_profile.phone_number
 
             form = CompanyStaffForm(initial=initial_data, company=profile.company)
-        return render(request, 'companies/edit_staff.html', {'form': form, 'staff_member': staff_member})
+        return render(request, 'companies/edit_staff.html', {'form': form, 'staff_member': staff_member, 'staff_email': staff_email})
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')

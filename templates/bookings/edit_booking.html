@@ -98,6 +98,15 @@
                         {% endif %}
                     </div>
                     
+                    {% if form.duration %}
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
+                            {{ form.duration }}
+                            {% if form.duration.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.duration.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <!-- Staff Selection -->
@@ -175,13 +184,13 @@
                     </div>
                 </div>
                 
-                <!-- Buttons -->
-                <div class="flex justify-between pt-6">
-                    <a href="{% url 'booking_calendar' %}" class="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition">
-                        Cancel
+                <!-- Submit -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="javascript:history.back()" class="flex-1 bg-gray-200 text-gray-700 py-2 text-center rounded-lg font-semibold hover:bg-gray-300 transition">
+                        ← {% trans "Back" %}
                     </a>
-                    <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Save Changes
+                    <button type="submit" class="flex-1 bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition">
+                        {% trans "Confirm Booking" %}
                     </button>
                 </div>
             </form>
@@ -219,6 +228,7 @@ const companyId = {{ company.id }};
 const currentBookingStaffId = {{ booking.staff.id }};
 const currentBookingDate = "{{ booking.date|date:'Y-m-d' }}";
 const currentBookingTime = "{{ booking.start_time|time:'H:i' }}";
+const currentBookingId = {{ booking.id }};
 
 const serviceSelect = document.getElementById('serviceSelect');
 const staffSelectContainer = document.getElementById('staffSelectContainer');
@@ -509,7 +519,7 @@ async function loadAvailableTimes() {
     }
 
     try {
-        const url = `/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/`;
+        const url = `/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/?booking_id=${currentBookingId}`;
         
         const response = await fetch(url);
         const data = await response.json();
@@ -525,7 +535,10 @@ async function loadAvailableTimes() {
                 button.dataset.time = time;
                 
                 // Auto-select current booking time if available
-                if (time === currentBookingTime && selectedDate === currentBookingDate) {
+                // Normalize both strings by trimming whitespace for comparison
+                const normalizedTime = time.trim();
+                const normalizedBookingTime = currentBookingTime.trim();
+                if (normalizedTime === normalizedBookingTime && selectedDate === currentBookingDate) {
                     button.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
                     button.classList.remove('border-gray-300');
                     selectedTimeInput.value = time;
@@ -586,6 +599,7 @@ function resetDatesAndTimes() {
     input[type="text"],
     input[type="email"],
     input[type="tel"],
+    input[type="number"],
     select {
         width: 100%;
         padding: 0.5rem 0.75rem;

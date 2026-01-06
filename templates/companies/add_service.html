@@ -66,12 +66,11 @@
                         <p class="ml-2 text-sm text-red-600">{{ form.active.errors.0 }}</p>
                     {% endif %}
                 </div>
-
-                <div class="flex justify-end space-x-4 pt-6">
-                    <a href="{% url 'service_list' %}" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
-                        {% trans "Cancel" %}
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="javascript:history.back()" class="flex-1 bg-gray-200 text-gray-700 py-2 text-center rounded-lg font-semibold hover:bg-gray-300 transition">
+                        ← {% trans "Back" %}
                     </a>
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    <button type="submit" class="flex-1 bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition">
                         {% trans "Add Service" %}
                     </button>
                 </div>

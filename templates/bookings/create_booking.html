@@ -99,7 +99,17 @@
                         {% endif %}
                     </div>
                     
+                    {% if form.duration %}
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
+                            {{ form.duration }}
+                            {% if form.duration.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.duration.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
+
 
                 <!-- Staff Selection -->
                 <div class="border-b pb-6">
@@ -179,12 +189,12 @@
                 </div>
 
                 <!-- Submit -->
-                <div class="flex justify-between pt-6">
-                    <a href="{% url 'company_public_page' company.id %}" class="text-sm text-gray-600 hover:text-gray-900">
-                        ← {% trans "Back to" %} {{ company.name }}
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="javascript:history.back()" class="flex-1 bg-gray-200 text-gray-700 py-2 text-center rounded-lg font-semibold hover:bg-gray-300 transition">
+                        ← {% trans "Back" %}
                     </a>
-                    <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        {% trans "Confirm" %}
+                    <button type="submit" class="flex-1 bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition">
+                        {% trans "Confirm Booking" %}
                     </button>
                 </div>
             </form>
@@ -591,7 +601,7 @@ function resetDatesAndTimes() {
 </script>
 
 <style>
-    input[type="text"], input[type="email"], input[type="tel"], select {
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select {
         width: 100%;
         padding: 0.5rem 0.75rem;
         border: 1px solid #d1d5db;

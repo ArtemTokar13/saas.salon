@@ -15,8 +15,9 @@
                 <div>
                     <h1 class="text-gray-600 font-bold mt-1 text-2xl">{{ company.name }}</h1>
                 </div>
-                <a href="{% url 'create_booking' company.id %}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
-                    Add New Booking
+                <a href="/bookings/book/{{ company.id }}/" class="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-800 transition">
+                    <i class="fas fa-plus text-sm"></i>
+                    <span>Add new booking</span>
                 </a>
             </div>
         </div>

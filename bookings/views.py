@@ -1,5 +1,8 @@
 import json
+import logging
 from hashlib import md5
+from datetime import datetime, timedelta, time as dtime
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,11 +11,14 @@ from django.utils import timezone
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime, timedelta, time as dtime
+from django.core.mail import send_mail
 from .models import Booking, Customer
 from .forms import BookingForm
-from companies.models import Company, Staff, Service, WorkingHours
+from companies.models import Company, Staff, Service, WorkingHours, EmailLog
 from users.models import UserProfile
+
+
+logger = logging.getLogger(__name__)
 
 
 ################### BOOKING VIEWS #####################
@@ -21,13 +27,13 @@ def create_booking(request, company_id):
     company = get_object_or_404(Company, id=company_id)
     
     if request.method == 'POST':
-        form = BookingForm(request.POST, company=company)
+        form = BookingForm(request.POST, company=company, user=request.user)
         if form.is_valid():
             booking = form.save(commit=False)
             booking.delete_code = md5(f"{booking.customer.email}{timezone.now().timestamp()}".encode()).hexdigest()
             
             # Check if service requires staff confirmation
-            if booking.service.need_staff_confirmation:
+            if booking.service.need_staff_confirmation and (request.user.is_authenticated == False or (request.user.is_authenticated and request.user.userprofile.company != company)):
                 # Create as PreBooked - staff will confirm with price and duration
                 booking.status = 3  # PreBooked
                 booking.end_time = None  # Will be set by staff
@@ -39,15 +45,40 @@ def create_booking(request, company_id):
                 start = datetime.combine(booking.date, booking.start_time)
                 end = start + timedelta(minutes=booking.service.duration)
                 booking.end_time = end.time()
-                booking.duration = booking.service.duration
+                if booking.duration is None:
+                    booking.duration = booking.service.duration
                 booking.price = booking.service.price
                 booking.status = 1  # Confirmed normal confirmation
             
             booking.save()
+            if not request.user.is_authenticated:
+                booking_confirmation_link = request.build_absolute_uri(
+                    redirect('booking_confirmation', booking_id=booking.id).url
+                )
+                subject = 'Your Booking Confirmation'
+                message = f'Thank you for your booking at {company.name}.\n\nYou can view your booking details here: {booking_confirmation_link}\n\nIf you need to cancel your booking, please use the following link:\n{request.build_absolute_uri(redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url)}'
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                recipient_list = [booking.customer.email]
+                email_log = EmailLog.objects.create(
+                    recipient_email=booking.customer.email,
+                    subject=subject,
+                    email_type='booking_confirmation',
+                    status='pending'
+                )
+                try:
+                    send_mail(subject, message, from_email, recipient_list)
+                    email_log.status = 'sent'
+                    email_log.sent_at = timezone.now()
+                    email_log.save()
+                except Exception as e:
+                    email_log.status = 'failed'
+                    email_log.error_message = str(e)
+                    email_log.save()
+                    logger.error(f"Failed to send booking confirmation email: {e}")
             messages.success(request, 'Booking created successfully! We will contact you soon.')
             return redirect('booking_confirmation', booking_id=booking.id)
     else:
-        form = BookingForm(company=company)
+        form = BookingForm(company=company, user=request.user)
     
     services = Service.objects.filter(company=company, is_active=True)
     
@@ -108,6 +139,30 @@ def cancel_booking(request, booking_id, delete_code):
     if request.method == 'POST':
         booking.status = 2
         booking.save()
+
+        # Send cancellation email to customer
+        if booking.customer.email:
+            subject = 'Your Booking Cancellation'
+            message = f'Your booking at {booking.company.name} on {booking.date} for {booking.service.name} has been cancelled.'
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+            recipient_list = [booking.customer.email]
+            email_log = EmailLog.objects.create(
+                recipient_email=booking.customer.email,
+                subject=subject,
+                email_type='booking_cancellation',
+                status='pending'
+            )
+            try:
+                send_mail(subject, message, from_email, recipient_list)
+                email_log.status = 'sent'
+                email_log.sent_at = timezone.now()
+                email_log.save()
+            except Exception as e:
+                email_log.status = 'failed'
+                email_log.error_message = str(e)
+                email_log.save()
+                logger.error(f"Failed to send booking cancellation email: {e}")
+
         messages.success(request, 'Your booking has been cancelled.')
     return HttpResponseRedirect(f'/companies/{booking.company.id}/')
 
@@ -183,11 +238,21 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
             return JsonResponse({'available_times': []})
         
         # Get existing bookings for this staff member on this date
-        existing_bookings = Booking.objects.filter(
+        # Exclude the current booking if editing (booking_id parameter)
+        booking_id = request.GET.get('booking_id')
+        bookings_query = Booking.objects.filter(
             staff=staff,
             date=date,
             status__in=[0, 1]  # Pending or Confirmed
-        ).values_list('start_time', 'end_time')
+        )
+        
+        if booking_id:
+            try:
+                bookings_query = bookings_query.exclude(id=int(booking_id))
+            except (ValueError, TypeError):
+                pass
+        
+        existing_bookings = bookings_query.values_list('start_time', 'end_time')
         
         # Generate time slots (every 30 minutes)
         available_times = []
@@ -458,13 +523,35 @@ def edit_booking(request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
         
         if request.method == 'POST':
-            form = BookingForm(request.POST, instance=booking, company=profile.company)
+            form = BookingForm(request.POST, instance=booking, company=profile.company, user=request.user)
             if form.is_valid():
                 form.save()
+
+                # Send notification email to customer about booking update
+                subject = 'Your Booking Has Been Updated'
+                message = f'Your booking at {booking.company.name} on {booking.date} for {booking.service.name} has been updated. Please check your booking details.'
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                recipient_list = [booking.customer.email]
+                email_log = EmailLog.objects.create(
+                    recipient_email=booking.customer.email,
+                    subject=subject,
+                    email_type='booking_update',
+                    status='pending'
+                )
+                try:
+                    send_mail(subject, message, from_email, recipient_list)
+                    email_log.status = 'sent'
+                    email_log.sent_at = timezone.now()
+                    email_log.save()
+                except Exception as e:
+                    email_log.status = 'failed'
+                    email_log.error_message = str(e)
+                    email_log.save()
+                    logger.error(f"Failed to send booking update email: {e}")
                 messages.success(request, 'Booking updated successfully.')
                 return redirect('booking_calendar')
         else:
-            form = BookingForm(instance=booking, company=profile.company)
+            form = BookingForm(instance=booking, company=profile.company, user=request.user)
         
         context = {
             'form': form,

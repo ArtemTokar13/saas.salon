@@ -10,7 +10,7 @@
             <h2 class="text-3xl font-bold text-gray-900">{% trans "Sign in to your account" %}</h2>
             <p class="mt-2 text-sm text-gray-600">
                 {% trans "Or" %}
-                <a href="{% url 'register_company' %}" class="font-medium text-blue-600 hover:text-blue-500">
+                <a href="{% url 'register_company' %}" class="font-medium text-gray-800 hover:text-gray-600">
                     {% trans "create a new company account" %}
                 </a>
             </p>
@@ -62,7 +62,7 @@
                 </div>
 
                 <button type="submit" 
-                        class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        class="w-full bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition">
                     {% trans "Sign in" %}
                 </button>
             </form>

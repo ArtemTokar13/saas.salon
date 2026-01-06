@@ -23,7 +23,7 @@ class BookingForm(forms.ModelForm):
             'start_time': forms.TimeInput(attrs={'type': 'time'}),
         }
 
-    def __init__(self, *args, company=None, **kwargs):
+    def __init__(self, *args, company=None, user=None, **kwargs):
         super().__init__(*args, **kwargs)
         if company:
             self.fields['service'].queryset = Service.objects.filter(company=company, is_active=True)
@@ -31,6 +31,10 @@ class BookingForm(forms.ModelForm):
             self.fields['staff'].required = False  # Make staff optional
             self.company = company
         
+        if user and user.is_authenticated and user.userprofile.company == company:
+            self.fields['duration'] = forms.IntegerField(required=False, help_text="Duration in minutes")
+            self.user = user
+
         # When editing existing booking, customer fields are not required (read-only in template)
         if self.instance and self.instance.pk:
             self.fields['customer_name'].required = False
@@ -80,14 +84,34 @@ class BookingForm(forms.ModelForm):
             booking.customer = customer
             booking.company = self.company
         
-        # Calculate end time based on service duration
+        # Calculate end time based on service duration or overridden duration (if provided)
         service = self.cleaned_data['service']
         start_datetime = datetime.combine(
             self.cleaned_data['date'],
             self.cleaned_data['start_time']
         )
-        end_datetime = start_datetime + timedelta(minutes=service.duration)
+
+        # If a duration field was provided in the form and filled, use it
+        duration = None
+        if 'duration' in self.fields:
+            try:
+                duration = self.cleaned_data.get('duration')
+                if duration in (None, ''):
+                    duration = None
+                else:
+                    duration = int(duration)
+            except Exception:
+                duration = None
+
+        if not duration:
+            duration = service.duration
+
+        end_datetime = start_datetime + timedelta(minutes=duration)
         booking.end_time = end_datetime.time()
+        booking.duration = duration
+
+        if self.user and self.user.is_authenticated and self.user.userprofile.company == self.company:
+            booking.status = 1  # Auto-confirm for staff users
         
         # Auto-assign staff if not selected
         if not self.cleaned_data.get('staff'):

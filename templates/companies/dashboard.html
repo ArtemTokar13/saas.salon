@@ -26,7 +26,7 @@
                     </a>
 
                     <a href="{% url 'bookings_list' %}"
-                    class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition text-center">
+                    class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition text-center">
                         <i class="fas fa-book mr-2"></i>
                         {% trans "Bookings" %}
                     </a>
@@ -49,7 +49,7 @@
                         <p class="text-sm font-medium text-gray-600">{% trans "Staff Members" %}</p>
                         <p class="text-3xl font-bold text-gray-900">{{ staff_count }}</p>
                     </div>
-                    <a href="/companies/staff/" class="text-purple-600 hover:text-purple-800">
+                    <a href="/companies/staff/" class="text-gray-800 hover:text-gray-600">
                         <i class="fas fa-cog text-xl"></i>
                     </a>
                 </div>
@@ -64,7 +64,7 @@
                         <p class="text-sm font-medium text-gray-600">{% trans "Services" %}</p>
                         <p class="text-3xl font-bold text-gray-900">{{ service_count }}</p>
                     </div>
-                    <a href="/companies/services/" class="text-purple-600 hover:text-purple-800">
+                    <a href="/companies/services/" class="text-gray-800 hover:text-gray-600">
                         <i class="fas fa-cog text-xl"></i>
                     </a>
                 </div>
@@ -84,11 +84,12 @@
                             <p class="text-lg font-bold text-red-600">{% trans "No Active Plan" %}</p>
                         {% endif %}
                     </div>
-                    <a href="{% url 'subscription_details' %}" class="text-purple-600 hover:text-purple-800">
+                    <a href="{% url 'subscription_details' %}" class="text-gray-800 hover:text-gray-600">
                         <i class="fas fa-cog text-xl"></i>
                     </a>
                 </div>
             </div>
+        </div>
 
         <!-- Quick Actions -->
         <div class="bg-white rounded-lg shadow mb-8">

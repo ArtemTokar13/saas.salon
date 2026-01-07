@@ -152,7 +152,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     // Initialize Toast UI Calendar
     const calendar = new tui.Calendar(calendarEl, {
         defaultView: 'day',
-        isReadOnly: false,
+        isReadOnly: true,
         useFormPopup: false,
         useDetailPopup: false, // Disable default popup to use custom modal
         calendars: calendars,
@@ -260,12 +260,14 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     const tabs = document.querySelectorAll('.staff-tab');
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            // Remove selected border from all tabs
             tabs.forEach(t => {
-                t.classList.remove('bg-blue-600','text-white');
-                t.classList.add('bg-gray-100', 'text-gray-700');
+                t.classList.remove('border-gray-600');
+                t.classList.add('border-transparent');
             });
-            tab.classList.remove('bg-gray-100', 'text-gray-700');
-            tab.classList.add('bg-blue-600','text-white');
+            // Add selected border to clicked tab
+            tab.classList.remove('border-transparent');
+            tab.classList.add('border-gray-600');
             
             const staffId = tab.dataset.staffId || 'all';
             filterEvents(staffId);
@@ -281,7 +283,6 @@ function showBookingModal(event) {
     const raw = event.raw || {};
     const startDate = event.start.toDate ? event.start.toDate() : new Date(event.start);
     const endDate = event.end.toDate ? event.end.toDate() : new Date(event.end);
-    const isPending = raw.status == 0;
     
     // Create modal if it doesn't exist
     let modal = document.getElementById('booking-detail-modal');
@@ -306,23 +307,17 @@ function showBookingModal(event) {
         <p class="mb-2"><strong>Service:</strong> ${raw.service || 'N/A'}</p>
         <p class="mb-2"><strong>Time:</strong> ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${endDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
         
-        <div class="mt-6 flex gap-2 flex-wrap">
+        <div class="flex flex-col gap-2 mt-4">
             <button onclick="editBooking(${raw.booking_id})" 
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    class="w-full bg-gray-800 text-gray-200 py-2 text-center rounded-lg font-semibold hover:bg-gray-600 transition">
                 Edit
             </button>
             <button onclick="deleteBooking(${raw.booking_id})" 
-                    class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                    class="w-full bg-red-200 text-red-700 py-2 text-center rounded-lg font-semibold hover:bg-red-300 transition">
                 Delete
             </button>
-            ${isPending ? `
-                <button onclick="confirmBooking(${raw.booking_id})" 
-                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                    Confirm
-                </button>
-            ` : ''}
             <button onclick="closeBookingDetailModal()" 
-                    class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                    class="w-full bg-gray-300 text-gray-800 py-2 text-center rounded-lg font-semibold hover:bg-gray-400 transition">
                 Close
             </button>
         </div>

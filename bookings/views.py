@@ -40,15 +40,12 @@ def create_booking(request, company_id):
                 booking.duration = None
                 booking.price = None
             else:
-                # Calculate end_time based on service duration
-                from datetime import datetime, timedelta
-                start = datetime.combine(booking.date, booking.start_time)
-                end = start + timedelta(minutes=booking.service.duration)
-                booking.end_time = end.time()
-                if booking.duration is None:
-                    booking.duration = booking.service.duration
-                booking.price = booking.service.price
-                booking.status = 1  # Confirmed normal confirmation
+                # Duration and end_time are already set by form.save()
+                # Only set price and status here
+                if booking.price is None:
+                    booking.price = booking.service.price
+                if booking.status is None or booking.status == 0:
+                    booking.status = 1  # Confirmed normal confirmation
             
             booking.save()
             if not request.user.is_authenticated:
@@ -488,9 +485,49 @@ def booking_calendar(request):
                 }
             })
 
+        # Calculate occupancy for each staff member
+        staff_occupancy = {}
+        for staff in staff_list:
+            # Get working hours for this staff member (use break times if available)
+            staff_working_hours = working_hours
+            if not staff_working_hours:
+                # Default 8 hours if no working hours defined
+                available_minutes = 12 * 60  # 12 hours default
+            else:
+                # Calculate available time considering breaks
+                start_time = datetime.combine(current_date, staff_working_hours.start_time)
+                end_time = datetime.combine(current_date, staff_working_hours.end_time)
+                total_minutes = int((end_time - start_time).total_seconds() / 60)
+                
+                # Subtract break time if defined
+                break_minutes = 0
+                if staff.break_start and staff.break_end:
+                    break_start = datetime.combine(current_date, staff.break_start)
+                    break_end = datetime.combine(current_date, staff.break_end)
+                    break_minutes = int((break_end - break_start).total_seconds() / 60)
+                
+                available_minutes = total_minutes - break_minutes
+            
+            # Calculate booked time for this staff member
+            staff_bookings = bookings.filter(staff=staff)
+            booked_minutes = 0
+            for booking in staff_bookings:
+                start = datetime.combine(current_date, booking.start_time)
+                end = datetime.combine(current_date, booking.end_time)
+                booked_minutes += int((end - start).total_seconds() / 60)
+            
+            # Calculate occupancy percentage
+            if available_minutes > 0:
+                occupancy = int((booked_minutes / available_minutes) * 100)
+            else:
+                occupancy = 0
+            
+            staff_occupancy[staff.id] = occupancy
+
         context = {
             'company': company,
             'staff_list': staff_list,
+            'staff_occupancy': staff_occupancy,
             'resources_json': json.dumps(staff_data),
             'bookings': bookings,
             'events_json': json.dumps(bookings_data),

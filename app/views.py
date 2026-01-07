@@ -21,18 +21,16 @@ def cookie_policy(request):
     return render(request, 'static_pages/cookie_policy.html')
 
 
+def cookie_settings(request):
+    return render(request, 'static_pages/cookie_settings.html')
+
+
 def about_us(request):
     return render(request, 'static_pages/about_us.html')
 
 
 def how_it_works(request):
     return render(request, 'static_pages/how_it_works.html')
-
-
-def pricing(request):
-    from billing.models import Plan
-    plans = Plan.objects.filter(is_active=True).order_by('monthly_price')
-    return render(request, 'static_pages/pricing.html', {'plans': plans})
 
 
 def faq(request):

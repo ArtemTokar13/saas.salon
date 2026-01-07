@@ -8,39 +8,39 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-lg shadow-lg p-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-6">{% trans "Privacy Policy" %}</h1>
-            <p class="text-gray-600 mb-4"><em>{% trans "Last updated:" %} {{ current_year }}</em></p>
-
+            
             <div class="prose max-w-none">
                 <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "1. Information We Collect" %}</h2>
                 <p class="text-gray-700 mb-4">
                     {% trans "We collect information that you provide directly to us, including when you create an account, make a booking, or contact us for support." %}
                 </p>
-
+                
                 <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "2. How We Use Your Information" %}</h2>
                 <p class="text-gray-700 mb-4">
                     {% trans "We use the information we collect to provide, maintain, and improve our services, to process your bookings, and to communicate with you." %}
                 </p>
-
+                
                 <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "3. Information Sharing" %}</h2>
                 <p class="text-gray-700 mb-4">
                     {% trans "We do not sell your personal information. We may share your information with service providers who assist us in operating our platform." %}
                 </p>
-
+                
                 <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "4. Data Security" %}</h2>
                 <p class="text-gray-700 mb-4">
                     {% trans "We implement appropriate security measures to protect your personal information from unauthorized access, alteration, or disclosure." %}
                 </p>
-
+                
                 <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "5. Your Rights" %}</h2>
                 <p class="text-gray-700 mb-4">
                     {% trans "You have the right to access, correct, or delete your personal information. Contact us if you wish to exercise these rights." %}
                 </p>
-
+                
                 <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "6. Contact Us" %}</h2>
                 <p class="text-gray-700 mb-4">
                     {% trans "If you have questions about this Privacy Policy, please" %} <a href="{% url 'contact' %}" class="text-blue-600 hover:underline">{% trans "contact us" %}</a>.
                 </p>
             </div>
+            <p class="text-gray-600 mb-4"><em>{% trans "Last updated:" %} {{ current_year }}</em></p>
         </div>
     </div>
 </div>

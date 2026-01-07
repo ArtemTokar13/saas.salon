@@ -148,6 +148,9 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DEFAULT_FROM_EMAIL = ''
+CONTACT_EMAIL = ''
+
 
 # Import local settings
 try:

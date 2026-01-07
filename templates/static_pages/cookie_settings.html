@@ -1,0 +1,136 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Cookie Settings" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">{% trans "Cookie Settings" %}</h1>
+            <p class="text-gray-600 mb-8">{% trans "We use different types of cookies to optimize your experience on our website. Choose which cookies you want to allow." %}</p>
+
+            <form id="cookie-settings-form" class="space-y-6">
+                <!-- Essential Cookies -->
+                <div class="border rounded-lg p-6 bg-gray-50">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                                <i class="fas fa-shield-alt text-gray-800 mr-2"></i>
+                                {% trans "Essential Cookies" %}
+                            </h3>
+                            <p class="text-gray-600">{% trans "These cookies are necessary for the website to function and cannot be disabled. They are usually set in response to actions you take, such as setting your privacy preferences, logging in, or filling in forms." %}</p>
+                        </div>
+                        <div class="ml-4 mt-1">
+                            <input type="checkbox" id="essential-cookies" checked disabled 
+                                   class="w-6 h-6 text-purple-600 bg-gray-100 border-gray-300 rounded cursor-not-allowed focus:ring-purple-500">
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 bg-white rounded p-3 mt-3">
+                        <strong>{% trans "Examples:" %}</strong> {% trans "Session cookies, security cookies, authentication cookies, CSRF protection" %}
+                    </div>
+                    <div class="mt-3 text-sm text-gray-600">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        {% trans "Always Active - Required for site functionality" %}
+                    </div>
+                </div>
+
+                <!-- Preference Cookies -->
+                <div class="border rounded-lg p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                                <i class="fas fa-cog text-gray-600 mr-2"></i>
+                                {% trans "Preference Cookies" %}
+                            </h3>
+                            <p class="text-gray-600">{% trans "These cookies enable enhanced functionality and personalization, such as remembering your preferences and settings." %}</p>
+                        </div>
+                        <div class="ml-4 mt-1">
+                            <input type="checkbox" id="preference-cookies" disabled
+                                   class="w-6 h-6 text-purple-600 bg-gray-100 border-gray-300 rounded cursor-not-allowed focus:ring-purple-500">
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 bg-gray-50 rounded p-3 mt-3">
+                        <strong>{% trans "Examples:" %}</strong> {% trans "Language preference, timezone, theme settings, accessibility preferences" %}
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t">
+                    <button type="button" onclick="acceptAllCookies()" 
+                            class="flex-1 px-6 py-2 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        {% trans "Accept All" %}
+                    </button>
+                    <button type="button" onclick="acceptEssentialOnly()" 
+                            class="flex-1 px-6 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
+                        <i class="fas fa-shield-alt mr-2"></i>
+                        {% trans "Essential Only" %}
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8 p-4 bg-blue-50 rounded-lg">
+                <p class="text-sm text-gray-700">
+                    <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                    {% trans "Your cookie preferences are stored locally in your browser. You can change these settings at any time by visiting this page." %}
+                    <a href="{% url 'cookie_policy' %}" class="text-blue-600 hover:underline ml-1">{% trans "Learn more about our cookie policy" %}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Load current settings on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadCurrentSettings();
+});
+
+function loadCurrentSettings() {
+    const consent = cookieConsent.getConsent();
+    console.log('Loading consent:', consent);
+    if (consent) {
+        const prefCheckbox = document.getElementById('preference-cookies');
+        prefCheckbox.checked = consent.preference || false;
+    }
+}
+
+function saveCustomSettings() {
+    const prefCheckbox = document.getElementById('preference-cookies');
+    const consent = {
+        essential: true,
+        preference: prefCheckbox.checked,
+        timestamp: new Date().toISOString()
+    };
+    console.log('Saving consent:', consent);
+    cookieConsent.saveConsent(consent);
+    cookieConsent.applyConsent(consent);
+}
+
+function acceptAllCookies() {
+    const prefCheckbox = document.getElementById('preference-cookies');
+    prefCheckbox.checked = true;
+    saveCustomSettings();
+    showMessage('{% trans "All cookies accepted." %}', 'success');
+}
+
+function acceptEssentialOnly() {
+    const prefCheckbox = document.getElementById('preference-cookies');
+    prefCheckbox.checked = false;
+    saveCustomSettings();
+    showMessage('{% trans "Only essential cookies enabled." %}', 'success');
+}
+
+function showMessage(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 ${type === 'success' ? 'bg-green-600' : 'bg-blue-600'} text-white`;
+    alertDiv.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${message}`;
+    document.body.appendChild(alertDiv);
+    
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
+}
+</script>
+{% endblock %}

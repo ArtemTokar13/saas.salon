@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
-from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, pricing, faq, contact
+from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, faq, contact
 from app import admin_views
 
 urlpatterns = [
@@ -42,7 +42,6 @@ urlpatterns += i18n_patterns(
     path('cookie-settings/', cookie_settings, name='cookie_settings'),
     path('about-us/', about_us, name='about_us'),
     path('how-it-works/', how_it_works, name='how_it_works'),
-    path('pricing/', pricing, name='pricing'),
     path('faq/', faq, name='faq'),
     path('contact/', contact, name='contact'),
     

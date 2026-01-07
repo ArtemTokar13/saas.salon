@@ -195,51 +195,51 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     });
 
     // Handle event updates (drag & drop and resize)
-    calendar.on('beforeUpdateEvent', (eventData) => {
-        const { event, changes } = eventData;
-        const bookingId = event.raw.booking_id;
+    // calendar.on('beforeUpdateEvent', (eventData) => {
+    //     const { event, changes } = eventData;
+    //     const bookingId = event.raw.booking_id;
         
-        let startDate = changes.start ? changes.start.toDate() : event.start.toDate();
-        const startTime = startDate.toTimeString().substring(0, 5);
-        let endDate = changes.end ? changes.end.toDate() : event.end.toDate();
-        const endTime = endDate.toTimeString().substring(0, 5);
+    //     let startDate = changes.start ? changes.start.toDate() : event.start.toDate();
+    //     const startTime = startDate.toTimeString().substring(0, 5);
+    //     let endDate = changes.end ? changes.end.toDate() : event.end.toDate();
+    //     const endTime = endDate.toTimeString().substring(0, 5);
         
-        console.log('Updating booking:', bookingId, 'Start Time:', startTime, 'End Time:', endTime);
-        const csrf_token = getCookie('csrftoken');
-        // Use current page's path prefix to preserve language code
-        const urlPrefix = window.location.pathname.split('/').slice(0, 2).join('/');
-        fetch(`${urlPrefix}/bookings/api/update-booking/${bookingId}/`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRFToken': `${csrf_token}`
-            },
-            body: JSON.stringify({ start_time: startTime, end_time: endTime })
-        })
-        .then(r => {
-            console.log('Response status:', r.status, 'URL:', r.url);
-            if (!r.ok) {
-                throw new Error(`HTTP error! status: ${r.status}`);
-            }
-            return r.json();
-        })
-        .then(data => {
-            console.log('Response data:', data);
-            if (data.success) {
-                calendar.updateEvent(event.id, event.calendarId, changes);
-                console.log('Booking updated successfully');
-            } else {
-                alert('Error: ' + (data.error || 'Could not update booking'));
-                location.reload();
-            }
-        })
-        .catch(err => {
-            console.error('Update error:', err);
-            alert('Error updating booking: ' + err.message);
-            location.reload();
-        });
-    });
+    //     console.log('Updating booking:', bookingId, 'Start Time:', startTime, 'End Time:', endTime);
+    //     const csrf_token = getCookie('csrftoken');
+    //     // Use current page's path prefix to preserve language code
+    //     const urlPrefix = window.location.pathname.split('/').slice(0, 2).join('/');
+    //     fetch(`${urlPrefix}/bookings/api/update-booking/${bookingId}/`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json',
+    //             'X-CSRFToken': `${csrf_token}`
+    //         },
+    //         body: JSON.stringify({ start_time: startTime, end_time: endTime })
+    //     })
+    //     .then(r => {
+    //         console.log('Response status:', r.status, 'URL:', r.url);
+    //         if (!r.ok) {
+    //             throw new Error(`HTTP error! status: ${r.status}`);
+    //         }
+    //         return r.json();
+    //     })
+    //     .then(data => {
+    //         console.log('Response data:', data);
+    //         if (data.success) {
+    //             calendar.updateEvent(event.id, event.calendarId, changes);
+    //             console.log('Booking updated successfully');
+    //         } else {
+    //             alert('Error: ' + (data.error || 'Could not update booking'));
+    //             location.reload();
+    //         }
+    //     })
+    //     .catch(err => {
+    //         console.error('Update error:', err);
+    //         alert('Error updating booking: ' + err.message);
+    //         location.reload();
+    //     });
+    // });
     
     // Staff filtering via tabs
     let currentFilter = 'all';

@@ -1,0 +1,46 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Cookie Policy" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">{% trans "Cookie Policy" %}</h1>
+            <p class="text-gray-600 mb-4"><em>{% trans "Last updated:" %} {{ current_year }}</em></p>
+
+            <div class="prose max-w-none">
+                <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "What Are Cookies" %}</h2>
+                <p class="text-gray-700 mb-4">
+                    {% trans "Cookies are small text files that are stored on your device when you visit our website. They help us provide you with a better experience." %}
+                </p>
+
+                <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "How We Use Cookies" %}</h2>
+                <p class="text-gray-700 mb-4">{% trans "We use cookies for:" %}</p>
+                <ul class="list-disc pl-6 mb-4 text-gray-700">
+                    <li>{% trans "Essential functionality (login sessions, security)" %}</li>
+                    <li>{% trans "Remembering your preferences (language, settings)" %}</li>
+                    <li>{% trans "Analytics to improve our service" %}</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "Types of Cookies" %}</h2>
+                <p class="text-gray-700 mb-4">
+                    <strong>{% trans "Essential Cookies:" %}</strong> {% trans "Required for the website to function properly." %}
+                </p>
+                <p class="text-gray-700 mb-4">
+                    <strong>{% trans "Preference Cookies:" %}</strong> {% trans "Remember your settings and preferences." %}
+                </p>
+                <p class="text-gray-700 mb-4">
+                    <strong>{% trans "Analytics Cookies:" %}</strong> {% trans "Help us understand how visitors use our site." %}
+                </p>
+
+                <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-4">{% trans "Managing Cookies" %}</h2>
+                <p class="text-gray-700 mb-4">
+                    {% trans "You can control cookies through your browser settings. Note that disabling cookies may affect website functionality." %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

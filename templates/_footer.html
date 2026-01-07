@@ -1,0 +1,58 @@
+{% load i18n %}
+<footer class="bg-gray-900 text-gray-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Company Info -->
+            <div>
+                <h3 class="text-white text-lg font-bold mb-4">{% trans "Salon Booking" %}</h3>
+                <p class="text-sm mb-4">{% trans "Professional booking management system for beauty salons and service providers." %}</p>
+                <div class="space-y-2 text-sm">
+                    <p><i class="fas fa-map-marker-alt mr-2"></i>{% trans "Your Address Here" %}</p>
+                    <p><i class="fas fa-phone mr-2"></i>+34 123 456 789</p>
+                    <p><i class="fas fa-envelope mr-2"></i>info@salonbooking.com</p>
+                </div>
+            </div>
+
+            <!-- Legal & Policy -->
+            <div>
+                <h3 class="text-white text-lg font-bold mb-4">{% trans "Legal" %}</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="{% url 'privacy_policy' %}" class="hover:text-white transition-colors">{% trans "Privacy Policy" %}</a></li>
+                    <li><a href="{% url 'terms_of_service' %}" class="hover:text-white transition-colors">{% trans "Terms of Service" %}</a></li>
+                    <li><a href="{% url 'cookie_policy' %}" class="hover:text-white transition-colors">{% trans "Cookie Policy" %}</a></li>
+                </ul>
+            </div>
+
+            <!-- Information -->
+            <div>
+                <h3 class="text-white text-lg font-bold mb-4">{% trans "Information" %}</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="{% url 'about_us' %}" class="hover:text-white transition-colors">{% trans "About Us" %}</a></li>
+                    <li><a href="{% url 'how_it_works' %}" class="hover:text-white transition-colors">{% trans "How It Works" %}</a></li>
+                    <li><a href="{% url 'pricing' %}" class="hover:text-white transition-colors">{% trans "Pricing Plans" %}</a></li>
+                    <li><a href="{% url 'faq' %}" class="hover:text-white transition-colors">{% trans "FAQ" %}</a></li>
+                </ul>
+            </div>
+
+            <!-- Support -->
+            <div>
+                <h3 class="text-white text-lg font-bold mb-4">{% trans "Support" %}</h3>
+                <ul class="space-y-2 text-sm mb-4">
+                    <li><a href="{% url 'contact' %}" class="hover:text-white transition-colors">{% trans "Contact Us" %}</a></li>
+                    <li><a href="{% url 'contact' %}?subject=support" class="hover:text-white transition-colors">{% trans "Get Support" %}</a></li>
+                </ul>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+            <p>&copy; {{ current_year }} {% trans "Salon Booking System. All rights reserved." %}</p>
+        </div>
+    </div>
+</footer>

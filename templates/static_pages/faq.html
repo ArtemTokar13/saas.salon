@@ -1,0 +1,73 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "FAQ" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">{% trans "Frequently Asked Questions" %}</h1>
+
+            <div class="space-y-6">
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "How do I create an account?" %}</h3>
+                    <p class="text-gray-700">{% trans "Click on 'Register' in the top navigation, fill in your business details, choose a subscription plan, and you're ready to start accepting bookings." %}</p>
+                </div>
+
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "Can customers book without creating an account?" %}</h3>
+                    <p class="text-gray-700">{% trans "Yes! Customers can make bookings without creating an account. They just need to provide their contact information." %}</p>
+                </div>
+
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "How do I manage my staff and services?" %}</h3>
+                    <p class="text-gray-700">{% trans "Once logged in, go to your company dashboard where you can add/edit staff members, services, working hours, and pricing." %}</p>
+                </div>
+
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "Can I cancel my subscription anytime?" %}</h3>
+                    <p class="text-gray-700">{% trans "Yes, you can cancel your subscription at any time from your billing settings. Your access will continue until the end of the current billing period." %}</p>
+                </div>
+
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "How do customers receive booking confirmations?" %}</h3>
+                    <p class="text-gray-700">{% trans "Customers receive automated email notifications with booking details and a cancellation link if needed." %}</p>
+                </div>
+
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "What payment methods do you accept?" %}</h3>
+                    <p class="text-gray-700">{% trans "We accept major credit cards and debit cards through our secure payment processor." %}</p>
+                </div>
+
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "Can I upgrade or downgrade my plan?" %}</h3>
+                    <p class="text-gray-700">{% trans "Yes, you can change your subscription plan at any time from your billing settings. Changes take effect immediately." %}</p>
+                </div>
+
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "Is there a mobile app?" %}</h3>
+                    <p class="text-gray-700">{% trans "Our platform is fully responsive and works great on mobile browsers. A dedicated mobile app is coming soon!" %}</p>
+                </div>
+
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "How do I get support?" %}</h3>
+                    <p class="text-gray-700">{% trans "You can contact our support team through the" %} <a href="{% url 'contact' %}" class="text-blue-600 hover:underline">{% trans "contact form" %}</a>. {% trans "We typically respond within 24 hours." %}</p>
+                </div>
+
+                <div class="pb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "Is my data secure?" %}</h3>
+                    <p class="text-gray-700">{% trans "Yes, we take data security seriously. All data is encrypted and stored securely. We comply with GDPR and other data protection regulations." %}</p>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-lg text-center">
+                <p class="text-gray-800 mb-4">{% trans "Still have questions?" %}</p>
+                <a href="{% url 'contact' %}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    {% trans "Contact Support" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

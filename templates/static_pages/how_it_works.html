@@ -1,0 +1,97 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "How It Works" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">{% trans "How It Works" %}</h1>
+            <p class="text-gray-600 mb-12 text-center text-lg">{% trans "Get started in just a few simple steps" %}</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- For Businesses -->
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">{% trans "For Businesses" %}</h2>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "Sign Up" %}</h3>
+                            <p class="text-gray-600">{% trans "Create your business account and choose a subscription plan that fits your needs." %}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "Set Up Your Profile" %}</h3>
+                            <p class="text-gray-600">{% trans "Add your services, staff members, working hours, and business information." %}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "Manage Bookings" %}</h3>
+                            <p class="text-gray-600">{% trans "Use our calendar to view, confirm, and manage all your appointments in one place." %}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "Grow Your Business" %}</h3>
+                            <p class="text-gray-600">{% trans "Track your bookings, manage staff schedules, and focus on providing great service." %}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- For Customers -->
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">{% trans "For Customers" %}</h2>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "Find a Service" %}</h3>
+                            <p class="text-gray-600">{% trans "Browse available services and select the one that suits your needs." %}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "Choose Date & Time" %}</h3>
+                            <p class="text-gray-600">{% trans "Select your preferred date, time, and staff member (if applicable)." %}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "Confirm Booking" %}</h3>
+                            <p class="text-gray-600">{% trans "Enter your details and confirm your booking. You'll receive a confirmation email." %}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "Enjoy Your Service" %}</h3>
+                            <p class="text-gray-600">{% trans "Show up at your appointment time and enjoy your service!" %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="{% url 'pricing' %}" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    {% trans "Get Started Now" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

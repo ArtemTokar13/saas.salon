@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
-from app.views import Index
+from app.views import Index, privacy_policy, terms_of_service, cookie_policy, about_us, how_it_works, pricing, faq, contact
 from app import admin_views
 
 urlpatterns = [
@@ -34,6 +34,16 @@ urlpatterns += i18n_patterns(
     path('users/', include('users.urls')),
     path('billing/', include('billing.urls')),
     path('api/', include('api.urls')),
+    
+    # Static pages
+    path('privacy-policy/', privacy_policy, name='privacy_policy'),
+    path('terms-of-service/', terms_of_service, name='terms_of_service'),
+    path('cookie-policy/', cookie_policy, name='cookie_policy'),
+    path('about-us/', about_us, name='about_us'),
+    path('how-it-works/', how_it_works, name='how_it_works'),
+    path('pricing/', pricing, name='pricing'),
+    path('faq/', faq, name='faq'),
+    path('contact/', contact, name='contact'),
     
     # Super admin dashboard
     path('platform-admin/', admin_views.admin_dashboard, name='admin_dashboard'),

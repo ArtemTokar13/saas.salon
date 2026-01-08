@@ -4,8 +4,10 @@
 {% block title %}{% trans "Salon Booking Platform" %}{% endblock %}
 
 {% block content %}
- {% if not user.is_authenticated %}
-<div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+
+
+{% if not user.is_authenticated %}
+<div class="bg-gradient-to-r from-blue-600 to-gray-600 text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div class="text-center">
             <h1 class="text-5xl font-bold mb-6">{% trans "Manage Your Salon Bookings" %}</h1>
@@ -30,7 +32,7 @@
 <div class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">{% trans "Everything You Need" %}</h2>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">{% trans "Everything You Need" %}</h2>
             <p class="text-xl text-gray-600">{% trans "Simple, powerful tools to grow your business" %}</p>
         </div>
 
@@ -55,7 +57,7 @@
                 </p>
             </div>
 
-            <div class="text-center">
+            <!-- <div class="text-center">
                 <div class="bg-purple-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
                     <i class="fas fa-chart-line text-purple-600 text-3xl"></i>
                 </div>
@@ -63,7 +65,7 @@
                 <p class="text-gray-600">
                     {% trans "Track bookings, revenue, and customer data. Make informed decisions with real-time analytics." %}
                 </p>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

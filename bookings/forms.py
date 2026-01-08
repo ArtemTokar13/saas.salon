@@ -110,7 +110,7 @@ class BookingForm(forms.ModelForm):
         booking.end_time = end_datetime.time()
         booking.duration = duration
 
-        if self.user and self.user.is_authenticated and self.user.userprofile.company == self.company:
+        if hasattr(self, 'user') and self.user.is_authenticated and (hasattr(self.user, 'userprofile') and self.user.userprofile.company == self.company):
             booking.status = 1  # Auto-confirm for staff users
         
         # Auto-assign staff if not selected

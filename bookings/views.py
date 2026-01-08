@@ -48,7 +48,7 @@ def create_booking(request, company_id):
                     booking.status = 1  # Confirmed normal confirmation
             
             booking.save()
-            if not request.user.is_authenticated:
+            if not request.user.is_authenticated or (request.user.is_authenticated and (hasattr(request.user, 'userprofile') and request.user.userprofile.company != company)):
                 booking_confirmation_link = request.build_absolute_uri(
                     redirect('booking_confirmation', booking_id=booking.id).url
                 )
@@ -565,8 +565,11 @@ def edit_booking(request, booking_id):
                 form.save()
 
                 # Send notification email to customer about booking update
+                booking_confirmation_link = request.build_absolute_uri(
+                    redirect('booking_confirmation', booking_id=booking.id).url
+                )
                 subject = 'Your Booking Has Been Updated'
-                message = f'Your booking at {booking.company.name} on {booking.date} for {booking.service.name} has been updated. Please check your booking details.'
+                message = f'Your booking at {booking.company.name} on {booking.date} for {booking.service.name} has been updated. Please check your booking details here: {booking_confirmation_link}'
                 from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
                 recipient_list = [booking.customer.email]
                 email_log = EmailLog.objects.create(

@@ -3,10 +3,12 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
+from companies.models import Company
 
 
 def Index(request):
-    return render(request, 'Index.html')
+    companies = Company.objects.all()
+    return render(request, 'Index.html', {'companies': companies})
 
 
 def privacy_policy(request):

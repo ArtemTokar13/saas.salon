@@ -6,7 +6,7 @@
       <!-- LEFT: Logo & Brand -->
       <div class="flex items-center gap-3">
         <a href="{% url 'index' %}" class="flex items-center gap-3">
-          <img class="w-10 h-10" src="{% static 'img/logo.png' %}" alt="Logo">
+          <img class="w-10 h-8" src="{% static 'img/logo.png' %}" alt="Logo">
           <span class="text-gray-800 font-bold text-xl leading-none select-none">
             ReservaYa
           </span>
@@ -34,17 +34,20 @@
           {% endif %}
           <form method="post" action="{% url 'logout' %}" class="inline">
             {% csrf_token %}
-            <button type="submit" class="text-sm font-medium text-gray-700 hover:text-blue-600">{% trans "Logout" %}</button>
+            <button type="submit" class="text-sm font-medium text-gray-700 hover:text-gray-600">{% trans "Logout" %}</button>
           </form>
         {% else %}
-          <a href="{% url 'login' %}" class="text-sm font-medium text-gray-700 hover:text-blue-600">{% trans "Login" %}</a>
-          <a href="{% url 'register_company' %}" class="px-4 py-2 rounded-md bg-gray-800 text-white text-sm font-semibold hover:bg-gray-600 transition">{% trans "Register" %}</a>
+          <a href="{% url 'login' %}" class="px-4 py-2 border-2 border-gray-800 text-gray-800 rounded-md font-semibold hover:bg-gray-800 hover:text-white transition">{% trans "Login" %}</a>
+          <a href="{% url 'register_company' %}" class="text-l text-gray-800 font-bold underline hover:text-green-700">{% trans "Try Free" %}</a>
         {% endif %}
         {% include '_language_switcher.html' %}
       </div>
 
-      <!-- MOBILE: burger -->
-      <div class="md:hidden flex items-center">
+      <!-- MOBILE: Try Free link + burger -->
+      <div class="md:hidden flex items-center gap-4">
+        {% if not user.is_authenticated %}
+          <a href="{% url 'register_company' %}" class="text-l text-gray-800 font-bold underline hover:text-green-700">{% trans "Try Free" %}</a>
+        {% endif %}
         <button id="nav-toggle" onclick="toggleMobileMenu()" class="text-gray-700">
           <svg id="burger-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -79,8 +82,8 @@
           <button type="submit" class="w-full text-left py-2 text-base text-gray-700 hover:text-blue-600">{% trans "Logout" %}</button>
         </form>
       {% else %}
-        <a href="{% url 'login' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">{% trans "Login" %}</a>
-        <a href="{% url 'register_company' %}" class="block mx-3 my-2 px-3 py-2 rounded-md text-base font-semibold bg-gray-800 text-white hover:bg-gray-600 text-center">{% trans "Register" %}</a>
+        <a href="{% url 'login' %}" class="block mx-3 my-2 px-3 py-2 border-2 border-gray-800 text-gray-800 rounded-md text-base font-semibold hover:bg-gray-800 hover:text-white text-center transition">{% trans "Login" %}</a>
+        <a href="{% url 'register_company' %}" class="block mx-3 my-2 px-3 py-2 rounded-md text-base font-semibold bg-gray-800 text-white hover:bg-gray-600 text-center">{% trans "Try Free" %}</a>
       {% endif %}
       
       <div class="border-t border-gray-200 my-2"></div>

@@ -152,6 +152,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_FROM_EMAIL = ''
 CONTACT_EMAIL = ''
 
+WHATSAPP_TOKEN = ""
+PHONE_NUMBER_ID = ""
+
 
 # Import local settings
 try:

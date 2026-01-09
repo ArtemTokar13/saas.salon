@@ -310,8 +310,8 @@ serviceSelect.addEventListener('change', async function() {
             anyStaffCard.className = 'flex-shrink-0 text-center cursor-pointer staff-card';
             anyStaffCard.style.minWidth = '120px';
             anyStaffCard.innerHTML = `
-                <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-2 border-4 border-gray-100 shadow-md ring-4 ring-blue-500">
-                    <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-2 border-4 border-gray-100 shadow-md ring-4 ring-gray-500">
+                    <svg class="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     </svg>
                 </div>
@@ -490,7 +490,7 @@ function renderCalendar() {
             dayCell.className += ' bg-red-50 text-red-300 cursor-not-allowed';
             dayCell.disabled = true;
         } else {
-            dayCell.className += ' border border-gray-300 hover:bg-blue-50 hover:border-blue-500 cursor-pointer';
+            dayCell.className += ' border border-gray-300 hover:bg-gray-100 hover:border-gray-500 cursor-pointer';
             dayCell.dataset.date = dateStr;
             dayCell.addEventListener('click', function() {
                 selectDate(dateStr, this);
@@ -507,10 +507,10 @@ function selectDate(date, element) {
     selectedDateInput.value = date;
     
     document.querySelectorAll('#datesGrid button[data-date]').forEach(btn => {
-        btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+        btn.classList.remove('bg-gray-800', 'text-white', 'border-gray-800');
         btn.classList.add('border-gray-300');
     });
-    element.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+    element.classList.add('bg-gray-800', 'text-white', 'border-gray-800');
     element.classList.remove('border-gray-300');
     
     loadAvailableTimes();
@@ -541,7 +541,7 @@ async function loadAvailableTimes() {
             data.available_times.forEach(time => {
                 const button = document.createElement('button');
                 button.type = 'button';
-                button.className = 'time-btn px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-blue-50 hover:border-blue-500 transition whitespace-nowrap';
+                button.className = 'time-btn px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-100 hover:border-gray-500 transition whitespace-nowrap';
                 button.textContent = time;
                 button.dataset.time = time;
                 
@@ -575,10 +575,10 @@ function selectTime(time, element) {
     selectedTimeInput.value = time;
     
     document.querySelectorAll('.time-btn').forEach(btn => {
-        btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+        btn.classList.remove('bg-gray-800', 'text-white', 'border-gray-800');
         btn.classList.add('border-gray-300');
     });
-    element.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+    element.classList.add('bg-gray-800', 'text-white', 'border-gray-800');
     element.classList.remove('border-gray-300');
 }
 
@@ -628,12 +628,12 @@ function resetDatesAndTimes() {
         transition: all 0.2s;
     }
     
-    .time-btn:hover:not(.bg-blue-600) {
+    .time-btn:hover:not(.bg-gray-800) {
         background-color: #eff6ff;
         border-color: #3b82f6;
     }
     
-    .time-btn.bg-blue-600 {
+    .time-btn.bg-gray-800 {
         background-color: #2563eb;
         color: white;
         border-color: #2563eb;

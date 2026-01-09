@@ -15,8 +15,8 @@
 
       <!-- CENTER: Desktop menu -->
       <div class="hidden md:flex md:items-center md:space-x-6">
-        <a href="{% url 'index' %}" class="text-sm font-medium text-gray-700 hover:text-blue-600">{% trans "Home" %}</a>
-        <a href="{% url 'view_plans' %}" class="text-sm font-medium text-gray-700 hover:text-blue-600">{% trans "Pricing" %}</a>
+        <a href="{% url 'index' %}" class="text-sm font-medium text-gray-700 hover:text-gray-900">{% trans "Home" %}</a>
+        <a href="{% url 'view_plans' %}" class="text-sm font-medium text-gray-700 hover:text-gray-900">{% trans "Pricing" %}</a>
       </div>
 
       <!-- RIGHT: Auth -->
@@ -28,9 +28,9 @@
               <i class="fas fa-cog mr-1"></i>{% trans "Platform Admin" %}
             </a>
           {% elif user.userprofile.is_admin %}
-            <a href="{% url 'company_dashboard' %}" class="text-sm font-medium text-gray-700 hover:text-blue-600">{% trans "Dashboard" %}</a>
+            <a href="{% url 'company_dashboard' %}" class="text-sm font-medium text-gray-700 hover:text-gray-900">{% trans "Dashboard" %}</a>
           {% else %}
-            <a href="{% url 'booking_calendar' %}" class="bg-blue-600 text-white px-2 py-1 rounded-lg font-semibold hover:bg-blue-700 transition">{% trans "Calendar" %}</a>
+            <a href="{% url 'booking_calendar' %}" class="bg-gray-800 text-white px-2 py-1 rounded-lg font-semibold hover:bg-gray-700 transition">{% trans "Calendar" %}</a>
           {% endif %}
           <form method="post" action="{% url 'logout' %}" class="inline">
             {% csrf_token %}
@@ -38,7 +38,7 @@
           </form>
         {% else %}
           <a href="{% url 'login' %}" class="px-4 py-2 border-2 border-gray-800 text-gray-800 rounded-md font-semibold hover:bg-gray-800 hover:text-white transition">{% trans "Login" %}</a>
-          <a href="{% url 'register_company' %}" class="text-l text-gray-800 font-bold underline hover:text-green-700">{% trans "Try Free" %}</a>
+          <a href="{% url 'register_company' %}" class="text-l text-gray-800 font-bold underline hover:text-gray-600">{% trans "Try Free" %}</a>
         {% endif %}
         {% include '_language_switcher.html' %}
       </div>
@@ -46,7 +46,7 @@
       <!-- MOBILE: Try Free link + burger -->
       <div class="md:hidden flex items-center gap-4">
         {% if not user.is_authenticated %}
-          <a href="{% url 'register_company' %}" class="text-l text-gray-800 font-bold underline hover:text-green-700">{% trans "Try Free" %}</a>
+          <a href="{% url 'register_company' %}" class="text-l text-gray-800 font-bold underline hover:text-gray-600">{% trans "Try Free" %}</a>
         {% endif %}
         <button id="nav-toggle" onclick="toggleMobileMenu()" class="text-gray-700">
           <svg id="burger-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,7 +79,7 @@
         {% endif %}
         <form method="post" action="{% url 'logout' %}" class="px-3">
           {% csrf_token %}
-          <button type="submit" class="w-full text-left py-2 text-base text-gray-700 hover:text-blue-600">{% trans "Logout" %}</button>
+          <button type="submit" class="w-full text-left py-2 text-base text-gray-700 hover:text-gray-900">{% trans "Logout" %}</button>
         </form>
       {% else %}
         <a href="{% url 'login' %}" class="block mx-3 my-2 px-3 py-2 border-2 border-gray-800 text-gray-800 rounded-md text-base font-semibold hover:bg-gray-800 hover:text-white text-center transition">{% trans "Login" %}</a>

@@ -34,13 +34,13 @@
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h3 class="text-2xl font-bold mb-2">{{ current_subscription.plan.name }}</h3>
-                                        <p class="text-blue-100 mb-4">{{ current_subscription.plan.description }}</p>
+                                        <p class="text-gray-100 mb-4">{{ current_subscription.plan.description }}</p>
                                         <div class="flex items-baseline">
                                             <span class="text-4xl font-bold">${{ current_subscription.plan.price }}</span>
-                                            <span class="text-blue-100 ml-2">/month</span>
+                                            <span class="text-gray-100 ml-2">/month</span>
                                         </div>
                                     </div>
-                                    <span class="bg-green-500 px-3 py-1 rounded-full text-sm font-semibold">Active</span>
+                                    <span class="bg-gray-600 px-3 py-1 rounded-full text-sm font-semibold">Active</span>
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-4 text-sm">
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <div class="mt-6 flex space-x-4">
-                                <a href="{% url 'view_plans' %}" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                                <a href="{% url 'view_plans' %}" class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition">
                                     <i class="fas fa-sync-alt mr-2"></i>Change Plan
                                 </a>
                                 <a href="{% url 'cancel_subscription' %}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
@@ -65,7 +65,7 @@
                             <div class="text-center py-12">
                                 <i class="fas fa-exclamation-circle text-gray-300 text-6xl mb-4"></i>
                                 <p class="text-gray-500 text-lg mb-4">No active subscription</p>
-                                <a href="{% url 'view_plans' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                                <a href="{% url 'view_plans' %}" class="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition">
                                     View Available Plans
                                 </a>
                             </div>
@@ -148,12 +148,12 @@
                 </div>
 
                 <!-- Help -->
-                <div class="bg-blue-50 rounded-lg p-6">
+                <div class="bg-gray-50 rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">Need Help?</h3>
                     <p class="text-sm text-gray-600 mb-4">
                         Have questions about billing or your subscription?
                     </p>
-                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <a href="#" class="text-gray-700 hover:text-gray-900 text-sm font-medium">
                         Contact Support <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>

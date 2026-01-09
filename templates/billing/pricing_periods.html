@@ -30,7 +30,7 @@
                         </div>
                         <p class="text-sm text-gray-500 mb-4">{% trans "Billed monthly" %}</p>
                         <a href="{% url 'select_plan' plan.id 'monthly' %}" 
-                           class="block w-full bg-blue-600 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                           class="block w-full bg-gray-800 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-gray-700 transition">
                             {% trans "Select Plan" %}
                         </a>
                     </div>
@@ -38,7 +38,7 @@
 
                 <!-- 3 Months -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition border-2 border-green-500">
-                    <div class="bg-green-500 text-white text-center py-2 text-sm font-semibold">
+                    <div class="bg-gray-700 text-white text-center py-2 text-sm font-semibold">
                         {% trans "Save 10%" %}
                     </div>
                     <div class="p-6">
@@ -49,13 +49,13 @@
                         </div>
                         <div class="mb-4">
                             <span class="text-sm text-gray-600">${{ plan.get_monthly_equivalent:'three_months' }}/{% trans "month" %}</span>
-                            <span class="text-sm text-green-600 font-semibold ml-2">
+                            <span class="text-sm text-gray-600 font-semibold ml-2">
                                 {% trans "Save" %} ${{ plan|get_period_savings:"three_months" }}
                             </span>
                         </div>
                         <p class="text-sm text-gray-500 mb-4">{% trans "Billed every 3 months" %}</p>
                         <a href="{% url 'select_plan' plan.id 'three_months' %}" 
-                           class="block w-full bg-green-600 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                           class="block w-full bg-gray-800 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-gray-700 transition">
                             {% trans "Select Plan" %}
                         </a>
                     </div>
@@ -63,7 +63,7 @@
 
                 <!-- 6 Months -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition border-2 border-purple-500">
-                    <div class="bg-purple-500 text-white text-center py-2 text-sm font-semibold">
+                    <div class="bg-gray-800 text-white text-center py-2 text-sm font-semibold">
                         {% trans "Save 20%" %}
                     </div>
                     <div class="p-6">
@@ -74,13 +74,13 @@
                         </div>
                         <div class="mb-4">
                             <span class="text-sm text-gray-600">${{ plan.get_monthly_equivalent:'six_months' }}/{% trans "month" %}</span>
-                            <span class="text-sm text-purple-600 font-semibold ml-2">
+                            <span class="text-sm text-gray-600 font-semibold ml-2">
                                 {% trans "Save" %} ${{ plan|get_period_savings:"six_months" }}
                             </span>
                         </div>
                         <p class="text-sm text-gray-500 mb-4">{% trans "Billed every 6 months" %}</p>
                         <a href="{% url 'select_plan' plan.id 'six_months' %}" 
-                           class="block w-full bg-purple-600 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+                           class="block w-full bg-gray-800 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-gray-700 transition">
                             {% trans "Select Plan" %}
                         </a>
                     </div>
@@ -88,7 +88,7 @@
 
                 <!-- Yearly - Best Value -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition border-2 border-yellow-500">
-                    <div class="bg-yellow-500 text-white text-center py-2 text-sm font-semibold">
+                    <div class="bg-gray-600 text-white text-center py-2 text-sm font-semibold">
                         🔥 {% trans "Best Value - Save 40%" %}
                     </div>
                     <div class="p-6">
@@ -99,13 +99,13 @@
                         </div>
                         <div class="mb-4">
                             <span class="text-sm text-gray-600">${{ plan.get_monthly_equivalent:'yearly' }}/{% trans "month" %}</span>
-                            <span class="text-sm text-yellow-600 font-semibold ml-2">
+                            <span class="text-sm text-gray-600 font-semibold ml-2">
                                 {% trans "Save" %} ${{ plan|get_period_savings:"yearly" }}
                             </span>
                         </div>
                         <p class="text-sm text-gray-500 mb-4">{% trans "Billed annually" %}</p>
                         <a href="{% url 'select_plan' plan.id 'yearly' %}" 
-                           class="block w-full bg-yellow-600 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-yellow-700 transition">
+                           class="block w-full bg-gray-700 text-white text-center px-4 py-3 rounded-lg font-semibold hover:bg-gray-600 transition">
                             {% trans "Select Plan" %}
                         </a>
                     </div>
@@ -144,22 +144,22 @@
                             <td class="py-3 px-4">{% trans "3 Months" %}</td>
                             <td class="text-right py-3 px-4">${{ plan|get_period_price:"three_months" }}</td>
                             <td class="text-right py-3 px-4">${{ plan.get_monthly_equivalent:'three_months' }}</td>
-                            <td class="text-right py-3 px-4 text-green-600 font-semibold">10%</td>
-                            <td class="text-right py-3 px-4 text-green-600 font-semibold">${{ plan|get_period_savings:"three_months" }}</td>
+                            <td class="text-right py-3 px-4 text-gray-600 font-semibold">10%</td>
+                            <td class="text-right py-3 px-4 text-gray-600 font-semibold">${{ plan|get_period_savings:"three_months" }}</td>
                         </tr>
                         <tr class="border-b hover:bg-gray-50">
                             <td class="py-3 px-4">{% trans "6 Months" %}</td>
                             <td class="text-right py-3 px-4">${{ plan|get_period_price:"six_months" }}</td>
                             <td class="text-right py-3 px-4">${{ plan.get_monthly_equivalent:'six_months' }}</td>
-                            <td class="text-right py-3 px-4 text-purple-600 font-semibold">20%</td>
-                            <td class="text-right py-3 px-4 text-purple-600 font-semibold">${{ plan|get_period_savings:"six_months" }}</td>
+                            <td class="text-right py-3 px-4 text-gray-600 font-semibold">20%</td>
+                            <td class="text-right py-3 px-4 text-gray-600 font-semibold">${{ plan|get_period_savings:"six_months" }}</td>
                         </tr>
-                        <tr class="border-b hover:bg-gray-50 bg-yellow-50">
+                        <tr class="border-b hover:bg-gray-50 bg-gray-100">
                             <td class="py-3 px-4 font-semibold">{% trans "Yearly" %} 🔥</td>
                             <td class="text-right py-3 px-4 font-bold">${{ plan|get_period_price:"yearly" }}</td>
                             <td class="text-right py-3 px-4 font-bold">${{ plan.get_monthly_equivalent:'yearly' }}</td>
-                            <td class="text-right py-3 px-4 text-yellow-600 font-bold">40%</td>
-                            <td class="text-right py-3 px-4 text-yellow-600 font-bold">${{ plan|get_period_savings:"yearly" }}</td>
+                            <td class="text-right py-3 px-4 text-gray-600 font-bold">40%</td>
+                            <td class="text-right py-3 px-4 text-gray-600 font-bold">${{ plan|get_period_savings:"yearly" }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

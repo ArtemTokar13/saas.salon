@@ -43,7 +43,7 @@
                             <input type="checkbox" 
                                    id="is_working_{{ day.number }}" 
                                    name="is_working_{{ day.number }}"
-                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                   class="h-4 w-4 text-gray-800 focus:ring-gray-500 border-gray-300 rounded"
                                    {% if day.is_working %}checked{% endif %}
                                    onchange="toggleTimeInputs({{ day.number }})">
                         </td>
@@ -70,7 +70,7 @@
         </div>
         
         <div class="flex justify-end">
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-medium">
+            <button type="submit" class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition font-medium">
                 {% trans "Save Changes" %}
             </button>
         </div>

@@ -8,7 +8,7 @@
 {% if not user.is_authenticated %}
 <!-- Companies Carousel Section -->
 {% if companies %}
-<div class="py-12 bg-gray-200">
+<div class="py-12 bg-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-bold text-gray-900">{% trans "Services" %}</h2>
@@ -18,7 +18,7 @@
             <div class="flex space-x-6" style="width: max-content;">
                 {% for company in companies %}
                 <a href="{% url 'company_public_page' company.id %}" 
-                   class="block w-72 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex-shrink-0">
+                   class="block w-72 bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex-shrink-0">
                     
                     <!-- Company Image -->
                     <div class="h-40 bg-gray-200 relative overflow-hidden">
@@ -27,8 +27,8 @@
                                  alt="{{ company.name }}"
                                  class="w-full h-full object-cover">
                         {% else %}
-                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200">
-                                <i class="fas fa-store text-blue-300 text-4xl"></i>
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                                <i class="fas fa-store text-gray-300 text-4xl"></i>
                             </div>
                         {% endif %}
                     </div>
@@ -66,17 +66,17 @@
 {% endif %}
 {% endif %}
 
-<div class="py-10 bg-white">
+<div class="py-20 bg-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">{% trans "Everything You Need" %}</h2>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">{% trans "Everything You Need" %}</h2>
             <p class="text-xl text-gray-600">{% trans "Simple, powerful tools to grow your business" %}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div class="text-center">
-                <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-calendar-check text-blue-600 text-3xl"></i>
+                <div class="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-calendar-check text-gray-600 text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Online Booking" %}</h3>
                 <p class="text-gray-600">
@@ -85,8 +85,8 @@
             </div>
 
             <div class="text-center">
-                <div class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-users text-green-600 text-3xl"></i>
+                <div class="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-users text-gray-600 text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Staff Management" %}</h3>
                 <p class="text-gray-600">
@@ -107,16 +107,16 @@
     </div>
 </div>
 
-<div class="py-10 bg-gray-200">
+<div class="py-20 bg-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">{% trans "How It Works" %}</h2>
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">{% trans "How It Works" %}</h2>
             <p class="text-xl text-gray-600">{% trans "Get started in minutes" %}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div class="text-center">
-                <div class="bg-green-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                <div class="bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
                     1
                 </div>
                 <h3 class="font-bold text-gray-900 mb-2">{% trans "Sign Up" %}</h3>
@@ -124,7 +124,7 @@
             </div>
 
             <div class="text-center">
-                <div class="bg-green-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                <div class="bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
                     2
                 </div>
                 <h3 class="font-bold text-gray-900 mb-2">{% trans "Setup" %}</h3>
@@ -132,7 +132,7 @@
             </div>
 
             <div class="text-center">
-                <div class="bg-green-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                <div class="bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
                     3
                 </div>
                 <h3 class="font-bold text-gray-900 mb-2">{% trans "Share" %}</h3>
@@ -140,7 +140,7 @@
             </div>
 
             <div class="text-center">
-                <div class="bg-green-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                <div class="bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
                     4
                 </div>
                 <h3 class="font-bold text-gray-900 mb-2">{% trans "Grow" %}</h3>
@@ -154,7 +154,7 @@
 <div class="bg-gray-600 text-white py-10">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-3xl font-bold mb-4">{% trans "Ready to Get Started?" %}</h2>
-        <p class="text-xl text-blue-100 mb-8">
+        <p class="text-xl text-gray-100 mb-8">
             {% trans "Join hundreds of businesses managing their bookings smarter" %}
         </p>
         <a href="{% url 'register_company' %}" 

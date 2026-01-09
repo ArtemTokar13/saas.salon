@@ -12,7 +12,7 @@
     </div>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-900">{% trans "Staff Members" %}</h1>
-        <a href="{% url 'add_staff' %}" class="inline-flex items-center gap-1 text-green-800 hover:text-green-800 transition">
+        <a href="{% url 'add_staff' %}" class="inline-flex items-center gap-1 text-gray-800 hover:text-gray-900 transition font-semibold">
             <i class="fas fa-plus mr-2"></i>{% trans "Add Staff" %}
         </a>
     </div>
@@ -44,13 +44,13 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ staff.specialization }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {% if staff.is_active %}
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{% trans "Active" %}</span>
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">{% trans "Active" %}</span>
                         {% else %}
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">{% trans "Inactive" %}</span>
                         {% endif %}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <a href="{% url 'edit_staff' staff.id %}" class="text-indigo-600 hover:text-indigo-900">{% trans "Edit" %}</a>
+                        <a href="{% url 'edit_staff' staff.id %}" class="text-gray-700 hover:text-gray-900 font-semibold">{% trans "Edit" %}</a>
                         <a href="{% url 'delete_staff' staff.id %}" onclick="return confirm('Are you sure you want to delete {{ staff.name }}?')" class="text-red-600 hover:text-red-900 ml-4">{% trans "Delete" %}</a>
                     </td>
                 </tr>

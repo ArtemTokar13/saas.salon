@@ -24,10 +24,10 @@
         <div class="bg-white rounded-lg shadow mb-6 p-4">
             <div class="flex items-center space-x-4">
                 <span class="text-gray-700 font-medium">Filter:</span>
-                <a href="?status=all" class="px-4 py-2 rounded {% if status_filter == 'all' %}bg-blue-600 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                <a href="?status=all" class="px-4 py-2 rounded {% if status_filter == 'all' %}bg-gray-800 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
                     All
                 </a>
-                <a href="?status=active" class="px-4 py-2 rounded {% if status_filter == 'active' %}bg-green-600 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                <a href="?status=active" class="px-4 py-2 rounded {% if status_filter == 'active' %}bg-gray-800 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
                     Active
                 </a>
                 <a href="?status=inactive" class="px-4 py-2 rounded {% if status_filter == 'inactive' %}bg-red-600 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
@@ -70,7 +70,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 {% if subscription.is_active %}
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                                         Active
                                     </span>
                                 {% else %}

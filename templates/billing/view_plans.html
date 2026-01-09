@@ -15,7 +15,7 @@
             {% for plan in plans %}
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden {% if current_subscription and current_subscription.plan.id == plan.id %}ring-4 ring-blue-500{% endif %}">
                     {% if current_subscription and current_subscription.plan.id == plan.id %}
-                        <div class="bg-blue-500 text-white text-center py-2 text-sm font-semibold">
+                        <div class="bg-gray-700 text-white text-center py-2 text-sm font-semibold">
                             {% trans "Current Plan" %}
                         </div>
                     {% endif %}
@@ -33,19 +33,19 @@
                         
                         <div class="space-y-3 mb-8">
                             <div class="flex items-start">
-                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <i class="fas fa-check text-gray-600 mt-1 mr-3"></i>
                                 <span class="text-gray-700">{% trans "Unlimited bookings" %}</span>
                             </div>
                             <div class="flex items-start">
-                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <i class="fas fa-check text-gray-600 mt-1 mr-3"></i>
                                 <span class="text-gray-700">{% trans "Staff management" %}</span>
                             </div>
                             <div class="flex items-start">
-                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <i class="fas fa-check text-gray-600 mt-1 mr-3"></i>
                                 <span class="text-gray-700">{% trans "Calendar view" %}</span>
                             </div>
                             <div class="flex items-start">
-                                <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                <i class="fas fa-check text-gray-600 mt-1 mr-3"></i>
                                 <span class="text-gray-700">{% trans "Public booking page" %}</span>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                         {% else %}
                             <a href="{% url 'change_plan' plan.id %}" 
                                onclick="return confirm('{% trans 'Are you sure you want to switch to' %} {{ plan.name }}?')"
-                               class="block w-full bg-blue-600 text-white text-center px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                               class="block w-full bg-gray-800 text-white text-center px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition">
                                 {% trans "Select Plan" %}
                             </a>
                         {% endif %}
@@ -71,7 +71,7 @@
         </div>
 
         <div class="text-center">
-            <a href="{% url 'subscription_details' %}" class="text-blue-600 hover:text-blue-800">
+            <a href="{% url 'subscription_details' %}" class="text-gray-700 hover:text-gray-900 font-semibold">
                 <i class="fas fa-arrow-left mr-2"></i>{% trans "Back to Subscription Details" %}
             </a>
         </div>

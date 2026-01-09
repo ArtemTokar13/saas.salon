@@ -124,7 +124,7 @@ function acceptEssentialOnly() {
 
 function showMessage(message, type) {
     const alertDiv = document.createElement('div');
-    alertDiv.className = `fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 ${type === 'success' ? 'bg-green-600' : 'bg-blue-600'} text-white`;
+    alertDiv.className = `fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 ${type === 'success' ? 'bg-gray-800' : 'bg-gray-700'} text-white`;
     alertDiv.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${message}`;
     document.body.appendChild(alertDiv);
     

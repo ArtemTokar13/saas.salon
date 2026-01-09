@@ -13,7 +13,7 @@
                     <p class="text-gray-600 mt-1">All subscription plans</p>
                 </div>
                 <div class="flex space-x-4">
-                    <a href="/admin/billing/plan/add/" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    <a href="/admin/billing/plan/add/" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
                         <i class="fas fa-plus mr-2"></i>Add New Plan
                     </a>
                     <a href="{% url 'admin_dashboard' %}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
@@ -32,7 +32,7 @@
                         <h3 class="text-2xl font-bold mb-2">{{ plan.name }}</h3>
                         <div class="flex items-baseline">
                             <span class="text-4xl font-bold">${{ plan.price }}</span>
-                            <span class="text-blue-100 ml-2">/month</span>
+                            <span class="text-gray-100 ml-2">/month</span>
                         </div>
                     </div>
                     
@@ -48,13 +48,13 @@
                             </div>
                             <div class="flex justify-between items-center mb-3">
                                 <span class="text-gray-600">Total Revenue</span>
-                                <span class="font-bold text-green-600">${{ plan.total_revenue|default:"0" }}</span>
+                                <span class="font-bold text-gray-600">${{ plan.total_revenue|default:"0" }}</span>
                             </div>
                         </div>
 
                         <div class="mt-6 flex space-x-2">
                             <a href="/admin/billing/plan/{{ plan.id }}/change/" 
-                               class="flex-1 bg-blue-600 text-white text-center px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                               class="flex-1 bg-gray-800 text-white text-center px-4 py-2 rounded-lg hover:bg-gray-700 transition">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                             <a href="/admin/billing/plan/{{ plan.id }}/delete/" 
@@ -68,7 +68,7 @@
                 <div class="col-span-3 bg-white rounded-lg shadow p-12 text-center">
                     <i class="fas fa-inbox text-gray-300 text-6xl mb-4"></i>
                     <p class="text-gray-500 text-lg mb-4">No billing plans created yet</p>
-                    <a href="/admin/billing/plan/add/" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                    <a href="/admin/billing/plan/add/" class="inline-block bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition">
                         Create First Plan
                     </a>
                 </div>

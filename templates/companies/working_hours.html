@@ -5,6 +5,11 @@
 
 {% block content %}
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-6">
+        <a href="{% url 'company_dashboard' %}" class="text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-2"></i> {% trans "Back to Dashboard" %}
+        </a>
+    </div>
     <h1 class="text-2xl font-semibold text-gray-900 mb-6">{% trans "Edit Working Hours" %}</h1>
     
     <form method="post" class="space-y-6">

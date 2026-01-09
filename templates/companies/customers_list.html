@@ -4,9 +4,12 @@
 {% block title %}Customers - {{ company.name }}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-gray-50 зy-8">
     <div class="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">{% trans "Customers for" %} {{ company.name }}</h2>
+        <a href="{% url 'company_dashboard' %}" class="text-blue-600 hover:text-blue-800">
+            ← {% trans "Back to Dashboard" %}
+        </a>
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">{% trans "Customers for" %} {{ company.name }}</h2>
         <div class="bg-white rounded-lg shadow-lg p-6 overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">

@@ -10,6 +10,9 @@ class Customer(models.Model):
     phone = models.CharField(max_length=50)
     email = models.EmailField(blank=True, null=True)
 
+    def total_bookings(self):
+        return Booking.objects.filter(customer=self).count()
+
     def __str__(self):
         return self.name
 

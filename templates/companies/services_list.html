@@ -5,9 +5,15 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-6">
+        <a href="{% url 'company_dashboard' %}" class="text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-2"></i> {% trans "Back to Dashboard" %}
+        </a>
+    </div>
+
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-900">{% trans "Services" %}</h1>
-        <a href="{% url 'add_service' %}" class="inline-flex items-center gap-1 text-green-800 hover:text-green-800 transition">
+        <a href="{% url 'add_service' %}" class="inline-flex items-center gap-1 text-green-700 hover:text-green-800 transition font-medium">
             <i class="fas fa-plus mr-2"></i>{% trans "Add Service" %}
         </a>
     </div>

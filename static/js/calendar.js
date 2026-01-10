@@ -161,7 +161,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                 const isPending = event.raw.isPending || event.raw.status == 0;
                 const opacity = isPending ? 0.7 : 1;
                 const startDate = event.start.toDate ? event.start.toDate() : new Date(event.start);
-                return `<div style="color: white; opacity: ${opacity};">
+                return `<div style="color: white; opacity: ${opacity}; font-size: 12px; line-height: 1.2;">
                             <span>${event.title}</span><br/>
                             <span>(${staffList.find(s => String(s.id) === String(event.calendarId))?.title || 'Staff'})</span><br/>
                             <span>${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
@@ -173,6 +173,18 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
             hourEnd: dayEnd,
             eventView: ['time'],
             taskView: false
+        },
+        theme: {
+            week: {
+                dayGridLeft: {
+                    width: '100px'
+                },
+                timeGridLeft: {
+                    width: '100px'
+                },
+                timeGridHalfHourHeight: '20px',
+                timeGridHourHeight: '40px'
+            }
         },
         month: {
             dayNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],

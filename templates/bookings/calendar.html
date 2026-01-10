@@ -5,17 +5,22 @@
 {% block title %}Booking Calendar - {{ company.name }}{% endblock %}
 {% block header %}
 <script src="{% static 'js/calendar.js' %}"></script>
+<style>
+    body { overflow: hidden; height: 100vh; }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50">
-    <a href="/bookings/book/{{ company.id }}/" class="flex items-center justify-center w-14 h-14 bg-black text-white rounded-full hover:bg-gray-800 transition">
-        <i class="fas fa-plus text-3xl font-bold"></i>
+<div class="h-screen flex flex-col bg-gray-50 overflow-hidden relative">
+    <!-- Fixed Add Button -->
+    <a href="/bookings/book/{{ company.id }}/" class="fixed bottom-8 right-8 z-50 flex items-center justify-center w-16 h-16 bg-black text-white rounded-full hover:bg-gray-800 transition shadow-2xl">
+        <i class="fas fa-plus text-2xl font-bold"></i>
     </a>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    
+    <div class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 w-full flex flex-col">
         <!-- Day Schedule Calendar -->
-        <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center justify-between mb-6">
+        <div class="bg-white rounded-lg shadow p-4 flex-1 flex flex-col min-h-0">
+            <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-4">
                     <a href="?date={{ current_date|date:"Y-m-d" }}&prev=1" class="text-gray-600 hover:text-gray-800 flex items-center">
                         <i class="fas fa-chevron-left mr-2"></i>
@@ -47,39 +52,13 @@
                     </div>
                 </div>
             {% endif %}
-            <div id="calendar" class="border rounded" style="height: 700px;">
+            <div id="calendar" class="border rounded flex-1 min-h-0">
             </div>
         </div>
-
-        <!-- Statistics -->
-        <!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="text-center">
-                    <p class="text-gray-600 mb-2">Total Bookings</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ bookings|length }}</p>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="text-center">
-                    <p class="text-gray-600 mb-2">Pending</p>
-                    <p class="text-3xl font-bold text-gray-600">
-                        {{ bookings|length }}
-                        {% comment %}TODO: Add filter for pending{% endcomment %}
-                    </p>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="text-center">
-                    <p class="text-gray-600 mb-2">Confirmed</p>
-                    <p class="text-3xl font-bold text-gray-600">
-                        {{ bookings|length }}
-                        {% comment %}TODO: Add filter for confirmed{% endcomment %}
-                    </p>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
+
+{% block hide_footer %}{% endblock %}
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

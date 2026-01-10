@@ -18,7 +18,7 @@
 {% include '_header.html' %}
 {% include '_messages.html' %}
 {% block content %}{% endblock %}
-{% include '_footer.html' %}
+{% block hide_footer %}{% include '_footer.html' %}{% endblock %}
 {% include '_cookie-consent.html' %}
 </body>
 </html>

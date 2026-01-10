@@ -702,7 +702,7 @@ def working_hours(request):
                     working_hour.save()
             
             messages.success(request, 'Working hours updated successfully.')
-            return redirect('working_hours')
+            return redirect('company_dashboard')
         working_hours = WorkingHours.objects.filter(company=company).order_by('day_of_week')
         working_hours_dict = {wh.day_of_week: wh for wh in working_hours}
         

@@ -4,12 +4,7 @@
 {% block title %}Edit Working Hours{% endblock %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="mb-6">
-        <a href="{% url 'company_dashboard' %}" class="text-blue-600 hover:text-blue-800">
-            <i class="fas fa-arrow-left mr-2"></i> {% trans "Back to Dashboard" %}
-        </a>
-    </div>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <h1 class="text-2xl font-semibold text-gray-900 mb-6">{% trans "Edit Working Hours" %}</h1>
     
     <form method="post" class="space-y-6">
@@ -52,7 +47,7 @@
                                    id="start_time_{{ day.number }}"
                                    name="start_time_{{ day.number }}" 
                                    value="{{ day.start_time }}"
-                                   class="time-input-{{ day.number }} block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                   class="time-input-{{ day.number }} block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                    {% if not day.is_working %}disabled{% endif %}>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -60,7 +55,7 @@
                                    id="end_time_{{ day.number }}"
                                    name="end_time_{{ day.number }}" 
                                    value="{{ day.end_time }}"
-                                   class="time-input-{{ day.number }} block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                   class="time-input-{{ day.number }} block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
                                    {% if not day.is_working %}disabled{% endif %}>
                         </td>
                     </tr>
@@ -68,12 +63,15 @@
                 </tbody>
             </table>
         </div>
-        
-        <div class="flex justify-end">
-            <button type="submit" class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition font-medium">
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a href="{% url 'company_dashboard' %}" class="flex-1 bg-gray-200 text-gray-700 py-2 text-center rounded-lg font-semibold hover:bg-gray-300 transition">
+                {% trans "Cancel" %}
+            </a>
+            <button type="submit" class="flex-1 bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition">
                 {% trans "Save Changes" %}
             </button>
         </div>
+        
     </form>
 </div>
 

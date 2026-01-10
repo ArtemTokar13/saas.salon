@@ -261,9 +261,15 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
         calendar.clear();
         
         if (staffId === 'all') {
+            // Show all events with different colors per staff
             calendar.createEvents(allEvents);
         } else {
-            const filtered = allEvents.filter(e => String(e.calendarId) === String(staffId));
+            // Show single staff events in orange
+            const filtered = allEvents.filter(e => String(e.calendarId) === String(staffId)).map(e => ({
+                ...e,
+                backgroundColor: '#d97706',
+                borderColor: '#b45309'
+            }));
             calendar.createEvents(filtered);
         }
     }
@@ -272,14 +278,20 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     const tabs = document.querySelectorAll('.staff-tab');
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            // Remove selected border from all tabs
+            // Remove active class and border from all tabs
             tabs.forEach(t => {
-                t.classList.remove('border-gray-600');
-                t.classList.add('border-transparent');
+                t.classList.remove('active');
+                const imgOrDiv = t.querySelector('img, .w-12.h-12');
+                if (imgOrDiv) {
+                    imgOrDiv.style.borderColor = 'transparent';
+                }
             });
-            // Add selected border to clicked tab
-            tab.classList.remove('border-transparent');
-            tab.classList.add('border-gray-600');
+            // Add active class and border to clicked tab
+            tab.classList.add('active');
+            const imgOrDiv = tab.querySelector('img, .w-12.h-12');
+            if (imgOrDiv) {
+                imgOrDiv.style.borderColor = '#374151';
+            }
             
             const staffId = tab.dataset.staffId || 'all';
             filterEvents(staffId);

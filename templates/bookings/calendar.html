@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="h-screen flex flex-col bg-gray-50 overflow-hidden relative mb-16">
+<div class="h-screen flex flex-col bg-gray-50 overflow-hidden relative">
     <!-- Fixed Add Button -->
     <a href="/bookings/book/{{ company.id }}/" class="fixed bottom-8 right-8 z-50 flex items-center justify-center w-16 h-16 bg-black text-white rounded-full hover:bg-gray-800 transition shadow-2xl">
         <i class="fas fa-plus text-2xl font-bold"></i>
@@ -109,7 +109,7 @@
                     });
                 </script>
             {% endif %}
-            <div id="calendar" class="border rounded flex-1 min-h-0">
+            <div id="calendar" class="border rounded flex-1 min-h-0 mb-20">
             </div>
         </div>
     </div>

@@ -6,7 +6,10 @@
 {% block header %}
 <script src="{% static 'js/calendar.js' %}"></script>
 <style>
-    body { overflow: hidden; height: 100vh; }
+    body {
+        height: 100%;
+        overflow: auto;
+    }
 </style>
 {% endblock %}
 
@@ -50,7 +53,8 @@
                         <!-- All staff option -->
                         <button class="staff-tab flex-shrink-0 flex flex-col items-center gap-2 group" data-staff-id="all">
                             <div class="relative">
-                                <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border-4 border-gray-600">
+                                <div class="staff-avatar w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border-4 border-transparent transition">
+
                                     <i class="fas fa-users text-gray-600 text-lg"></i>
                                 </div>
                             </div>
@@ -64,9 +68,9 @@
                                 <div class="relative">
                                     <!-- Avatar circle -->
                                     {% if s.photo %}
-                                        <img src="{{ s.photo }}" class="w-12 h-12 rounded-full object-cover border-4 border-transparent group-hover:border-gray-300 transition" alt="{{ s.title }}">
+                                        <img src="{{ s.photo }}" class="staff-avatar w-12 h-12 rounded-full object-cover border-4 border-transparent transition" alt="{{ s.title }}">
                                     {% else %}
-                                        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border-4 border-transparent group-hover:border-gray-300 transition">
+                                        <div class="staff-avatar w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border-4 border-transparent transition">
                                             <i class="fas fa-user text-gray-500 text-lg"></i>
                                         </div>
                                     {% endif %}
@@ -92,10 +96,8 @@
                         -ms-overflow-style: none;
                         scrollbar-width: none;
                     }
-                    .staff-tab[data-staff-id="all"] .border-gray-600,
-                    .staff-tab.active img,
-                    .staff-tab.active > div > div {
-                        border-color: #374151 !important;
+                    .staff-tab.active .staff-avatar {
+                        border-color: #e9cd18 !important;
                     }
                 </style>
                 
@@ -109,7 +111,7 @@
                     });
                 </script>
             {% endif %}
-            <div id="calendar" class="border rounded flex-1 min-h-0 mb-20">
+            <div id="calendar" class="border rounded flex-1 min-h-0 pb-4">
             </div>
         </div>
     </div>
@@ -125,6 +127,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const dayStart = {{ day_start }};
     const dayEnd = {{ day_end }};
     buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const staffTabs = document.querySelectorAll('.staff-tab');
+
+    staffTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+
+            // прибрати active з усіх
+            staffTabs.forEach(t => t.classList.remove('active'));
+
+            // додати active до вибраного
+            tab.classList.add('active');
+
+            // (опціонально) ID працівника
+            const staffId = tab.dataset.staffId;
+            console.log('Selected staff:', staffId);
+        });
+    });
+
 });
 </script>
 {% endblock %}

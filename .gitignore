@@ -18,6 +18,8 @@ lib/
 lib64/
 media/
 parts/
+# Don't ignore Flutter lib directory
+!salon_flutter_app/lib/
 sdist/
 var/
 wheels/

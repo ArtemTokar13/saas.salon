@@ -48,7 +48,7 @@ class EmailLog(models.Model):
 class Company(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, null=True)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     map_location = models.CharField(max_length=255, blank=True)
@@ -99,7 +99,7 @@ class Company(models.Model):
 class Staff(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    specialization = models.CharField(max_length=255, blank=True)
+    specialization = models.CharField(max_length=100, blank=True, null=True)
     avatar = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
     break_start = models.TimeField(blank=True, null=True)
     break_end = models.TimeField(blank=True, null=True)

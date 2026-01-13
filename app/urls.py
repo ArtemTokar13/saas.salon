@@ -24,6 +24,8 @@ from app import admin_views
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
+    # API endpoints (no i18n prefix)
+    path('api/', include('api.urls')),
 ]
 
 urlpatterns += i18n_patterns(
@@ -33,7 +35,6 @@ urlpatterns += i18n_patterns(
     path('bookings/', include('bookings.urls')),
     path('users/', include('users.urls')),
     path('billing/', include('billing.urls')),
-    path('api/', include('api.urls')),
     
     # Static pages
     path('privacy-policy/', privacy_policy, name='privacy_policy'),

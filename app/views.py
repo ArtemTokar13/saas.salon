@@ -8,6 +8,8 @@ from companies.models import Company
 
 def Index(request):
     companies = Company.objects.all()
+    from .services import send_whatsapp_message
+    # send_whatsapp_message(to="34674930646", text="Test message from ReservaYa SaaS")
     return render(request, 'Index.html', {'companies': companies})
 
 

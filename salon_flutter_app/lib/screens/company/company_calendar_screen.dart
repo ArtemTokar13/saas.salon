@@ -94,8 +94,8 @@ class _CompanyCalendarScreenState extends State<CompanyCalendarScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/bookings/create'),
-        child: const Icon(Icons.add),
         tooltip: 'New Booking',
+        child: const Icon(Icons.add),
       ),
     );
   }

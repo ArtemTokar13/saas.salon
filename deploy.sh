@@ -18,7 +18,7 @@ REMOTE_DIR="${REMOTE_DIR:-/home/ubuntu/reserva-ya-saas}"
 LOCAL_DIR="${LOCAL_DIR:-$(pwd)}"
 
 # Rsync excludes (adjust as needed)
-EXCLUDES=(--exclude ".git" --exclude "venv" --exclude ".venv" --exclude "__pycache__" --exclude "uploads" --exclude "db.sqlite3" --exclude ".env"  --exclude "app/local_settings.py" --exclude "staticfiles" --exclude "deploy.sh")
+EXCLUDES=(--exclude ".git" --exclude "venv" --exclude ".venv" --exclude "__pycache__" --exclude "uploads" --exclude "db.sqlite3" --exclude ".env"  --exclude "app/local_settings.py" --exclude "staticfiles" --exclude "deploy.sh" --exclude "salon_flutter_app")
 
 echo "Deploying ${LOCAL_DIR} -> ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}"
 

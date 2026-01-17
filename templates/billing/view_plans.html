@@ -4,14 +4,14 @@
 {% block title %}{% trans "Choose Your Plan" %} - {{ company.name }}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">{% trans "Choose Your Plan" %}</h1>
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-gray-900 mb-4">{% trans "Choose Your Plan" %}</h1>
             <p class="text-xl text-gray-600">{% trans "Select the plan that best fits your business needs" %}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             {% for plan in plans %}
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden {% if current_subscription and current_subscription.plan.id == plan.id %}ring-4 ring-blue-500{% endif %}">
                     {% if current_subscription and current_subscription.plan.id == plan.id %}
@@ -23,7 +23,7 @@
                     <div class="p-8">
                         <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ plan.name }}</h3>
                         <div class="mb-6">
-                            <span class="text-5xl font-bold text-gray-900">${{ plan.price }}</span>
+                            <span class="text-5xl font-bold text-gray-900">${{ plan.monthly_price }}</span>
                             <span class="text-gray-600">/month</span>
                         </div>
                         
@@ -32,22 +32,31 @@
                         {% endif %}
                         
                         <div class="space-y-3 mb-8">
+                            {% if plan.features %}
+                                {% for feature, value in plan.features.items %}
+                                <div class="flex items-start">
+                                    <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
+                                    <span class="text-gray-700">{{ feature }}: {{ value }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
                             <div class="flex items-start">
-                                <i class="fas fa-check text-gray-600 mt-1 mr-3"></i>
+                                <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
+                                <span class="text-gray-700">{% trans "Up to" %} {{ plan.max_number_of_staff }} {% trans "staff members" %}</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
                                 <span class="text-gray-700">{% trans "Unlimited bookings" %}</span>
                             </div>
                             <div class="flex items-start">
-                                <i class="fas fa-check text-gray-600 mt-1 mr-3"></i>
-                                <span class="text-gray-700">{% trans "Staff management" %}</span>
-                            </div>
-                            <div class="flex items-start">
-                                <i class="fas fa-check text-gray-600 mt-1 mr-3"></i>
+                                <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
                                 <span class="text-gray-700">{% trans "Calendar view" %}</span>
                             </div>
                             <div class="flex items-start">
-                                <i class="fas fa-check text-gray-600 mt-1 mr-3"></i>
+                                <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
                                 <span class="text-gray-700">{% trans "Public booking page" %}</span>
                             </div>
+                            {% endif %}
                         </div>
 
                         {% if current_subscription and current_subscription.plan.id == plan.id %}

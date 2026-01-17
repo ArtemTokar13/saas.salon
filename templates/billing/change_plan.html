@@ -1,0 +1,274 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Choose Plan" %}{% endblock %}
+
+{% block content %}
+<style>
+    .plan-card {
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .billing-period-option {
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid #dee2e6 !important;
+        margin-bottom: 10px !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+    }
+    
+    .billing-period-option:hover {
+        background-color: #f8f9fa !important;
+        border-color: #adb5bd !important;
+    }
+    
+    .billing-period-option:has(input:checked) {
+        background-color: #e7f3ff !important;
+        border-color: #0d6efd !important;
+    }
+    
+    .discount-badge {
+        display: inline-block;
+        background-color: #28a745;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 8px;
+    }
+    
+    .pricing-breakdown {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+    
+    .pricing-breakdown strong {
+        font-size: 1.2rem;
+    }
+    
+    .worker-input {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .worker-input:focus {
+        border-color: #0d6efd !important;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    }
+    
+    .period-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0d6efd;
+    }
+    
+    .period-monthly-equiv {
+        color: #6c757d;
+        font-size: 0.875rem;
+    }
+    
+    .sidebar-card {
+        border: none;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        height: fit-content;
+    }
+    
+    @media (min-width: 992px) {
+        .sidebar-card {
+            position: sticky;
+            top: 20px;
+        }
+    }
+    
+    .feature-list {
+        padding-left: 1.2rem;
+    }
+    
+    .feature-list li {
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+    
+    .feature-list li::before {
+        content: "✓";
+        position: absolute;
+        left: -1.2rem;
+        color: #28a745;
+        font-weight: bold;
+    }
+    
+    .btn:hover {
+        transform: none;
+        box-shadow: none;
+        opacity: 0.85;
+    }
+</style>
+<div class="container" style="max-width: 1200px; margin: 3rem auto; padding: 0 1rem;">
+    <div class="row g-4">
+        <div class="col-lg-8 col-md-12">
+            <div class="card plan-card">
+                <div class="card-body" style="padding: 2.5rem;">
+                    
+                    <form method="post" id="pricing-form">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="num_workers" class="form-label fw-semibold mb-3" style="font-size: 1rem; display: block;">
+                                {% trans "How many workers do you need?" %}
+                            </label>
+                            <select class="form-select form-select-lg worker-input" 
+                                    id="num_workers" 
+                                    name="num_workers" 
+                                    required
+                                    style="border: 2px solid #dee2e6; border-radius: 8px; padding: 0.75rem 1rem; font-size: 1.1rem; font-weight: 500;">
+                                {% for i in "123456789012345"|make_list %}
+                                    {% if forloop.counter <= 15 %}
+                                    <option value="{{ forloop.counter }}" {% if forloop.counter == plan.base_workers %}selected{% endif %}>
+                                        {{ forloop.counter }} worker{% if forloop.counter > 1 %}s{% endif %}
+                                    </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                            <div class="mt-2" style="background-color: #f8f9fa; padding: 0.75rem; border-radius: 6px; border-left: 4px solid #0d6efd;">
+                                <small class="text-muted" style="font-size: 0.9rem;">
+                                    <strong>💡 </strong>
+                                    {% blocktrans with base=plan.base_workers price=plan.additional_worker_price %}
+                                    Base: {{ base }} workers included. Each additional worker: ${{ price }}/month
+                                    {% endblocktrans %}
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <h5 class="mb-3" style="font-weight: 600; color: #212529;">
+                            <span style="font-size: 1.2rem;">📅</span> {% trans "Select Billing Period" %}
+                        </h5>
+                        
+                        <div class="mb-4">
+                            {% for period_code, period_label in billing_periods %}
+                            <div class="billing-period-option d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center flex-grow-1">
+                                    <input class="form-check-input me-3 flex-shrink-0" 
+                                           type="radio" 
+                                           name="billing_period" 
+                                           value="{{ period_code }}" 
+                                           {% if forloop.first %}checked{% endif %} 
+                                           id="period_{{ period_code }}"
+                                           data-multiplier="{% if period_code == 'monthly' %}1{% elif period_code == 'three_months' %}3{% elif period_code == 'six_months' %}6{% else %}12{% endif %}"
+                                           data-discount="{% if period_code == 'monthly' %}0{% elif period_code == 'three_months' %}10{% elif period_code == 'six_months' %}20{% else %}40{% endif %}"
+                                           style="width: 20px; height: 20px; cursor: pointer;">
+                                    <label for="period_{{ period_code }}" class="mb-0 flex-grow-1" style="cursor: pointer;">
+                                        <strong style="font-size: 1.1rem;">{{ period_label }}</strong>
+                                        {% if period_code != 'monthly' %}
+                                        <span class="discount-badge">
+                                            SAVE {% if period_code == 'three_months' %}10{% elif period_code == 'six_months' %}20{% else %}40{% endif %}%
+                                        </span>
+                                        {% endif %}
+                                    </label>
+                                </div>
+                                <div class="text-end flex-shrink-0 ms-3">
+                                    <div class="period-price" data-period="{{ period_code }}">$0.00</div>
+                                    <div class="period-monthly-equiv">
+                                        <span class="period-monthly" data-period="{{ period_code }}">$0.00</span>/month
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button type="submit" class="flex-1 bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition">
+                                {% trans "Continue to Payment" %} →
+                            </button>
+                            <a href="{% url 'view_plans' %}" class="flex-1 bg-gray-200 text-gray-700 py-2 text-center rounded-lg font-semibold hover:bg-gray-300 transition">
+                                {% trans "Cancel" %}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-12">
+            <div class="card sidebar-card">
+                <div class="card-body" style="padding: 2rem;">
+                    <h5 class="mb-3" style="font-weight: 600; font-size: 1.2rem;">
+                        💳 {% trans "Billing Information" %}
+                    </h5>
+                    <p class="mb-4" style="line-height: 1.6;">
+                        {% trans "You will be redirected to Stripe to complete your payment securely." %}
+                    </p>
+                    <ul class="feature-list list-unstyled" style="font-size: 1rem;">
+                        <li style="padding: 0.5rem 0;">{% trans "Secure payment processing" %}</li>
+                        <li style="padding: 0.5rem 0;">{% trans "Cancel anytime" %}</li>
+                        <li style="padding: 0.5rem 0;">{% trans "Automatic renewal" %}</li>
+                        {% if plan.trial_days > 0 %}
+                        <li style="padding: 0.5rem 0; color: #28a745; font-weight: 600;">
+                            🎁 {% blocktrans with days=plan.trial_days %}{{ days }} days free trial{% endblocktrans %}
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Pricing calculator
+const basePrice = {{ plan.base_monthly_price|default:plan.monthly_price }};
+const baseWorkers = {{ plan.base_workers }};
+const additionalWorkerPrice = {{ plan.additional_worker_price }};
+
+function calculatePrice(numWorkers, periodMultiplier, discount) {
+    const additionalWorkers = Math.max(0, numWorkers - baseWorkers);
+    const monthlyTotal = basePrice + (additionalWorkers * additionalWorkerPrice);
+    const periodTotal = monthlyTotal * periodMultiplier * (1 - discount / 100);
+    const monthlyEquivalent = periodTotal / periodMultiplier;
+    
+    return {
+        monthlyTotal: monthlyTotal.toFixed(2),
+        periodTotal: periodTotal.toFixed(2),
+        monthlyEquivalent: monthlyEquivalent.toFixed(2),
+        additionalWorkers: additionalWorkers,
+        additionalCost: (additionalWorkers * additionalWorkerPrice).toFixed(2)
+    };
+}
+
+function updatePricing() {
+    const numWorkers = parseInt(document.getElementById('num_workers').value) || baseWorkers;
+    
+    // Update all period prices
+    document.querySelectorAll('input[name="billing_period"]').forEach(radio => {
+        const multiplier = parseInt(radio.dataset.multiplier);
+        const discount = parseInt(radio.dataset.discount);
+        const prices = calculatePrice(numWorkers, multiplier, discount);
+        
+        const periodCode = radio.value;
+        const periodContainer = radio.closest('.billing-period-option');
+        periodContainer.querySelector(`.period-price`).textContent = `$${prices.periodTotal}`;
+        periodContainer.querySelector(`.period-monthly`).textContent = `$${prices.monthlyEquivalent}`;
+    });
+}
+
+// Update on worker count change
+document.getElementById('num_workers').addEventListener('change', updatePricing);
+
+// Update on period change
+document.querySelectorAll('input[name="billing_period"]').forEach(radio => {
+    radio.addEventListener('change', updatePricing);
+});
+
+// Initial calculation
+updatePricing();
+</script>
+{% endblock %}

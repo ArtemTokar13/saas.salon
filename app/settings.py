@@ -156,6 +156,13 @@ CONTACT_EMAIL = ''
 
 WHATSAPP_TOKEN = ""
 PHONE_NUMBER_ID = ""
+WHATSAPP_API_VERSION = os.environ.get('WHATSAPP_API_VERSION', 'v21.0')
+WHATSAPP_PHONE_NUMBER_ID = PHONE_NUMBER_ID  # Alias for consistency
+
+# Stripe settings
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
 
 # CORS settings for Flutter app
 CORS_ALLOWED_ORIGINS = [

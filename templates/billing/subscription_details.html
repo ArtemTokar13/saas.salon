@@ -57,6 +57,11 @@
                                 <a href="{% url 'view_plans' %}" class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition">
                                     <i class="fas fa-sync-alt mr-2"></i>Change Plan
                                 </a>
+                                {% if current_subscription.stripe_customer_id %}
+                                <a href="{% url 'customer_portal' %}" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                                    <i class="fas fa-cog mr-2"></i>Manage Billing
+                                </a>
+                                {% endif %}
                                 <a href="{% url 'cancel_subscription' %}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
                                     <i class="fas fa-times-circle mr-2"></i>Cancel Subscription
                                 </a>
@@ -86,6 +91,7 @@
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                                     </tr>
                                 </thead>
@@ -100,6 +106,17 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ transaction.subscription.plan.name }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                                {% if transaction.payment_status == 'succeeded' %}
+                                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">Paid</span>
+                                                {% elif transaction.payment_status == 'pending' %}
+                                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">Pending</span>
+                                                {% elif transaction.payment_status == 'failed' %}
+                                                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">Failed</span>
+                                                {% else %}
+                                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-medium">{{ transaction.payment_status|title }}</span>
+                                                {% endif %}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
                                                 ${{ transaction.amount }}

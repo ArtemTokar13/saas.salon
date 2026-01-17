@@ -9,12 +9,12 @@ from companies.models import Company
 
 def Index(request):
     companies = Company.objects.all()
-    send_whatsapp_template(
-        to="34674930646",
-        name="John Doe",
-        order_id="123456",
-        date="Jan 17, 2026"
-    )
+    # send_whatsapp_template(
+    #     to="34674930646",
+    #     name="John Doe",
+    #     order_id="123456",
+    #     date="Jan 17, 2026"
+    # )
     return render(request, 'Index.html', {'companies': companies})
 
 

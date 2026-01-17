@@ -3,13 +3,18 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.conf import settings
 from datetime import datetime
+from app.services import send_whatsapp_template
 from companies.models import Company
 
 
 def Index(request):
     companies = Company.objects.all()
-    from .services import send_whatsapp_message
-    # send_whatsapp_message(to="34674930646", text="Test message from ReservaYa SaaS")
+    send_whatsapp_template(
+        to="34674930646",
+        name="John Doe",
+        order_id="123456",
+        date="Jan 17, 2026"
+    )
     return render(request, 'Index.html', {'companies': companies})
 
 

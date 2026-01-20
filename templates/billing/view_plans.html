@@ -23,7 +23,7 @@
                     <div class="p-8">
                         <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ plan.name }}</h3>
                         <div class="mb-6">
-                            <span class="text-5xl font-bold text-gray-900">${{ plan.monthly_price }}</span>
+                            <span class="text-5xl font-bold text-gray-900">{{ plan.base_monthly_price }}</span>
                             <span class="text-gray-600">/month</span>
                         </div>
                         
@@ -64,9 +64,7 @@
                                 {% trans "Current Plan" %}
                             </button>
                         {% else %}
-                            <a href="{% url 'change_plan' plan.id %}" 
-                               onclick="return confirm('{% trans 'Are you sure you want to switch to' %} {{ plan.name }}?')"
-                               class="block w-full bg-gray-800 text-white text-center px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition">
+                            <a href="{% url 'change_plan' plan.id %}" onclick="return confirm('{% trans 'Are you sure you want to switch to' %} {{ plan.name }}?')" class="block w-full bg-gray-800 text-white text-center px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition">
                                 {% trans "Select Plan" %}
                             </a>
                         {% endif %}

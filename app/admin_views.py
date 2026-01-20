@@ -88,7 +88,7 @@ def manage_companies(request):
 @user_passes_test(is_superuser)
 def manage_plans(request):
     """View and manage billing plans"""
-    plans = Plan.objects.filter(is_active=True).order_by('monthly_price')
+    plans = Plan.objects.filter(is_active=True).order_by('base_monthly_price')
     
     context = {
         'plans': plans,

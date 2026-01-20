@@ -1,21 +1,23 @@
 {% extends 'Layout.html' %}
 {% load i18n %}
 
-{% block title %}Subscription & Billing - {{ company.name }}{% endblock %}
+{% block title %}{% trans "Subscription & Billing" %} - {{ company.name }}{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-gray-50">
     <!-- Header -->
     <div class="bg-white shadow">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="mb-6">
+                <a href="javascript:history.back()" class="text-gray-700 hover:text-gray-900 font-semibold">
+                    <i class="fas fa-arrow-left mr-2"></i> {% trans "Back" %}
+                </a>
+            </div>
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Subscription & Billing</h1>
+                    <h1 class="text-2xl font-bold text-gray-900">{% trans "Subscription & Billing" %}</h1>
                     <p class="text-gray-600 mt-1">{{ company.name }}</p>
                 </div>
-                <a href="javascript:history.back()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
-                    <i class="fas fa-arrow-left mr-2"></i>Back
-                </a>
             </div>
         </div>
     </div>
@@ -26,7 +28,7 @@
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white rounded-lg shadow">
                     <div class="px-6 py-4 border-b border-gray-200">
-                        <h2 class="text-xl font-semibold text-gray-900">Current Subscription</h2>
+                        <h2 class="text-xl font-semibold text-gray-900">{% trans "Current Subscription" %}</h2>
                     </div>
                     <div class="p-6">
                         {% if current_subscription %}
@@ -36,8 +38,8 @@
                                         <h3 class="text-2xl font-bold mb-2">{{ current_subscription.plan.name }}</h3>
                                         <p class="text-gray-100 mb-4">{{ current_subscription.plan.description }}</p>
                                         <div class="flex items-baseline">
-                                            <span class="text-4xl font-bold">${{ current_subscription.plan.price }}</span>
-                                            <span class="text-gray-100 ml-2">/month</span>
+                                            <span class="text-4xl font-bold">${{ current_subscription.price }}</span>
+                                            <span class="text-gray-100 ml-2">/{% trans "month" %}</span>
                                         </div>
                                     </div>
                                     <span class="bg-gray-600 px-3 py-1 rounded-full text-sm font-semibold">Active</span>
@@ -45,33 +47,28 @@
                             </div>
                             <div class="grid grid-cols-2 gap-4 text-sm">
                                 <div>
-                                    <p class="text-gray-600">Start Date</p>
+                                    <p class="text-gray-600">{% trans "Start Date" %}</p>
                                     <p class="font-semibold text-gray-900">{{ current_subscription.start_date|date:"F d, Y" }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-gray-600">Next Billing Date</p>
+                                    <p class="text-gray-600">{% trans "Next Billing Date" %}</p>
                                     <p class="font-semibold text-gray-900">{{ current_subscription.end_date|date:"F d, Y" }}</p>
                                 </div>
                             </div>
                             <div class="mt-6 flex space-x-4">
                                 <a href="{% url 'view_plans' %}" class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition">
-                                    <i class="fas fa-sync-alt mr-2"></i>Change Plan
+                                    <i class="fas fa-sync-alt mr-2"></i>{% trans "Change Plan" %}
                                 </a>
-                                {% if current_subscription.stripe_customer_id %}
-                                <a href="{% url 'customer_portal' %}" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-                                    <i class="fas fa-cog mr-2"></i>Manage Billing
-                                </a>
-                                {% endif %}
                                 <a href="{% url 'cancel_subscription' %}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
-                                    <i class="fas fa-times-circle mr-2"></i>Cancel Subscription
+                                    <i class="fas fa-times-circle mr-2"></i>{% trans "Cancel Subscription" %}
                                 </a>
                             </div>
                         {% else %}
                             <div class="text-center py-12">
                                 <i class="fas fa-exclamation-circle text-gray-300 text-6xl mb-4"></i>
-                                <p class="text-gray-500 text-lg mb-4">No active subscription</p>
+                                <p class="text-gray-500 text-lg mb-4">{% trans "No active subscription" %}</p>
                                 <a href="{% url 'view_plans' %}" class="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition">
-                                    View Available Plans
+                                    {% trans "View Available Plans" %}
                                 </a>
                             </div>
                         {% endif %}
@@ -81,18 +78,18 @@
                 <!-- Billing History -->
                 <div class="bg-white rounded-lg shadow">
                     <div class="px-6 py-4 border-b border-gray-200">
-                        <h2 class="text-xl font-semibold text-gray-900">Billing History</h2>
+                        <h2 class="text-xl font-semibold text-gray-900">{% trans "Billing History" %}</h2>
                     </div>
                     <div class="overflow-x-auto">
                         {% if transactions %}
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Date" %}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Transaction ID" %}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Plan" %}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Status" %}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Amount" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -128,7 +125,7 @@
                         {% else %}
                             <div class="p-12 text-center">
                                 <i class="fas fa-receipt text-gray-300 text-6xl mb-4"></i>
-                                <p class="text-gray-500">No billing history yet</p>
+                                <p class="text-gray-500">{% trans "No billing history yet" %}</p>
                             </div>
                         {% endif %}
                     </div>
@@ -139,16 +136,16 @@
             <div class="space-y-6">
                 <!-- Quick Stats -->
                 <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Summary</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{% trans "Account Summary" %}</h3>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Total Spent</span>
+                            <span class="text-gray-600">{% trans "Total Spent" %}</span>
                             <span class="font-bold text-gray-900">
-                                ${% widthratio transactions|length 1 1 %}{{ current_subscription.plan.price|default:"0" }}
+                                ${{ total_spent  }}
                             </span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Active Since</span>
+                            <span class="text-gray-600">{% trans "Active Since" %}</span>
                             <span class="font-bold text-gray-900">
                                 {% if current_subscription %}
                                     {{ current_subscription.start_date|date:"M Y" }}
@@ -158,7 +155,7 @@
                             </span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Transactions</span>
+                            <span class="text-gray-600">{% trans "Transactions" %}</span>
                             <span class="font-bold text-gray-900">{{ transactions|length }}</span>
                         </div>
                     </div>
@@ -166,12 +163,12 @@
 
                 <!-- Help -->
                 <div class="bg-gray-50 rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Need Help?</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{% trans "Need Help?" %}</h3>
                     <p class="text-sm text-gray-600 mb-4">
-                        Have questions about billing or your subscription?
+                        {% trans "Have questions about billing or your subscription?" %}
                     </p>
-                    <a href="#" class="text-gray-700 hover:text-gray-900 text-sm font-medium">
-                        Contact Support <i class="fas fa-arrow-right ml-1"></i>
+                    <a href="{% url 'contact' %}" class="text-gray-700 hover:text-gray-900 text-sm font-medium">
+                        {% trans "Contact Support" %} <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>
             </div>

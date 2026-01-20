@@ -24,7 +24,7 @@ def get_period_discount(period):
 @register.filter
 def get_period_savings(plan, period):
     """Calculate savings compared to monthly billing"""
-    monthly_total = plan.monthly_price * {
+    monthly_total = plan.base_monthly_price * {
         'monthly': 1,
         'three_months': 3,
         'six_months': 6,

@@ -6,6 +6,7 @@ from .models import Plan, Subscription, Transaction
 from datetime import timedelta, datetime
 from django.utils import timezone
 import uuid
+from django.utils.translation import gettext as _
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -29,47 +30,55 @@ def create_stripe_checkout_session(company, plan, billing_period, success_url, c
         if num_workers is None:
             num_workers = plan.base_workers
 
-        # Calculate total price for selected period and workers
         total_price = plan.get_price_for_period(billing_period, num_workers)
-
-        # Stripe expects amounts in cents
         amount_cents = int(total_price * 100)
 
-        # Create ephemeral product/price for Checkout
-        product = stripe.Product.create(name=f"{plan.name} ({billing_period})")
+        months = {
+            "monthly": 1,
+            "three_months": 3,
+            "six_months": 6,
+            "yearly": 12,
+        }[billing_period]
+
+        product = stripe.Product.create(
+            name=f"{plan.name} ({months} {_('months')})",
+        )
+
         price_obj = stripe.Price.create(
             unit_amount=amount_cents,
-            currency="usd",
-            recurring={"interval": billing_period if billing_period == "monthly" else "month"},
+            currency="eur",
+            recurring={
+                "interval": "month",
+                "interval_count": months,
+            },
             product=product.id,
         )
 
-        # Create Stripe customer
         customer = create_stripe_customer(company)
 
-        # Create Checkout session
         session = stripe.checkout.Session.create(
             customer=customer.id,
+            mode="subscription",
             payment_method_types=["card"],
             line_items=[{
                 "price": price_obj.id,
-                "quantity": 1
+                "quantity": 1,
             }],
-            mode="subscription",
             success_url=success_url,
             cancel_url=cancel_url,
-            subscription_data={"trial_period_days": plan.trial_days} if plan.trial_days else None,
             metadata={
                 "company_id": company.id,
                 "plan_id": plan.id,
                 "billing_period": billing_period,
                 "num_workers": num_workers,
-            }
+            },
         )
+
         return session
 
     except stripe.error.StripeError as e:
         raise Exception(f"Error creating Stripe checkout session: {str(e)}")
+
 
 
 def cancel_stripe_subscription(stripe_subscription_id):

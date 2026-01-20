@@ -21,11 +21,14 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, faq, contact
 from app import admin_views
+from billing.views import stripe_webhook
+
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     # API endpoints (no i18n prefix)
     path('api/', include('api.urls')),
+    path('billing/webhook/', stripe_webhook, name='stripe_webhook'),
 ]
 
 urlpatterns += i18n_patterns(

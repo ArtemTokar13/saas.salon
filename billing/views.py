@@ -235,6 +235,9 @@ def handle_checkout_session_completed(session):
         plan_id = session["metadata"].get("plan_id")
         billing_period = session["metadata"].get("billing_period", "monthly")
         num_workers = int(session["metadata"].get("num_workers", 3))
+        checkout_id = session.get("id")
+        invoice_id = session.get("invoice")
+        payment_intent_id = session.get("payment_intent")
 
         company = Company.objects.get(id=company_id)
         plan = Plan.objects.get(id=plan_id)
@@ -267,8 +270,10 @@ def handle_checkout_session_completed(session):
         Transaction.objects.create(
             subscription=subscription,
             amount=amount,
-            transaction_id=f"TXN-{uuid.uuid4().hex[:12].upper()}",
+            transaction_id=checkout_id,
             payment_status=Transaction.PAYMENT_STATUS_SUCCEEDED,
+            stripe_invoice_id=invoice_id,
+            stripe_payment_intent_id=payment_intent_id,
         )
     except Exception as e:
         print(f"Error handling checkout session completed: {str(e)}")

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from django import forms
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from .models import Booking, Customer, COUNTRY_CHOICES
 from companies.models import Company, Staff, Service
 
@@ -10,17 +11,22 @@ class BookingForm(forms.ModelForm):
     customer_phone = forms.CharField(max_length=50, required=True)
     customer_email = forms.EmailField(required=False)
     customer_country_code = forms.ChoiceField(
-        choices=[('', 'Select Country')] + list(COUNTRY_CHOICES), 
+        choices=[('', _('Select Country'))] + list(COUNTRY_CHOICES), 
         required=True, 
         initial='ES'
     )
     
     class Meta:
         model = Booking
-        fields = ['service', 'staff', 'date', 'start_time']
+        fields = ['service', 'staff', 'date', 'start_time', 'notes']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'start_time': forms.TimeInput(attrs={'type': 'time'}),
+            'notes': forms.Textarea(attrs={
+                'rows': 3,
+                'placeholder': _('Add any notes about this booking...'),
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+            }),
         }
 
     def __init__(self, *args, company=None, user=None, **kwargs):

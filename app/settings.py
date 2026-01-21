@@ -194,6 +194,11 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
+CRONJOBS = [
+    ('0 0 * * *', 'billing.cron.expire_subscriptions'), # Daily at midnight
+    ('*/10 * * * *', 'bookings.cron.send_booking_reminders'), # Every 10 minutes
+]
+
 # Import local settings
 try:
     from .local_settings import *

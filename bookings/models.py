@@ -39,6 +39,8 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     confirmed_at = models.DateTimeField(blank=True, null=True)  # When staff confirms the booking
     confirmed_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='confirmed_bookings')
+    reminder_sent = models.BooleanField(default=False)
+    notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.customer.name} → {self.service.name} ({self.date})"

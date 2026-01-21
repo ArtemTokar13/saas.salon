@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Plan, Subscription, Transaction
+from .models import Plan, Subscription, Transaction, StripeErrorLog
 
 @admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
@@ -64,3 +64,46 @@ class TransactionAdmin(admin.ModelAdmin):
             'fields': ('subscription', 'amount', 'transaction_id', 'payment_status', 'transaction_date')
         }),
     )
+
+
+@admin.register(StripeErrorLog)
+class StripeErrorLogAdmin(admin.ModelAdmin):
+    list_display = ['created_at', 'function_name', 'error_type', 'company', 'subscription', 'resolved', 'short_error_message']
+    list_filter = ['resolved', 'error_type', 'function_name', 'created_at']
+    search_fields = ['error_message', 'function_name', 'company__name']
+    readonly_fields = ['created_at', 'function_name', 'error_type', 'error_message', 'request_params', 'company', 'subscription']
+    list_per_page = 50
+    date_hierarchy = 'created_at'
+    
+    fieldsets = (
+        ('Error Information', {
+            'fields': ('function_name', 'error_type', 'error_message', 'created_at')
+        }),
+        ('Context', {
+            'fields': ('company', 'subscription', 'request_params')
+        }),
+        ('Resolution', {
+            'fields': ('resolved', 'notes')
+        }),
+    )
+    
+    def short_error_message(self, obj):
+        """Display truncated error message"""
+        msg = obj.error_message[:100]
+        if len(obj.error_message) > 100:
+            msg += '...'
+        return msg
+    short_error_message.short_description = 'Error Message'
+    
+    actions = ['mark_as_resolved', 'mark_as_unresolved']
+    
+    def mark_as_resolved(self, request, queryset):
+        queryset.update(resolved=True)
+        self.message_user(request, f'{queryset.count()} errors marked as resolved.')
+    mark_as_resolved.short_description = 'Mark selected errors as resolved'
+    
+    def mark_as_unresolved(self, request, queryset):
+        queryset.update(resolved=False)
+        self.message_user(request, f'{queryset.count()} errors marked as unresolved.')
+    mark_as_unresolved.short_description = 'Mark selected errors as unresolved'
+

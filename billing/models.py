@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from companies.models import Company
 from decimal import Decimal
+import traceback
 
 
 class Plan(models.Model):
@@ -163,3 +164,39 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"Transaction {self.transaction_id} - {self.amount}"
+
+
+class StripeErrorLog(models.Model):
+    """Simple log to track Stripe payment errors"""
+    function_name = models.CharField(max_length=255, help_text="Function where error occurred")
+    error_message = models.TextField(help_text="Stripe error message")
+    error_type = models.CharField(max_length=100, blank=True, help_text="Stripe error type (e.g., card_error)")
+    
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
+    subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    request_params = models.JSONField(default=dict, blank=True, help_text="What was being attempted")
+    
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    resolved = models.BooleanField(default=False)
+    notes = models.TextField(blank=True, help_text="Admin notes")
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.function_name} - {self.error_message[:50]} ({self.created_at.strftime('%Y-%m-%d %H:%M')})"
+
+    @classmethod
+    def log_error(cls, function_name, error, company=None, subscription=None, request_params=None):
+        """Simple helper to log Stripe errors"""
+        error_type = getattr(error, '__class__', type(error)).__name__
+        
+        return cls.objects.create(
+            function_name=function_name,
+            error_message=str(error),
+            error_type=error_type,
+            company=company,
+            subscription=subscription,
+            request_params=request_params or {},
+        )

@@ -9,7 +9,7 @@ from datetime import timedelta
 import uuid
 import stripe
 import json
-from .models import Plan, Subscription, Transaction
+from .models import Plan, Subscription, Transaction, StripeErrorLog
 from .forms import ChangePlanForm
 from .stripe_utils import (
     create_stripe_checkout_session, 
@@ -210,9 +210,19 @@ def stripe_webhook(request):
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, settings.STRIPE_WEBHOOK_SECRET)
-    except ValueError:
+    except ValueError as e:
+        StripeErrorLog.log_error(
+            function_name='stripe_webhook',
+            error=e,
+            request_params={'payload_length': len(payload)}
+        )
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError:
+    except stripe.error.SignatureVerificationError as e:
+        StripeErrorLog.log_error(
+            function_name='stripe_webhook',
+            error=e,
+            request_params={'has_signature': bool(sig_header)}
+        )
         return HttpResponse(status=400)
 
     event_type = event.get("type")
@@ -230,6 +240,7 @@ def stripe_webhook(request):
 
 def handle_checkout_session_completed(session):
     """Handle completed checkout session"""
+    company = None
     try:
         company_id = session["metadata"].get("company_id")
         plan_id = session["metadata"].get("plan_id")
@@ -276,11 +287,17 @@ def handle_checkout_session_completed(session):
             stripe_payment_intent_id=payment_intent_id,
         )
     except Exception as e:
-        print(f"Error handling checkout session completed: {str(e)}")
+        StripeErrorLog.log_error(
+            function_name='handle_checkout_session_completed',
+            error=e,
+            company=company,
+            request_params=session
+        )
 
 
 def handle_invoice_payment_succeeded(invoice):
     """Handle successful invoice payment"""
+    subscription = None
     try:
         subscription = Subscription.objects.filter(id=invoice.get("subscription")).first()
         if subscription:
@@ -294,11 +311,18 @@ def handle_invoice_payment_succeeded(invoice):
             subscription.is_active = True
             subscription.save()
     except Exception as e:
-        print(f"Error handling invoice payment succeeded: {str(e)}")
+        StripeErrorLog.log_error(
+            function_name='handle_invoice_payment_succeeded',
+            error=e,
+            company=subscription.company if subscription else None,
+            subscription=subscription,
+            request_params=invoice
+        )
 
 
 def handle_invoice_payment_failed(invoice):
     """Handle failed invoice payment"""
+    subscription = None
     try:
         subscription = Subscription.objects.filter(id=invoice.get("subscription")).first()
         if subscription:
@@ -311,4 +335,10 @@ def handle_invoice_payment_failed(invoice):
                 payment_status=Transaction.PAYMENT_STATUS_FAILED,
             )
     except Exception as e:
-        print(f"Error handling invoice payment failed: {str(e)}")
+        StripeErrorLog.log_error(
+            function_name='handle_invoice_payment_failed',
+            error=e,
+            company=subscription.company if subscription else None,
+            subscription=subscription,
+            request_params=invoice
+        )

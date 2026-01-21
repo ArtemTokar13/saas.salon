@@ -16,6 +16,7 @@ from .models import Booking, Customer
 from .forms import BookingForm
 from companies.models import Company, Staff, Service, WorkingHours, EmailLog
 from users.models import UserProfile
+from app.decorators import subscription_required
 
 
 logger = logging.getLogger(__name__)
@@ -406,6 +407,7 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
 
 #################### ADMIN VIEWS #####################
 @login_required
+@subscription_required
 def booking_calendar(request):
     """Calendar view for company administrators"""
     try:
@@ -545,6 +547,7 @@ def booking_calendar(request):
 
 
 @login_required
+@subscription_required
 def edit_booking(request, booking_id):
     """Edit an existing booking"""
     try:
@@ -609,6 +612,7 @@ def edit_booking(request, booking_id):
 
 
 @login_required
+@subscription_required
 def update_booking_status(request, booking_id):
     """Update booking status (confirm or cancel)"""
     try:
@@ -634,6 +638,7 @@ def update_booking_status(request, booking_id):
 
 @csrf_exempt
 @login_required
+@subscription_required
 def update_booking_ajax(request, booking_id):
     """AJAX endpoint to move a booking (change staff and/or start time). Expects POST with `staff_id` and `start_time` (HH:MM)."""
     try:
@@ -676,6 +681,7 @@ def update_booking_ajax(request, booking_id):
 
 @csrf_exempt
 @login_required
+@subscription_required
 def delete_booking_ajax(request, booking_id):
     """AJAX endpoint to delete a booking"""
     try:
@@ -696,6 +702,7 @@ def delete_booking_ajax(request, booking_id):
 
 
 @login_required
+@subscription_required
 def confirm_prebooked_booking(request, booking_id):
     """Staff/Admin view to confirm a prebooked booking with duration and price"""
     booking = get_object_or_404(Booking, id=booking_id, status=3)  # PreBooked status
@@ -748,6 +755,7 @@ def confirm_prebooked_booking(request, booking_id):
 
 
 @login_required
+@subscription_required
 def bookings_list(request):
     """List of bookings for staff/admin"""
     try:

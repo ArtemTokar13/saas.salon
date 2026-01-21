@@ -21,6 +21,7 @@ from billing.models import Subscription
 from users.models import UserProfile
 from companies.models import DAYS_OF_WEEK
 from bookings.models import Customer
+from app.decorators import subscription_required
 
 
 logger = logging.getLogger(__name__)
@@ -134,6 +135,7 @@ def activate_company(request, uidb64, token):
 
 
 @login_required
+@subscription_required
 def company_dashboard(request):
     """Dashboard for company administrators"""
     try:
@@ -166,6 +168,7 @@ def company_dashboard(request):
 
 
 @login_required
+@subscription_required
 def edit_company_profile(request):
     """Edit company profile"""
     try:
@@ -266,6 +269,7 @@ def delete_company_image(request, image_id):
 
 
 @login_required
+@subscription_required
 def staff_list(request):
     """List staff members for the company"""
     try:
@@ -284,6 +288,7 @@ def staff_list(request):
 
 
 @login_required
+@subscription_required
 def add_staff(request):
     """Add a new staff member"""
     try:
@@ -484,6 +489,7 @@ def reset_password(request, uidb64, token):
 
 
 @login_required
+@subscription_required
 def edit_staff(request, staff_id):
     """Edit an existing staff member"""
     try:
@@ -544,6 +550,7 @@ def edit_staff(request, staff_id):
 
 
 @login_required
+@subscription_required
 def delete_staff(request, staff_id):
     """Delete a staff member"""
     try:
@@ -562,6 +569,7 @@ def delete_staff(request, staff_id):
     
 
 @login_required
+@subscription_required
 def service_list(request):
     """List services for the company"""
     try:
@@ -580,6 +588,7 @@ def service_list(request):
     
 
 @login_required
+@subscription_required
 def add_service(request):
     """Add a new service"""
     try:
@@ -611,6 +620,7 @@ def add_service(request):
 
 
 @login_required
+@subscription_required
 def edit_service(request, service_id):
     """Edit an existing service"""
     try:
@@ -647,6 +657,7 @@ def edit_service(request, service_id):
     
 
 @login_required
+@subscription_required
 def delete_service(request, service_id):
     """Delete a service"""
     try:
@@ -665,6 +676,7 @@ def delete_service(request, service_id):
 
 
 @login_required
+@subscription_required
 def working_hours(request):
     """View and manage working hours for the company"""
     try:
@@ -736,6 +748,7 @@ def working_hours(request):
     
 
 @login_required
+@subscription_required
 def customers_list(request):
     """List of customers for staff/admin"""
     try:

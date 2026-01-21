@@ -1,6 +1,7 @@
 {% load i18n %}
 <!DOCTYPE html>
 {% load i18n %}
+{% load static %}
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="utf-8">
@@ -11,6 +12,7 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
+    <script src="{% static 'js/subscription-check.js' %}"></script>
     <title>{% block title %}{% endblock %}</title>
     {% block header %}{% endblock %}
 </head>

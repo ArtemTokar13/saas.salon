@@ -679,6 +679,30 @@ def update_booking_ajax(request, booking_id):
         return JsonResponse({'error': 'User profile not found'}, status=403)
 
 
+@login_required
+@subscription_required
+def update_booking_notes(request, booking_id):
+    """AJAX endpoint to auto-save booking notes"""
+    try:
+        profile = request.user.userprofile
+        if profile.is_admin:
+            booking = get_object_or_404(Booking, id=booking_id, company=profile.company)
+        else:
+            booking = get_object_or_404(Booking, id=booking_id, company=profile.company, staff=profile.staff)
+
+        if request.method != 'GET':
+            return JsonResponse({'error': 'Invalid method'}, status=400)
+
+        notes = request.GET.get('notes', '')
+        booking.notes = notes
+        booking.save()
+
+        return JsonResponse({'success': True, 'message': 'Notes saved'})
+
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'error': 'User profile not found'}, status=403)
+
+
 @csrf_exempt
 @login_required
 @subscription_required

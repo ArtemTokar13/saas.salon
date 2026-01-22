@@ -4,47 +4,311 @@
 {% block title %}Customers - {{ company.name }}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 зy-8">
-        <div class="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div class="mb-6">
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="mb-6">
             <a href="javascript:history.back()" class="text-gray-800 hover:text-gray-900 font-semibold">
                 <i class="fas fa-arrow-left mr-2"></i> {% trans "Back" %}
             </a>
         </div>
+        
         <h2 class="text-2xl font-bold text-gray-900 mb-8">{% trans "Customers for" %} {{ company.name }}</h2>
+        
+        <!-- Search Form -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <form method="get" action="{% url 'customers_list' %}" id="searchForm" class="flex gap-4">
+                <div class="flex-1">
+                    <label for="search" class="sr-only">{% trans "Search" %}</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <input 
+                            type="text" 
+                            name="search" 
+                            id="search" 
+                            value="{{ search_query }}"
+                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+                            placeholder="{% trans 'Search by name or phone number...' %}"
+                            autocomplete="off"
+                        >
+                    </div>
+                </div>
+                <button 
+                    type="submit" 
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                    <i class="fas fa-search mr-2"></i>
+                    {% trans "Search" %}
+                </button>
+                {% if search_query %}
+                <a 
+                    href="{% url 'customers_list' %}" 
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                    <i class="fas fa-times mr-2"></i>
+                    {% trans "Clear" %}
+                </a>
+                {% endif %}
+            </form>
+        </div>
+        
+        <!-- Customers Table -->
         <div class="bg-white rounded-lg shadow-lg p-6 overflow-x-auto">
+            {% if search_query %}
+            <div class="mb-4 text-sm text-gray-600">
+                {% blocktrans count counter=customers.paginator.count %}
+                    Found {{ counter }} customer matching "{{ search_query }}"
+                {% plural %}
+                    Found {{ counter }} customers matching "{{ search_query }}"
+                {% endblocktrans %}
+            </div>
+            {% endif %}
+            
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Name" %}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Email" %}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Phone" %}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Total Bookings" %}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Actions" %}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     {% for customer in customers %}
-                    <tr>
+                    <tr class="hover:bg-gray-50 cursor-pointer" onclick="window.location='{% url 'customer_detail' customer.id %}'">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ customer.name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ customer.email }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ customer.phone }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ customer.total_bookings }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            <a href="{% url 'customer_detail' customer.id %}" class="text-blue-600 hover:text-blue-900 font-semibold">
-                                {% trans "View Details" %}
-                            </a>
-                        </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{% trans "No customers found." %}</td>
+                        <td colspan="2" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                            {% if search_query %}
+                                {% trans "No customers found matching your search." %}
+                            {% else %}
+                                {% trans "No customers found." %}
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            
+            <!-- Pagination -->
+            {% if customers.has_other_pages %}
+            <div class="mt-6 flex justify-center">
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    {% if customers.has_previous %}
+                        <a href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">{% trans "First" %}</span>
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                        <a href="?page={{ customers.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">{% trans "Previous" %}</span>
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    {% endif %}
+
+                    {% for num in customers.paginator.page_range %}
+                        {% if customers.number == num %}
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600">
+                                {{ num }}
+                            </span>
+                        {% elif num > customers.number|add:'-3' and num < customers.number|add:'3' %}
+                            <a href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                {{ num }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if customers.has_next %}
+                        <a href="?page={{ customers.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" class="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">{% trans "Next" %}</span>
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                        <a href="?page={{ customers.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">{% trans "Last" %}</span>
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+            <div class="text-center mt-4 text-sm text-gray-600">
+                {% trans "Page" %} {{ customers.number }} {% trans "of" %} {{ customers.paginator.num_pages }} 
+                ({{ customers.paginator.count }} {% trans "total customers" %})
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search');
+    const searchForm = document.getElementById('searchForm');
+    let searchTimeout;
+    let currentPage = 1;
+
+    if (searchInput && searchForm) {
+        // Prevent default form submission
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            performSearch(1);
+        });
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            
+            const searchValue = searchInput.value.trim();
+            
+            // Only trigger auto-search if 3 or more characters
+            if (searchValue.length >= 3) {
+                searchTimeout = setTimeout(function() {
+                    performSearch(1);
+                }, 2000); // 2 second pause
+            } else if (searchValue.length === 0) {
+                // If search is cleared, reload to show all customers
+                searchTimeout = setTimeout(function() {
+                    performSearch(1);
+                }, 2000);
+            }
+        });
+    }
+
+    function performSearch(page) {
+        const searchValue = searchInput.value.trim();
+        const url = `/companies/api/search-customers/?search=${encodeURIComponent(searchValue)}&page=${page}`;
+        
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateCustomerTable(data, searchValue);
+                    updatePagination(data, searchValue);
+                }
+            })
+            .catch(error => {
+                console.error('Search error:', error);
+            });
+    }
+
+    function updateCustomerTable(data, searchQuery) {
+        const tbody = document.querySelector('tbody');
+        const searchResultDiv = document.querySelector('.mb-4.text-sm.text-gray-600');
+        
+        // Update or create search result count
+        if (searchQuery) {
+            const resultText = data.total_count === 1 
+                ? `Found ${data.total_count} customer matching "${searchQuery}"`
+                : `Found ${data.total_count} customers matching "${searchQuery}"`;
+            
+            if (searchResultDiv) {
+                searchResultDiv.textContent = resultText;
+            } else {
+                const table = document.querySelector('table');
+                const newDiv = document.createElement('div');
+                newDiv.className = 'mb-4 text-sm text-gray-600';
+                newDiv.textContent = resultText;
+                table.parentNode.insertBefore(newDiv, table);
+            }
+        } else if (searchResultDiv) {
+            searchResultDiv.remove();
+        }
+        
+        // Clear existing rows
+        tbody.innerHTML = '';
+        
+        if (data.customers.length === 0) {
+            const emptyRow = document.createElement('tr');
+            emptyRow.innerHTML = `
+                <td colspan="2" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                    ${searchQuery ? 'No customers found matching your search.' : 'No customers found.'}
+                </td>
+            `;
+            tbody.appendChild(emptyRow);
+        } else {
+            data.customers.forEach(customer => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 cursor-pointer';
+                row.onclick = function() { window.location = `/companies/customers/${customer.id}/`; };
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${customer.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${customer.phone}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+    }
+
+    function updatePagination(data, searchQuery) {
+        const paginationContainer = document.querySelector('.mt-6.flex.justify-center');
+        const paginationInfo = document.querySelector('.text-center.mt-4.text-sm.text-gray-600');
+        
+        if (data.total_pages <= 1) {
+            if (paginationContainer) paginationContainer.parentElement.style.display = 'none';
+            if (paginationInfo) paginationInfo.style.display = 'none';
+            return;
+        }
+        
+        if (paginationContainer) paginationContainer.parentElement.style.display = 'block';
+        if (paginationInfo) {
+            paginationInfo.style.display = 'block';
+            paginationInfo.textContent = `Page ${data.current_page} of ${data.total_pages} (${data.total_count} total customers)`;
+        }
+        
+        // Build pagination HTML
+        let paginationHTML = '';
+        
+        if (data.has_previous) {
+            paginationHTML += `
+                <a href="#" onclick="event.preventDefault(); performSearchFromPagination(1);" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    <span class="sr-only">First</span>
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+                <a href="#" onclick="event.preventDefault(); performSearchFromPagination(${data.previous_page});" class="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    <span class="sr-only">Previous</span>
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            `;
+        }
+        
+        for (let i = 1; i <= data.total_pages; i++) {
+            if (i === data.current_page) {
+                paginationHTML += `
+                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600">
+                        ${i}
+                    </span>
+                `;
+            } else if (i > data.current_page - 3 && i < data.current_page + 3) {
+                paginationHTML += `
+                    <a href="#" onclick="event.preventDefault(); performSearchFromPagination(${i});" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        ${i}
+                    </a>
+                `;
+            }
+        }
+        
+        if (data.has_next) {
+            paginationHTML += `
+                <a href="#" onclick="event.preventDefault(); performSearchFromPagination(${data.next_page});" class="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    <span class="sr-only">Next</span>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+                <a href="#" onclick="event.preventDefault(); performSearchFromPagination(${data.total_pages});" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    <span class="sr-only">Last</span>
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+            `;
+        }
+        
+        if (paginationContainer) {
+            paginationContainer.querySelector('nav').innerHTML = paginationHTML;
+        }
+    }
+
+    // Make performSearch available globally for pagination
+    window.performSearchFromPagination = function(page) {
+        performSearch(page);
+    };
+});
+</script>
 {% endblock %}
                 

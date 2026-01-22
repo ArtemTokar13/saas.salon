@@ -30,7 +30,7 @@ def subscription_details(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('index')
 
         company = profile.company
         current_subscription = Subscription.objects.filter(company=company, is_active=True).first()
@@ -49,7 +49,7 @@ def subscription_details(request):
 
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('index')
 
 
 @login_required
@@ -59,7 +59,7 @@ def view_plans(request):
         profile = request.user.userprofile
         if not profile.is_admin:
             messages.error(request, 'Access denied.')
-            return redirect('home')
+            return redirect('index')
 
         company = profile.company
         current_subscription = Subscription.objects.filter(company=company, end_date__gte=timezone.now(), is_active=True).first()
@@ -74,7 +74,7 @@ def view_plans(request):
 
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
-        return redirect('home')
+        return redirect('index')
 
 
 @login_required

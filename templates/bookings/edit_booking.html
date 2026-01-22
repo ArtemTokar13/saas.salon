@@ -248,6 +248,31 @@ document.addEventListener('DOMContentLoaded', function() {
 const companyId = {{ company.id }};
 const currentBookingStaffId = {{ booking.staff.id }};
 const currentBookingDate = "{{ booking.date|date:'Y-m-d' }}";
+const bookingId = {{ booking.id }};
+
+// Auto-save notes functionality on blur (click outside)
+const notesField = document.querySelector('textarea[name="notes"]');
+if (notesField) {
+    notesField.addEventListener('blur', function() {
+        saveNotes(notesField.value);
+    });
+}
+
+function saveNotes(notes) {
+    const encodedNotes = encodeURIComponent(notes);
+    fetch(`/bookings/api/update-notes/${bookingId}/?notes=${encodedNotes}`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Notes saved automatically');
+        }
+    })
+    .catch(error => {
+        console.error('Error saving notes:', error);
+    });
+}
 const currentBookingTime = "{{ booking.start_time|time:'H:i' }}";
 const currentBookingId = {{ booking.id }};
 

@@ -14,6 +14,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
 from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, CompanyStaffActivateForm, ServiceForm
 from .utils import make_random_password
@@ -753,18 +755,90 @@ def customers_list(request):
     """List of customers for staff/admin"""
     try:
         profile = request.user.userprofile
-        customers = Customer.objects.filter(booking__company=profile.company).distinct().order_by('name')
+        customers = Customer.objects.filter(booking__company=profile.company).distinct()
+        
+        # Search functionality
+        search_query = request.GET.get('search', '').strip()
+        if search_query:
+            customers = customers.filter(
+                Q(name__icontains=search_query) | 
+                Q(phone__icontains=search_query)
+            )
+        
+        customers = customers.order_by('name')
+        
+        # Pagination
+        paginator = Paginator(customers, 25)  # Show 25 customers per page
+        page = request.GET.get('page')
+        try:
+            customers_page = paginator.page(page)
+        except PageNotAnInteger:
+            customers_page = paginator.page(1)
+        except EmptyPage:
+            customers_page = paginator.page(paginator.num_pages)
         
         context = {
-            'customers': customers,
-            'company': profile.company
+            'customers': customers_page,
+            'company': profile.company,
+            'search_query': search_query,
         }
         return render(request, 'companies/customers_list.html', context)
     
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')
+
+
+@login_required
+@subscription_required
+def search_customers_ajax(request):
+    """AJAX endpoint for searching customers"""
+    try:
+        profile = request.user.userprofile
+        search_query = request.GET.get('search', '').strip()
+        page = request.GET.get('page', 1)
+        
+        customers = Customer.objects.filter(booking__company=profile.company).distinct()
+        
+        if search_query:
+            customers = customers.filter(
+                Q(name__icontains=search_query) | 
+                Q(phone__icontains=search_query)
+            )
+        
+        customers = customers.order_by('name')
+        
+        # Pagination
+        paginator = Paginator(customers, 25)
+        try:
+            customers_page = paginator.page(page)
+        except (PageNotAnInteger, EmptyPage):
+            customers_page = paginator.page(1)
+        
+        # Build customer data
+        customers_data = []
+        for customer in customers_page:
+            customers_data.append({
+                'id': customer.id,
+                'name': customer.name,
+                'phone': customer.phone,
+            })
+        
+        return JsonResponse({
+            'success': True,
+            'customers': customers_data,
+            'has_previous': customers_page.has_previous(),
+            'has_next': customers_page.has_next(),
+            'current_page': customers_page.number,
+            'total_pages': customers_page.paginator.num_pages,
+            'total_count': customers_page.paginator.count,
+            'previous_page': customers_page.previous_page_number() if customers_page.has_previous() else None,
+            'next_page': customers_page.next_page_number() if customers_page.has_next() else None,
+        })
     
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'error': 'User profile not found'}, status=403)
+
 
 @login_required
 @subscription_required
@@ -773,22 +847,35 @@ def customer_detail(request, customer_id):
     try:
         profile = request.user.userprofile
         customer = get_object_or_404(Customer, id=customer_id)
-        customer_bookings = customer.booking_set.filter(company=profile.company).order_by('-date')
-        customer_services = Service.objects.filter(booking__customer=customer, booking__company=profile.company).distinct()
-        service_counter_dict = {}
-        for service in customer_services:
-            count = customer.booking_set.filter(service=service, company=profile.company).count()
-            service_counter_dict[service.id] = count
         
         # Ensure the customer is associated with the company/staff
         if not customer.booking_set.filter(company=profile.company).exists():
             messages.error(request, 'Access denied.')
             return redirect('customers_list')
         
+        # Get bookings with pagination
+        customer_bookings_list = customer.booking_set.filter(company=profile.company).order_by('-date', '-start_time')
+        paginator = Paginator(customer_bookings_list, 25)  # Show 25 bookings per page
+        page = request.GET.get('page')
+        try:
+            customer_bookings = paginator.page(page)
+        except PageNotAnInteger:
+            customer_bookings = paginator.page(1)
+        except EmptyPage:
+            customer_bookings = paginator.page(paginator.num_pages)
+        
+        # Get services and their counts (only confirmed bookings)
+        customer_services = Service.objects.filter(booking__customer=customer, booking__company=profile.company, booking__status=1).distinct()
+        service_counter_dict = {}
+        for service in customer_services:
+            count = customer.booking_set.filter(service=service, company=profile.company, status=1).count()
+            service_counter_dict[service.id] = count
+        
         context = {
             'customer': customer,
             'company': profile.company,
             'customer_bookings': customer_bookings,
+            'customer_services': customer_services,
             'service_counter_dict': service_counter_dict,
         }
         return render(request, 'companies/customer_detail.html', context)

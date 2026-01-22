@@ -11,7 +11,7 @@ class Customer(models.Model):
     email = models.EmailField(blank=True, null=True)
 
     def total_bookings(self):
-        return Booking.objects.filter(customer=self).count()
+        return Booking.objects.filter(customer=self, status=1).count()
 
     def __str__(self):
         return self.name

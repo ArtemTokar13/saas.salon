@@ -39,7 +39,7 @@ def subscription_required(view_func):
                         'error': 'No company associated with your account.'
                     }, status=403)
                 messages.error(request, 'No company associated with your account.')
-                return redirect('home')
+                return redirect('index')
             
             # Check if within 30-day trial period (based on company's admin registration)
             # Find the admin user for this company to check trial period
@@ -91,7 +91,7 @@ def subscription_required(view_func):
                     request,
                     'Your salon does not have an active subscription. Please contact your administrator.'
                 )
-                return redirect('home')
+                return redirect('index')
             
         except Exception as e:
             if is_ajax:
@@ -100,6 +100,6 @@ def subscription_required(view_func):
                     'error': f'Error checking subscription: {str(e)}'
                 }, status=500)
             messages.error(request, f'Error checking subscription: {str(e)}')
-            return redirect('home')
+            return redirect('index')
     
     return wrapper

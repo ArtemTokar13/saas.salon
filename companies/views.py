@@ -753,16 +753,45 @@ def customers_list(request):
     """List of customers for staff/admin"""
     try:
         profile = request.user.userprofile
-        if profile.is_admin:
-            customers = Customer.objects.filter(booking__company=profile.company).distinct().order_by('name')
-        else:
-            customers = Customer.objects.filter(booking__company=profile.company, booking__staff=profile.staff).distinct().order_by('name')
+        customers = Customer.objects.filter(booking__company=profile.company).distinct().order_by('name')
         
         context = {
             'customers': customers,
             'company': profile.company
         }
         return render(request, 'companies/customers_list.html', context)
+    
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'User profile not found.')
+        return redirect('/')
+    
+
+@login_required
+@subscription_required
+def customer_detail(request, customer_id):
+    """View details of a specific customer"""
+    try:
+        profile = request.user.userprofile
+        customer = get_object_or_404(Customer, id=customer_id)
+        customer_bookings = customer.booking_set.filter(company=profile.company).order_by('-date')
+        customer_services = Service.objects.filter(booking__customer=customer, booking__company=profile.company).distinct()
+        service_counter_dict = {}
+        for service in customer_services:
+            count = customer.booking_set.filter(service=service, company=profile.company).count()
+            service_counter_dict[service.id] = count
+        
+        # Ensure the customer is associated with the company/staff
+        if not customer.booking_set.filter(company=profile.company).exists():
+            messages.error(request, 'Access denied.')
+            return redirect('customers_list')
+        
+        context = {
+            'customer': customer,
+            'company': profile.company,
+            'customer_bookings': customer_bookings,
+            'service_counter_dict': service_counter_dict,
+        }
+        return render(request, 'companies/customer_detail.html', context)
     
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')

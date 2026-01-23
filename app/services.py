@@ -1,7 +1,9 @@
 import requests
 from django.conf import settings
+from django.utils.translation import get_language
 
-def send_whatsapp_template(to: str, name: str, order_id: str, date: str):
+def send_whatsapp_template(to: str, name: str, date: str, time: str):
+    language_code = get_language() or 'en_US'
     url = (
         f"https://graph.facebook.com/"
         f"{settings.WHATSAPP_API_VERSION}/"
@@ -13,15 +15,15 @@ def send_whatsapp_template(to: str, name: str, order_id: str, date: str):
         "to": to,
         "type": "template",
         "template": {
-            "name": "jaspers_market_order_confirmation_v1",
-            "language": {"code": "en_US"},
+            "name": name,
+            "language": {"code": language_code},
             "components": [
                 {
                     "type": "body",
                     "parameters": [
                         {"type": "text", "text": name},
-                        {"type": "text", "text": order_id},
                         {"type": "text", "text": date},
+                        {"type": "text", "text": time},
                     ],
                 }
             ],

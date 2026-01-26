@@ -195,7 +195,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CRONJOBS = [
-    ('0 0 * * *', 'billing.cron.expire_subscriptions'), # Daily at midnight
+    # ('0 0 * * *', 'billing.cron.expire_subscriptions'), # Daily at midnight
     ('*/10 * * * *', 'bookings.cron.send_booking_reminders'), # Every 10 minutes
 ]
 

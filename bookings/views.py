@@ -11,7 +11,8 @@ from django.utils import timezone
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
 from .models import Booking, Customer
 from .forms import BookingForm
 from companies.models import Company, Staff, Service, WorkingHours, EmailLog
@@ -50,11 +51,20 @@ def create_booking(request, company_id):
             
             booking.save()
             if not request.user.is_authenticated or (request.user.is_authenticated and (hasattr(request.user, 'userprofile') and request.user.userprofile.company != company)):
-                booking_confirmation_link = request.build_absolute_uri(
+                booking_link = request.build_absolute_uri(
                     redirect('booking_confirmation', booking_id=booking.id).url
                 )
+                cancel_link = request.build_absolute_uri(
+                    redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
+                )
                 subject = 'Your Booking Confirmation'
-                message = f'Thank you for your booking at {company.name}.\n\nYou can view your booking details here: {booking_confirmation_link}\n\nIf you need to cancel your booking, please use the following link:\n{request.build_absolute_uri(redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url)}'
+                html_message = render_to_string('email/booking_confirmation.html', {
+                    'company': company,
+                    'booking': booking,
+                    'booking_link': booking_link,
+                    'cancel_link': cancel_link,
+                    'current_year': timezone.now().year,
+                })
                 from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
                 recipient_list = [booking.customer.email]
                 email_log = EmailLog.objects.create(
@@ -64,7 +74,9 @@ def create_booking(request, company_id):
                     status='pending'
                 )
                 try:
-                    send_mail(subject, message, from_email, recipient_list)
+                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                    msg.attach_alternative(html_message, "text/html")
+                    msg.send()
                     email_log.status = 'sent'
                     email_log.sent_at = timezone.now()
                     email_log.save()
@@ -141,7 +153,13 @@ def cancel_booking(request, booking_id, delete_code):
         # Send cancellation email to customer
         if booking.customer.email:
             subject = 'Your Booking Cancellation'
-            message = f'Your booking at {booking.company.name} on {booking.date} for {booking.service.name} has been cancelled.'
+            html_message = render_to_string('email/booking_cancellation.html', {
+                'booking': booking,
+                'company': booking.company,
+                'cancellation_date': timezone.now(),
+                'booking_link': request.build_absolute_uri(f'/companies/{booking.company.id}/'),
+                'current_year': timezone.now().year,
+            })
             from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
             recipient_list = [booking.customer.email]
             email_log = EmailLog.objects.create(
@@ -151,7 +169,9 @@ def cancel_booking(request, booking_id, delete_code):
                 status='pending'
             )
             try:
-                send_mail(subject, message, from_email, recipient_list)
+                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                msg.attach_alternative(html_message, "text/html")
+                msg.send()
                 email_log.status = 'sent'
                 email_log.sent_at = timezone.now()
                 email_log.save()
@@ -568,11 +588,20 @@ def edit_booking(request, booking_id):
                 form.save()
 
                 # Send notification email to customer about booking update
-                booking_confirmation_link = request.build_absolute_uri(
+                booking_link = request.build_absolute_uri(
                     redirect('booking_confirmation', booking_id=booking.id).url
                 )
+                cancel_link = request.build_absolute_uri(
+                    redirect('cancel_booking', booking_id=booking.id, delete_code=booking.delete_code).url
+                )
                 subject = 'Your Booking Has Been Updated'
-                message = f'Your booking at {booking.company.name} on {booking.date} for {booking.service.name} has been updated. Please check your booking details here: {booking_confirmation_link}'
+                html_message = render_to_string('email/booking_update.html', {
+                    'booking': booking,
+                    'booking_link': booking_link,
+                    'cancel_link': cancel_link,
+                    'company': profile.company,
+                    'current_year': timezone.now().year,
+                })
                 from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
                 recipient_list = [booking.customer.email]
                 email_log = EmailLog.objects.create(
@@ -582,7 +611,9 @@ def edit_booking(request, booking_id):
                     status='pending'
                 )
                 try:
-                    send_mail(subject, message, from_email, recipient_list)
+                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                    msg.attach_alternative(html_message, "text/html")
+                    msg.send()
                     email_log.status = 'sent'
                     email_log.sent_at = timezone.now()
                     email_log.save()

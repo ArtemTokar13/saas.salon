@@ -1,0 +1,247 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Booking Cancellation" %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .email-header p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .email-body {
+            padding: 30px 20px;
+        }
+        .cancellation-notice {
+            background-color: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        .cancellation-notice h2 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            color: #dc2626;
+        }
+        .cancellation-notice p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .booking-details {
+            background-color: #f9fafb;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .booking-details h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #374151;
+        }
+        .detail-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 130px;
+            font-size: 14px;
+        }
+        .detail-value {
+            color: #6b7280;
+            flex: 1;
+            font-size: 14px;
+        }
+        .company-info {
+            background-color: #f9fafb;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .company-info h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #374151;
+        }
+        .company-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .btn-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background-color: #667eea;
+            color: #ffffff;
+        }
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .email-footer {
+            background-color: #f9fafb;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        .email-footer p {
+            margin: 5px 0;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        .info-box {
+            background-color: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info-box p {
+            margin: 0;
+            font-size: 14px;
+            color: #1e40af;
+        }
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            .email-body {
+                padding: 20px 15px;
+            }
+            .detail-row {
+                flex-direction: column;
+            }
+            .detail-label {
+                margin-bottom: 5px;
+            }
+            .btn {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>✗ {% trans "Booking Cancelled" %}</h1>
+            <p>{{ company.name }}</p>
+        </div>
+        
+        <div class="email-body">
+            <div class="cancellation-notice">
+                <h2>{% trans "Your booking has been cancelled" %}</h2>
+                <p>{% trans "This booking has been successfully cancelled and removed from our schedule." %}</p>
+            </div>
+            
+            <div class="booking-details">
+                <h3>{% trans "Cancelled Booking Details" %}</h3>
+                <div class="detail-row">
+                    <span class="detail-label">{% trans "Customer Name:" %}</span>
+                    <span class="detail-value">{{ booking.customer.name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">{% trans "Service:" %}</span>
+                    <span class="detail-value">{{ booking.service.name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">{% trans "Staff Member:" %}</span>
+                    <span class="detail-value">{{ booking.staff.name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">{% trans "Date:" %}</span>
+                    <span class="detail-value">{{ booking.date|date:"l, F j, Y" }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">{% trans "Time:" %}</span>
+                    <span class="detail-value">{{ booking.start_time|time:"g:i A" }}{% if booking.end_time %} - {{ booking.end_time|time:"g:i A" }}{% endif %}</span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p>{% trans "If you wish to book another appointment, please visit our booking page or contact us directly." %}</p>
+            </div>
+
+            <div class="company-info">
+                <h3>{{ company.name }}</h3>
+                {% if company.address %}
+                <p><strong>{% trans "Address:" %}</strong> {{ company.address }}{% if company.city %}, {{ company.city }}{% endif %}</p>
+                {% endif %}
+                {% if company.phone %}
+                <p><strong>{% trans "Phone:" %}</strong> {{ company.phone }}</p>
+                {% endif %}
+                {% if company.email %}
+                <p><strong>{% trans "Email:" %}</strong> {{ company.email }}</p>
+                {% endif %}
+                {% if company.website %}
+                <p><strong>{% trans "Website:" %}</strong> <a href="{{ company.website }}" style="color: #667eea; text-decoration: none;">{{ company.website }}</a></p>
+                {% endif %}
+            </div>
+
+            {% if booking_link %}
+            <div class="btn-container">
+                <a href="{{ booking_link }}" class="btn btn-primary">{% trans "Book Again" %}</a>
+            </div>
+            {% endif %}
+
+            <p style="text-align: center; color: #6b7280; font-size: 14px; margin-top: 30px;">
+                {% trans "If you have any questions or concerns, please don't hesitate to contact us." %}
+            </p>
+        </div>
+        
+        <div class="email-footer">
+            <p>{% blocktrans with company_name=company.name %}This is an automated message from {{ company_name }}{% endblocktrans %}</p>
+            <p>&copy; {{ current_year }} {{ company.name }}. {% trans "All rights reserved." %}</p>
+        </div>
+    </div>
+</body>
+</html>

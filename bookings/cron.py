@@ -14,7 +14,6 @@ def send_booking_reminders():
     bookings_to_remind = Booking.objects.filter(start_time__gte=now, start_time__lt=reminder_time, reminder_sent=False)
 
     for booking in bookings_to_remind:
-        # Send reminder (e.g., via email or SMS)
         if booking.customer.email:
             subject = _("Reminder: Upcoming Booking for") + booking.service.name
             message = _("Dear {}, you have an upcoming booking for {} on {} at {}.").format(
@@ -37,7 +36,7 @@ def send_booking_reminders():
                     error_message=str(e)
                 )
 
-        # send_reminder(booking)
+        # TODO: Send reminder via WhatsApp as well
         # res = send_whatsapp_template(
         #     to=booking.customer.phone,
         #     name="jaspers_market_order_confirmation_v1",

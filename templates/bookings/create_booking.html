@@ -388,14 +388,18 @@ function selectStaff(staffId, element) {
     
     // Update visual selection
     document.querySelectorAll('.staff-card').forEach(card => {
-        const avatar = card.querySelector('img, div, svg').closest('div');
-        avatar.classList.remove('ring-4', 'ring-blue-500');
-        avatar.classList.add('border-2', 'border-gray-100');
+        const avatar = card.querySelector('img, div.h-24');
+        if (avatar) {
+            avatar.classList.remove('ring-4', 'ring-blue-500');
+            avatar.classList.add('border-4', 'border-gray-100');
+        }
     });
     
-    const selectedAvatar = element.querySelector('img, div, svg').closest('div');
-    selectedAvatar.classList.remove('border-gray-100');
-    selectedAvatar.classList.add('ring-4', 'ring-blue-500');
+    const selectedAvatar = element.querySelector('img, div.h-24');
+    if (selectedAvatar) {
+        selectedAvatar.classList.remove('border-4', 'border-gray-100');
+        selectedAvatar.classList.add('ring-4', 'ring-blue-500');
+    }
     
     currentMonth = new Date();
     loadAvailableDates();

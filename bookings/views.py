@@ -50,41 +50,40 @@ def create_booking(request, company_id):
                     booking.status = 1  # Confirmed normal confirmation
             
             booking.save()
-            if not request.user.is_authenticated or (request.user.is_authenticated and (hasattr(request.user, 'userprofile') and request.user.userprofile.company != company)):
-                booking_link = request.build_absolute_uri(
-                    redirect('booking_confirmation', booking_id=booking.id).url
-                )
-                cancel_link = request.build_absolute_uri(
-                    redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
-                )
-                subject = 'Your Booking Confirmation'
-                html_message = render_to_string('email/booking_confirmation.html', {
-                    'company': company,
-                    'booking': booking,
-                    'booking_link': booking_link,
-                    'cancel_link': cancel_link,
-                    'current_year': timezone.now().year,
-                })
-                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-                recipient_list = [booking.customer.email]
-                email_log = EmailLog.objects.create(
-                    recipient_email=booking.customer.email,
-                    subject=subject,
-                    email_type='booking_confirmation',
-                    status='pending'
-                )
-                try:
-                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-                    msg.attach_alternative(html_message, "text/html")
-                    msg.send()
-                    email_log.status = 'sent'
-                    email_log.sent_at = timezone.now()
-                    email_log.save()
-                except Exception as e:
-                    email_log.status = 'failed'
-                    email_log.error_message = str(e)
-                    email_log.save()
-                    logger.error(f"Failed to send booking confirmation email: {e}")
+            booking_link = request.build_absolute_uri(
+                redirect('booking_confirmation', booking_id=booking.id).url
+            )
+            cancel_link = request.build_absolute_uri(
+                redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
+            )
+            subject = 'Your Booking Confirmation'
+            html_message = render_to_string('email/booking_confirmation.html', {
+                'company': company,
+                'booking': booking,
+                'booking_link': booking_link,
+                'cancel_link': cancel_link,
+                'current_year': timezone.now().year,
+            })
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+            recipient_list = [booking.customer.email]
+            email_log = EmailLog.objects.create(
+                recipient_email=booking.customer.email,
+                subject=subject,
+                email_type='booking_confirmation',
+                status='pending'
+            )
+            try:
+                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                msg.attach_alternative(html_message, "text/html")
+                msg.send()
+                email_log.status = 'sent'
+                email_log.sent_at = timezone.now()
+                email_log.save()
+            except Exception as e:
+                email_log.status = 'failed'
+                email_log.error_message = str(e)
+                email_log.save()
+                logger.error(f"Failed to send booking confirmation email: {e}")
             messages.success(request, 'Booking created successfully! We will contact you soon.')
             return redirect('booking_confirmation', booking_id=booking.id)
     else:
@@ -591,14 +590,10 @@ def edit_booking(request, booking_id):
                 booking_link = request.build_absolute_uri(
                     redirect('booking_confirmation', booking_id=booking.id).url
                 )
-                cancel_link = request.build_absolute_uri(
-                    redirect('cancel_booking', booking_id=booking.id, delete_code=booking.delete_code).url
-                )
                 subject = 'Your Booking Has Been Updated'
                 html_message = render_to_string('email/booking_update.html', {
                     'booking': booking,
                     'booking_link': booking_link,
-                    'cancel_link': cancel_link,
                     'company': profile.company,
                     'current_year': timezone.now().year,
                 })

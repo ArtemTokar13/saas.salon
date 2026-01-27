@@ -11,7 +11,8 @@ from django.http import JsonResponse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -68,7 +69,11 @@ def register_company(request):
 
             # send activation email
             subject = 'Activate your account'
-            message = f"Please confirm your registration by clicking the following link:\n{activate_link}\n\nIf you didn't request this, ignore this email."
+            html_message = render_to_string('email/account_activation.html', {
+                'activate_link': activate_link,
+                'current_year': timezone.now().year,
+                'site_name': 'Salon Booking System',
+            })
             from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
             recipient_list = [user.email]
             
@@ -81,7 +86,9 @@ def register_company(request):
             )
             
             try:
-                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                msg.attach_alternative(html_message, "text/html")
+                msg.send()
                 # Mark as successful
                 email_log.status = 'success'
                 email_log.sent_at = timezone.now()
@@ -334,7 +341,12 @@ def add_staff(request):
 
                 # send activation email
                 subject = 'Activate your staff account'
-                message = f"Please activate your staff account by clicking the following link:\n{activate_link}\n\nIf you didn't expect this, please ignore this email."
+                html_message = render_to_string('email/staff_activation.html', {
+                    'activate_link': activate_link,
+                    'company_name': profile.company.name,
+                    'current_year': timezone.now().year,
+                    'site_name': 'Salon Booking System',
+                })
                 from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
                 recipient_list = [user.email]
 
@@ -347,7 +359,12 @@ def add_staff(request):
                 )
 
                 try:
-                    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                    msg.attach_alternative(html_message, "text/html")
+                    # Send copy to company admin
+                    if profile.company.administrator.email:
+                        msg.bcc = [profile.company.administrator.email]
+                    msg.send()
                     email_log.status = 'success'
                     email_log.sent_at = timezone.now()
                     email_log.save()
@@ -400,12 +417,25 @@ def activate_staff_account(request, uidb64, token):
 
                     # send confirmation email
                     subject = 'Your staff account has been activated'
-                    message = f"Hello {user.first_name},\n\nYour staff account has been successfully activated. You can now log in to your account."
+                    html_message = render_to_string('email/account_activated.html', {
+                        'user_name': user.first_name or user.username,
+                        'current_year': timezone.now().year,
+                        'site_name': 'Salon Booking System',
+                    })
                     from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
                     recipient_list = [user.email]
 
                     try:
-                        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                        msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                        msg.attach_alternative(html_message, "text/html")
+                        # Send copy to company admin
+                        try:
+                            company = staff.company
+                            if company and company.administrator.email:
+                                msg.bcc = [company.administrator.email]
+                        except Exception:
+                            pass
+                        msg.send()
                     except Exception as e:
                         logger.error(f"Failed to send confirmation email: {e}")
 
@@ -436,11 +466,20 @@ def forgot_password(request):
 
             # send reset email
             subject = 'Reset your password'
-            message = f"Please reset your password by clicking the following link:\n{reset_link}\n\nIf you didn't request this, ignore this email."
+            html_message = render_to_string('email/password_reset.html', {
+                'reset_link': reset_link,
+                'current_year': timezone.now().year,
+                'site_name': 'Salon Booking System',
+            })
             from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
             recipient_list = [user.email]
 
-            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+            try:
+                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                msg.attach_alternative(html_message, "text/html")
+                msg.send()
+            except Exception as e:
+                logger.error(f"Failed to send password reset email: {e}")
 
             messages.success(request, 'Password reset link sent to your email.')
         except User.DoesNotExist:
@@ -470,12 +509,25 @@ def reset_password(request, uidb64, token):
 
                     # send confirmation email
                     subject = 'Your password has been reset'
-                    message = f"Hello {user.first_name},\n\nYour password has been successfully reset. You can now log in to your account."
+                    html_message = render_to_string('email/password_reset_success.html', {
+                        'user_name': user.first_name or user.username,
+                        'current_year': timezone.now().year,
+                        'site_name': 'Salon Booking System',
+                    })
                     from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
                     recipient_list = [user.email]
 
                     try:
-                        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                        msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                        msg.attach_alternative(html_message, "text/html")
+                        # Send copy to company admin for security purposes
+                        try:
+                            user_profile = UserProfile.objects.filter(user=user).first()
+                            if user_profile and user_profile.company and user_profile.company.administrator.email:
+                                msg.bcc = [user_profile.company.administrator.email]
+                        except Exception:
+                            pass
+                        msg.send()
                     except Exception as e:
                         logger.error(f"Failed to send confirmation email: {e}")
 

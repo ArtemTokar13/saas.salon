@@ -1,0 +1,103 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Activate Your Account" %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .email-body {
+            padding: 30px 20px;
+        }
+        .email-body p {
+            font-size: 16px;
+            color: #374151;
+            margin-bottom: 20px;
+        }
+        .btn-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            background-color: #667eea;
+            color: #ffffff;
+        }
+        .email-footer {
+            background-color: #f9fafb;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        .email-footer p {
+            margin: 5px 0;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>{% trans "Welcome!" %}</h1>
+        </div>
+        
+        <div class="email-body">
+            <p>{% trans "Thank you for registering with us!" %}</p>
+            
+            <p>{% trans "Please confirm your registration by clicking the button below:" %}</p>
+
+            <div class="btn-container">
+                <a href="{{ activate_link }}" class="btn">{% trans "Activate Account" %}</a>
+            </div>
+
+            <p style="font-size: 14px; color: #6b7280; margin-top: 30px;">
+                {% trans "If the button doesn't work, copy and paste this link into your browser:" %}
+            </p>
+            <p style="font-size: 14px; color: #667eea; word-break: break-all;">
+                {{ activate_link }}
+            </p>
+
+            <p style="font-size: 14px; color: #9ca3af; margin-top: 30px;">
+                {% trans "If you didn't request this, please ignore this email." %}
+            </p>
+        </div>
+        
+        <div class="email-footer">
+            <p>&copy; {{ current_year }} {{ site_name }}. {% trans "All rights reserved." %}</p>
+        </div>
+    </div>
+</body>
+</html>

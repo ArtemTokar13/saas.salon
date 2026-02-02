@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generador de horarios</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 40px auto; }
+        textarea { width: 100%; height: 320px; font-family: monospace; }
+        button { padding: 12px 24px; font-size: 16px; margin-top: 10px; }
+        .hint { color: #666; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>Generación de horarios (CSV)</h1>
+
+<div class="hint">
+    Pega el JSON y pulsa <b>GENERAR</b>.  
+    El archivo CSV se descargará automáticamente.
+</div>
+
+<form method="post" action="{% url 'generate_schedule' %}">
+    <textarea name="payload">
+{
+  "names": "Juan;María;Carlos;Ana",
+  "slots": "Lunes-09;Lunes-14;Miércoles-10",
+  "places": "OficinaA;OficinaB",
+  "preferences": {
+    "Juan": { "from": 8, "to": 12 },
+    "María": { "from": 12, "to": 18 }
+  }
+}
+    </textarea>
+    <br>
+    <button type="submit">GENERAR</button>
+</form>
+
+</body>
+</html>

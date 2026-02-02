@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
-from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, faq, contact
+from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, faq, contact, schedule_page, generate_schedule
 from app import admin_views
 from billing.views import stripe_webhook
 
@@ -55,6 +55,10 @@ urlpatterns += i18n_patterns(
     path('platform-admin/companies/', admin_views.manage_companies, name='manage_companies'),
     path('platform-admin/plans/', admin_views.manage_plans, name='manage_plans'),
     path('platform-admin/subscriptions/', admin_views.manage_subscriptions, name='manage_subscriptions'),
+
+    ################################################################
+    path("schedule/", schedule_page, name="schedule_page"),
+    path("schedule/generate/", generate_schedule, name="generate_schedule"),
 )
 
 if settings.DEBUG:

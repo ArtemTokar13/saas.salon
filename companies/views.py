@@ -1,13 +1,15 @@
 from datetime import timedelta
 import logging
 import traceback
+import qrcode
+from io import BytesIO
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
@@ -935,3 +937,45 @@ def customer_detail(request, customer_id):
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')
+
+
+@login_required
+def generate_qr_code(request):
+    """Generate and return QR code image for company public page"""
+    url = request.GET.get('url')
+    company_id = request.GET.get('company_id')
+    
+    if not url or not company_id:
+        return HttpResponse('Missing parameters', status=400)
+    
+    # Verify the user owns this company
+    try:
+        company = Company.objects.get(id=company_id, administrator=request.user)
+    except Company.DoesNotExist:
+        return HttpResponse('Unauthorized', status=403)
+    
+    # Generate QR code
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(url)
+    qr.make(fit=True)
+    
+    # Create QR code image
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    # Save to BytesIO
+    buffer = BytesIO()
+    img.save(buffer, format='PNG')
+    buffer.seek(0)
+    
+    # Return as HTTP response
+    response = HttpResponse(buffer.getvalue(), content_type='image/png')
+    # Create a safe filename from company name
+    safe_name = "".join(c for c in company.name if c.isalnum() or c in (' ', '-', '_')).rstrip()
+    safe_name = safe_name.replace(' ', '_')
+    response['Content-Disposition'] = f'attachment; filename="{safe_name}_qr_code.png"'
+    return response

@@ -153,18 +153,24 @@
                 <div class="p-6">
                     <p class="text-sm text-gray-600 mb-3">{% trans "Share this link with your customers:" %}</p>
                     <div class="flex items-center bg-gray-50 p-3 rounded border border-gray-200">
-                        <input type="text" readonly value="{{ request.scheme }}://{{ request.get_host }}{% url 'create_booking' company.id %}" 
+                        <input type="text" readonly value="{{ request.scheme }}://{{ request.get_host }}{% url 'company_public_page' company.id %}" 
                                id="bookingLink" class="flex-1 bg-transparent text-sm text-gray-700 outline-none">
                         <button onclick="copyLink()" class="ml-2 text-blue-700 hover:text-blue-900 font-semibold">
                             <i class="fas fa-copy"></i> {% trans "Copy" %}
                         </button>
                     </div>
                     
-                    <div class="mt-4">
-                        <a href="{% url 'create_booking' company.id %}" target="_blank" 
-                           class="inline-flex items-center text-blue-700 hover:text-blue-900 font-semibold">
-                            <i class="fas fa-eye mr-2"></i>{% trans "Preview booking page" %}
-                        </a>
+                    <div class="mt-4 flex items-center justify-between">
+                        <button onclick="downloadQRCode()" class="inline-flex items-center text-green-700 hover:text-green-900 font-semibold">
+                            <i class="fas fa-qrcode mr-2"></i>{% trans "Download QR Code" %}
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4" id="qrCodeContainer" style="display: none;">
+                        <div class="border border-gray-200 rounded p-4 bg-gray-50">
+                            <p class="text-sm text-gray-600 mb-2">{% trans "QR Code Preview:" %}</p>
+                            <img id="qrCodeImage" src="" alt="QR Code" class="max-w-full h-auto">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,6 +184,19 @@ function copyLink() {
     input.select();
     document.execCommand('copy');
     alert('{% trans "Link copied to clipboard!" %}');
+}
+
+function downloadQRCode() {
+    const link = document.getElementById('bookingLink').value;
+    const qrUrl = `/companies/qr-code/?url=${encodeURIComponent(link)}&company_id={{ company.id }}`;
+    
+    // Create a temporary link to download the QR code
+    const downloadLink = document.createElement('a');
+    downloadLink.href = qrUrl;
+    downloadLink.download = `company_{{ company.id }}_qr_code.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
 }
 </script>
 {% endblock %}

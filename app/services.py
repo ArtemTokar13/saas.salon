@@ -1,40 +1,26 @@
-import requests
+import json
+from twilio.rest import Client
 from django.conf import settings
 from django.utils.translation import get_language
 
-def send_whatsapp_template(to: str, name: str, date: str, time: str):
-    language_code = get_language() or 'en_US'
-    url = (
-        f"https://graph.facebook.com/"
-        f"{settings.WHATSAPP_API_VERSION}/"
-        f"{settings.WHATSAPP_PHONE_NUMBER_ID}/messages"
+
+def send_whatsapp_template(to, content_sid, variables):
+    
+    client = Client(
+        settings.TWILIO_ACCOUNT_SID,
+        settings.TWILIO_AUTH_TOKEN
     )
 
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": to,
-        "type": "template",
-        "template": {
-            "name": name,
-            "language": {"code": language_code},
-            "components": [
-                {
-                    "type": "body",
-                    "parameters": [
-                        {"type": "text", "text": name},
-                        {"type": "text", "text": date},
-                        {"type": "text", "text": time},
-                    ],
-                }
-            ],
-        },
-    }
-
-    headers = {
-        "Authorization": f"Bearer {settings.WHATSAPP_ACCESS_TOKEN}",
-        "Content-Type": "application/json",
-    }
-
-    response = requests.post(url, json=payload, headers=headers)
-    response.raise_for_status()
-    return response.json()
+    try:
+        message = client.messages.create(
+            from_=settings.TWILIO_WHATSAPP_FROM,
+            to=f'whatsapp:{to}',
+            content_sid=content_sid,
+            content_variables=json.dumps(variables),
+        )
+        print("WhatsApp message sent successfully.")
+    except Exception as e:
+        print(f"Failed to send WhatsApp message: {e}")
+        return
+    
+    return message

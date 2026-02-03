@@ -25,8 +25,8 @@ class Plan(models.Model):
     base_monthly_price = models.DecimalField(max_digits=8, decimal_places=2, default=0, help_text="Base monthly price for included workers")
     additional_worker_price = models.DecimalField(max_digits=8, decimal_places=2, default=0, help_text="Price per additional worker per month")
     
-    description = models.TextField(blank=True)
-    features = models.JSONField(default=dict, blank=True, help_text="Features by language: {'en': ['WhatsApp', 'Email'], 'es': ['WhatsApp', 'Correo electrónico']}")
+    description = models.JSONField(default=dict, blank=True, help_text="Description by language: {'en': 'Description in English', 'es': 'Descripción en español', 'ca': 'Descripció en català'}")
+    features = models.JSONField(default=dict, blank=True, help_text="Features by language: {'en': ['WhatsApp', 'Email'], 'es': ['WhatsApp', 'Correo electrónico'], 'ca': ['WhatsApp', 'Correu electrònic']}")
     trial_days = models.PositiveIntegerField(default=30, help_text="Number of free trial days (0 = no trial)")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

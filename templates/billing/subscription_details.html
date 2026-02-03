@@ -1,5 +1,5 @@
 {% extends 'Layout.html' %}
-{% load i18n %}
+{% load i18n billing_extras %}
 
 {% block title %}{% trans "Subscription & Billing" %} - {{ company.name }}{% endblock %}
 
@@ -36,7 +36,7 @@
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h3 class="text-2xl font-bold mb-2">{{ current_subscription.plan.name }}</h3>
-                                        <p class="text-gray-100 mb-4">{{ current_subscription.plan.description }}</p>
+                                        <p class="text-gray-100 mb-4">{{ current_subscription.plan.description|get_localized_description }}</p>
                                         <div class="flex items-baseline">
                                             <span class="text-4xl font-bold">€{{ current_subscription.price }}</span>
                                             <span class="text-gray-100 ml-2">/{% trans "month" %}</span>

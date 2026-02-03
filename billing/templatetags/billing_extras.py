@@ -5,6 +5,27 @@ register = template.Library()
 
 
 @register.filter
+def get_localized_description(plan):
+    """Get description for the current language"""
+    if not plan.description:
+        return ""
+    
+    current_lang = get_language()
+    
+    # If description is a dict with language keys
+    if isinstance(plan.description, dict):
+        # Try current language first, then fall back to 'en', then any available language
+        description = plan.description.get(current_lang) or plan.description.get('en') or list(plan.description.values())[0] if plan.description else ""
+        return description if isinstance(description, str) else ""
+    
+    # If description is a simple string (backward compatibility)
+    elif isinstance(plan.description, str):
+        return plan.description
+    
+    return ""
+
+
+@register.filter
 def get_localized_features(plan):
     """Get features for the current language"""
     if not plan.features:

@@ -28,7 +28,7 @@
                         </div>
                         
                         {% if plan.description %}
-                            <p class="text-gray-600 mb-6">{{ plan.description }}</p>
+                            <p class="text-gray-600 mb-6">{{ plan.description|get_localized_description }}</p>
                         {% endif %}
                         
                         <div class="space-y-3 mb-8">

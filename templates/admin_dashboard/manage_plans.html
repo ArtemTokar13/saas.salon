@@ -1,5 +1,5 @@
 {% extends 'Layout.html' %}
-{% load i18n %}
+{% load i18n billing_extras %}
 
 {% block title %}Manage Billing Plans - Platform Admin{% endblock %}
 
@@ -38,7 +38,7 @@
                     
                     <div class="p-6">
                         {% if plan.description %}
-                            <p class="text-gray-600 mb-4">{{ plan.description|linebreaks }}</p>
+                            <p class="text-gray-600 mb-4">{{ plan.description|get_localized_description|linebreaks }}</p>
                         {% endif %}
                         
                         <div class="border-t border-gray-200 pt-4">

@@ -26,10 +26,10 @@ def send_booking_reminders():
     print(f"Found {bookings_to_remind.count()} bookings to send reminders for.")
 
     for booking in bookings_to_remind:
+        site_url = getattr(settings, 'SITE_URL')
         booking_link = site_url + reverse('booking_confirmation', args=[booking.id])
         if booking.customer.email:
             subject = _("Reminder: Upcoming Booking for") + " " + booking.service.name
-            site_url = getattr(settings, 'SITE_URL')
             html_message = render_to_string('email/booking_reminder.html', {
                 'company': booking.company,
                 'booking': booking,

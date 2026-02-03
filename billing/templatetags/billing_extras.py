@@ -53,6 +53,12 @@ def get_period_price(plan, period):
 
 
 @register.filter
+def get_monthly_equivalent(plan, period):
+    """Template filter to get the effective monthly price for a billing period"""
+    return plan.get_monthly_equivalent(period)
+
+
+@register.filter
 def get_period_discount(period):
     """Get the discount percentage for a billing period"""
     discounts = {

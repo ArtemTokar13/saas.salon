@@ -1,5 +1,6 @@
 {% extends 'Layout.html' %}
 {% load i18n %}
+{% load billing_extras %}
 
 {% block title %}{% trans "Choose Your Plan" %} - {{ company.name }}{% endblock %}
 
@@ -32,7 +33,6 @@
                         {% endif %}
                         
                         <div class="space-y-3 mb-8">
-                            {% load billing_extras %}
                             {% if plan.features %}
                                 {% for feature in plan.features|get_localized_features %}
                                 <div class="flex items-start">

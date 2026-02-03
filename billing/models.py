@@ -16,8 +16,8 @@ class Plan(models.Model):
     PERIOD_DISCOUNTS = {
         'monthly': Decimal('0.00'),      # 0% discount - full price
         'three_months': Decimal('0.10'),  # 10% discount
-        'six_months': Decimal('0.20'),    # 20% discount
-        'yearly': Decimal('0.40'),        # 40% discount
+        'six_months': Decimal('0.15'),    # 15% discount
+        'yearly': Decimal('0.30'),        # 30% discount
     }
     
     name = models.CharField(max_length=255)
@@ -26,7 +26,7 @@ class Plan(models.Model):
     additional_worker_price = models.DecimalField(max_digits=8, decimal_places=2, default=0, help_text="Price per additional worker per month")
     
     description = models.TextField(blank=True)
-    features = models.JSONField(default=dict, blank=True)
+    features = models.JSONField(default=dict, blank=True, help_text="Features by language: {'en': ['WhatsApp', 'Email'], 'es': ['WhatsApp', 'Correo electrónico']}")
     trial_days = models.PositiveIntegerField(default=30, help_text="Number of free trial days (0 = no trial)")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

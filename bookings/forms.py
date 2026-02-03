@@ -9,7 +9,7 @@ from companies.models import Company, Staff, Service
 class BookingForm(forms.ModelForm):
     customer_name = forms.CharField(max_length=255, required=True)
     customer_phone = forms.CharField(max_length=50, required=True)
-    customer_email = forms.EmailField(required=False)
+    customer_email = forms.EmailField(required=True)
     customer_country_code = forms.ChoiceField(
         choices=[('', _('Select Country'))] + list(COUNTRY_CHOICES), 
         required=True, 

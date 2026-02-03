@@ -6,9 +6,10 @@ from django.conf import settings
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls import reverse
+from app.services import send_whatsapp_template
+from billing.utils import has_whatsapp_feature
 from bookings.models import Booking
 from companies.models import EmailLog
-from app.services import send_whatsapp_template
 
 
 def send_booking_reminders():
@@ -56,19 +57,21 @@ def send_booking_reminders():
                 email_log.error_message = str(e)
                 email_log.save()
 
-        res = send_whatsapp_template(
-            to=booking.customer.phone,
-            content_sid=settings.TWILIO_REMINDER_TEMPLATE_SID,
-            variables={
-                '1': booking.customer.name,
-                '2': booking.company.name,
-                '3': booking.service.name,
-                '4': f'{format_date(booking.date, format="EEEE, d 'de' MMMM", locale='es_ES')}',
-                '5': booking.start_time.strftime("%H:%M"),
-                '6': booking.staff.name,
-                '7': booking_link
-            }
-        )
+        # Send WhatsApp reminder if company has WhatsApp feature
+        if has_whatsapp_feature(booking.company):
+            res = send_whatsapp_template(
+                to=booking.customer.phone,
+                content_sid=settings.TWILIO_REMINDER_TEMPLATE_SID,
+                variables={
+                    '1': booking.customer.name,
+                    '2': booking.company.name,
+                    '3': booking.service.name,
+                    '4': f'{format_date(booking.date, format="EEEE, d 'de' MMMM", locale='es_ES')}',
+                    '5': booking.start_time.strftime("%H:%M"),
+                    '6': booking.staff.name,
+                    '7': booking_link
+                }
+            )
         
         booking.reminder_sent = True
         booking.save()

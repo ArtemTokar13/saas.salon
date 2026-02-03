@@ -32,11 +32,12 @@
                         {% endif %}
                         
                         <div class="space-y-3 mb-8">
+                            {% load billing_extras %}
                             {% if plan.features %}
-                                {% for feature, value in plan.features.items %}
+                                {% for feature in plan.features|get_localized_features %}
                                 <div class="flex items-start">
                                     <i class="fas fa-check text-green-600 mt-1 mr-3"></i>
-                                    <span class="text-gray-700">{{ feature }}: {{ value }}</span>
+                                    <span class="text-gray-700">{{ feature }}</span>
                                 </div>
                                 {% endfor %}
                             {% else %}

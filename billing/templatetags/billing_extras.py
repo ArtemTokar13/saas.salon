@@ -5,43 +5,43 @@ register = template.Library()
 
 
 @register.filter
-def get_localized_description(plan):
+def get_localized_description(description):
     """Get description for the current language"""
-    if not plan.description:
+    if not description:
         return ""
     
     current_lang = get_language()
     
     # If description is a dict with language keys
-    if isinstance(plan.description, dict):
+    if isinstance(description, dict):
         # Try current language first, then fall back to 'en', then any available language
-        description = plan.description.get(current_lang) or plan.description.get('en') or list(plan.description.values())[0] if plan.description else ""
-        return description if isinstance(description, str) else ""
+        localized_desc = description.get(current_lang) or description.get('en') or list(description.values())[0] if description else ""
+        return localized_desc if isinstance(localized_desc, str) else ""
     
     # If description is a simple string (backward compatibility)
-    elif isinstance(plan.description, str):
-        return plan.description
+    elif isinstance(description, str):
+        return description
     
     return ""
 
 
 @register.filter
-def get_localized_features(plan):
+def get_localized_features(features):
     """Get features for the current language"""
-    if not plan.features:
+    if not features:
         return []
     
     current_lang = get_language()
     
     # If features is a dict with language keys
-    if isinstance(plan.features, dict):
+    if isinstance(features, dict):
         # Try current language first, then fall back to 'en', then any available language
-        features = plan.features.get(current_lang) or plan.features.get('en') or list(plan.features.values())[0] if plan.features else []
-        return features if isinstance(features, list) else []
+        localized_features = features.get(current_lang) or features.get('en') or list(features.values())[0] if features else []
+        return localized_features if isinstance(localized_features, list) else []
     
     # If features is a simple list (backward compatibility)
-    elif isinstance(plan.features, list):
-        return plan.features
+    elif isinstance(features, list):
+        return features
     
     return []
 

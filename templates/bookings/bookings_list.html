@@ -12,6 +12,49 @@
             <i class="fas fa-plus text-3xl font-bold"></i>
         </a>
         </div>
+        <!-- Alpine.js Filter Toggle for Mobile -->
+        <div x-data="{ showFilter: (window.innerWidth >= 640) || (localStorage.getItem('showFilter') === 'true'), tab: '{{ status_filter|default:'confirmed' }}' }"
+             x-init="
+                 $watch('showFilter', value => {
+                     localStorage.setItem('showFilter', value);
+                     if(window.innerWidth >= 640) showFilter = true;
+                 });
+                 if(localStorage.getItem('showFilter') !== null) {
+                     showFilter = localStorage.getItem('showFilter') === 'true';
+                 }
+             "
+             class="mb-4">
+            <!-- Tabs -->
+            <div class="mb-4 flex border-b">
+                <a href="?status=confirmed" class="{% if status_filter == 'confirmed' %}border-blue-600 text-blue-600{% else %}border-transparent text-gray-600{% endif %} px-4 py-2 font-semibold border-b-2 focus:outline-none">Confirmed</a>
+                <a href="?status=prebooked" class="{% if status_filter == 'prebooked' %}border-blue-600 text-blue-600{% else %}border-transparent text-gray-600{% endif %} px-4 py-2 font-semibold border-b-2 focus:outline-none">Prebooked</a>
+            </div>
+            <template x-if="window.innerWidth < 640">
+                <div class="sm:hidden mb-2">
+                    <button type="button" @click="showFilter = !showFilter" class="bg-blue-600 text-white px-4 py-2 rounded w-full">
+                        <span x-show="showFilter">Hide Filter</span>
+                        <span x-show="!showFilter">Show Filter</span>
+                    </button>
+                </div>
+            </template>
+            <div>
+                <form method="get" x-show="showFilter" class="flex flex-wrap gap-2 items-end bg-white p-2 rounded shadow-sm sm:flex-row sm:bg-transparent sm:p-0">
+                    <input type="hidden" name="status" :value="tab" />
+                    <input type="text" name="search" value="{{ search_query }}" placeholder="Search by name, phone, email" class="border px-3 py-2 rounded w-64 h-10" />
+                    <input type="date" name="date_from" value="{{ date_from }}" placeholder="From" class="border px-3 py-2 rounded h-10" />
+                    <input type="date" name="date_to" value="{{ date_to }}" placeholder="To" class="border px-3 py-2 rounded h-10" />
+                    <select name="service" class="border px-3 py-2 rounded h-10">
+                        <option value="">All Services</option>
+                        {% for service in services %}
+                            <option value="{{ service.id }}" {% if service.id|stringformat:'s' == service_filter %}selected{% endif %}>{{ service.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded h-10">Filter</button>
+                </form>
+            </div>
+        </div>
+        <!-- Alpine.js CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
         <div class="bg-white rounded-lg shadow-lg p-6 overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -21,7 +64,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Date" %}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Time" %}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Customer" %}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Status" %}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Phone & Email" %}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Actions" %}</th>
                     </tr>
                 </thead>
@@ -33,14 +76,9 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ booking.date|date:"F d, Y" }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ booking.start_time|time:"H:i" }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ booking.customer.name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            {% if booking.status == '1' %}
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Confirmed</span>
-                            {% elif booking.status == '2' %}
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
-                            {% else %}
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-800">Prebooked</span>
-                            {% endif %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <span>{{ booking.customer.phone }}</span><br>
+                            <span>{{ booking.customer.email }}</span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <a href="{% url 'edit_booking' booking.id %}" class="text-gray-700 hover:text-gray-900 font-semibold mr-4">{% trans "Edit" %}</a>
@@ -48,11 +86,35 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{% trans "No bookings found." %}</td>
+                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{% trans "No bookings found." %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            {% if bookings.has_other_pages %}
+            <nav class="mt-4 flex justify-center">
+                <ul class="inline-flex -space-x-px">
+                    {% if bookings.has_previous %}
+                        <li><a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if date_filter %}date={{ date_filter }}&{% endif %}{% if service_filter %}service={{ service_filter }}&{% endif %}page=1{% if status_filter %}&status={{ status_filter }}{% endif %}" class="px-3 py-2 border rounded-l bg-white text-gray-700">First</a></li>
+                        <li><a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if date_filter %}date={{ date_filter }}&{% endif %}{% if service_filter %}service={{ service_filter }}&{% endif %}page={{ bookings.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="px-3 py-2 border bg-white text-gray-700">Previous</a></li>
+                    {% endif %}
+                    {% for num in bookings.paginator.page_range %}
+                        {% if bookings.number == num %}
+                            <li><span class="px-3 py-2 border bg-blue-100 text-blue-700">{{ num }}</span></li>
+                        {% elif num > bookings.number|add:'-3' and num < bookings.number|add:'3' %}
+                            <li><a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if date_filter %}date={{ date_filter }}&{% endif %}{% if service_filter %}service={{ service_filter }}&{% endif %}page={{ num }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="px-3 py-2 border bg-white text-gray-700">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if bookings.has_next %}
+                        <li><a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if date_filter %}date={{ date_filter }}&{% endif %}{% if service_filter %}service={{ service_filter }}&{% endif %}page={{ bookings.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="px-3 py-2 border bg-white text-gray-700">Next</a></li>
+                        <li><a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if date_filter %}date={{ date_filter }}&{% endif %}{% if service_filter %}service={{ service_filter }}&{% endif %}page={{ bookings.paginator.num_pages }}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="px-3 py-2 border rounded-r bg-white text-gray-700">Last</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <div class="text-center mt-2 text-sm text-gray-600">
+                Page {{ bookings.number }} of {{ bookings.paginator.num_pages }} ({{ bookings.paginator.count }} total bookings)
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

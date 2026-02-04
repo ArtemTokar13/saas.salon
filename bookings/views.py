@@ -845,17 +845,75 @@ def bookings_list(request):
     """List of bookings for staff/admin"""
     try:
         profile = request.user.userprofile
+        # Base queryset
         if profile.is_admin:
-            bookings = Booking.objects.filter(company=profile.company).select_related('customer', 'staff', 'service').order_by('-date', '-start_time')
+            bookings = Booking.objects.filter(company=profile.company).select_related('customer', 'staff', 'service')
         else:
-            bookings = Booking.objects.filter(company=profile.company, staff=profile.staff).select_related('customer', 'staff', 'service').order_by('-date', '-start_time')
-        
+            bookings = Booking.objects.filter(company=profile.company, staff=profile.staff).select_related('customer', 'staff', 'service')
+
+        # Tabs: status filter
+        status_filter = request.GET.get('status', 'confirmed')
+        if status_filter == 'confirmed':
+            bookings = bookings.filter(status=1)  # Confirmed
+        elif status_filter == 'prebooked':
+            bookings = bookings.filter(status=3)  # PreBooked
+
+        # Search
+        search_query = request.GET.get('search', '').strip()
+        if search_query:
+            bookings = bookings.filter(
+                Q(customer__name__icontains=search_query) |
+                Q(customer__phone__icontains=search_query) |
+                Q(customer__email__icontains=search_query)
+            )
+
+        # Filter by date range
+        date_from = request.GET.get('date_from', '').strip()
+        date_to = request.GET.get('date_to', '').strip()
+        from datetime import datetime
+        if date_from:
+            try:
+                date_from_obj = datetime.strptime(date_from, '%Y-%m-%d').date()
+                bookings = bookings.filter(date__gte=date_from_obj)
+            except Exception:
+                pass
+        if date_to:
+            try:
+                date_to_obj = datetime.strptime(date_to, '%Y-%m-%d').date()
+                bookings = bookings.filter(date__lte=date_to_obj)
+            except Exception:
+                pass
+
+        # Filter by service
+        service_filter = request.GET.get('service', '').strip()
+        if service_filter:
+            bookings = bookings.filter(service__id=service_filter)
+
+        bookings = bookings.order_by('-date', '-start_time')
+
+        # Pagination
+        from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+        page = request.GET.get('page', 1)
+        paginator = Paginator(bookings, 25)
+        try:
+            bookings_page = paginator.page(page)
+        except (PageNotAnInteger, EmptyPage):
+            bookings_page = paginator.page(1)
+
+        # For service filter dropdown
+        services = Service.objects.filter(company=profile.company, is_active=True)
+
         context = {
-            'bookings': bookings,
+            'bookings': bookings_page,
             'company': profile.company,
+            'search_query': search_query,
+            'date_from': date_from,
+            'date_to': date_to,
+            'service_filter': service_filter,
+            'services': services,
+            'status_filter': status_filter,
         }
         return render(request, 'bookings/bookings_list.html', context)
-    
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')

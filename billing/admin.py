@@ -9,7 +9,7 @@ class PlanAdmin(admin.ModelAdmin):
     list_filter = ['is_active']
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name', 'description', 'features', 'is_active')
+            'fields': ('name', 'description', 'features', 'is_active', 'whatsapp_included')
         }),
         ('Pricing Configuration', {
             'fields': ('base_workers', 'base_monthly_price', 'additional_worker_price', 'trial_days'),

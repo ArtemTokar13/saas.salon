@@ -27,6 +27,7 @@ class Plan(models.Model):
     
     description = models.JSONField(default=dict, blank=True, help_text="Description by language: {'en': 'Description in English', 'es': 'Descripción en español', 'ca': 'Descripció en català'}")
     features = models.JSONField(default=dict, blank=True, help_text="Features by language: {'en': ['WhatsApp', 'Email'], 'es': ['WhatsApp', 'Correo electrónico'], 'ca': ['WhatsApp', 'Correu electrònic']}")
+    whatsapp_included = models.BooleanField(default=False, help_text="Whether WhatsApp feature is included in this plan")
     trial_days = models.PositiveIntegerField(default=30, help_text="Number of free trial days (0 = no trial)")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

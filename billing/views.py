@@ -52,18 +52,27 @@ def subscription_details(request):
         return redirect('index')
 
 
-@login_required
 def view_plans(request):
-    """View all available plans"""
+    """View all available plans - accessible to everyone"""
     try:
-        profile = request.user.userprofile
-        if not profile.is_admin:
-            messages.error(request, 'Access denied.')
-            return redirect('index')
-
-        company = profile.company
-        current_subscription = Subscription.objects.filter(company=company, end_date__gte=timezone.now(), is_active=True).first()
         plans = Plan.objects.all()
+        
+        # Only get company and subscription info if user is authenticated
+        company = None
+        current_subscription = None
+        
+        if request.user.is_authenticated:
+            try:
+                profile = request.user.userprofile
+                if profile.is_admin:
+                    company = profile.company
+                    current_subscription = Subscription.objects.filter(
+                        company=company, 
+                        end_date__gte=timezone.now(), 
+                        is_active=True
+                    ).first()
+            except UserProfile.DoesNotExist:
+                pass
 
         context = {
             'company': company,
@@ -72,8 +81,8 @@ def view_plans(request):
         }
         return render(request, 'billing/view_plans.html', context)
 
-    except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+    except Exception as e:
+        messages.error(request, 'An error occurred while loading plans.')
         return redirect('index')
 
 

@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-02 21:44+0100\n"
+"POT-Creation-Date: 2026-02-05 23:00+0100\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: bookings/cron.py:31
+#: bookings/cron.py:33
 msgid "Reminder: Upcoming Booking for"
 msgstr ""
 
@@ -24,105 +24,396 @@ msgstr "Вибрати План"
 msgid "Add any notes about this booking..."
 msgstr ""
 
-#: templates/Index.html:4
-msgid "Salon Booking Platform"
-msgstr "Платформа Бронювання для Салонів"
+#: templates/Index.html:4 templates/Index.html:14
+msgid "A Simple Client Management System for Your Salon"
+msgstr ""
 
-#: templates/Index.html:14 templates/companies/add_staff.html:119
-#: templates/companies/dashboard.html:50
-#: templates/companies/edit_staff.html:106
-#: templates/companies/services_list.html:15
-msgid "Services"
-msgstr "Послуги"
+#: templates/Index.html:17
+msgid ""
+"Reduce no‑shows, save time, and let clients book 24/7 — all in one simple "
+"platform."
+msgstr ""
 
-#: templates/Index.html:72
-msgid "Everything You Need"
-msgstr "Все Що Вам Потрібно"
+#: templates/Index.html:23
+#, fuzzy
+#| msgid "Start Free Trial"
+msgid "Start Free Trial"
+msgstr "Почати Безкоштовну Пробну Версію"
 
-#: templates/Index.html:73
-msgid "Simple, powerful tools to grow your business"
-msgstr "Прості та потужні інструменти для розвитку вашого бізнесу"
+#: templates/Index.html:28
+#, fuzzy
+#| msgid "Dashboard"
+msgid "Go to Dashboard"
+msgstr "Панель"
 
-#: templates/Index.html:81
+#: templates/Index.html:33
+#, fuzzy
+#| msgid "How It Works"
+msgid "See How It Works"
+msgstr "Як Це Працює"
+
+#: templates/Index.html:42
+msgid "Calendar + WhatsApp Reminder Example"
+msgstr ""
+
+#: templates/Index.html:56
+msgid "Everything You Need to Run Your Salon Smoothly"
+msgstr ""
+
+#: templates/Index.html:66
 msgid "Online Booking"
 msgstr "Онлайн Бронювання"
 
-#: templates/Index.html:83
+#: templates/Index.html:68
+#, fuzzy
+#| msgid ""
+#| "Let customers book appointments 24/7 from any device. Automatic "
+#| "confirmations and reminders."
 msgid ""
-"Let customers book appointments 24/7 from any device. Automatic "
-"confirmations and reminders."
+"Let clients book appointments anytime. Automatic confirmations included."
 msgstr ""
 "Дозвольте клієнтам бронювати записи 24/7 з будь-якого пристрою. Автоматичні "
 "підтвердження та нагадування."
 
-#: templates/Index.html:91
+#: templates/Index.html:77
+msgid "WhatsApp Reminders"
+msgstr ""
+
+#: templates/Index.html:79
+msgid ""
+"Reduce no‑shows with instant WhatsApp notifications clients actually read."
+msgstr ""
+
+#: templates/Index.html:88
 msgid "Staff Management"
 msgstr "Управління Персоналом"
 
-#: templates/Index.html:93
-msgid ""
-"Manage your team, assign services, and track schedules. Each staff member "
-"gets their own calendar."
+#: templates/Index.html:90
+msgid "Each staff member gets their own calendar and schedule."
 msgstr ""
-"Керуйте командою, призначайте послуги та відстежуйте розклади. Кожен "
-"співробітник має власний календар."
 
-#: templates/Index.html:103 templates/_footer.html:31
-#: templates/static_pages/how_it_works.html:4
-#: templates/static_pages/how_it_works.html:10
-msgid "How It Works"
-msgstr "Як Це Працює"
+#: templates/Index.html:99
+#, fuzzy
+#| msgid "staff management"
+msgid "Service Management"
+msgstr "управління персоналом"
 
-#: templates/Index.html:104
-msgid "Get started in minutes"
+#: templates/Index.html:101
+msgid "Create services, durations, prices, and assign them to staff."
+msgstr ""
+
+#: templates/Index.html:110
+#, fuzzy
+#| msgid "Edit Profile"
+msgid "Client Profiles"
+msgstr "Редагувати Профіль"
+
+#: templates/Index.html:112
+msgid "Keep track of client history, notes, and preferences."
+msgstr ""
+
+#: templates/Index.html:121
+#, fuzzy
+#| msgid "Company Dashboard"
+msgid "Analytics Dashboard"
+msgstr "Панель Компанії"
+
+#: templates/Index.html:123
+msgid "Track your bookings, no-shows, and business performance."
+msgstr ""
+
+#: templates/Index.html:136
+msgid "Why WhatsApp Reminders Matter"
+msgstr ""
+
+#: templates/Index.html:142
+msgid "Clients read WhatsApp messages instantly"
+msgstr ""
+
+#: templates/Index.html:143
+#, python-format
+msgid "Higher open rates than email — 97%% read rate within minutes"
+msgstr ""
+
+#: templates/Index.html:149
+msgid "Reduce missed appointments"
+msgstr ""
+
+#: templates/Index.html:150
+msgid "Cut no-shows with timely reminders"
+msgstr ""
+
+#: templates/Index.html:156
+msgid "Automatic reminders before each visit"
+msgstr ""
+
+#: templates/Index.html:157
+msgid "Set it up once and let it run automatically"
+msgstr ""
+
+#: templates/Index.html:163
+msgid "Works even if clients ignore email"
+msgstr ""
+
+#: templates/Index.html:164
+msgid "Reach your clients where they actually are"
+msgstr ""
+
+#: templates/Index.html:175
+msgid "Example WhatsApp Message"
+msgstr ""
+
+#: templates/Index.html:178
+msgid "Hi Maria! 💅"
+msgstr ""
+
+#: templates/Index.html:179
+msgid "Your appointment reminder:"
+msgstr ""
+
+#: templates/Index.html:180
+msgid "Tomorrow at 3:00 PM"
+msgstr ""
+
+#: templates/Index.html:181
+msgid "Haircut - 60 min"
+msgstr ""
+
+#: templates/Index.html:182
+msgid "With Anna"
+msgstr ""
+
+#: templates/Index.html:183
+msgid "See you soon!"
+msgstr ""
+
+#: templates/Index.html:196
+msgid "Perfect for beauty & wellness businesses"
+msgstr ""
+
+#: templates/Index.html:199
+msgid "If you run any of these, Reserva-Ya is for you"
+msgstr ""
+
+#: templates/Index.html:206
+msgid "Hair salons"
+msgstr ""
+
+#: templates/Index.html:210
+msgid "Barber shops"
+msgstr ""
+
+#: templates/Index.html:214
+msgid "Nail & manicure studios"
+msgstr ""
+
+#: templates/Index.html:218
+msgid "Beauty & aesthetics"
+msgstr ""
+
+#: templates/Index.html:222
+msgid "Massage & wellness"
+msgstr ""
+
+#: templates/Index.html:233
+#, fuzzy
+#| msgid "Get started in minutes"
+msgid "Get Started in Minutes"
 msgstr "Почніть за кілька хвилин"
 
-#: templates/Index.html:112 templates/static_pages/how_it_works.html:21
+#: templates/Index.html:236
+msgid "Simple setup, immediate results"
+msgstr ""
+
+#: templates/Index.html:245 templates/static_pages/how_it_works.html:21
 msgid "Sign Up"
 msgstr "Зареєструватися"
 
-#: templates/Index.html:113
-msgid "Create your company account in under 2 minutes"
+#: templates/Index.html:247
+#, fuzzy
+#| msgid "Create your company account in under 2 minutes"
+msgid "Create your company account in under 2 minutes."
 msgstr "Створіть обліковий запис компанії менш ніж за 2 хвилини"
 
-#: templates/Index.html:120
-msgid "Setup"
-msgstr "Налаштування"
+#: templates/Index.html:255
+msgid "Set Up"
+msgstr ""
 
-#: templates/Index.html:121
-msgid "Add your staff, services, and working hours"
+#: templates/Index.html:257
+#, fuzzy
+#| msgid "Add your staff, services, and working hours"
+msgid "Add staff, services, and working hours."
 msgstr "Додайте персонал, послуги та робочі години"
 
-#: templates/Index.html:128
+#: templates/Index.html:265
 msgid "Share"
 msgstr "Поділитися"
 
-#: templates/Index.html:129
-msgid "Share your booking link with customers"
+#: templates/Index.html:267
+#, fuzzy
+#| msgid "Share your booking link with customers"
+msgid "Send your booking link to clients."
 msgstr "Поділіться посиланням для бронювання з клієнтами"
 
-#: templates/Index.html:136
+#: templates/Index.html:275
 msgid "Grow"
 msgstr "Зростати"
 
-#: templates/Index.html:137
-msgid "Accept bookings and manage your business"
-msgstr "Приймайте бронювання та керуйте бізнесом"
+#: templates/Index.html:277
+msgid "Receive bookings automatically and reduce no‑shows."
+msgstr ""
 
-#: templates/Index.html:146
-msgid "Ready to Get Started?"
+#: templates/Index.html:289
+msgid "Simple, transparent pricing"
+msgstr ""
+
+#: templates/Index.html:292
+msgid "Choose the perfect plan for your business"
+msgstr ""
+
+#: templates/Index.html:296
+#, fuzzy
+#| msgid "Pricing"
+msgid "View Our Pricing Plans"
+msgstr "Ціни"
+
+#: templates/Index.html:302
+msgid "All plans include:"
+msgstr ""
+
+#: templates/Index.html:307
+#, fuzzy
+#| msgid "Online Booking"
+msgid "Online booking"
+msgstr "Онлайн Бронювання"
+
+#: templates/Index.html:311
+#, fuzzy
+#| msgid "Staff Members"
+msgid "Staff calendars"
+msgstr "Члени Персоналу"
+
+#: templates/Index.html:315
+#, fuzzy
+#| msgid "Unlimited bookings"
+msgid "Unlimited appointments"
+msgstr "Необмежена кількість бронювань"
+
+#: templates/Index.html:319
+msgid "Support in Spanish"
+msgstr ""
+
+#: templates/Index.html:331 templates/static_pages/faq.html:10
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: templates/Index.html:339
+msgid "Do I need to install anything?"
+msgstr ""
+
+#: templates/Index.html:343
+msgid ""
+"No, everything works in your browser. No downloads or installations needed — "
+"just sign up and start using it immediately."
+msgstr ""
+
+#: templates/Index.html:350
+msgid "Can clients book without downloading an app?"
+msgstr ""
+
+#: templates/Index.html:354
+msgid ""
+"Yes, bookings work on any device through a web link. Clients don't need to "
+"download anything — they simply click your booking link and book."
+msgstr ""
+
+#: templates/Index.html:361
+msgid "Is WhatsApp included?"
+msgstr ""
+
+#: templates/Index.html:365
+msgid ""
+"WhatsApp reminders are available in our Pro plan. You'll be able to send "
+"automatic reminders to all your clients."
+msgstr ""
+
+#: templates/Index.html:372
+msgid "Can I cancel anytime?"
+msgstr ""
+
+#: templates/Index.html:376
+msgid ""
+"Of course — no long-term contracts. You can cancel your subscription anytime "
+"from your account settings."
+msgstr ""
+
+#: templates/Index.html:383
+#, fuzzy
+#| msgid "create a new company account"
+msgid "How do I connect WhatsApp?"
+msgstr "створити новий обліковий запис компанії"
+
+#: templates/Index.html:387
+msgid ""
+"We provide step-by-step instructions to connect your WhatsApp account. It's "
+"a simple 5-minute setup process."
+msgstr ""
+
+#: templates/Index.html:399
+#, fuzzy
+#| msgid "Platform Admin"
+msgid "See the Platform in Action"
+msgstr "Адмін Платформи"
+
+#: templates/Index.html:408
+#, fuzzy
+#| msgid "Calendar view"
+msgid "Calendar View"
+msgstr "Вигляд календаря"
+
+#: templates/Index.html:417
+msgid "Staff Schedule"
+msgstr ""
+
+#: templates/Index.html:426
+#, fuzzy
+#| msgid "Booking Link"
+msgid "Booking Form"
+msgstr "Посилання для Бронювання"
+
+#: templates/Index.html:435
+msgid "WhatsApp Reminder"
+msgstr ""
+
+#: templates/Index.html:448
+#, fuzzy
+#| msgid "Ready to Get Started?"
+msgid "Ready to Grow Your Salon?"
 msgstr "Готові Почати?"
 
-#: templates/Index.html:148
-msgid "Join hundreds of businesses managing their bookings smarter"
+#: templates/Index.html:451
+msgid ""
+"Start your free trial today — no credit card required. Get instant access to "
+"all features."
 msgstr ""
-"Приєднуйтесь до сотень підприємств, які керують своїми бронюваннями розумніше"
 
-#: templates/Index.html:152
+#: templates/Index.html:455
 #, fuzzy
 #| msgid "Start Free Trial"
-msgid "Start Your Free Trial"
+msgid "Start Your Free Trial Today"
 msgstr "Почати Безкоштовну Пробну Версію"
+
+#: templates/Index.html:458
+msgid "14 days free. No credit card. Cancel anytime."
+msgstr ""
+
+#: templates/Index.html:466
+msgid "Welcome back!"
+msgstr ""
+
+#: templates/Index.html:470
+msgid "Go to your dashboard →"
+msgstr ""
 
 #: templates/_cookie-consent.html:7
 msgid "We use cookies"
@@ -167,63 +458,68 @@ msgstr ""
 msgid "Your Address Here"
 msgstr ""
 
-#: templates/_footer.html:17
+#: templates/_footer.html:16
 msgid "Legal"
 msgstr ""
 
-#: templates/_footer.html:19 templates/static_pages/privacy_policy.html:4
+#: templates/_footer.html:18 templates/static_pages/privacy_policy.html:4
 #: templates/static_pages/privacy_policy.html:10
 msgid "Privacy Policy"
 msgstr ""
 
-#: templates/_footer.html:20 templates/static_pages/terms_of_service.html:4
+#: templates/_footer.html:19 templates/static_pages/terms_of_service.html:4
 #: templates/static_pages/terms_of_service.html:10
 msgid "Terms of Service"
 msgstr ""
 
-#: templates/_footer.html:21 templates/static_pages/cookie_policy.html:4
+#: templates/_footer.html:20 templates/static_pages/cookie_policy.html:4
 #: templates/static_pages/cookie_policy.html:10
 msgid "Cookie Policy"
 msgstr ""
 
-#: templates/_footer.html:22 templates/static_pages/cookie_settings.html:4
+#: templates/_footer.html:21 templates/static_pages/cookie_settings.html:4
 #: templates/static_pages/cookie_settings.html:10
 #, fuzzy
 #| msgid "Bookings"
 msgid "Cookie Settings"
 msgstr "Бронювання"
 
-#: templates/_footer.html:28
+#: templates/_footer.html:27
 #, fuzzy
 #| msgid "Account Information"
 msgid "Information"
 msgstr "Інформація Облікового Запису"
 
-#: templates/_footer.html:30 templates/static_pages/about_us.html:4
+#: templates/_footer.html:29 templates/static_pages/about_us.html:4
 #: templates/static_pages/about_us.html:10
 msgid "About Us"
 msgstr ""
 
-#: templates/_footer.html:32
+#: templates/_footer.html:30 templates/static_pages/how_it_works.html:4
+#: templates/static_pages/how_it_works.html:10
+msgid "How It Works"
+msgstr "Як Це Працює"
+
+#: templates/_footer.html:31
 #, fuzzy
 #| msgid "Pricing"
 msgid "Pricing Plans"
 msgstr "Ціни"
 
-#: templates/_footer.html:33 templates/static_pages/faq.html:4
+#: templates/_footer.html:32 templates/static_pages/faq.html:4
 msgid "FAQ"
 msgstr ""
 
-#: templates/_footer.html:39
+#: templates/_footer.html:38
 msgid "Support"
 msgstr ""
 
-#: templates/_footer.html:41 templates/static_pages/contact.html:4
+#: templates/_footer.html:40 templates/static_pages/contact.html:4
 #: templates/static_pages/contact.html:10
 msgid "Contact Us"
 msgstr ""
 
-#: templates/_footer.html:54
+#: templates/_footer.html:53
 msgid "Salon Booking System. All rights reserved."
 msgstr ""
 
@@ -324,8 +620,8 @@ msgstr ""
 msgid "%(days)s days free trial"
 msgstr ""
 
-#: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:4
-#: templates/billing/view_plans.html:10
+#: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:5
+#: templates/billing/view_plans.html:11
 msgid "Choose Your Plan"
 msgstr "Оберіть Ваш План"
 
@@ -360,13 +656,17 @@ msgstr ""
 #: templates/billing/pricing_periods.html:59
 #: templates/billing/pricing_periods.html:84
 #: templates/billing/pricing_periods.html:109
-#: templates/billing/view_plans.html:68
+#: templates/billing/view_plans.html:69
 msgid "Select Plan"
 msgstr "Вибрати План"
 
 #: templates/billing/pricing_periods.html:42
-#, python-format
-msgid "Save 10%%"
+#: templates/billing/pricing_periods.html:53
+#: templates/billing/pricing_periods.html:67
+#: templates/billing/pricing_periods.html:78
+#: templates/billing/pricing_periods.html:103
+#: templates/companies/reset_password.html:47
+msgid "Save"
 msgstr ""
 
 #: templates/billing/pricing_periods.html:45
@@ -379,20 +679,8 @@ msgstr ""
 msgid "months"
 msgstr ""
 
-#: templates/billing/pricing_periods.html:53
-#: templates/billing/pricing_periods.html:78
-#: templates/billing/pricing_periods.html:103
-#: templates/companies/reset_password.html:47
-msgid "Save"
-msgstr ""
-
 #: templates/billing/pricing_periods.html:56
 msgid "Billed every 3 months"
-msgstr ""
-
-#: templates/billing/pricing_periods.html:67
-#, python-format
-msgid "Save 20%%"
 msgstr ""
 
 #: templates/billing/pricing_periods.html:70
@@ -405,8 +693,7 @@ msgid "Billed every 6 months"
 msgstr ""
 
 #: templates/billing/pricing_periods.html:92
-#, python-format
-msgid "Best Value - Save 40%%"
+msgid "Mejor Valor - Ahorre"
 msgstr ""
 
 #: templates/billing/pricing_periods.html:95
@@ -454,6 +741,7 @@ msgid "Subscription & Billing"
 msgstr "Підписка"
 
 #: templates/billing/subscription_details.html:13
+#: templates/companies/customer_detail.html:11
 #: templates/companies/customers_list.html:11
 #: templates/companies/services_list.html:10
 #: templates/companies/staff_list.html:10
@@ -501,7 +789,7 @@ msgid "Billing History"
 msgstr ""
 
 #: templates/billing/subscription_details.html:88
-#: templates/bookings/bookings_list.html:21
+#: templates/bookings/bookings_list.html:64
 msgid "Date"
 msgstr ""
 
@@ -514,7 +802,6 @@ msgid "Plan"
 msgstr ""
 
 #: templates/billing/subscription_details.html:91
-#: templates/bookings/bookings_list.html:24
 msgid "Status"
 msgstr ""
 
@@ -557,41 +844,41 @@ msgstr ""
 msgid "Contact Support"
 msgstr ""
 
-#: templates/billing/view_plans.html:11
+#: templates/billing/view_plans.html:12
 msgid "Select the plan that best fits your business needs"
 msgstr "Виберіть план, який найкраще відповідає потребам вашого бізнесу"
 
-#: templates/billing/view_plans.html:19 templates/billing/view_plans.html:64
+#: templates/billing/view_plans.html:20 templates/billing/view_plans.html:65
 msgid "Current Plan"
 msgstr "Поточний План"
 
-#: templates/billing/view_plans.html:45
+#: templates/billing/view_plans.html:46
 msgid "Up to"
 msgstr ""
 
-#: templates/billing/view_plans.html:45
+#: templates/billing/view_plans.html:46
 #, fuzzy
 #| msgid "Staff Members"
 msgid "staff members"
 msgstr "Члени Персоналу"
 
-#: templates/billing/view_plans.html:49
+#: templates/billing/view_plans.html:50
 msgid "Unlimited bookings"
 msgstr "Необмежена кількість бронювань"
 
-#: templates/billing/view_plans.html:53
+#: templates/billing/view_plans.html:54
 msgid "Calendar view"
 msgstr "Вигляд календаря"
 
-#: templates/billing/view_plans.html:57
+#: templates/billing/view_plans.html:58
 msgid "Public booking page"
 msgstr "Публічна сторінка бронювання"
 
-#: templates/billing/view_plans.html:67
+#: templates/billing/view_plans.html:68
 msgid "Are you sure you want to switch to"
 msgstr "Ви впевнені, що хочете змінити на"
 
-#: templates/billing/view_plans.html:75
+#: templates/billing/view_plans.html:76
 msgid "No plans available at the moment"
 msgstr "Наразі немає доступних планів"
 
@@ -599,7 +886,7 @@ msgstr "Наразі немає доступних планів"
 msgid "Bookings"
 msgstr "Бронювання"
 
-#: templates/bookings/bookings_list.html:19
+#: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
 #: templates/bookings/confirmation.html:37
 #, fuzzy
@@ -607,24 +894,30 @@ msgstr "Бронювання"
 msgid "Service"
 msgstr "Послуги"
 
-#: templates/bookings/bookings_list.html:20
+#: templates/bookings/bookings_list.html:63
 #: templates/bookings/confirm_prebooked.html:41
 #, fuzzy
 #| msgid "Add Staff"
 msgid "Staff"
 msgstr "Додати Персонал"
 
-#: templates/bookings/bookings_list.html:22
+#: templates/bookings/bookings_list.html:65
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2456
 msgid "Time"
 msgstr ""
 
-#: templates/bookings/bookings_list.html:23
+#: templates/bookings/bookings_list.html:66
 #: templates/bookings/confirm_prebooked.html:25
 msgid "Customer"
 msgstr ""
 
-#: templates/bookings/bookings_list.html:25
+#: templates/bookings/bookings_list.html:67
+#, fuzzy
+#| msgid "Company Email"
+msgid "Phone & Email"
+msgstr "Електронна Пошта Компанії"
+
+#: templates/bookings/bookings_list.html:68
 #: templates/companies/services_list.html:29
 #: templates/companies/staff_list.html:28
 #, fuzzy
@@ -632,13 +925,13 @@ msgstr ""
 msgid "Actions"
 msgstr "Швидкі Дії"
 
-#: templates/bookings/bookings_list.html:46
+#: templates/bookings/bookings_list.html:84
 #: templates/companies/services_list.html:46
 #: templates/companies/staff_list.html:53
 msgid "Edit"
 msgstr ""
 
-#: templates/bookings/bookings_list.html:51
+#: templates/bookings/bookings_list.html:89
 #: templates/companies/customer_detail.html:76
 msgid "No bookings found."
 msgstr ""
@@ -870,15 +1163,15 @@ msgstr ""
 msgid "Out of Office End Date"
 msgstr ""
 
+#: templates/companies/add_staff.html:119 templates/companies/dashboard.html:50
+#: templates/companies/edit_staff.html:106
+#: templates/companies/services_list.html:15
+msgid "Services"
+msgstr "Послуги"
+
 #: templates/companies/customer_detail.html:4
 msgid "Customer Detail"
 msgstr ""
-
-#: templates/companies/customer_detail.html:11
-#, fuzzy
-#| msgid "Back to home"
-msgid "Back to Customers"
-msgstr "Повернутися на головну"
 
 #: templates/companies/customer_detail.html:28
 #, fuzzy
@@ -1841,10 +2134,6 @@ msgstr ""
 msgid "Only essential cookies enabled."
 msgstr ""
 
-#: templates/static_pages/faq.html:10
-msgid "Frequently Asked Questions"
-msgstr ""
-
 #: templates/static_pages/faq.html:14
 #, fuzzy
 #| msgid "create a new company account"
@@ -1894,8 +2183,8 @@ msgstr ""
 
 #: templates/static_pages/faq.html:35
 msgid ""
-"Customers receive automated email notifications with booking details and a "
-"cancellation link if needed."
+"Customers receive automated email and WhatsApp notifications with booking "
+"details and a cancellation link if needed."
 msgstr ""
 
 #: templates/static_pages/faq.html:39
@@ -2030,7 +2319,7 @@ msgstr ""
 #: templates/static_pages/how_it_works.html:75
 msgid ""
 "Enter your details and confirm your booking. You'll receive a confirmation "
-"email."
+"email and WhatsApp message."
 msgstr ""
 
 #: templates/static_pages/how_it_works.html:82
@@ -3449,6 +3738,38 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "Salon Booking Platform"
+#~ msgstr "Платформа Бронювання для Салонів"
+
+#~ msgid "Everything You Need"
+#~ msgstr "Все Що Вам Потрібно"
+
+#~ msgid "Simple, powerful tools to grow your business"
+#~ msgstr "Прості та потужні інструменти для розвитку вашого бізнесу"
+
+#~ msgid ""
+#~ "Manage your team, assign services, and track schedules. Each staff member "
+#~ "gets their own calendar."
+#~ msgstr ""
+#~ "Керуйте командою, призначайте послуги та відстежуйте розклади. Кожен "
+#~ "співробітник має власний календар."
+
+#~ msgid "Setup"
+#~ msgstr "Налаштування"
+
+#~ msgid "Accept bookings and manage your business"
+#~ msgstr "Приймайте бронювання та керуйте бізнесом"
+
+#~ msgid "Join hundreds of businesses managing their bookings smarter"
+#~ msgstr ""
+#~ "Приєднуйтесь до сотень підприємств, які керують своїми бронюваннями "
+#~ "розумніше"
+
+#, fuzzy
+#~| msgid "Back to home"
+#~ msgid "Back to Customers"
+#~ msgstr "Повернутися на головну"
 
 #~ msgid "Preview booking page"
 #~ msgstr "Попередній перегляд сторінки бронювання"

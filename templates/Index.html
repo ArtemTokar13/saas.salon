@@ -1,159 +1,478 @@
 {% extends 'Layout.html' %}
 {% load i18n %}
 
-{% block title %}{% trans "Salon Booking Platform" %}{% endblock %}
+{% block title %}{% trans "A Simple Client Management System for Your Salon" %}{% endblock %}
 
 {% block content %}
 
-{% if not user.is_authenticated %}
-<!-- Companies Carousel Section -->
-{% if companies %}
-<div class="py-12 bg-gray-100">
+<!-- 1. HERO SECTION -->
+<div class="bg-gradient-to-br from-gray-900 to-black text-white py-20 sm:py-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-gray-900">{% trans "Services" %}</h2>
-        </div>
-
-        <div class="overflow-x-auto pb-4 scrollbar-hide">
-            <div class="flex space-x-6" style="width: max-content;">
-                {% for company in companies %}
-                <a href="{% url 'company_public_page' company.id %}" 
-                   class="block w-72 bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex-shrink-0">
-                    
-                    <!-- Company Image -->
-                    <div class="h-40 bg-gray-200 relative overflow-hidden">
-                        {% if company.images.first %}
-                            <img src="{{ company.images.first.image.url }}" 
-                                 alt="{{ company.name }}"
-                                 class="w-full h-full object-cover">
-                        {% else %}
-                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-                                <i class="fas fa-store text-gray-300 text-4xl"></i>
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Company Info -->
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold text-gray-900 mb-1 truncate">{{ company.name }}</h3>
-                        
-                        {% if company.description %}
-                        <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ company.description }}</p>
-                        {% endif %}
-
-                        <div class="space-y-1 text-xs text-gray-500">
-                            {% if company.city %}
-                            <div class="flex items-center">
-                                <i class="fas fa-map-marker-alt w-4 text-gray-400"></i>
-                                <span class="truncate">{{ company.city }}</span>
-                            </div>
-                            {% endif %}
-
-                            {% if company.phone %}
-                            <div class="flex items-center">
-                                <i class="fas fa-phone w-4 text-gray-400"></i>
-                                <span>{{ company.phone }}</span>
-                            </div>
-                            {% endif %}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    {% trans "A Simple Client Management System for Your Salon" %}
+                </h2>
+                <p class="text-xl text-gray-100 mb-8 leading-relaxed">
+                    {% trans "Reduce no‑shows, save time, and let clients book 24/7 — all in one simple platform." %}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    {% if not user.is_authenticated %}
+                    <a href="{% url 'register_company' %}" 
+                       class="inline-block bg-white text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition text-center">
+                        🚀 {% trans "Start Free Trial" %}
+                    </a>
+                    {% else %}
+                    <a href="{% url 'company_dashboard' %}" 
+                       class="inline-block bg-white text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition text-center">
+                        {% trans "Go to Dashboard" %}
+                    </a>
+                    {% endif %}
+                    <a href="#how-it-works" 
+                       class="inline-block bg-gray-700 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-600 transition text-center">
+                        {% trans "See How It Works" %}
+                    </a>
+                </div>
+            </div>
+            <div class="hidden lg:block">
+                <div class="bg-white rounded-lg shadow-2xl p-6">
+                    <div class="bg-gray-100 rounded h-64 flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="fas fa-calendar text-6xl text-gray-900 mb-4"></i>
+                            <p class="text-gray-600 font-semibold">{% trans "Calendar + WhatsApp Reminder Example" %}</p>
                         </div>
                     </div>
-                </a>
-                {% endfor %}
+                </div>
             </div>
         </div>
     </div>
 </div>
-{% endif %}
-{% endif %}
 
-<div class="py-10 bg-gray-100">
+<!-- 3. KEY VALUE PROPOSITION SECTION -->
+<div class="bg-white py-16 sm:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">{% trans "Everything You Need" %}</h2>
-            <p class="text-xl text-gray-600">{% trans "Simple, powerful tools to grow your business" %}</p>
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                {% trans "Everything You Need to Run Your Salon Smoothly" %}
+            </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div class="text-center">
-                <div class="bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-calendar-check text-gray-900 text-3xl"></i>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Online Booking -->
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-lg transition">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-900 mb-6">
+                    <i class="fas fa-calendar-check text-white text-2xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Online Booking" %}</h3>
                 <p class="text-gray-600">
-                    {% trans "Let customers book appointments 24/7 from any device. Automatic confirmations and reminders." %}
+                    {% trans "Let clients book appointments anytime. Automatic confirmations included." %}
                 </p>
             </div>
 
-            <div class="text-center">
-                <div class="bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-users text-gray-900 text-3xl"></i>
+            <!-- WhatsApp Reminders -->
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-lg transition border-2 border-green-400">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-green-600 mb-6">
+                    <i class="fas fa-whatsapp text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "WhatsApp Reminders" %}</h3>
+                <p class="text-gray-600">
+                    {% trans "Reduce no‑shows with instant WhatsApp notifications clients actually read." %}
+                </p>
+            </div>
+
+            <!-- Staff Management -->
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-lg transition">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-800 mb-6">
+                    <i class="fas fa-users text-white text-2xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Staff Management" %}</h3>
                 <p class="text-gray-600">
-                    {% trans "Manage your team, assign services, and track schedules. Each staff member gets their own calendar." %}
+                    {% trans "Each staff member gets their own calendar and schedule." %}
+                </p>
+            </div>
+
+            <!-- Service Management -->
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-lg transition">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-700 mb-6">
+                    <i class="fas fa-scissors text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Service Management" %}</h3>
+                <p class="text-gray-600">
+                    {% trans "Create services, durations, prices, and assign them to staff." %}
+                </p>
+            </div>
+
+            <!-- Client Profiles -->
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-lg transition">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-600 mb-6">
+                    <i class="fas fa-user-circle text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Client Profiles" %}</h3>
+                <p class="text-gray-600">
+                    {% trans "Keep track of client history, notes, and preferences." %}
+                </p>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="p-8 bg-gray-50 rounded-lg hover:shadow-lg transition">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-500 mb-6">
+                    <i class="fas fa-chart-line text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Analytics Dashboard" %}</h3>
+                <p class="text-gray-600">
+                    {% trans "Track your bookings, no-shows, and business performance." %}
                 </p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="py-10 bg-gray-200">
+<!-- 4. WHATSAPP FEATURE HIGHLIGHT -->
+<div class="bg-gradient-to-r from-green-50 to-blue-50 py-16 sm:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-10">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">{% trans "How It Works" %}</h2>
-            <p class="text-xl text-gray-600">{% trans "Get started in minutes" %}</p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-8">
+                    {% trans "Why WhatsApp Reminders Matter" %}
+                </h2>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-check-circle text-green-600 text-2xl flex-shrink-0 mt-1"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-2">{% trans "Clients read WhatsApp messages instantly" %}</h3>
+                            <p class="text-gray-600">{% trans "Higher open rates than email — 97% read rate within minutes" %}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-check-circle text-green-600 text-2xl flex-shrink-0 mt-1"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-2">{% trans "Reduce missed appointments" %}</h3>
+                            <p class="text-gray-600">{% trans "Cut no-shows with timely reminders" %}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-check-circle text-green-600 text-2xl flex-shrink-0 mt-1"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-2">{% trans "Automatic reminders before each visit" %}</h3>
+                            <p class="text-gray-600">{% trans "Set it up once and let it run automatically" %}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fas fa-check-circle text-green-600 text-2xl flex-shrink-0 mt-1"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-2">{% trans "Works even if clients ignore email" %}</h3>
+                            <p class="text-gray-600">{% trans "Reach your clients where they actually are" %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="bg-white rounded-lg shadow-xl p-6 border-l-4 border-green-600">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                        <span class="font-semibold text-gray-900">{% trans "Example WhatsApp Message" %}</span>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded text-sm text-gray-700 space-y-3">
+                        <p>{% trans "Hi Maria! 💅" %}</p>
+                        <p>{% trans "Your appointment reminder:" %}</p>
+                        <p>📅 {% trans "Tomorrow at 3:00 PM" %}</p>
+                        <p>✂️ {% trans "Haircut - 60 min" %}</p>
+                        <p>💈 {% trans "With Anna" %}</p>
+                        <p>{% trans "See you soon!" %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 5. WHO IS THIS FOR SECTION -->
+<div class="bg-gray-100 py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                {% trans "Perfect for beauty & wellness businesses" %}
+            </h2>
+            <p class="text-xl text-gray-600">
+                {% trans "If you run any of these, Reserva-Ya is for you" %}
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div class="bg-white rounded-lg p-8 text-center shadow hover:shadow-lg transition">
+                <i class="fas fa-cut text-4xl text-gray-900 mb-4"></i>
+                <h3 class="font-bold text-gray-900 text-lg">{% trans "Hair salons" %}</h3>
+            </div>
+            <div class="bg-white rounded-lg p-8 text-center shadow hover:shadow-lg transition">
+                <i class="fas fa-shield-alt text-4xl text-gray-800 mb-4"></i>
+                <h3 class="font-bold text-gray-900 text-lg">{% trans "Barber shops" %}</h3>
+            </div>
+            <div class="bg-white rounded-lg p-8 text-center shadow hover:shadow-lg transition">
+                <i class="fas fa-spa text-4xl text-gray-700 mb-4"></i>
+                <h3 class="font-bold text-gray-900 text-lg">{% trans "Nail & manicure studios" %}</h3>
+            </div>
+            <div class="bg-white rounded-lg p-8 text-center shadow hover:shadow-lg transition">
+                <i class="fas fa-palette text-4xl text-gray-600 mb-4"></i>
+                <h3 class="font-bold text-gray-900 text-lg">{% trans "Beauty & aesthetics" %}</h3>
+            </div>
+            <div class="bg-white rounded-lg p-8 text-center shadow hover:shadow-lg transition">
+                <i class="fas fa-leaf text-4xl text-gray-500 mb-4"></i>
+                <h3 class="font-bold text-gray-900 text-lg">{% trans "Massage & wellness" %}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 6. HOW IT WORKS SECTION -->
+<div class="bg-white py-16 sm:py-20" id="how-it-works">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                {% trans "Get Started in Minutes" %}
+            </h2>
+            <p class="text-xl text-gray-600">
+                {% trans "Simple setup, immediate results" %}
+            </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div class="text-center">
-                <div class="bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                <div class="bg-gray-900 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 font-bold text-2xl">
                     1
                 </div>
-                <h3 class="font-bold text-gray-900 mb-2">{% trans "Sign Up" %}</h3>
-                <p class="text-gray-600 text-sm">{% trans "Create your company account in under 2 minutes" %}</p>
+                <h3 class="font-bold text-xl text-gray-900 mb-3">{% trans "Sign Up" %}</h3>
+                <p class="text-gray-600">
+                    {% trans "Create your company account in under 2 minutes." %}
+                </p>
             </div>
 
             <div class="text-center">
-                <div class="bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                <div class="bg-gray-800 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 font-bold text-2xl">
                     2
                 </div>
-                <h3 class="font-bold text-gray-900 mb-2">{% trans "Setup" %}</h3>
-                <p class="text-gray-600 text-sm">{% trans "Add your staff, services, and working hours" %}</p>
+                <h3 class="font-bold text-xl text-gray-900 mb-3">{% trans "Set Up" %}</h3>
+                <p class="text-gray-600">
+                    {% trans "Add staff, services, and working hours." %}
+                </p>
             </div>
 
             <div class="text-center">
-                <div class="bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                <div class="bg-gray-700 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 font-bold text-2xl">
                     3
                 </div>
-                <h3 class="font-bold text-gray-900 mb-2">{% trans "Share" %}</h3>
-                <p class="text-gray-600 text-sm">{% trans "Share your booking link with customers" %}</p>
+                <h3 class="font-bold text-xl text-gray-900 mb-3">{% trans "Share" %}</h3>
+                <p class="text-gray-600">
+                    {% trans "Send your booking link to clients." %}
+                </p>
             </div>
 
             <div class="text-center">
-                <div class="bg-gray-800 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                <div class="bg-gray-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 font-bold text-2xl">
                     4
                 </div>
-                <h3 class="font-bold text-gray-900 mb-2">{% trans "Grow" %}</h3>
-                <p class="text-gray-600 text-sm">{% trans "Accept bookings and manage your business" %}</p>
+                <h3 class="font-bold text-xl text-gray-900 mb-3">{% trans "Grow" %}</h3>
+                <p class="text-gray-600">
+                    {% trans "Receive bookings automatically and reduce no‑shows." %}
+                </p>
             </div>
         </div>
     </div>
 </div>
 
+<!-- 7. PRICING SECTION WITH LINK -->
+<div class="bg-gray-50 py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                {% trans "Simple, transparent pricing" %}
+            </h2>
+            <p class="text-xl text-gray-600 mb-8">
+                {% trans "Choose the perfect plan for your business" %}
+            </p>
+            <a href="{% url 'view_plans' %}" 
+               class="inline-block bg-gray-900 text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-gray-800 transition">
+                {% trans "View Our Pricing Plans" %}
+            </a>
+        </div>
+        
+        <div class="mt-12 text-center">
+            <p class="text-gray-600 text-lg">
+                {% trans "All plans include:" %}
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-600 text-2xl mr-3"></i>
+                    <span class="text-gray-700">{% trans "Online booking" %}</span>
+                </div>
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-600 text-2xl mr-3"></i>
+                    <span class="text-gray-700">{% trans "Staff calendars" %}</span>
+                </div>
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-600 text-2xl mr-3"></i>
+                    <span class="text-gray-700">{% trans "Unlimited appointments" %}</span>
+                </div>
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-600 text-2xl mr-3"></i>
+                    <span class="text-gray-700">{% trans "Support in Spanish" %}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 8. FAQ SECTION -->
+<div class="bg-white py-16 sm:py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                {% trans "Frequently Asked Questions" %}
+            </h2>
+        </div>
+
+        <div class="space-y-6">
+            <!-- FAQ 1 -->
+            <details class="group">
+                <summary class="flex items-center cursor-pointer p-6 bg-gray-50 rounded-lg font-bold text-gray-900 hover:bg-gray-100 transition">
+                    <span class="flex-grow">{% trans "Do I need to install anything?" %}</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition ml-4"></i>
+                </summary>
+                <p class="px-6 pb-6 text-gray-600">
+                    {% trans "No, everything works in your browser. No downloads or installations needed — just sign up and start using it immediately." %}
+                </p>
+            </details>
+
+            <!-- FAQ 2 -->
+            <details class="group">
+                <summary class="flex items-center cursor-pointer p-6 bg-gray-50 rounded-lg font-bold text-gray-900 hover:bg-gray-100 transition">
+                    <span class="flex-grow">{% trans "Can clients book without downloading an app?" %}</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition ml-4"></i>
+                </summary>
+                <p class="px-6 pb-6 text-gray-600">
+                    {% trans "Yes, bookings work on any device through a web link. Clients don't need to download anything — they simply click your booking link and book." %}
+                </p>
+            </details>
+
+            <!-- FAQ 3 -->
+            <details class="group">
+                <summary class="flex items-center cursor-pointer p-6 bg-gray-50 rounded-lg font-bold text-gray-900 hover:bg-gray-100 transition">
+                    <span class="flex-grow">{% trans "Is WhatsApp included?" %}</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition ml-4"></i>
+                </summary>
+                <p class="px-6 pb-6 text-gray-600">
+                    {% trans "WhatsApp reminders are available in our Pro plan. You'll be able to send automatic reminders to all your clients." %}
+                </p>
+            </details>
+
+            <!-- FAQ 4 -->
+            <details class="group">
+                <summary class="flex items-center cursor-pointer p-6 bg-gray-50 rounded-lg font-bold text-gray-900 hover:bg-gray-100 transition">
+                    <span class="flex-grow">{% trans "Can I cancel anytime?" %}</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition ml-4"></i>
+                </summary>
+                <p class="px-6 pb-6 text-gray-600">
+                    {% trans "Of course — no long-term contracts. You can cancel your subscription anytime from your account settings." %}
+                </p>
+            </details>
+
+            <!-- FAQ 5 -->
+            <details class="group">
+                <summary class="flex items-center cursor-pointer p-6 bg-gray-50 rounded-lg font-bold text-gray-900 hover:bg-gray-100 transition">
+                    <span class="flex-grow">{% trans "How do I connect WhatsApp?" %}</span>
+                    <i class="fas fa-chevron-down group-open:rotate-180 transition ml-4"></i>
+                </summary>
+                <p class="px-6 pb-6 text-gray-600">
+                    {% trans "We provide step-by-step instructions to connect your WhatsApp account. It's a simple 5-minute setup process." %}
+                </p>
+            </details>
+        </div>
+    </div>
+</div>
+
+<!-- 9. SCREENSHOTS / PRODUCT PREVIEW SECTION (Optional) -->
+<div class="bg-gray-50 py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                {% trans "See the Platform in Action" %}
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-gray-100 h-64 flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-calendar-alt text-6xl text-gray-900 mb-4"></i>
+                        <p class="text-gray-600 font-semibold">{% trans "Calendar View" %}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-gray-100 h-64 flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-user-tie text-6xl text-gray-800 mb-4"></i>
+                        <p class="text-gray-600 font-semibold">{% trans "Staff Schedule" %}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-gray-100 h-64 flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-edit text-6xl text-gray-700 mb-4"></i>
+                        <p class="text-gray-600 font-semibold">{% trans "Booking Form" %}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-gray-100 h-64 flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-comments text-6xl text-green-500 mb-4"></i>
+                        <p class="text-gray-600 font-semibold">{% trans "WhatsApp Reminder" %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 10. FINAL CTA SECTION -->
 {% if not user.is_authenticated %}
-<div class="bg-gray-600 text-white py-10">
+<div class="bg-gradient-to-r from-gray-900 to-black text-white py-16 sm:py-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-bold mb-4">{% trans "Ready to Get Started?" %}</h2>
-        <p class="text-xl text-gray-100 mb-8">
-            {% trans "Join hundreds of businesses managing their bookings smarter" %}
+        <h2 class="text-4xl sm:text-5xl font-bold mb-6">
+            {% trans "Ready to Grow Your Salon?" %}
+        </h2>
+        <p class="text-xl text-gray-100 mb-10 leading-relaxed">
+            {% trans "Start your free trial today — no credit card required. Get instant access to all features." %}
         </p>
         <a href="{% url 'register_company' %}" 
-           class="inline-block bg-white text-gray-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
-            {% trans "Start Your Free Trial" %}
+           class="inline-block bg-white text-gray-900 px-10 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
+            🚀 {% trans "Start Your Free Trial Today" %}
+        </a>
+        <p class="text-gray-300 mt-6 text-sm">
+            {% trans "14 days free. No credit card. Cancel anytime." %}
+        </p>
+    </div>
+</div>
+{% else %}
+<div class="bg-gray-50 border-t-4 border-gray-900 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+            {% trans "Welcome back!" %}
+        </h2>
+        <a href="{% url 'company_dashboard' %}" 
+           class="inline-block text-gray-900 font-bold hover:text-gray-700">
+            {% trans "Go to your dashboard →" %}
         </a>
     </div>
 </div>
 {% endif %}
+
 <style>
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
@@ -162,11 +481,29 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+
+    details summary {
+        list-style: none;
+    }
+
+    details summary::-webkit-details-marker {
+        display: none;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
     }
 </style>
+
 {% endblock %}

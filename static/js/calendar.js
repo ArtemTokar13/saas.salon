@@ -81,6 +81,7 @@ async function deleteBooking(bookingId) {
 }
 
 function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
+    ej.base.registerLicense("Ngo9BigBOggjHTQxAR8/V1JGaF1cXmhLYVJyWmFZfVhgdVVMZF5bQXdPMyBoS35RcEVhWXhfcHBXQ2FVVk1yVEFf");
     const calendarEl = document.getElementById('calendar');
 
     /* ---------------------------------------------------------
@@ -105,204 +106,181 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     });
 
     /* ---------------------------------------------------------
-     * 2. Convert bookings → unified event format
+     * 2. Convert bookings → Syncfusion event format
      * --------------------------------------------------------- */
-    const allEvents = rawBookings.map(b => {
-        const color = staffColorMap[b.extendedProps.staff_id] || staffColors[0];
+    const events = rawBookings.map(b => {
+        const color = staffColorMap[b.extendedProps.staff_id];
         const isPending = b.extendedProps.status == 0;
 
         return {
-            id: String(b.id),
-            calendarId: String(b.extendedProps.staff_id),
-            title: b.title,
-            start: new Date(b.start),
-            end: new Date(b.end),
-            backgroundColor: color.bg,
-            borderColor: color.border,
-            color: '#ffffff',
-            raw: {
-                booking_id: b.id,
-                staff_id: b.extendedProps.staff_id,
-                status: b.extendedProps.status,
-                service: b.extendedProps.service,
-                customer: b.extendedProps.customer,
-                isPending: isPending
-            }
+            Id: b.id,
+            Subject: b.title,
+            StartTime: new Date(b.start),
+            EndTime: new Date(b.end),
+            StaffId: b.extendedProps.staff_id,
+            IsReadonly: false,
+            Color: color.bg,
+            Border: color.border,
+            IsPending: isPending,
+            Raw: b.extendedProps
         };
     });
 
     /* ---------------------------------------------------------
-     * 3. DAYPILOT MODE (preferred)
+     * 3. Staff → Syncfusion resources
      * --------------------------------------------------------- */
-    if (window.DayPilot && window.DayPilot.Scheduler) {
-        const scheduler = new DayPilot.Scheduler(calendarEl.id);
-
-        // Base config
-        scheduler.startDate = currentDate;
-        scheduler.days = 1;
-        scheduler.scale = "CellDuration";
-        scheduler.cellDuration = 30;
-        scheduler.businessBeginsHour = dayStart;
-        scheduler.businessEndsHour = dayEnd;
-        scheduler.allowEventOverlap = false;
-        scheduler.cellHeight = 80; // ширші лінії
-        scheduler.timeHeaders = [
-            { groupBy: "Hour", format: "HH:mm" }
-        ];
-
-        // Timeline strictly within working hours
-        const timeline = []; for (let hour = dayStart; hour < dayEnd; hour++) { timeline.push({ start: new DayPilot.Date(currentDate).addHours(hour), end: new DayPilot.Date(currentDate).addHours(hour + 1) }); } scheduler.timeline = timeline;
-
-        // Staff as columns
-        scheduler.resources = staffList.map(s => ({
-            id: String(s.id),
-            name: s.title
-        }));
-
-        // Custom row header: avatar → name → occupancy
-        scheduler.onBeforeRowHeaderRender = args => {
-            const staff = staffList.find(s => String(s.id) === String(args.row.id));
-            if (!staff) return;
-
-            const occupancy = staff.occupancy || 0;
-            const occColor =
-                occupancy >= 80 ? '#ef4444' :
-                occupancy >= 50 ? '#eab308' :
-                '#10b981';
-
-            const avatar = staff.avatar
-                ? `<img src="${staff.avatar}" class="w-12 h-12 rounded-full object-cover border-2 border-gray-300 mx-auto" />`
-                : `<div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 mx-auto">
-                       <i class="fas fa-user text-gray-500 text-sm"></i>
-                   </div>`;
-
-            args.row.html = `
-                <div style="display:flex; flex-direction:column; align-items:center; padding:6px 0;">
-                    ${avatar}
-                    <div style="font-size:13px; font-weight:600; color:#374151; margin-top:6px; text-align:center;">
-                        ${staff.title}
-                    </div>
-                    <div style="width:80%; height:6px; background:#e5e7eb; border-radius:3px; margin-top:4px; overflow:hidden;">
-                        <div style="width:${occupancy}%; height:100%; background:${occColor};"></div>
-                    </div>
-                </div>
-            `;
-        };
-
-        // Custom event rendering (чисті блоки)
-        scheduler.onBeforeEventRender = args => {
-            const d = args.data.data || args.data;
-            const isPending = d.isPending;
-            const opacity = isPending ? 0.7 : 1;
-
-            args.data.html = `
-                <div style="padding:4px; font-size:12px; font-weight:600; color:white; opacity:${opacity};">
-                    ${args.data.text}
-                </div>
-            `;
-        };
-
-        // Map events to DayPilot format
-        scheduler.events.list = allEvents.map(e => ({
-            id: e.id,
-            text: e.title,
-            start: e.start.toISOString(),
-            end: e.end.toISOString(),
-            resource: e.calendarId,
-            backColor: e.backgroundColor,
-            borderColor: e.borderColor,
-            data: e.raw
-        }));
-
-        // Click → open modal
-        scheduler.onEventClick = args => {
-            const ev = args.e;
-            const d = ev.data || {};
-            showBookingModal({
-                id: ev.id(),
-                start: new Date(ev.start.value),
-                end: new Date(ev.end.value),
-                title: ev.text(),
-                raw: d
-            });
-        };
-
-        scheduler.init();
-        window.calendar = scheduler;
-        return;
-    }
+    const resources = [{
+        field: 'StaffId',
+        title: 'Staff',
+        name: 'Staff',
+        allowMultiple: false,
+        dataSource: staffList.map((s, i) => ({
+            Id: s.id,
+            Name: s.title,
+            Avatar: s.avatar,
+            Occupancy: s.occupancy || 0,
+            Color: staffColors[i % staffColors.length].bg
+        })),
+        textField: 'Name',
+        idField: 'Id',
+        colorField: 'Color'
+    }];
 
     /* ---------------------------------------------------------
-     * 4. TOAST UI FALLBACK
+     * 4. Create Syncfusion Scheduler
      * --------------------------------------------------------- */
-    const calendars = staffList.map((s, i) => ({
-        id: String(s.id),
-        name: s.title,
-        backgroundColor: staffColors[i % staffColors.length].bg,
-        borderColor: staffColors[i % staffColors.length].border
-    }));
+    const schedule = new ej.schedule.Schedule({
+        height: '100%',
+        width: '100%',
+        currentView: 'TimelineDay',
+        selectedDate: new Date(currentDate),
 
-    const tuiCal = new tui.Calendar(calendarEl, {
-        defaultView: 'day',
-        isReadOnly: true,
-        calendars: calendars,
-        day: {
-            hourStart: dayStart,
-            hourEnd: dayEnd,
-            eventView: ['time'],
-            taskView: false
+        /* 15-хвилинні слоти */
+        timeScale: {
+            enable: true,
+            interval: 15,
+            slotCount: 1
         },
-        template: {
-            time(event) {
-                const opacity = event.raw.isPending ? 0.7 : 1;
-                return `
-                    <div style="color:white; opacity:${opacity}; font-size:12px; line-height:1.2;">
-                        ${event.title}
-                    </div>
-                `;
+
+        /* Робочі години */
+        workHours: {
+            highlight: true,
+            start: `${dayStart}:00`,
+            end: `${dayEnd}:00`
+        },
+
+        /* Показувати тільки робочі години */
+        startHour: `${dayStart}:00`,
+        endHour: `${dayEnd}:00`,
+
+        /* Staff columns */
+        group: {
+            resources: ['Staff']
+        },
+
+        resources: resources,
+
+        /* Події */
+        eventSettings: {
+            dataSource: events,
+            fields: {
+                id: 'Id',
+                subject: { name: 'Subject' },
+                startTime: { name: 'StartTime' },
+                endTime: { name: 'EndTime' }
             }
-        }
-    });
+        },
 
-    tuiCal.setDate(currentDate);
-    tuiCal.createEvents(allEvents);
+        /* -----------------------------------------------------
+         * 5. Custom templates
+         * ----------------------------------------------------- */
 
-    // Sidebar: avatar → name → occupancy
-    setTimeout(() => {
-        const items = document.querySelectorAll('.tui-calendar-list-item');
-        items.forEach((item, i) => {
-            const staff = staffList[i];
-            if (!staff) return;
+        /* Staff header template (avatar → name → occupancy) */
+        resourceHeaderTemplate: function(props) {
+            const staff = props.resourceData;
 
-            const occ = staff.occupancy || 0;
+            const occ = staff.Occupancy;
             const occColor =
                 occ >= 80 ? 'bg-red-500' :
                 occ >= 50 ? 'bg-yellow-500' :
                 'bg-green-500';
 
-            item.innerHTML = `
-                <div class="flex flex-col items-center py-1">
-                    ${staff.avatar
-                        ? `<img src="${staff.avatar}" class="w-10 h-10 rounded-full object-cover border border-gray-300">`
-                        : `<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center border border-gray-300">
-                               <i class="fas fa-user text-gray-500 text-sm"></i>
-                           </div>`
+            return `
+                <div class="flex flex-col items-center py-2">
+                    ${staff.Avatar
+                        ? `<img src="${staff.Avatar}" class="w-12 h-12 rounded-full object-cover border border-gray-300">`
+                        : `<div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border border-gray-300">
+                            <i class="fas fa-user text-gray-500 text-sm"></i>
+                        </div>`
                     }
-                    <div class="text-[11px] font-semibold text-gray-700 mt-1 text-center truncate max-w-[72px]">
-                        ${staff.title}
+                    <div class="text-sm font-semibold text-gray-700 mt-1 text-center truncate max-w-[80px]">
+                        ${staff.Name}
                     </div>
-                    <div class="w-12 h-1.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
+                    <div class="w-14 h-1.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
                         <div class="h-full ${occColor}" style="width:${occ}%"></div>
                     </div>
                 </div>
             `;
-        });
-    }, 100);
+        },
 
-    window.calendar = tuiCal;
+        /* Custom event template */
+        eventTemplate: function(props) {
+            const opacity = props.IsPending ? 0.7 : 1;
+            return `
+                <div style="
+                    background:${props.Color};
+                    border-left:4px solid ${props.Border};
+                    height:100%;
+                    padding:4px;
+                    color:white;
+                    opacity:${opacity};
+                    font-size:12px;
+                    font-weight:600;
+                ">
+                    ${props.Subject}
+                </div>
+            `;
+        },
+
+        actionBegin: async function(args) {
+            if (args.requestType === "dateNavigate") {
+                const newDate = this.selectedDate; // ← ключовий момент
+                const dateStr = newDate.toISOString().slice(0, 10);
+                const response = await fetch(`/bookings/calendar/?date=${dateStr}`);
+                const data = await response.json();
+
+                const events = data.map(b => ({
+                    Id: b.id,
+                    Subject: b.title,
+                    StartTime: new Date(b.start),
+                    EndTime: new Date(b.end),
+                    StaffId: b.staff_id,
+                    Color: "#3b82f6",
+                    Border: "#1e40af",
+                    Raw: b
+                }));
+
+                this.eventSettings.dataSource = events;
+                this.refreshEvents();
+                this.refreshLayout();
+            }
+        },
+
+        /* Click → open modal */
+        eventClick: function(args) {
+            showBookingModal({
+                id: args.event.Id,
+                start: args.event.StartTime,
+                end: args.event.EndTime,
+                title: args.event.Subject,
+                raw: args.event.Raw
+            });
+        }
+    });
+
+    schedule.appendTo(calendarEl);
+    window.calendar = schedule;
 }
-
-
 
 // Show custom booking modal
 function showBookingModal(event) {

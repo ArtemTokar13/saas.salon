@@ -476,7 +476,11 @@ def booking_calendar(request):
 
         # Serialize staff and bookings into JSON-friendly structures
         staff_data = [
-            {'id': s.id, 'title': s.name}
+            {
+                'id': s.id, 
+                'title': s.name,
+                'avatar': s.avatar.url if s.avatar else None
+            }
             for s in staff_list
         ]
 

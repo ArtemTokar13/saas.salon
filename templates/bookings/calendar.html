@@ -4,13 +4,51 @@
 
 {% block title %}Booking Calendar - {{ company.name }}{% endblock %}
 {% block header %}
+<!-- DayPilot Scheduler (optional) -->
+<script src="{% static 'js/daypilot-all.min.js' %}"></script>
+
+<!-- App calendar JS (buildCalendar will choose DayPilot if available) -->
 <script src="{% static 'js/calendar.js' %}"></script>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <style>
     body {
         height: 100%;
         overflow: auto;
+    }
+    /* Ensure scheduler has room to render columns */
+    #calendar {
+        min-height: calc(100vh - 260px);
+        height: calc(100vh - 260px);
+    }
+    
+    /* Customize tui.Calendar columns for multi-staff view */
+    .tui-calendar-table .tui-day-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+    .tui-calendar-sidebar {
+        min-width: 150px;
+        max-width: 200px;
+    }
+    
+    .tui-calendar-list-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+    }
+    
+    /* Improve time grid column spacing */
+    .tui-time-grid {
+        flex: 1;
+    }
+    
+    .tui-grid-cell {
+        border-right: 1px solid #e5e7eb;
     }
 </style>
 {% endblock %}
@@ -69,8 +107,8 @@
                             <button class="staff-tab flex-shrink-0 flex flex-col items-center gap-2 group" data-staff-id="{{ s.id }}">
                                 <div class="relative">
                                     <!-- Avatar circle -->
-                                    {% if s.photo %}
-                                        <img src="{{ s.photo }}" class="staff-avatar w-12 h-12 rounded-full object-cover border-4 border-transparent transition" alt="{{ s.title }}">
+                                    {% if s.avatar %}
+                                        <img src="{{ s.avatar }}" class="staff-avatar w-12 h-12 rounded-full object-cover border-4 border-transparent transition" alt="{{ s.title }}">
                                     {% else %}
                                         <div class="staff-avatar w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border-4 border-transparent transition">
                                             <i class="fas fa-user text-gray-500 text-lg"></i>
@@ -125,9 +163,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const rawBookings = {{ events_json|safe }};
     const staffList = {{ resources_json|safe }};
+    // Parse staff occupancy safely (if not already available)
+    const staffOccupancyObj = {{ staff_occupancy|safe }} || {};
     const currentDate = new Date('{{ current_date|date:"Y-m-d" }}');
     const dayStart = {{ day_start }};
     const dayEnd = {{ day_end }};
+    
+    // Attach occupancy data to staffList
+    staffList.forEach(staff => {
+        staff.occupancy = staffOccupancyObj[staff.id] || 0;
+    });
+    
     buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd);
 });
 

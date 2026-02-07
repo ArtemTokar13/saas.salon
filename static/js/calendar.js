@@ -82,62 +82,44 @@ async function deleteBooking(bookingId) {
 
 function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     const calendarEl = document.getElementById('calendar');
-    
-    // Generate distinct colors for each staff member
+
+    /* ---------------------------------------------------------
+     * 1. Staff colors
+     * --------------------------------------------------------- */
     const staffColors = [
-        { bg: '#3b82f6', border: '#1e40af' }, // Blue
-        { bg: '#10b981', border: '#047857' }, // Green
-        { bg: '#f59e0b', border: '#d97706' }, // Amber
-        { bg: '#8b5cf6', border: '#6d28d9' }, // Purple
-        { bg: '#ec4899', border: '#be185d' }, // Pink
-        { bg: '#14b8a6', border: '#0d9488' }, // Teal
-        { bg: '#f97316', border: '#ea580c' }, // Orange
-        { bg: '#06b6d4', border: '#0891b2' }, // Cyan
-        { bg: '#84cc16', border: '#65a30d' }, // Lime
-        { bg: '#a855f7', border: '#7e22ce' }, // Violet
+        { bg: '#3b82f6', border: '#1e40af' },
+        { bg: '#10b981', border: '#047857' },
+        { bg: '#f59e0b', border: '#d97706' },
+        { bg: '#8b5cf6', border: '#6d28d9' },
+        { bg: '#ec4899', border: '#be185d' },
+        { bg: '#14b8a6', border: '#0d9488' },
+        { bg: '#f97316', border: '#ea580c' },
+        { bg: '#06b6d4', border: '#0891b2' },
+        { bg: '#84cc16', border: '#65a30d' },
+        { bg: '#a855f7', border: '#7e22ce' }
     ];
-    
-    // Create a map of staff ID to colors
+
     const staffColorMap = {};
-    staffList.forEach((s, index) => {
-        const colorIndex = index % staffColors.length;
-        staffColorMap[s.id] = staffColors[colorIndex];
+    staffList.forEach((s, i) => {
+        staffColorMap[s.id] = staffColors[i % staffColors.length];
     });
-    
-    // Convert staff to Toast UI Calendar calendars with distinct colors
-    const calendars = staffList.map((s, index) => {
-        const colorIndex = index % staffColors.length;
-        return {
-            id: String(s.id),
-            name: s.title,
-            backgroundColor: staffColors[colorIndex].bg,
-            borderColor: staffColors[colorIndex].border
-        };
-    });
-    
-    // Add "All Staff" view
-    calendars.unshift({
-        id: 'all',
-        name: 'All Staff',
-        backgroundColor: '#e5e7eb',
-        borderColor: '#9ca3af'
-    });
-    
-    // Convert events to Toast UI format - use staff colors with opacity for pending
+
+    /* ---------------------------------------------------------
+     * 2. Convert bookings → unified event format
+     * --------------------------------------------------------- */
     const allEvents = rawBookings.map(b => {
-        const staffColor = staffColorMap[b.extendedProps.staff_id] || staffColors[0];
+        const color = staffColorMap[b.extendedProps.staff_id] || staffColors[0];
         const isPending = b.extendedProps.status == 0;
-        
+
         return {
             id: String(b.id),
             calendarId: String(b.extendedProps.staff_id),
             title: b.title,
             start: new Date(b.start),
             end: new Date(b.end),
-            backgroundColor: staffColor.bg,
-            borderColor: staffColor.border,
-            color: '#ffffff', // white text
-            isReadOnly: false,
+            backgroundColor: color.bg,
+            borderColor: color.border,
+            color: '#ffffff',
             raw: {
                 booking_id: b.id,
                 staff_id: b.extendedProps.staff_id,
@@ -148,159 +130,179 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
             }
         };
     });
-    
-    // Initialize Toast UI Calendar
-    const calendar = new tui.Calendar(calendarEl, {
+
+    /* ---------------------------------------------------------
+     * 3. DAYPILOT MODE (preferred)
+     * --------------------------------------------------------- */
+    if (window.DayPilot && window.DayPilot.Scheduler) {
+        const scheduler = new DayPilot.Scheduler(calendarEl.id);
+
+        // Base config
+        scheduler.startDate = currentDate;
+        scheduler.days = 1;
+        scheduler.scale = "CellDuration";
+        scheduler.cellDuration = 30;
+        scheduler.businessBeginsHour = dayStart;
+        scheduler.businessEndsHour = dayEnd;
+        scheduler.allowEventOverlap = false;
+        scheduler.cellHeight = 80; // ширші лінії
+        scheduler.timeHeaders = [
+            { groupBy: "Hour", format: "HH:mm" }
+        ];
+
+        // Timeline strictly within working hours
+        const timeline = []; for (let hour = dayStart; hour < dayEnd; hour++) { timeline.push({ start: new DayPilot.Date(currentDate).addHours(hour), end: new DayPilot.Date(currentDate).addHours(hour + 1) }); } scheduler.timeline = timeline;
+
+        // Staff as columns
+        scheduler.resources = staffList.map(s => ({
+            id: String(s.id),
+            name: s.title
+        }));
+
+        // Custom row header: avatar → name → occupancy
+        scheduler.onBeforeRowHeaderRender = args => {
+            const staff = staffList.find(s => String(s.id) === String(args.row.id));
+            if (!staff) return;
+
+            const occupancy = staff.occupancy || 0;
+            const occColor =
+                occupancy >= 80 ? '#ef4444' :
+                occupancy >= 50 ? '#eab308' :
+                '#10b981';
+
+            const avatar = staff.avatar
+                ? `<img src="${staff.avatar}" class="w-12 h-12 rounded-full object-cover border-2 border-gray-300 mx-auto" />`
+                : `<div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 mx-auto">
+                       <i class="fas fa-user text-gray-500 text-sm"></i>
+                   </div>`;
+
+            args.row.html = `
+                <div style="display:flex; flex-direction:column; align-items:center; padding:6px 0;">
+                    ${avatar}
+                    <div style="font-size:13px; font-weight:600; color:#374151; margin-top:6px; text-align:center;">
+                        ${staff.title}
+                    </div>
+                    <div style="width:80%; height:6px; background:#e5e7eb; border-radius:3px; margin-top:4px; overflow:hidden;">
+                        <div style="width:${occupancy}%; height:100%; background:${occColor};"></div>
+                    </div>
+                </div>
+            `;
+        };
+
+        // Custom event rendering (чисті блоки)
+        scheduler.onBeforeEventRender = args => {
+            const d = args.data.data || args.data;
+            const isPending = d.isPending;
+            const opacity = isPending ? 0.7 : 1;
+
+            args.data.html = `
+                <div style="padding:4px; font-size:12px; font-weight:600; color:white; opacity:${opacity};">
+                    ${args.data.text}
+                </div>
+            `;
+        };
+
+        // Map events to DayPilot format
+        scheduler.events.list = allEvents.map(e => ({
+            id: e.id,
+            text: e.title,
+            start: e.start.toISOString(),
+            end: e.end.toISOString(),
+            resource: e.calendarId,
+            backColor: e.backgroundColor,
+            borderColor: e.borderColor,
+            data: e.raw
+        }));
+
+        // Click → open modal
+        scheduler.onEventClick = args => {
+            const ev = args.e;
+            const d = ev.data || {};
+            showBookingModal({
+                id: ev.id(),
+                start: new Date(ev.start.value),
+                end: new Date(ev.end.value),
+                title: ev.text(),
+                raw: d
+            });
+        };
+
+        scheduler.init();
+        window.calendar = scheduler;
+        return;
+    }
+
+    /* ---------------------------------------------------------
+     * 4. TOAST UI FALLBACK
+     * --------------------------------------------------------- */
+    const calendars = staffList.map((s, i) => ({
+        id: String(s.id),
+        name: s.title,
+        backgroundColor: staffColors[i % staffColors.length].bg,
+        borderColor: staffColors[i % staffColors.length].border
+    }));
+
+    const tuiCal = new tui.Calendar(calendarEl, {
         defaultView: 'day',
         isReadOnly: true,
-        useFormPopup: false,
-        useDetailPopup: false, // Disable default popup to use custom modal
         calendars: calendars,
-        template: {
-            time(event) {
-                const isPending = event.raw.isPending || event.raw.status == 0;
-                const opacity = isPending ? 0.7 : 1;
-                const startDate = event.start.toDate ? event.start.toDate() : new Date(event.start);
-                return `<div style="color: white; opacity: ${opacity}; font-size: 12px; line-height: 1.2;">
-                            <span>${event.title}</span><br/>
-                            <span>(${staffList.find(s => String(s.id) === String(event.calendarId))?.title || 'Staff'})</span><br/>
-                            <span>${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                        </div>`;
-            }
-        },
-        week: {
+        day: {
             hourStart: dayStart,
             hourEnd: dayEnd,
             eventView: ['time'],
             taskView: false
         },
-        theme: {
-            week: {
-                dayGridLeft: {
-                    width: '100px'
-                },
-                timeGridLeft: {
-                    width: '100px'
-                },
-                timeGridHalfHourHeight: '20px',
-                timeGridHourHeight: '40px'
+        template: {
+            time(event) {
+                const opacity = event.raw.isPending ? 0.7 : 1;
+                return `
+                    <div style="color:white; opacity:${opacity}; font-size:12px; line-height:1.2;">
+                        ${event.title}
+                    </div>
+                `;
             }
-        },
-        month: {
-            dayNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            startDayOfWeek: 1
-        },
-        timezone: {
-            zones: []
         }
     });
-    
-    // Set the calendar to the current date from Django
-    calendar.setDate(currentDate);
-    
-    // Set events
-    calendar.createEvents(allEvents);
 
-    // Handle clicking on events - show custom modal
-    calendar.on('clickEvent', ({ event }) => {
-        showBookingModal(event);
-    });
+    tuiCal.setDate(currentDate);
+    tuiCal.createEvents(allEvents);
 
-    // Handle event updates (drag & drop and resize)
-    // calendar.on('beforeUpdateEvent', (eventData) => {
-    //     const { event, changes } = eventData;
-    //     const bookingId = event.raw.booking_id;
-        
-    //     let startDate = changes.start ? changes.start.toDate() : event.start.toDate();
-    //     const startTime = startDate.toTimeString().substring(0, 5);
-    //     let endDate = changes.end ? changes.end.toDate() : event.end.toDate();
-    //     const endTime = endDate.toTimeString().substring(0, 5);
-        
-    //     console.log('Updating booking:', bookingId, 'Start Time:', startTime, 'End Time:', endTime);
-    //     const csrf_token = getCookie('csrftoken');
-    //     // Use current page's path prefix to preserve language code
-    //     const urlPrefix = window.location.pathname.split('/').slice(0, 2).join('/');
-    //     fetch(`${urlPrefix}/bookings/api/update-booking/${bookingId}/`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json',
-    //             'X-CSRFToken': `${csrf_token}`
-    //         },
-    //         body: JSON.stringify({ start_time: startTime, end_time: endTime })
-    //     })
-    //     .then(r => {
-    //         console.log('Response status:', r.status, 'URL:', r.url);
-    //         if (!r.ok) {
-    //             throw new Error(`HTTP error! status: ${r.status}`);
-    //         }
-    //         return r.json();
-    //     })
-    //     .then(data => {
-    //         console.log('Response data:', data);
-    //         if (data.success) {
-    //             calendar.updateEvent(event.id, event.calendarId, changes);
-    //             console.log('Booking updated successfully');
-    //         } else {
-    //             alert('Error: ' + (data.error || 'Could not update booking'));
-    //             location.reload();
-    //         }
-    //     })
-    //     .catch(err => {
-    //         console.error('Update error:', err);
-    //         alert('Error updating booking: ' + err.message);
-    //         location.reload();
-    //     });
-    // });
-    
-    // Staff filtering via tabs
-    let currentFilter = 'all';
-    
-    function filterEvents(staffId) {
-        currentFilter = staffId;
-        calendar.clear();
-        
-        if (staffId === 'all') {
-            // Show all events with different colors per staff
-            calendar.createEvents(allEvents);
-        } else {
-            // Show single staff events in orange
-            const filtered = allEvents.filter(e => String(e.calendarId) === String(staffId)).map(e => ({
-                ...e,
-                backgroundColor: '#d97706',
-                borderColor: '#b45309'
-            }));
-            calendar.createEvents(filtered);
-        }
-    }
-    
-    // Setup tabs
-    const tabs = document.querySelectorAll('.staff-tab');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class and border from all tabs
-            tabs.forEach(t => {
-                t.classList.remove('active');
-                const imgOrDiv = t.querySelector('img, .w-12.h-12');
-                if (imgOrDiv) {
-                    imgOrDiv.style.borderColor = 'transparent';
-                }
-            });
-            // Add active class and border to clicked tab
-            tab.classList.add('active');
-            const imgOrDiv = tab.querySelector('img, .w-12.h-12');
-            if (imgOrDiv) {
-                imgOrDiv.style.borderColor = '#374151';
-            }
-            
-            const staffId = tab.dataset.staffId || 'all';
-            filterEvents(staffId);
+    // Sidebar: avatar → name → occupancy
+    setTimeout(() => {
+        const items = document.querySelectorAll('.tui-calendar-list-item');
+        items.forEach((item, i) => {
+            const staff = staffList[i];
+            if (!staff) return;
+
+            const occ = staff.occupancy || 0;
+            const occColor =
+                occ >= 80 ? 'bg-red-500' :
+                occ >= 50 ? 'bg-yellow-500' :
+                'bg-green-500';
+
+            item.innerHTML = `
+                <div class="flex flex-col items-center py-1">
+                    ${staff.avatar
+                        ? `<img src="${staff.avatar}" class="w-10 h-10 rounded-full object-cover border border-gray-300">`
+                        : `<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center border border-gray-300">
+                               <i class="fas fa-user text-gray-500 text-sm"></i>
+                           </div>`
+                    }
+                    <div class="text-[11px] font-semibold text-gray-700 mt-1 text-center truncate max-w-[72px]">
+                        ${staff.title}
+                    </div>
+                    <div class="w-12 h-1.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
+                        <div class="h-full ${occColor}" style="width:${occ}%"></div>
+                    </div>
+                </div>
+            `;
         });
-    });
-    
-    // Make calendar globally accessible for debugging
-    window.calendar = calendar;
+    }, 100);
+
+    window.calendar = tuiCal;
 }
+
+
 
 // Show custom booking modal
 function showBookingModal(event) {

@@ -23,49 +23,40 @@ msgstr "Añade cualquier nota sobre esta reserva..."
 
 #: templates/Index.html:4 templates/Index.html:14
 msgid "A Simple Client Management System for Your Salon"
-msgstr ""
+msgstr "Un sistema sencillo de gestión de clientes para su salón"
 
 #: templates/Index.html:17
 msgid ""
 "Reduce no‑shows, save time, and let clients book 24/7 — all in one simple "
 "platform."
-msgstr ""
+msgstr "Reduzca las inasistencias, ahorre tiempo y permita que los clientes "
+"reserven las 24 horas del día, los 7 días de la semana, todo en una plataforma sencilla."
 
 #: templates/Index.html:23
-#, fuzzy
-#| msgid "Start Your Free Trial"
 msgid "Start Free Trial"
 msgstr "Comenzar Prueba Gratuita"
 
 #: templates/Index.html:28
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Go to Dashboard"
-msgstr "Panel"
+msgstr "Ir al panel de control"
 
 #: templates/Index.html:33
-#, fuzzy
-#| msgid "How It Works"
 msgid "See How It Works"
 msgstr "Cómo Funciona"
 
 #: templates/Index.html:42
 msgid "Calendar + WhatsApp Reminder Example"
-msgstr ""
+msgstr "Ejemplo de Calendario + Recordatorio de WhatsApp"
 
 #: templates/Index.html:56
 msgid "Everything You Need to Run Your Salon Smoothly"
-msgstr ""
+msgstr "Todo lo que necesitas para que tu salón funcione sin problemas"
 
 #: templates/Index.html:66
 msgid "Online Booking"
 msgstr "Reservas en Línea"
 
 #: templates/Index.html:68
-#, fuzzy
-#| msgid ""
-#| "Let customers book appointments 24/7 from any device. Automatic "
-#| "confirmations and reminders."
 msgid ""
 "Let clients book appointments anytime. Automatic confirmations included."
 msgstr ""
@@ -74,12 +65,12 @@ msgstr ""
 
 #: templates/Index.html:77
 msgid "WhatsApp Reminders"
-msgstr ""
+msgstr "Recordatorios de WhatsApp"
 
 #: templates/Index.html:79
 msgid ""
 "Reduce no‑shows with instant WhatsApp notifications clients actually read."
-msgstr ""
+msgstr "Reduce las inasistencias con notificaciones instantáneas de WhatsApp que los clientes realmente leen."
 
 #: templates/Index.html:88
 msgid "Staff Management"
@@ -87,17 +78,15 @@ msgstr "Gestión de Personal"
 
 #: templates/Index.html:90
 msgid "Each staff member gets their own calendar and schedule."
-msgstr ""
+msgstr "Cada miembro del personal tiene su propio calendario y horario."
 
 #: templates/Index.html:99
-#, fuzzy
-#| msgid "staff management"
 msgid "Service Management"
-msgstr "gestión de personal"
+msgstr "Gestión de personal"
 
 #: templates/Index.html:101
 msgid "Create services, durations, prices, and assign them to staff."
-msgstr ""
+msgstr "Crea servicios, duraciones, precios y asígnalos al personal."
 
 #: templates/Index.html:110
 #, fuzzy
@@ -107,120 +96,116 @@ msgstr "Editar Perfil"
 
 #: templates/Index.html:112
 msgid "Keep track of client history, notes, and preferences."
-msgstr ""
+msgstr "Realice un seguimiento del historial, notas y preferencias del cliente."
 
 #: templates/Index.html:121
-#, fuzzy
-#| msgid "Company Dashboard"
 msgid "Analytics Dashboard"
-msgstr "Panel de la Empresa"
+msgstr "Panel de análisis"
 
 #: templates/Index.html:123
 msgid "Track your bookings, no-shows, and business performance."
-msgstr ""
+msgstr "Realice un seguimiento de sus reservas, inasistencias y rendimiento comercial."
 
 #: templates/Index.html:136
 msgid "Why WhatsApp Reminders Matter"
-msgstr ""
+msgstr "Por qué son importantes los recordatorios de WhatsApp"
 
 #: templates/Index.html:142
 msgid "Clients read WhatsApp messages instantly"
-msgstr ""
+msgstr "Los clientes leen mensajes de WhatsApp al instante"
 
 #: templates/Index.html:143
 #, python-format
 msgid "Higher open rates than email — 97%% read rate within minutes"
-msgstr ""
+msgstr "Tasas de apertura más altas que el correo electrónico: 97 % de tasa de lectura en minutos"
 
 #: templates/Index.html:149
 msgid "Reduce missed appointments"
-msgstr ""
+msgstr "Reducir las citas perdidas"
 
 #: templates/Index.html:150
 msgid "Cut no-shows with timely reminders"
-msgstr ""
+msgstr "Reduzca las inasistencias con recordatorios oportunos"
 
 #: templates/Index.html:156
 msgid "Automatic reminders before each visit"
-msgstr ""
+msgstr "Recordatorios automáticos antes de cada visita"
 
 #: templates/Index.html:157
 msgid "Set it up once and let it run automatically"
-msgstr ""
+msgstr "Configúrelo una vez y déjelo funcionar automáticamente"
 
 #: templates/Index.html:163
 msgid "Works even if clients ignore email"
-msgstr ""
+msgstr "Funciona incluso si los clientes ignoran el correo electrónico"
 
 #: templates/Index.html:164
 msgid "Reach your clients where they actually are"
-msgstr ""
+msgstr "Llega a tus clientes donde realmente están"
 
 #: templates/Index.html:175
 msgid "Example WhatsApp Message"
-msgstr ""
+msgstr "Ejemplo de mensaje de WhatsApp"
 
 #: templates/Index.html:178
 msgid "Hi Maria! 💅"
-msgstr ""
+msgstr "¡Hola María! 💅"
 
 #: templates/Index.html:179
 msgid "Your appointment reminder:"
-msgstr ""
+msgstr "Recordatorio de su cita:"
 
 #: templates/Index.html:180
 msgid "Tomorrow at 3:00 PM"
-msgstr ""
+msgstr "Mañana a las 15:00 horas"
 
 #: templates/Index.html:181
 msgid "Haircut - 60 min"
-msgstr ""
+msgstr "Corte de pelo - 60 min"
 
 #: templates/Index.html:182
 msgid "With Anna"
-msgstr ""
+msgstr "Con Ana"
 
 #: templates/Index.html:183
 msgid "See you soon!"
-msgstr ""
+msgstr "¡Nos vemos pronto!"
 
 #: templates/Index.html:196
 msgid "Perfect for beauty & wellness businesses"
-msgstr ""
+msgstr "Perfecto para negocios de belleza y bienestar."
 
 #: templates/Index.html:199
 msgid "If you run any of these, Reserva-Ya is for you"
-msgstr ""
+msgstr "Si realizas alguna de estas, Reserva-Ya es para ti"
 
 #: templates/Index.html:206
 msgid "Hair salons"
-msgstr ""
+msgstr "Peluquerías"
 
 #: templates/Index.html:210
 msgid "Barber shops"
-msgstr ""
+msgstr "Barberías"
 
 #: templates/Index.html:214
 msgid "Nail & manicure studios"
-msgstr ""
+msgstr "Estudios de uñas y manicura"
 
 #: templates/Index.html:218
 msgid "Beauty & aesthetics"
-msgstr ""
+msgstr "Belleza y estética"
 
 #: templates/Index.html:222
 msgid "Massage & wellness"
-msgstr ""
+msgstr "Masaje y bienestar"
 
 #: templates/Index.html:233
-#, fuzzy
-#| msgid "Get started in minutes"
 msgid "Get Started in Minutes"
 msgstr "Comienza en minutos"
 
 #: templates/Index.html:236
 msgid "Simple setup, immediate results"
-msgstr ""
+msgstr "Configuración sencilla, resultados inmediatos"
 
 #: templates/Index.html:245 templates/static_pages/how_it_works.html:21
 msgid "Sign Up"
@@ -234,11 +219,9 @@ msgstr "Crea tu cuenta de empresa en menos de 2 minutos"
 
 #: templates/Index.html:255
 msgid "Set Up"
-msgstr ""
+msgstr "Personaliza"
 
 #: templates/Index.html:257
-#, fuzzy
-#| msgid "Add your staff, services, and working hours"
 msgid "Add staff, services, and working hours."
 msgstr "Añade tu personal, servicios y horarios de trabajo"
 
@@ -247,8 +230,6 @@ msgid "Share"
 msgstr "Compartir"
 
 #: templates/Index.html:267
-#, fuzzy
-#| msgid "Share your booking link with customers"
 msgid "Send your booking link to clients."
 msgstr "Comparte tu enlace de reservas con los clientes"
 
@@ -258,15 +239,15 @@ msgstr "Crecer"
 
 #: templates/Index.html:277
 msgid "Receive bookings automatically and reduce no‑shows."
-msgstr ""
+msgstr "Reciba reservas automáticamente y reduzca las inasistencias."
 
 #: templates/Index.html:289
 msgid "Simple, transparent pricing"
-msgstr ""
+msgstr "Precios simples y transparentes"
 
 #: templates/Index.html:292
 msgid "Choose the perfect plan for your business"
-msgstr ""
+msgstr "Elige el plan perfecto para tu negocio"
 
 #: templates/Index.html:296
 #, fuzzy
@@ -276,117 +257,106 @@ msgstr "Precios"
 
 #: templates/Index.html:302
 msgid "All plans include:"
-msgstr ""
+msgstr "Todos los planes incluyen:"
 
 #: templates/Index.html:307
-#, fuzzy
-#| msgid "Online Booking"
 msgid "Online booking"
 msgstr "Reservas en Línea"
 
 #: templates/Index.html:311
-#, fuzzy
-#| msgid "Staff Members"
 msgid "Staff calendars"
-msgstr "Miembros del Personal"
+msgstr "Calendarios del personal"
 
 #: templates/Index.html:315
-#, fuzzy
-#| msgid "Unlimited bookings"
 msgid "Unlimited appointments"
 msgstr "Reservas ilimitadas"
 
-#: templates/Index.html:319
-msgid "Support in Spanish"
-msgstr ""
-
 #: templates/Index.html:331 templates/static_pages/faq.html:10
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Preguntas frecuentes"
 
 #: templates/Index.html:339
 msgid "Do I need to install anything?"
-msgstr ""
+msgstr "¿Necesito instalar algo?"
 
 #: templates/Index.html:343
 msgid ""
 "No, everything works in your browser. No downloads or installations needed — "
 "just sign up and start using it immediately."
 msgstr ""
+"No, todo funciona en tu navegador. No necesitas descargar ni instalar nada: "
+"solo regístrate y empieza a usarlo de inmediato."
 
 #: templates/Index.html:350
 msgid "Can clients book without downloading an app?"
-msgstr ""
+msgstr "¿Pueden los clientes reservar sin descargar una aplicación?"
 
 #: templates/Index.html:354
 msgid ""
 "Yes, bookings work on any device through a web link. Clients don't need to "
 "download anything — they simply click your booking link and book."
 msgstr ""
+"Sí, las reservas funcionan en cualquier dispositivo mediante un enlace web. "
+"Los clientes no necesitan descargar nada: simplemente hacen clic en el enlace "
+"de reserva y reservan."
 
 #: templates/Index.html:361
 msgid "Is WhatsApp included?"
-msgstr ""
+msgstr "¿Está incluido WhatsApp?"
 
 #: templates/Index.html:365
 msgid ""
-"WhatsApp reminders are available in our Pro plan. You'll be able to send "
+"WhatsApp reminders are available in our Connect plan. You'll be able to send "
 "automatic reminders to all your clients."
 msgstr ""
+"Los recordatorios de WhatsApp están disponibles en nuestro plan Connect. "
+"Podrás enviar recordatorios automáticos a todos tus clientes."
 
 #: templates/Index.html:372
-#, fuzzy
-#| msgid "Cancel anytime"
 msgid "Can I cancel anytime?"
-msgstr "Cancelar en cualquier momento"
+msgstr "¿Puedo cancelar en cualquier momento?"
 
 #: templates/Index.html:376
 msgid ""
 "Of course — no long-term contracts. You can cancel your subscription anytime "
 "from your account settings."
 msgstr ""
+"Por supuesto, sin contratos a largo plazo. Puedes cancelar tu suscripción "
+"en cualquier momento desde la configuración de tu cuenta."
 
 #: templates/Index.html:383
-#, fuzzy
-#| msgid "create a new company account"
 msgid "How do I connect WhatsApp?"
-msgstr "crea una nueva cuenta de empresa"
+msgstr "¿Cómo conecto WhatsApp?"
 
 #: templates/Index.html:387
 msgid ""
 "We provide step-by-step instructions to connect your WhatsApp account. It's "
 "a simple 5-minute setup process."
 msgstr ""
+"Te proporcionamos instrucciones paso a paso para conectar tu cuenta de "
+"WhatsApp. Es un proceso de configuración sencillo de 5 minutos."
 
 #: templates/Index.html:399
-#, fuzzy
-#| msgid "Platform Admin"
 msgid "See the Platform in Action"
-msgstr "Admin de Plataforma"
+msgstr "Vea la plataforma en acción"
 
 #: templates/Index.html:408
-#, fuzzy
-#| msgid "Calendar view"
 msgid "Calendar View"
 msgstr "Vista de calendario"
 
 #: templates/Index.html:417
 msgid "Staff Schedule"
-msgstr ""
+msgstr "Horario del personal"
 
 #: templates/Index.html:426
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Form"
-msgstr "Enlace de Reservas"
+msgstr "Formulario de reserva"
 
 #: templates/Index.html:435
 msgid "WhatsApp Reminder"
-msgstr ""
+msgstr "Recordatorio de WhatsApp"
 
 #: templates/Index.html:448
-#, fuzzy
-#| msgid "Ready to Get Started?"
 msgid "Ready to Grow Your Salon?"
 msgstr "¿Listo para Comenzar?"
 
@@ -395,24 +365,24 @@ msgid ""
 "Start your free trial today — no credit card required. Get instant access to "
 "all features."
 msgstr ""
+"Comienza tu prueba gratuita hoy mismo, sin necesidad de tarjeta de crédito. "
+"Obtén acceso instantáneo a todas las funciones."
 
 #: templates/Index.html:455
-#, fuzzy
-#| msgid "Start Your Free Trial"
 msgid "Start Your Free Trial Today"
 msgstr "Comenzar Prueba Gratuita"
 
 #: templates/Index.html:458
-msgid "14 days free. No credit card. Cancel anytime."
-msgstr ""
+msgid "30 days free. No credit card. Cancel anytime."
+msgstr "30 días gratis. Sin tarjeta de crédito. Cancela cuando quieras."
 
 #: templates/Index.html:466
 msgid "Welcome back!"
-msgstr ""
+msgstr "¡Bienvenido de nuevo!"
 
 #: templates/Index.html:470
-msgid "Go to your dashboard →"
-msgstr ""
+msgid "Go to your dashboard"
+msgstr "Vaya a su panel de control"
 
 #: templates/_cookie-consent.html:7
 msgid "We use cookies"
@@ -461,7 +431,7 @@ msgstr ""
 
 #: templates/_footer.html:10
 msgid "Your Address Here"
-msgstr ""
+msgstr "Su dirección aquí"
 
 #: templates/_footer.html:16
 msgid "Legal"
@@ -689,7 +659,7 @@ msgstr "Facturado cada 6 meses"
 
 #: templates/billing/pricing_periods.html:92
 msgid "Mejor Valor - Ahorre"
-msgstr ""
+msgstr "Mejor Valor - Ahorre"
 
 #: templates/billing/pricing_periods.html:95
 #: templates/billing/pricing_periods.html:158
@@ -706,7 +676,7 @@ msgstr "Facturado anualmente"
 
 #: templates/billing/pricing_periods.html:119
 msgid "Pricing Comparison"
-msgstr ""
+msgstr "Comparación de precios"
 
 #: templates/billing/pricing_periods.html:124
 msgid "Billing Period"
@@ -796,7 +766,7 @@ msgstr "Cantidad"
 
 #: templates/billing/subscription_details.html:128
 msgid "No billing history yet"
-msgstr ""
+msgstr "Aún no hay historial de facturación"
 
 #: templates/billing/subscription_details.html:139
 msgid "Account Summary"
@@ -1315,24 +1285,22 @@ msgstr "¿Olvidaste tu contraseña?"
 #: templates/companies/forgot_password.html:11
 msgid "Enter your email address below to receive a password reset link."
 msgstr ""
+"Ingrese su dirección de correo electrónico a continuación para "
+"recibir un enlace de restablecimiento de contraseña."
 
 #: templates/companies/forgot_password.html:19
 msgid "Send Reset Link"
-msgstr ""
+msgstr "Enviar enlace de restablecimiento"
 
 #: templates/companies/register.html:4
 msgid "Register Your Company"
 msgstr "Registra tu Empresa"
 
 #: templates/companies/register.html:10
-#, fuzzy
-#| msgid "Register Your Company"
 msgid "Register Your Business"
 msgstr "Registra tu Empresa"
 
 #: templates/companies/register.html:11
-#, fuzzy
-#| msgid "Create your company account and start accepting bookings today"
 msgid "Create your company account and start accepting bookings"
 msgstr "Crea tu cuenta de empresa y comienza a aceptar reservas hoy"
 
@@ -1378,18 +1346,18 @@ msgstr "Contraseña"
 
 #: templates/companies/reset_password.html:11
 msgid "Please set your password to reset your account."
-msgstr ""
+msgstr "Establezca su contraseña para restablecer su cuenta."
 
 #: templates/companies/services_list.html:42
 #: templates/companies/staff_list.html:49
 msgid "Inactive"
-msgstr ""
+msgstr "Inactivo"
 
 #: templates/companies/services_list.html:47
 #: templates/companies/staff_list.html:54
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 #: templates/companies/services_list.html:57
 #, fuzzy
@@ -1399,93 +1367,81 @@ msgstr "Servicios"
 
 #: templates/companies/services_list.html:58
 msgid "You haven't added any services yet."
-msgstr ""
+msgstr "Aún no has añadido ningún servicio."
 
 #: templates/companies/services_list.html:60
-#, fuzzy
-#| msgid "Add Service"
 msgid "Add Your First Service"
 msgstr "Añadir Servicio"
 
 #: templates/companies/staff_list.html:64
-#, fuzzy
-#| msgid "Staff Members"
 msgid "No Staff Members Found"
-msgstr "Miembros del Personal"
+msgstr "No se encontraron miembros del personal"
 
 #: templates/companies/staff_list.html:65
 msgid "You haven't added any staff members yet."
-msgstr ""
+msgstr "Aún no has añadido ningún miembro del personal."
 
 #: templates/companies/staff_list.html:67
-#, fuzzy
-#| msgid "Staff Members"
 msgid "Add Your First Staff Member"
-msgstr "Miembros del Personal"
+msgstr "Agregue su primer miembro del personal"
 
 #: templates/companies/working_hours.html:8
 msgid "Edit Working Hours"
-msgstr ""
+msgstr "Editar horas de trabajo"
 
 #: templates/companies/working_hours.html:18
 msgid "Day"
-msgstr ""
+msgstr "Dia"
 
 #: templates/companies/working_hours.html:21
 msgid "Working Day"
-msgstr ""
+msgstr "Dia laboral"
 
 #: templates/companies/working_hours.html:24
-#, fuzzy
-#| msgid "Start Free Trial"
 msgid "Start Time"
-msgstr "Comenzar Prueba Gratuita"
+msgstr "Hora de inicio"
 
 #: templates/companies/working_hours.html:27
 msgid "End Time"
-msgstr ""
+msgstr "Hora de fin"
 
 #: templates/email/account_activated.html:7
 msgid "Account Activated"
-msgstr ""
+msgstr "Cuenta activada"
 
 #: templates/email/account_activated.html:60
 msgid "Account Activated!"
-msgstr ""
+msgstr "¡Cuenta activada!"
 
 #: templates/email/account_activated.html:64
 #: templates/email/password_reset_success.html:64
 #, python-format
 msgid "Hello %(user_name)s,"
-msgstr ""
+msgstr "Hola %(user_name)s,"
 
 #: templates/email/account_activated.html:66
 msgid ""
 "Your account has been successfully activated. You can now log in to your "
 "account."
-msgstr ""
+msgstr "Su cuenta se ha activado correctamente. Ya puede iniciar sesión."
 
 #: templates/email/account_activation.html:7
-#, fuzzy
-#| msgid "Create Account"
 msgid "Activate Your Account"
 msgstr "Crear Cuenta"
 
 #: templates/email/account_activation.html:74
 msgid "Welcome!"
-msgstr ""
+msgstr "¡Bienvenido!"
 
 #: templates/email/account_activation.html:78
 msgid "Thank you for registering with us!"
-msgstr ""
+msgstr "Gracias por registrarse con nosotros!"
 
 #: templates/email/account_activation.html:80
 msgid "Please confirm your registration by clicking the button below:"
-msgstr ""
+msgstr "Por favor, confirme su registro haciendo clic en el botón siguiente:"
 
 #: templates/email/account_activation.html:83
-#, fuzzy
-#| msgid "Create Account"
 msgid "Activate Account"
 msgstr "Crear Cuenta"
 
@@ -1493,189 +1449,168 @@ msgstr "Crear Cuenta"
 #: templates/email/password_reset.html:87
 #: templates/email/staff_activation.html:87
 msgid "If the button doesn't work, copy and paste this link into your browser:"
-msgstr ""
+msgstr "Si el botón no funciona, copie y pegue este enlace en su navegador:"
 
 #: templates/email/account_activation.html:94
 #: templates/email/password_reset.html:94
 msgid "If you didn't request this, please ignore this email."
-msgstr ""
+msgstr "Si no solicitó esto, ignore este correo electrónico."
 
 #: templates/email/booking_cancellation.html:7
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Cancellation"
-msgstr "Enlace de Reservas"
+msgstr "Cancelación de reserva"
 
 #: templates/email/booking_cancellation.html:176
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Cancelled"
-msgstr "Enlace de Reservas"
+msgstr "Reserva cancelada"
 
 #: templates/email/booking_cancellation.html:182
 msgid "Your booking has been cancelled"
-msgstr ""
+msgstr "Su reserva ha sido cancelada"
 
 #: templates/email/booking_cancellation.html:183
 msgid ""
 "This booking has been successfully cancelled and removed from our schedule."
-msgstr ""
+msgstr "Esta reserva ha sido cancelada con éxito y eliminada de nuestra agenda."
 
 #: templates/email/booking_cancellation.html:187
 msgid "Cancelled Booking Details"
-msgstr ""
+msgstr "Detalles de la reserva cancelada"
 
 #: templates/email/booking_cancellation.html:189
 #: templates/email/booking_confirmation.html:202
 #: templates/email/booking_reminder.html:175
 #: templates/email/booking_update.html:175
-#, fuzzy
-#| msgid "Company Name"
 msgid "Customer Name:"
-msgstr "Nombre de la Empresa"
+msgstr "Nombre del cliente:"
 
 #: templates/email/booking_cancellation.html:193
 #: templates/email/booking_confirmation.html:206
 #: templates/email/booking_reminder.html:179
 #: templates/email/booking_update.html:179
-#, fuzzy
-#| msgid "Services"
 msgid "Service:"
-msgstr "Servicios"
+msgstr "Servicio"
 
 #: templates/email/booking_cancellation.html:197
 #: templates/email/booking_confirmation.html:210
 #: templates/email/booking_reminder.html:183
 #: templates/email/booking_update.html:183
-#, fuzzy
-#| msgid "Staff Members"
 msgid "Staff Member:"
-msgstr "Miembros del Personal"
+msgstr "Miembro del personal:"
 
 #: templates/email/booking_cancellation.html:201
 #: templates/email/booking_confirmation.html:214
 #: templates/email/booking_reminder.html:187
 #: templates/email/booking_update.html:187
 msgid "Date:"
-msgstr ""
+msgstr "Fecha:"
 
 #: templates/email/booking_cancellation.html:205
 #: templates/email/booking_confirmation.html:218
 #: templates/email/booking_reminder.html:191
 #: templates/email/booking_update.html:191
 msgid "Time:"
-msgstr ""
+msgstr "Tiempo:"
 
 #: templates/email/booking_cancellation.html:211
 msgid ""
 "If you wish to book another appointment, please visit our booking page or "
 "contact us directly."
 msgstr ""
+"Si desea reservar otra cita, visite nuestra página de reservas o "
+"contáctenos directamente."
 
 #: templates/email/booking_cancellation.html:217
 #: templates/email/booking_confirmation.html:238
 #: templates/email/booking_reminder.html:205
 #: templates/email/booking_update.html:205
-#, fuzzy
-#| msgid "Address"
 msgid "Address:"
-msgstr "Dirección"
+msgstr "Dirección:"
 
 #: templates/email/booking_cancellation.html:220
 #: templates/email/booking_confirmation.html:191
 #: templates/email/booking_confirmation.html:241
 #: templates/email/booking_reminder.html:208
 #: templates/email/booking_update.html:208
-#, fuzzy
-#| msgid "Phone"
 msgid "Phone:"
-msgstr "Teléfono"
+msgstr "Teléfono:"
 
 #: templates/email/booking_cancellation.html:223
 #: templates/email/booking_confirmation.html:244
 #: templates/email/booking_reminder.html:211
 #: templates/email/booking_update.html:211
-#, fuzzy
-#| msgid "Email"
 msgid "Email:"
-msgstr "Correo Electrónico"
+msgstr "Correo Electrónico:"
 
 #: templates/email/booking_cancellation.html:226
 #: templates/email/booking_update.html:214
-#, fuzzy
-#| msgid "Website"
 msgid "Website:"
-msgstr "Sitio Web"
+msgstr "Sitio Web:"
 
 #: templates/email/booking_cancellation.html:232
-#, fuzzy
-#| msgid "Bookings"
 msgid "Book Again"
-msgstr "Reservas"
+msgstr "Reservar de nuevo"
 
 #: templates/email/booking_cancellation.html:237
 msgid ""
 "If you have any questions or concerns, please don't hesitate to contact us."
 msgstr ""
+"Si tiene alguna pregunta o inquietud, no dude en contactarnos."
 
 #: templates/email/booking_confirmation.html:7
 #: templates/email/booking_confirmation.html:182
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Confirmation"
-msgstr "Enlace de Reservas"
+msgstr "Confirmación de reserva"
 
 #: templates/email/booking_confirmation.html:183
 #: templates/email/booking_update.html:164
 #, python-format
 msgid "Thank you for choosing %(company_name)s"
-msgstr ""
+msgstr "Gracias por elegir %(company_name)s"
 
 #: templates/email/booking_confirmation.html:189
 msgid "Pre-Booking Received"
-msgstr ""
+msgstr "Reserva anticipada recibida"
 
 #: templates/email/booking_confirmation.html:190
 msgid ""
 "Your booking request has been received and is awaiting staff confirmation. "
 "Please contact us to confirm the final price and duration."
 msgstr ""
+"Hemos recibido su solicitud de reserva y está pendiente de confirmación por "
+"parte del personal. Por favor, contáctenos para confirmar el precio final y la duración."
 
 #: templates/email/booking_confirmation.html:195
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Confirmed"
-msgstr "Enlace de Reservas"
+msgstr "Reserva confirmada"
 
 #: templates/email/booking_confirmation.html:196
 msgid "Your appointment has been successfully confirmed."
-msgstr ""
+msgstr "Su cita ha sido confirmada exitosamente."
 
 #: templates/email/booking_confirmation.html:223
 #: templates/email/booking_reminder.html:196
 #: templates/email/booking_update.html:196
-#, fuzzy
-#| msgid "Pricing"
 msgid "Price:"
-msgstr "Precios"
+msgstr "Precio:"
 
 #: templates/email/booking_confirmation.html:231
 msgid "Note:"
-msgstr ""
+msgstr "Nota:"
 
 #: templates/email/booking_confirmation.html:231
 msgid ""
 "This service requires staff confirmation. The final price and duration "
 "should be confirmed by our staff."
 msgstr ""
+"Este servicio requiere confirmación por parte del personal. El precio "
+"final y la duración deben ser confirmados por nuestro personal."
 
 #: templates/email/booking_confirmation.html:249
 #: templates/email/booking_reminder.html:216
 #: templates/email/booking_update.html:219
-#, fuzzy
-#| msgid "Online Booking"
 msgid "View Booking"
-msgstr "Reservas en Línea"
+msgstr "Ver reserva"
 
 #: templates/email/booking_confirmation.html:253
 #: templates/email/booking_update.html:223
@@ -1683,98 +1618,95 @@ msgid ""
 "If you need to make any changes or have questions, please contact us "
 "directly."
 msgstr ""
+"Si necesita realizar algún cambio o tiene alguna pregunta, "
+"comuníquese con nosotros directamente."
 
 #: templates/email/booking_reminder.html:7
 #: templates/email/booking_reminder.html:163
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Reminder"
-msgstr "Enlace de Reservas"
+msgstr "Recordatorio de reserva"
 
 #: templates/email/booking_reminder.html:164
 #, python-format
 msgid "Don't forget your appointment at %(company_name)s"
-msgstr ""
+msgstr "No olvides tu cita en %(company_name)s"
 
 #: templates/email/booking_reminder.html:169
 msgid "Upcoming Appointment"
-msgstr ""
+msgstr "Próxima cita"
 
 #: templates/email/booking_reminder.html:170
 msgid ""
 "This is a friendly reminder about your upcoming booking. We look forward to "
 "seeing you!"
-msgstr ""
+msgstr "Este es un recordatorio para tu próxima reserva. ¡Esperamos verte pronto!"
 
 #: templates/email/booking_reminder.html:220
 msgid ""
 "If you need to reschedule or cancel, please contact us as soon as possible."
 msgstr ""
+"Si necesita reprogramar o cancelar, comuníquese con nosotros lo antes posible."
 
 #: templates/email/booking_update.html:7
-#, fuzzy
-#| msgid "Bookings"
 msgid "Booking Update"
-msgstr "Reservas"
+msgstr "Actualización de reservas"
 
 #: templates/email/booking_update.html:163
-#, fuzzy
-#| msgid "Bookings"
 msgid "Booking Updated"
-msgstr "Reservas"
+msgstr "Reserva actualizada"
 
 #: templates/email/booking_update.html:169
 msgid "Your booking has been updated"
-msgstr ""
+msgstr "Your booking has been updated"
 
 #: templates/email/booking_update.html:170
 msgid ""
 "Your appointment details have been modified. Please review the updated "
 "information below."
 msgstr ""
+"Se han modificado los detalles de su cita. Revise la información "
+"actualizada a continuación."
 
 #: templates/email/password_reset.html:7
-#, fuzzy
-#| msgid "Enter your password"
 msgid "Reset Your Password"
-msgstr "Ingresa tu contraseña"
+msgstr "Restablecer su contraseña"
 
 #: templates/email/password_reset.html:74
 msgid "Password Reset Request"
-msgstr ""
+msgstr "Solicitud de restablecimiento de contraseña"
 
 #: templates/email/password_reset.html:78
 msgid "We received a request to reset your password."
-msgstr ""
+msgstr "Recibimos una solicitud para restablecer su contraseña."
 
 #: templates/email/password_reset.html:80
 msgid "Please click the button below to reset your password:"
-msgstr ""
+msgstr "Haga clic en el botón a continuación para restablecer su contraseña:"
 
 #: templates/email/password_reset_success.html:7
 #: templates/email/password_reset_success.html:60
 msgid "Password Reset Successful"
-msgstr ""
+msgstr "Restablecimiento de contraseña exitoso"
 
 #: templates/email/password_reset_success.html:66
 msgid ""
 "Your password has been successfully reset. You can now log in to your "
 "account with your new password."
 msgstr ""
+"Tu contraseña se ha restablecido correctamente. Ya puedes iniciar "
+"sesión en tu cuenta con tu nueva contraseña."
 
 #: templates/email/password_reset_success.html:69
 msgid "If you didn't make this change, please contact support immediately."
-msgstr ""
+msgstr "Si no realizó este cambio, comuníquese con el soporte técnico de inmediato."
 
 #: templates/email/staff_activation.html:7
 msgid "Activate Your Staff Account"
-msgstr ""
+msgstr "Activa tu cuenta de personal"
 
 #: templates/email/staff_activation.html:74
-#, fuzzy
-#| msgid "Account Information"
 msgid "Staff Account Invitation"
-msgstr "Información de la Cuenta"
+msgstr "Invitación a la cuenta del personal"
 
 #: templates/email/staff_activation.html:78
 #, python-format

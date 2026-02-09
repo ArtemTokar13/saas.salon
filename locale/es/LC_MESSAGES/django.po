@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-05 23:00+0100\n"
+"POT-Creation-Date: 2026-02-09 22:41+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,8 +29,10 @@ msgstr "Un sistema sencillo de gestión de clientes para su salón"
 msgid ""
 "Reduce no‑shows, save time, and let clients book 24/7 — all in one simple "
 "platform."
-msgstr "Reduzca las inasistencias, ahorre tiempo y permita que los clientes "
-"reserven las 24 horas del día, los 7 días de la semana, todo en una plataforma sencilla."
+msgstr ""
+"Reduzca las inasistencias, ahorre tiempo y permita que los clientes reserven "
+"las 24 horas del día, los 7 días de la semana, todo en una plataforma "
+"sencilla."
 
 #: templates/Index.html:23
 msgid "Start Free Trial"
@@ -70,7 +72,9 @@ msgstr "Recordatorios de WhatsApp"
 #: templates/Index.html:79
 msgid ""
 "Reduce no‑shows with instant WhatsApp notifications clients actually read."
-msgstr "Reduce las inasistencias con notificaciones instantáneas de WhatsApp que los clientes realmente leen."
+msgstr ""
+"Reduce las inasistencias con notificaciones instantáneas de WhatsApp que los "
+"clientes realmente leen."
 
 #: templates/Index.html:88
 msgid "Staff Management"
@@ -96,7 +100,8 @@ msgstr "Editar Perfil"
 
 #: templates/Index.html:112
 msgid "Keep track of client history, notes, and preferences."
-msgstr "Realice un seguimiento del historial, notas y preferencias del cliente."
+msgstr ""
+"Realice un seguimiento del historial, notas y preferencias del cliente."
 
 #: templates/Index.html:121
 msgid "Analytics Dashboard"
@@ -104,7 +109,9 @@ msgstr "Panel de análisis"
 
 #: templates/Index.html:123
 msgid "Track your bookings, no-shows, and business performance."
-msgstr "Realice un seguimiento de sus reservas, inasistencias y rendimiento comercial."
+msgstr ""
+"Realice un seguimiento de sus reservas, inasistencias y rendimiento "
+"comercial."
 
 #: templates/Index.html:136
 msgid "Why WhatsApp Reminders Matter"
@@ -117,7 +124,9 @@ msgstr "Los clientes leen mensajes de WhatsApp al instante"
 #: templates/Index.html:143
 #, python-format
 msgid "Higher open rates than email — 97%% read rate within minutes"
-msgstr "Tasas de apertura más altas que el correo electrónico: 97 % de tasa de lectura en minutos"
+msgstr ""
+"Tasas de apertura más altas que el correo electrónico: 97 % de tasa de "
+"lectura en minutos"
 
 #: templates/Index.html:149
 msgid "Reduce missed appointments"
@@ -271,15 +280,15 @@ msgstr "Calendarios del personal"
 msgid "Unlimited appointments"
 msgstr "Reservas ilimitadas"
 
-#: templates/Index.html:331 templates/static_pages/faq.html:10
+#: templates/Index.html:327 templates/static_pages/faq.html:10
 msgid "Frequently Asked Questions"
 msgstr "Preguntas frecuentes"
 
-#: templates/Index.html:339
+#: templates/Index.html:335
 msgid "Do I need to install anything?"
 msgstr "¿Necesito instalar algo?"
 
-#: templates/Index.html:343
+#: templates/Index.html:339
 msgid ""
 "No, everything works in your browser. No downloads or installations needed — "
 "just sign up and start using it immediately."
@@ -287,24 +296,24 @@ msgstr ""
 "No, todo funciona en tu navegador. No necesitas descargar ni instalar nada: "
 "solo regístrate y empieza a usarlo de inmediato."
 
-#: templates/Index.html:350
+#: templates/Index.html:346
 msgid "Can clients book without downloading an app?"
 msgstr "¿Pueden los clientes reservar sin descargar una aplicación?"
 
-#: templates/Index.html:354
+#: templates/Index.html:350
 msgid ""
 "Yes, bookings work on any device through a web link. Clients don't need to "
 "download anything — they simply click your booking link and book."
 msgstr ""
 "Sí, las reservas funcionan en cualquier dispositivo mediante un enlace web. "
-"Los clientes no necesitan descargar nada: simplemente hacen clic en el enlace "
-"de reserva y reservan."
+"Los clientes no necesitan descargar nada: simplemente hacen clic en el "
+"enlace de reserva y reservan."
 
-#: templates/Index.html:361
+#: templates/Index.html:357
 msgid "Is WhatsApp included?"
 msgstr "¿Está incluido WhatsApp?"
 
-#: templates/Index.html:365
+#: templates/Index.html:361
 msgid ""
 "WhatsApp reminders are available in our Connect plan. You'll be able to send "
 "automatic reminders to all your clients."
@@ -312,23 +321,23 @@ msgstr ""
 "Los recordatorios de WhatsApp están disponibles en nuestro plan Connect. "
 "Podrás enviar recordatorios automáticos a todos tus clientes."
 
-#: templates/Index.html:372
+#: templates/Index.html:368
 msgid "Can I cancel anytime?"
 msgstr "¿Puedo cancelar en cualquier momento?"
 
-#: templates/Index.html:376
+#: templates/Index.html:372
 msgid ""
 "Of course — no long-term contracts. You can cancel your subscription anytime "
 "from your account settings."
 msgstr ""
-"Por supuesto, sin contratos a largo plazo. Puedes cancelar tu suscripción "
-"en cualquier momento desde la configuración de tu cuenta."
+"Por supuesto, sin contratos a largo plazo. Puedes cancelar tu suscripción en "
+"cualquier momento desde la configuración de tu cuenta."
 
-#: templates/Index.html:383
+#: templates/Index.html:379
 msgid "How do I connect WhatsApp?"
 msgstr "¿Cómo conecto WhatsApp?"
 
-#: templates/Index.html:387
+#: templates/Index.html:383
 msgid ""
 "We provide step-by-step instructions to connect your WhatsApp account. It's "
 "a simple 5-minute setup process."
@@ -336,31 +345,31 @@ msgstr ""
 "Te proporcionamos instrucciones paso a paso para conectar tu cuenta de "
 "WhatsApp. Es un proceso de configuración sencillo de 5 minutos."
 
-#: templates/Index.html:399
+#: templates/Index.html:395
 msgid "See the Platform in Action"
 msgstr "Vea la plataforma en acción"
 
-#: templates/Index.html:408
+#: templates/Index.html:404
 msgid "Calendar View"
 msgstr "Vista de calendario"
 
-#: templates/Index.html:417
+#: templates/Index.html:413
 msgid "Staff Schedule"
 msgstr "Horario del personal"
 
-#: templates/Index.html:426
+#: templates/Index.html:422
 msgid "Booking Form"
 msgstr "Formulario de reserva"
 
-#: templates/Index.html:435
+#: templates/Index.html:431
 msgid "WhatsApp Reminder"
 msgstr "Recordatorio de WhatsApp"
 
-#: templates/Index.html:448
+#: templates/Index.html:444
 msgid "Ready to Grow Your Salon?"
 msgstr "¿Listo para Comenzar?"
 
-#: templates/Index.html:451
+#: templates/Index.html:447
 msgid ""
 "Start your free trial today — no credit card required. Get instant access to "
 "all features."
@@ -368,19 +377,19 @@ msgstr ""
 "Comienza tu prueba gratuita hoy mismo, sin necesidad de tarjeta de crédito. "
 "Obtén acceso instantáneo a todas las funciones."
 
-#: templates/Index.html:455
+#: templates/Index.html:451
 msgid "Start Your Free Trial Today"
 msgstr "Comenzar Prueba Gratuita"
 
-#: templates/Index.html:458
+#: templates/Index.html:454
 msgid "30 days free. No credit card. Cancel anytime."
 msgstr "30 días gratis. Sin tarjeta de crédito. Cancela cuando quieras."
 
-#: templates/Index.html:466
+#: templates/Index.html:462
 msgid "Welcome back!"
 msgstr "¡Bienvenido de nuevo!"
 
-#: templates/Index.html:470
+#: templates/Index.html:466
 msgid "Go to your dashboard"
 msgstr "Vaya a su panel de control"
 
@@ -621,7 +630,7 @@ msgstr "Facturación mensual"
 #: templates/billing/pricing_periods.html:59
 #: templates/billing/pricing_periods.html:84
 #: templates/billing/pricing_periods.html:109
-#: templates/billing/view_plans.html:69
+#: templates/billing/view_plans.html:76
 msgid "Select Plan"
 msgstr "Seleccionar Plan"
 
@@ -825,11 +834,15 @@ msgstr "Vista de calendario"
 msgid "Public booking page"
 msgstr "Página de reservas pública"
 
-#: templates/billing/view_plans.html:68
+#: templates/billing/view_plans.html:71
+msgid "Register"
+msgstr "Registrarse"
+
+#: templates/billing/view_plans.html:75
 msgid "Are you sure you want to switch to"
 msgstr "¿Estás seguro de que quieres cambiar a"
 
-#: templates/billing/view_plans.html:76
+#: templates/billing/view_plans.html:84
 msgid "No plans available at the moment"
 msgstr "No hay planes disponibles en este momento"
 
@@ -1285,8 +1298,8 @@ msgstr "¿Olvidaste tu contraseña?"
 #: templates/companies/forgot_password.html:11
 msgid "Enter your email address below to receive a password reset link."
 msgstr ""
-"Ingrese su dirección de correo electrónico a continuación para "
-"recibir un enlace de restablecimiento de contraseña."
+"Ingrese su dirección de correo electrónico a continuación para recibir un "
+"enlace de restablecimiento de contraseña."
 
 #: templates/companies/forgot_password.html:19
 msgid "Send Reset Link"
@@ -1471,7 +1484,8 @@ msgstr "Su reserva ha sido cancelada"
 #: templates/email/booking_cancellation.html:183
 msgid ""
 "This booking has been successfully cancelled and removed from our schedule."
-msgstr "Esta reserva ha sido cancelada con éxito y eliminada de nuestra agenda."
+msgstr ""
+"Esta reserva ha sido cancelada con éxito y eliminada de nuestra agenda."
 
 #: templates/email/booking_cancellation.html:187
 msgid "Cancelled Booking Details"
@@ -1517,8 +1531,8 @@ msgid ""
 "If you wish to book another appointment, please visit our booking page or "
 "contact us directly."
 msgstr ""
-"Si desea reservar otra cita, visite nuestra página de reservas o "
-"contáctenos directamente."
+"Si desea reservar otra cita, visite nuestra página de reservas o contáctenos "
+"directamente."
 
 #: templates/email/booking_cancellation.html:217
 #: templates/email/booking_confirmation.html:238
@@ -1554,8 +1568,7 @@ msgstr "Reservar de nuevo"
 #: templates/email/booking_cancellation.html:237
 msgid ""
 "If you have any questions or concerns, please don't hesitate to contact us."
-msgstr ""
-"Si tiene alguna pregunta o inquietud, no dude en contactarnos."
+msgstr "Si tiene alguna pregunta o inquietud, no dude en contactarnos."
 
 #: templates/email/booking_confirmation.html:7
 #: templates/email/booking_confirmation.html:182
@@ -1578,7 +1591,8 @@ msgid ""
 "Please contact us to confirm the final price and duration."
 msgstr ""
 "Hemos recibido su solicitud de reserva y está pendiente de confirmación por "
-"parte del personal. Por favor, contáctenos para confirmar el precio final y la duración."
+"parte del personal. Por favor, contáctenos para confirmar el precio final y "
+"la duración."
 
 #: templates/email/booking_confirmation.html:195
 msgid "Booking Confirmed"
@@ -1603,8 +1617,8 @@ msgid ""
 "This service requires staff confirmation. The final price and duration "
 "should be confirmed by our staff."
 msgstr ""
-"Este servicio requiere confirmación por parte del personal. El precio "
-"final y la duración deben ser confirmados por nuestro personal."
+"Este servicio requiere confirmación por parte del personal. El precio final "
+"y la duración deben ser confirmados por nuestro personal."
 
 #: templates/email/booking_confirmation.html:249
 #: templates/email/booking_reminder.html:216
@@ -1618,8 +1632,8 @@ msgid ""
 "If you need to make any changes or have questions, please contact us "
 "directly."
 msgstr ""
-"Si necesita realizar algún cambio o tiene alguna pregunta, "
-"comuníquese con nosotros directamente."
+"Si necesita realizar algún cambio o tiene alguna pregunta, comuníquese con "
+"nosotros directamente."
 
 #: templates/email/booking_reminder.html:7
 #: templates/email/booking_reminder.html:163
@@ -1639,13 +1653,15 @@ msgstr "Próxima cita"
 msgid ""
 "This is a friendly reminder about your upcoming booking. We look forward to "
 "seeing you!"
-msgstr "Este es un recordatorio para tu próxima reserva. ¡Esperamos verte pronto!"
+msgstr ""
+"Este es un recordatorio para tu próxima reserva. ¡Esperamos verte pronto!"
 
 #: templates/email/booking_reminder.html:220
 msgid ""
 "If you need to reschedule or cancel, please contact us as soon as possible."
 msgstr ""
-"Si necesita reprogramar o cancelar, comuníquese con nosotros lo antes posible."
+"Si necesita reprogramar o cancelar, comuníquese con nosotros lo antes "
+"posible."
 
 #: templates/email/booking_update.html:7
 msgid "Booking Update"
@@ -1664,8 +1680,8 @@ msgid ""
 "Your appointment details have been modified. Please review the updated "
 "information below."
 msgstr ""
-"Se han modificado los detalles de su cita. Revise la información "
-"actualizada a continuación."
+"Se han modificado los detalles de su cita. Revise la información actualizada "
+"a continuación."
 
 #: templates/email/password_reset.html:7
 msgid "Reset Your Password"
@@ -1693,12 +1709,13 @@ msgid ""
 "Your password has been successfully reset. You can now log in to your "
 "account with your new password."
 msgstr ""
-"Tu contraseña se ha restablecido correctamente. Ya puedes iniciar "
-"sesión en tu cuenta con tu nueva contraseña."
+"Tu contraseña se ha restablecido correctamente. Ya puedes iniciar sesión en "
+"tu cuenta con tu nueva contraseña."
 
 #: templates/email/password_reset_success.html:69
 msgid "If you didn't make this change, please contact support immediately."
-msgstr "Si no realizó este cambio, comuníquese con el soporte técnico de inmediato."
+msgstr ""
+"Si no realizó este cambio, comuníquese con el soporte técnico de inmediato."
 
 #: templates/email/staff_activation.html:7
 msgid "Activate Your Staff Account"
@@ -1712,108 +1729,112 @@ msgstr "Invitación a la cuenta del personal"
 #, python-format
 msgid "You have been invited to join %(company_name)s as a staff member."
 msgstr ""
+"Se le ha invitado a unirse a %(company_name)s como miembro del personal."
 
 #: templates/email/staff_activation.html:80
 msgid "Please activate your staff account by clicking the button below:"
-msgstr ""
+msgstr "Active su cuenta de personal haciendo clic en el botón a continuación:"
 
 #: templates/email/staff_activation.html:94
 msgid "If you didn't expect this, please ignore this email."
-msgstr ""
+msgstr "Si no esperaba esto, ignore este correo electrónico."
 
 #: templates/static_pages/about_us.html:14
 msgid ""
 "We are a leading provider of booking management solutions for beauty salons "
 "and service providers."
 msgstr ""
+"Somos un proveedor líder de soluciones de gestión de reservas para salones "
+"de belleza y proveedores de servicios."
 
 #: templates/static_pages/about_us.html:17
 msgid "Our Mission"
-msgstr ""
+msgstr "Nuestra misión"
 
 #: templates/static_pages/about_us.html:19
 msgid ""
 "To simplify booking management for businesses and provide customers with a "
 "seamless booking experience."
 msgstr ""
+"Simplificar la gestión de reservas para las empresas y ofrecer a los "
+"clientes una experiencia de reserva fluida."
 
 #: templates/static_pages/about_us.html:22
 msgid "What We Offer"
-msgstr ""
+msgstr "Lo que ofrecemos"
 
 #: templates/static_pages/about_us.html:24
 msgid "Easy online booking system for customers"
-msgstr ""
+msgstr "Sistema de reservas online sencillo para clientes"
 
 #: templates/static_pages/about_us.html:25
 msgid "Comprehensive calendar management for businesses"
-msgstr ""
+msgstr "Gestión integral de calendarios para empresas"
 
 #: templates/static_pages/about_us.html:26
 msgid "Automated notifications and reminders"
-msgstr ""
+msgstr "Notificaciones y recordatorios automáticos"
 
 #: templates/static_pages/about_us.html:27
-#, fuzzy
-#| msgid "staff management"
 msgid "Staff and service management"
-msgstr "gestión de personal"
+msgstr "Gestión de personal y servicios"
 
 #: templates/static_pages/about_us.html:28
 msgid "Flexible pricing and subscription plans"
-msgstr ""
+msgstr "Precios flexibles y planes de suscripción"
 
 #: templates/static_pages/about_us.html:31
 msgid "Why Choose Us"
-msgstr ""
+msgstr "¿Por qué elegirnos?"
 
 #: templates/static_pages/about_us.html:33
 msgid ""
 "Our platform is designed with both businesses and customers in mind, "
 "offering intuitive interfaces, powerful features, and reliable support."
 msgstr ""
+"Nuestra plataforma está diseñada pensando tanto en las empresas como en los "
+"clientes, ofreciendo interfaces intuitivas, funciones potentes y soporte "
+"confiable."
 
 #: templates/static_pages/about_us.html:38
-#, fuzzy
-#| msgid "Ready to Get Started?"
 msgid "Ready to get started?"
 msgstr "¿Listo para Comenzar?"
 
 #: templates/static_pages/about_us.html:38
 msgid "View our pricing plans"
-msgstr ""
+msgstr "Vea nuestros planes de precios"
 
 #: templates/static_pages/contact.html:11
 msgid ""
 "Have a question or need support? Fill out the form below and we'll get back "
 "to you as soon as possible."
 msgstr ""
+"¿Tiene alguna pregunta o necesita ayuda? Complete el formulario a "
+"continuación y nos pondremos en contacto con usted lo antes posible."
 
 #: templates/static_pages/contact.html:29
 msgid "Subject"
-msgstr ""
+msgstr "Sujeto"
 
 #: templates/static_pages/contact.html:35
 msgid "Message"
-msgstr ""
+msgstr "Mensaje"
 
 #: templates/static_pages/contact.html:42
 msgid "Send Message"
-msgstr ""
+msgstr "Enviar mensaje"
 
 #: templates/static_pages/cookie_policy.html:14
-#, fuzzy
-#| msgid "Account Information"
 msgid "1. General Information"
-msgstr "Información de la Cuenta"
+msgstr "1. Información general"
 
 #: templates/static_pages/cookie_policy.html:16
 msgid "We inform you about the use of cookies on our website."
-msgstr ""
+msgstr "Le informamos sobre el uso de cookies en nuestro sitio web."
 
 #: templates/static_pages/cookie_policy.html:20
 msgid "2. What are cookies?"
-msgstr ""
+msgstr "2. ¿Qué son las cookies?"
 
 #: templates/static_pages/cookie_policy.html:22
 msgid ""
@@ -1821,101 +1842,105 @@ msgid ""
 "website, allowing the storage and retrieval of information about user "
 "browsing habits."
 msgstr ""
+"Las cookies son archivos que se descargan en su dispositivo al acceder a una "
+"página web, permitiendo almacenar y recuperar información sobre los hábitos "
+"de navegación del usuario."
 
 #: templates/static_pages/cookie_policy.html:26
 msgid "3. Types of cookies used"
-msgstr ""
+msgstr "3. Tipos de cookies utilizadas"
 
 #: templates/static_pages/cookie_policy.html:29
 msgid "Technical cookies:"
-msgstr ""
+msgstr "Cookies técnicas:"
 
 #: templates/static_pages/cookie_policy.html:30
 msgid "necessary for the operation of the site."
-msgstr ""
+msgstr "necesario para el funcionamiento del sitio."
 
 #: templates/static_pages/cookie_policy.html:33
 msgid "Personalization cookies:"
-msgstr ""
+msgstr "Cookies de personalización:"
 
 #: templates/static_pages/cookie_policy.html:34
 msgid "remember preferences such as language or region."
-msgstr ""
+msgstr "recordar preferencias como el idioma o la región."
 
 #: templates/static_pages/cookie_policy.html:37
 msgid "Analysis cookies:"
-msgstr ""
+msgstr "Cookies de análisis:"
 
 #: templates/static_pages/cookie_policy.html:38
 msgid "allow measuring site usage."
-msgstr ""
+msgstr "permitir medir el uso del sitio."
 
 #: templates/static_pages/cookie_policy.html:41
 msgid "Advertising and third-party cookies:"
-msgstr ""
+msgstr "Cookies publicitarias y de terceros:"
 
 #: templates/static_pages/cookie_policy.html:42
 msgid "managed by external providers (Google, Meta, etc.)."
-msgstr ""
+msgstr "gestionados por proveedores externos (Google, Meta, etc.)."
 
 #: templates/static_pages/cookie_policy.html:47
 msgid "4. Deactivation and elimination of cookies"
-msgstr ""
+msgstr "4. Desactivación y eliminación de cookies"
 
 #: templates/static_pages/cookie_policy.html:49
 msgid "You can configure your browser to allow, block or delete cookies:"
 msgstr ""
+"Puede configurar su navegador para permitir, bloquear o eliminar las cookies:"
 
 #: templates/static_pages/cookie_policy.html:60
 msgid "5. Cookies used on this website"
-msgstr ""
+msgstr "5. Cookies utilizadas en este sitio web"
 
 #: templates/static_pages/cookie_policy.html:65
 msgid "Cookie"
-msgstr ""
+msgstr "Cookie"
 
 #: templates/static_pages/cookie_policy.html:66
 msgid "Provider"
-msgstr ""
+msgstr "Proveedor"
 
 #: templates/static_pages/cookie_policy.html:74
 #: templates/static_pages/cookie_policy.html:80
 #: templates/static_pages/cookie_policy.html:86
 #: templates/static_pages/cookie_policy.html:92
-#, fuzzy
-#| msgid "Website"
 msgid "This website"
 msgstr "Sitio Web"
 
 #: templates/static_pages/cookie_policy.html:75
 msgid "Session"
-msgstr ""
+msgstr "Sesión"
 
 #: templates/static_pages/cookie_policy.html:76
 msgid "Identifies the user session for authentication and security."
-msgstr ""
+msgstr "Identifica la sesión del usuario para autenticación y seguridad."
 
 #: templates/static_pages/cookie_policy.html:81
 #: templates/static_pages/cookie_policy.html:87
 #: templates/static_pages/cookie_policy.html:93
 msgid "1 year"
-msgstr ""
+msgstr "1 año"
 
 #: templates/static_pages/cookie_policy.html:82
 msgid "Security token to prevent cross-site request forgery attacks."
 msgstr ""
+"Token de seguridad para evitar ataques de falsificación de solicitudes entre "
+"sitios."
 
 #: templates/static_pages/cookie_policy.html:88
 msgid "Stores user cookie consent preferences."
-msgstr ""
+msgstr "Almacena las preferencias de consentimiento de cookies del usuario."
 
 #: templates/static_pages/cookie_policy.html:94
 msgid "Stores the user's preferred language."
-msgstr ""
+msgstr "Almacena el idioma preferido del usuario."
 
 #: templates/static_pages/cookie_policy.html:101
 msgid "6. Acceptance of the cookie policy"
-msgstr ""
+msgstr "6. Aceptación de la política de cookies"
 
 #: templates/static_pages/cookie_policy.html:103
 msgid ""
@@ -1923,26 +1948,31 @@ msgid ""
 "notice will be displayed that allows you to accept, reject or configure "
 "cookies."
 msgstr ""
+"Al navegar por nuestro sitio web, se asume la aceptación del uso de cookies. "
+"Se mostrará un aviso que le permitirá aceptar, rechazar o configurar las "
+"cookies."
 
 #: templates/static_pages/cookie_policy.html:107
 msgid "Configure your cookie preferences"
-msgstr ""
+msgstr "Configura tus preferencias de cookies"
 
 #: templates/static_pages/cookie_policy.html:113
 #: templates/static_pages/privacy_policy.html:43
 #: templates/static_pages/terms_of_service.html:48
 msgid "Last updated:"
-msgstr ""
+msgstr "Última actualización:"
 
 #: templates/static_pages/cookie_settings.html:11
 msgid ""
 "We use different types of cookies to optimize your experience on our "
 "website. Choose which cookies you want to allow."
 msgstr ""
+"Utilizamos diferentes tipos de cookies para optimizar tu experiencia en "
+"nuestro sitio web. Selecciona qué cookies quieres permitir."
 
 #: templates/static_pages/cookie_settings.html:20
 msgid "Essential Cookies"
-msgstr ""
+msgstr "Cookies esenciales"
 
 #: templates/static_pages/cookie_settings.html:22
 msgid ""
@@ -1950,89 +1980,107 @@ msgid ""
 "disabled. They are usually set in response to actions you take, such as "
 "setting your privacy preferences, logging in, or filling in forms."
 msgstr ""
+"Estas cookies son necesarias para el funcionamiento del sitio web y no se "
+"pueden desactivar. Suelen configurarse en respuesta a acciones que realizas, "
+"como configurar tus preferencias de privacidad, iniciar sesión o rellenar "
+"formularios."
 
 #: templates/static_pages/cookie_settings.html:30
 #: templates/static_pages/cookie_settings.html:54
 msgid "Examples:"
-msgstr ""
+msgstr "Ejemplos:"
 
 #: templates/static_pages/cookie_settings.html:30
 msgid ""
 "Session cookies, security cookies, authentication cookies, CSRF protection"
 msgstr ""
+"Cookies de sesión, cookies de seguridad, cookies de autenticación, "
+"protección CSRF"
 
 #: templates/static_pages/cookie_settings.html:34
 msgid "Always Active - Required for site functionality"
-msgstr ""
+msgstr "Siempre activo: requerido para la funcionalidad del sitio"
 
 #: templates/static_pages/cookie_settings.html:44
 msgid "Preference Cookies"
-msgstr ""
+msgstr "Cookies de preferencia"
 
 #: templates/static_pages/cookie_settings.html:46
 msgid ""
 "These cookies enable enhanced functionality and personalization, such as "
 "remembering your preferences and settings."
 msgstr ""
+"Estas cookies permiten mejorar la funcionalidad y la personalización, como "
+"recordar sus preferencias y configuraciones."
 
 #: templates/static_pages/cookie_settings.html:54
 msgid ""
 "Language preference, timezone, theme settings, accessibility preferences"
 msgstr ""
+"Preferencias de idioma, zona horaria, configuración de temas, preferencias "
+"de accesibilidad"
 
 #: templates/static_pages/cookie_settings.html:76
 msgid ""
 "Your cookie preferences are stored locally in your browser. You can change "
 "these settings at any time by visiting this page."
 msgstr ""
+"Tus preferencias de cookies se almacenan localmente en tu navegador. Puedes "
+"cambiar esta configuración en cualquier momento visitando esta página."
 
 #: templates/static_pages/cookie_settings.html:77
 msgid "Learn more about our cookie policy"
-msgstr ""
+msgstr "Obtenga más información sobre nuestra política de cookies"
 
 #: templates/static_pages/cookie_settings.html:115
 msgid "All cookies accepted."
-msgstr ""
+msgstr "Se aceptan todas las cookies."
 
 #: templates/static_pages/cookie_settings.html:122
 msgid "Only essential cookies enabled."
-msgstr ""
+msgstr "Sólo se habilitan las cookies esenciales."
 
 #: templates/static_pages/faq.html:14
-#, fuzzy
-#| msgid "create a new company account"
 msgid "How do I create an account?"
-msgstr "crea una nueva cuenta de empresa"
+msgstr "¿Cómo creo una cuenta?"
 
 #: templates/static_pages/faq.html:15
 msgid ""
 "Click on 'Register' in the top navigation, fill in your business details, "
 "choose a subscription plan, and you're ready to start accepting bookings."
 msgstr ""
+"Haz clic en 'Registrarse' en la barra de navegación superior, completa los "
+"datos de tu negocio, elige un plan de suscripción y estarás listo para "
+"empezar a aceptar reservas."
 
 #: templates/static_pages/faq.html:19
 msgid "Can customers book without creating an account?"
-msgstr ""
+msgstr "¿Pueden los clientes reservar sin crear una cuenta?"
 
 #: templates/static_pages/faq.html:20
 msgid ""
 "Yes! Customers can make bookings without creating an account. They just need "
 "to provide their contact information."
 msgstr ""
+"¡Sí! Los clientes pueden reservar sin crear una cuenta. Solo necesitan "
+"proporcionar su información de contacto."
 
 #: templates/static_pages/faq.html:24
 msgid "How do I manage my staff and services?"
-msgstr ""
+msgstr "¿Cómo gestiono mi personal y mis servicios?"
 
 #: templates/static_pages/faq.html:25
 msgid ""
 "Once logged in, go to your company dashboard where you can add/edit staff "
 "members, services, working hours, and pricing."
 msgstr ""
+"Una vez que haya iniciado sesión, vaya al panel de control de su empresa, "
+"donde podrá agregar o editar personal, servicios, horarios de trabajo y "
+"precios."
 
 #: templates/static_pages/faq.html:29
 msgid "Can I cancel my subscription anytime?"
-msgstr ""
+msgstr "¿Puedo cancelar mi suscripción en cualquier momento?"
 
 #: templates/static_pages/faq.html:30
 msgid ""
@@ -2040,105 +2088,120 @@ msgid ""
 "settings. Your access will continue until the end of the current billing "
 "period."
 msgstr ""
+"Sí, puedes cancelar tu suscripción en cualquier momento desde la "
+"configuración de facturación. Tu acceso continuará hasta el final del "
+"periodo de facturación actual."
 
 #: templates/static_pages/faq.html:34
 msgid "How do customers receive booking confirmations?"
-msgstr ""
+msgstr "¿Cómo reciben los clientes las confirmaciones de reserva?"
 
 #: templates/static_pages/faq.html:35
 msgid ""
 "Customers receive automated email and WhatsApp notifications with booking "
 "details and a cancellation link if needed."
 msgstr ""
+"Los clientes reciben notificaciones automáticas por correo electrónico y "
+"WhatsApp con los detalles de la reserva y un enlace de cancelación si es "
+"necesario."
 
 #: templates/static_pages/faq.html:39
 msgid "What payment methods do you accept?"
-msgstr ""
+msgstr "¿Qué métodos de pago aceptan?"
 
 #: templates/static_pages/faq.html:40
 msgid ""
 "We accept major credit cards and debit cards through our secure payment "
 "processor."
 msgstr ""
+"Aceptamos las principales tarjetas de crédito y débito a través de nuestro "
+"procesador de pagos seguro."
 
 #: templates/static_pages/faq.html:44
 msgid "Can I upgrade or downgrade my plan?"
-msgstr ""
+msgstr "¿Puedo actualizar o degradar mi plan?"
 
 #: templates/static_pages/faq.html:45
 msgid ""
 "Yes, you can change your subscription plan at any time from your billing "
 "settings. Changes take effect immediately."
 msgstr ""
+"Sí, puedes cambiar tu plan de suscripción en cualquier momento desde la "
+"configuración de facturación. Los cambios surten efecto inmediatamente."
 
 #: templates/static_pages/faq.html:49
 msgid "Is there a mobile app?"
-msgstr ""
+msgstr "¿Existe una aplicación móvil?"
 
 #: templates/static_pages/faq.html:50
 msgid ""
 "Our platform is fully responsive and works great on mobile browsers. A "
 "dedicated mobile app is coming soon!"
 msgstr ""
+"Nuestra plataforma es totalmente responsiva y funciona a la perfección en "
+"navegadores móviles. ¡Pronto tendremos una aplicación móvil dedicada!"
 
 #: templates/static_pages/faq.html:54
 msgid "How do I get support?"
-msgstr ""
+msgstr "¿Cómo puedo obtener ayuda?"
 
 #: templates/static_pages/faq.html:55
 msgid "You can contact our support team through the"
-msgstr ""
+msgstr "Puede ponerse en contacto con nuestro equipo de soporte a través del"
 
 #: templates/static_pages/faq.html:55
 msgid "contact form"
-msgstr ""
+msgstr "formulario de contacto"
 
 #: templates/static_pages/faq.html:55
 msgid "We typically respond within 24 hours."
-msgstr ""
+msgstr "We typically respond within 24 hours."
 
 #: templates/static_pages/faq.html:59
 msgid "Is my data secure?"
-msgstr ""
+msgstr "¿Están seguros mis datos?"
 
 #: templates/static_pages/faq.html:60
 msgid ""
 "Yes, we take data security seriously. All data is encrypted and stored "
 "securely. We comply with GDPR and other data protection regulations."
 msgstr ""
+"Sí, nos tomamos muy en serio la seguridad de los datos. Todos los datos se "
+"cifran y almacenan de forma segura. Cumplimos con el RGPD y otras normativas "
+"de protección de datos."
 
 #: templates/static_pages/faq.html:65
 msgid "Still have questions?"
-msgstr ""
+msgstr "¿Aún tienes preguntas?"
 
 #: templates/static_pages/how_it_works.html:11
-#, fuzzy
-#| msgid "Get started in minutes"
 msgid "Get started in just a few simple steps"
-msgstr "Comienza en minutos"
+msgstr "Comience con unos sencillos pasos"
 
 #: templates/static_pages/how_it_works.html:16
 msgid "For Businesses"
-msgstr ""
+msgstr "Para empresas"
 
 #: templates/static_pages/how_it_works.html:22
 msgid ""
 "Create your business account and choose a subscription plan that fits your "
 "needs."
 msgstr ""
+"Crea tu cuenta empresarial y elige un plan de suscripción que se ajuste a "
+"tus necesidades."
 
 #: templates/static_pages/how_it_works.html:29
 msgid "Set Up Your Profile"
-msgstr ""
+msgstr "Configura tu perfil"
 
 #: templates/static_pages/how_it_works.html:30
 msgid ""
 "Add your services, staff members, working hours, and business information."
 msgstr ""
+"Agregue sus servicios, miembros del personal, horas de trabajo e información "
+"comercial."
 
 #: templates/static_pages/how_it_works.html:37
-#, fuzzy
-#| msgid "Manage Your Salon Bookings"
 msgid "Manage Bookings"
 msgstr "Gestiona las Reservas de tu Salón"
 
@@ -2147,192 +2210,219 @@ msgid ""
 "Use our calendar to view, confirm, and manage all your appointments in one "
 "place."
 msgstr ""
+"Utiliza nuestro calendario para ver, confirmar y gestionar todas tus citas "
+"en un solo lugar."
 
 #: templates/static_pages/how_it_works.html:45
 msgid "Grow Your Business"
-msgstr ""
+msgstr "Haga crecer su negocio"
 
 #: templates/static_pages/how_it_works.html:46
 msgid ""
 "Track your bookings, manage staff schedules, and focus on providing great "
 "service."
 msgstr ""
+"Realice un seguimiento de sus reservas, gestione los horarios del personal y "
+"concéntrese en brindar un excelente servicio."
 
 #: templates/static_pages/how_it_works.html:53
 msgid "For Customers"
-msgstr ""
+msgstr "Para clientes"
 
 #: templates/static_pages/how_it_works.html:58
-#, fuzzy
-#| msgid "Add Service"
 msgid "Find a Service"
 msgstr "Añadir Servicio"
 
 #: templates/static_pages/how_it_works.html:59
 msgid "Browse available services and select the one that suits your needs."
-msgstr ""
+msgstr "Browse available services and select the one that suits your needs."
 
 #: templates/static_pages/how_it_works.html:66
 msgid "Choose Date & Time"
-msgstr ""
+msgstr "Elija fecha y hora"
 
 #: templates/static_pages/how_it_works.html:67
 msgid "Select your preferred date, time, and staff member (if applicable)."
 msgstr ""
+"Seleccione su fecha, hora y miembro del personal preferidos (si corresponde)."
 
 #: templates/static_pages/how_it_works.html:75
 msgid ""
 "Enter your details and confirm your booking. You'll receive a confirmation "
 "email and WhatsApp message."
 msgstr ""
+"Introduce tus datos y confirma tu reserva. Recibirás un correo electrónico "
+"de confirmación y un mensaje de WhatsApp."
 
 #: templates/static_pages/how_it_works.html:82
 msgid "Enjoy Your Service"
-msgstr ""
+msgstr "Disfrute de su servicio"
 
 #: templates/static_pages/how_it_works.html:83
 msgid "Show up at your appointment time and enjoy your service!"
-msgstr ""
+msgstr "¡Preséntese a la hora de su cita y disfrute de su servicio!"
 
 #: templates/static_pages/how_it_works.html:91
-#, fuzzy
-#| msgid "Ready to Get Started?"
 msgid "Get Started Now"
 msgstr "¿Listo para Comenzar?"
 
 #: templates/static_pages/privacy_policy.html:13
 msgid "1. Information We Collect"
-msgstr ""
+msgstr "1. Información que recopilamos"
 
 #: templates/static_pages/privacy_policy.html:15
 msgid ""
 "We collect information that you provide directly to us, including when you "
 "create an account, make a booking, or contact us for support."
 msgstr ""
+"Recopilamos la información que usted nos proporciona directamente, incluso "
+"cuando crea una cuenta, realiza una reserva o se comunica con nosotros para "
+"solicitar asistencia."
 
 #: templates/static_pages/privacy_policy.html:18
 msgid "2. How We Use Your Information"
-msgstr ""
+msgstr "2. Cómo usamos su información"
 
 #: templates/static_pages/privacy_policy.html:20
 msgid ""
 "We use the information we collect to provide, maintain, and improve our "
 "services, to process your bookings, and to communicate with you."
 msgstr ""
+"Utilizamos la información que recopilamos para proporcionar, mantener y "
+"mejorar nuestros servicios, procesar sus reservas y comunicarnos con usted."
 
 #: templates/static_pages/privacy_policy.html:23
 msgid "3. Information Sharing"
-msgstr ""
+msgstr "3. Intercambio de información"
 
 #: templates/static_pages/privacy_policy.html:25
 msgid ""
 "We do not sell your personal information. We may share your information with "
 "service providers who assist us in operating our platform."
 msgstr ""
+"No vendemos su información personal. Podríamos compartirla con proveedores "
+"de servicios que nos ayudan a operar nuestra plataforma."
 
 #: templates/static_pages/privacy_policy.html:28
 msgid "4. Data Security"
-msgstr ""
+msgstr "4. Seguridad de los datos"
 
 #: templates/static_pages/privacy_policy.html:30
 msgid ""
 "We implement appropriate security measures to protect your personal "
 "information from unauthorized access, alteration, or disclosure."
 msgstr ""
+"Implementamos medidas de seguridad adecuadas para proteger su información "
+"personal contra accesos, alteraciones o divulgaciones no autorizados."
 
 #: templates/static_pages/privacy_policy.html:33
 msgid "5. Your Rights"
-msgstr ""
+msgstr "5. Sus derechos"
 
 #: templates/static_pages/privacy_policy.html:35
 msgid ""
 "You have the right to access, correct, or delete your personal information. "
 "Contact us if you wish to exercise these rights."
 msgstr ""
+"Tiene derecho a acceder, corregir o eliminar su información personal. "
+"Contáctenos si desea ejercer estos derechos."
 
 #: templates/static_pages/privacy_policy.html:38
 msgid "6. Contact Us"
-msgstr ""
+msgstr "6. Contacta con nosotros"
 
 #: templates/static_pages/privacy_policy.html:40
 msgid "If you have questions about this Privacy Policy, please"
-msgstr ""
+msgstr "Si tiene preguntas sobre esta Política de privacidad, por favor"
 
 #: templates/static_pages/privacy_policy.html:40
 msgid "contact us"
-msgstr ""
+msgstr "contacta con nosotros"
 
 #: templates/static_pages/terms_of_service.html:13
 msgid "1. Acceptance of Terms"
-msgstr ""
+msgstr "1. Aceptación de los Términos"
 
 #: templates/static_pages/terms_of_service.html:15
 msgid ""
 "By accessing and using this service, you accept and agree to be bound by the "
 "terms and provision of this agreement."
 msgstr ""
+"Al acceder y utilizar este servicio, usted acepta y se compromete a cumplir "
+"los términos y disposiciones de este acuerdo."
 
 #: templates/static_pages/terms_of_service.html:18
 msgid "2. Use of Service"
-msgstr ""
+msgstr "2. Uso del Servicio"
 
 #: templates/static_pages/terms_of_service.html:20
 msgid ""
 "You agree to use the service only for lawful purposes and in accordance with "
 "these Terms of Service."
 msgstr ""
+"Acepta utilizar el servicio únicamente con fines lícitos y de conformidad "
+"con estos Términos de Servicio."
 
 #: templates/static_pages/terms_of_service.html:23
-#, fuzzy
-#| msgid "Create Account"
 msgid "3. User Accounts"
-msgstr "Crear Cuenta"
+msgstr "3. Crear Cuenta"
 
 #: templates/static_pages/terms_of_service.html:25
 msgid ""
 "You are responsible for maintaining the confidentiality of your account and "
 "password and for restricting access to your account."
 msgstr ""
+"Usted es responsable de mantener la confidencialidad de su cuenta y su "
+"contraseña, así como de restringir el acceso a ellas."
 
 #: templates/static_pages/terms_of_service.html:28
 msgid "4. Bookings and Payments"
-msgstr ""
+msgstr "4. Reservas y pagos"
 
 #: templates/static_pages/terms_of_service.html:30
 msgid ""
 "All bookings are subject to availability and confirmation. Payment terms "
 "will be communicated at the time of booking."
 msgstr ""
+"Todas las reservas están sujetas a disponibilidad y confirmación. Las "
+"condiciones de pago se comunicarán al realizar la reserva."
 
 #: templates/static_pages/terms_of_service.html:33
 msgid "5. Cancellation Policy"
-msgstr ""
+msgstr "5. Política de cancelación"
 
 #: templates/static_pages/terms_of_service.html:35
 msgid ""
 "Cancellation policies may vary by service provider. Please review the "
 "specific cancellation policy before making a booking."
 msgstr ""
+"Las políticas de cancelación pueden variar según el proveedor de servicios. "
+"Por favor, revise la política de cancelación específica antes de realizar "
+"una reserva."
 
 #: templates/static_pages/terms_of_service.html:38
 msgid "6. Limitation of Liability"
-msgstr ""
+msgstr "6. Limitación de responsabilidad"
 
 #: templates/static_pages/terms_of_service.html:40
 msgid ""
 "We shall not be liable for any indirect, incidental, special, consequential "
 "or punitive damages resulting from your use of the service."
 msgstr ""
+"No seremos responsables de ningún daño indirecto, incidental, especial, "
+"consecuente o punitivo que resulte de su uso del servicio."
 
 #: templates/static_pages/terms_of_service.html:43
 msgid "7. Changes to Terms"
-msgstr ""
+msgstr "7. Cambios en los Términos"
 
 #: templates/static_pages/terms_of_service.html:45
 msgid ""
 "We reserve the right to modify these terms at any time. Changes will be "
 "effective immediately upon posting."
 msgstr ""
+"Nos reservamos el derecho de modificar estos términos en cualquier momento. "
+"Los cambios entrarán en vigor inmediatamente después de su publicación."
 
 #: templates/users/login.html:10
 msgid "Sign in to your account"
@@ -2376,106 +2466,112 @@ msgstr "Iniciar sesión"
 
 #: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:15
 msgid "Messages"
-msgstr ""
+msgstr "Mensajes"
 
 #: venv/lib/python3.12/site-packages/django/contrib/sitemaps/apps.py:8
 msgid "Site Maps"
-msgstr ""
+msgstr "Mapas del sitio"
 
 #: venv/lib/python3.12/site-packages/django/contrib/staticfiles/apps.py:9
 msgid "Static Files"
-msgstr ""
+msgstr "Archivos estáticos"
 
 #: venv/lib/python3.12/site-packages/django/contrib/syndication/apps.py:7
 msgid "Syndication"
-msgstr ""
+msgstr "Sindicación"
 
 #. Translators: String used to replace omitted page numbers in elided page
 #. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:30
 msgid "…"
-msgstr ""
+msgstr "…"
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:50
 msgid "That page number is not an integer"
-msgstr ""
+msgstr "Ese número de página no es un entero"
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:52
 msgid "That page number is less than 1"
-msgstr ""
+msgstr "Ese número de página es menor que 1"
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:54
 msgid "That page contains no results"
-msgstr ""
+msgstr "Esa página no contiene resultados"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:22
 msgid "Enter a valid value."
-msgstr ""
+msgstr "Introduzca un valor válido."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:104
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:752
 msgid "Enter a valid URL."
-msgstr ""
+msgstr "Introduzca una URL válida."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:165
 msgid "Enter a valid integer."
-msgstr ""
+msgstr "Introduzca un entero válido."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:176
 msgid "Enter a valid email address."
-msgstr ""
+msgstr "Introduzca una dirección de correo electrónico válida."
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: venv/lib/python3.12/site-packages/django/core/validators.py:259
 msgid ""
 "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
 msgstr ""
+"Introduzca un “slug” válido que consista en letras, números, guiones bajos o "
+"guiones."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:267
 msgid ""
 "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
 "hyphens."
 msgstr ""
+"Introduzca un 'slug' válido que conste de letras Unicode, números, guiones "
+"bajos o guiones."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:279
 #: venv/lib/python3.12/site-packages/django/core/validators.py:287
 #: venv/lib/python3.12/site-packages/django/core/validators.py:316
 msgid "Enter a valid IPv4 address."
-msgstr ""
+msgstr "Introduzca una dirección IPv4 válida."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:296
 #: venv/lib/python3.12/site-packages/django/core/validators.py:317
 msgid "Enter a valid IPv6 address."
-msgstr ""
+msgstr "Introduzca una dirección IPv6 válida."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:308
 #: venv/lib/python3.12/site-packages/django/core/validators.py:315
 msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
+msgstr "Introduzca una dirección IPv4 o IPv6 válida."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:351
 msgid "Enter only digits separated by commas."
-msgstr ""
+msgstr "Introduzca sólo dígitos separados por comas."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:357
 #, python-format
 msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
+msgstr "Asegúrese de que este valor sea %(limit_value)s (es %(show_value)s)."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:392
 #, python-format
 msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
+msgstr "Asegúrese de que este valor sea menor o igual a %(limit_value)s."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:401
 #, python-format
 msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
+msgstr "Asegúrese de que este valor sea mayor o igual a %(limit_value)s."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:410
 #, python-format
 msgid "Ensure this value is a multiple of step size %(limit_value)s."
 msgstr ""
+"Asegúrese de que este valor sea un múltiplo del tamaño del paso "
+"%(limit_value)s."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:420
 #, python-format
@@ -2486,7 +2582,11 @@ msgid_plural ""
 "Ensure this value has at least %(limit_value)d characters (it has "
 "%(show_value)d)."
 msgstr[0] ""
+"Asegúrese de que este valor tenga al menos %(limit_value)d caracteres (tiene "
+"%(show_value)d)."
 msgstr[1] ""
+"Asegúrese de que este valor tenga al menos %(limit_value)d caracteres (tiene "
+"%(show_value)d)."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:438
 #, python-format
@@ -2497,27 +2597,31 @@ msgid_plural ""
 "Ensure this value has at most %(limit_value)d characters (it has "
 "%(show_value)d)."
 msgstr[0] ""
+"Asegúrese de que este valor tenga como máximo %(limit_value)d caracteres "
+"(tiene %(show_value)d)."
 msgstr[1] ""
+"Asegúrese de que este valor tenga como máximo %(limit_value)d caracteres "
+"(tiene %(show_value)d)."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:461
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:347
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:386
 msgid "Enter a number."
-msgstr ""
+msgstr "Introduzca un número."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:463
 #, python-format
 msgid "Ensure that there are no more than %(max)s digit in total."
 msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Asegúrese de que no haya más de %(max)s dígitos en total."
+msgstr[1] "Asegúrese de que no haya más de %(max)s dígitos en total."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:468
 #, python-format
 msgid "Ensure that there are no more than %(max)s decimal place."
 msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Asegúrese de que no haya más de %(max)s decimales."
+msgstr[1] "Asegúrese de que no haya más de %(max)s decimales."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:473
 #, python-format
@@ -2526,7 +2630,9 @@ msgid ""
 msgid_plural ""
 "Ensure that there are no more than %(max)s digits before the decimal point."
 msgstr[0] ""
+"Asegúrese de que no haya más de %(max)s dígitos antes del punto decimal."
 msgstr[1] ""
+"Asegúrese de que no haya más de %(max)s dígitos antes del punto decimal."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:544
 #, python-format
@@ -2534,10 +2640,12 @@ msgid ""
 "File extension “%(extension)s” is not allowed. Allowed extensions are: "
 "%(allowed_extensions)s."
 msgstr ""
+"La extensión de archivo '%(extension)s' no está permitida. Las extensiones "
+"permitidas son: %(allowed_extensions)s."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:605
 msgid "Null characters are not allowed."
-msgstr ""
+msgstr "No se permiten caracteres nulos."
 
 #: venv/lib/python3.12/site-packages/django/db/models/base.py:1423
 #: venv/lib/python3.12/site-packages/django/forms/models.py:893
@@ -3650,6 +3758,3 @@ msgstr ""
 
 #~ msgid "Hello"
 #~ msgstr "Hola"
-
-#~ msgid "Register"
-#~ msgstr "Registrarse"

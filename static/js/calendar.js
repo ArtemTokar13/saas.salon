@@ -127,11 +127,12 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     const schedule = new ej.schedule.Schedule({
         height: '100%',
         width: '100%',
-        isMobile: false,
-        adaptive: false,
         currentView: 'TimelineDay',
         selectedDate: new Date(currentDate),
         firstDayOfWeek: 1,  // Start week on Monday (0=Sunday, 1=Monday)
+        
+        /* Show full date in header navigation bar */
+        dateFormat: 'dd MMM yyyy',
         
         /* Configure visible views (excludes WorkWeek) */
         views: [
@@ -192,15 +193,14 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
          * 3. Custom templates
          * ----------------------------------------------------- */
 
-        /* Show weekday and day of month in date header (internationalized) */
+        /* Show weekday and day in column headers */
         dateHeaderTemplate: function(props) {
             const date = new Date(props.date);
             const locale = document.documentElement.lang || 'en';
             const weekday = date.toLocaleDateString(locale, { weekday: 'short' });
             const dayOfMonth = date.getDate();
             return `<div class="text-center">
-                <div class="font-semibold text-sm">${weekday}</div>
-                <div class="text-lg font-bold">${dayOfMonth}</div>
+                <div class="font-semibold text-sm">${weekday}, ${dayOfMonth}</div>
             </div>`;
         },
 
@@ -296,6 +296,21 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                     this.eventSettings.dataSource = events;
                     this.refreshEvents();
                     this.refreshLayout();
+                    
+                    // Update header date display after navigation
+                    setTimeout(() => {
+                        const locale = document.documentElement.lang || 'en';
+                        const dateRangeElement = document.querySelector('.e-schedule .e-date-range .e-tbar-btn-text');
+                        if (dateRangeElement) {
+                            const formattedDate = newDate.toLocaleDateString(locale, {
+                                weekday: 'short',
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                            });
+                            dateRangeElement.textContent = formattedDate;
+                        }
+                    }, 100);
                 } catch (error) {
                     console.error('Error fetching calendar data:', error);
                     alert('Error loading calendar data. Please refresh the page.');
@@ -323,6 +338,31 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
 
     schedule.appendTo(calendarEl);
     window.calendar = schedule;
+    
+    // Update date display in navigation header to use toLocaleDateString
+    function updateHeaderDate() {
+        const locale = document.documentElement.lang || 'en';
+        const currentDate = schedule.selectedDate;
+        const dateRangeElement = document.querySelector('.e-schedule .e-date-range .e-tbar-btn-text');
+        
+        if (dateRangeElement && currentDate) {
+            const formattedDate = currentDate.toLocaleDateString(locale, {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+            dateRangeElement.textContent = formattedDate;
+        }
+    }
+    
+    // Update on initial load
+    setTimeout(updateHeaderDate, 100);
+    
+    // Update whenever the date changes
+    schedule.dataBound = function() {
+        updateHeaderDate();
+    };
 }
 
 // Show custom booking modal

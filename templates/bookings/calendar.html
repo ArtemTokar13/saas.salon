@@ -45,6 +45,36 @@
         display: table !important;
     }
     
+    /* Ensure time column is always visible on all devices */
+    .e-schedule .e-time-cells-wrap,
+    .e-schedule .e-time-slots,
+    .e-schedule .e-left-indent-wrap {
+        display: block !important;
+        visibility: visible !important;
+        min-width: 70px !important;
+    }
+    
+    .e-schedule .e-time-slots .e-time-cells {
+        display: table-cell !important;
+    }
+    
+    /* Show time labels clearly on all devices with HH:mm format */
+    .e-schedule .e-time-label {
+        display: block !important;
+        font-size: 12px !important;
+        padding: 4px !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
+    
+    /* Prevent time column from collapsing on mobile/tablet */
+    .e-schedule .e-vertical-view .e-left-indent,
+    .e-schedule .e-month-view .e-left-indent-wrap {
+        min-width: 70px !important;
+        width: 70px !important;
+    }
+    
     /* Customize tui.Calendar columns for multi-staff view */
     .tui-calendar-table .tui-day-grid {
         display: grid;
@@ -71,6 +101,78 @@
     
     .tui-grid-cell {
         border-right: 1px solid #e5e7eb;
+    }
+    
+    /* Ensure date range in toolbar header is fully visible */
+    .e-schedule .e-toolbar .e-date-range {
+        font-weight: 600;
+        font-size: 14px;
+    }
+    
+    .e-schedule .e-toolbar-item .e-tbar-btn {
+        white-space: nowrap;
+    }
+    
+    /* iPad and tablet specific fixes */
+    @media (max-width: 1024px) {
+        /* Ensure time column stays visible with full HH:mm format */
+        .e-schedule .e-time-cells-wrap {
+            min-width: 70px !important;
+            flex-shrink: 0 !important;
+        }
+        
+        .e-schedule .e-time-label {
+            white-space: nowrap !important;
+            font-size: 12px !important;
+        }
+        
+        /* Make date headers more readable on tablets */
+        .e-schedule .e-date-header-container {
+            font-size: 12px !important;
+        }
+        
+        /* Show full date in toolbar on iPad/tablet */
+        .e-schedule .e-toolbar .e-date-range {
+            min-width: 150px !important;
+            white-space: nowrap !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+        }
+        
+        .e-schedule .e-toolbar .e-tbar-btn-text {
+            display: inline !important;
+        }
+        
+        /* Ensure horizontal scroll works properly */
+        #calendar {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        
+        /* Keep staff columns readable */
+        .e-schedule .e-header-cells {
+            min-width: 120px !important;
+        }
+    }
+    
+    /* Mobile specific adjustments */
+    @media (max-width: 768px) {
+        .e-schedule .e-time-label {
+            font-size: 11px !important;
+            padding: 2px !important;
+            white-space: nowrap !important;
+        }
+        
+        .e-schedule .e-left-indent,
+        .e-schedule .e-time-cells-wrap {
+            min-width: 65px !important;
+            width: 65px !important;
+        }
+        
+        /* Ensure time slots have enough space for HH:mm */
+        .e-schedule .e-time-slots {
+            min-width: 65px !important;
+        }
     }
 </style>
 {% endblock %}

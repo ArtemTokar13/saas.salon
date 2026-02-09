@@ -8,6 +8,7 @@ urlpatterns = [
     path('confirm-prebooked/<int:booking_id>/', views.confirm_prebooked_booking, name='confirm_prebooked_booking'),
     path('cancel/<int:booking_id>/<str:delete_code>/', views.cancel_booking, name='cancel_booking'),
     path('calendar/', views.booking_calendar, name='booking_calendar'),
+    path('calendar-api/', views.calendar_api, name='calendar_api'),
     path('edit/<int:booking_id>/', views.edit_booking, name='edit_booking'),
     path('update-status/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
     path('api/update-booking/<int:booking_id>/', views.update_booking_ajax, name='update_booking_ajax'),

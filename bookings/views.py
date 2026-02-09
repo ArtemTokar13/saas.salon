@@ -562,6 +562,7 @@ def booking_calendar(request):
             'day_start': day_start.strftime('%H'),
             'day_end': day_end.strftime('%H'),
             'today': today,
+            'ej_base_license_key': getattr(settings, 'EJ_BASE_LICENSE_KEY', ''),
         }
         
         return render(request, 'bookings/calendar.html', context)
@@ -569,6 +570,90 @@ def booking_calendar(request):
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')
+
+
+@login_required
+@subscription_required
+def calendar_api(request):
+    """API endpoint to get calendar data as JSON for date navigation"""
+    try:
+        profile = request.user.userprofile
+        company = profile.company
+
+        status_in = [0, 1]  # Pending and Confirmed
+        status = request.GET.get('status')
+        if status:
+            status_in = [int(status)]
+        
+        today = timezone.now().date()
+        date_str = request.GET.get('date')
+        try:
+            current_date = datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else today
+        except Exception:
+            current_date = today
+
+        # support quick prev/next day links
+        if request.GET.get('prev'):
+            current_date = current_date - timedelta(days=1)
+        if request.GET.get('next'):
+            current_date = current_date + timedelta(days=1)
+        
+        # Get staff list
+        if profile.is_admin:
+            staff_list = list(Staff.objects.filter(company=company, is_active=True).order_by('name'))
+        else:
+            staff_list = list(Staff.objects.filter(company=company, id=profile.staff.id, is_active=True))
+
+        working_hours = WorkingHours.objects.filter(company=company, day_of_week=current_date.weekday()).first()
+        if working_hours:
+            day_start = dtime(hour=working_hours.start_time.hour, minute=0)
+            day_end = dtime(hour=working_hours.end_time.hour, minute=0)
+        else:
+            day_start = dtime(hour=8, minute=0)
+            day_end = dtime(hour=20, minute=0)
+
+        # Get bookings for the selected date
+        bookings = Booking.objects.filter(
+            company=company,
+            date=current_date,
+            status__in=status_in
+        ).select_related('customer', 'staff', 'service').order_by('start_time')
+
+        # Serialize bookings into JSON-friendly structures
+        bookings_data = []
+        for b in bookings:
+            start_dt = datetime.combine(current_date, b.start_time)
+            end_dt = datetime.combine(current_date, b.end_time)
+            background_color = '#3b82f6'
+            border_color = '#1e40af'
+            if b.status == 1:
+                background_color = '#10b981'
+                border_color = '#047857'
+            if b.status == 2:
+                background_color = '#ef4444'
+                border_color = '#b91c1c'
+            bookings_data.append({
+                'id': b.id,
+                'resourceId': b.staff_id,
+                'title': f"{b.customer.name} — {b.service.name}",
+                'start': start_dt.isoformat(),
+                'end': end_dt.isoformat(),
+                'backgroundColor': background_color,
+                'borderColor': border_color,
+                'extendedProps': {
+                    'staff_id': b.staff_id,
+                    'status': b.get_status_display(),
+                    'service': b.service.name,
+                    'customer': b.customer.name,
+                    'booking_id': b.id,
+                }
+            })
+
+        return JsonResponse(bookings_data, safe=False)
+    
+    except Exception as e:
+        logger.error(f"Calendar API error: {e}")
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 @login_required

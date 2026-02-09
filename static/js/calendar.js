@@ -81,7 +81,6 @@ async function deleteBooking(bookingId) {
 }
 
 function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
-    ej.base.registerLicense("Ngo9BigBOggjHTQxAR8/V1JGaF1cXmhLYVJyWmFZfVhgdVVMZF5bQXdPMyBoS35RcEVhWXhfcHBXQ2FVVk1yVEFf");
     const calendarEl = document.getElementById('calendar');
 
     /* ---------------------------------------------------------
@@ -244,25 +243,38 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
 
         actionBegin: async function(args) {
             if (args.requestType === "dateNavigate") {
-                const newDate = this.selectedDate; // ← ключовий момент
+                const newDate = this.selectedDate;
                 const dateStr = newDate.toISOString().slice(0, 10);
-                const response = await fetch(`/bookings/calendar/?date=${dateStr}`);
-                const data = await response.json();
+                
+                try {
+                    const response = await fetch(`/bookings/calendar-api/?date=${dateStr}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch calendar data');
+                    }
+                    
+                    const data = await response.json();
 
-                const events = data.map(b => ({
-                    Id: b.id,
-                    Subject: b.title,
-                    StartTime: new Date(b.start),
-                    EndTime: new Date(b.end),
-                    StaffId: b.staff_id,
-                    Color: "#3b82f6",
-                    Border: "#1e40af",
-                    Raw: b
-                }));
+                    const events = data.map(b => ({
+                        Id: b.id,
+                        Subject: b.title,
+                        StartTime: new Date(b.start),
+                        EndTime: new Date(b.end),
+                        StaffId: b.extendedProps.staff_id,
+                        IsReadonly: false,
+                        Color: b.backgroundColor,
+                        Border: b.borderColor,
+                        IsPending: b.extendedProps.status === 'Pending',
+                        Raw: b.extendedProps
+                    }));
 
-                this.eventSettings.dataSource = events;
-                this.refreshEvents();
-                this.refreshLayout();
+                    this.eventSettings.dataSource = events;
+                    this.refreshEvents();
+                    this.refreshLayout();
+                } catch (error) {
+                    console.error('Error fetching calendar data:', error);
+                    alert('Error loading calendar data. Please refresh the page.');
+                }
             }
         },
 

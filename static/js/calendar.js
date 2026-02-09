@@ -127,6 +127,8 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     const schedule = new ej.schedule.Schedule({
         height: '100%',
         width: '100%',
+        isMobile: false,
+        adaptive: false,
         currentView: 'TimelineDay',
         selectedDate: new Date(currentDate),
         firstDayOfWeek: 1,  // Start week on Monday (0=Sunday, 1=Monday)

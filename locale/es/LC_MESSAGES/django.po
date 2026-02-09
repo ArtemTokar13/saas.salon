@@ -78,7 +78,7 @@ msgstr ""
 
 #: templates/Index.html:88
 msgid "Staff Management"
-msgstr "Gestión de Personal"
+msgstr "Gestión de personal"
 
 #: templates/Index.html:90
 msgid "Each staff member gets their own calendar and schedule."
@@ -86,17 +86,15 @@ msgstr "Cada miembro del personal tiene su propio calendario y horario."
 
 #: templates/Index.html:99
 msgid "Service Management"
-msgstr "Gestión de personal"
+msgstr "Gestión de servicios"
 
 #: templates/Index.html:101
 msgid "Create services, durations, prices, and assign them to staff."
 msgstr "Crea servicios, duraciones, precios y asígnalos al personal."
 
 #: templates/Index.html:110
-#, fuzzy
-#| msgid "Edit Profile"
 msgid "Client Profiles"
-msgstr "Editar Perfil"
+msgstr "Perfiles de clientes"
 
 #: templates/Index.html:112
 msgid "Keep track of client history, notes, and preferences."
@@ -221,8 +219,6 @@ msgid "Sign Up"
 msgstr "Registrarse"
 
 #: templates/Index.html:247
-#, fuzzy
-#| msgid "Create your company account in under 2 minutes"
 msgid "Create your company account in under 2 minutes."
 msgstr "Crea tu cuenta de empresa en menos de 2 minutos"
 

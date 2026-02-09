@@ -64,8 +64,8 @@ def get_period_discount(period):
     discounts = {
         'monthly': 0,
         'three_months': 10,
-        'six_months': 20,
-        'yearly': 40,
+        'six_months': 15,
+        'yearly': 30,
     }
     return discounts.get(period, 0)
 

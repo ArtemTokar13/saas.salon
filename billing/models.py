@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from companies.models import Company
 from decimal import Decimal
+
 import traceback
 
 
@@ -92,8 +93,8 @@ class Subscription(models.Model):
     BILLING_PERIOD_CHOICES = [
         (MONTHLY, 'Monthly'),
         (THREE_MONTHS, '3 Months (-10%)'),
-        (SIX_MONTHS, '6 Months (-20%)'),
-        (YEARLY, 'Yearly (-40%)'),
+        (SIX_MONTHS, '6 Months (-15%)'),
+        (YEARLY, 'Yearly (-30%)'),
     ]
 
     STATUS_ACTIVE = 'active'

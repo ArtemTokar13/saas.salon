@@ -27,6 +27,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subscription',
             name='billing_period',
-            field=models.CharField(choices=[('monthly', 'Monthly'), ('three_months', '3 Months (-10%)'), ('six_months', '6 Months (-20%)'), ('yearly', 'Yearly (-40%)')], default='monthly', max_length=20),
+            field=models.CharField(choices=[('monthly', 'Monthly'), ('three_months', '3 Months (-10%)'), ('six_months', '6 Months (-15%)'), ('yearly', 'Yearly (-30%)')], default='monthly', max_length=20),
         ),
     ]

@@ -149,6 +149,9 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
             interval: 15,
             slotCount: 1
         },
+        
+        /* 24-hour time format */
+        timeFormat: 'HH:mm',
 
         /* Робочі години */
         workHours: {
@@ -187,12 +190,16 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
          * 3. Custom templates
          * ----------------------------------------------------- */
 
-        /* Show only weekday in date header (internationalized) */
+        /* Show weekday and day of month in date header (internationalized) */
         dateHeaderTemplate: function(props) {
             const date = new Date(props.date);
             const locale = document.documentElement.lang || 'en';
             const weekday = date.toLocaleDateString(locale, { weekday: 'short' });
-            return `<div class="text-center font-semibold">${weekday}</div>`;
+            const dayOfMonth = date.getDate();
+            return `<div class="text-center">
+                <div class="font-semibold text-sm">${weekday}</div>
+                <div class="text-lg font-bold">${dayOfMonth}</div>
+            </div>`;
         },
 
         /* Staff header template (avatar → name → occupancy) */

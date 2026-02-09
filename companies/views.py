@@ -190,27 +190,31 @@ def edit_company_profile(request):
         
         company = profile.company
         company_images = CompanyImage.objects.filter(company=company)
-        
+
         if request.method == 'POST':
             form = CompanyProfileForm(request.POST, request.FILES, instance=company)
             if form.is_valid():
                 # Process social media key-value pairs
                 social_media_keys = request.POST.getlist('social_media_key[]')
                 social_media_values = request.POST.getlist('social_media_value[]')
-                
+
                 social_media = {}
                 for key, value in zip(social_media_keys, social_media_values):
                     if key.strip() and value.strip():  # Only add non-empty pairs
                         social_media[key.strip().lower()] = value.strip()
-                
+
                 company_instance = form.save(commit=False)
                 company_instance.social_media = social_media
+                # Save use_smart_booking if present in POST
+                use_smart_booking_val = request.POST.get('use_smart_booking')
+                if use_smart_booking_val is not None:
+                    company_instance.use_smart_booking = use_smart_booking_val in ['on', 'true', '1']
                 company_instance.save()
 
                 images = request.FILES.getlist('images')
                 current_image_count = CompanyImage.objects.filter(company=company).count()
                 max_images = 3
-                
+
                 if images:
                     remaining_slots = max_images - current_image_count
                     if remaining_slots <= 0:
@@ -221,13 +225,18 @@ def edit_company_profile(request):
                             CompanyImage.objects.create(company=company, image=img)
                         if len(images) > remaining_slots:
                             messages.warning(request, f'Only {remaining_slots} image(s) added. Maximum {max_images} images allowed.')
-                
+
                 messages.success(request, 'Company profile updated successfully!')
                 return redirect('company_dashboard')
         else:
             form = CompanyProfileForm(instance=company)
-        
-        return render(request, 'companies/edit_profile.html', {'form': form, 'company': company, 'company_images': company_images})
+
+        return render(request, 'companies/edit_profile.html', {
+            'form': form,
+            'company': company,
+            'company_images': company_images,
+            'use_smart_booking': company.use_smart_booking,
+        })
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')

@@ -264,51 +264,84 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
             date=date,
             status__in=[0, 1]  # Pending or Confirmed
         )
-        
         if booking_id:
             try:
                 bookings_query = bookings_query.exclude(id=int(booking_id))
             except (ValueError, TypeError):
                 pass
-        
-        existing_bookings = bookings_query.values_list('start_time', 'end_time')
-        
-        # Generate time slots (every 30 minutes)
-        available_times = []
-        current_time = datetime.combine(date, working_hours.start_time)
-        end_time = datetime.combine(date, working_hours.end_time)
-        
-        # Calculate the end time of the new booking based on service duration
-        service_duration = timedelta(minutes=service.duration)
-        
-        while current_time < end_time:
-            time_str = current_time.strftime('%H:%M')
-            
-            # Calculate when this service would end
-            potential_end_time = current_time + service_duration
-            
-            # Check if the service can fit within working hours
-            if potential_end_time > end_time:
-                break  # Can't start a service that would end after working hours
-            
-            # Check if this time slot is available (no overlap with existing bookings)
-            is_available = True
+        existing_bookings = list(bookings_query.values_list('start_time', 'end_time'))
+        existing_bookings.sort()
+
+        # --- Smart Booking System flag ---
+        # Assume Company model has a boolean field: use_smart_booking (default True)
+        use_smart_booking = getattr(company, 'use_smart_booking', False)
+
+        # Determine if user is company user (admin or staff)
+        is_company_user = False
+        if request.user.is_authenticated:
+            try:
+                user_profile = request.user.userprofile
+                if hasattr(user_profile, 'company') and user_profile.company.id == company.id:
+                    is_company_user = True
+            except Exception:
+                pass
+
+        # If not company user and smart booking is enabled, use smart algorithm
+        if use_smart_booking and not is_company_user:
+            # Smart Booking System: only allow slots that do not leave unusable gaps
+            available_times = []
+            current_time = datetime.combine(date, working_hours.start_time)
+            end_time = datetime.combine(date, working_hours.end_time)
+            service_duration = timedelta(minutes=service.duration)
+
+            # Build a list of all busy intervals (start, end) as datetimes
+            busy_intervals = []
             for booking_start, booking_end in existing_bookings:
-                booking_start_dt = datetime.combine(date, booking_start)
-                booking_end_dt = datetime.combine(date, booking_end)
-                
-                # Check if the new booking would overlap with existing booking
-                # Overlap occurs if: new_start < existing_end AND new_end > existing_start
-                if current_time < booking_end_dt and potential_end_time > booking_start_dt:
-                    is_available = False
+                busy_intervals.append((datetime.combine(date, booking_start), datetime.combine(date, booking_end)))
+            # Add a dummy interval at the end for working hours end
+            busy_intervals.append((end_time, end_time))
+            # Add a dummy interval at the start for working hours start
+            busy_intervals = [(current_time, current_time)] + busy_intervals
+
+            # For each gap between busy intervals, check if the slot fits and does not leave unusable gap
+            for i in range(len(busy_intervals) - 1):
+                gap_start = busy_intervals[i][1]
+                gap_end = busy_intervals[i+1][0]
+                slot_start = gap_start
+                # Only consider slots that can fit the service
+                while slot_start + service_duration <= gap_end:
+                    # Check if slot_start aligns with 30-min interval
+                    if slot_start.minute % 30 == 0:
+                        # Check if after this booking, the remaining gap is either 0 or >= service_duration
+                        after_gap = (gap_end - (slot_start + service_duration)).total_seconds() / 60
+                        # Also allow if booking ends exactly at working hours end
+                        ends_at_working_hours = (slot_start + service_duration) == end_time
+                        if after_gap == 0 or after_gap >= service.duration or ends_at_working_hours:
+                            available_times.append(slot_start.strftime('%H:%M'))
+                    slot_start += timedelta(minutes=30)
+            return JsonResponse({'available_times': available_times})
+        else:
+            # Old system: allow any free slot (no smart gap check)
+            available_times = []
+            current_time = datetime.combine(date, working_hours.start_time)
+            end_time = datetime.combine(date, working_hours.end_time)
+            service_duration = timedelta(minutes=service.duration)
+            while current_time < end_time:
+                time_str = current_time.strftime('%H:%M')
+                potential_end_time = current_time + service_duration
+                if potential_end_time > end_time:
                     break
-            
-            if is_available:
-                available_times.append(time_str)
-            
-            current_time += timedelta(minutes=30)
-        
-        return JsonResponse({'available_times': available_times})
+                is_available = True
+                for booking_start, booking_end in existing_bookings:
+                    booking_start_dt = datetime.combine(date, booking_start)
+                    booking_end_dt = datetime.combine(date, booking_end)
+                    if current_time < booking_end_dt and potential_end_time > booking_start_dt:
+                        is_available = False
+                        break
+                if is_available:
+                    available_times.append(time_str)
+                current_time += timedelta(minutes=30)
+            return JsonResponse({'available_times': available_times})
     
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)

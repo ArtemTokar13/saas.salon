@@ -58,6 +58,7 @@ class Company(models.Model):
     social_media = models.JSONField(blank=True, default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
+    use_smart_booking = models.BooleanField(default=False)
 
     MAX_LOGO_SIZE_KB = 200
     MAX_DIMENSIONS = (400, 400)

@@ -13,7 +13,7 @@
 
 
 <!-- App calendar JS (buildCalendar will choose DayPilot if available) -->
-<script src="{% static 'js/calendar.js' %}?v=2.0"></script>
+<script src="{% static 'js/calendar.js' %}?v=2.3"></script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -112,6 +112,20 @@
     .e-schedule .e-toolbar-item .e-tbar-btn {
         white-space: nowrap;
     }
+
+    /* Примусово вимикаємо мобільний режим */
+    .e-schedule.e-device {
+        width: 100% !important;
+        height: 100% !important;
+        font-size: 14px !important;
+    }
+
+    /* Показуємо хвилини в таймлайні */
+    .e-schedule.e-device .e-timeline-header-wrapper .e-header-cells {
+        white-space: nowrap !important;
+        font-size: 12px !important;
+    }
+
     
     /* iPad and tablet specific fixes */
     @media (max-width: 1024px) {

@@ -137,8 +137,6 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
         /* Configure visible views (excludes WorkWeek) */
         views: [
             { option: 'Day' },
-            { option: 'Week' },
-            { option: 'Month' },
             { option: 'Agenda' }
         ],
         
@@ -337,6 +335,8 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     });
 
     schedule.appendTo(calendarEl);
+    schedule.isAdaptive = false;
+    schedule.refreshLayout();
     window.calendar = schedule;
     
     // Update date display in navigation header to use toLocaleDateString

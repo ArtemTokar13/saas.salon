@@ -262,7 +262,7 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         bookings_query = Booking.objects.filter(
             staff=staff,
             date=date,
-            status__in=[0, 1]  # Pending or Confirmed
+            status__in=[1, 3]  # Confirmed or PreBooked
         )
         
         if booking_id:
@@ -395,7 +395,7 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
                 existing_bookings = Booking.objects.filter(
                     staff=staff,
                     date=date,
-                    status__in=[0, 1]  # Pending or Confirmed
+                    status__in=[1, 3]  # Confirmed or PreBooked
                 ).values_list('start_time', 'end_time')
                 
                 # Check if this time slot is available for this staff
@@ -435,7 +435,7 @@ def booking_calendar(request):
         profile = request.user.userprofile
         company = profile.company
 
-        status_in = [0, 1]  # Pending and Confirmed
+        status_in = [1, 3]  # Confirmed and PreBooked
         status = request.GET.get('status')
         if status:
             status_in = [int(status)]
@@ -488,14 +488,18 @@ def booking_calendar(request):
         for b in bookings:
             start_dt = datetime.combine(current_date, b.start_time)
             end_dt = datetime.combine(current_date, b.end_time)
+            # Default - Pending
             background_color = '#3b82f6'
             border_color = '#1e40af'
-            if b.status == 1:
+            if int(b.status) == 1:  # Confirmed
                 background_color = '#10b981'
                 border_color = '#047857'
-            if b.status == 2:
+            elif int(b.status) == 2:  # Cancelled
                 background_color = '#ef4444'
                 border_color = '#b91c1c'
+            elif int(b.status) == 3:  # PreBooked
+                background_color = '#f59e0b'
+                border_color = '#d97706'
             bookings_data.append({
                 'id': b.id,
                 'resourceId': b.staff_id,
@@ -506,9 +510,10 @@ def booking_calendar(request):
                 'borderColor': border_color,
                 'extendedProps': {
                     'staff_id': b.staff_id,
-                    'status': b.get_status_display(),
+                    'status': b.status,
                     'service': b.service.name,
                     'customer': b.customer.name,
+                    'booking_id': b.id,
                 }
             })
 
@@ -580,7 +585,7 @@ def calendar_api(request):
         profile = request.user.userprofile
         company = profile.company
 
-        status_in = [0, 1]  # Pending and Confirmed
+        status_in = [1, 3]  # Pending and Confirmed
         status = request.GET.get('status')
         if status:
             status_in = [int(status)]
@@ -624,14 +629,18 @@ def calendar_api(request):
         for b in bookings:
             start_dt = datetime.combine(current_date, b.start_time)
             end_dt = datetime.combine(current_date, b.end_time)
+            # Default - Pending
             background_color = '#3b82f6'
             border_color = '#1e40af'
-            if b.status == 1:
+            if int(b.status) == 1:  # Confirmed
                 background_color = '#10b981'
                 border_color = '#047857'
-            if b.status == 2:
+            elif int(b.status) == 2:  # Cancelled
                 background_color = '#ef4444'
                 border_color = '#b91c1c'
+            elif int(b.status) == 3:  # PreBooked
+                background_color = '#f59e0b'
+                border_color = '#d97706'
             bookings_data.append({
                 'id': b.id,
                 'resourceId': b.staff_id,
@@ -642,14 +651,65 @@ def calendar_api(request):
                 'borderColor': border_color,
                 'extendedProps': {
                     'staff_id': b.staff_id,
-                    'status': b.get_status_display(),
+                    'status': b.status,
                     'service': b.service.name,
                     'customer': b.customer.name,
                     'booking_id': b.id,
                 }
             })
 
-        return JsonResponse(bookings_data, safe=False)
+        # Calculate occupancy for each staff member
+        staff_occupancy = {}
+        for staff in staff_list:
+            # Get working hours for this staff member
+            staff_working_hours = working_hours
+            if not staff_working_hours:
+                available_minutes = 12 * 60
+            else:
+                start_time = datetime.combine(current_date, staff_working_hours.start_time)
+                end_time = datetime.combine(current_date, staff_working_hours.end_time)
+                total_minutes = int((end_time - start_time).total_seconds() / 60)
+                
+                break_minutes = 0
+                if staff.break_start and staff.break_end:
+                    break_start = datetime.combine(current_date, staff.break_start)
+                    break_end = datetime.combine(current_date, staff.break_end)
+                    break_minutes = int((break_end - break_start).total_seconds() / 60)
+                
+                available_minutes = total_minutes - break_minutes
+            
+            # Calculate booked time
+            staff_bookings = bookings.filter(staff=staff)
+            booked_minutes = 0
+            for booking in staff_bookings:
+                start = datetime.combine(current_date, booking.start_time)
+                end = datetime.combine(current_date, booking.end_time)
+                booked_minutes += int((end - start).total_seconds() / 60)
+            
+            if available_minutes > 0:
+                occupancy = int((booked_minutes / available_minutes) * 100)
+            else:
+                occupancy = 0
+            
+            staff_occupancy[staff.id] = occupancy
+
+        # Serialize staff data with occupancy
+        staff_data = [
+            {
+                'id': s.id,
+                'title': s.name,
+                'avatar': s.avatar.url if s.avatar else None,
+                'occupancy': staff_occupancy.get(s.id, 0)
+            }
+            for s in staff_list
+        ]
+
+        return JsonResponse({
+            'bookings': bookings_data,
+            'staff': staff_data,
+            'dayStart': day_start.strftime('%H'),
+            'dayEnd': day_end.strftime('%H')
+        })
     
     except Exception as e:
         logger.error(f"Calendar API error: {e}")

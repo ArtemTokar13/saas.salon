@@ -84,32 +84,10 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     const calendarEl = document.getElementById('calendar');
 
     /* ---------------------------------------------------------
-     * 1. Staff colors
-     * --------------------------------------------------------- */
-    const staffColors = [
-        { bg: '#3b82f6', border: '#1e40af' },
-        { bg: '#10b981', border: '#047857' },
-        { bg: '#f59e0b', border: '#d97706' },
-        { bg: '#8b5cf6', border: '#6d28d9' },
-        { bg: '#ec4899', border: '#be185d' },
-        { bg: '#14b8a6', border: '#0d9488' },
-        { bg: '#f97316', border: '#ea580c' },
-        { bg: '#06b6d4', border: '#0891b2' },
-        { bg: '#84cc16', border: '#65a30d' },
-        { bg: '#a855f7', border: '#7e22ce' }
-    ];
-
-    const staffColorMap = {};
-    staffList.forEach((s, i) => {
-        staffColorMap[s.id] = staffColors[i % staffColors.length];
-    });
-
-    /* ---------------------------------------------------------
-     * 2. Convert bookings → Syncfusion event format
+     * 1. Convert bookings → Syncfusion event format
      * --------------------------------------------------------- */
     const events = rawBookings.map(b => {
-        const color = staffColorMap[b.extendedProps.staff_id];
-        const isPending = b.extendedProps.status == 0;
+        const isConfirmed = b.extendedProps.status == 1 || b.extendedProps.status === 'Confirmed';
 
         return {
             Id: b.id,
@@ -118,31 +96,29 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
             EndTime: new Date(b.end),
             StaffId: b.extendedProps.staff_id,
             IsReadonly: false,
-            Color: color.bg,
-            Border: color.border,
-            IsPending: isPending,
+            Color: b.backgroundColor,
+            Border: b.borderColor,
+            IsConfirmed: isConfirmed,
             Raw: b.extendedProps
         };
     });
 
     /* ---------------------------------------------------------
-     * 3. Staff → Syncfusion resources
+     * 2. Staff → Syncfusion resources
      * --------------------------------------------------------- */
     const resources = [{
         field: 'StaffId',
         title: 'Staff',
         name: 'Staff',
         allowMultiple: false,
-        dataSource: staffList.map((s, i) => ({
+        dataSource: staffList.map(s => ({
             Id: s.id,
             Name: s.title,
             Avatar: s.avatar,
-            Occupancy: s.occupancy || 0,
-            Color: staffColors[i % staffColors.length].bg
+            Occupancy: s.occupancy || 0
         })),
         textField: 'Name',
-        idField: 'Id',
-        colorField: 'Color'
+        idField: 'Id'
     }];
 
     /* ---------------------------------------------------------
@@ -153,6 +129,19 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
         width: '100%',
         currentView: 'TimelineDay',
         selectedDate: new Date(currentDate),
+        firstDayOfWeek: 1,  // Start week on Monday (0=Sunday, 1=Monday)
+        
+        /* Configure visible views (excludes WorkWeek) */
+        views: [
+            { option: 'Day' },
+            { option: 'Week' },
+            { option: 'Month' },
+            { option: 'Agenda' }
+        ],
+        
+        /* Disable drag and drop and resize */
+        allowDragAndDrop: false,
+        allowResizing: false,
 
         /* 15-хвилинні слоти */
         timeScale: {
@@ -187,12 +176,24 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                 subject: { name: 'Subject' },
                 startTime: { name: 'StartTime' },
                 endTime: { name: 'EndTime' }
-            }
+            },
+            enableTooltip: true
         },
 
+        /* Use custom colors from backend */
+        cssClass: 'custom-event-colors',
+
         /* -----------------------------------------------------
-         * 5. Custom templates
+         * 3. Custom templates
          * ----------------------------------------------------- */
+
+        /* Show only weekday in date header (internationalized) */
+        dateHeaderTemplate: function(props) {
+            const date = new Date(props.date);
+            const locale = document.documentElement.lang || 'en';
+            const weekday = date.toLocaleDateString(locale, { weekday: 'short' });
+            return `<div class="text-center font-semibold">${weekday}</div>`;
+        },
 
         /* Staff header template (avatar → name → occupancy) */
         resourceHeaderTemplate: function(props) {
@@ -205,7 +206,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                 'bg-green-500';
 
             return `
-                <div class="flex flex-col items-center py-2">
+                <div class="flex flex-col items-center py-1">
                     ${staff.Avatar
                         ? `<img src="${staff.Avatar}" class="w-12 h-12 rounded-full object-cover border border-gray-300">`
                         : `<div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border border-gray-300">
@@ -222,29 +223,26 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
             `;
         },
 
-        /* Custom event template */
-        eventTemplate: function(props) {
-            const opacity = props.IsPending ? 0.7 : 1;
-            return `
-                <div style="
-                    background:${props.Color};
-                    border-left:4px solid ${props.Border};
-                    height:100%;
-                    padding:4px;
-                    color:white;
-                    opacity:${opacity};
-                    font-size:12px;
-                    font-weight:600;
-                ">
-                    ${props.Subject}
-                </div>
-            `;
+        /* Apply custom colors from backend */
+        eventRendered: function(args) {
+            if (args.data.Color) {
+                args.element.style.backgroundColor = args.data.Color;
+            }
+            if (args.data.Border) {
+                args.element.style.borderLeftColor = args.data.Border;
+                args.element.style.borderLeftWidth = '4px';
+                args.element.style.borderLeftStyle = 'solid';
+            }
         },
 
-        actionBegin: async function(args) {
+        actionComplete: async function(args) {
             if (args.requestType === "dateNavigate") {
                 const newDate = this.selectedDate;
-                const dateStr = newDate.toISOString().slice(0, 10);
+                // Format date in local timezone, not UTC
+                const year = newDate.getFullYear();
+                const month = String(newDate.getMonth() + 1).padStart(2, '0');
+                const day = String(newDate.getDate()).padStart(2, '0');
+                const dateStr = `${year}-${month}-${day}`;
                 
                 try {
                     const response = await fetch(`/bookings/calendar-api/?date=${dateStr}`);
@@ -255,7 +253,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                     
                     const data = await response.json();
 
-                    const events = data.map(b => ({
+                    const events = data.bookings.map(b => ({
                         Id: b.id,
                         Subject: b.title,
                         StartTime: new Date(b.start),
@@ -264,9 +262,27 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                         IsReadonly: false,
                         Color: b.backgroundColor,
                         Border: b.borderColor,
-                        IsPending: b.extendedProps.status === 'Pending',
+                        isConfirmed: b.extendedProps.status === 1 || b.extendedProps.status === 'Confirmed',
                         Raw: b.extendedProps
                     }));
+
+                    // Update staff resources with new occupancy
+                    const staffResources = data.staff.map(s => ({
+                        Id: s.id,
+                        Name: s.title,
+                        Avatar: s.avatar,
+                        Occupancy: s.occupancy || 0
+                    }));
+                    
+                    this.resources[0].dataSource = staffResources;
+                    
+                    // Update working hours
+                    if (data.dayStart && data.dayEnd) {
+                        this.startHour = `${data.dayStart}:00`;
+                        this.endHour = `${data.dayEnd}:00`;
+                        this.workHours.start = `${data.dayStart}:00`;
+                        this.workHours.end = `${data.dayEnd}:00`;
+                    }
 
                     this.eventSettings.dataSource = events;
                     this.refreshEvents();
@@ -278,8 +294,9 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
             }
         },
 
-        /* Click → open modal */
+        /* Click → open custom modal and prevent default */
         eventClick: function(args) {
+            args.cancel = true;  // Prevent default Syncfusion popup
             showBookingModal({
                 id: args.event.Id,
                 start: args.event.StartTime,
@@ -287,6 +304,11 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                 title: args.event.Subject,
                 raw: args.event.Raw
             });
+        },
+
+        /* Prevent all default Syncfusion popups */
+        popupOpen: function(args) {
+            args.cancel = true;  // Prevent quick info popup, editor dialog, etc.
         }
     });
 

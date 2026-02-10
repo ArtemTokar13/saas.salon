@@ -14,7 +14,7 @@
     <div class="max-w-4xl mx-auto">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-xl font-bold text-gray-900 mb-2">Book Your Appointment</h1>
+            <h1 class="text-xl font-bold text-gray-900 mb-2">{% trans "Book Your Appointment" %}</h1>
             <p class="text-gray-600">{{ company.name }}</p>
         </div>
 
@@ -26,7 +26,7 @@
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                     </svg>
                     <div>
-                        <h3 class="font-medium mb-1">Please complete the following fields:</h3>
+                        <h3 class="font-medium mb-1">{% trans "Please complete the following fields:" %}</h3>
                         <ul id="validationErrorList" class="list-disc list-inside text-sm"></ul>
                     </div>
                 </div>
@@ -46,14 +46,14 @@
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Your Information</h2>
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Name *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Name" %} *</label>
                             {{ form.customer_name }}
                             {% if form.customer_name.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.customer_name.errors.0 }}</p>
                             {% endif %}
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Phone" %} *</label>
                             <div class="flex gap-2">
                                 <div class="w-1/4">
                                     {{ form.customer_country_code }}
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="sm:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Email" %}</label>
                             {{ form.customer_email }}
                             {% if form.customer_email.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.customer_email.errors.0 }}</p>
@@ -81,16 +81,16 @@
 
                 <!-- Service Selection -->
                 <div class="border-b pb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Select Service</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Select Service" %}</h2>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Service *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Service" %} *</label>
                         <select name="service" id="serviceSelect" required 
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">Choose a service...</option>
+                            <option value="">{% trans "Choose a service..." %}</option>
                             {% for service in services %}
                                 <option value="{{ service.id }}" data-duration="{{ service.duration }}" data-price="{{ service.price }}" {% if service.id == preselected_service_id %}selected{% endif %}>
-                                    {{ service.name }} - {{ service.duration }} min - ${{ service.price }}
+                                    {{ service.name }} - {{ service.duration }} min - €{{ service.price }}
                                 </option>
                             {% endfor %}
                         </select>
@@ -101,7 +101,7 @@
                     
                     {% if form.duration %}
                         <div class="mt-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Duration (minutes)" %}</label>
                             {{ form.duration }}
                             {% if form.duration.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.duration.errors.0 }}</p>
@@ -114,10 +114,10 @@
                 <!-- Staff Selection -->
                 <div class="border-b pb-6">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">
-                        Select Specialist <span class="text-sm font-normal text-gray-500">(Optional)</span>
+                        {% trans "Select Specialist" %} <span class="text-sm font-normal text-gray-500">({% trans "Optional" %})</span>
                     </h2>
                     <div id="staffContainer">
-                        <p class="text-gray-500 text-sm">Please select a service first</p>
+                        <p class="text-gray-500 text-sm">{% trans "Please select a service first" %}</p>
                     </div>
                     <div id="staffSelectContainer" class="hidden">
                         <div class="overflow-x-auto -mx-2 px-2">
@@ -134,12 +134,12 @@
 
                 <!-- Date & Time -->
                 <div>
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Select Date & Time</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Select Date & Time" %}</h2>
                     
                     <!-- Available Dates -->
                     <div class="mb-6">
                         <div class="flex justify-between items-center mb-3">
-                            <label class="block text-sm font-medium text-gray-700">Available Dates *</label>
+                            <label class="block text-sm font-medium text-gray-700">{% trans "Available Dates" %} *</label>
                             <div id="monthNavigation" class="hidden flex items-center space-x-2">
                                 <button type="button" id="prevMonth" class="p-1 hover:bg-gray-100 rounded">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,17 +155,17 @@
                             </div>
                         </div>
                         <div id="datesContainer">
-                            <p class="text-gray-500 text-sm">Please select a specialist first</p>
+                            <p class="text-gray-500 text-sm">{% trans "Please select a specialist first" %}</p>
                         </div>
                         <div id="calendarContainer" class="hidden">
                             <div class="grid grid-cols-7 gap-1 text-center mb-2">
-                                <div class="text-xs font-medium text-gray-500 py-2">Sun</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">Mon</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">Tue</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">Wed</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">Thu</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">Fri</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">Sat</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Sun" %}</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Mon" %}</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Tue" %}</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Wed" %}</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Thu" %}</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Fri" %}</div>
+                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Sat" %}</div>
                             </div>
                             <div id="datesGrid" class="grid grid-cols-7 gap-1"></div>
                         </div>
@@ -177,7 +177,7 @@
 
                     <!-- Available Time Slots -->
                     <div id="timeSlotsSection" class="hidden">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">Available Time *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">{% trans "Available Time" %} *</label>
                         <div class="overflow-x-auto -mx-2 px-2">
                             <div id="timeSlotsGrid" class="flex flex-wrap gap-2"></div>
                         </div>

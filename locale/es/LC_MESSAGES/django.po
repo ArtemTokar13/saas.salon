@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 10:21+0100\n"
+"POT-Creation-Date: 2026-02-10 17:40+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -507,7 +507,8 @@ msgstr "Configuración de cookies"
 msgid "Information"
 msgstr "Información"
 
-#: templates/_footer.html:29 templates/static_pages/about_us.html:4
+#: templates/_footer.html:29 templates/companies/public_page.html:34
+#: templates/static_pages/about_us.html:4
 #: templates/static_pages/about_us.html:10
 msgid "About Us"
 msgstr "Sobre nosotros"
@@ -882,6 +883,7 @@ msgstr "Reservas"
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
 #: templates/bookings/confirmation.html:37
+#: templates/bookings/create_booking.html:87
 msgid "Service"
 msgstr "Servicio"
 
@@ -934,6 +936,7 @@ msgid "Booking Details"
 msgstr "Detalles de la reserva"
 
 #: templates/bookings/confirm_prebooked.html:29
+#: templates/bookings/create_booking.html:56
 #: templates/companies/customer_detail.html:20
 #: templates/companies/customers_list.html:55
 #: templates/companies/dashboard.html:129 templates/companies/register.html:89
@@ -946,6 +949,7 @@ msgid "Date & Time"
 msgstr "Fecha y hora"
 
 #: templates/bookings/confirm_prebooked.html:46
+#: templates/bookings/create_booking.html:73
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:135
 #: templates/companies/edit_staff.html:16
 #: templates/companies/forgot_password.html:15
@@ -954,6 +958,7 @@ msgid "Email"
 msgstr "Correo Electrónico"
 
 #: templates/bookings/confirm_prebooked.html:58
+#: templates/bookings/create_booking.html:104
 #: templates/companies/add_service.html:29
 #: templates/companies/edit_service.html:29
 msgid "Duration (minutes)"
@@ -1019,6 +1024,99 @@ msgstr "Descripción"
 msgid "minutes"
 msgstr "minutos"
 
+#: templates/bookings/create_booking.html:17
+#, fuzzy
+#| msgid "Your appointment reminder:"
+msgid "Book Your Appointment"
+msgstr "Recordatorio de su cita:"
+
+#: templates/bookings/create_booking.html:29
+msgid "Please complete the following fields:"
+msgstr "Por favor complete los siguientes campos:"
+
+#: templates/bookings/create_booking.html:49
+#: templates/companies/add_service.html:21
+#: templates/companies/add_staff.html:53
+#: templates/companies/customers_list.html:54
+#: templates/companies/edit_service.html:21
+#: templates/companies/edit_staff.html:27
+#: templates/companies/services_list.html:25
+#: templates/companies/staff_list.html:25
+#: templates/static_pages/contact.html:17
+msgid "Name"
+msgstr "Nombre"
+
+#: templates/bookings/create_booking.html:84
+msgid "Select Service"
+msgstr "Seleccionar servicio"
+
+#: templates/bookings/create_booking.html:90
+msgid "Choose a service..."
+msgstr "Elija un servicio..."
+
+#: templates/bookings/create_booking.html:117
+msgid "Select Specialist"
+msgstr "Elija un Especialista"
+
+#: templates/bookings/create_booking.html:117
+msgid "Optional"
+msgstr "Opcional"
+
+#: templates/bookings/create_booking.html:120
+msgid "Please select a service first"
+msgstr "Por favor seleccione un servicio primero"
+
+#: templates/bookings/create_booking.html:137
+msgid "Select Date & Time"
+msgstr "Fecha y hora"
+
+#: templates/bookings/create_booking.html:142
+msgid "Available Dates"
+msgstr "Planes disponibles"
+
+#: templates/bookings/create_booking.html:158
+msgid "Please select a specialist first"
+msgstr "Por favor seleccione un especialista primero"
+
+#: templates/bookings/create_booking.html:162
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:22
+msgid "Sun"
+msgstr "Dom"
+
+#: templates/bookings/create_booking.html:163
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:16
+msgid "Mon"
+msgstr "Lun"
+
+#: templates/bookings/create_booking.html:164
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:17
+msgid "Tue"
+msgstr "Mar"
+
+#: templates/bookings/create_booking.html:165
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:18
+msgid "Wed"
+msgstr "Mie"
+
+#: templates/bookings/create_booking.html:166
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:19
+msgid "Thu"
+msgstr "Jue"
+
+#: templates/bookings/create_booking.html:167
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:20
+msgid "Fri"
+msgstr "Vie"
+
+#: templates/bookings/create_booking.html:168
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:21
+msgid "Sat"
+msgstr "Sab"
+
+#: templates/bookings/create_booking.html:180
+msgid "Available Time"
+msgstr "Tiempos disponibles"
+
 #: templates/bookings/edit_booking.html:191
 msgid "Booking details"
 msgstr "Detalles de la reserva"
@@ -1063,17 +1161,6 @@ msgstr "Return to homepage"
 #: templates/companies/dashboard.html:93
 msgid "Add Service"
 msgstr "Añadir Servicio"
-
-#: templates/companies/add_service.html:21
-#: templates/companies/add_staff.html:53
-#: templates/companies/customers_list.html:54
-#: templates/companies/edit_service.html:21
-#: templates/companies/edit_staff.html:27
-#: templates/companies/services_list.html:25
-#: templates/companies/staff_list.html:25
-#: templates/static_pages/contact.html:17
-msgid "Name"
-msgstr "Nombre"
 
 #: templates/companies/add_service.html:47
 #: templates/companies/edit_service.html:47
@@ -1324,6 +1411,46 @@ msgstr ""
 #: templates/companies/forgot_password.html:19
 msgid "Send Reset Link"
 msgstr "Enviar enlace de restablecimiento"
+
+#: templates/companies/public_page.html:42
+msgid "Gallery"
+msgstr "Galería"
+
+#: templates/companies/public_page.html:61
+msgid "Our Team"
+msgstr "Nuestro equipo"
+
+#: templates/companies/public_page.html:82
+msgid "Staff information coming soon."
+msgstr "Información sobre el personal próximamente."
+
+#: templates/companies/public_page.html:90
+msgid "Our Services"
+msgstr "Nuestros servicios"
+
+#: templates/companies/public_page.html:105
+msgid "No services available at the moment."
+msgstr "No hay servicios disponibles en este momento."
+
+#: templates/companies/public_page.html:115
+msgid "Book an Appointment"
+msgstr "Reservar una cita"
+
+#: templates/companies/public_page.html:118
+msgid "Book Now"
+msgstr "Reservar ahora"
+
+#: templates/companies/public_page.html:124
+msgid "Contact Information"
+msgstr "Información del contacto"
+
+#: templates/companies/public_page.html:157
+msgid "Working Hours"
+msgstr "Horas de trabajo"
+
+#: templates/companies/public_page.html:163
+msgid "Closed"
+msgstr "Cerrado"
 
 #: templates/companies/register.html:4
 msgid "Register Your Company"
@@ -3229,34 +3356,6 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
 msgid "Sunday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:16
-msgid "Mon"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:17
-msgid "Tue"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:18
-msgid "Wed"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:19
-msgid "Thu"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:20
-msgid "Fri"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:21
-msgid "Sat"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:22
-msgid "Sun"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:25

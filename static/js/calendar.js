@@ -124,9 +124,27 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
     /* ---------------------------------------------------------
      * 4. Create Syncfusion Scheduler
      * --------------------------------------------------------- */
+    
+    /* Get current language for localization */
+    const locale = document.documentElement.lang || 'en';
+    
+    /* Load Syncfusion localization for all supported languages */
+    ej.base.L10n.load({
+        'es': {
+            'schedule': {
+                'today': 'Hoy',
+                'day': 'Día',
+                'week': 'Semana',
+                'previous': 'Anterior',
+                'next': 'Siguiente',
+            }
+        }
+    });
+    
     const schedule = new ej.schedule.Schedule({
         height: '100%',
         width: '100%',
+        locale: locale,
         currentView: 'TimelineDay',
         selectedDate: new Date(currentDate),
         firstDayOfWeek: 1,  // Start week on Monday (0=Sunday, 1=Monday)
@@ -213,7 +231,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                 'bg-green-500';
 
             return `
-                <div class="flex flex-col items-center py-1">
+                <div class="flex flex-col items-center py-0">
                     ${staff.Avatar
                         ? `<img src="${staff.Avatar}" class="w-12 h-12 rounded-full object-cover border border-gray-300">`
                         : `<div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border border-gray-300">

@@ -3,11 +3,52 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-09 22:41+0100\n"
+"POT-Creation-Date: 2026-02-10 10:21+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: billing/models.py:95 templates/billing/pricing_periods.html:26
+#: templates/billing/pricing_periods.html:137
+msgid "Monthly"
+msgstr "Mensual"
+
+#: billing/models.py:96 templates/billing/pricing_periods.html:45
+#: templates/billing/pricing_periods.html:144
+msgid "3 Months"
+msgstr "3 meses"
+
+#: billing/models.py:97 templates/billing/pricing_periods.html:70
+#: templates/billing/pricing_periods.html:151
+msgid "6 Months"
+msgstr "6 meses"
+
+#: billing/models.py:98 templates/billing/pricing_periods.html:95
+#: templates/billing/pricing_periods.html:158
+msgid "Yearly"
+msgstr "Anual"
+
+#: billing/models.py:107 templates/companies/add_service.html:57
+#: templates/companies/edit_service.html:57
+#: templates/companies/services_list.html:28
+#: templates/companies/services_list.html:40
+#: templates/companies/staff_list.html:27
+#: templates/companies/staff_list.html:47
+msgid "Active"
+msgstr "Activo"
+
+#: billing/models.py:108
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#: billing/models.py:109
+msgid "Past Due"
+msgstr "Vencido"
+
+#: billing/models.py:110
+msgid "Unpaid"
+msgstr "No pagado"
 
 #: bookings/cron.py:33
 msgid "Reminder: Upcoming Booking for"
@@ -535,26 +576,49 @@ msgstr "Elige tu Plan"
 msgid "How many workers do you need?"
 msgstr "Cuantos trabajadores necesitas?"
 
-#: templates/billing/change_plan.html:145
-#, python-format
-msgid ""
-"\n"
-"                                    Base: %(base)s workers included. Each "
-"additional worker: $%(price)s/month\n"
-"                                    "
-msgstr ""
-"Incluye %(base)s trabajadores en el plan base. Cada trabajador adicional "
-"cuesta $%(price)s al mes"
+#: templates/billing/change_plan.html:137
+msgid "worker"
+msgstr "trabajador"
 
-#: templates/billing/change_plan.html:153
+#: templates/billing/change_plan.html:137
+msgid "s"
+msgstr "es"
+
+#: templates/billing/change_plan.html:145
+msgid "Base"
+msgstr "Base"
+
+#: templates/billing/change_plan.html:145
+msgid "workers included"
+msgstr "trabajadores incluidos"
+
+#: templates/billing/change_plan.html:145
+msgid "Each additional worker"
+msgstr "Cada trabajador adicional"
+
+#: templates/billing/change_plan.html:145
+#: templates/billing/change_plan.html:179
+#: templates/billing/pricing_periods.html:29
+#: templates/billing/pricing_periods.html:51
+#: templates/billing/pricing_periods.html:76
+#: templates/billing/pricing_periods.html:101
+#: templates/billing/subscription_details.html:42
+msgid "month"
+msgstr "mes"
+
+#: templates/billing/change_plan.html:151
 msgid "Select Billing Period"
 msgstr "Seleccionar período de facturación"
 
-#: templates/billing/change_plan.html:190
+#: templates/billing/change_plan.html:171
+msgid "SAVE"
+msgstr "AHORRAS"
+
+#: templates/billing/change_plan.html:188
 msgid "Continue to Payment"
 msgstr "Continuar con el pago"
 
-#: templates/billing/change_plan.html:193
+#: templates/billing/change_plan.html:191
 #: templates/bookings/confirm_prebooked.html:90
 #: templates/bookings/create_booking.html:194
 #: templates/bookings/edit_booking.html:211
@@ -567,30 +631,25 @@ msgstr "Continuar con el pago"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: templates/billing/change_plan.html:205
+#: templates/billing/change_plan.html:203
 msgid "Billing Information"
 msgstr "Información de la Cuenta"
 
-#: templates/billing/change_plan.html:208
+#: templates/billing/change_plan.html:206
 msgid "You will be redirected to Stripe to complete your payment securely."
 msgstr "Serás redirigido a Stripe para completar tu pago de forma segura."
 
-#: templates/billing/change_plan.html:211
+#: templates/billing/change_plan.html:209
 msgid "Secure payment processing"
 msgstr "Procesamiento de pagos seguro"
 
-#: templates/billing/change_plan.html:212
+#: templates/billing/change_plan.html:210
 msgid "Cancel anytime"
 msgstr "Cancelar en cualquier momento"
 
-#: templates/billing/change_plan.html:213
+#: templates/billing/change_plan.html:211
 msgid "Automatic renewal"
 msgstr "Renovación automática"
-
-#: templates/billing/change_plan.html:216
-#, python-format
-msgid "%(days)s days free trial"
-msgstr "%(days)s días de prueba gratis"
 
 #: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:5
 #: templates/billing/view_plans.html:11
@@ -604,19 +663,6 @@ msgstr "Elija su período de facturación"
 #: templates/billing/pricing_periods.html:12
 msgid "Save more with longer billing periods"
 msgstr "Ahorre más con períodos de facturación más largos"
-
-#: templates/billing/pricing_periods.html:26
-#: templates/billing/pricing_periods.html:137
-msgid "Monthly"
-msgstr "Mensual"
-
-#: templates/billing/pricing_periods.html:29
-#: templates/billing/pricing_periods.html:51
-#: templates/billing/pricing_periods.html:76
-#: templates/billing/pricing_periods.html:101
-#: templates/billing/subscription_details.html:42
-msgid "month"
-msgstr "mes"
 
 #: templates/billing/pricing_periods.html:31
 msgid "Billed monthly"
@@ -639,11 +685,6 @@ msgstr "Seleccionar Plan"
 msgid "Save"
 msgstr "Ahorre"
 
-#: templates/billing/pricing_periods.html:45
-#: templates/billing/pricing_periods.html:144
-msgid "3 Months"
-msgstr "3 meses"
-
 #: templates/billing/pricing_periods.html:48
 #: templates/billing/pricing_periods.html:73
 msgid "months"
@@ -653,11 +694,6 @@ msgstr "meses"
 msgid "Billed every 3 months"
 msgstr "Facturado cada 3 meses"
 
-#: templates/billing/pricing_periods.html:70
-#: templates/billing/pricing_periods.html:151
-msgid "6 Months"
-msgstr "6 meses"
-
 #: templates/billing/pricing_periods.html:81
 msgid "Billed every 6 months"
 msgstr "Facturado cada 6 meses"
@@ -666,14 +702,11 @@ msgstr "Facturado cada 6 meses"
 msgid "Mejor Valor - Ahorre"
 msgstr "Mejor Valor - Ahorre"
 
-#: templates/billing/pricing_periods.html:95
-#: templates/billing/pricing_periods.html:158
-msgid "Yearly"
-msgstr "Anual"
-
 #: templates/billing/pricing_periods.html:98
+#, fuzzy
+#| msgid "1 year"
 msgid "year"
-msgstr "año"
+msgstr "1 año"
 
 #: templates/billing/pricing_periods.html:106
 msgid "Billed annually"
@@ -1046,15 +1079,6 @@ msgstr "Nombre"
 #: templates/companies/edit_service.html:47
 msgid "Require Staff Confirmation"
 msgstr "Requerir confirmación del personal"
-
-#: templates/companies/add_service.html:57
-#: templates/companies/edit_service.html:57
-#: templates/companies/services_list.html:28
-#: templates/companies/services_list.html:40
-#: templates/companies/staff_list.html:27
-#: templates/companies/staff_list.html:47
-msgid "Active"
-msgstr "Activo"
 
 #: templates/companies/add_staff.html:15 templates/companies/add_staff.html:133
 msgid "Add Staff Member"
@@ -3551,8 +3575,8 @@ msgid ""
 "If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
 "including the “Referrer-Policy: no-referrer” header, please remove them. The "
 "CSRF protection requires the “Referer” header to do strict referer checking. "
-"If you’re concerned about privacy, use alternatives like <a "
-"rel=\"noreferrer\" …> for links to third-party sites."
+"If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer"
+"\" …> for links to third-party sites."
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:136
@@ -3661,9 +3685,9 @@ msgstr ""
 #, python-format
 msgid ""
 "You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" "
-"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
-"configured any URLs."
+"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
+"\">DEBUG=True</a> is in your settings file and you have not configured any "
+"URLs."
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:229
@@ -3691,6 +3715,20 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "                                    Base: %(base)s workers included. Each "
+#~ "additional worker: $%(price)s/month\n"
+#~ "                                    "
+#~ msgstr ""
+#~ "Incluye %(base)s trabajadores en el plan base. Cada trabajador adicional "
+#~ "cuesta $%(price)s al mes"
+
+#, python-format
+#~ msgid "%(days)s days free trial"
+#~ msgstr "%(days)s días de prueba gratis"
 
 #~ msgid "Salon Booking Platform"
 #~ msgstr "Plataforma de Reservas para Salones"

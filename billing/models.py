@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from companies.models import Company
 from decimal import Decimal
+from django.utils.translation import gettext_lazy as _
 
 import traceback
 
@@ -91,10 +92,10 @@ class Subscription(models.Model):
     YEARLY = 'yearly'
 
     BILLING_PERIOD_CHOICES = [
-        (MONTHLY, 'Monthly'),
-        (THREE_MONTHS, '3 Months (-10%)'),
-        (SIX_MONTHS, '6 Months (-15%)'),
-        (YEARLY, 'Yearly (-30%)'),
+        (MONTHLY, _('Monthly')),
+        (THREE_MONTHS, _('3 Months')),
+        (SIX_MONTHS, _('6 Months')),
+        (YEARLY, _('Yearly')),
     ]
 
     STATUS_ACTIVE = 'active'
@@ -103,10 +104,10 @@ class Subscription(models.Model):
     STATUS_UNPAID = 'unpaid'
 
     STATUS_CHOICES = [
-        (STATUS_ACTIVE, 'Active'),
-        (STATUS_CANCELLED, 'Cancelled'),
-        (STATUS_PAST_DUE, 'Past Due'),
-        (STATUS_UNPAID, 'Unpaid'),
+        (STATUS_ACTIVE, _('Active')),
+        (STATUS_CANCELLED, _('Cancelled')),
+        (STATUS_PAST_DUE, _('Past Due')),
+        (STATUS_UNPAID, _('Unpaid')),
     ]
 
     company = models.ForeignKey(Company, on_delete=models.CASCADE)

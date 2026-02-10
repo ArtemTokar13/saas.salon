@@ -134,7 +134,7 @@
                                 {% for i in "123456789012345"|make_list %}
                                     {% if forloop.counter <= 15 %}
                                     <option value="{{ forloop.counter }}" {% if forloop.counter == plan.base_workers %}selected{% endif %}>
-                                        {{ forloop.counter }} worker{% if forloop.counter > 1 %}s{% endif %}
+                                        {{ forloop.counter }} {% trans "worker" %}{% if forloop.counter > 1 %}{% trans "s" %}{% endif %}
                                     </option>
                                     {% endif %}
                                 {% endfor %}
@@ -142,9 +142,7 @@
                             <div class="mt-2" style="background-color: #f8f9fa; padding: 0.75rem; border-radius: 6px; border-left: 4px solid #0d6efd;">
                                 <small class="text-muted" style="font-size: 0.9rem;">
                                     <strong>💡 </strong>
-                                    {% blocktrans with base=plan.base_workers price=plan.additional_worker_price %}
-                                    Base: {{ base }} workers included. Each additional worker: ${{ price }}/month
-                                    {% endblocktrans %}
+                                    {% trans "Base" %}: {{ plan.base_workers }} {% trans "workers included" %}. {% trans "Each additional worker" %}: €{{ plan.additional_worker_price }}/{% trans "month" %}
                                 </small>
                             </div>
                         </div>
@@ -170,15 +168,15 @@
                                         <strong style="font-size: 1.1rem;">{{ period_label }}</strong>
                                         {% if period_code != 'monthly' %}
                                         <span class="discount-badge">
-                                            SAVE {% if period_code == 'three_months' %}10{% elif period_code == 'six_months' %}15{% else %}30{% endif %}%
+                                            {% trans "SAVE" %} {% if period_code == 'three_months' %}10{% elif period_code == 'six_months' %}15{% else %}30{% endif %}%
                                         </span>
                                         {% endif %}
                                     </label>
                                 </div>
                                 <div class="text-end flex-shrink-0 ms-3">
-                                    <div class="period-price" data-period="{{ period_code }}">$0.00</div>
+                                    <div class="period-price" data-period="{{ period_code }}">€0.00</div>
                                     <div class="period-monthly-equiv">
-                                        <span class="period-monthly" data-period="{{ period_code }}">$0.00</span>/month
+                                        <span class="period-monthly" data-period="{{ period_code }}">€0.00</span>/{% trans "month" %}
                                     </div>
                                 </div>
                             </div>
@@ -211,11 +209,6 @@
                         <li style="padding: 0.5rem 0;">{% trans "Secure payment processing" %}</li>
                         <li style="padding: 0.5rem 0;">{% trans "Cancel anytime" %}</li>
                         <li style="padding: 0.5rem 0;">{% trans "Automatic renewal" %}</li>
-                        {% if plan.trial_days > 0 %}
-                        <li style="padding: 0.5rem 0; color: #28a745; font-weight: 600;">
-                            🎁 {% blocktrans with days=plan.trial_days %}{{ days }} days free trial{% endblocktrans %}
-                        </li>
-                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -225,9 +218,15 @@
 
 <script>
 // Pricing calculator
-const basePrice = {{ plan.base_monthly_price }};
-const baseWorkers = {{ plan.base_workers }};
-const additionalWorkerPrice = {{ plan.additional_worker_price }};
+// Use JSON stringify to ensure proper decimal handling regardless of locale
+const basePrice = parseFloat("{{ plan.base_monthly_price|stringformat:'s' }}".replace(',', '.'));
+const baseWorkers = parseInt("{{ plan.base_workers }}");
+const additionalWorkerPrice = parseFloat("{{ plan.additional_worker_price|stringformat:'s' }}".replace(',', '.'));
+
+// Check if values are valid
+if (isNaN(basePrice) || isNaN(baseWorkers) || isNaN(additionalWorkerPrice)) {
+    console.error('Invalid pricing data:', { basePrice, baseWorkers, additionalWorkerPrice });
+}
 
 function calculatePrice(numWorkers, periodMultiplier, discount) {
     const additionalWorkers = Math.max(0, numWorkers - baseWorkers);
@@ -255,8 +254,8 @@ function updatePricing() {
         
         const periodCode = radio.value;
         const periodContainer = radio.closest('.billing-period-option');
-        periodContainer.querySelector(`.period-price`).textContent = `$${prices.periodTotal}`;
-        periodContainer.querySelector(`.period-monthly`).textContent = `$${prices.monthlyEquivalent}`;
+        periodContainer.querySelector(`.period-price`).textContent = `€${prices.periodTotal}`;
+        periodContainer.querySelector(`.period-monthly`).textContent = `€${prices.monthlyEquivalent}`;
     });
 }
 

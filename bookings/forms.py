@@ -18,13 +18,18 @@ class BookingForm(forms.ModelForm):
     
     class Meta:
         model = Booking
-        fields = ['service', 'staff', 'date', 'start_time', 'notes']
+        fields = ['service', 'staff', 'date', 'start_time', 'notes', 'client_notes']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'start_time': forms.TimeInput(attrs={'type': 'time'}),
             'notes': forms.Textarea(attrs={
                 'rows': 3,
                 'placeholder': _('Add any notes about this booking...'),
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+            }),
+            'client_notes': forms.Textarea(attrs={
+                'rows': 3,
+                'placeholder': _('Add any special requests or notes...'),
                 'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             }),
         }
@@ -41,12 +46,23 @@ class BookingForm(forms.ModelForm):
             self.fields['duration'] = forms.IntegerField(required=False, help_text="Duration in minutes")
             self.user = user
 
+        # Make client_notes optional for all cases
+        self.fields['client_notes'].required = False
+
         # When editing existing booking, customer fields are not required (read-only in template)
         if self.instance and self.instance.pk:
             self.fields['customer_name'].required = False
             self.fields['customer_phone'].required = False
             self.fields['customer_email'].required = False
             self.fields['customer_country_code'].required = False
+            
+            # Make client_notes readonly when editing
+            self.fields['client_notes'].widget.attrs.update({
+                'readonly': 'readonly',
+                'disabled': 'disabled',
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50',
+                'placeholder': _('Client notes...')
+            })
             
             # Pre-populate customer fields if editing existing booking
             if hasattr(self.instance, 'customer'):

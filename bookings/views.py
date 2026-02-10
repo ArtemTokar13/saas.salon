@@ -514,6 +514,7 @@ def booking_calendar(request):
                     'service': b.service.name,
                     'customer': b.customer.name,
                     'booking_id': b.id,
+                    'client_notes': b.client_notes or '',
                 }
             })
 
@@ -655,6 +656,7 @@ def calendar_api(request):
                     'service': b.service.name,
                     'customer': b.customer.name,
                     'booking_id': b.id,
+                    'client_notes': b.client_notes or '',
                 }
             })
 

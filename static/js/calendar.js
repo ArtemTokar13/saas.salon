@@ -407,23 +407,24 @@ function showBookingModal(event) {
     }
     
     const content = `
-        <h3 class="text-xl font-bold mb-4">Booking Details</h3>
-        <p class="mb-2"><strong>Customer:</strong> ${raw.customer || 'N/A'}</p>
-        <p class="mb-2"><strong>Service:</strong> ${raw.service || 'N/A'}</p>
-        <p class="mb-2"><strong>Time:</strong> ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${endDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+        <h3 class="text-xl font-bold mb-4">${gettext('Booking Details')}</h3>
+        <p class="mb-2"><strong>${gettext('Customer')}:</strong> ${raw.customer || 'N/A'}</p>
+        <p class="mb-2"><strong>${gettext('Service')}:</strong> ${raw.service || 'N/A'}</p>
+        <p class="mb-2"><strong>${gettext('Time')}:</strong> ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${endDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+        ${raw.client_notes ? `<div class="mt-4 mb-2"><strong>${gettext('Client Notes')}:</strong><div class="mt-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded text-gray-700 whitespace-pre-wrap">${raw.client_notes}</div></div>` : ''}
         
         <div class="flex flex-col gap-2 mt-4">
             <button onclick="editBooking(${raw.booking_id})" 
                     class="w-full bg-gray-800 text-gray-200 py-2 text-center rounded-lg font-semibold hover:bg-gray-600 transition">
-                Edit
+                ${gettext('Edit')}
             </button>
             <button onclick="deleteBooking(${raw.booking_id})" 
                     class="w-full bg-red-200 text-red-700 py-2 text-center rounded-lg font-semibold hover:bg-red-300 transition">
-                Delete
+                ${gettext('Delete')}
             </button>
             <button onclick="closeBookingDetailModal()" 
                     class="w-full bg-gray-300 text-gray-800 py-2 text-center rounded-lg font-semibold hover:bg-gray-400 transition">
-                Close
+                ${gettext('Close')}
             </button>
         </div>
     `;

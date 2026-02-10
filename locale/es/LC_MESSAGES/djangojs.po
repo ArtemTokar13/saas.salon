@@ -1,0 +1,50 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-10 18:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: static/js/calendar.js:410
+msgid "Booking Details"
+msgstr "Detalles de la Reserva"
+
+#: static/js/calendar.js:411
+msgid "Customer"
+msgstr "Cliente"
+
+#: static/js/calendar.js:412
+msgid "Service"
+msgstr "Servicio"
+
+#: static/js/calendar.js:413
+msgid "Time"
+msgstr "Hora"
+
+#: static/js/calendar.js:414
+msgid "Client Notes"
+msgstr "Notas del Cliente"
+
+#: static/js/calendar.js:419
+msgid "Edit"
+msgstr "Editar"
+
+#: static/js/calendar.js:423
+msgid "Delete"
+msgstr "Eliminar"
+
+#: static/js/calendar.js:427
+msgid "Close"
+msgstr "Cerrar"

@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
+from django.views.i18n import JavaScriptCatalog
 from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, faq, contact, schedule_page, generate_schedule
 from app import admin_views
 from billing.views import stripe_webhook
@@ -26,6 +27,7 @@ from billing.views import stripe_webhook
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     # API endpoints (no i18n prefix)
     path('api/', include('api.urls')),
     path('billing/webhook/', stripe_webhook, name='stripe_webhook'),

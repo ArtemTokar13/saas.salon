@@ -22,8 +22,8 @@ def send_booking_reminders():
         reminder_sent=False
     )
     print(now)
-    print(now + timedelta(hours=2) - buffer)
-    print(now + timedelta(hours=2) + buffer)
+    print(now + timedelta(hours=24) - buffer)
+    print(now + timedelta(hours=24) + buffer)
     print(f"Found {bookings_to_remind.count()} bookings to send reminders for.")
 
     for booking in bookings_to_remind:

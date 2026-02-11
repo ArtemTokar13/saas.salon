@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-11 16:29+0100\n"
+"POT-Creation-Date: 2026-02-11 22:23+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,245 +95,241 @@ msgstr "Ir al panel de control"
 msgid "See How It Works"
 msgstr "Cómo Funciona"
 
-#: templates/Index.html:42
-msgid "Calendar + WhatsApp Reminder Example"
-msgstr "Ejemplo de Calendario + Recordatorio de WhatsApp"
-
-#: templates/Index.html:56
+#: templates/Index.html:51
 msgid "Everything You Need to Run Your Salon Smoothly"
 msgstr "Todo lo que necesitas para que tu salón funcione sin problemas"
 
-#: templates/Index.html:66
+#: templates/Index.html:61
 msgid "Online Booking"
 msgstr "Reservas en Línea"
 
-#: templates/Index.html:68
+#: templates/Index.html:63
 msgid ""
 "Let clients book appointments anytime. Automatic confirmations included."
 msgstr ""
 "Permite a los clientes reservar citas 24/7 desde cualquier dispositivo. "
 "Confirmaciones y recordatorios automáticos."
 
-#: templates/Index.html:77
+#: templates/Index.html:72
 msgid "WhatsApp Reminders"
 msgstr "Recordatorios de WhatsApp"
 
-#: templates/Index.html:79
+#: templates/Index.html:74
 msgid ""
 "Reduce no‑shows with instant WhatsApp notifications clients actually read."
 msgstr ""
 "Reduce las inasistencias con notificaciones instantáneas de WhatsApp que los "
 "clientes realmente leen."
 
-#: templates/Index.html:88
+#: templates/Index.html:83
 msgid "Staff Management"
 msgstr "Gestión de personal"
 
-#: templates/Index.html:90
+#: templates/Index.html:85
 msgid "Each staff member gets their own calendar and schedule."
 msgstr "Cada miembro del personal tiene su propio calendario y horario."
 
-#: templates/Index.html:99
+#: templates/Index.html:94
 msgid "Service Management"
 msgstr "Gestión de servicios"
 
-#: templates/Index.html:101
+#: templates/Index.html:96
 msgid "Create services, durations, prices, and assign them to staff."
 msgstr "Crea servicios, duraciones, precios y asígnalos al personal."
 
-#: templates/Index.html:110
+#: templates/Index.html:105
 msgid "Client Profiles"
 msgstr "Perfiles de clientes"
 
-#: templates/Index.html:112
+#: templates/Index.html:107
 msgid "Keep track of client history, notes, and preferences."
 msgstr ""
 "Realice un seguimiento del historial, notas y preferencias del cliente."
 
-#: templates/Index.html:121
+#: templates/Index.html:116
 msgid "Analytics Dashboard"
 msgstr "Panel de análisis"
 
-#: templates/Index.html:123
+#: templates/Index.html:118
 msgid "Track your bookings, no-shows, and business performance."
 msgstr ""
 "Realice un seguimiento de sus reservas, inasistencias y rendimiento "
 "comercial."
 
-#: templates/Index.html:136
+#: templates/Index.html:131
 msgid "Why WhatsApp Reminders Matter"
 msgstr "Por qué son importantes los recordatorios de WhatsApp"
 
-#: templates/Index.html:142
+#: templates/Index.html:137
 msgid "Clients read WhatsApp messages instantly"
 msgstr "Los clientes leen mensajes de WhatsApp al instante"
 
-#: templates/Index.html:143
+#: templates/Index.html:138
 #, python-format
 msgid "Higher open rates than email — 97%% read rate within minutes"
 msgstr ""
 "Tasas de apertura más altas que el correo electrónico: 97 % de tasa de "
 "lectura en minutos"
 
-#: templates/Index.html:149
+#: templates/Index.html:144
 msgid "Reduce missed appointments"
 msgstr "Reducir las citas perdidas"
 
-#: templates/Index.html:150
+#: templates/Index.html:145
 msgid "Cut no-shows with timely reminders"
 msgstr "Reduzca las inasistencias con recordatorios oportunos"
 
-#: templates/Index.html:156
+#: templates/Index.html:151
 msgid "Automatic reminders before each visit"
 msgstr "Recordatorios automáticos antes de cada visita"
 
-#: templates/Index.html:157
+#: templates/Index.html:152
 msgid "Set it up once and let it run automatically"
 msgstr "Configúrelo una vez y déjelo funcionar automáticamente"
 
-#: templates/Index.html:163
+#: templates/Index.html:158
 msgid "Works even if clients ignore email"
 msgstr "Funciona incluso si los clientes ignoran el correo electrónico"
 
-#: templates/Index.html:164
+#: templates/Index.html:159
 msgid "Reach your clients where they actually are"
 msgstr "Llega a tus clientes donde realmente están"
 
-#: templates/Index.html:175
+#: templates/Index.html:170
 msgid "Example WhatsApp Message"
 msgstr "Ejemplo de mensaje de WhatsApp"
 
-#: templates/Index.html:178
+#: templates/Index.html:173
 msgid "Hi Maria! 💅"
 msgstr "¡Hola María! 💅"
 
-#: templates/Index.html:179
+#: templates/Index.html:174
 msgid "Your appointment reminder:"
 msgstr "Recordatorio de su cita:"
 
-#: templates/Index.html:180
+#: templates/Index.html:175
 msgid "Tomorrow at 3:00 PM"
 msgstr "Mañana a las 15:00 horas"
 
-#: templates/Index.html:181
+#: templates/Index.html:176
 msgid "Haircut - 60 min"
 msgstr "Corte de pelo - 60 min"
 
-#: templates/Index.html:182
+#: templates/Index.html:177
 msgid "With Anna"
 msgstr "Con Ana"
 
-#: templates/Index.html:183
+#: templates/Index.html:178
 msgid "See you soon!"
 msgstr "¡Nos vemos pronto!"
 
-#: templates/Index.html:196
+#: templates/Index.html:191
 msgid "Perfect for beauty & wellness businesses"
 msgstr "Perfecto para negocios de belleza y bienestar."
 
-#: templates/Index.html:199
+#: templates/Index.html:194
 msgid "If you run any of these, Reserva-Ya is for you"
 msgstr "Si realizas alguna de estas, Reserva-Ya es para ti"
 
-#: templates/Index.html:206
+#: templates/Index.html:201
 msgid "Hair salons"
 msgstr "Peluquerías"
 
-#: templates/Index.html:210
+#: templates/Index.html:205
 msgid "Barber shops"
 msgstr "Barberías"
 
-#: templates/Index.html:214
+#: templates/Index.html:209
 msgid "Nail & manicure studios"
 msgstr "Estudios de uñas y manicura"
 
-#: templates/Index.html:218
+#: templates/Index.html:213
 msgid "Beauty & aesthetics"
 msgstr "Belleza y estética"
 
-#: templates/Index.html:222
+#: templates/Index.html:217
 msgid "Massage & wellness"
 msgstr "Masaje y bienestar"
 
-#: templates/Index.html:233
+#: templates/Index.html:228
 msgid "Get Started in Minutes"
 msgstr "Comienza en minutos"
 
-#: templates/Index.html:236
+#: templates/Index.html:231
 msgid "Simple setup, immediate results"
 msgstr "Configuración sencilla, resultados inmediatos"
 
-#: templates/Index.html:245 templates/static_pages/how_it_works.html:21
+#: templates/Index.html:240 templates/static_pages/how_it_works.html:21
 msgid "Sign Up"
-msgstr "Registrarse"
+msgstr "Registrate"
 
-#: templates/Index.html:247
+#: templates/Index.html:242
 msgid "Create your company account in under 2 minutes."
 msgstr "Crea tu cuenta de empresa en menos de 2 minutos"
 
-#: templates/Index.html:255
+#: templates/Index.html:250
 msgid "Set Up"
 msgstr "Personaliza"
 
-#: templates/Index.html:257
+#: templates/Index.html:252
 msgid "Add staff, services, and working hours."
 msgstr "Añade tu personal, servicios y horarios de trabajo"
 
-#: templates/Index.html:265
+#: templates/Index.html:260
 msgid "Share"
-msgstr "Compartir"
+msgstr "Comparte"
 
-#: templates/Index.html:267
+#: templates/Index.html:262
 msgid "Send your booking link to clients."
 msgstr "Comparte tu enlace de reservas con los clientes"
 
-#: templates/Index.html:275
+#: templates/Index.html:270
 msgid "Grow"
-msgstr "Crecer"
+msgstr "Crece"
 
-#: templates/Index.html:277
+#: templates/Index.html:272
 msgid "Receive bookings automatically and reduce no‑shows."
 msgstr "Reciba reservas automáticamente y reduzca las inasistencias."
 
-#: templates/Index.html:289
+#: templates/Index.html:284
 msgid "Simple, transparent pricing"
 msgstr "Precios simples y transparentes"
 
-#: templates/Index.html:292
+#: templates/Index.html:287
 msgid "Choose the perfect plan for your business"
 msgstr "Elige el plan perfecto para tu negocio"
 
-#: templates/Index.html:296
+#: templates/Index.html:291
 #, fuzzy
 #| msgid "Pricing Plans"
 msgid "View Our Pricing Plans"
 msgstr "Precios"
 
-#: templates/Index.html:302
+#: templates/Index.html:297
 msgid "All plans include:"
 msgstr "Todos los planes incluyen:"
 
-#: templates/Index.html:307
+#: templates/Index.html:302
 msgid "Online booking"
 msgstr "Reservas en Línea"
 
-#: templates/Index.html:311
+#: templates/Index.html:306
 msgid "Staff calendars"
 msgstr "Calendarios del personal"
 
-#: templates/Index.html:315
+#: templates/Index.html:310
 msgid "Unlimited appointments"
 msgstr "Reservas ilimitadas"
 
-#: templates/Index.html:327 templates/static_pages/faq.html:10
+#: templates/Index.html:322 templates/static_pages/faq.html:10
 msgid "Frequently Asked Questions"
 msgstr "Preguntas frecuentes"
 
-#: templates/Index.html:335
+#: templates/Index.html:330
 msgid "Do I need to install anything?"
 msgstr "¿Necesito instalar algo?"
 
-#: templates/Index.html:339
+#: templates/Index.html:334
 msgid ""
 "No, everything works in your browser. No downloads or installations needed — "
 "just sign up and start using it immediately."
@@ -341,11 +337,11 @@ msgstr ""
 "No, todo funciona en tu navegador. No necesitas descargar ni instalar nada: "
 "solo regístrate y empieza a usarlo de inmediato."
 
-#: templates/Index.html:346
+#: templates/Index.html:341
 msgid "Can clients book without downloading an app?"
 msgstr "¿Pueden los clientes reservar sin descargar una aplicación?"
 
-#: templates/Index.html:350
+#: templates/Index.html:345
 msgid ""
 "Yes, bookings work on any device through a web link. Clients don't need to "
 "download anything — they simply click your booking link and book."
@@ -354,11 +350,11 @@ msgstr ""
 "Los clientes no necesitan descargar nada: simplemente hacen clic en el "
 "enlace de reserva y reservan."
 
-#: templates/Index.html:357
+#: templates/Index.html:352
 msgid "Is WhatsApp included?"
 msgstr "¿Está incluido WhatsApp?"
 
-#: templates/Index.html:361
+#: templates/Index.html:356
 msgid ""
 "WhatsApp reminders are available in our Connect plan. You'll be able to send "
 "automatic reminders to all your clients."
@@ -366,11 +362,11 @@ msgstr ""
 "Los recordatorios de WhatsApp están disponibles en nuestro plan Connect. "
 "Podrás enviar recordatorios automáticos a todos tus clientes."
 
-#: templates/Index.html:368
+#: templates/Index.html:363
 msgid "Can I cancel anytime?"
 msgstr "¿Puedo cancelar en cualquier momento?"
 
-#: templates/Index.html:372
+#: templates/Index.html:367
 msgid ""
 "Of course — no long-term contracts. You can cancel your subscription anytime "
 "from your account settings."
@@ -378,11 +374,11 @@ msgstr ""
 "Por supuesto, sin contratos a largo plazo. Puedes cancelar tu suscripción en "
 "cualquier momento desde la configuración de tu cuenta."
 
-#: templates/Index.html:379
+#: templates/Index.html:374
 msgid "How do I connect WhatsApp?"
 msgstr "¿Cómo conecto WhatsApp?"
 
-#: templates/Index.html:383
+#: templates/Index.html:378
 msgid ""
 "We provide step-by-step instructions to connect your WhatsApp account. It's "
 "a simple 5-minute setup process."
@@ -390,31 +386,31 @@ msgstr ""
 "Te proporcionamos instrucciones paso a paso para conectar tu cuenta de "
 "WhatsApp. Es un proceso de configuración sencillo de 5 minutos."
 
-#: templates/Index.html:395
+#: templates/Index.html:390
 msgid "See the Platform in Action"
 msgstr "Vea la plataforma en acción"
 
-#: templates/Index.html:404
+#: templates/Index.html:399
 msgid "Calendar View"
 msgstr "Vista de calendario"
 
-#: templates/Index.html:413
+#: templates/Index.html:408
 msgid "Staff Schedule"
 msgstr "Horario del personal"
 
-#: templates/Index.html:422
+#: templates/Index.html:417
 msgid "Booking Form"
 msgstr "Formulario de reserva"
 
-#: templates/Index.html:431
+#: templates/Index.html:426
 msgid "WhatsApp Reminder"
 msgstr "Recordatorio de WhatsApp"
 
-#: templates/Index.html:444
+#: templates/Index.html:439
 msgid "Ready to Grow Your Salon?"
 msgstr "¿Listo para Comenzar?"
 
-#: templates/Index.html:447
+#: templates/Index.html:442
 msgid ""
 "Start your free trial today — no credit card required. Get instant access to "
 "all features."
@@ -422,19 +418,19 @@ msgstr ""
 "Comienza tu prueba gratuita hoy mismo, sin necesidad de tarjeta de crédito. "
 "Obtén acceso instantáneo a todas las funciones."
 
-#: templates/Index.html:451
+#: templates/Index.html:446
 msgid "Start Your Free Trial Today"
 msgstr "Comenzar Prueba Gratuita"
 
-#: templates/Index.html:454
+#: templates/Index.html:449
 msgid "30 days free. No credit card. Cancel anytime."
 msgstr "30 días gratis. Sin tarjeta de crédito. Cancela cuando quieras."
 
-#: templates/Index.html:462
+#: templates/Index.html:457
 msgid "Welcome back!"
 msgstr "¡Bienvenido de nuevo!"
 
-#: templates/Index.html:466
+#: templates/Index.html:461
 msgid "Go to your dashboard"
 msgstr "Vaya a su panel de control"
 
@@ -892,6 +888,7 @@ msgstr "Reservas"
 #: templates/bookings/confirm_prebooked.html:33
 #: templates/bookings/confirmation.html:37
 #: templates/bookings/create_booking.html:87
+#: templates/bookings/edit_booking.html:86
 msgid "Service"
 msgstr "Servicio"
 
@@ -945,9 +942,12 @@ msgstr "Detalles de la reserva"
 
 #: templates/bookings/confirm_prebooked.html:29
 #: templates/bookings/create_booking.html:56
+#: templates/bookings/edit_booking.html:59
 #: templates/companies/customer_detail.html:20
 #: templates/companies/customers_list.html:55
-#: templates/companies/dashboard.html:129 templates/companies/register.html:89
+#: templates/companies/dashboard.html:129
+#: templates/companies/edit_profile.html:69
+#: templates/companies/register.html:89
 msgid "Phone"
 msgstr "Teléfono"
 
@@ -958,7 +958,9 @@ msgstr "Fecha y hora"
 
 #: templates/bookings/confirm_prebooked.html:46
 #: templates/bookings/create_booking.html:73
+#: templates/bookings/edit_booking.html:77
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:135
+#: templates/companies/edit_profile.html:76
 #: templates/companies/edit_staff.html:16
 #: templates/companies/forgot_password.html:15
 #: templates/companies/register.html:29 templates/static_pages/contact.html:23
@@ -967,6 +969,7 @@ msgstr "Correo Electrónico"
 
 #: templates/bookings/confirm_prebooked.html:58
 #: templates/bookings/create_booking.html:104
+#: templates/bookings/edit_booking.html:103
 #: templates/companies/add_service.html:29
 #: templates/companies/edit_service.html:29
 msgid "Duration (minutes)"
@@ -1033,14 +1036,19 @@ msgid "minutes"
 msgstr "minutos"
 
 #: templates/bookings/create_booking.html:17
-#, fuzzy
-#| msgid "Your appointment reminder:"
 msgid "Book Your Appointment"
-msgstr "Recordatorio de su cita:"
+msgstr "Reserve su cita"
 
 #: templates/bookings/create_booking.html:29
+#: templates/bookings/edit_booking.html:34
 msgid "Please complete the following fields:"
 msgstr "Por favor complete los siguientes campos:"
+
+#: templates/bookings/create_booking.html:46
+#, fuzzy
+#| msgid "Information"
+msgid "Your Information"
+msgstr "Información"
 
 #: templates/bookings/create_booking.html:49
 #: templates/companies/add_service.html:21
@@ -1055,14 +1063,17 @@ msgid "Name"
 msgstr "Nombre"
 
 #: templates/bookings/create_booking.html:84
+#: templates/bookings/edit_booking.html:84
 msgid "Select Service"
 msgstr "Seleccionar servicio"
 
 #: templates/bookings/create_booking.html:90
+#: templates/bookings/edit_booking.html:89
 msgid "Choose a service..."
 msgstr "Elija un servicio..."
 
 #: templates/bookings/create_booking.html:117
+#: templates/bookings/edit_booking.html:114
 msgid "Select Specialist"
 msgstr "Elija un Especialista"
 
@@ -1072,57 +1083,69 @@ msgid "Optional"
 msgstr "Opcional"
 
 #: templates/bookings/create_booking.html:120
+#: templates/bookings/edit_booking.html:116
 msgid "Please select a service first"
 msgstr "Por favor seleccione un servicio primero"
 
 #: templates/bookings/create_booking.html:137
+#: templates/bookings/edit_booking.html:133
 msgid "Select Date & Time"
 msgstr "Fecha y hora"
 
 #: templates/bookings/create_booking.html:142
+#: templates/bookings/edit_booking.html:138
 msgid "Available Dates"
 msgstr "Planes disponibles"
 
 #: templates/bookings/create_booking.html:158
+#: templates/bookings/edit_booking.html:154
 msgid "Please select a specialist first"
 msgstr "Por favor seleccione un especialista primero"
 
 #: templates/bookings/create_booking.html:162
+#: templates/bookings/edit_booking.html:158
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:22
 msgid "Sun"
 msgstr "Dom"
 
 #: templates/bookings/create_booking.html:163
+#: templates/bookings/edit_booking.html:159
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:16
 msgid "Mon"
 msgstr "Lun"
 
 #: templates/bookings/create_booking.html:164
+#: templates/bookings/edit_booking.html:160
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:17
 msgid "Tue"
 msgstr "Mar"
 
 #: templates/bookings/create_booking.html:165
+#: templates/bookings/edit_booking.html:161
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:18
 msgid "Wed"
 msgstr "Mie"
 
 #: templates/bookings/create_booking.html:166
+#: templates/bookings/edit_booking.html:162
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:19
 msgid "Thu"
 msgstr "Jue"
 
 #: templates/bookings/create_booking.html:167
+#: templates/bookings/edit_booking.html:163
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:20
 msgid "Fri"
 msgstr "Vie"
 
 #: templates/bookings/create_booking.html:168
+#: templates/bookings/edit_booking.html:164
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:21
 msgid "Sat"
 msgstr "Sab"
 
 #: templates/bookings/create_booking.html:180
+#: templates/bookings/edit_booking.html:176
 msgid "Available Time"
 msgstr "Tiempos disponibles"
 
@@ -1133,6 +1156,22 @@ msgstr "Notas adicionales"
 #: templates/bookings/create_booking.html:195
 msgid "Do you have any special requests or notes?"
 msgstr "¿Tiene alguna petición o nota especial?"
+
+#: templates/bookings/edit_booking.html:19
+msgid "Edit Booking"
+msgstr "Editar reserva"
+
+#: templates/bookings/edit_booking.html:51
+msgid "Customer Information"
+msgstr "Información del cliente"
+
+#: templates/bookings/edit_booking.html:54
+msgid "Customer Name"
+msgstr "Nombre del cliente"
+
+#: templates/bookings/edit_booking.html:92
+msgid "min"
+msgstr "minutos"
 
 #: templates/bookings/edit_booking.html:191
 msgid "Booking details"
@@ -1372,11 +1411,14 @@ msgstr "Ver Página Pública"
 msgid "Company Information"
 msgstr "Información de la Empresa"
 
-#: templates/companies/dashboard.html:124 templates/companies/register.html:73
+#: templates/companies/dashboard.html:124
+#: templates/companies/edit_profile.html:39
+#: templates/companies/register.html:73
 msgid "Address"
 msgstr "Dirección"
 
 #: templates/companies/dashboard.html:141
+#: templates/companies/edit_profile.html:85
 msgid "Website"
 msgstr "Sitio Web"
 
@@ -1403,6 +1445,100 @@ msgstr "Vista previa del código QR:"
 #: templates/companies/dashboard.html:186
 msgid "Link copied to clipboard!"
 msgstr "¡Enlace copiado al portapapeles!"
+
+#: templates/companies/edit_profile.html:10
+msgid "Edit Company Profile"
+msgstr "Editar Perfil"
+
+#: templates/companies/edit_profile.html:22
+#: templates/companies/register.html:58
+msgid "Company Name"
+msgstr "Nombre de la Empresa"
+
+#: templates/companies/edit_profile.html:30
+#: templates/companies/register.html:65
+#: templates/static_pages/cookie_policy.html:68
+msgid "Description"
+msgstr "Descripción"
+
+#: templates/companies/edit_profile.html:46
+#: templates/companies/register.html:80
+msgid "City"
+msgstr "Ciudad"
+
+#: templates/companies/edit_profile.html:55
+msgid "Map Location"
+msgstr "Ubicación del mapa"
+
+#: templates/companies/edit_profile.html:59
+msgid "Open"
+msgstr "Abrir"
+
+#: templates/companies/edit_profile.html:59
+msgid "Google Maps"
+msgstr "Google Maps"
+
+#: templates/companies/edit_profile.html:60
+msgid ""
+"search for your business, click the 'Share' button and paste the link here "
+"(e.g., https://maps.app.goo.gl/...)"
+msgstr ""
+"busca tu negocio, haz clic en el botón 'Compartir' y pega el enlace aquí (p. "
+"ej., https://maps.app.goo.gl/...)."
+
+#: templates/companies/edit_profile.html:93
+msgid "Online Appointments"
+msgstr "Reservas en linea"
+
+#: templates/companies/edit_profile.html:97
+msgid "Enable online appointment booking on your public page"
+msgstr "Habilite la reserva de citas en línea en su página pública"
+
+#: templates/companies/edit_profile.html:106
+msgid "Social Media"
+msgstr "Redes sociales"
+
+#: templates/companies/edit_profile.html:111
+#: templates/companies/edit_profile.html:118
+msgid "Platform (e.g., facebook)"
+msgstr "Plataforma (por ejemplo, Facebook)"
+
+#: templates/companies/edit_profile.html:112
+#: templates/companies/edit_profile.html:119
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2564
+msgid "URL"
+msgstr "URL"
+
+#: templates/companies/edit_profile.html:124
+msgid "+ Add Social Media"
+msgstr "+ Agregar redes sociales"
+
+#: templates/companies/edit_profile.html:125
+msgid "Add your social media profiles (e.g., facebook, instagram, twitter)"
+msgstr ""
+"Añade tus perfiles de redes sociales (por ejemplo, Facebook, Instagram, "
+"Twitter)"
+
+#: templates/companies/edit_profile.html:129
+msgid "Logo"
+msgstr "Logo"
+
+#: templates/companies/edit_profile.html:132
+#: templates/companies/edit_profile.html:133
+msgid "Current logo"
+msgstr "Plan Actual"
+
+#: templates/companies/edit_profile.html:143
+msgid "Images"
+msgstr "Imagenes"
+
+#: templates/companies/edit_profile.html:147
+msgid "Company image"
+msgstr "Imagen de la Empresa"
+
+#: templates/companies/edit_profile.html:155
+msgid "You can upload up to 3 images."
+msgstr "Puedes subir hasta 3 imágenes."
 
 #: templates/companies/edit_profile.html:163
 #: templates/companies/edit_service.html:68
@@ -1470,8 +1606,8 @@ msgid ""
 "Online booking is currently unavailable. Please contact us directly to "
 "schedule an appointment."
 msgstr ""
-"Las reservas en línea no están disponibles en este momento. "
-"Contáctenos directamente para programar una cita."
+"Las reservas en línea no están disponibles en este momento. Contáctenos "
+"directamente para programar una cita."
 
 #: templates/companies/public_page.html:135
 msgid "Contact Information"
@@ -1500,19 +1636,6 @@ msgstr "Crea tu cuenta de empresa y comienza a aceptar reservas hoy"
 #: templates/companies/register.html:26
 msgid "Account Information"
 msgstr "Información de la Cuenta"
-
-#: templates/companies/register.html:58
-msgid "Company Name"
-msgstr "Nombre de la Empresa"
-
-#: templates/companies/register.html:65
-#: templates/static_pages/cookie_policy.html:68
-msgid "Description"
-msgstr "Descripción"
-
-#: templates/companies/register.html:80
-msgid "City"
-msgstr "Ciudad"
 
 #: templates/companies/register.html:96
 msgid "Company Email"
@@ -1918,6 +2041,18 @@ msgstr "Active su cuenta de personal haciendo clic en el botón a continuación:
 #: templates/email/staff_activation.html:94
 msgid "If you didn't expect this, please ignore this email."
 msgstr "Si no esperaba esto, ignore este correo electrónico."
+
+#: templates/hijack/notification.html:9
+msgid "You are currently hijacked as:"
+msgstr "You are currently hijacked as:"
+
+#: templates/hijack/notification.html:10
+msgid "Click Release to return to your account"
+msgstr "Click Release to return to your account"
+
+#: templates/hijack/notification.html:17
+msgid "Release Hijack"
+msgstr "Release Hijack"
 
 #: templates/static_pages/about_us.html:14
 msgid ""
@@ -3044,10 +3179,6 @@ msgstr ""
 msgid ""
 "“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
 "invalid time."
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2564
-msgid "URL"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2588

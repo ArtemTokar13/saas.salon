@@ -18,6 +18,11 @@
 </head>
 <body>
 {% include '_header.html' %}
+
+{% if request.session.hijack_history %}
+{% include 'hijack/notification.html' %}
+{% endif %}
+
 {% include '_messages.html' %}
 {% block content %}{% endblock %}
 {% block hide_footer %}{% include '_footer.html' %}{% endblock %}

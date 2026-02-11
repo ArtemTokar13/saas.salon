@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django_crontab',
     'corsheaders',
     'rest_framework',
+    'hijack',
+    'hijack.contrib.admin',
     'companies',
     'bookings',
     'users',
@@ -56,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'hijack.middleware.HijackUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -194,6 +197,14 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# Django Hijack settings
+HIJACK_AUTHORIZE_STAFF = True  # Allow staff users to hijack
+HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF = True  # Allow staff to hijack other staff
+HIJACK_DISPLAY_ADMIN_BUTTON = True  # Show hijack button in admin
+HIJACK_USE_BOOTSTRAP = False  # Don't use Bootstrap styling
+HIJACK_LOGIN_REDIRECT_URL = '/'  # Redirect to home page after hijacking
+HIJACK_LOGOUT_REDIRECT_URL = '/admin/'  # Redirect to admin after releasing hijack
 
 CRONJOBS = [
     # ('0 0 * * *', 'billing.cron.expire_subscriptions'), # Daily at midnight

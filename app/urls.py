@@ -35,6 +35,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
+    path('hijack/', include('hijack.urls')),
     path('', Index, name='index'),
     path('companies/', include('companies.urls')),
     path('bookings/', include('bookings.urls')),

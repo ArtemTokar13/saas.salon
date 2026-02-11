@@ -1,5 +1,5 @@
 {% extends 'Layout.html' %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block title %}{% trans "A Simple Client Management System for Your Salon" %}{% endblock %}
 
@@ -36,12 +36,7 @@
             </div>
             <div class="hidden lg:block">
                 <div class="bg-white rounded-lg shadow-2xl p-6">
-                    <div class="bg-gray-100 rounded h-64 flex items-center justify-center">
-                        <div class="text-center">
-                            <i class="fas fa-calendar text-6xl text-gray-900 mb-4"></i>
-                            <p class="text-gray-600 font-semibold">{% trans "Calendar + WhatsApp Reminder Example" %}</p>
-                        </div>
-                    </div>
+                    <img src="{% static 'img/calendar_example.png' %}" alt="Calendar Example" class="w-full h-auto rounded">
                 </div>
             </div>
         </div>

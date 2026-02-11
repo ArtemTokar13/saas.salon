@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 17:40+0100\n"
+"POT-Creation-Date: 2026-02-11 11:16+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,6 +50,14 @@ msgstr "Vencido"
 msgid "Unpaid"
 msgstr "No pagado"
 
+#: static/js/calendar.js
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#: static/js/calendar.js
+msgid "PreBooked"
+msgstr "Prereservado"
+
 #: bookings/cron.py:33
 msgid "Reminder: Upcoming Booking for"
 msgstr "Recordatorio: Próximas reservas para"
@@ -61,6 +69,14 @@ msgstr "Seleccionar país"
 #: bookings/forms.py:27
 msgid "Add any notes about this booking..."
 msgstr "Añade cualquier nota sobre esta reserva..."
+
+#: bookings/forms.py:32
+msgid "Add any special requests or notes..."
+msgstr "Añade cualquier solicitud o nota especial..."
+
+#: bookings/forms.py:64
+msgid "Client notes..."
+msgstr "Notas del cliente..."
 
 #: templates/Index.html:4 templates/Index.html:14
 msgid "A Simple Client Management System for Your Salon"
@@ -621,8 +637,8 @@ msgstr "Continuar con el pago"
 
 #: templates/billing/change_plan.html:191
 #: templates/bookings/confirm_prebooked.html:90
-#: templates/bookings/create_booking.html:194
-#: templates/bookings/edit_booking.html:211
+#: templates/bookings/create_booking.html:206
+#: templates/bookings/edit_booking.html:221
 #: templates/companies/add_service.html:65
 #: templates/companies/add_staff.html:130
 #: templates/companies/edit_profile.html:142
@@ -924,8 +940,8 @@ msgid "No bookings found."
 msgstr "No se encontraron reservas."
 
 #: templates/bookings/confirm_prebooked.html:10
-#: templates/bookings/create_booking.html:197
-#: templates/bookings/edit_booking.html:214
+#: templates/bookings/create_booking.html:209
+#: templates/bookings/edit_booking.html:224
 #: templates/static_pages/how_it_works.html:74
 msgid "Confirm Booking"
 msgstr "Confirmar reserva"
@@ -1059,6 +1075,7 @@ msgid "Select Specialist"
 msgstr "Elija un Especialista"
 
 #: templates/bookings/create_booking.html:117
+#: templates/bookings/create_booking.html:193
 msgid "Optional"
 msgstr "Opcional"
 
@@ -1117,6 +1134,14 @@ msgstr "Sab"
 msgid "Available Time"
 msgstr "Tiempos disponibles"
 
+#: templates/bookings/create_booking.html:193
+msgid "Additional Notes"
+msgstr "Notas adicionales"
+
+#: templates/bookings/create_booking.html:195
+msgid "Do you have any special requests or notes?"
+msgstr "¿Tiene alguna petición o nota especial?"
+
 #: templates/bookings/edit_booking.html:191
 msgid "Booking details"
 msgstr "Detalles de la reserva"
@@ -1124,6 +1149,14 @@ msgstr "Detalles de la reserva"
 #: templates/bookings/edit_booking.html:195
 msgid "View customer details"
 msgstr "Ver detalles del cliente"
+
+#: templates/bookings/edit_booking.html:211
+msgid "Client Notes"
+msgstr "Notas del cliente"
+
+#: templates/bookings/edit_booking.html:211
+msgid "from customer"
+msgstr "del cliente"
 
 #: templates/companies/activate_staff_account.html:10
 #: templates/email/staff_activation.html:83
@@ -3674,8 +3707,8 @@ msgid ""
 "If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
 "including the “Referrer-Policy: no-referrer” header, please remove them. The "
 "CSRF protection requires the “Referer” header to do strict referer checking. "
-"If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer"
-"\" …> for links to third-party sites."
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:136
@@ -3784,9 +3817,9 @@ msgstr ""
 #, python-format
 msgid ""
 "You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
-"\">DEBUG=True</a> is in your settings file and you have not configured any "
-"URLs."
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:229
@@ -3814,80 +3847,3 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
 msgid "Connect, get help, or contribute"
 msgstr ""
-
-#, python-format
-#~ msgid ""
-#~ "\n"
-#~ "                                    Base: %(base)s workers included. Each "
-#~ "additional worker: $%(price)s/month\n"
-#~ "                                    "
-#~ msgstr ""
-#~ "Incluye %(base)s trabajadores en el plan base. Cada trabajador adicional "
-#~ "cuesta $%(price)s al mes"
-
-#, python-format
-#~ msgid "%(days)s days free trial"
-#~ msgstr "%(days)s días de prueba gratis"
-
-#~ msgid "Salon Booking Platform"
-#~ msgstr "Plataforma de Reservas para Salones"
-
-#~ msgid "Everything You Need"
-#~ msgstr "Todo lo que Necesitas"
-
-#~ msgid "Simple, powerful tools to grow your business"
-#~ msgstr "Herramientas simples y potentes para hacer crecer tu negocio"
-
-#~ msgid ""
-#~ "Manage your team, assign services, and track schedules. Each staff member "
-#~ "gets their own calendar."
-#~ msgstr ""
-#~ "Gestiona tu equipo, asigna servicios y rastrea horarios. Cada miembro del "
-#~ "personal tiene su propio calendario."
-
-#~ msgid "Setup"
-#~ msgstr "Configurar"
-
-#~ msgid "Accept bookings and manage your business"
-#~ msgstr "Acepta reservas y gestiona tu negocio"
-
-#~ msgid "Join hundreds of businesses managing their bookings smarter"
-#~ msgstr ""
-#~ "Únete a cientos de negocios gestionando sus reservas de manera más "
-#~ "inteligente"
-
-#, python-format
-#~ msgid "Best Value - Save"
-#~ msgstr "Mejor Valor - Ahorre"
-
-#~ msgid "Preview booking page"
-#~ msgstr "Vista previa de página de reservas"
-
-#~ msgid ""
-#~ "The complete booking platform for salons, spas, and service businesses. "
-#~ "Accept appointments online 24/7."
-#~ msgstr ""
-#~ "La plataforma completa de reservas para salones, spas y negocios de "
-#~ "servicios. Acepta citas en línea 24/7."
-
-#~ msgid "Sign In"
-#~ msgstr "Iniciar Sesión"
-
-#~ msgid "Business Insights"
-#~ msgstr "Estadísticas del Negocio"
-
-#~ msgid ""
-#~ "Track bookings, revenue, and customer data. Make informed decisions with "
-#~ "real-time analytics."
-#~ msgstr ""
-#~ "Rastrea reservas, ingresos y datos de clientes. Toma decisiones "
-#~ "informadas con analíticas en tiempo real."
-
-#~ msgid "Back to Subscription Details"
-#~ msgstr "Volver a Detalles de Suscripción"
-
-#~ msgid "Calendar"
-#~ msgstr "Calendario"
-
-#~ msgid "Hello"
-#~ msgstr "Hola"

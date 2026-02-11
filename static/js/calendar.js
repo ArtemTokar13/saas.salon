@@ -88,10 +88,18 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
      * --------------------------------------------------------- */
     const events = rawBookings.map(b => {
         const isConfirmed = b.extendedProps.status == 1 || b.extendedProps.status === 'Confirmed';
+        
+        // Add status badge to title
+        let statusText = '';
+        if (b.extendedProps.status == 1) {
+            statusText = ` [${gettext('Confirmed')}]`;
+        } else if (b.extendedProps.status == 3) {
+            statusText = ` [${gettext('PreBooked')}]`;
+        }
 
         return {
             Id: b.id,
-            Subject: b.title,
+            Subject: b.title + statusText,
             StartTime: new Date(b.start),
             EndTime: new Date(b.end),
             StaffId: b.extendedProps.staff_id,
@@ -278,18 +286,28 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
                     
                     const data = await response.json();
 
-                    const events = data.bookings.map(b => ({
-                        Id: b.id,
-                        Subject: b.title,
-                        StartTime: new Date(b.start),
-                        EndTime: new Date(b.end),
-                        StaffId: b.extendedProps.staff_id,
-                        IsReadonly: false,
-                        Color: b.backgroundColor,
-                        Border: b.borderColor,
-                        isConfirmed: b.extendedProps.status === 1 || b.extendedProps.status === 'Confirmed',
-                        Raw: b.extendedProps
-                    }));
+                    const events = data.bookings.map(b => {
+                        // Add status badge to title
+                        let statusText = '';
+                        if (b.extendedProps.status == 1) {
+                            statusText = ` [${gettext('Confirmed')}]`;
+                        } else if (b.extendedProps.status == 3) {
+                            statusText = ` [${gettext('PreBooked')}]`;
+                        }
+                        
+                        return {
+                            Id: b.id,
+                            Subject: b.title + statusText,
+                            StartTime: new Date(b.start),
+                            EndTime: new Date(b.end),
+                            StaffId: b.extendedProps.staff_id,
+                            IsReadonly: false,
+                            Color: b.backgroundColor,
+                            Border: b.borderColor,
+                            isConfirmed: b.extendedProps.status === 1 || b.extendedProps.status === 'Confirmed',
+                            Raw: b.extendedProps
+                        };
+                    });
 
                     // Update staff resources with new occupancy
                     const staffResources = data.staff.map(s => ({

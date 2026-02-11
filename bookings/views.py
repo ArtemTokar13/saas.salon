@@ -36,19 +36,12 @@ def create_booking(request, company_id):
             
             # Check if service requires staff confirmation
             if booking.service.need_staff_confirmation and (request.user.is_authenticated == False or (request.user.is_authenticated and request.user.userprofile.company != company)):
-                # Create as PreBooked - staff will confirm with price and duration
                 booking.status = 3  # PreBooked
-                booking.end_time = None  # Will be set by staff
-                booking.duration = None
-                booking.price = None
             else:
-                # Duration and end_time are already set by form.save()
-                # Only set price and status here
-                if booking.price is None:
-                    booking.price = booking.service.price
-                if booking.status is None or booking.status == 0:
-                    booking.status = 1  # Confirmed normal confirmation
+                booking.status = 1  # Confirmed normal confirmation
             
+            if booking.price is None:
+                booking.price = booking.service.price
             booking.save()
             booking_link = request.build_absolute_uri(
                 redirect('booking_confirmation', booking_id=booking.id).url

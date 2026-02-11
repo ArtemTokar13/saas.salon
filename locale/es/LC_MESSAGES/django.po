@@ -1045,10 +1045,8 @@ msgid "Please complete the following fields:"
 msgstr "Por favor complete los siguientes campos:"
 
 #: templates/bookings/create_booking.html:46
-#, fuzzy
-#| msgid "Information"
 msgid "Your Information"
-msgstr "Información"
+msgstr "Su información"
 
 #: templates/bookings/create_booking.html:49
 #: templates/companies/add_service.html:21

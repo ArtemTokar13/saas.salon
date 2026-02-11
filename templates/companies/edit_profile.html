@@ -52,8 +52,13 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Map Location (embed link or coordinates)</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Map Location</label>
                     {{ form.map_location }}
+                    <p class="mt-1 text-xs text-gray-500">
+                        <i class="fas fa-info-circle"></i> 
+                        Open <a href="https://www.google.com/maps" target="_blank" class="text-blue-600 hover:underline">Google Maps</a>, 
+                        search for your business, click the "Share" button and paste the link here (e.g., https://maps.app.goo.gl/...)
+                    </p>
                     {% if form.map_location.errors %}
                         <p class="mt-1 text-sm text-red-600">{{ form.map_location.errors.0 }}</p>
                     {% endif %}
@@ -81,6 +86,19 @@
                     {{ form.website }}
                     {% if form.website.errors %}
                         <p class="mt-1 text-sm text-red-600">{{ form.website.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Online Appointments</label>
+                    <div class="flex items-center">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            {{ form.online_appointments_enabled }}
+                            <span class="ml-3 text-sm text-gray-700">Enable online appointment booking on your public page</span>
+                        </label>
+                    </div>
+                    {% if form.online_appointments_enabled.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.online_appointments_enabled.errors.0 }}</p>
                     {% endif %}
                 </div>
 

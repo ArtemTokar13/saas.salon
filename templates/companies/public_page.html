@@ -97,7 +97,11 @@
                                         <p class="text-sm text-gray-600">{{ service.duration }} minutes</p>
                                     </div>
                                     <div class="text-right">
-                                        <a href="{% url 'create_booking' company.id %}?service_id={{ service.id }}" class="block w-full bg-gray-800 text-white text-center px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition">{{ service.price }} €</a>
+                                        {% if company.online_appointments_enabled %}
+                                            <a href="{% url 'create_booking' company.id %}?service_id={{ service.id }}" class="block w-full bg-gray-800 text-white text-center px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition">{{ service.price }} €</a>
+                                        {% else %}
+                                            <span class="block w-full bg-gray-300 text-gray-600 text-center px-6 py-2 rounded-lg font-semibold">{{ service.price }} €</span>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -111,6 +115,7 @@
             <!-- Sidebar -->
             <div class="space-y-6">
                 <!-- Book Now -->
+                {% if company.online_appointments_enabled %}
                 <div class="bg-white rounded-lg shadow p-6 sticky top-6">
                     <h3 class="text-xl font-bold text-gray-900 mb-4">{% trans "Book an Appointment" %}</h3>
                     <a href="{% url 'create_booking' company.id %}" 
@@ -118,6 +123,12 @@
                         {% trans "Book Now" %}
                     </a>
                 </div>
+                {% else %}
+                <div class="bg-white rounded-lg shadow p-6 sticky top-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">{% trans "Contact Us" %}</h3>
+                    <p class="text-sm text-gray-600 text-center mb-3">{% trans "Online booking is currently unavailable. Please contact us directly to schedule an appointment." %}</p>
+                </div>
+                {% endif %}
 
                 <!-- Contact Info -->
                 <div class="bg-white rounded-lg shadow p-6">
@@ -126,8 +137,17 @@
                         <div class="flex items-start">
                             <i class="fas fa-map-marker-alt text-gray-400 mt-1 mr-3"></i>
                             <div>
-                                <p class="text-sm text-gray-700">{{ company.address }}</p>
-                                <p class="text-sm text-gray-700">{{ company.city }}</p>
+                                {% if company.map_location %}
+                                    <a href="{{ company.map_location }}" 
+                                       target="_blank" 
+                                       class="text-sm text-gray-700 hover:text-blue-600 hover:underline font-semibold">
+                                        <p>{{ company.address }}</p>
+                                        <p>{{ company.city }}</p>
+                                    </a>
+                                {% else %}
+                                    <p class="text-sm text-gray-700">{{ company.address }}</p>
+                                    <p class="text-sm text-gray-700">{{ company.city }}</p>
+                                {% endif %}
                             </div>
                         </div>
                         {% if company.phone %}

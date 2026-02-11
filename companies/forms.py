@@ -42,7 +42,7 @@ class CompanyProfileForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['name', 'description', 'address', 'city', 'map_location', 
-                  'phone', 'email', 'website', 'logo']
+                  'phone', 'email', 'website', 'logo', 'online_appointments_enabled']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
             'email': forms.EmailInput(attrs={'readonly': 'readonly'}),

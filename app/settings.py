@@ -74,6 +74,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
                 'app.context_processors.current_year',
+                'app.context_processors.google_maps',
             ],
         },
     },
@@ -164,6 +165,9 @@ WHATSAPP_PHONE_NUMBER_ID = PHONE_NUMBER_ID  # Alias for consistency
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
+
+# Google Maps API key for address autocomplete and geocoding
+GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY', '')
 
 # CORS settings for Flutter app
 CORS_ALLOWED_ORIGINS = [

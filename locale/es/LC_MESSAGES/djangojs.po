@@ -29,6 +29,14 @@ msgstr "Cliente"
 msgid "Service"
 msgstr "Servicio"
 
+#: static/js/calendar.js
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#: static/js/calendar.js
+msgid "PreBooked"
+msgstr "Prereservado"
+
 #: static/js/calendar.js:413
 msgid "Time"
 msgstr "Hora"

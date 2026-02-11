@@ -16,9 +16,9 @@ def send_booking_reminders():
     now = timezone.localtime(timezone.now())
     buffer = timedelta(minutes=30)
     bookings_to_remind = Booking.objects.filter(
-        start_time__gte=now + timedelta(hours=2) - buffer,
-        start_time__lt=now + timedelta(hours=2) + buffer,
-        date=now.date(),
+        start_time__gte=now - buffer,
+        start_time__lt=now + buffer,
+        date=now.date() + timedelta(days=1),
         reminder_sent=False
     )
     print(now)
@@ -59,6 +59,7 @@ def send_booking_reminders():
 
         # Send WhatsApp reminder if company has WhatsApp feature
         if has_whatsapp_feature(booking.company):
+            print(f"Sending WhatsApp reminder to {booking.customer.phone} for booking {booking.id}")
             res = send_whatsapp_template(
                 to=booking.customer.phone,
                 content_sid=settings.TWILIO_REMINDER_TEMPLATE_SID,
@@ -72,6 +73,7 @@ def send_booking_reminders():
                     '7': booking_link
                 }
             )
+            print(f"WhatsApp API response: {res}")
         
         booking.reminder_sent = True
         booking.save()

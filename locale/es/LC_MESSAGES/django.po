@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-11 11:16+0100\n"
+"POT-Creation-Date: 2026-02-11 16:29+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,14 +49,6 @@ msgstr "Vencido"
 #: billing/models.py:110
 msgid "Unpaid"
 msgstr "No pagado"
-
-#: static/js/calendar.js
-msgid "Confirmed"
-msgstr "Confirmado"
-
-#: static/js/calendar.js
-msgid "PreBooked"
-msgstr "Prereservado"
 
 #: bookings/cron.py:33
 msgid "Reminder: Upcoming Booking for"
@@ -546,8 +538,8 @@ msgstr "Preguntas frecuentes"
 msgid "Support"
 msgstr "Apoyo"
 
-#: templates/_footer.html:40 templates/static_pages/contact.html:4
-#: templates/static_pages/contact.html:10
+#: templates/_footer.html:40 templates/companies/public_page.html:128
+#: templates/static_pages/contact.html:4 templates/static_pages/contact.html:10
 msgid "Contact Us"
 msgstr "Contacta con nosotros"
 
@@ -641,7 +633,7 @@ msgstr "Continuar con el pago"
 #: templates/bookings/edit_booking.html:221
 #: templates/companies/add_service.html:65
 #: templates/companies/add_staff.html:130
-#: templates/companies/edit_profile.html:142
+#: templates/companies/edit_profile.html:160
 #: templates/companies/edit_service.html:65
 #: templates/companies/edit_staff.html:125
 #: templates/companies/working_hours.html:68
@@ -1412,7 +1404,7 @@ msgstr "Vista previa del código QR:"
 msgid "Link copied to clipboard!"
 msgstr "¡Enlace copiado al portapapeles!"
 
-#: templates/companies/edit_profile.html:145
+#: templates/companies/edit_profile.html:163
 #: templates/companies/edit_service.html:68
 #: templates/companies/edit_staff.html:128
 #: templates/companies/working_hours.html:71
@@ -1461,27 +1453,35 @@ msgstr "Información sobre el personal próximamente."
 msgid "Our Services"
 msgstr "Nuestros servicios"
 
-#: templates/companies/public_page.html:105
+#: templates/companies/public_page.html:109
 msgid "No services available at the moment."
 msgstr "No hay servicios disponibles en este momento."
 
-#: templates/companies/public_page.html:115
+#: templates/companies/public_page.html:120
 msgid "Book an Appointment"
 msgstr "Reservar una cita"
 
-#: templates/companies/public_page.html:118
+#: templates/companies/public_page.html:123
 msgid "Book Now"
 msgstr "Reservar ahora"
 
-#: templates/companies/public_page.html:124
+#: templates/companies/public_page.html:129
+msgid ""
+"Online booking is currently unavailable. Please contact us directly to "
+"schedule an appointment."
+msgstr ""
+"Las reservas en línea no están disponibles en este momento. "
+"Contáctenos directamente para programar una cita."
+
+#: templates/companies/public_page.html:135
 msgid "Contact Information"
 msgstr "Información del contacto"
 
-#: templates/companies/public_page.html:157
+#: templates/companies/public_page.html:177
 msgid "Working Hours"
 msgstr "Horas de trabajo"
 
-#: templates/companies/public_page.html:163
+#: templates/companies/public_page.html:183
 msgid "Closed"
 msgstr "Cerrado"
 

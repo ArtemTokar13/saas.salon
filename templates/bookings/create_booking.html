@@ -215,6 +215,12 @@
 </div>
 
 <script>
+// Translations
+const translations = {
+    anyAvailable: "{% trans 'Any Available' %}",
+    weAssign: "{% trans "We'll assign" %}"
+};
+
 // Enhance country code display
 document.addEventListener('DOMContentLoaded', function() {
     const countrySelect = document.getElementById('id_customer_country_code');
@@ -328,8 +334,8 @@ serviceSelect.addEventListener('change', async function() {
                     </svg>
                 </div>
                 <div class="mt-3">
-                    <h3 class="font-semibold text-gray-900 text-sm">Any Available</h3>
-                    <p class="text-xs text-gray-600 mt-1">We'll assign</p>
+                    <h3 class="font-semibold text-gray-900 text-sm">${translations.anyAvailable}</h3>
+                    <p class="text-xs text-gray-600 mt-1">${translations.weAssign}</p>
                 </div>
             `;
             anyStaffCard.addEventListener('click', function() {

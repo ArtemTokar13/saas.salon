@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-11 22:23+0100\n"
+"POT-Creation-Date: 2026-02-12 09:33+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1154,6 +1154,14 @@ msgstr "Notas adicionales"
 #: templates/bookings/create_booking.html:195
 msgid "Do you have any special requests or notes?"
 msgstr "¿Tiene alguna petición o nota especial?"
+
+#: templates/bookings/create_booking.html:220
+msgid "Any Available"
+msgstr "Cualquiera disponible"
+
+#: templates/bookings/create_booking.html:221
+msgid "We'll assign"
+msgstr "Nosotros asignaremos"
 
 #: templates/bookings/edit_booking.html:19
 msgid "Edit Booking"

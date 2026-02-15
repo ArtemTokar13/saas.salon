@@ -1,6 +1,7 @@
 from datetime import timedelta
 import logging
 import traceback
+import json
 import qrcode
 from io import BytesIO
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,6 +11,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
 from django.http import JsonResponse, HttpResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
@@ -19,6 +22,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.db import models
 from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
 from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, CompanyStaffActivateForm, ServiceForm
 from .utils import make_random_password
@@ -189,7 +193,7 @@ def edit_company_profile(request):
             return redirect('/')
         
         company = profile.company
-        company_images = CompanyImage.objects.filter(company=company)
+        company_images = CompanyImage.objects.filter(company=company).order_by('order')
         
         if request.method == 'POST':
             form = CompanyProfileForm(request.POST, request.FILES, instance=company)
@@ -209,7 +213,7 @@ def edit_company_profile(request):
 
                 images = request.FILES.getlist('images')
                 current_image_count = CompanyImage.objects.filter(company=company).count()
-                max_images = 3
+                max_images = 15
                 
                 if images:
                     remaining_slots = max_images - current_image_count
@@ -217,8 +221,10 @@ def edit_company_profile(request):
                         messages.warning(request, f'Maximum {max_images} images allowed. Please delete existing images first.')
                     else:
                         images_to_add = images[:remaining_slots]
-                        for img in images_to_add:
-                            CompanyImage.objects.create(company=company, image=img)
+                        # Get the highest order value
+                        max_order = CompanyImage.objects.filter(company=company).aggregate(models.Max('order'))['order__max'] or 0
+                        for idx, img in enumerate(images_to_add, start=1):
+                            CompanyImage.objects.create(company=company, image=img, order=max_order + idx)
                         if len(images) > remaining_slots:
                             messages.warning(request, f'Only {remaining_slots} image(s) added. Maximum {max_images} images allowed.')
                 
@@ -239,7 +245,7 @@ def company_public_page(request, company_id):
     staff = Staff.objects.filter(company=company, is_active=True)
     services = Service.objects.filter(company=company, is_active=True)
     working_hours = WorkingHours.objects.filter(company=company).order_by('day_of_week')
-    images = CompanyImage.objects.filter(company=company)
+    images = CompanyImage.objects.filter(company=company).order_by('order')
     
     context = {
         'company': company,
@@ -278,6 +284,90 @@ def delete_company_image(request, image_id):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
+@login_required
+def delete_company_logo(request):
+    """Delete company logo via AJAX"""
+    
+    if request.method != 'DELETE':
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+    
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
+        
+        company = profile.company
+        
+        if company.logo:
+            company.logo.delete(save=True)
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'No logo to delete'}, status=404)
+        
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'User profile not found'}, status=403)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+
+@login_required
+@subscription_required
+@csrf_exempt
+def delete_staff_avatar(request, staff_id):
+    """Delete staff avatar via AJAX"""
+    
+    if request.method != 'DELETE':
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+    
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
+        
+        staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
+        
+        if staff_member.avatar:
+            staff_member.avatar.delete(save=True)
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'No avatar to delete'}, status=404)
+        
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'User profile not found'}, status=403)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@login_required
+def reorder_company_images(request):
+    """Reorder company images via AJAX"""
+    
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Only POST requests are allowed'}, status=405)
+    
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
+        
+        company = profile.company
+        data = json.loads(request.body)
+        image_order = data.get('imageOrder', [])
+        
+        # Update the order for each image
+        for idx, image_id in enumerate(image_order):
+            CompanyImage.objects.filter(
+                id=image_id,
+                company=company
+            ).update(order=idx)
+        
+        return JsonResponse({'success': True})
+        
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'User profile not found'}, status=403)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+
 
 @login_required
 @subscription_required
@@ -309,13 +399,22 @@ def add_staff(request):
             return redirect('/')
         
         if request.method == 'POST':
-            form = CompanyStaffForm(request.POST, company=profile.company)
+            form = CompanyStaffForm(request.POST, request.FILES, company=profile.company)
             if form.is_valid():
+                # Convert working_days from strings to integers
+                working_days = [int(day) for day in form.cleaned_data.get('working_days', [])]
+                
                 staff_member = Staff.objects.create(
                     company=profile.company,
                     name=form.cleaned_data['name'],
                     specialization=form.cleaned_data.get('specialization', ''),
                     avatar=form.cleaned_data.get('avatar'),
+                    working_days=working_days,
+                    break_start=form.cleaned_data.get('break_start'),
+                    break_end=form.cleaned_data.get('break_end'),
+                    out_of_office=form.cleaned_data.get('out_of_office', False),
+                    out_of_office_start=form.cleaned_data.get('out_of_office_start'),
+                    out_of_office_end=form.cleaned_data.get('out_of_office_end'),
                     is_active=False
                 )
                 staff_member.services.set(form.cleaned_data.get('services', []))
@@ -561,6 +660,14 @@ def edit_staff(request, staff_id):
             if form.is_valid():
                 staff_member.name = form.cleaned_data['name']
                 staff_member.specialization = form.cleaned_data.get('specialization', '')
+                # Convert working_days from strings to integers
+                working_days = [int(day) for day in form.cleaned_data.get('working_days', [])]
+                staff_member.working_days = working_days
+                staff_member.break_start = form.cleaned_data.get('break_start')
+                staff_member.break_end = form.cleaned_data.get('break_end')
+                staff_member.out_of_office = form.cleaned_data.get('out_of_office', False)
+                staff_member.out_of_office_start = form.cleaned_data.get('out_of_office_start')
+                staff_member.out_of_office_end = form.cleaned_data.get('out_of_office_end')
                 # Staff model doesn't store phone/country; these are on UserProfile
                 country_code_val = form.cleaned_data.get('country_code', '')
                 phone_val = form.cleaned_data.get('phone', '')
@@ -589,6 +696,12 @@ def edit_staff(request, staff_id):
                 'name': staff_member.name,
                 'specialization': staff_member.specialization,
                 'avatar': staff_member.avatar,
+                'working_days': [str(day) for day in staff_member.working_days],
+                'break_start': staff_member.break_start,
+                'break_end': staff_member.break_end,
+                'out_of_office': staff_member.out_of_office,
+                'out_of_office_start': staff_member.out_of_office_start,
+                'out_of_office_end': staff_member.out_of_office_end,
                 'is_active': staff_member.is_active,
                 'services': staff_member.services.all(),
             }
@@ -656,13 +769,25 @@ def add_service(request):
         if request.method == 'POST':
             form = ServiceForm(request.POST)
             if form.is_valid():
+                # Get available dates from POST
+                available_dates = []
+                date_values = request.POST.getlist('available_date[]')
+                for date_str in date_values:
+                    if date_str.strip():  # Only add non-empty dates
+                        available_dates.append(date_str.strip())
+                
+                # Limit to 10 dates
+                available_dates = available_dates[:10]
+                
                 Service.objects.create(
                     company=profile.company,
                     name=form.cleaned_data['name'],
                     duration=form.cleaned_data['duration'],
                     price=form.cleaned_data['price'],
                     need_staff_confirmation=form.cleaned_data['need_staff_confirmation'],
-                    is_active=form.cleaned_data['is_active']
+                    is_active=form.cleaned_data['is_active'],
+                    restrict_to_available_dates=form.cleaned_data['restrict_to_available_dates'],
+                    available_dates=available_dates
                 )
                 messages.success(request, 'Service added successfully!')
                 return redirect('service_list')
@@ -688,11 +813,23 @@ def edit_service(request, service_id):
         if request.method == 'POST':
             form = ServiceForm(request.POST, company=profile.company)
             if form.is_valid():
+                # Get available dates from POST
+                available_dates = []
+                date_values = request.POST.getlist('available_date[]')
+                for date_str in date_values:
+                    if date_str.strip():  # Only add non-empty dates
+                        available_dates.append(date_str.strip())
+                
+                # Limit to 10 dates
+                available_dates = available_dates[:10]
+                
                 service.name = form.cleaned_data['name']
                 service.duration = form.cleaned_data['duration']
                 service.price = form.cleaned_data['price']
                 service.need_staff_confirmation = form.cleaned_data['need_staff_confirmation']
                 service.is_active = form.cleaned_data['is_active']
+                service.restrict_to_available_dates = form.cleaned_data['restrict_to_available_dates']
+                service.available_dates = available_dates
                 service.save()
                 messages.success(request, 'Service updated successfully!')
                 return redirect('service_list')
@@ -703,6 +840,7 @@ def edit_service(request, service_id):
                 'price': service.price,
                 'need_staff_confirmation': service.need_staff_confirmation,
                 'is_active': service.is_active,
+                'restrict_to_available_dates': service.restrict_to_available_dates,
             }
             form = ServiceForm(initial=initial_data, company=profile.company)
         

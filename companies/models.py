@@ -102,6 +102,7 @@ class Staff(models.Model):
     name = models.CharField(max_length=255)
     specialization = models.CharField(max_length=100, blank=True, null=True)
     avatar = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
+    working_days = models.JSONField(default=list, blank=True)  # List of day numbers (0=Monday, 6=Sunday)
     break_start = models.TimeField(blank=True, null=True)
     break_end = models.TimeField(blank=True, null=True)
     out_of_office = models.BooleanField(default=False)
@@ -154,6 +155,15 @@ class Service(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     is_active = models.BooleanField(default=True)
     need_staff_confirmation = models.BooleanField(default=False)
+    restrict_to_available_dates = models.BooleanField(
+        default=False,
+        help_text="If checked, this service will only be available on the specified dates below"
+    )
+    available_dates = models.JSONField(
+        default=list, 
+        blank=True,
+        help_text="List of dates when this service is available (format: YYYY-MM-DD). Max 10 dates."
+    )
 
     def __str__(self):
         return f"{self.name} — {self.company.name}"

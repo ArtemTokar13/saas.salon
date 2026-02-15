@@ -203,22 +203,56 @@ def get_available_dates(request, company_id, staff_id):
         staff = get_object_or_404(Staff, id=staff_id, company_id=company_id)
         company = staff.company
         
+        # Check if a service_id is provided to filter by service-specific dates
+        service_id = request.GET.get('service_id')
+        service = None
+        if service_id:
+            try:
+                service = get_object_or_404(Service, id=service_id, company_id=company_id)
+            except:
+                pass
+        
         available_dates = []
         today = timezone.now().date()
         
-        # Check next 90 days (3 months) to support calendar navigation
+        # If service is restricted to specific dates, use those
+        if service and service.restrict_to_available_dates and service.available_dates:
+            # Filter available_dates to only future dates
+            for date_str in service.available_dates:
+                try:
+                    date = datetime.strptime(date_str, '%Y-%m-%d').date()
+                    if date >= today:
+                        day_of_week = date.weekday()
+                        # Check if company is open on this day
+                        working_hours = WorkingHours.objects.filter(
+                            company=company,
+                            day_of_week=day_of_week,
+                            is_day_off=False
+                        ).first()
+                        # Check if staff works on this day
+                        if working_hours and (not staff.working_days or day_of_week in staff.working_days):
+                            available_dates.append({
+                                'date': date.strftime('%Y-%m-%d'),
+                                'display': date.strftime('%a, %b %d')
+                            })
+                except ValueError:
+                    continue
+            return JsonResponse({'available_dates': available_dates})
+        
+        # Otherwise, check next 90 days (3 months) based on working hours
         for i in range(90):
             date = today + timedelta(days=i)
             day_of_week = date.weekday()
             
-            # Check if this day has working hours
+            # Check if company is open on this day
             working_hours = WorkingHours.objects.filter(
                 company=company,
                 day_of_week=day_of_week,
                 is_day_off=False
             ).first()
             
-            if working_hours:
+            # Check if staff member works on this day
+            if working_hours and (not staff.working_days or day_of_week in staff.working_days):
                 available_dates.append({
                     'date': date.strftime('%Y-%m-%d'),
                     'display': date.strftime('%a, %b %d')
@@ -240,6 +274,11 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         
         # Get working hours for this day
         day_of_week = date.weekday()
+        
+        # Check if staff works on this day
+        if staff.working_days and day_of_week not in staff.working_days:
+            return JsonResponse({'available_times': []})
+        
         working_hours = WorkingHours.objects.filter(
             company=company,
             day_of_week=day_of_week,
@@ -284,6 +323,15 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
             if potential_end_time > end_time:
                 break  # Can't start a service that would end after working hours
             
+            # Check if this time slot would overlap with staff break time
+            if staff.break_start and staff.break_end:
+                break_start_dt = datetime.combine(date, staff.break_start)
+                break_end_dt = datetime.combine(date, staff.break_end)
+                # Skip if the booking would overlap with break time
+                if current_time < break_end_dt and potential_end_time > break_start_dt:
+                    current_time += timedelta(minutes=30)
+                    continue
+            
             # Check if this time slot is available (no overlap with existing bookings)
             is_available = True
             for booking_start, booking_end in existing_bookings:
@@ -320,7 +368,24 @@ def get_available_dates_any_staff(request, company_id, service_id):
         available_dates = []
         today = timezone.now().date()
         
-        # Check next 90 days (3 months) to support calendar navigation
+        # If service is restricted to specific dates, use those
+        if service.restrict_to_available_dates and service.available_dates:
+            # Filter available_dates to only future dates
+            for date_str in service.available_dates:
+                try:
+                    date = datetime.strptime(date_str, '%Y-%m-%d').date()
+                    if date >= today:
+                        day_of_week = date.weekday()
+                        # Check if at least one staff member works on this day
+                        for staff in staff_members:
+                            if not staff.working_days or day_of_week in staff.working_days:
+                                available_dates.append(date_str)
+                                break  # At least one staff available, add this date
+                except ValueError:
+                    continue
+            return JsonResponse({'available_dates': available_dates})
+        
+        # Otherwise, check next 90 days (3 months) based on working hours
         for i in range(90):
             date = today + timedelta(days=i)
             day_of_week = date.weekday()
@@ -334,8 +399,10 @@ def get_available_dates_any_staff(request, company_id, service_id):
             
             if working_hours:
                 # Check if ANY staff member is available on this day
-                # (has no bookings or has available slots)
-                available_dates.append(date.strftime('%Y-%m-%d'))
+                for staff in staff_members:
+                    if not staff.working_days or day_of_week in staff.working_days:
+                        available_dates.append(date.strftime('%Y-%m-%d'))
+                        break  # At least one staff available, add this date
         
         return JsonResponse({'available_dates': available_dates})
     
@@ -384,6 +451,18 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
             # Check if AT LEAST ONE staff member is available at this time
             is_available = False
             for staff in staff_members:
+                # Skip staff who don't work on this day
+                if staff.working_days and day_of_week not in staff.working_days:
+                    continue
+                
+                # Check if this time slot would overlap with staff break time
+                if staff.break_start and staff.break_end:
+                    break_start_dt = datetime.combine(date, staff.break_start)
+                    break_end_dt = datetime.combine(date, staff.break_end)
+                    # Skip this staff if the booking would overlap with their break time
+                    if current_time < break_end_dt and potential_end_time > break_start_dt:
+                        continue
+                
                 # Get existing bookings for this staff member on this date
                 existing_bookings = Booking.objects.filter(
                     staff=staff,

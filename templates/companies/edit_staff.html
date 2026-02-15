@@ -54,12 +54,32 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="border border-gray-300 rounded-lg p-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Avatar" %}</label>
-                    {{ form.avatar }}
+                    {% if staff_member.avatar %}
+                        <div class="mb-3">
+                            <img src="{{ staff_member.avatar.url }}" alt="{% trans 'Current avatar' %}" class="h-24 w-24 object-cover rounded">
+                        </div>
+                        <button type="button" onclick="deleteAvatar()" class="mt-3 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                            {% trans "Delete" %}
+                        </button>
+                    {% else %}
+                        <input type="file" name="avatar" accept="image/*" class="mt-3 bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600 custom-file-input">
+                    {% endif %}
                     {% if form.avatar.errors %}
                         <p class="mt-1 text-sm text-red-600">{{ form.avatar.errors.0 }}</p>
                     {% endif %}
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Working Days" %}</label>
+                    <div class="space-y-2">
+                        {{ form.working_days }}
+                    </div>
+                    {% if form.working_days.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.working_days.errors.0 }}</p>
+                    {% endif %}
+                    <p class="mt-1 text-xs text-gray-500">{% trans "Select the days when this staff member is available to work" %}</p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Break Start Time" %}</label>
@@ -134,6 +154,34 @@
 </div>
 
 <script>
+// Delete avatar function
+function deleteAvatar() {
+    if (!confirm('Are you sure you want to delete the avatar?')) {
+        return;
+    }
+    
+    const staffId = {{ staff_member.id }};
+    
+    fetch('{% url "delete_staff_avatar" staff_id=staff_member.id %}', {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error deleting avatar: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting avatar. Please try again.');
+    });
+}
+
 // Enhance country code display
 document.addEventListener('DOMContentLoaded', function() {
     const countrySelect = document.getElementById('id_country_code');

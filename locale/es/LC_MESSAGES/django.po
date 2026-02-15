@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-12 09:33+0100\n"
+"POT-Creation-Date: 2026-02-15 18:37+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,8 +29,8 @@ msgstr "6 meses"
 msgid "Yearly"
 msgstr "Anual"
 
-#: billing/models.py:107 templates/companies/add_service.html:57
-#: templates/companies/edit_service.html:57
+#: billing/models.py:107 templates/companies/add_service.html:75
+#: templates/companies/edit_service.html:84
 #: templates/companies/services_list.html:28
 #: templates/companies/services_list.html:40
 #: templates/companies/staff_list.html:27
@@ -54,7 +54,7 @@ msgstr "No pagado"
 msgid "Reminder: Upcoming Booking for"
 msgstr "Recordatorio: Próximas reservas para"
 
-#: bookings/forms.py:14
+#: bookings/forms.py:14 companies/forms.py:62
 msgid "Select Country"
 msgstr "Seleccionar país"
 
@@ -69,6 +69,41 @@ msgstr "Añade cualquier solicitud o nota especial..."
 #: bookings/forms.py:64
 msgid "Client notes..."
 msgstr "Notas del cliente..."
+
+#: companies/forms.py:70
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:7
+msgid "Monday"
+msgstr "Lunes"
+
+#: companies/forms.py:70
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:8
+msgid "Tuesday"
+msgstr "Martes"
+
+#: companies/forms.py:70
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:9
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: companies/forms.py:70
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:10
+msgid "Thursday"
+msgstr "Jueves"
+
+#: companies/forms.py:71
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:11
+msgid "Friday"
+msgstr "Viernes"
+
+#: companies/forms.py:71
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:12
+msgid "Saturday"
+msgstr "Sábado"
+
+#: companies/forms.py:71
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:13
+msgid "Sunday"
+msgstr "Domingo"
 
 #: templates/Index.html:4 templates/Index.html:14
 msgid "A Simple Client Management System for Your Salon"
@@ -300,10 +335,8 @@ msgid "Choose the perfect plan for your business"
 msgstr "Elige el plan perfecto para tu negocio"
 
 #: templates/Index.html:291
-#, fuzzy
-#| msgid "Pricing Plans"
 msgid "View Our Pricing Plans"
-msgstr "Precios"
+msgstr "Ver precios"
 
 #: templates/Index.html:297
 msgid "All plans include:"
@@ -627,11 +660,11 @@ msgstr "Continuar con el pago"
 #: templates/bookings/confirm_prebooked.html:90
 #: templates/bookings/create_booking.html:206
 #: templates/bookings/edit_booking.html:221
-#: templates/companies/add_service.html:65
-#: templates/companies/add_staff.html:130
-#: templates/companies/edit_profile.html:160
-#: templates/companies/edit_service.html:65
-#: templates/companies/edit_staff.html:125
+#: templates/companies/add_service.html:83
+#: templates/companies/add_staff.html:141
+#: templates/companies/edit_profile.html:184
+#: templates/companies/edit_service.html:92
+#: templates/companies/edit_staff.html:145
 #: templates/companies/working_hours.html:68
 msgid "Cancel"
 msgstr "Cancelar"
@@ -708,10 +741,8 @@ msgid "Mejor Valor - Ahorre"
 msgstr "Mejor Valor - Ahorre"
 
 #: templates/billing/pricing_periods.html:98
-#, fuzzy
-#| msgid "1 year"
 msgid "year"
-msgstr "1 año"
+msgstr "año"
 
 #: templates/billing/pricing_periods.html:106
 msgid "Billed annually"
@@ -1092,6 +1123,8 @@ msgstr "Fecha y hora"
 
 #: templates/bookings/create_booking.html:142
 #: templates/bookings/edit_booking.html:138
+#: templates/companies/add_service.html:45
+#: templates/companies/edit_service.html:45
 msgid "Available Dates"
 msgstr "Planes disponibles"
 
@@ -1224,20 +1257,44 @@ msgstr "Activar"
 #: templates/companies/forgot_password.html:23
 #: templates/companies/reset_password.html:52
 msgid "Return to homepage"
-msgstr "Return to homepage"
+msgstr "Regresar a la página de inicio"
 
 #: templates/companies/add_service.html:10
-#: templates/companies/add_service.html:68
+#: templates/companies/add_service.html:86
 #: templates/companies/dashboard.html:93
 msgid "Add Service"
 msgstr "Añadir Servicio"
 
-#: templates/companies/add_service.html:47
-#: templates/companies/edit_service.html:47
-msgid "Require Staff Confirmation"
-msgstr "Requerir confirmación del personal"
+#: templates/companies/add_service.html:49
+#: templates/companies/edit_service.html:49
+msgid "Restrict service to specific dates only"
+msgstr "Restringir el servicio solo a fechas específicas"
 
-#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:133
+#: templates/companies/add_service.html:52
+#: templates/companies/edit_service.html:52
+msgid ""
+"Specify up to 10 dates when this service is available. Leave empty if always "
+"available."
+msgstr ""
+"Especifique hasta 10 fechas en las que este servicio esté disponible. "
+"Déjelo en blanco si siempre está disponible."
+
+#: templates/companies/add_service.html:59
+#: templates/companies/edit_service.html:68
+msgid "+ Add Date"
+msgstr "+ Añadir fecha"
+
+#: templates/companies/add_service.html:65
+#: templates/companies/edit_service.html:74
+msgid "Require Staff Confirmation"
+msgstr "Requiere confirmación del personal"
+
+#: templates/companies/add_service.html:115
+#: templates/companies/edit_service.html:127
+msgid "Maximum 10 dates allowed"
+msgstr "Máximo 10 fechas permitidas"
+
+#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:144
 msgid "Add Staff Member"
 msgstr "Agregar personal"
 
@@ -1250,30 +1307,37 @@ msgstr "Especialización"
 msgid "Avatar"
 msgstr "Avatar"
 
-#: templates/companies/add_staff.html:77 templates/companies/edit_staff.html:65
+#: templates/companies/add_staff.html:77 templates/companies/edit_staff.html:75
+msgid "Working Days"
+msgstr "Dias laborales"
+
+#: templates/companies/add_staff.html:84 templates/companies/edit_staff.html:82
+msgid "Select the days when this staff member is available to work"
+msgstr "Seleccione los días en los que este miembro del personal está "
+"disponible para trabajar"
+
+#: templates/companies/add_staff.html:88 templates/companies/edit_staff.html:85
 msgid "Break Start Time"
 msgstr "Hora de inicio del descanso"
 
-#: templates/companies/add_staff.html:85 templates/companies/edit_staff.html:73
+#: templates/companies/add_staff.html:96 templates/companies/edit_staff.html:93
 msgid "Break End Time"
 msgstr "Hora de finalización del descanso"
 
-#: templates/companies/add_staff.html:95 templates/companies/edit_staff.html:83
-msgid "Out of Office"
-msgstr "Fuera de la oficina"
+#: templates/companies/add_staff.html:106
+msgid "Out of Salon"
+msgstr "Fuera del salon"
 
-#: templates/companies/add_staff.html:103
-#: templates/companies/edit_staff.html:91
-msgid "Out of Office Start Date"
-msgstr "Fecha de inicio fuera de la oficina"
+#: templates/companies/add_staff.html:114
+msgid "Out of Salon Start Date"
+msgstr "Fecha de inicio fuera del salon"
 
-#: templates/companies/add_staff.html:111
-#: templates/companies/edit_staff.html:99
-msgid "Out of Office End Date"
-msgstr "Fecha de finalización fuera de la oficina"
+#: templates/companies/add_staff.html:122
+msgid "Out of Salon End Date"
+msgstr "Fecha de finalización fuera del salon"
 
-#: templates/companies/add_staff.html:119 templates/companies/dashboard.html:50
-#: templates/companies/edit_staff.html:106
+#: templates/companies/add_staff.html:130 templates/companies/dashboard.html:50
+#: templates/companies/edit_staff.html:126
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Servicios"
@@ -1530,25 +1594,36 @@ msgid "Logo"
 msgstr "Logo"
 
 #: templates/companies/edit_profile.html:132
-#: templates/companies/edit_profile.html:133
 msgid "Current logo"
 msgstr "Plan Actual"
 
-#: templates/companies/edit_profile.html:143
+#: templates/companies/edit_profile.html:135
+#: templates/companies/edit_staff.html:64
+#: templates/companies/services_list.html:47
+#: templates/companies/staff_list.html:54
+#: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
+msgid "Delete"
+msgstr "Borrar"
+
+#: templates/companies/edit_profile.html:146
 msgid "Images"
 msgstr "Imagenes"
 
-#: templates/companies/edit_profile.html:147
+#: templates/companies/edit_profile.html:148
+msgid "Drag and drop images to reorder them"
+msgstr ""
+
+#: templates/companies/edit_profile.html:158
 msgid "Company image"
 msgstr "Imagen de la Empresa"
 
-#: templates/companies/edit_profile.html:155
-msgid "You can upload up to 3 images."
-msgstr "Puedes subir hasta 3 imágenes."
+#: templates/companies/edit_profile.html:173
+msgid "Choose file"
+msgstr "Elige fichero"
 
-#: templates/companies/edit_profile.html:163
-#: templates/companies/edit_service.html:68
-#: templates/companies/edit_staff.html:128
+#: templates/companies/edit_profile.html:187
+#: templates/companies/edit_service.html:95
+#: templates/companies/edit_staff.html:148
 #: templates/companies/working_hours.html:71
 msgid "Save Changes"
 msgstr "Guardar cambios"
@@ -1561,7 +1636,23 @@ msgstr "Editar Servicio"
 msgid "Edit Staff Member"
 msgstr "Editar Personal"
 
-#: templates/companies/edit_staff.html:117
+#: templates/companies/edit_staff.html:61
+msgid "Current avatar"
+msgstr "Imagen Actual"
+
+#: templates/companies/edit_staff.html:103
+msgid "Out of Office"
+msgstr "Fuera de la oficina"
+
+#: templates/companies/edit_staff.html:111
+msgid "Out of Office Start Date"
+msgstr "Fecha de inicio fuera de la oficina"
+
+#: templates/companies/edit_staff.html:119
+msgid "Out of Office End Date"
+msgstr "Fecha de finalización fuera de la oficina"
+
+#: templates/companies/edit_staff.html:137
 msgid "Is Active"
 msgstr "Activo"
 
@@ -1661,10 +1752,8 @@ msgstr "Crear Cuenta"
 
 #: templates/companies/reset_password.html:10
 #: templates/email/password_reset.html:83
-#, fuzzy
-#| msgid "Password"
 msgid "Reset Password"
-msgstr "Contraseña"
+msgstr "Restablecer contraseña"
 
 #: templates/companies/reset_password.html:11
 msgid "Please set your password to reset your account."
@@ -1675,17 +1764,9 @@ msgstr "Establezca su contraseña para restablecer su cuenta."
 msgid "Inactive"
 msgstr "Inactivo"
 
-#: templates/companies/services_list.html:47
-#: templates/companies/staff_list.html:54
-#: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
-msgid "Delete"
-msgstr "Borrar"
-
 #: templates/companies/services_list.html:57
-#, fuzzy
-#| msgid "Services"
 msgid "No Services Found"
-msgstr "Servicios"
+msgstr "No hay servicios"
 
 #: templates/companies/services_list.html:58
 msgid "You haven't added any services yet."
@@ -3095,10 +3176,8 @@ msgid ""
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1845
-#, fuzzy
-#| msgid "Address"
 msgid "Email address"
-msgstr "Dirección"
+msgstr "Correo electronico"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1870
 msgid "File path"
@@ -3131,16 +3210,12 @@ msgid "Small integer"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2113
-#, fuzzy
-#| msgid "Address"
 msgid "IPv4 address"
-msgstr "Dirección"
+msgstr "Dirección IPv4"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2144
-#, fuzzy
-#| msgid "Address"
 msgid "IP address"
-msgstr "Dirección"
+msgstr "Dirección IP"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2237
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2238
@@ -3373,8 +3448,7 @@ msgid "Order"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:886
-#, fuzzy, python-format
-#| msgid "Please correct the errors below."
+#, python-format
 msgid "Please correct the duplicate data for %(field)s."
 msgstr "Por favor corrige los errores a continuación."
 
@@ -3391,8 +3465,6 @@ msgid ""
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:907
-#, fuzzy
-#| msgid "Please correct the errors below."
 msgid "Please correct the duplicate values below."
 msgstr "Por favor corrige los errores a continuación."
 
@@ -3417,10 +3489,8 @@ msgid ""
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:464
-#, fuzzy
-#| msgid "Current Plan"
 msgid "Currently"
-msgstr "Plan Actual"
+msgstr "Actual"
 
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:465
 msgid "Change"
@@ -3494,141 +3564,107 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dateformat.py:152
 msgid "midnight"
-msgstr ""
+msgstr "medianoche"
 
 #: venv/lib/python3.12/site-packages/django/utils/dateformat.py:154
 msgid "noon"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:7
-msgid "Monday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:8
-msgid "Tuesday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:9
-msgid "Wednesday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:10
-msgid "Thursday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:11
-msgid "Friday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:12
-msgid "Saturday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:13
-msgid "Sunday"
-msgstr ""
+msgstr "mediodía"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:25
 msgid "January"
-msgstr ""
+msgstr "Enero"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:26
 msgid "February"
-msgstr ""
+msgstr "Febrero"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:27
 msgid "March"
-msgstr ""
+msgstr "Marzo"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:28
 msgid "April"
-msgstr ""
+msgstr "Abril"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:29
 msgid "May"
-msgstr ""
+msgstr "Mayo"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:30
 msgid "June"
-msgstr ""
+msgstr "Junio"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:31
 msgid "July"
-msgstr ""
+msgstr "Julio"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:32
 msgid "August"
-msgstr ""
+msgstr "Agosto"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:33
-#, fuzzy
-#| msgid "Staff Members"
 msgid "September"
-msgstr "Miembros del Personal"
+msgstr "Septiembre"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:34
 msgid "October"
-msgstr ""
+msgstr "Octubre"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:35
 msgid "November"
-msgstr ""
+msgstr "Noviembre"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:36
-#, fuzzy
-#| msgid "Remember me"
 msgid "December"
-msgstr "Recuérdame"
+msgstr "Diciembre"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:39
 msgid "jan"
-msgstr ""
+msgstr "ene"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:40
 msgid "feb"
-msgstr ""
+msgstr "feb"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:41
 msgid "mar"
-msgstr ""
+msgstr "mar"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:42
 msgid "apr"
-msgstr ""
+msgstr "abr"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:43
-#, fuzzy
-#| msgid "Company"
 msgid "may"
-msgstr "Empresa"
+msgstr "mayo"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:44
 msgid "jun"
-msgstr ""
+msgstr "jun"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:45
 msgid "jul"
-msgstr ""
+msgstr "jul"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:46
 msgid "aug"
-msgstr ""
+msgstr "ago"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:47
 msgid "sep"
-msgstr ""
+msgstr "sep"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:48
 msgid "oct"
-msgstr ""
+msgstr "oct"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:49
 msgid "nov"
-msgstr ""
+msgstr "nov"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:50
 msgid "dec"
-msgstr ""
+msgstr "dic"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:53
 msgctxt "abbrev. month"
@@ -3731,11 +3767,9 @@ msgid "August"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:75
-#, fuzzy
-#| msgid "Staff Members"
 msgctxt "alt. month"
 msgid "September"
-msgstr "Miembros del Personal"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:76
 msgctxt "alt. month"
@@ -3748,11 +3782,9 @@ msgid "November"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:78
-#, fuzzy
-#| msgid "Remember me"
 msgctxt "alt. month"
 msgid "December"
-msgstr "Recuérdame"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/ipv6.py:8
 msgid "This is not a valid IPv6 address."
@@ -3972,8 +4004,6 @@ msgid "Tutorial: A Polling App"
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:239
-#, fuzzy
-#| msgid "Get started in minutes"
 msgid "Get started with Django"
 msgstr "Comienza en minutos"
 

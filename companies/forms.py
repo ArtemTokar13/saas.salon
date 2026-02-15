@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from app.constants import COUNTRY_CHOICES
 from .models import Company
 from billing.models import Plan
+from django.utils.translation import gettext as _
 
 
 class CompanyRegistrationForm(forms.Form):
@@ -58,13 +59,19 @@ class CompanyStaffForm(forms.Form):
     name = forms.CharField(max_length=255, required=True)
     email = forms.EmailField(required=False)
     country_code = forms.ChoiceField(
-        choices=[('', 'Select Country')] + list(COUNTRY_CHOICES), 
+        choices=[('', _('Select Country'))] + list(COUNTRY_CHOICES), 
         required=True, 
         initial='ES'
     )
     phone = forms.CharField(max_length=50, required=False)
     specialization = forms.CharField(max_length=255, required=False)
     avatar = forms.ImageField(required=False)
+    working_days = forms.MultipleChoiceField(
+        choices=[(0, _('Monday')), (1, _('Tuesday')), (2, _('Wednesday')), (3, _('Thursday')), 
+                 (4, _('Friday')), (5, _('Saturday')), (6, _('Sunday'))],
+        required=False,
+        widget=forms.CheckboxSelectMultiple
+    )
     break_start = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'}))
     break_end = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'}))
     out_of_office = forms.BooleanField(required=False)
@@ -101,6 +108,7 @@ class ServiceForm(forms.Form):
     price = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=True)
     is_active = forms.BooleanField(initial=True, required=False)
     need_staff_confirmation = forms.BooleanField(initial=False, required=False)
+    restrict_to_available_dates = forms.BooleanField(initial=False, required=False)
 
     def __init__(self, *args, **kwargs):
         company = kwargs.pop('company', None)

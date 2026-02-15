@@ -1611,7 +1611,7 @@ msgstr "Imagenes"
 
 #: templates/companies/edit_profile.html:148
 msgid "Drag and drop images to reorder them"
-msgstr ""
+msgstr "Arrastre y suelte imágenes para reordenarlas"
 
 #: templates/companies/edit_profile.html:158
 msgid "Company image"

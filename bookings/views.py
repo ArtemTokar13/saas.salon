@@ -294,7 +294,7 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         bookings_query = Booking.objects.filter(
             staff=staff,
             date=date,
-            status__in=[1, 3]  # Confirmed or PreBooked
+            status__in=[1]  # Confirmed or PreBooked
         )
         
         if booking_id:
@@ -467,7 +467,7 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
                 existing_bookings = Booking.objects.filter(
                     staff=staff,
                     date=date,
-                    status__in=[1, 3]  # Confirmed or PreBooked
+                    status__in=[1]  # Confirmed or PreBooked
                 ).values_list('start_time', 'end_time')
                 
                 # Check if this time slot is available for this staff

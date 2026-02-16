@@ -1,0 +1,36 @@
+.toggle {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.toggle + label {
+    cursor: pointer;
+    width: 50px;
+    height: 26px;
+    background: #ccc;
+    display: inline-block;
+    border-radius: 50px;
+    position: relative;
+}
+
+.toggle + label:after {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.toggle:checked + label {
+    background: #4caf50;
+}
+
+.toggle:checked + label:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+}

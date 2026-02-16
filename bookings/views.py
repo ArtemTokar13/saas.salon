@@ -310,8 +310,8 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         current_time = datetime.combine(date, working_hours.start_time)
         end_time = datetime.combine(date, working_hours.end_time)
         
-        # Calculate the end time of the new booking based on service duration
-        service_duration = timedelta(minutes=service.duration)
+        # Calculate the end time of the new booking based on service duration + time_for_servicing
+        service_duration = timedelta(minutes=service.duration + service.time_for_servicing)
         
         while current_time < end_time:
             time_str = current_time.strftime('%H:%M')
@@ -438,7 +438,7 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
         available_times = []
         current_time = datetime.combine(date, working_hours.start_time)
         end_time = datetime.combine(date, working_hours.end_time)
-        service_duration = timedelta(minutes=service.duration)
+        service_duration = timedelta(minutes=service.duration + service.time_for_servicing)
         
         while current_time < end_time:
             time_str = current_time.strftime('%H:%M')

@@ -152,6 +152,7 @@ class Service(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     duration = models.PositiveIntegerField(help_text="Duration in minutes")
+    time_for_servicing = models.PositiveIntegerField(default=0, help_text="Additional time for servicing after the appointment in minutes")
     price = models.DecimalField(max_digits=8, decimal_places=2)
     is_active = models.BooleanField(default=True)
     need_staff_confirmation = models.BooleanField(default=False)

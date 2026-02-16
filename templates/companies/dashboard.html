@@ -29,13 +29,13 @@
             <div class="bg-white rounded-lg shadow p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 bg-gray-100 rounded-full p-3">
-                        <i class="fas fa-users text-gray-600 text-2xl"></i>
+                        <i class="fas fa-cut text-gray-600 text-2xl"></i>
                     </div>
                     <div class="ml-4 flex-1">
-                        <p class="text-sm font-medium text-gray-600">{% trans "Staff Members" %}</p>
-                        <p class="text-3xl font-bold text-gray-900">{{ staff_count }}</p>
+                        <p class="text-sm font-medium text-gray-600">{% trans "Services" %}</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ service_count }}</p>
                     </div>
-                    <a href="/companies/staff/" class="text-gray-800 hover:text-gray-600">
+                    <a href="/companies/services/" class="text-gray-800 hover:text-gray-600">
                         <i class="fas fa-cog text-xl"></i>
                     </a>
                 </div>
@@ -44,13 +44,13 @@
             <div class="bg-white rounded-lg shadow p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 bg-gray-100 rounded-full p-3">
-                        <i class="fas fa-cut text-gray-600 text-2xl"></i>
+                        <i class="fas fa-users text-gray-600 text-2xl"></i>
                     </div>
                     <div class="ml-4 flex-1">
-                        <p class="text-sm font-medium text-gray-600">{% trans "Services" %}</p>
-                        <p class="text-3xl font-bold text-gray-900">{{ service_count }}</p>
+                        <p class="text-sm font-medium text-gray-600">{% trans "Staff Members" %}</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ staff_count }}</p>
                     </div>
-                    <a href="/companies/services/" class="text-gray-800 hover:text-gray-600">
+                    <a href="/companies/staff/" class="text-gray-800 hover:text-gray-600">
                         <i class="fas fa-cog text-xl"></i>
                     </a>
                 </div>
@@ -84,13 +84,13 @@
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <a href="/companies/staff/add/" class="flex items-center p-4 border border-gray-200 bg-gray-50 rounded-lg hover:bg-gray-50 transition">
-                        <i class="fas fa-user-plus text-gray-600 text-2xl mr-3"></i>
-                        <span class="font-medium">{% trans "Add Staff" %}</span>
-                    </a>
                     <a href="/companies/services/add/" class="flex items-center p-4 border border-gray-200 bg-gray-50 rounded-lg hover:bg-gray-50 transition">
                         <i class="fas fa-plus-circle text-gray-600 text-2xl mr-3"></i>
                         <span class="font-medium">{% trans "Add Service" %}</span>
+                    </a>
+                    <a href="/companies/staff/add/" class="flex items-center p-4 border border-gray-200 bg-gray-50 rounded-lg hover:bg-gray-50 transition">
+                        <i class="fas fa-user-plus text-gray-600 text-2xl mr-3"></i>
+                        <span class="font-medium">{% trans "Add Staff" %}</span>
                     </a>
                     <a href="/companies/customers/" class="flex items-center p-4 border border-gray-200 bg-gray-50 rounded-lg hover:bg-gray-50 transition">
                         <i class="fas fa-address-book text-gray-600 text-2xl mr-3"></i>

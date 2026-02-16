@@ -74,7 +74,20 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Working Days" %}</label>
                     <div class="space-y-2">
-                        {{ form.working_days }}
+                        {% for checkbox in form.working_days %}
+                            <div class="flex items-center gap-3">
+                                <input 
+                                    type="checkbox"
+                                    id="{{ checkbox.id_for_label }}"
+                                    name="{{ checkbox.data.name }}"
+                                    value="{{ checkbox.data.value }}"
+                                    class="toggle"
+                                    {% if checkbox.data.selected %}checked{% endif %}
+                                >
+                                <label for="{{ checkbox.id_for_label }}"></label>
+                                <span class="text-gray-800 text-sm">{{ checkbox.choice_label }}</span>
+                            </div>
+                        {% endfor %}
                     </div>
                     {% if form.working_days.errors %}
                         <p class="mt-1 text-sm text-red-600">{{ form.working_days.errors.0 }}</p>
@@ -97,15 +110,6 @@
                     {% endif %}
                 </div>
 
-                <div>
-                    <label class="inline-flex items-center cursor-pointer">
-                        {{ form.out_of_office }}
-                        <span class="ml-2 text-sm text-gray-700">{% trans "Out of Office" %}</span>
-                    </label>
-                    {% if form.out_of_office.errors %}
-                        <p class="ml-2 text-sm text-red-600">{{ form.out_of_office.errors.0 }}</p>
-                    {% endif %}
-                </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Out of Office Start Date" %}</label>
@@ -125,7 +129,23 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Services" %}</label>
                     <div class="space-y-2">
-                        {{ form.services }}
+                        {% for checkbox in form.services %}
+                            <div class="flex items-center gap-3">
+                                <input 
+                                    type="checkbox"
+                                    id="{{ checkbox.id_for_label }}"
+                                    name="{{ checkbox.data.name }}"
+                                    value="{{ checkbox.data.value }}"
+                                    class="toggle"
+                                    {% if checkbox.data.selected %}checked{% endif %}
+                                >
+                                <label for="{{ checkbox.id_for_label }}"></label>
+
+                                <span class="text-sm text-gray-700">
+                                    {{ checkbox.choice_label }}
+                                </span>
+                            </div>
+                        {% endfor %}
                     </div>
                     {% if form.services.errors %}
                         <p class="mt-1 text-sm text-red-600">{{ form.services.errors.0 }}</p>
@@ -133,7 +153,10 @@
                 </div>
                 <div>
                     <label class="inline-flex items-center cursor-pointer">
-                        {{ form.is_active }}
+                        <div class="toggle-wrapper">
+                            {{ form.is_active }}
+                            <label for="{{ form.is_active.id_for_label }}"></label>
+                        </div>
                         <span class="ml-2 text-sm text-gray-700">{% trans "Is Active" %}</span>
                     </label>
                     {% if form.is_active.errors %}

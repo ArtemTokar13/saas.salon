@@ -412,7 +412,6 @@ def add_staff(request):
                     working_days=working_days,
                     break_start=form.cleaned_data.get('break_start'),
                     break_end=form.cleaned_data.get('break_end'),
-                    out_of_office=form.cleaned_data.get('out_of_office', False),
                     out_of_office_start=form.cleaned_data.get('out_of_office_start'),
                     out_of_office_end=form.cleaned_data.get('out_of_office_end'),
                     is_active=False
@@ -665,7 +664,6 @@ def edit_staff(request, staff_id):
                 staff_member.working_days = working_days
                 staff_member.break_start = form.cleaned_data.get('break_start')
                 staff_member.break_end = form.cleaned_data.get('break_end')
-                staff_member.out_of_office = form.cleaned_data.get('out_of_office', False)
                 staff_member.out_of_office_start = form.cleaned_data.get('out_of_office_start')
                 staff_member.out_of_office_end = form.cleaned_data.get('out_of_office_end')
                 # Staff model doesn't store phone/country; these are on UserProfile
@@ -699,7 +697,6 @@ def edit_staff(request, staff_id):
                 'working_days': [str(day) for day in staff_member.working_days],
                 'break_start': staff_member.break_start,
                 'break_end': staff_member.break_end,
-                'out_of_office': staff_member.out_of_office,
                 'out_of_office_start': staff_member.out_of_office_start,
                 'out_of_office_end': staff_member.out_of_office_end,
                 'is_active': staff_member.is_active,
@@ -783,6 +780,7 @@ def add_service(request):
                     company=profile.company,
                     name=form.cleaned_data['name'],
                     duration=form.cleaned_data['duration'],
+                    time_for_servicing=form.cleaned_data['time_for_servicing'],
                     price=form.cleaned_data['price'],
                     need_staff_confirmation=form.cleaned_data['need_staff_confirmation'],
                     is_active=form.cleaned_data['is_active'],
@@ -825,6 +823,7 @@ def edit_service(request, service_id):
                 
                 service.name = form.cleaned_data['name']
                 service.duration = form.cleaned_data['duration']
+                service.time_for_servicing = form.cleaned_data['time_for_servicing']
                 service.price = form.cleaned_data['price']
                 service.need_staff_confirmation = form.cleaned_data['need_staff_confirmation']
                 service.is_active = form.cleaned_data['is_active']
@@ -837,6 +836,7 @@ def edit_service(request, service_id):
             initial_data = {
                 'name': service.name,
                 'duration': service.duration,
+                'time_for_servicing': service.time_for_servicing,
                 'price': service.price,
                 'need_staff_confirmation': service.need_staff_confirmation,
                 'is_active': service.is_active,

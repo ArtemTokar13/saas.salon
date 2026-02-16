@@ -127,10 +127,13 @@ class BookingForm(forms.ModelForm):
 
         if not duration:
             duration = service.duration
-
-        end_datetime = start_datetime + timedelta(minutes=duration)
+        
+        # Calculate total time including servicing time (for end_time calculation)
+        total_duration = duration + service.time_for_servicing
+        
+        end_datetime = start_datetime + timedelta(minutes=total_duration)
         booking.end_time = end_datetime.time()
-        booking.duration = duration
+        booking.duration = duration  # Store only the service duration (what client sees)
 
         if hasattr(self, 'user') and self.user.is_authenticated and (hasattr(self.user, 'userprofile') and self.user.userprofile.company == self.company):
             booking.status = 1  # Auto-confirm for staff users

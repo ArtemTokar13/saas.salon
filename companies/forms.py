@@ -74,10 +74,9 @@ class CompanyStaffForm(forms.Form):
     )
     break_start = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'}))
     break_end = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'}))
-    out_of_office = forms.BooleanField(required=False)
     out_of_office_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     out_of_office_end = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
-    is_active = forms.BooleanField(initial=True, required=False)
+    is_active = forms.BooleanField(initial=True, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
     services = forms.ModelMultipleChoiceField(
         queryset=None,
         required=False,
@@ -105,10 +104,11 @@ class CompanyStaffActivateForm(forms.Form):
 class ServiceForm(forms.Form):
     name = forms.CharField(max_length=255, required=True)
     duration = forms.IntegerField(min_value=1, required=True, help_text="Duration in minutes")
+    time_for_servicing = forms.IntegerField(min_value=0, required=False, help_text="Additional time for servicing after the appointment in minutes")
     price = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=True)
-    is_active = forms.BooleanField(initial=True, required=False)
-    need_staff_confirmation = forms.BooleanField(initial=False, required=False)
-    restrict_to_available_dates = forms.BooleanField(initial=False, required=False)
+    is_active = forms.BooleanField(initial=True, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
+    need_staff_confirmation = forms.BooleanField(initial=False, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
+    restrict_to_available_dates = forms.BooleanField(initial=False, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
 
     def __init__(self, *args, **kwargs):
         company = kwargs.pop('company', None)

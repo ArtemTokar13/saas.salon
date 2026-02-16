@@ -35,13 +35,17 @@
                             {{ day.name }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <input type="checkbox" 
-                                   id="is_working_{{ day.number }}" 
-                                   name="is_working_{{ day.number }}"
-                                   class="h-4 w-4 text-gray-800 focus:ring-gray-500 border-gray-300 rounded"
-                                   {% if day.is_working %}checked{% endif %}
-                                   onchange="toggleTimeInputs({{ day.number }})">
+                            <div class="toggle-wrapper">
+                                <input type="checkbox"
+                                    id="is_working_{{ day.number }}"
+                                    name="is_working_{{ day.number }}"
+                                    class="toggle"
+                                    {% if day.is_working %}checked{% endif %}
+                                    onchange="toggleTimeInputs({{ day.number }})">
+                                <label for="is_working_{{ day.number }}"></label>
+                            </div>
                         </td>
+
                         <td class="px-6 py-4 whitespace-nowrap">
                             <input type="time" 
                                    id="start_time_{{ day.number }}"

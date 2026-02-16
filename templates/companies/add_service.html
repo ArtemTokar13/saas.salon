@@ -34,6 +34,14 @@
                 </div>
 
                 <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Time for Servicing (minutes)" %} *</label>
+                    {{ form.time_for_servicing }}
+                    {% if form.time_for_servicing.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.time_for_servicing.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Price" %} (€) *</label>
                     {{ form.price }}
                     {% if form.price.errors %}
@@ -45,7 +53,10 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Available Dates" %}</label>
                     <div class="flex items-center mb-3">
                         <label class="inline-flex items-center cursor-pointer">
-                            {{ form.restrict_to_available_dates }}
+                            <div class="toggle-wrapper">
+                                {{ form.restrict_to_available_dates }}
+                                <label for="{{ form.restrict_to_available_dates.id_for_label }}"></label>
+                            </div>
                             <span class="ml-2 text-sm text-gray-700">{% trans "Restrict service to specific dates only" %}</span>
                         </label>
                     </div>
@@ -61,7 +72,10 @@
 
                 <div class="flex items-center">
                     <label class="inline-flex items-center cursor-pointer">
-                        {{ form.need_staff_confirmation }}
+                        <div class="toggle-wrapper">
+                            {{ form.need_staff_confirmation }}
+                            <label for="{{ form.need_staff_confirmation.id_for_label }}"></label>
+                        </div>
                         <span class="ml-2 text-sm text-gray-700">{% trans "Require Staff Confirmation" %}</span>
                     </label>
                     {% if form.need_staff_confirmation.errors %}
@@ -71,7 +85,10 @@
 
                 <div class="flex items-center">
                     <label class="inline-flex items-center cursor-pointer">
-                        {{ form.is_active }}
+                        <div class="toggle-wrapper">
+                            {{ form.is_active }}
+                            <label for="{{ form.is_active.id_for_label }}"></label>
+                        </div>
                         <span class="ml-2 text-sm text-gray-700">{% trans "Active" %}</span>
                     </label>
                     {% if form.active.errors %}

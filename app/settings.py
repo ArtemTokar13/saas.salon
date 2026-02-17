@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'hijack.middleware.HijackUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app.middleware.VisitCounterMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'

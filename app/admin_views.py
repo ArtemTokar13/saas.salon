@@ -1,3 +1,4 @@
+from datetime import date
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
@@ -7,6 +8,7 @@ from companies.models import Company, Staff, Service
 from bookings.models import Booking, Customer
 from billing.models import Plan, Subscription, Transaction
 from users.models import UserProfile
+from users.models import DailyVisit
 
 
 def is_superuser(user):
@@ -23,6 +25,10 @@ def admin_dashboard(request):
     total_companies = Company.objects.count()
     total_bookings = Booking.objects.count()
     total_revenue = Transaction.objects.aggregate(Sum('amount'))['amount__sum'] or 0
+
+    # Visits
+    total_visits = DailyVisit.objects.count()
+    today_visits = DailyVisit.objects.filter(date=date.today()).count()
     
     # Recent activity
     recent_companies = Company.objects.order_by('-created_at')[:5]
@@ -49,6 +55,8 @@ def admin_dashboard(request):
         'recent_transactions': recent_transactions,
         'active_subscriptions': active_subscriptions,
         'plans': plans,
+        'total_visits': total_visits,
+        'today_visits': today_visits,
     }
     
     return render(request, 'admin_dashboard/dashboard.html', context)

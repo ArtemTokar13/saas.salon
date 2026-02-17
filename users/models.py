@@ -17,3 +17,11 @@ class UserProfile(models.Model):
     
     def __str__(self):
         return self.user.username
+
+
+class DailyVisit(models.Model):
+    ip = models.GenericIPAddressField()
+    date = models.DateField()
+
+    class Meta:
+        unique_together = ('ip', 'date')

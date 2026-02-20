@@ -29,7 +29,7 @@ from .utils import make_random_password
 from billing.models import Subscription
 from users.models import UserProfile
 from companies.models import DAYS_OF_WEEK
-from bookings.models import Customer
+from bookings.models import Customer, Booking
 from app.decorators import subscription_required
 
 
@@ -1117,3 +1117,145 @@ def generate_qr_code(request):
     safe_name = safe_name.replace(' ', '_')
     response['Content-Disposition'] = f'attachment; filename="{safe_name}_qr_code.png"'
     return response
+
+
+@login_required
+@subscription_required
+def service_analytics(request):
+    """Analytics page showing service usage and booking statistics"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            messages.error(request, 'Access denied.')
+            return redirect('/')
+        
+        company = profile.company
+        
+        # Get date range filters (default to last 30 days)
+        from datetime import datetime, date
+        from django.db.models import Count, Sum, Avg, F, ExpressionWrapper, DurationField
+        
+        # Get filter parameters
+        date_range = request.GET.get('range', '30')  # 7, 30, 90, 365, or 'all'
+        
+        # Calculate date filter
+        end_date = date.today()
+        if date_range == 'all':
+            start_date = None
+        else:
+            try:
+                days = int(date_range)
+                start_date = end_date - timedelta(days=days)
+            except (ValueError, TypeError):
+                days = 30
+                start_date = end_date - timedelta(days=30)
+        
+        # Get all services for this company
+        services = Service.objects.filter(company=company)
+        
+        # Filter bookings by date if applicable
+        bookings = Booking.objects.filter(company=company)
+        if start_date:
+            bookings = bookings.filter(date__gte=start_date)
+        
+        # Get confirmed bookings only (status=1)
+        confirmed_bookings = bookings.filter(status=1)
+        
+        # Service analytics
+        service_stats = []
+        total_bookings = confirmed_bookings.count()
+        total_revenue = confirmed_bookings.aggregate(
+            total=Sum('price')
+        )['total'] or 0
+        
+        for service in services:
+            service_bookings = confirmed_bookings.filter(service=service)
+            booking_count = service_bookings.count()
+            revenue = service_bookings.aggregate(total=Sum('price'))['total'] or 0
+            
+            # Calculate percentage
+            percentage = (booking_count / total_bookings * 100) if total_bookings > 0 else 0
+            revenue_percentage = (revenue / total_revenue * 100) if total_revenue > 0 else 0
+            
+            # Get unique customers for this service
+            unique_customers = service_bookings.values('customer').distinct().count()
+            
+            service_stats.append({
+                'service': service,
+                'booking_count': booking_count,
+                'revenue': revenue,
+                'percentage': round(percentage, 1),
+                'revenue_percentage': round(revenue_percentage, 1),
+                'unique_customers': unique_customers,
+                'avg_price': round(revenue / booking_count, 2) if booking_count > 0 else 0,
+            })
+        
+        # Sort by booking count (most popular first)
+        service_stats.sort(key=lambda x: x['booking_count'], reverse=True)
+        
+        # Identify services with no bookings
+        services_no_bookings = [s for s in service_stats if s['booking_count'] == 0]
+        
+        # Status breakdown
+        status_breakdown = bookings.values('status').annotate(
+            count=Count('id')
+        ).order_by('status')
+        
+        status_dict = {
+            0: 'Pending',
+            1: 'Confirmed',
+            2: 'Cancelled',
+            3: 'PreBooked'
+        }
+        
+        status_stats = [
+            {
+                'status': status_dict.get(int(item['status']), 'Unknown'),
+                'count': item['count']
+            }
+            for item in status_breakdown
+        ]
+        
+        # Monthly trends (last 12 months or within date range)
+        if date_range == 'all' or int(date_range) >= 90:
+            from django.db.models.functions import TruncMonth
+            monthly_data = confirmed_bookings.annotate(
+                month=TruncMonth('date')
+            ).values('month').annotate(
+                count=Count('id'),
+                revenue=Sum('price')
+            ).order_by('month')
+        else:
+            monthly_data = []
+        
+        # Top customers
+        top_customers = confirmed_bookings.values(
+            'customer__name', 'customer__id'
+        ).annotate(
+            total_bookings=Count('id'),
+            total_spent=Sum('price')
+        ).order_by('-total_bookings')[:10]
+        
+        # Calculate average booking value
+        avg_booking_value = round(total_revenue / total_bookings, 2) if total_bookings > 0 else 0
+        
+        context = {
+            'company': company,
+            'service_stats': service_stats,
+            'services_no_bookings': services_no_bookings,
+            'total_bookings': total_bookings,
+            'total_revenue': total_revenue,
+            'avg_booking_value': avg_booking_value,
+            'status_stats': status_stats,
+            'monthly_data': monthly_data,
+            'top_customers': top_customers,
+            'date_range': date_range,
+            'start_date': start_date,
+            'end_date': end_date,
+        }
+        
+        return render(request, 'companies/analytics.html', context)
+    
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'User profile not found.')
+        return redirect('/')

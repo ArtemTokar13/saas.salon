@@ -1,0 +1,504 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Analytics" %} - {{ company.name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-gray-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-100">
+                        {% trans "Service Analytics" %}
+                    </h1>
+                    <p class="text-gray-100 mt-1">
+                        {{ company.name }}
+                    </p>
+                </div>
+                <a href="{% url 'company_dashboard' %}" class="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 border border-white text-sm font-medium rounded-md text-white hover:bg-white hover:text-blue-600 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    {% trans "Back to Dashboard" %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Date Range Filter -->
+        <div class="bg-white rounded-lg shadow mb-6 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">{% trans "Date Range" %}</h3>
+            <div class="flex flex-wrap gap-2">
+                <a href="?range=7" class="px-4 py-2 rounded-md {% if date_range == '7' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    {% trans "Last 7 Days" %}
+                </a>
+                <a href="?range=30" class="px-4 py-2 rounded-md {% if date_range == '30' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    {% trans "Last 30 Days" %}
+                </a>
+                <a href="?range=90" class="px-4 py-2 rounded-md {% if date_range == '90' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    {% trans "Last 90 Days" %}
+                </a>
+                <a href="?range=365" class="px-4 py-2 rounded-md {% if date_range == '365' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    {% trans "Last Year" %}
+                </a>
+                <a href="?range=all" class="px-4 py-2 rounded-md {% if date_range == 'all' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    {% trans "All Time" %}
+                </a>
+            </div>
+            {% if start_date %}
+            <p class="text-sm text-gray-600 mt-3">
+                {% trans "Showing data from" %} {{ start_date|date:"M d, Y" }} {% trans "to" %} {{ end_date|date:"M d, Y" }}
+            </p>
+            {% else %}
+            <p class="text-sm text-gray-600 mt-3">
+                {% trans "Showing all available data" %}
+            </p>
+            {% endif %}
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-blue-100 rounded-full p-3">
+                        <i class="fas fa-calendar-check text-blue-600 text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">{% trans "Total Confirmed Bookings" %}</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ total_bookings }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-green-100 rounded-full p-3">
+                        <i class="fas fa-dollar-sign text-green-600 text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">{% trans "Total Revenue" %}</p>
+                        <p class="text-3xl font-bold text-gray-900">${{ total_revenue|floatformat:2 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Status Breakdown -->
+        {% if status_stats %}
+        <div class="bg-white rounded-lg shadow mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">{% trans "Booking Status Breakdown" %}</h2>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    {% for status in status_stats %}
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <p class="text-sm text-gray-600">{{ status.status }}</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ status.count }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Service Performance Charts -->
+        {% if service_stats %}
+        <div class="grid grid-cols-1 gap-6 mb-8">
+            <!-- Bookings vs Revenue Comparison Chart -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">{% trans "Service Performance: Bookings vs Revenue" %}</h3>
+                <canvas id="comparisonChart" style="max-height: 400px;"></canvas>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Service Performance Table -->
+        <div class="bg-white rounded-lg shadow mb-8 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">{% trans "Service Performance" %}</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Service Name" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Bookings" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Usage %" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Revenue" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Revenue %" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Avg Price" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Unique Customers" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Status" %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for stat in service_stats %}
+                        <tr class="{% if not stat.service.is_active %}bg-gray-50{% endif %}">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">{{ stat.service.name }}</div>
+                                <div class="text-sm text-gray-500">${{ stat.service.price }} • {{ stat.service.duration }} {% trans "min" %}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ stat.booking_count }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: {{ stat.percentage }}%"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-900">{{ stat.percentage }}%</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">${{ stat.revenue|floatformat:2 }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-green-600 h-2 rounded-full" style="width: {{ stat.revenue_percentage }}%"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-900">{{ stat.revenue_percentage }}%</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">${{ stat.avg_price|floatformat:2 }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ stat.unique_customers }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if stat.service.is_active %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        {% trans "Active" %}
+                                    </span>
+                                {% else %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                        {% trans "Inactive" %}
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="px-6 py-4 text-center text-gray-500">
+                                {% trans "No services found." %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Services with No Bookings Alert -->
+        {% if services_no_bookings %}
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-yellow-800">
+                        {% trans "Services with No Bookings" %}
+                    </h3>
+                    <div class="mt-2 text-sm text-yellow-700">
+                        <p class="mb-2">{% trans "The following services have not received any confirmed bookings in the selected date range:" %}</p>
+                        <ul class="list-disc list-inside">
+                            {% for stat in services_no_bookings %}
+                            <li>{{ stat.service.name }} - ${{ stat.service.price }}</li>
+                            {% endfor %}
+                        </ul>
+                        <p class="mt-2">
+                            {% trans "Consider reviewing these services. You may want to adjust pricing, improve descriptions, or remove services that are no longer relevant." %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Monthly Trends Chart -->
+        {% if monthly_data %}
+        <div class="bg-white rounded-lg shadow mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">{% trans "Monthly Trends" %}</h2>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {% trans "Month" %}
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {% trans "Bookings" %}
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {% trans "Revenue" %}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for data in monthly_data %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {{ data.month|date:"F Y" }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {{ data.count }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    ${{ data.revenue|floatformat:2 }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Top Customers -->
+        {% if top_customers %}
+        <div class="bg-white rounded-lg shadow mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">{% trans "Top Customers" %}</h2>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {% trans "Customer Name" %}
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {% trans "Total Bookings" %}
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {% trans "Total Spent" %}
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    {% trans "Actions" %}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for customer in top_customers %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {{ customer.customer__name }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {{ customer.total_bookings }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    ${{ customer.total_spent|floatformat:2 }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <a href="{% url 'customer_detail' customer.customer__id %}" class="text-blue-600 hover:text-blue-900">
+                                        {% trans "View Details" %}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Insights & Recommendations -->
+        <div class="bg-white rounded-lg shadow mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">{% trans "Insights & Recommendations" %}</h2>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    {% if service_stats %}
+                        {% with most_popular=service_stats.0 %}
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-star text-blue-600 text-xl"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-gray-900">{% trans "Most Popular Service" %}</h3>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    <strong>{{ most_popular.service.name }}</strong> {% trans "is your most booked service with" %} {{ most_popular.booking_count }} {% trans "bookings, generating" %} ${{ most_popular.revenue|floatformat:2 }}.
+                                </p>
+                            </div>
+                        </div>
+                        {% endwith %}
+                    {% endif %}
+                    
+                    {% if services_no_bookings %}
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-lightbulb text-yellow-600 text-xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-gray-900">{% trans "Underperforming Services" %}</h3>
+                            <p class="text-sm text-gray-600 mt-1">
+                                {% trans "You have" %} {{ services_no_bookings|length }} {% trans "service(s) with no bookings. Consider promoting these services or removing them if they're no longer relevant." %}
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if total_bookings > 0 %}
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-chart-line text-green-600 text-xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-gray-900">{% trans "Average Booking Value" %}</h3>
+                            <p class="text-sm text-gray-600 mt-1">
+                                {% trans "Your average booking value is" %} ${{ avg_booking_value|floatformat:2 }}.
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    {% if service_stats %}
+    // Prepare data for charts
+    const serviceNames = [
+        {% for stat in service_stats %}
+        "{{ stat.service.name|escapejs }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    const bookingCounts = [
+        {% for stat in service_stats %}
+        {{ stat.booking_count }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    const revenues = [
+        {% for stat in service_stats %}
+        {{ stat.revenue }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    // Comparison Chart (Grouped Bar Chart with dual y-axes)
+    const comparisonCtx = document.getElementById('comparisonChart');
+    if (comparisonCtx) {
+        new Chart(comparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: serviceNames,
+                datasets: [
+                    {
+                        label: '{% trans "Bookings" %}',
+                        data: bookingCounts,
+                        backgroundColor: '#3B82F6',
+                        borderColor: '#2563EB',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: '{% trans "Revenue ($)" %}',
+                        data: revenues,
+                        backgroundColor: '#10B981',
+                        borderColor: '#059669',
+                        borderWidth: 1,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.datasetIndex === 0) {
+                                    label += context.parsed.y + ' {% trans "bookings" %}';
+                                } else {
+                                    label += '$' + context.parsed.y.toFixed(2);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '{% trans "Number of Bookings" %}'
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '{% trans "Revenue (€)" %}'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+    {% endif %}
+});
+</script>
+
+{% endblock %}

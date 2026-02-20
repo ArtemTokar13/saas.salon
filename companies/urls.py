@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/search-customers/', views.search_customers_ajax, name='search_customers_ajax'),
     path('customers/<int:customer_id>/', views.customer_detail, name='customer_detail'),
     path('qr-code/', views.generate_qr_code, name='generate_qr_code'),
+    path('analytics/', views.service_analytics, name='service_analytics'),
 ]

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 21:26+0100\n"
+"POT-Creation-Date: 2026-02-20 22:54+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,6 +30,7 @@ msgid "Yearly"
 msgstr "Anual"
 
 #: billing/models.py:107 templates/companies/add_service.html:92
+#: templates/companies/analytics.html:192
 #: templates/companies/edit_service.html:101
 #: templates/companies/services_list.html:29
 #: templates/companies/services_list.html:42
@@ -831,6 +832,7 @@ msgid "Plan"
 msgstr "Plan"
 
 #: templates/billing/subscription_details.html:91
+#: templates/companies/analytics.html:150
 msgid "Status"
 msgstr "Estado"
 
@@ -847,6 +849,7 @@ msgid "Account Summary"
 msgstr "Resumen de la cuenta"
 
 #: templates/billing/subscription_details.html:142
+#: templates/companies/analytics.html:301
 msgid "Total Spent"
 msgstr "Total gastado"
 
@@ -912,6 +915,9 @@ msgid "No plans available at the moment"
 msgstr "No hay planes disponibles en este momento"
 
 #: templates/bookings/bookings_list.html:10
+#: templates/companies/analytics.html:132
+#: templates/companies/analytics.html:255
+#: templates/companies/analytics.html:423
 msgid "Bookings"
 msgstr "Reservas"
 
@@ -943,6 +949,7 @@ msgid "Phone & Email"
 msgstr "Correo y telefono"
 
 #: templates/bookings/bookings_list.html:68
+#: templates/companies/analytics.html:304
 #: templates/companies/services_list.html:30
 #: templates/companies/staff_list.html:28
 msgid "Actions"
@@ -976,7 +983,7 @@ msgstr "Detalles de la reserva"
 #: templates/bookings/edit_booking.html:59
 #: templates/companies/customer_detail.html:20
 #: templates/companies/customers_list.html:55
-#: templates/companies/dashboard.html:129
+#: templates/companies/dashboard.html:133
 #: templates/companies/edit_profile.html:69
 #: templates/companies/register.html:89
 msgid "Phone"
@@ -990,7 +997,7 @@ msgstr "Fecha y hora"
 #: templates/bookings/confirm_prebooked.html:46
 #: templates/bookings/create_booking.html:73
 #: templates/bookings/edit_booking.html:77
-#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:135
+#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
 #: templates/companies/edit_profile.html:76
 #: templates/companies/edit_staff.html:16
 #: templates/companies/forgot_password.html:15
@@ -1206,10 +1213,12 @@ msgid "Customer Information"
 msgstr "Información del cliente"
 
 #: templates/bookings/edit_booking.html:54
+#: templates/companies/analytics.html:295
 msgid "Customer Name"
 msgstr "Nombre del cliente"
 
 #: templates/bookings/edit_booking.html:92
+#: templates/companies/analytics.html:159
 msgid "min"
 msgstr "minutos"
 
@@ -1347,6 +1356,211 @@ msgstr "Fecha de finalización fuera del salon"
 msgid "Services"
 msgstr "Servicios"
 
+#: templates/companies/analytics.html:4 templates/companies/dashboard.html:101
+msgid "Analytics"
+msgstr "Analítica"
+
+#: templates/companies/analytics.html:14
+msgid "Service Analytics"
+msgstr "Análisis de servicios"
+
+#: templates/companies/analytics.html:22
+msgid "Back to Dashboard"
+msgstr "Ir al panel de control"
+
+#: templates/companies/analytics.html:33
+msgid "Date Range"
+msgstr "Rango de fechas"
+
+#: templates/companies/analytics.html:36
+msgid "Last 7 Days"
+msgstr "Últimos 7 días"
+
+#: templates/companies/analytics.html:39
+msgid "Last 30 Days"
+msgstr "Últimos 30 días"
+
+#: templates/companies/analytics.html:42
+msgid "Last 90 Days"
+msgstr "Últimos 90 días"
+
+#: templates/companies/analytics.html:45
+msgid "Last Year"
+msgstr "Último año"
+
+#: templates/companies/analytics.html:48
+msgid "All Time"
+msgstr "Todo el tiempo"
+
+#: templates/companies/analytics.html:53
+msgid "Showing data from"
+msgstr "Mostrando datos de"
+
+#: templates/companies/analytics.html:53
+msgid "to"
+msgstr "a"
+
+#: templates/companies/analytics.html:57
+msgid "Showing all available data"
+msgstr "Mostrando todos los datos disponibles"
+
+#: templates/companies/analytics.html:70
+msgid "Total Confirmed Bookings"
+msgstr "Total de reservas confirmadas"
+
+#: templates/companies/analytics.html:82
+msgid "Total Revenue"
+msgstr "Ingresos totales"
+
+#: templates/companies/analytics.html:93
+msgid "Booking Status Breakdown"
+msgstr "Desglose del estado de la reserva"
+
+#: templates/companies/analytics.html:113
+msgid "Service Performance: Bookings vs Revenue"
+msgstr "Rendimiento del servicio: reservas vs. ingresos"
+
+#: templates/companies/analytics.html:122
+msgid "Service Performance"
+msgstr "Rendimiento del servicio"
+
+#: templates/companies/analytics.html:129
+#: templates/companies/customer_detail.html:33
+msgid "Service Name"
+msgstr "Servicio"
+
+#: templates/companies/analytics.html:135
+#, python-format
+msgid "Usage %%"
+msgstr "Uso %%"
+
+#: templates/companies/analytics.html:138
+#: templates/companies/analytics.html:258
+msgid "Revenue"
+msgstr "Ingresos"
+
+#: templates/companies/analytics.html:141
+#, python-format
+msgid "Revenue %%"
+msgstr "Ingresos %%"
+
+#: templates/companies/analytics.html:144
+msgid "Avg Price"
+msgstr "Precio promedio"
+
+#: templates/companies/analytics.html:147
+msgid "Unique Customers"
+msgstr "Clientes únicos"
+
+#: templates/companies/analytics.html:196
+#: templates/companies/services_list.html:44
+#: templates/companies/staff_list.html:49
+msgid "Inactive"
+msgstr "Inactivo"
+
+#: templates/companies/analytics.html:204
+#: templates/companies/customer_detail.html:45
+msgid "No services found."
+msgstr "No se encontraron servicios."
+
+#: templates/companies/analytics.html:222
+msgid "Services with No Bookings"
+msgstr "Servicios sin reservas"
+
+#: templates/companies/analytics.html:225
+msgid ""
+"The following services have not received any confirmed bookings in the "
+"selected date range:"
+msgstr ""
+"Los siguientes servicios no han recibido ninguna reserva confirmada en el "
+"rango de fechas seleccionado:"
+
+#: templates/companies/analytics.html:232
+msgid ""
+"Consider reviewing these services. You may want to adjust pricing, improve "
+"descriptions, or remove services that are no longer relevant."
+msgstr ""
+"Considere revisar estos servicios. Quizás quiera ajustar los precios, "
+"mejorar las descripciones o eliminar servicios que ya no sean relevantes."
+
+#: templates/companies/analytics.html:244
+msgid "Monthly Trends"
+msgstr "Tendencias mensuales"
+
+#: templates/companies/analytics.html:252
+msgid "Month"
+msgstr "Mes"
+
+#: templates/companies/analytics.html:287
+msgid "Top Customers"
+msgstr "Clientes principales"
+
+#: templates/companies/analytics.html:298
+msgid "Total Bookings"
+msgstr "Reservas totales"
+
+#: templates/companies/analytics.html:322
+msgid "View Details"
+msgstr "Ver detalles"
+
+#: templates/companies/analytics.html:337
+msgid "Insights & Recommendations"
+msgstr "Perspectivas y recomendaciones"
+
+#: templates/companies/analytics.html:348
+msgid "Most Popular Service"
+msgstr "Servicio más popular"
+
+#: templates/companies/analytics.html:350
+msgid "is your most booked service with"
+msgstr "es su servicio más reservado con"
+
+#: templates/companies/analytics.html:350
+msgid "bookings, generating"
+msgstr "reservas, generando"
+
+#: templates/companies/analytics.html:363
+msgid "Underperforming Services"
+msgstr "Servicios de bajo rendimiento"
+
+#: templates/companies/analytics.html:365
+msgid "You have"
+msgstr "Tienes"
+
+#: templates/companies/analytics.html:365
+msgid ""
+"service(s) with no bookings. Consider promoting these services or removing "
+"them if they're no longer relevant."
+msgstr ""
+"Servicio(s) sin reservas. Considere promocionar estos servicios o "
+"eliminarlos si ya no son relevantes."
+
+#: templates/companies/analytics.html:377
+msgid "Average Booking Value"
+msgstr "Gestiona las Reservas de tu Salón"
+
+#: templates/companies/analytics.html:379
+msgid "Your average booking value is"
+msgstr "Su valor de reserva promedio es"
+
+#: templates/companies/analytics.html:431
+#, fuzzy
+#| msgid "Revenue (€)"
+msgid "Revenue ($)"
+msgstr "Ingresos (€)"
+
+#: templates/companies/analytics.html:460
+msgid "bookings"
+msgstr "reservas"
+
+#: templates/companies/analytics.html:477
+msgid "Number of Bookings"
+msgstr "Número de reservas"
+
+#: templates/companies/analytics.html:490
+msgid "Revenue (€)"
+msgstr "Ingresos (€)"
+
 #: templates/companies/customer_detail.html:4
 msgid "Customer Detail"
 msgstr "Detalle del cliente"
@@ -1355,17 +1569,9 @@ msgstr "Detalle del cliente"
 msgid "Services Booked"
 msgstr "Servicios"
 
-#: templates/companies/customer_detail.html:33
-msgid "Service Name"
-msgstr "Servicio"
-
 #: templates/companies/customer_detail.html:34
 msgid "Times Booked"
 msgstr "Tiempo"
-
-#: templates/companies/customer_detail.html:45
-msgid "No services found."
-msgstr "No se encontraron servicios."
 
 #: templates/companies/customer_detail.html:55
 msgid "Booking History"
@@ -1470,54 +1676,54 @@ msgstr "Añadir Personal"
 msgid "View Customers"
 msgstr "Ver clientes"
 
-#: templates/companies/dashboard.html:101
+#: templates/companies/dashboard.html:105
 msgid "Edit Profile"
 msgstr "Editar Perfil"
 
-#: templates/companies/dashboard.html:105
+#: templates/companies/dashboard.html:109
 msgid "Set Hours"
 msgstr "Establecer Horarios"
 
-#: templates/companies/dashboard.html:109
+#: templates/companies/dashboard.html:113
 msgid "View Public Page"
 msgstr "Ver Página Pública"
 
-#: templates/companies/dashboard.html:119 templates/companies/register.html:55
+#: templates/companies/dashboard.html:123 templates/companies/register.html:55
 msgid "Company Information"
 msgstr "Información de la Empresa"
 
-#: templates/companies/dashboard.html:124
+#: templates/companies/dashboard.html:128
 #: templates/companies/edit_profile.html:39
 #: templates/companies/register.html:73
 msgid "Address"
 msgstr "Dirección"
 
-#: templates/companies/dashboard.html:141
+#: templates/companies/dashboard.html:145
 #: templates/companies/edit_profile.html:85
 msgid "Website"
 msgstr "Sitio Web"
 
-#: templates/companies/dashboard.html:151
+#: templates/companies/dashboard.html:155
 msgid "Booking Link"
 msgstr "Enlace de Reservas"
 
-#: templates/companies/dashboard.html:154
+#: templates/companies/dashboard.html:158
 msgid "Share this link with your customers:"
 msgstr "Comparte este enlace con tus clientes:"
 
-#: templates/companies/dashboard.html:159
+#: templates/companies/dashboard.html:163
 msgid "Copy"
 msgstr "Copiar"
 
-#: templates/companies/dashboard.html:165
+#: templates/companies/dashboard.html:169
 msgid "Download QR Code"
 msgstr "Descargar código QR"
 
-#: templates/companies/dashboard.html:171
+#: templates/companies/dashboard.html:175
 msgid "QR Code Preview:"
 msgstr "Vista previa del código QR:"
 
-#: templates/companies/dashboard.html:186
+#: templates/companies/dashboard.html:190
 msgid "Link copied to clipboard!"
 msgstr "¡Enlace copiado al portapapeles!"
 
@@ -1763,11 +1969,6 @@ msgstr "Establezca su contraseña para restablecer su cuenta."
 #: templates/companies/services_list.html:28
 msgid "Time for Servicing"
 msgstr "Tiempo de servicio"
-
-#: templates/companies/services_list.html:44
-#: templates/companies/staff_list.html:49
-msgid "Inactive"
-msgstr "Inactivo"
 
 #: templates/companies/services_list.html:59
 msgid "No Services Found"

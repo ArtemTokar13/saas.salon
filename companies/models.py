@@ -59,6 +59,14 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
     online_appointments_enabled = models.BooleanField(default=True)
+    
+    # Stripe Connect fields for receiving payments
+    stripe_account_id = models.CharField(max_length=255, blank=True, null=True, help_text="Stripe Connect Account ID")
+    stripe_onboarding_completed = models.BooleanField(default=False, help_text="Whether Stripe onboarding is complete")
+    stripe_charges_enabled = models.BooleanField(default=False, help_text="Whether the account can receive payments")
+    stripe_payouts_enabled = models.BooleanField(default=False, help_text="Whether the account can receive payouts")
+    stripe_details_submitted = models.BooleanField(default=False, help_text="Whether account details have been submitted")
+    accepts_online_payments = models.BooleanField(default=False, help_text="Whether salon accepts online payments for bookings")
 
     MAX_LOGO_SIZE_KB = 200
     MAX_DIMENSIONS = (400, 400)

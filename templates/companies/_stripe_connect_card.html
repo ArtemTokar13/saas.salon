@@ -1,0 +1,73 @@
+{% load i18n %}
+{# 
+  CODE SNIPPET: Add to templates/companies/dashboard.html
+  
+  Shows Stripe Connect status and link in company dashboard
+#}
+
+<!-- Stripe Connect Payment Settings Card -->
+<div class="bg-white shadow-md rounded-lg p-6 mb-6">
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold text-gray-800">
+            <i class="fas fa-credit-card mr-2"></i>
+            {% trans "Online Payments" %}
+        </h2>
+        <a href="{% url 'stripe_connect_dashboard' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+            {% trans "Manage" %} →
+        </a>
+    </div>
+    
+    {% if company.stripe_onboarding_completed %}
+        <div class="space-y-2">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                <span class="text-gray-700">
+                    {% if company.accepts_online_payments %}
+                        {% trans "Online payments are enabled" %}
+                    {% else %}
+                        {% trans "Stripe connected (payments disabled)" %}
+                    {% endif %}
+                </span>
+            </div>
+            
+            {% if company.accepts_online_payments %}
+                <p class="text-sm text-gray-600 mt-2">
+                    {% trans "Customers can pay online when booking appointments." %}
+                </p>
+            {% else %}
+                <p class="text-sm text-gray-600 mt-2">
+                    {% trans "Enable online payments in settings to allow customers to pay online." %}
+                </p>
+            {% endif %}
+            
+            <div class="mt-4">
+                <a href="{% url 'stripe_connect_dashboard' %}" 
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
+                    <i class="fas fa-cog mr-2"></i>
+                    {% trans "Payment Settings" %}
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        {% trans "Connect your Stripe account to start accepting online payments from customers." %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <a href="{% url 'stripe_connect_onboard' %}" 
+               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
+                <i class="fas fa-link mr-2"></i>
+                {% trans "Connect Stripe Account" %}
+            </a>
+        </div>
+    {% endif %}
+</div>

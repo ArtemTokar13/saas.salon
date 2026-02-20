@@ -42,6 +42,24 @@ class Booking(models.Model):
     reminder_sent = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
     client_notes = models.TextField(blank=True, null=True, help_text="Notes added by the client when booking")
+    
+    # Payment fields for online payments via Stripe Connect
+    payment_required = models.BooleanField(default=False, help_text="Whether this booking requires online payment")
+    payment_status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'Pending'),
+            ('paid', 'Paid'),
+            ('failed', 'Failed'),
+            ('refunded', 'Refunded'),
+        ],
+        default='pending',
+        help_text="Payment status"
+    )
+    stripe_checkout_session_id = models.CharField(max_length=255, blank=True, null=True, help_text="Stripe Checkout Session ID")
+    stripe_payment_intent_id = models.CharField(max_length=255, blank=True, null=True, help_text="Stripe Payment Intent ID")
+    paid_amount = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True, help_text="Amount paid by customer")
+    paid_at = models.DateTimeField(blank=True, null=True, help_text="When payment was completed")
 
     def __str__(self):
         return f"{self.customer.name} → {self.service.name} ({self.date})"

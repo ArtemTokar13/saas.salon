@@ -1,0 +1,56 @@
+{% load i18n %}
+{# 
+  Reusable template snippet for "Pay Online" button 
+  Usage: {% include 'billing/_pay_online_button.html' with booking=booking %}
+#}
+
+{% if booking.company.accepts_online_payments and booking.payment_status != 'paid' %}
+    <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900">{% trans "Pay Online" %}</h3>
+                <p class="text-sm text-gray-600 mt-1">
+                    {% trans "Secure payment powered by Stripe" %}
+                </p>
+                <p class="text-lg font-bold text-gray-900 mt-2">
+                    {% if booking.price %}
+                        €{{ booking.price }}
+                    {% else %}
+                        €{{ booking.service.price }}
+                    {% endif %}
+                </p>
+            </div>
+            <div>
+                <a href="{% url 'create_booking_payment' booking.id %}" 
+                   class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold shadow-md">
+                    <i class="fas fa-credit-card mr-2"></i>
+                    {% trans "Pay Now" %}
+                </a>
+            </div>
+        </div>
+        
+        {% if booking.payment_status == 'failed' %}
+        <div class="mt-3 p-3 bg-red-50 border border-red-200 rounded">
+            <p class="text-sm text-red-700">
+                <i class="fas fa-exclamation-circle mr-1"></i>
+                {% trans "Previous payment attempt failed. Please try again." %}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+{% elif booking.payment_status == 'paid' %}
+    <div class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle text-green-600 text-2xl mr-3"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-green-900">{% trans "Paid" %}</h3>
+                <p class="text-sm text-green-700">
+                    {% trans "Payment received on" %} {{ booking.paid_at|date:"SHORT_DATE_FORMAT" }}
+                </p>
+                <p class="text-sm text-green-700">
+                    {% trans "Amount:" %} €{{ booking.paid_amount }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,215 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Stripe Connect Dashboard" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">{% trans "Payment Settings" %}</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">{% trans "Stripe Account Status" %}</h2>
+        
+        {% if company.stripe_account_id %}
+            <div class="space-y-3">
+                {% if account_status %}
+                    <div class="flex items-center">
+                        <span class="font-medium w-48">{% trans "Account Connected:" %}</span>
+                        <span class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            {% trans "Yes" %}
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <span class="font-medium w-48">{% trans "Can Accept Payments:" %}</span>
+                        <span class="flex items-center">
+                            {% if account_status.charges_enabled %}
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                {% trans "Yes" %}
+                            {% else %}
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i>
+                                {% trans "No" %}
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <span class="font-medium w-48">{% trans "Can Receive Payouts:" %}</span>
+                        <span class="flex items-center">
+                            {% if account_status.payouts_enabled %}
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                {% trans "Yes" %}
+                            {% else %}
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i>
+                                {% trans "No" %}
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <span class="font-medium w-48">{% trans "Details Submitted:" %}</span>
+                        <span class="flex items-center">
+                            {% if account_status.details_submitted %}
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                {% trans "Yes" %}
+                            {% else %}
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i>
+                                {% trans "No" %}
+                            {% endif %}
+                        </span>
+                    </div>
+                {% else %}
+                    <p class="text-gray-600">{% trans "Unable to fetch account status." %}</p>
+                {% endif %}
+                
+                <div class="flex items-center">
+                    <span class="font-medium w-48">{% trans "Online Payments:" %}</span>
+                    <span class="flex items-center">
+                        {% if company.accepts_online_payments %}
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                                {% trans "Enabled" %}
+                            </span>
+                        {% else %}
+                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold">
+                                {% trans "Disabled" %}
+                            </span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="mt-6 space-x-3">
+                {% if not company.stripe_onboarding_completed %}
+                    <a href="{% url 'stripe_connect_onboard' %}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-redo mr-2"></i>
+                        {% trans "Complete Onboarding" %}
+                    </a>
+                {% else %}
+                    <a href="{% url 'stripe_connect_dashboard_link' %}" class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                        <i class="fas fa-external-link-alt mr-2"></i>
+                        {% trans "View Stripe Dashboard" %}
+                    </a>
+                    
+                    <button onclick="toggleOnlinePayments()" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
+                        {% if company.accepts_online_payments %}
+                            <i class="fas fa-toggle-on mr-2"></i>
+                            {% trans "Disable Online Payments" %}
+                        {% else %}
+                            <i class="fas fa-toggle-off mr-2"></i>
+                            {% trans "Enable Online Payments" %}
+                        {% endif %}
+                    </button>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-yellow-700">
+                            {% trans "You haven't connected a Stripe account yet. Connect your account to start accepting online payments from your customers." %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="{% url 'stripe_connect_onboard' %}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
+                <i class="fas fa-link mr-2"></i>
+                {% trans "Connect Stripe Account" %}
+            </a>
+        {% endif %}
+    </div>
+
+    {% if company.accepts_online_payments %}
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">{% trans "Recent Bookings with Payments" %}</h2>
+        
+        {% if recent_bookings %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Date" %}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Customer" %}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Service" %}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Amount" %}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Payment Status" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for booking in recent_bookings %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ booking.date }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ booking.customer.name }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ booking.service.name }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                €{{ booking.paid_amount|default:booking.price }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if booking.payment_status == 'paid' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        {% trans "Paid" %}
+                                    </span>
+                                {% elif booking.payment_status == 'pending' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        {% trans "Pending" %}
+                                    </span>
+                                {% elif booking.payment_status == 'failed' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        {% trans "Failed" %}
+                                    </span>
+                                {% elif booking.payment_status == 'refunded' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                        {% trans "Refunded" %}
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-gray-600">{% trans "No bookings with payment information yet." %}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function toggleOnlinePayments() {
+    const currentState = {{ company.accepts_online_payments|lower }};
+    
+    if (confirm('Are you sure you want to ' + (currentState ? 'disable' : 'enable') + ' online payments?')) {
+        fetch('{% url "toggle_online_payments" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'enable=' + (!currentState)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            alert('An error occurred. Please try again.');
+        });
+    }
+}
+</script>
+{% endblock %}

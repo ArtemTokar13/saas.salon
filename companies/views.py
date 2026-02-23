@@ -1239,6 +1239,44 @@ def service_analytics(request):
         # Calculate average booking value
         avg_booking_value = round(total_revenue / total_bookings, 2) if total_bookings > 0 else 0
         
+        # Staff effectiveness analytics
+        staff_members = Staff.objects.filter(company=company, is_active=True)
+        staff_stats = []
+        
+        for staff in staff_members:
+            staff_bookings = confirmed_bookings.filter(staff=staff)
+            booking_count = staff_bookings.count()
+            revenue = staff_bookings.aggregate(total=Sum('price'))['total'] or 0
+            
+            # Calculate effectiveness percentage
+            effectiveness = (booking_count / total_bookings * 100) if total_bookings > 0 else 0
+            revenue_percentage = (revenue / total_revenue * 100) if total_revenue > 0 else 0
+            
+            # Get unique customers served by this staff member
+            unique_customers = staff_bookings.values('customer').distinct().count()
+            
+            # Calculate time-based metrics
+            total_minutes = staff_bookings.aggregate(total=Sum('duration'))['total'] or 0
+            hours = int(total_minutes // 60) if total_minutes > 0 else 0
+            minutes = int(total_minutes % 60) if total_minutes > 0 else 0
+            avg_duration = round(total_minutes / booking_count, 0) if booking_count > 0 else 0
+            
+            staff_stats.append({
+                'staff': staff,
+                'booking_count': booking_count,
+                'revenue': revenue,
+                'effectiveness': round(effectiveness, 1),
+                'revenue_percentage': round(revenue_percentage, 1),
+                'unique_customers': unique_customers,
+                'avg_booking_value': round(revenue / booking_count, 2) if booking_count > 0 else 0,
+                'total_hours': hours,
+                'total_minutes': minutes,
+                'avg_duration': avg_duration,
+            })
+        
+        # Sort by booking count (most effective first)
+        staff_stats.sort(key=lambda x: x['booking_count'], reverse=True)
+        
         context = {
             'company': company,
             'service_stats': service_stats,
@@ -1249,6 +1287,7 @@ def service_analytics(request):
             'status_stats': status_stats,
             'monthly_data': monthly_data,
             'top_customers': top_customers,
+            'staff_stats': staff_stats,
             'date_range': date_range,
             'start_date': start_date,
             'end_date': end_date,

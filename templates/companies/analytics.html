@@ -237,6 +237,128 @@
         </div>
         {% endif %}
 
+        <!-- Staff Effectiveness Section -->
+        {% if staff_stats %}
+        <!-- Staff Effectiveness Chart -->
+        <div class="grid grid-cols-1 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">{% trans "Staff Effectiveness: Bookings vs Revenue" %}</h3>
+                <canvas id="staffEffectivenessChart" style="max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Staff Performance Table -->
+        <div class="bg-white rounded-lg shadow mb-8 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">{% trans "Staff Performance" %}</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Staff Member" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Bookings" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Effectiveness %" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Revenue" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Revenue %" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Avg Booking Value" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Unique Customers" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Total Hours" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {% trans "Avg Duration" %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for stat in staff_stats %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    {% if stat.staff.avatar %}
+                                    <img class="h-10 w-10 rounded-full" src="{{ stat.staff.avatar.url }}" alt="{{ stat.staff.name }}">
+                                    {% else %}
+                                    <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                        <i class="fas fa-user text-gray-600"></i>
+                                    </div>
+                                    {% endif %}
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">{{ stat.staff.name }}</div>
+                                        {% if stat.staff.specialization %}
+                                        <div class="text-sm text-gray-500">{{ stat.staff.specialization }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ stat.booking_count }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: {{ stat.effectiveness }}%"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-900">{{ stat.effectiveness }}%</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">${{ stat.revenue|floatformat:2 }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-green-600 h-2 rounded-full" style="width: {{ stat.revenue_percentage }}%"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-900">{{ stat.revenue_percentage }}%</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">${{ stat.avg_booking_value|floatformat:2 }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ stat.unique_customers }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
+                                    {% if stat.total_hours > 0 or stat.total_minutes > 0 %}
+                                        {% if stat.total_hours > 0 %}{{ stat.total_hours }}h {% endif %}{% if stat.total_minutes > 0 %}{{ stat.total_minutes }}m{% endif %}
+                                    {% else %}
+                                        0m
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ stat.avg_duration }} {% trans "min" %}</div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="9" class="px-6 py-4 text-center text-gray-500">
+                                {% trans "No active staff members found." %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Monthly Trends Chart -->
         {% if monthly_data %}
         <div class="bg-white rounded-lg shadow mb-8">
@@ -488,6 +610,114 @@ document.addEventListener('DOMContentLoaded', function() {
                         title: {
                             display: true,
                             text: '{% trans "Revenue (€)" %}'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+    {% endif %}
+    
+    {% if staff_stats %}
+    // Prepare data for staff effectiveness chart
+    const staffNames = [
+        {% for stat in staff_stats %}
+        "{{ stat.staff.name|escapejs }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    const staffBookingCounts = [
+        {% for stat in staff_stats %}
+        {{ stat.booking_count }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    const staffRevenues = [
+        {% for stat in staff_stats %}
+        {{ stat.revenue }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    // Staff Effectiveness Chart (Grouped Bar Chart with dual y-axes)
+    const staffCtx = document.getElementById('staffEffectivenessChart');
+    if (staffCtx) {
+        new Chart(staffCtx, {
+            type: 'bar',
+            data: {
+                labels: staffNames,
+                datasets: [
+                    {
+                        label: '{% trans "Bookings" %}',
+                        data: staffBookingCounts,
+                        backgroundColor: '#3B82F6',
+                        borderColor: '#2563EB',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: '{% trans "Revenue ($)" %}',
+                        data: staffRevenues,
+                        backgroundColor: '#10B981',
+                        borderColor: '#059669',
+                        borderWidth: 1,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.datasetIndex === 0) {
+                                    label += context.parsed.y + ' {% trans "bookings" %}';
+                                } else {
+                                    label += '$' + context.parsed.y.toFixed(2);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '{% trans "Number of Bookings" %}'
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '{% trans "Revenue ($)" %}'
                         },
                         grid: {
                             drawOnChartArea: false

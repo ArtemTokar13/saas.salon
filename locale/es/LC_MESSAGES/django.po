@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-20 22:54+0100\n"
+"POT-Creation-Date: 2026-02-23 22:35+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -849,7 +849,7 @@ msgid "Account Summary"
 msgstr "Resumen de la cuenta"
 
 #: templates/billing/subscription_details.html:142
-#: templates/companies/analytics.html:301
+#: templates/companies/analytics.html:423
 msgid "Total Spent"
 msgstr "Total gastado"
 
@@ -916,8 +916,10 @@ msgstr "No hay planes disponibles en este momento"
 
 #: templates/bookings/bookings_list.html:10
 #: templates/companies/analytics.html:132
-#: templates/companies/analytics.html:255
-#: templates/companies/analytics.html:423
+#: templates/companies/analytics.html:263
+#: templates/companies/analytics.html:377
+#: templates/companies/analytics.html:545
+#: templates/companies/analytics.html:653
 msgid "Bookings"
 msgstr "Reservas"
 
@@ -949,7 +951,7 @@ msgid "Phone & Email"
 msgstr "Correo y telefono"
 
 #: templates/bookings/bookings_list.html:68
-#: templates/companies/analytics.html:304
+#: templates/companies/analytics.html:426
 #: templates/companies/services_list.html:30
 #: templates/companies/staff_list.html:28
 msgid "Actions"
@@ -1213,12 +1215,13 @@ msgid "Customer Information"
 msgstr "Información del cliente"
 
 #: templates/bookings/edit_booking.html:54
-#: templates/companies/analytics.html:295
+#: templates/companies/analytics.html:417
 msgid "Customer Name"
 msgstr "Nombre del cliente"
 
 #: templates/bookings/edit_booking.html:92
 #: templates/companies/analytics.html:159
+#: templates/companies/analytics.html:346
 msgid "min"
 msgstr "minutos"
 
@@ -1435,11 +1438,13 @@ msgid "Usage %%"
 msgstr "Uso %%"
 
 #: templates/companies/analytics.html:138
-#: templates/companies/analytics.html:258
+#: templates/companies/analytics.html:269
+#: templates/companies/analytics.html:380
 msgid "Revenue"
 msgstr "Ingresos"
 
 #: templates/companies/analytics.html:141
+#: templates/companies/analytics.html:272
 #, python-format
 msgid "Revenue %%"
 msgstr "Ingresos %%"
@@ -1449,6 +1454,7 @@ msgid "Avg Price"
 msgstr "Precio promedio"
 
 #: templates/companies/analytics.html:147
+#: templates/companies/analytics.html:278
 msgid "Unique Customers"
 msgstr "Clientes únicos"
 
@@ -1483,51 +1489,83 @@ msgstr ""
 "Considere revisar estos servicios. Quizás quiera ajustar los precios, "
 "mejorar las descripciones o eliminar servicios que ya no sean relevantes."
 
-#: templates/companies/analytics.html:244
+#: templates/companies/analytics.html:245
+msgid "Staff Effectiveness: Bookings vs Revenue"
+msgstr "Eficacia del personal: reservas vs. ingresos"
+
+#: templates/companies/analytics.html:253
+msgid "Staff Performance"
+msgstr "Desempeño del personal"
+
+#: templates/companies/analytics.html:260
+msgid "Staff Member"
+msgstr "Miembro"
+
+#: templates/companies/analytics.html:266
+msgid "Effectiveness %%"
+msgstr "Eficacia %%"
+
+#: templates/companies/analytics.html:275
+msgid "Avg Booking Value"
+msgstr "Valor medio de reserva"
+
+#: templates/companies/analytics.html:281
+msgid "Total Hours"
+msgstr "Total de horas"
+
+#: templates/companies/analytics.html:284
+msgid "Avg Duration"
+msgstr "Duración media"
+
+#: templates/companies/analytics.html:352
+msgid "No active staff members found."
+msgstr "No se encontraron miembros del personal activos."
+
+#: templates/companies/analytics.html:366
 msgid "Monthly Trends"
 msgstr "Tendencias mensuales"
 
-#: templates/companies/analytics.html:252
+#: templates/companies/analytics.html:374
 msgid "Month"
 msgstr "Mes"
 
-#: templates/companies/analytics.html:287
+#: templates/companies/analytics.html:409
 msgid "Top Customers"
 msgstr "Clientes principales"
 
-#: templates/companies/analytics.html:298
+#: templates/companies/analytics.html:420
 msgid "Total Bookings"
 msgstr "Reservas totales"
 
-#: templates/companies/analytics.html:322
+#: templates/companies/analytics.html:444
 msgid "View Details"
 msgstr "Ver detalles"
 
-#: templates/companies/analytics.html:337
+#: templates/companies/analytics.html:459
 msgid "Insights & Recommendations"
 msgstr "Perspectivas y recomendaciones"
 
-#: templates/companies/analytics.html:348
+#: templates/companies/analytics.html:470
 msgid "Most Popular Service"
 msgstr "Servicio más popular"
 
-#: templates/companies/analytics.html:350
+#: templates/companies/analytics.html:472
 msgid "is your most booked service with"
 msgstr "es su servicio más reservado con"
 
-#: templates/companies/analytics.html:350
+#: templates/companies/analytics.html:472
 msgid "bookings, generating"
 msgstr "reservas, generando"
 
-#: templates/companies/analytics.html:363
+#: templates/companies/analytics.html:485
 msgid "Underperforming Services"
 msgstr "Servicios de bajo rendimiento"
 
-#: templates/companies/analytics.html:365
+#: templates/companies/analytics.html:487
 msgid "You have"
 msgstr "Tienes"
 
-#: templates/companies/analytics.html:365
+#: templates/companies/analytics.html:487
 msgid ""
 "service(s) with no bookings. Consider promoting these services or removing "
 "them if they're no longer relevant."
@@ -1535,29 +1573,33 @@ msgstr ""
 "Servicio(s) sin reservas. Considere promocionar estos servicios o "
 "eliminarlos si ya no son relevantes."
 
-#: templates/companies/analytics.html:377
+#: templates/companies/analytics.html:499
 msgid "Average Booking Value"
 msgstr "Gestiona las Reservas de tu Salón"
 
-#: templates/companies/analytics.html:379
+#: templates/companies/analytics.html:501
 msgid "Your average booking value is"
 msgstr "Su valor de reserva promedio es"
 
-#: templates/companies/analytics.html:431
+#: templates/companies/analytics.html:553
+#: templates/companies/analytics.html:661
+#: templates/companies/analytics.html:720
 #, fuzzy
 #| msgid "Revenue (€)"
 msgid "Revenue ($)"
 msgstr "Ingresos (€)"
 
-#: templates/companies/analytics.html:460
+#: templates/companies/analytics.html:582
+#: templates/companies/analytics.html:690
 msgid "bookings"
 msgstr "reservas"
 
-#: templates/companies/analytics.html:477
+#: templates/companies/analytics.html:599
+#: templates/companies/analytics.html:707
 msgid "Number of Bookings"
 msgstr "Número de reservas"
 
-#: templates/companies/analytics.html:490
+#: templates/companies/analytics.html:612
 msgid "Revenue (€)"
 msgstr "Ingresos (€)"
 

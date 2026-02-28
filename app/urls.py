@@ -58,6 +58,7 @@ urlpatterns += i18n_patterns(
     path('platform-admin/companies/', admin_views.manage_companies, name='manage_companies'),
     path('platform-admin/plans/', admin_views.manage_plans, name='manage_plans'),
     path('platform-admin/subscriptions/', admin_views.manage_subscriptions, name='manage_subscriptions'),
+    path('platform-admin/qrcode/', admin_views.qrcode_generator, name='qrcode_generator'),
 
     ################################################################
     path("schedule/", schedule_page, name="schedule_page"),

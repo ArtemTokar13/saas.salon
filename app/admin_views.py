@@ -4,11 +4,14 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Count, Sum, Q
+from django.http import HttpResponse
 from companies.models import Company, Staff, Service
 from bookings.models import Booking, Customer
 from billing.models import Plan, Subscription, Transaction
 from users.models import UserProfile
 from users.models import DailyVisit
+import qrcode
+from io import BytesIO
 
 
 def is_superuser(user):
@@ -124,3 +127,55 @@ def manage_subscriptions(request):
     }
     
     return render(request, 'admin_dashboard/manage_subscriptions.html', context)
+
+
+@login_required
+@user_passes_test(is_superuser)
+def qrcode_generator(request):
+    """Generate QR codes from URLs"""
+    if request.method == 'POST':
+        url = request.POST.get('url', '').strip()
+        
+        if not url:
+            messages.error(request, 'Please provide a URL')
+            return render(request, 'admin_dashboard/qrcode_generator.html')
+        
+        # Generate QR code
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(url)
+        qr.make(fit=True)
+        
+        # Create an image with transparent background
+        from PIL import Image
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        # Convert to RGBA and make white pixels transparent
+        img = img.convert("RGBA")
+        datas = img.getdata()
+        
+        new_data = []
+        for item in datas:
+            # Change all white (also shades of whites) pixels to transparent
+            if item[0] > 200 and item[1] > 200 and item[2] > 200:
+                new_data.append((255, 255, 255, 0))  # Transparent
+            else:
+                new_data.append(item)
+        
+        img.putdata(new_data)
+        
+        # Save to BytesIO buffer
+        buffer = BytesIO()
+        img.save(buffer, format='PNG')
+        buffer.seek(0)
+        
+        # Return as downloadable file
+        response = HttpResponse(buffer, content_type='image/png')
+        response['Content-Disposition'] = 'attachment; filename="qrcode.png"'
+        return response
+    
+    return render(request, 'admin_dashboard/qrcode_generator.html')

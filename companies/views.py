@@ -785,7 +785,8 @@ def add_service(request):
                     need_staff_confirmation=form.cleaned_data['need_staff_confirmation'],
                     is_active=form.cleaned_data['is_active'],
                     restrict_to_available_dates=form.cleaned_data['restrict_to_available_dates'],
-                    available_dates=available_dates
+                    available_dates=available_dates,
+                    requires_online_payment=form.cleaned_data['requires_online_payment']
                 )
                 messages.success(request, 'Service added successfully!')
                 return redirect('service_list')
@@ -829,6 +830,7 @@ def edit_service(request, service_id):
                 service.is_active = form.cleaned_data['is_active']
                 service.restrict_to_available_dates = form.cleaned_data['restrict_to_available_dates']
                 service.available_dates = available_dates
+                service.requires_online_payment = form.cleaned_data['requires_online_payment']
                 service.save()
                 messages.success(request, 'Service updated successfully!')
                 return redirect('service_list')
@@ -841,6 +843,7 @@ def edit_service(request, service_id):
                 'need_staff_confirmation': service.need_staff_confirmation,
                 'is_active': service.is_active,
                 'restrict_to_available_dates': service.restrict_to_available_dates,
+                'requires_online_payment': service.requires_online_payment,
             }
             form = ServiceForm(initial=initial_data, company=profile.company)
         

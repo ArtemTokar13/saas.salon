@@ -109,6 +109,7 @@ class ServiceForm(forms.Form):
     is_active = forms.BooleanField(initial=True, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
     need_staff_confirmation = forms.BooleanField(initial=False, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
     restrict_to_available_dates = forms.BooleanField(initial=False, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
+    requires_online_payment = forms.BooleanField(initial=False, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
 
     def __init__(self, *args, **kwargs):
         company = kwargs.pop('company', None)

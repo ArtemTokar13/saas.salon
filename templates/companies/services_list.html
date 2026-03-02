@@ -26,6 +26,7 @@
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Price" %}</th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Duration" %}</th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Time for Servicing" %}</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Payment" %}</th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Active" %}</th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{% trans "Actions" %}</th>
             </tr>
@@ -33,10 +34,28 @@
         <tbody class="bg-white divide-y divide-gray-200">
             {% for service in services %}
             <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ service.name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {{ service.name }}
+                    {% if service.requires_online_payment %}
+                        <span class="ml-2 text-xs" title="{% trans 'Online payment required' %}">
+                            <i class="fas fa-credit-card text-blue-600"></i>
+                        </span>
+                    {% endif %}
+                </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ service.price|floatformat:2 }} €</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ service.duration }} {% trans "minutes" %}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ service.time_for_servicing }} {% trans "minutes" %}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {% if service.requires_online_payment %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                            {% trans "Required" %}
+                        </span>
+                    {% else %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-600">
+                            {% trans "Optional" %}
+                        </span>
+                    {% endif %}
+                </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {% if service.is_active %}
                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">{% trans "Active" %}</span>

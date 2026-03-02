@@ -173,6 +173,10 @@ class Service(models.Model):
         blank=True,
         help_text="List of dates when this service is available (format: YYYY-MM-DD). Max 10 dates."
     )
+    requires_online_payment = models.BooleanField(
+        default=False,
+        help_text="If checked, customers must pay online when booking this service"
+    )
 
     def __str__(self):
         return f"{self.name} — {self.company.name}"

@@ -31,10 +31,13 @@ urlpatterns = [
     # API endpoints (no i18n prefix)
     path('api/', include('api.urls')),
     path('billing/webhook/', stripe_webhook, name='stripe_webhook'),
+    # WhatsApp webhook (no i18n prefix, no CSRF)
+    path('whatsapp/', include('whatsapp_bot.urls')),
 ]
 
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('hijack/', include('hijack.urls')),
     path('', Index, name='index'),
     path('companies/', include('companies.urls')),

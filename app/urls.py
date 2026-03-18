@@ -31,6 +31,8 @@ urlpatterns = [
     # API endpoints (no i18n prefix)
     path('api/', include('api.urls')),
     path('billing/webhook/', stripe_webhook, name='stripe_webhook'),
+    # Allauth URLs (no i18n prefix for OAuth callbacks)
+    path('accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += i18n_patterns(

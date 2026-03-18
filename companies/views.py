@@ -38,17 +38,24 @@ logger = logging.getLogger(__name__)
 
 def register_company(request):
     """Company registration with user creation and subscription"""
+    # Check if user is already authenticated (e.g., via Google OAuth)
+    user_already_exists = request.user.is_authenticated
+    
     if request.method == 'POST':
-        form = CompanyRegistrationForm(request.POST, request.FILES)
+        form = CompanyRegistrationForm(request.POST, request.FILES, user_exists=user_already_exists)
         if form.is_valid():
-            # create user as inactive until email confirmation
-            user = User.objects.create_user(
-                username=form.cleaned_data['email'],
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password1']
-            )
-            user.is_active = False
-            user.save()
+            # Use existing user or create new one
+            if user_already_exists:
+                user = request.user
+            else:
+                # create user as inactive until email confirmation
+                user = User.objects.create_user(
+                    username=form.cleaned_data['email'],
+                    email=form.cleaned_data['email'],
+                    password=form.cleaned_data['password1']
+                )
+                user.is_active = False
+                user.save()
 
             company = Company.objects.create(
                 administrator=user,
@@ -61,72 +68,84 @@ def register_company(request):
                 logo=form.cleaned_data.get('company_logo')
             )
 
-            UserProfile.objects.create(
-                user=user,
-                company=company,
-                is_admin=True
-            )
+            # Update or create UserProfile
+            user_profile, created = UserProfile.objects.get_or_create(user=user)
+            user_profile.company = company
+            user_profile.is_admin = True
+            user_profile.save()
 
-            # build activation link (uid + token)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            token = default_token_generator.make_token(user)
-            activate_path = reverse('activate_company', args=[uid, token])
-            activate_link = request.build_absolute_uri(activate_path)
+            if user_already_exists:
+                # User already authenticated, just redirect to dashboard
+                messages.success(request, 'Company registered successfully!')
+                return redirect('company_dashboard')
+            else:
+                # build activation link (uid + token)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                token = default_token_generator.make_token(user)
+                activate_path = reverse('activate_company', args=[uid, token])
+                activate_link = request.build_absolute_uri(activate_path)
 
-            # send activation email
-            subject = 'Activate your account'
-            html_message = render_to_string('email/account_activation.html', {
-                'activate_link': activate_link,
-                'current_year': timezone.now().year,
-                'site_name': 'Salon Booking System',
-            })
-            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-            recipient_list = [user.email]
-            
-            # Create email log entry
-            email_log = EmailLog.objects.create(
-                recipient_email=user.email,
-                subject=subject,
-                email_type='registration',
-                status='pending'
-            )
-            
-            try:
-                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-                msg.attach_alternative(html_message, "text/html")
-                msg.send()
-                # Mark as successful
-                email_log.status = 'success'
-                email_log.sent_at = timezone.now()
-                email_log.save()
-            except Exception as e:
-                # Log the error details
-                error_msg = str(e)
-                error_trace = traceback.format_exc()
+                # send activation email
+                subject = 'Activate your account'
+                html_message = render_to_string('email/account_activation.html', {
+                    'activate_link': activate_link,
+                    'current_year': timezone.now().year,
+                    'site_name': 'Salon Booking System',
+                })
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                recipient_list = [user.email]
                 
-                email_log.status = 'failed'
-                email_log.error_message = error_msg
-                email_log.error_traceback = error_trace
-                email_log.save()
-                
-                # Also log to Django's logger for production monitoring
-                logger.error(
-                    f"Email sending failed for registration. User: {user.email}, Error: {error_msg}",
-                    exc_info=True
+                # Create email log entry
+                email_log = EmailLog.objects.create(
+                    recipient_email=user.email,
+                    subject=subject,
+                    email_type='registration',
+                    status='pending'
                 )
                 
-                # If email sending fails, remove created objects to avoid orphaned entries
-                user.delete()
-                company.delete()
-                messages.error(request, 'Failed to send activation email. Please try again later.')
-                return redirect('register_company')
+                try:
+                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                    msg.attach_alternative(html_message, "text/html")
+                    msg.send()
+                    # Mark as successful
+                    email_log.status = 'success'
+                    email_log.sent_at = timezone.now()
+                    email_log.save()
+                except Exception as e:
+                    # Log the error details
+                    error_msg = str(e)
+                    error_trace = traceback.format_exc()
+                    
+                    email_log.status = 'failed'
+                    email_log.error_message = error_msg
+                    email_log.error_traceback = error_trace
+                    email_log.save()
+                    
+                    # Also log to Django's logger for production monitoring
+                    logger.error(
+                        f"Email sending failed for registration. User: {user.email}, Error: {error_msg}",
+                        exc_info=True
+                    )
+                    
+                    # If email sending fails, remove created objects to avoid orphaned entries
+                    user.delete()
+                    company.delete()
+                    messages.error(request, 'Failed to send activation email. Please try again later.')
+                    return redirect('register_company')
 
-            messages.success(request, 'Registration successful. Check your email for the activation link.')
-            return redirect('register_company')
+                messages.success(request, 'Registration successful. Check your email for the activation link.')
+                return redirect('register_company')
     else:
-        form = CompanyRegistrationForm()
+        # Initialize form with user_exists parameter
+        initial_data = {}
+        if user_already_exists:
+            initial_data['email'] = request.user.email
+        form = CompanyRegistrationForm(initial=initial_data, user_exists=user_already_exists)
     
-    return render(request, 'companies/register.html', {'form': form})
+    return render(request, 'companies/register.html', {
+        'form': form,
+        'user_already_exists': user_already_exists
+    })
 
 
 def activate_company(request, uidb64, token):

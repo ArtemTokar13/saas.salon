@@ -59,6 +59,14 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
     online_appointments_enabled = models.BooleanField(default=True)
+    
+    # Stripe payment fields
+    accepts_online_payments = models.BooleanField(default=False)
+    stripe_account_id = models.CharField(max_length=255, blank=True, null=True)
+    stripe_charges_enabled = models.BooleanField(default=False)
+    stripe_details_submitted = models.BooleanField(default=False)
+    stripe_onboarding_completed = models.BooleanField(default=False)
+    stripe_payouts_enabled = models.BooleanField(default=False)
 
     MAX_LOGO_SIZE_KB = 200
     MAX_DIMENSIONS = (400, 400)

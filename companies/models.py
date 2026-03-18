@@ -59,6 +59,10 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
     online_appointments_enabled = models.BooleanField(default=True)
+    calendar_step_minutes = models.PositiveIntegerField(
+        default=15,
+        help_text="Calendar time slot interval in minutes (e.g., 15, 30, 60)"
+    )
 
     MAX_LOGO_SIZE_KB = 200
     MAX_DIMENSIONS = (400, 400)

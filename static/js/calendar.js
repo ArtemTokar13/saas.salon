@@ -80,7 +80,7 @@ async function deleteBooking(bookingId) {
     }
 }
 
-function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
+function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, calendarStepMinutes = 15) {
     const calendarEl = document.getElementById('calendar');
 
     /* ---------------------------------------------------------
@@ -170,10 +170,10 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd) {
         allowDragAndDrop: false,
         allowResizing: false,
 
-        /* 15-хвилинні слоти */
+        /* Dynamic time slots based on company settings */
         timeScale: {
             enable: true,
-            interval: 15,
+            interval: calendarStepMinutes,
             slotCount: 1
         },
         

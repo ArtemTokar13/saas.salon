@@ -305,10 +305,11 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         
         existing_bookings = bookings_query.values_list('start_time', 'end_time')
         
-        # Generate time slots (every 30 minutes)
+        # Generate time slots based on company's calendar step setting
         available_times = []
         current_time = datetime.combine(date, working_hours.start_time)
         end_time = datetime.combine(date, working_hours.end_time)
+        time_step = timedelta(minutes=company.calendar_step_minutes)
         
         # Calculate the end time of the new booking based on service duration + time_for_servicing
         service_duration = timedelta(minutes=service.duration + service.time_for_servicing)
@@ -329,7 +330,7 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
                 break_end_dt = datetime.combine(date, staff.break_end)
                 # Skip if the booking would overlap with break time
                 if current_time < break_end_dt and potential_end_time > break_start_dt:
-                    current_time += timedelta(minutes=30)
+                    current_time += time_step
                     continue
             
             # Check if this time slot is available (no overlap with existing bookings)
@@ -347,7 +348,7 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
             if is_available:
                 available_times.append(time_str)
             
-            current_time += timedelta(minutes=30)
+            current_time += time_step
         
         return JsonResponse({'available_times': available_times})
     
@@ -434,10 +435,11 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
         if not staff_members.exists():
             return JsonResponse({'available_times': []})
         
-        # Generate time slots (every 30 minutes)
+        # Generate time slots based on company's calendar step setting
         available_times = []
         current_time = datetime.combine(date, working_hours.start_time)
         end_time = datetime.combine(date, working_hours.end_time)
+        time_step = timedelta(minutes=company.calendar_step_minutes)
         service_duration = timedelta(minutes=service.duration + service.time_for_servicing)
         
         while current_time < end_time:
@@ -488,7 +490,7 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
             if is_available:
                 available_times.append(time_str)
             
-            current_time += timedelta(minutes=30)
+            current_time += time_step
         
         return JsonResponse({'available_times': available_times})
     
@@ -640,6 +642,7 @@ def booking_calendar(request):
             'day_start': day_start.strftime('%H'),
             'day_end': day_end.strftime('%H'),
             'today': today,
+            'calendar_step_minutes': company.calendar_step_minutes,
             'ej_base_license_key': getattr(settings, 'EJ_BASE_LICENSE_KEY', ''),
         }
         
@@ -782,7 +785,8 @@ def calendar_api(request):
             'bookings': bookings_data,
             'staff': staff_data,
             'dayStart': day_start.strftime('%H'),
-            'dayEnd': day_end.strftime('%H')
+            'dayEnd': day_end.strftime('%H'),
+            'calendarStepMinutes': company.calendar_step_minutes
         })
     
     except Exception as e:

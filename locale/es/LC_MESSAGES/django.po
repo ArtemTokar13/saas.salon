@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-21 17:48+0100\n"
+"POT-Creation-Date: 2026-03-21 18:17+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -988,7 +988,7 @@ msgstr "Detalles de la reserva"
 #: templates/companies/customers_list.html:55
 #: templates/companies/dashboard.html:133
 #: templates/companies/edit_profile.html:69
-#: templates/companies/register.html:94
+#: templates/companies/register.html:122
 msgid "Phone"
 msgstr "Teléfono"
 
@@ -1004,7 +1004,7 @@ msgstr "Fecha y hora"
 #: templates/companies/edit_profile.html:76
 #: templates/companies/edit_staff.html:16
 #: templates/companies/forgot_password.html:15
-#: templates/companies/register.html:29 templates/static_pages/contact.html:23
+#: templates/companies/register.html:57 templates/static_pages/contact.html:23
 msgid "Email"
 msgstr "Correo Electrónico"
 
@@ -1252,13 +1252,13 @@ msgid "Please set your password to activate your account."
 msgstr "Please set your password to activate your account."
 
 #: templates/companies/activate_staff_account.html:31
-#: templates/companies/register.html:41
+#: templates/companies/register.html:69
 #: templates/companies/reset_password.html:31 templates/users/login.html:45
 msgid "Password"
 msgstr "Contraseña"
 
 #: templates/companies/activate_staff_account.html:39
-#: templates/companies/register.html:48
+#: templates/companies/register.html:76
 #: templates/companies/reset_password.html:39
 msgid "Confirm Password"
 msgstr "Confirmar Contraseña"
@@ -1730,13 +1730,13 @@ msgstr "Establecer Horarios"
 msgid "View Public Page"
 msgstr "Ver Página Pública"
 
-#: templates/companies/dashboard.html:123 templates/companies/register.html:60
+#: templates/companies/dashboard.html:123 templates/companies/register.html:88
 msgid "Company Information"
 msgstr "Información de la Empresa"
 
 #: templates/companies/dashboard.html:128
 #: templates/companies/edit_profile.html:39
-#: templates/companies/register.html:78
+#: templates/companies/register.html:106
 msgid "Address"
 msgstr "Dirección"
 
@@ -1774,18 +1774,18 @@ msgid "Edit Company Profile"
 msgstr "Editar Perfil"
 
 #: templates/companies/edit_profile.html:22
-#: templates/companies/register.html:63
+#: templates/companies/register.html:91
 msgid "Company Name"
 msgstr "Nombre de la Empresa"
 
 #: templates/companies/edit_profile.html:30
-#: templates/companies/register.html:70
+#: templates/companies/register.html:98
 #: templates/static_pages/cookie_policy.html:68
 msgid "Description"
 msgstr "Descripción"
 
 #: templates/companies/edit_profile.html:46
-#: templates/companies/register.html:85
+#: templates/companies/register.html:113
 msgid "City"
 msgstr "Ciudad"
 
@@ -1826,8 +1826,8 @@ msgid ""
 "Set the time slot interval for your booking calendar in minutes (e.g., 15, "
 "30, 60)"
 msgstr ""
-"Establezca el intervalo de tiempo para su calendario de reservas en "
-"minutos (p. ej., 15, 30, 60)."
+"Establezca el intervalo de tiempo para su calendario de reservas en minutos "
+"(p. ej., 15, 30, 60)."
 
 #: templates/companies/edit_profile.html:118
 msgid "Social Media"
@@ -1979,39 +1979,51 @@ msgstr "Horas de trabajo"
 msgid "Closed"
 msgstr "Cerrado"
 
-#: templates/companies/register.html:4
+#: templates/companies/register.html:5
 msgid "Register Your Company"
 msgstr "Registra tu Empresa"
 
-#: templates/companies/register.html:10
+#: templates/companies/register.html:11
 msgid "Register Your Business"
 msgstr "Registra tu Empresa"
 
-#: templates/companies/register.html:11
+#: templates/companies/register.html:12
 msgid "Create your company account and start accepting bookings"
 msgstr "Crea tu cuenta de empresa y comienza a aceptar reservas hoy"
 
-#: templates/companies/register.html:26
+#: templates/companies/register.html:19
+msgid "Quick sign up with Google"
+msgstr "Regístrate rápidamente con Google."
+
+#: templates/companies/register.html:28
+msgid "Sign up with Google"
+msgstr "Regístrate con Google"
+
+#: templates/companies/register.html:36
+msgid "Or register with email"
+msgstr "O regístrese con su correo electrónico"
+
+#: templates/companies/register.html:54
 msgid "Account Information"
 msgstr "Información de la Cuenta"
 
-#: templates/companies/register.html:35
+#: templates/companies/register.html:63
 msgid "Logged in via Google"
 msgstr "Sesión iniciada a través de Google"
 
-#: templates/companies/register.html:101
+#: templates/companies/register.html:129
 msgid "Company Email"
 msgstr "Correo de la Empresa"
 
-#: templates/companies/register.html:109
+#: templates/companies/register.html:137
 msgid "Company Logo"
 msgstr "Logo de la Empresa"
 
-#: templates/companies/register.html:120
+#: templates/companies/register.html:148
 msgid "Back to home"
 msgstr "Volver al inicio"
 
-#: templates/companies/register.html:123
+#: templates/companies/register.html:151
 msgid "Create Account"
 msgstr "Crear Cuenta"
 
@@ -2430,7 +2442,8 @@ msgstr "Iniciar sesión a través de Google"
 
 #: templates/socialaccount/login.html:12
 msgid "You are about to sign in using a third-party account from Google."
-msgstr "Estás a punto de iniciar sesión utilizando una cuenta de terceros de Google."
+msgstr ""
+"Estás a punto de iniciar sesión utilizando una cuenta de terceros de Google."
 
 #: templates/socialaccount/login.html:31
 msgid "Continue with Google"

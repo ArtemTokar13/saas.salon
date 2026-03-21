@@ -3,6 +3,7 @@ Management command to setup Google OAuth Social Application
 """
 from django.core.management.base import BaseCommand
 from django.contrib.sites.models import Site
+from django.conf import settings
 from allauth.socialaccount.models import SocialApp
 import os
 
@@ -14,12 +15,12 @@ class Command(BaseCommand):
         parser.add_argument(
             '--client-id',
             type=str,
-            help='Google OAuth Client ID (or set GOOGLE_OAUTH_CLIENT_ID env var)',
+            help='Google OAuth Client ID (or set GOOGLE_OAUTH_CLIENT_ID env var or in settings)',
         )
         parser.add_argument(
             '--client-secret',
             type=str,
-            help='Google OAuth Client Secret (or set GOOGLE_OAUTH_CLIENT_SECRET env var)',
+            help='Google OAuth Client Secret (or set GOOGLE_OAUTH_CLIENT_SECRET env var or in settings)',
         )
         parser.add_argument(
             '--site-domain',
@@ -29,9 +30,17 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        # Get credentials from arguments or environment variables
-        client_id = options.get('client_id') or os.environ.get('GOOGLE_OAUTH_CLIENT_ID')
-        client_secret = options.get('client_secret') or os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET')
+        # Get credentials from arguments, environment variables, or Django settings (local_settings.py)
+        client_id = (
+            options.get('client_id') or 
+            os.environ.get('GOOGLE_OAUTH_CLIENT_ID') or
+            getattr(settings, 'GOOGLE_OAUTH_CLIENT_ID', None)
+        )
+        client_secret = (
+            options.get('client_secret') or 
+            os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET') or
+            getattr(settings, 'GOOGLE_OAUTH_CLIENT_SECRET', None)
+        )
         site_domain = options.get('site_domain')
 
         if not client_id or not client_secret:

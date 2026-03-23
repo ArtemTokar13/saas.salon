@@ -187,6 +187,10 @@ SOCIALACCOUNT_ADAPTER = 'users.adapters.CustomSocialAccountAdapter'
 # Auto login after social signup
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
+# Enable automatic account connection for existing emails
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
 # Social account settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

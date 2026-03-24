@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from .utils import company_img_upload
 from PIL import Image
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 
 DAYS_OF_WEEK = [

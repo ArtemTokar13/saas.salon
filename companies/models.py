@@ -4,25 +4,26 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from .utils import company_img_upload
 from PIL import Image
+from django.utils.translation import gettext as _
 
 
 DAYS_OF_WEEK = [
-    (0, 'Monday'),
-    (1, 'Tuesday'),
-    (2, 'Wednesday'),
-    (3, 'Thursday'),
-    (4, 'Friday'),
-    (5, 'Saturday'),
-    (6, 'Sunday'),
+    (0, _('Monday')),
+    (1, _('Tuesday')),
+    (2, _('Wednesday')),
+    (3, _('Thursday')),
+    (4, _('Friday')),
+    (5, _('Saturday')),
+    (6, _('Sunday')),
 ]
 
 
 class EmailLog(models.Model):
     """Track email sending attempts and failures for debugging"""
     EMAIL_STATUS_CHOICES = [
-        ('success', 'Success'),
-        ('failed', 'Failed'),
-        ('pending', 'Pending'),
+        ('success', _('Success')),
+        ('failed', _('Failed')),
+        ('pending', _('Pending')),
     ]
     
     recipient_email = models.EmailField()
@@ -61,7 +62,7 @@ class Company(models.Model):
     online_appointments_enabled = models.BooleanField(default=True)
     calendar_step_minutes = models.PositiveIntegerField(
         default=15,
-        help_text="Calendar time slot interval in minutes (e.g., 15, 30, 60)"
+        help_text=_("Calendar time slot interval in minutes (e.g., 15, 30, 60)")
     )
 
     

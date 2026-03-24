@@ -1,7 +1,7 @@
 {% extends 'Layout.html' %}
 {% load i18n static %}
 
-{% block title %}Bookings List - {{ company.name }}{% endblock %}
+{% block title %}{% trans "Bookings List" %} - {{ company.name }}{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-gray-50">
@@ -26,30 +26,30 @@
              class="mb-4">
             <!-- Tabs -->
             <div class="mb-4 flex border-b">
-                <a href="?status=confirmed" class="{% if status_filter == 'confirmed' %}border-blue-600 text-blue-600{% else %}border-transparent text-gray-600{% endif %} px-4 py-2 font-semibold border-b-2 focus:outline-none">Confirmed</a>
-                <a href="?status=prebooked" class="{% if status_filter == 'prebooked' %}border-blue-600 text-blue-600{% else %}border-transparent text-gray-600{% endif %} px-4 py-2 font-semibold border-b-2 focus:outline-none">Prebooked</a>
+                <a href="?status=confirmed" class="{% if status_filter == 'confirmed' %}border-blue-600 text-blue-600{% else %}border-transparent text-gray-600{% endif %} px-4 py-2 font-semibold border-b-2 focus:outline-none">{% trans "Confirmed" %}</a>
+                <a href="?status=prebooked" class="{% if status_filter == 'prebooked' %}border-blue-600 text-blue-600{% else %}border-transparent text-gray-600{% endif %} px-4 py-2 font-semibold border-b-2 focus:outline-none">{% trans "Prebooked" %}</a>
             </div>
             <template x-if="window.innerWidth < 640">
                 <div class="sm:hidden mb-2">
                     <button type="button" @click="showFilter = !showFilter" class="bg-blue-600 text-white px-4 py-2 rounded w-full">
-                        <span x-show="showFilter">Hide Filter</span>
-                        <span x-show="!showFilter">Show Filter</span>
+                        <span x-show="showFilter">{% trans "Hide Filter" %}</span>
+                        <span x-show="!showFilter">{% trans "Show Filter" %}</span>
                     </button>
                 </div>
             </template>
             <div>
                 <form method="get" x-show="showFilter" class="flex flex-wrap gap-2 items-end bg-white p-2 rounded shadow-sm sm:flex-row sm:bg-transparent sm:p-0">
                     <input type="hidden" name="status" :value="tab" />
-                    <input type="text" name="search" value="{{ search_query }}" placeholder="Search by name, phone, email" class="border px-3 py-2 rounded w-64 h-10" />
-                    <input type="date" name="date_from" value="{{ date_from }}" placeholder="From" class="border px-3 py-2 rounded h-10" />
-                    <input type="date" name="date_to" value="{{ date_to }}" placeholder="To" class="border px-3 py-2 rounded h-10" />
+                    <input type="text" name="search" value="{{ search_query }}" placeholder="{% trans "Search by name, phone, email" %}" class="border px-3 py-2 rounded w-64 h-10" />
+                    <input type="date" name="date_from" value="{{ date_from }}" placeholder="{% trans "From" %}" class="border px-3 py-2 rounded h-10" />
+                    <input type="date" name="date_to" value="{{ date_to }}" placeholder="{% trans "To" %}" class="border px-3 py-2 rounded h-10" />
                     <select name="service" class="border px-3 py-2 rounded h-10">
-                        <option value="">All Services</option>
+                        <option value="">{% trans "All Services" %}</option>
                         {% for service in services %}
                             <option value="{{ service.id }}" {% if service.id|stringformat:'s' == service_filter %}selected{% endif %}>{{ service.name }}</option>
                         {% endfor %}
                     </select>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded h-10">Filter</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded h-10">{% trans "Filter" %}</button>
                 </form>
             </div>
         </div>

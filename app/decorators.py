@@ -36,10 +36,11 @@ def subscription_required(view_func):
                 if is_ajax:
                     return JsonResponse({
                         'success': False,
-                        'error': 'No company associated with your account.'
+                        'error': 'No company associated with your account.',
+                        'redirect': '/companies/register/'
                     }, status=403)
-                messages.error(request, 'No company associated with your account.')
-                return redirect('index')
+                messages.info(request, 'Please register your company to continue.')
+                return redirect('register_company')
             
             # Check if within 30-day trial period (based on company's admin registration)
             # Find the admin user for this company to check trial period

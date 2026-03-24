@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 18:15+0100\n"
+"POT-Creation-Date: 2026-03-23 17:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,34 +20,43 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
-#: static/js/calendar.js:410
+
+#: static/js/calendar.js:95 static/js/calendar.js:293
+msgid "Confirmed"
+msgstr "Підтверджено"
+
+#: static/js/calendar.js:97 static/js/calendar.js:295
+msgid "PreBooked"
+msgstr "Попередньо Заброньовано"
+
+#: static/js/calendar.js:428
 msgid "Booking Details"
 msgstr "Деталі Бронювання"
 
-#: static/js/calendar.js:411
+#: static/js/calendar.js:429
 msgid "Customer"
 msgstr "Клієнт"
 
-#: static/js/calendar.js:412
+#: static/js/calendar.js:430
 msgid "Service"
 msgstr "Послуга"
 
-#: static/js/calendar.js:413
+#: static/js/calendar.js:431
 msgid "Time"
 msgstr "Час"
 
-#: static/js/calendar.js:414
+#: static/js/calendar.js:432
 msgid "Client Notes"
 msgstr "Примітки Клієнта"
 
-#: static/js/calendar.js:419
+#: static/js/calendar.js:437
 msgid "Edit"
 msgstr "Редагувати"
 
-#: static/js/calendar.js:423
+#: static/js/calendar.js:441
 msgid "Delete"
 msgstr "Видалити"
 
-#: static/js/calendar.js:427
+#: static/js/calendar.js:445
 msgid "Close"
 msgstr "Закрити"

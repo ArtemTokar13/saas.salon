@@ -309,13 +309,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentDate = new Date('{{ current_date|date:"Y-m-d" }}');
     const dayStart = {{ day_start }};
     const dayEnd = {{ day_end }};
+    const calendarStepMinutes = {{ calendar_step_minutes }};
     
     // Attach occupancy data to staffList
     staffList.forEach(staff => {
         staff.occupancy = staffOccupancyObj[staff.id] || 0;
     });
     
-    buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd);
+    buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, calendarStepMinutes);
 });
 
 document.addEventListener('DOMContentLoaded', () => {

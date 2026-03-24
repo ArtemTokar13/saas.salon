@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,9 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zv78x8p!q!j4ehnbmr!8q8#96lrio9+ya-y4v78qa6i46t5te'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -71,6 +73,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'hijack.middleware.HijackUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -138,7 +141,7 @@ LANGUAGES = [
     ('en', 'English'),
     ('es', 'Español'),
     # ('ca', 'Valencià'),
-    # ('uk', 'Українська'),
+    ('uk', 'Українська'),
 ]
 
 LOCALE_PATHS = [
@@ -166,6 +169,50 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/users/login/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Django Allauth Configuration
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of allauth
+    'django.contrib.auth.backends.ModelBackend',
+    # allauth specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Allauth settings (using new configuration format for django-allauth 65.x)
+ACCOUNT_LOGIN_METHODS = {'email'}  # Login using email
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']  # Required signup fields
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # or 'mandatory' if you want to require email verification
+LOGIN_REDIRECT_URL = '/'  # Redirect after login
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+
+# Custom adapters
+ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'users.adapters.CustomSocialAccountAdapter'
+
+# Auto login after social signup
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+# Enable automatic account connection for existing emails
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
+# Social account settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': os.environ.get('GOOGLE_OAUTH_CLIENT_ID', ''),
+            'secret': os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET', ''),
+            'key': ''
+        }
+    }
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

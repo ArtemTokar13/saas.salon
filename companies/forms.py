@@ -10,8 +10,8 @@ from django.utils.translation import gettext as _
 class CompanyRegistrationForm(forms.Form):
     # User information
     email = forms.EmailField(required=True)
-    password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Password", required=False)
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password", required=False)
     
     # Company information
     company_name = forms.CharField(max_length=255, required=True)
@@ -22,19 +22,41 @@ class CompanyRegistrationForm(forms.Form):
     company_email = forms.EmailField(required=False)
     company_logo = forms.ImageField(required=False)
 
+    def __init__(self, *args, **kwargs):
+        self.user_exists = kwargs.pop('user_exists', False)
+        super().__init__(*args, **kwargs)
+        
+        if self.user_exists:
+            # User already exists (logged in via OAuth), make email readonly but not disabled
+            self.fields['email'].widget.attrs['readonly'] = True
+            self.fields['email'].widget.attrs['class'] = 'bg-gray-100 cursor-not-allowed'
+            self.fields['email'].required = True  # Keep it required for validation
+            # Remove password fields from the form
+            del self.fields['password1']
+            del self.fields['password2']
+        else:
+            # New user registration, password is required
+            self.fields['password1'].required = True
+            self.fields['password2'].required = True
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Email already registered.")
+        # Only check if email exists if this is a new user registration
+        if not self.user_exists:
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError("Email already registered.")
         return email
 
     def clean(self):
         cleaned_data = super().clean()
-        password1 = cleaned_data.get('password1')
-        password2 = cleaned_data.get('password2')
         
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match.")
+        # Only validate passwords if user doesn't exist (new registration)
+        if not self.user_exists:
+            password1 = cleaned_data.get('password1')
+            password2 = cleaned_data.get('password2')
+            
+            if password1 and password2 and password1 != password2:
+                raise forms.ValidationError("Passwords don't match.")
         
         return cleaned_data
 
@@ -43,7 +65,8 @@ class CompanyProfileForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['name', 'description', 'address', 'city', 'map_location', 
-                  'phone', 'email', 'website', 'logo', 'online_appointments_enabled']
+                  'phone', 'email', 'website', 'logo', 'online_appointments_enabled',
+                  'calendar_step_minutes']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
             'email': forms.EmailInput(attrs={'readonly': 'readonly'}),

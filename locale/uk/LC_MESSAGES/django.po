@@ -3,421 +3,491 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-05 23:00+0100\n"
+"POT-Creation-Date: 2026-03-23 22:37+0100\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+#: billing/models.py:95 templates/billing/pricing_periods.html:26
+#: templates/billing/pricing_periods.html:137
+msgid "Monthly"
+msgstr "Щомісяця"
+
+#: billing/models.py:96 templates/billing/pricing_periods.html:45
+#: templates/billing/pricing_periods.html:144
+msgid "3 Months"
+msgstr "3 Місяці"
+
+#: billing/models.py:97 templates/billing/pricing_periods.html:70
+#: templates/billing/pricing_periods.html:151
+msgid "6 Months"
+msgstr "6 Місяців"
+
+#: billing/models.py:98 templates/billing/pricing_periods.html:95
+#: templates/billing/pricing_periods.html:158
+msgid "Yearly"
+msgstr "Річний"
+
+#: billing/models.py:107 templates/companies/add_service.html:92
+#: templates/companies/analytics.html:192
+#: templates/companies/edit_service.html:101
+#: templates/companies/services_list.html:29
+#: templates/companies/services_list.html:42
+#: templates/companies/staff_list.html:27
+#: templates/companies/staff_list.html:47
+msgid "Active"
+msgstr "Активний"
+
+#: billing/models.py:108
+msgid "Cancelled"
+msgstr "Скасовано"
+
+#: billing/models.py:109
+msgid "Past Due"
+msgstr "Прострочено"
+
+#: billing/models.py:110
+msgid "Unpaid"
+msgstr "Неоплачено"
+
 #: bookings/cron.py:33
 msgid "Reminder: Upcoming Booking for"
-msgstr ""
+msgstr "Нагадування: Майбутнє Бронювання для"
 
-#: bookings/forms.py:14
-#, fuzzy
-#| msgid "Select Plan"
+#: bookings/forms.py:14 companies/forms.py:85
 msgid "Select Country"
-msgstr "Вибрати План"
+msgstr "Оберіть Країну"
 
 #: bookings/forms.py:27
 msgid "Add any notes about this booking..."
+msgstr "Додайте будь-які нотатки про це бронювання..."
+
+#: bookings/forms.py:32
+msgid "Add any special requests or notes..."
+msgstr "Додайте будь-які спеціальні побажання або нотатки..."
+
+#: bookings/forms.py:64
+msgid "Client notes..."
+msgstr "Нотатки клієнта..."
+
+#: companies/forms.py:93 companies/models.py:11
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:7
+msgid "Monday"
+msgstr "Понеділок"
+
+#: companies/forms.py:93 companies/models.py:12
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:8
+msgid "Tuesday"
+msgstr "Вівторок"
+
+#: companies/forms.py:93 companies/models.py:13
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:9
+msgid "Wednesday"
+msgstr "Середа"
+
+#: companies/forms.py:93 companies/models.py:14
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:10
+msgid "Thursday"
+msgstr "Четвер"
+
+#: companies/forms.py:94 companies/models.py:15
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:11
+msgid "Friday"
+msgstr "Пʼятниця"
+
+#: companies/forms.py:94 companies/models.py:16
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:12
+msgid "Saturday"
+msgstr "Субота"
+
+#: companies/forms.py:94 companies/models.py:17
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:13
+msgid "Sunday"
+msgstr "Неділя"
+
+#: companies/models.py:24
+msgid "Success"
 msgstr ""
+
+#: companies/models.py:25
+msgid "Failed"
+msgstr ""
+
+#: companies/models.py:26
+msgid "Pending"
+msgstr ""
+
+#: companies/models.py:65
+#, fuzzy
+#| msgid ""
+#| "Set the time slot interval for your booking calendar in minutes (e.g., "
+#| "15, 30, 60)"
+msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
+msgstr ""
+"Встановіть інтервал часових слотів для вашого календаря бронювання в "
+"хвилинах (наприклад, 15, 30, 60)"
 
 #: templates/Index.html:4 templates/Index.html:14
 msgid "A Simple Client Management System for Your Salon"
-msgstr ""
+msgstr "Проста Система Керування Клієнтами для Вашого Салону"
 
 #: templates/Index.html:17
 msgid ""
 "Reduce no‑shows, save time, and let clients book 24/7 — all in one simple "
 "platform."
 msgstr ""
+"Зменшіть кількість неявок, заощадьте час і дозвольте клієнтам бронювати 24/7 "
+"— все на одній простій платформі."
 
 #: templates/Index.html:23
-#, fuzzy
-#| msgid "Start Free Trial"
 msgid "Start Free Trial"
 msgstr "Почати Безкоштовну Пробну Версію"
 
 #: templates/Index.html:28
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Go to Dashboard"
-msgstr "Панель"
+msgstr "Перейти до Панелі"
 
 #: templates/Index.html:33
-#, fuzzy
-#| msgid "How It Works"
 msgid "See How It Works"
-msgstr "Як Це Працює"
+msgstr "Подивитися, Як Це Працює"
 
-#: templates/Index.html:42
-msgid "Calendar + WhatsApp Reminder Example"
-msgstr ""
-
-#: templates/Index.html:56
+#: templates/Index.html:51
 msgid "Everything You Need to Run Your Salon Smoothly"
-msgstr ""
+msgstr "Все, Що Потрібно для Гладкої Роботи Вашого Салону"
 
-#: templates/Index.html:66
+#: templates/Index.html:61
 msgid "Online Booking"
 msgstr "Онлайн Бронювання"
 
-#: templates/Index.html:68
-#, fuzzy
-#| msgid ""
-#| "Let customers book appointments 24/7 from any device. Automatic "
-#| "confirmations and reminders."
+#: templates/Index.html:63
 msgid ""
 "Let clients book appointments anytime. Automatic confirmations included."
 msgstr ""
-"Дозвольте клієнтам бронювати записи 24/7 з будь-якого пристрою. Автоматичні "
-"підтвердження та нагадування."
+"Дозвольте клієнтам бронювати записи будь-коли. Автоматичні підтвердження "
+"включені."
 
-#: templates/Index.html:77
+#: templates/Index.html:72
 msgid "WhatsApp Reminders"
-msgstr ""
+msgstr "Нагадування WhatsApp"
 
-#: templates/Index.html:79
+#: templates/Index.html:74
 msgid ""
 "Reduce no‑shows with instant WhatsApp notifications clients actually read."
 msgstr ""
+"Зменшіть кількість неявок за допомогою миттєвих сповіщень WhatsApp, які "
+"клієнти дійсно читають."
 
-#: templates/Index.html:88
+#: templates/Index.html:83
 msgid "Staff Management"
 msgstr "Управління Персоналом"
 
-#: templates/Index.html:90
+#: templates/Index.html:85
 msgid "Each staff member gets their own calendar and schedule."
-msgstr ""
+msgstr "Кожен член персоналу отримує власний календар і розклад."
 
-#: templates/Index.html:99
-#, fuzzy
-#| msgid "staff management"
+#: templates/Index.html:94
 msgid "Service Management"
-msgstr "управління персоналом"
+msgstr "Керування Послугами"
 
-#: templates/Index.html:101
+#: templates/Index.html:96
 msgid "Create services, durations, prices, and assign them to staff."
-msgstr ""
+msgstr "Створюйте послуги, тривалість, ціни та призначайте їх персоналу."
 
-#: templates/Index.html:110
-#, fuzzy
-#| msgid "Edit Profile"
+#: templates/Index.html:105
 msgid "Client Profiles"
-msgstr "Редагувати Профіль"
+msgstr "Профілі Клієнтів"
 
-#: templates/Index.html:112
+#: templates/Index.html:107
 msgid "Keep track of client history, notes, and preferences."
-msgstr ""
+msgstr "Відстежуйте історію клієнтів, нотатки та вподобання."
 
-#: templates/Index.html:121
-#, fuzzy
-#| msgid "Company Dashboard"
+#: templates/Index.html:116
 msgid "Analytics Dashboard"
-msgstr "Панель Компанії"
+msgstr "Панель Аналітики"
 
-#: templates/Index.html:123
+#: templates/Index.html:118
 msgid "Track your bookings, no-shows, and business performance."
-msgstr ""
+msgstr "Відстежуйте ваші бронювання, неявки та ефективність бізнесу."
 
-#: templates/Index.html:136
+#: templates/Index.html:131
 msgid "Why WhatsApp Reminders Matter"
-msgstr ""
+msgstr "Чому Нагадування WhatsApp Важливі"
 
-#: templates/Index.html:142
+#: templates/Index.html:137
 msgid "Clients read WhatsApp messages instantly"
-msgstr ""
+msgstr "Клієнти читають повідомлення WhatsApp миттєво"
 
-#: templates/Index.html:143
+#: templates/Index.html:138
 #, python-format
 msgid "Higher open rates than email — 97%% read rate within minutes"
 msgstr ""
+"Вищий рівень відкриття, ніж електронна пошта — 97%% прочитано за кілька "
+"хвилин"
 
-#: templates/Index.html:149
+#: templates/Index.html:144
 msgid "Reduce missed appointments"
-msgstr ""
+msgstr "Зменшіть пропущені записи"
 
-#: templates/Index.html:150
+#: templates/Index.html:145
 msgid "Cut no-shows with timely reminders"
-msgstr ""
+msgstr "Скоротіть неявки за допомогою своєчасних нагадувань"
 
-#: templates/Index.html:156
+#: templates/Index.html:151
 msgid "Automatic reminders before each visit"
-msgstr ""
+msgstr "Автоматичні нагадування перед кожним візитом"
 
-#: templates/Index.html:157
+#: templates/Index.html:152
 msgid "Set it up once and let it run automatically"
-msgstr ""
+msgstr "Налаштуйте один раз і дозвольте працювати автоматично"
 
-#: templates/Index.html:163
+#: templates/Index.html:158
 msgid "Works even if clients ignore email"
-msgstr ""
+msgstr "Працює, навіть якщо клієнти ігнорують електронну пошту"
 
-#: templates/Index.html:164
+#: templates/Index.html:159
 msgid "Reach your clients where they actually are"
-msgstr ""
+msgstr "Досягніть своїх клієнтів там, де вони насправді є"
+
+#: templates/Index.html:170
+msgid "Example WhatsApp Message"
+msgstr "Приклад Повідомлення WhatsApp"
+
+#: templates/Index.html:173
+msgid "Hi Maria! 💅"
+msgstr "Привіт, Марія! 💅"
+
+#: templates/Index.html:174
+msgid "Your appointment reminder:"
+msgstr "Нагадування про ваш запис:"
 
 #: templates/Index.html:175
-msgid "Example WhatsApp Message"
-msgstr ""
+msgid "Tomorrow at 3:00 PM"
+msgstr "Завтра о 15:00"
+
+#: templates/Index.html:176
+msgid "Haircut - 60 min"
+msgstr "Стрижка - 60 хв"
+
+#: templates/Index.html:177
+msgid "With Anna"
+msgstr "З Анною"
 
 #: templates/Index.html:178
-msgid "Hi Maria! 💅"
-msgstr ""
-
-#: templates/Index.html:179
-msgid "Your appointment reminder:"
-msgstr ""
-
-#: templates/Index.html:180
-msgid "Tomorrow at 3:00 PM"
-msgstr ""
-
-#: templates/Index.html:181
-msgid "Haircut - 60 min"
-msgstr ""
-
-#: templates/Index.html:182
-msgid "With Anna"
-msgstr ""
-
-#: templates/Index.html:183
 msgid "See you soon!"
-msgstr ""
+msgstr "До зустрічі!"
 
-#: templates/Index.html:196
+#: templates/Index.html:191
 msgid "Perfect for beauty & wellness businesses"
-msgstr ""
+msgstr "Ідеально для бізнесу краси та догляду"
 
-#: templates/Index.html:199
+#: templates/Index.html:194
 msgid "If you run any of these, Reserva-Ya is for you"
-msgstr ""
+msgstr "Якщо ви керуєте будь-яким із цих закладів, Reserva-Ya для вас"
 
-#: templates/Index.html:206
+#: templates/Index.html:201
 msgid "Hair salons"
-msgstr ""
+msgstr "Перукарні"
 
-#: templates/Index.html:210
+#: templates/Index.html:205
 msgid "Barber shops"
-msgstr ""
+msgstr "Перукарні для чоловіків"
 
-#: templates/Index.html:214
+#: templates/Index.html:209
 msgid "Nail & manicure studios"
-msgstr ""
+msgstr "Студії нігтів і манікюру"
 
-#: templates/Index.html:218
+#: templates/Index.html:213
 msgid "Beauty & aesthetics"
-msgstr ""
+msgstr "Краса і естетика"
 
-#: templates/Index.html:222
+#: templates/Index.html:217
 msgid "Massage & wellness"
-msgstr ""
+msgstr "Масаж і догляд"
 
-#: templates/Index.html:233
-#, fuzzy
-#| msgid "Get started in minutes"
+#: templates/Index.html:228
 msgid "Get Started in Minutes"
-msgstr "Почніть за кілька хвилин"
+msgstr "Почніть За Кілька Хвилин"
 
-#: templates/Index.html:236
+#: templates/Index.html:231
 msgid "Simple setup, immediate results"
-msgstr ""
+msgstr "Просте налаштування, миттєві результати"
 
-#: templates/Index.html:245 templates/static_pages/how_it_works.html:21
+#: templates/Index.html:240 templates/static_pages/how_it_works.html:21
 msgid "Sign Up"
 msgstr "Зареєструватися"
 
-#: templates/Index.html:247
-#, fuzzy
-#| msgid "Create your company account in under 2 minutes"
+#: templates/Index.html:242
 msgid "Create your company account in under 2 minutes."
-msgstr "Створіть обліковий запис компанії менш ніж за 2 хвилини"
+msgstr "Створіть обліковий запис компанії менш ніж за 2 хвилини."
 
-#: templates/Index.html:255
+#: templates/Index.html:250
 msgid "Set Up"
-msgstr ""
+msgstr "Налаштувати"
 
-#: templates/Index.html:257
-#, fuzzy
-#| msgid "Add your staff, services, and working hours"
+#: templates/Index.html:252
 msgid "Add staff, services, and working hours."
-msgstr "Додайте персонал, послуги та робочі години"
+msgstr "Додайте персонал, послуги та робочі години."
 
-#: templates/Index.html:265
+#: templates/Index.html:260
 msgid "Share"
-msgstr "Поділитися"
+msgstr "Поділіться"
 
-#: templates/Index.html:267
-#, fuzzy
-#| msgid "Share your booking link with customers"
+#: templates/Index.html:262
 msgid "Send your booking link to clients."
-msgstr "Поділіться посиланням для бронювання з клієнтами"
+msgstr "Надішліть посилання для бронювання клієнтам."
 
-#: templates/Index.html:275
+#: templates/Index.html:270
 msgid "Grow"
-msgstr "Зростати"
+msgstr "Зростатйте"
 
-#: templates/Index.html:277
+#: templates/Index.html:272
 msgid "Receive bookings automatically and reduce no‑shows."
-msgstr ""
+msgstr "Отримуйте бронювання автоматично і зменшуйте кількість неявок."
 
-#: templates/Index.html:289
+#: templates/Index.html:284
 msgid "Simple, transparent pricing"
-msgstr ""
+msgstr "Прості, прозорі ціни"
 
-#: templates/Index.html:292
+#: templates/Index.html:287
 msgid "Choose the perfect plan for your business"
-msgstr ""
+msgstr "Оберіть ідеальний план для вашого бізнесу"
 
-#: templates/Index.html:296
-#, fuzzy
-#| msgid "Pricing"
+#: templates/Index.html:291
 msgid "View Our Pricing Plans"
-msgstr "Ціни"
+msgstr "Переглянути Наші Цінові Плани"
+
+#: templates/Index.html:297
+msgid "All plans include:"
+msgstr "Усі плани включають:"
 
 #: templates/Index.html:302
-msgid "All plans include:"
-msgstr ""
-
-#: templates/Index.html:307
-#, fuzzy
-#| msgid "Online Booking"
 msgid "Online booking"
-msgstr "Онлайн Бронювання"
+msgstr "Онлайн бронювання"
 
-#: templates/Index.html:311
-#, fuzzy
-#| msgid "Staff Members"
+#: templates/Index.html:306
 msgid "Staff calendars"
-msgstr "Члени Персоналу"
+msgstr "Календарі персоналу"
 
-#: templates/Index.html:315
-#, fuzzy
-#| msgid "Unlimited bookings"
+#: templates/Index.html:310
 msgid "Unlimited appointments"
-msgstr "Необмежена кількість бронювань"
+msgstr "Необмежена кількість записів"
 
-#: templates/Index.html:319
-msgid "Support in Spanish"
-msgstr ""
-
-#: templates/Index.html:331 templates/static_pages/faq.html:10
+#: templates/Index.html:322 templates/static_pages/faq.html:10
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Часто Задавані Питання"
 
-#: templates/Index.html:339
+#: templates/Index.html:330
 msgid "Do I need to install anything?"
-msgstr ""
+msgstr "Чи потрібно щось встановлювати?"
 
-#: templates/Index.html:343
+#: templates/Index.html:334
 msgid ""
 "No, everything works in your browser. No downloads or installations needed — "
 "just sign up and start using it immediately."
 msgstr ""
+"Ні, все працює у вашому браузері. Не потрібні завантаження або встановлення "
+"— просто зареєструйтеся і почніть користуватися негайно."
 
-#: templates/Index.html:350
+#: templates/Index.html:341
 msgid "Can clients book without downloading an app?"
-msgstr ""
+msgstr "Чи можуть клієнти бронювати без завантаження додатка?"
 
-#: templates/Index.html:354
+#: templates/Index.html:345
 msgid ""
 "Yes, bookings work on any device through a web link. Clients don't need to "
 "download anything — they simply click your booking link and book."
 msgstr ""
+"Так, бронювання працюють на будь-якому пристрої через веб-посилання. "
+"Клієнтам не потрібно нічого завантажувати — вони просто клікають на ваше "
+"посилання для бронювання і бронюють."
 
-#: templates/Index.html:361
+#: templates/Index.html:352
 msgid "Is WhatsApp included?"
-msgstr ""
+msgstr "Чи WhatsApp включено?"
 
-#: templates/Index.html:365
+#: templates/Index.html:356
 msgid ""
-"WhatsApp reminders are available in our Pro plan. You'll be able to send "
+"WhatsApp reminders are available in our Connect plan. You'll be able to send "
 "automatic reminders to all your clients."
 msgstr ""
+"Нагадування WhatsApp доступні в нашому плані Connect. Ви зможете надсилати "
+"автоматичні нагадування всім вашим клієнтам."
 
-#: templates/Index.html:372
+#: templates/Index.html:363
 msgid "Can I cancel anytime?"
-msgstr ""
+msgstr "Чи можу я скасувати будь-коли?"
 
-#: templates/Index.html:376
+#: templates/Index.html:367
 msgid ""
 "Of course — no long-term contracts. You can cancel your subscription anytime "
 "from your account settings."
 msgstr ""
+"Звичайно — без довгострокових контрактів. Ви можете скасувати підписку будь-"
+"коли з налаштувань вашого облікового запису."
 
-#: templates/Index.html:383
-#, fuzzy
-#| msgid "create a new company account"
+#: templates/Index.html:374
 msgid "How do I connect WhatsApp?"
-msgstr "створити новий обліковий запис компанії"
+msgstr "Як підключити WhatsApp?"
 
-#: templates/Index.html:387
+#: templates/Index.html:378
 msgid ""
 "We provide step-by-step instructions to connect your WhatsApp account. It's "
 "a simple 5-minute setup process."
 msgstr ""
+"Ми надаємо покрокові інструкції для підключення вашого облікового запису "
+"WhatsApp. Це простий 5-хвилинний процес налаштування."
+
+#: templates/Index.html:390
+msgid "See the Platform in Action"
+msgstr "Подивіться Платформу в Дії"
 
 #: templates/Index.html:399
-#, fuzzy
-#| msgid "Platform Admin"
-msgid "See the Platform in Action"
-msgstr "Адмін Платформи"
+msgid "Calendar View"
+msgstr "Вигляд Календаря"
 
 #: templates/Index.html:408
-#, fuzzy
-#| msgid "Calendar view"
-msgid "Calendar View"
-msgstr "Вигляд календаря"
+msgid "Staff Schedule"
+msgstr "Розклад Персоналу"
 
 #: templates/Index.html:417
-msgid "Staff Schedule"
-msgstr ""
+msgid "Booking Form"
+msgstr "Форма Бронювання"
 
 #: templates/Index.html:426
-#, fuzzy
-#| msgid "Booking Link"
-msgid "Booking Form"
-msgstr "Посилання для Бронювання"
-
-#: templates/Index.html:435
 msgid "WhatsApp Reminder"
-msgstr ""
+msgstr "Нагадування WhatsApp"
 
-#: templates/Index.html:448
-#, fuzzy
-#| msgid "Ready to Get Started?"
+#: templates/Index.html:439
 msgid "Ready to Grow Your Salon?"
-msgstr "Готові Почати?"
+msgstr "Готові Розвивати Ваш Салон?"
 
-#: templates/Index.html:451
+#: templates/Index.html:442
 msgid ""
-"Start your free trial today — no credit card required. Get instant access to "
-"all features."
+"Start your free trial today — no credit card required."
 msgstr ""
+"Почніть безкоштовну пробну версію сьогодні — кредитна картка не потрібна."
 
-#: templates/Index.html:455
-#, fuzzy
-#| msgid "Start Free Trial"
+#: templates/Index.html:446
 msgid "Start Your Free Trial Today"
-msgstr "Почати Безкоштовну Пробну Версію"
+msgstr "Почніть Безкоштовну Пробну Версію Сьогодні"
 
-#: templates/Index.html:458
-msgid "14 days free. No credit card. Cancel anytime."
-msgstr ""
+#: templates/Index.html:449
+msgid "30 days free. No credit card. Cancel anytime."
+msgstr "30 днів безкоштовно. Без кредитної картки. Скасування будь-коли."
 
-#: templates/Index.html:466
+#: templates/Index.html:457
 msgid "Welcome back!"
-msgstr ""
+msgstr "З поверненням!"
 
-#: templates/Index.html:470
-msgid "Go to your dashboard →"
-msgstr ""
+#: templates/Index.html:461
+msgid "Go to your dashboard"
+msgstr "Перейти до вашої панелі"
 
 #: templates/_cookie-consent.html:7
 msgid "We use cookies"
-msgstr ""
+msgstr "Ми використовуємо кукі"
 
 #: templates/_cookie-consent.html:9
 msgid ""
@@ -425,75 +495,78 @@ msgid ""
 "also use non-essential cookies to improve user experience and analyze "
 "website traffic. By clicking 'Accept All', you agree to our use of cookies."
 msgstr ""
+"Ми використовуємо необхідні кукі для роботи нашого сайту. За вашою згодою ми "
+"також можемо використовувати необов'язкові кукі для покращення досвіду "
+"користувача та аналізу трафіку веб-сайту. Натискаючи 'Прийняти Все', ви "
+"погоджуєтеся з використанням нами кукі."
 
 #: templates/_cookie-consent.html:10
 msgid "Learn more"
-msgstr ""
+msgstr "Дізнатися більше"
 
 #: templates/_cookie-consent.html:16
 #: templates/static_pages/cookie_settings.html:63
 msgid "Accept All"
-msgstr ""
+msgstr "Прийняти Все"
 
 #: templates/_cookie-consent.html:20
 #: templates/static_pages/cookie_settings.html:68
 msgid "Essential Only"
-msgstr ""
+msgstr "Тільки Необхідні"
 
 #: templates/_cookie-consent.html:24
 msgid "Customize"
-msgstr ""
+msgstr "Налаштувати"
 
 #: templates/_footer.html:7
 msgid "Reserva-ya"
-msgstr ""
+msgstr "Reserva-ya"
 
 #: templates/_footer.html:8
 msgid ""
 "Professional booking management system for beauty salons and service "
 "providers."
 msgstr ""
+"Професійна система управління бронюванням для салонів краси та "
+"постачальників послуг."
 
 #: templates/_footer.html:10
 msgid "Your Address Here"
-msgstr ""
+msgstr "Ваша Адреса Тут"
 
 #: templates/_footer.html:16
 msgid "Legal"
-msgstr ""
+msgstr "Юридичні Документи"
 
 #: templates/_footer.html:18 templates/static_pages/privacy_policy.html:4
 #: templates/static_pages/privacy_policy.html:10
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Політика Конфіденційності"
 
 #: templates/_footer.html:19 templates/static_pages/terms_of_service.html:4
 #: templates/static_pages/terms_of_service.html:10
 msgid "Terms of Service"
-msgstr ""
+msgstr "Умови Користування"
 
 #: templates/_footer.html:20 templates/static_pages/cookie_policy.html:4
 #: templates/static_pages/cookie_policy.html:10
 msgid "Cookie Policy"
-msgstr ""
+msgstr "Політика Кукі"
 
 #: templates/_footer.html:21 templates/static_pages/cookie_settings.html:4
 #: templates/static_pages/cookie_settings.html:10
-#, fuzzy
-#| msgid "Bookings"
 msgid "Cookie Settings"
-msgstr "Бронювання"
+msgstr "Налаштування Кукі"
 
 #: templates/_footer.html:27
-#, fuzzy
-#| msgid "Account Information"
 msgid "Information"
-msgstr "Інформація Облікового Запису"
+msgstr "Інформація"
 
-#: templates/_footer.html:29 templates/static_pages/about_us.html:4
+#: templates/_footer.html:29 templates/companies/public_page.html:34
+#: templates/static_pages/about_us.html:4
 #: templates/static_pages/about_us.html:10
 msgid "About Us"
-msgstr ""
+msgstr "Про Нас"
 
 #: templates/_footer.html:30 templates/static_pages/how_it_works.html:4
 #: templates/static_pages/how_it_works.html:10
@@ -501,27 +574,25 @@ msgid "How It Works"
 msgstr "Як Це Працює"
 
 #: templates/_footer.html:31
-#, fuzzy
-#| msgid "Pricing"
 msgid "Pricing Plans"
-msgstr "Ціни"
+msgstr "Цінові Плани"
 
 #: templates/_footer.html:32 templates/static_pages/faq.html:4
 msgid "FAQ"
-msgstr ""
+msgstr "Часті Питання"
 
 #: templates/_footer.html:38
 msgid "Support"
-msgstr ""
+msgstr "Підтримка"
 
-#: templates/_footer.html:40 templates/static_pages/contact.html:4
-#: templates/static_pages/contact.html:10
+#: templates/_footer.html:40 templates/companies/public_page.html:128
+#: templates/static_pages/contact.html:4 templates/static_pages/contact.html:10
 msgid "Contact Us"
-msgstr ""
+msgstr "Зв'язатися з Нами"
 
 #: templates/_footer.html:53
 msgid "Salon Booking System. All rights reserved."
-msgstr ""
+msgstr "Система Бронювання Салону. Всі права захищені."
 
 #: templates/_header.html:17 templates/_header.html:69
 msgid "Home"
@@ -537,88 +608,105 @@ msgstr "Адмін Платформи"
 
 #: templates/_header.html:32 templates/_header.html:81
 msgid "Dashboard"
-msgstr "Панель"
+msgstr "Панель керування"
 
 #: templates/_header.html:36 templates/_header.html:85
 msgid "Logout"
 msgstr "Вийти"
 
 #: templates/_header.html:39 templates/_header.html:88
-#: templates/users/login.html:4
+#: templates/users/login.html:5
 msgid "Login"
 msgstr "Увійти"
 
 #: templates/_header.html:40 templates/_header.html:48
 #: templates/_header.html:89
 msgid "Try Free"
-msgstr ""
+msgstr "Спробувати Безкоштовно"
 
 #: templates/billing/change_plan.html:4
-#, fuzzy
-#| msgid "Choose Your Plan"
 msgid "Choose Plan"
-msgstr "Оберіть Ваш План"
+msgstr "Оберіть План"
 
 #: templates/billing/change_plan.html:127
 msgid "How many workers do you need?"
-msgstr ""
+msgstr "Скільки працівників вам потрібно?"
+
+#: templates/billing/change_plan.html:137
+msgid "worker"
+msgstr "працівник"
+
+#: templates/billing/change_plan.html:137
+msgid "s"
+msgstr "ів"
 
 #: templates/billing/change_plan.html:145
-#, python-format
-msgid ""
-"\n"
-"                                    Base: %(base)s workers included. Each "
-"additional worker: $%(price)s/month\n"
-"                                    "
-msgstr ""
+msgid "Base"
+msgstr "База"
 
-#: templates/billing/change_plan.html:153
+#: templates/billing/change_plan.html:145
+msgid "workers included"
+msgstr "працівників включено"
+
+#: templates/billing/change_plan.html:145
+msgid "Each additional worker"
+msgstr "Кожен додатковий працівник"
+
+#: templates/billing/change_plan.html:145
+#: templates/billing/change_plan.html:179
+#: templates/billing/pricing_periods.html:29
+#: templates/billing/pricing_periods.html:51
+#: templates/billing/pricing_periods.html:76
+#: templates/billing/pricing_periods.html:101
+#: templates/billing/subscription_details.html:42
+msgid "month"
+msgstr "місяць"
+
+#: templates/billing/change_plan.html:151
 msgid "Select Billing Period"
-msgstr ""
+msgstr "Оберіть Білінговий Період"
 
-#: templates/billing/change_plan.html:190
+#: templates/billing/change_plan.html:171
+msgid "SAVE"
+msgstr "ЕКОНОМІЯ"
+
+#: templates/billing/change_plan.html:188
 msgid "Continue to Payment"
-msgstr ""
+msgstr "Перейти до Оплати"
 
-#: templates/billing/change_plan.html:193
+#: templates/billing/change_plan.html:191
 #: templates/bookings/confirm_prebooked.html:90
-#: templates/bookings/create_booking.html:194
-#: templates/bookings/edit_booking.html:211
-#: templates/companies/add_service.html:65
-#: templates/companies/add_staff.html:130
-#: templates/companies/edit_profile.html:142
-#: templates/companies/edit_service.html:65
-#: templates/companies/edit_staff.html:125
-#: templates/companies/working_hours.html:68
+#: templates/bookings/create_booking.html:206
+#: templates/bookings/edit_booking.html:221
+#: templates/companies/add_service.html:100
+#: templates/companies/add_staff.html:160
+#: templates/companies/edit_profile.html:196
+#: templates/companies/edit_service.html:109
+#: templates/companies/edit_staff.html:168
+#: templates/companies/working_hours.html:72
+#: templates/socialaccount/signup.html:56
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
-#: templates/billing/change_plan.html:205
-#, fuzzy
-#| msgid "Account Information"
+#: templates/billing/change_plan.html:203
 msgid "Billing Information"
-msgstr "Інформація Облікового Запису"
+msgstr "Інформація про Оплату"
 
-#: templates/billing/change_plan.html:208
+#: templates/billing/change_plan.html:206
 msgid "You will be redirected to Stripe to complete your payment securely."
-msgstr ""
+msgstr "Вас буде перенаправлено до Stripe для безпечного завершення оплати."
+
+#: templates/billing/change_plan.html:209
+msgid "Secure payment processing"
+msgstr "Безпечна обробка платежів"
+
+#: templates/billing/change_plan.html:210
+msgid "Cancel anytime"
+msgstr "Скасування будь-коли"
 
 #: templates/billing/change_plan.html:211
-msgid "Secure payment processing"
-msgstr ""
-
-#: templates/billing/change_plan.html:212
-msgid "Cancel anytime"
-msgstr ""
-
-#: templates/billing/change_plan.html:213
 msgid "Automatic renewal"
-msgstr ""
-
-#: templates/billing/change_plan.html:216
-#, python-format
-msgid "%(days)s days free trial"
-msgstr ""
+msgstr "Автоматичне поновлення"
 
 #: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:5
 #: templates/billing/view_plans.html:11
@@ -626,37 +714,22 @@ msgid "Choose Your Plan"
 msgstr "Оберіть Ваш План"
 
 #: templates/billing/pricing_periods.html:11
-#, fuzzy
-#| msgid "Choose Your Plan"
 msgid "Choose Your Billing Period"
-msgstr "Оберіть Ваш План"
+msgstr "Оберіть Ваш Білінговий Період"
 
 #: templates/billing/pricing_periods.html:12
 msgid "Save more with longer billing periods"
-msgstr ""
-
-#: templates/billing/pricing_periods.html:26
-#: templates/billing/pricing_periods.html:137
-msgid "Monthly"
-msgstr ""
-
-#: templates/billing/pricing_periods.html:29
-#: templates/billing/pricing_periods.html:51
-#: templates/billing/pricing_periods.html:76
-#: templates/billing/pricing_periods.html:101
-#: templates/billing/subscription_details.html:42
-msgid "month"
-msgstr ""
+msgstr "Заощадьте більше з довшими білінговими періодами"
 
 #: templates/billing/pricing_periods.html:31
 msgid "Billed monthly"
-msgstr ""
+msgstr "Щомісячна оплата"
 
 #: templates/billing/pricing_periods.html:34
 #: templates/billing/pricing_periods.html:59
 #: templates/billing/pricing_periods.html:84
 #: templates/billing/pricing_periods.html:109
-#: templates/billing/view_plans.html:69
+#: templates/billing/view_plans.html:76
 msgid "Select Plan"
 msgstr "Вибрати План"
 
@@ -667,78 +740,61 @@ msgstr "Вибрати План"
 #: templates/billing/pricing_periods.html:103
 #: templates/companies/reset_password.html:47
 msgid "Save"
-msgstr ""
-
-#: templates/billing/pricing_periods.html:45
-#: templates/billing/pricing_periods.html:144
-msgid "3 Months"
-msgstr ""
+msgstr "Економія"
 
 #: templates/billing/pricing_periods.html:48
 #: templates/billing/pricing_periods.html:73
 msgid "months"
-msgstr ""
+msgstr "місяців"
 
 #: templates/billing/pricing_periods.html:56
 msgid "Billed every 3 months"
-msgstr ""
-
-#: templates/billing/pricing_periods.html:70
-#: templates/billing/pricing_periods.html:151
-msgid "6 Months"
-msgstr ""
+msgstr "Оплата кожні 3 місяці"
 
 #: templates/billing/pricing_periods.html:81
 msgid "Billed every 6 months"
-msgstr ""
+msgstr "Оплата кожні 6 місяців"
 
 #: templates/billing/pricing_periods.html:92
 msgid "Mejor Valor - Ahorre"
-msgstr ""
-
-#: templates/billing/pricing_periods.html:95
-#: templates/billing/pricing_periods.html:158
-msgid "Yearly"
-msgstr ""
+msgstr "Найкраща Ціна - Зекономте"
 
 #: templates/billing/pricing_periods.html:98
 msgid "year"
-msgstr ""
+msgstr "рік"
 
 #: templates/billing/pricing_periods.html:106
 msgid "Billed annually"
-msgstr ""
+msgstr "Річна оплата"
 
 #: templates/billing/pricing_periods.html:119
 msgid "Pricing Comparison"
-msgstr ""
+msgstr "Порівняння Цін"
 
 #: templates/billing/pricing_periods.html:124
 msgid "Billing Period"
-msgstr ""
+msgstr "Білінговий Період"
 
 #: templates/billing/pricing_periods.html:125
 msgid "Total Price"
-msgstr ""
+msgstr "Загальна Ціна"
 
 #: templates/billing/pricing_periods.html:126
 msgid "Effective Monthly"
-msgstr ""
+msgstr "Фактично на Місяць"
 
 #: templates/billing/pricing_periods.html:127
 msgid "Discount"
-msgstr ""
+msgstr "Знижка"
 
 #: templates/billing/pricing_periods.html:128
 msgid "You Save"
-msgstr ""
+msgstr "Ви Заощаджуєте"
 
 #: templates/billing/subscription_details.html:4
 #: templates/billing/subscription_details.html:18
-#, fuzzy
-#| msgid "Subscription"
 msgid "Subscription & Billing"
-msgstr "Підписка"
+msgstr "Підписка та Оплата"
 
 #: templates/billing/subscription_details.html:13
 #: templates/companies/customer_detail.html:11
@@ -746,103 +802,95 @@ msgstr "Підписка"
 #: templates/companies/services_list.html:10
 #: templates/companies/staff_list.html:10
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: templates/billing/subscription_details.html:31
-#, fuzzy
-#| msgid "Subscription"
 msgid "Current Subscription"
-msgstr "Підписка"
+msgstr "Поточна Підписка"
 
 #: templates/billing/subscription_details.html:50
 msgid "Start Date"
-msgstr ""
+msgstr "Дата Початку"
 
 #: templates/billing/subscription_details.html:54
 msgid "Next Billing Date"
-msgstr ""
+msgstr "Наступна Дата Оплати"
 
 #: templates/billing/subscription_details.html:60
-#, fuzzy
-#| msgid "Current Plan"
 msgid "Change Plan"
-msgstr "Поточний План"
+msgstr "Змінити План"
 
 #: templates/billing/subscription_details.html:63
-#, fuzzy
-#| msgid "Subscription"
 msgid "Cancel Subscription"
-msgstr "Підписка"
+msgstr "Скасувати Підписку"
 
 #: templates/billing/subscription_details.html:69
-#, fuzzy
-#| msgid "Subscription"
 msgid "No active subscription"
-msgstr "Підписка"
+msgstr "Немає активної підписки"
 
 #: templates/billing/subscription_details.html:71
 msgid "View Available Plans"
-msgstr ""
+msgstr "Переглянути Доступні Плани"
 
 #: templates/billing/subscription_details.html:81
 msgid "Billing History"
-msgstr ""
+msgstr "Історія Оплат"
 
 #: templates/billing/subscription_details.html:88
 #: templates/bookings/bookings_list.html:64
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: templates/billing/subscription_details.html:89
 msgid "Transaction ID"
-msgstr ""
+msgstr "Ідентифікатор Транзакції"
 
 #: templates/billing/subscription_details.html:90
 msgid "Plan"
-msgstr ""
+msgstr "План"
 
 #: templates/billing/subscription_details.html:91
+#: templates/companies/analytics.html:150
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: templates/billing/subscription_details.html:92
 msgid "Amount"
-msgstr ""
+msgstr "Сума"
 
 #: templates/billing/subscription_details.html:128
 msgid "No billing history yet"
-msgstr ""
+msgstr "Історії оплат ще немає"
 
 #: templates/billing/subscription_details.html:139
 msgid "Account Summary"
-msgstr ""
+msgstr "Зведення Облікового Запису"
 
 #: templates/billing/subscription_details.html:142
+#: templates/companies/analytics.html:423
 msgid "Total Spent"
-msgstr ""
+msgstr "Всього Витрачено"
 
 #: templates/billing/subscription_details.html:148
-#, fuzzy
-#| msgid "No Active Plan"
 msgid "Active Since"
-msgstr "Немає Активного Плану"
+msgstr "Активно З"
 
 #: templates/billing/subscription_details.html:158
 msgid "Transactions"
-msgstr ""
+msgstr "Транзакції"
 
 #: templates/billing/subscription_details.html:166
 msgid "Need Help?"
-msgstr ""
+msgstr "Потрібна Допомога?"
 
 #: templates/billing/subscription_details.html:168
 msgid "Have questions about billing or your subscription?"
-msgstr ""
+msgstr "Є питання щодо оплати або вашої підписки?"
 
 #: templates/billing/subscription_details.html:171
 #: templates/static_pages/faq.html:67
 msgid "Contact Support"
-msgstr ""
+msgstr "Зв'язатися з Підтримкою"
 
 #: templates/billing/view_plans.html:12
 msgid "Select the plan that best fits your business needs"
@@ -854,13 +902,11 @@ msgstr "Поточний План"
 
 #: templates/billing/view_plans.html:46
 msgid "Up to"
-msgstr ""
+msgstr "До"
 
 #: templates/billing/view_plans.html:46
-#, fuzzy
-#| msgid "Staff Members"
 msgid "staff members"
-msgstr "Члени Персоналу"
+msgstr "членів персоналу"
 
 #: templates/billing/view_plans.html:50
 msgid "Unlimited bookings"
@@ -874,159 +920,207 @@ msgstr "Вигляд календаря"
 msgid "Public booking page"
 msgstr "Публічна сторінка бронювання"
 
-#: templates/billing/view_plans.html:68
+#: templates/billing/view_plans.html:71
+msgid "Register"
+msgstr "Реєстрація"
+
+#: templates/billing/view_plans.html:75
 msgid "Are you sure you want to switch to"
 msgstr "Ви впевнені, що хочете змінити на"
 
-#: templates/billing/view_plans.html:76
+#: templates/billing/view_plans.html:84
 msgid "No plans available at the moment"
 msgstr "Наразі немає доступних планів"
 
+#: templates/bookings/bookings_list.html:4
+#, fuzzy
+#| msgid "Booking Link"
+msgid "Bookings List"
+msgstr "Посилання для Бронювання"
+
 #: templates/bookings/bookings_list.html:10
+#: templates/companies/analytics.html:132
+#: templates/companies/analytics.html:263
+#: templates/companies/analytics.html:377
+#: templates/companies/analytics.html:545
+#: templates/companies/analytics.html:653
 msgid "Bookings"
 msgstr "Бронювання"
+
+#: templates/bookings/bookings_list.html:29
+#, fuzzy
+#| msgid "Confirm"
+msgid "Confirmed"
+msgstr "Підтвердити"
+
+#: templates/bookings/bookings_list.html:30
+msgid "Prebooked"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:35
+msgid "Hide Filter"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:36
+msgid "Show Filter"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:43
+#, fuzzy
+#| msgid "Search by name or phone number..."
+msgid "Search by name, phone, email"
+msgstr "Пошук за ім'ям чи номером телефону..."
+
+#: templates/bookings/bookings_list.html:44
+msgid "From"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:45
+msgid "To"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:47
+#, fuzzy
+#| msgid "Services"
+msgid "All Services"
+msgstr "Послуги"
+
+#: templates/bookings/bookings_list.html:52
+msgid "Filter"
+msgstr ""
 
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
 #: templates/bookings/confirmation.html:37
-#, fuzzy
-#| msgid "Services"
+#: templates/bookings/create_booking.html:87
+#: templates/bookings/edit_booking.html:86
 msgid "Service"
-msgstr "Послуги"
+msgstr "Послуга"
 
 #: templates/bookings/bookings_list.html:63
 #: templates/bookings/confirm_prebooked.html:41
-#, fuzzy
-#| msgid "Add Staff"
 msgid "Staff"
-msgstr "Додати Персонал"
+msgstr "Персонал"
 
 #: templates/bookings/bookings_list.html:65
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2456
 msgid "Time"
-msgstr ""
+msgstr "Час"
 
 #: templates/bookings/bookings_list.html:66
 #: templates/bookings/confirm_prebooked.html:25
 msgid "Customer"
-msgstr ""
+msgstr "Клієнт"
 
 #: templates/bookings/bookings_list.html:67
-#, fuzzy
-#| msgid "Company Email"
 msgid "Phone & Email"
-msgstr "Електронна Пошта Компанії"
+msgstr "Телефон і Email"
 
 #: templates/bookings/bookings_list.html:68
-#: templates/companies/services_list.html:29
+#: templates/companies/analytics.html:426
+#: templates/companies/services_list.html:30
 #: templates/companies/staff_list.html:28
-#, fuzzy
-#| msgid "Quick Actions"
 msgid "Actions"
-msgstr "Швидкі Дії"
+msgstr "Дії"
 
 #: templates/bookings/bookings_list.html:84
-#: templates/companies/services_list.html:46
+#: templates/companies/services_list.html:48
 #: templates/companies/staff_list.html:53
 msgid "Edit"
-msgstr ""
+msgstr "Редагувати"
 
 #: templates/bookings/bookings_list.html:89
 #: templates/companies/customer_detail.html:76
 msgid "No bookings found."
-msgstr ""
+msgstr "Бронювань не знайдено."
 
 #: templates/bookings/confirm_prebooked.html:10
-#: templates/bookings/create_booking.html:197
-#: templates/bookings/edit_booking.html:214
+#: templates/bookings/create_booking.html:209
+#: templates/bookings/edit_booking.html:224
 #: templates/static_pages/how_it_works.html:74
-#, fuzzy
-#| msgid "Online Booking"
 msgid "Confirm Booking"
-msgstr "Онлайн Бронювання"
+msgstr "Підтвердити Бронювання"
 
 #: templates/bookings/confirm_prebooked.html:21
 #: templates/bookings/confirmation.html:30
-#, fuzzy
-#| msgid "Bookings"
 msgid "Booking Details"
-msgstr "Бронювання"
+msgstr "Деталі Бронювання"
 
 #: templates/bookings/confirm_prebooked.html:29
+#: templates/bookings/create_booking.html:56
+#: templates/bookings/edit_booking.html:59
 #: templates/companies/customer_detail.html:20
 #: templates/companies/customers_list.html:55
-#: templates/companies/dashboard.html:129 templates/companies/register.html:89
+#: templates/companies/dashboard.html:133
+#: templates/companies/edit_profile.html:69
+#: templates/companies/register.html:122
 msgid "Phone"
 msgstr "Телефон"
 
 #: templates/bookings/confirm_prebooked.html:37
 #: templates/bookings/confirmation.html:45
 msgid "Date & Time"
-msgstr ""
+msgstr "Дата і Час"
 
 #: templates/bookings/confirm_prebooked.html:46
-#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:135
+#: templates/bookings/create_booking.html:73
+#: templates/bookings/edit_booking.html:77
+#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
+#: templates/companies/edit_profile.html:76
 #: templates/companies/edit_staff.html:16
 #: templates/companies/forgot_password.html:15
-#: templates/companies/register.html:29 templates/static_pages/contact.html:23
+#: templates/companies/register.html:57 templates/static_pages/contact.html:23
 msgid "Email"
 msgstr "Електронна Пошта"
 
 #: templates/bookings/confirm_prebooked.html:58
+#: templates/bookings/create_booking.html:104
+#: templates/bookings/edit_booking.html:103
 #: templates/companies/add_service.html:29
 #: templates/companies/edit_service.html:29
-#, fuzzy
-#| msgid "Get started in minutes"
 msgid "Duration (minutes)"
-msgstr "Почніть за кілька хвилин"
+msgstr "Тривалість (хвилин)"
 
 #: templates/bookings/confirm_prebooked.html:68
 msgid "Minimum 15 minutes"
-msgstr ""
+msgstr "Мінімум 15 хвилин"
 
 #: templates/bookings/confirm_prebooked.html:72
 #: templates/bookings/confirmation.html:58
-#: templates/companies/add_service.html:37
-#: templates/companies/edit_service.html:37
+#: templates/companies/add_service.html:45
+#: templates/companies/edit_service.html:45
 #: templates/companies/services_list.html:26
-#, fuzzy
-#| msgid "Pricing"
 msgid "Price"
-msgstr "Ціни"
+msgstr "Ціна"
 
 #: templates/bookings/confirm_prebooked.html:93
-#, fuzzy
-#| msgid "Confirm Password"
 msgid "Confirm"
-msgstr "Підтвердити Пароль"
+msgstr "Підтвердити"
 
 #: templates/bookings/confirmation.html:14
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Received!"
-msgstr "Посилання для Бронювання"
+msgstr "Бронювання Отримано!"
 
 #: templates/bookings/confirmation.html:15
 msgid "Thank you for your booking. For confirm your booking, please call "
 msgstr ""
+"Дякуємо за ваше бронювання. Для підтвердження, будь ласка, зателефонуйте "
 
 #: templates/bookings/confirmation.html:18
 msgid "Status:"
-msgstr ""
+msgstr "Статус:"
 
 #: templates/bookings/confirmation.html:18
 msgid "Awaiting Staff Confirmation"
-msgstr ""
+msgstr "Очікується Підтвердження Персоналу"
 
 #: templates/bookings/confirmation.html:25
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Confirmed!"
-msgstr "Посилання для Бронювання"
+msgstr "Бронювання Підтверджено!"
 
 #: templates/bookings/confirmation.html:26
 msgid "Thank you for your booking."
-msgstr ""
+msgstr "Дякуємо за ваше бронювання."
 
 #: templates/bookings/confirmation.html:33
 msgid "Company"
@@ -1034,71 +1128,35 @@ msgstr "Компанія"
 
 #: templates/bookings/confirmation.html:41
 msgid "Specialist"
-msgstr ""
+msgstr "Спеціаліст"
 
 #: templates/bookings/confirmation.html:52
 #: templates/companies/services_list.html:27
 #: templates/static_pages/cookie_policy.html:67
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1793
-#, fuzzy
-#| msgid "Description"
 msgid "Duration"
-msgstr "Опис"
+msgstr "Тривалість"
 
 #: templates/bookings/confirmation.html:53
-#: templates/companies/services_list.html:37
+#: templates/companies/services_list.html:38
+#: templates/companies/services_list.html:39
 msgid "minutes"
-msgstr ""
+msgstr "хвилин"
 
-#: templates/bookings/edit_booking.html:191
-#, fuzzy
-#| msgid "Bookings"
-msgid "Booking details"
-msgstr "Бронювання"
+#: templates/bookings/create_booking.html:17
+msgid "Book Your Appointment"
+msgstr "Забронювати Ваш Запис"
 
-#: templates/bookings/edit_booking.html:195
-msgid "View customer details"
-msgstr ""
+#: templates/bookings/create_booking.html:29
+#: templates/bookings/edit_booking.html:34
+msgid "Please complete the following fields:"
+msgstr "Будь ласка, заповніть наступні поля:"
 
-#: templates/companies/activate_staff_account.html:10
-#: templates/email/staff_activation.html:83
-#, fuzzy
-#| msgid "Create Account"
-msgid "Activate Staff Account"
-msgstr "Створити Обліковий Запис"
+#: templates/bookings/create_booking.html:46
+msgid "Your Information"
+msgstr "Ваша Інформація"
 
-#: templates/companies/activate_staff_account.html:11
-msgid "Please set your password to activate your account."
-msgstr ""
-
-#: templates/companies/activate_staff_account.html:31
-#: templates/companies/register.html:37
-#: templates/companies/reset_password.html:31 templates/users/login.html:44
-msgid "Password"
-msgstr "Пароль"
-
-#: templates/companies/activate_staff_account.html:39
-#: templates/companies/register.html:44
-#: templates/companies/reset_password.html:39
-msgid "Confirm Password"
-msgstr "Підтвердити Пароль"
-
-#: templates/companies/activate_staff_account.html:47
-msgid "Activate"
-msgstr ""
-
-#: templates/companies/activate_staff_account.html:52
-#: templates/companies/forgot_password.html:23
-#: templates/companies/reset_password.html:52
-msgid "Return to homepage"
-msgstr ""
-
-#: templates/companies/add_service.html:10
-#: templates/companies/add_service.html:68
-#: templates/companies/dashboard.html:93
-msgid "Add Service"
-msgstr "Додати Послугу"
-
+#: templates/bookings/create_booking.html:49
 #: templates/companies/add_service.html:21
 #: templates/companies/add_staff.html:53
 #: templates/companies/customers_list.html:54
@@ -1108,173 +1166,597 @@ msgstr "Додати Послугу"
 #: templates/companies/staff_list.html:25
 #: templates/static_pages/contact.html:17
 msgid "Name"
-msgstr ""
+msgstr "Ім'я"
 
-#: templates/companies/add_service.html:47
-#: templates/companies/edit_service.html:47
+#: templates/bookings/create_booking.html:84
+#: templates/bookings/edit_booking.html:84
+msgid "Select Service"
+msgstr "Оберіть Послугу"
+
+#: templates/bookings/create_booking.html:90
+#: templates/bookings/edit_booking.html:89
+msgid "Choose a service..."
+msgstr "Оберіть послугу..."
+
+#: templates/bookings/create_booking.html:117
+#: templates/bookings/edit_booking.html:114
+msgid "Select Specialist"
+msgstr "Оберіть Спеціаліста"
+
+#: templates/bookings/create_booking.html:117
+#: templates/bookings/create_booking.html:193
+msgid "Optional"
+msgstr "Опційно"
+
+#: templates/bookings/create_booking.html:120
+#: templates/bookings/edit_booking.html:116
+msgid "Please select a service first"
+msgstr "Будь ласка, спочатку оберіть послугу"
+
+#: templates/bookings/create_booking.html:137
+#: templates/bookings/edit_booking.html:133
+msgid "Select Date & Time"
+msgstr "Оберіть Дату і Час"
+
+#: templates/bookings/create_booking.html:142
+#: templates/bookings/edit_booking.html:138
+#: templates/companies/add_service.html:53
+#: templates/companies/edit_service.html:53
+msgid "Available Dates"
+msgstr "Доступні Дати"
+
+#: templates/bookings/create_booking.html:158
+#: templates/bookings/edit_booking.html:154
+msgid "Please select a specialist first"
+msgstr "Будь ласка, спочатку оберіть спеціаліста"
+
+#: templates/bookings/create_booking.html:162
+#: templates/bookings/edit_booking.html:158
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:22
+msgid "Sun"
+msgstr "Нд"
+
+#: templates/bookings/create_booking.html:163
+#: templates/bookings/edit_booking.html:159
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:16
+msgid "Mon"
+msgstr "Пн"
+
+#: templates/bookings/create_booking.html:164
+#: templates/bookings/edit_booking.html:160
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:17
+msgid "Tue"
+msgstr "Вт"
+
+#: templates/bookings/create_booking.html:165
+#: templates/bookings/edit_booking.html:161
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:18
+msgid "Wed"
+msgstr "Ср"
+
+#: templates/bookings/create_booking.html:166
+#: templates/bookings/edit_booking.html:162
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:19
+msgid "Thu"
+msgstr "Чт"
+
+#: templates/bookings/create_booking.html:167
+#: templates/bookings/edit_booking.html:163
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:20
+msgid "Fri"
+msgstr "Пт"
+
+#: templates/bookings/create_booking.html:168
+#: templates/bookings/edit_booking.html:164
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:21
+msgid "Sat"
+msgstr "Сб"
+
+#: templates/bookings/create_booking.html:180
+#: templates/bookings/edit_booking.html:176
+msgid "Available Time"
+msgstr "Доступний Час"
+
+#: templates/bookings/create_booking.html:193
+msgid "Additional Notes"
+msgstr "Додаткові Примітки"
+
+#: templates/bookings/create_booking.html:195
+msgid "Do you have any special requests or notes?"
+msgstr "Чи маєте ви якісь спеціальні побажання або примітки?"
+
+#: templates/bookings/create_booking.html:220
+msgid "Any Available"
+msgstr "Будь-який Доступний"
+
+#: templates/bookings/create_booking.html:221
+msgid "We'll assign"
+msgstr "Ми призначимо"
+
+#: templates/bookings/edit_booking.html:19
+msgid "Edit Booking"
+msgstr "Редагувати Бронювання"
+
+#: templates/bookings/edit_booking.html:51
+msgid "Customer Information"
+msgstr "Інформація про Клієнта"
+
+#: templates/bookings/edit_booking.html:54
+#: templates/companies/analytics.html:417
+msgid "Customer Name"
+msgstr "Ім'я Клієнта"
+
+#: templates/bookings/edit_booking.html:92
+#: templates/companies/analytics.html:159
+#: templates/companies/analytics.html:346
+msgid "min"
+msgstr "хв"
+
+#: templates/bookings/edit_booking.html:191
+msgid "Booking details"
+msgstr "Деталі бронювання"
+
+#: templates/bookings/edit_booking.html:195
+msgid "View customer details"
+msgstr "Переглянути деталі клієнта"
+
+#: templates/bookings/edit_booking.html:211
+msgid "Client Notes"
+msgstr "Примітки Клієнта"
+
+#: templates/bookings/edit_booking.html:211
+msgid "from customer"
+msgstr "від клієнта"
+
+#: templates/companies/activate_staff_account.html:10
+#: templates/email/staff_activation.html:83
+msgid "Activate Staff Account"
+msgstr "Активувати Обліковий Запис Персоналу"
+
+#: templates/companies/activate_staff_account.html:11
+msgid "Please set your password to activate your account."
+msgstr "Будь ласка, встановіть пароль для активації вашого облікового запису."
+
+#: templates/companies/activate_staff_account.html:31
+#: templates/companies/register.html:69
+#: templates/companies/reset_password.html:31 templates/users/login.html:45
+msgid "Password"
+msgstr "Пароль"
+
+#: templates/companies/activate_staff_account.html:39
+#: templates/companies/register.html:76
+#: templates/companies/reset_password.html:39
+msgid "Confirm Password"
+msgstr "Підтвердити Пароль"
+
+#: templates/companies/activate_staff_account.html:47
+msgid "Activate"
+msgstr "Активувати"
+
+#: templates/companies/activate_staff_account.html:52
+#: templates/companies/forgot_password.html:23
+#: templates/companies/reset_password.html:52
+msgid "Return to homepage"
+msgstr "Повернутися на головну сторінку"
+
+#: templates/companies/add_service.html:10
+#: templates/companies/add_service.html:103
+#: templates/companies/dashboard.html:89
+msgid "Add Service"
+msgstr "Додати Послугу"
+
+#: templates/companies/add_service.html:37
+#: templates/companies/edit_service.html:37
+msgid "Time for Servicing (minutes)"
+msgstr "Час Обслуговування (хвилини)"
+
+#: templates/companies/add_service.html:60
+#: templates/companies/edit_service.html:60
+msgid "Restrict service to specific dates only"
+msgstr "Обмежити послугу лише конкретними датами"
+
+#: templates/companies/add_service.html:63
+#: templates/companies/edit_service.html:63
+msgid ""
+"Specify up to 10 dates when this service is available. Leave empty if always "
+"available."
+msgstr ""
+"Вкажіть до 10 дат, коли ця послуга доступна. Залиште порожнім, якщо завжди "
+"доступна."
+
+#: templates/companies/add_service.html:70
+#: templates/companies/edit_service.html:79
+msgid "+ Add Date"
+msgstr "+ Додати Дату"
+
+#: templates/companies/add_service.html:79
+#: templates/companies/edit_service.html:88
 msgid "Require Staff Confirmation"
-msgstr ""
+msgstr "Потрібне Підтвердження Персоналу"
 
-#: templates/companies/add_service.html:57
-#: templates/companies/edit_service.html:57
-#: templates/companies/services_list.html:28
-#: templates/companies/services_list.html:40
-#: templates/companies/staff_list.html:27
-#: templates/companies/staff_list.html:47
-#, fuzzy
-#| msgid "No Active Plan"
-msgid "Active"
-msgstr "Немає Активного Плану"
+#: templates/companies/add_service.html:132
+#: templates/companies/edit_service.html:144
+msgid "Maximum 10 dates allowed"
+msgstr "Максимум 10 дат дозволено"
 
-#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:133
-#, fuzzy
-#| msgid "Staff Members"
+#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:163
 msgid "Add Staff Member"
-msgstr "Члени Персоналу"
+msgstr "Додати Члена Персоналу"
 
 #: templates/companies/add_staff.html:61 templates/companies/edit_staff.html:34
 #: templates/companies/staff_list.html:26
 msgid "Specialization"
-msgstr ""
+msgstr "Спеціалізація"
 
 #: templates/companies/add_staff.html:69 templates/companies/edit_staff.html:58
 msgid "Avatar"
-msgstr ""
+msgstr "Аватар"
 
-#: templates/companies/add_staff.html:77 templates/companies/edit_staff.html:65
+#: templates/companies/add_staff.html:77 templates/companies/edit_staff.html:75
+msgid "Working Days"
+msgstr "Робочі Дні"
+
+#: templates/companies/add_staff.html:97 templates/companies/edit_staff.html:95
+msgid "Select the days when this staff member is available to work"
+msgstr "Оберіть дні, коли цей спеціаліст доступний для роботи"
+
+#: templates/companies/add_staff.html:101
+#: templates/companies/edit_staff.html:98
 msgid "Break Start Time"
-msgstr ""
+msgstr "Час Початку Перерви"
 
-#: templates/companies/add_staff.html:85 templates/companies/edit_staff.html:73
-msgid "Break End Time"
-msgstr ""
-
-#: templates/companies/add_staff.html:95 templates/companies/edit_staff.html:83
-msgid "Out of Office"
-msgstr ""
-
-#: templates/companies/add_staff.html:103
-#: templates/companies/edit_staff.html:91
-msgid "Out of Office Start Date"
-msgstr ""
-
-#: templates/companies/add_staff.html:111
-#: templates/companies/edit_staff.html:99
-msgid "Out of Office End Date"
-msgstr ""
-
-#: templates/companies/add_staff.html:119 templates/companies/dashboard.html:50
+#: templates/companies/add_staff.html:109
 #: templates/companies/edit_staff.html:106
+msgid "Break End Time"
+msgstr "Час Закінчення Перерви"
+
+#: templates/companies/add_staff.html:117
+msgid "Out of Salon Start Date"
+msgstr "Дата Початку Відсутності в Салоні"
+
+#: templates/companies/add_staff.html:125
+msgid "Out of Salon End Date"
+msgstr "Дата Закінчення Відсутності в Салоні"
+
+#: templates/companies/add_staff.html:133 templates/companies/dashboard.html:35
+#: templates/companies/edit_staff.html:130
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Послуги"
 
+#: templates/companies/analytics.html:4 templates/companies/dashboard.html:101
+msgid "Analytics"
+msgstr "Аналітика"
+
+#: templates/companies/analytics.html:14
+msgid "Service Analytics"
+msgstr "Аналітика Послуг"
+
+#: templates/companies/analytics.html:22
+msgid "Back to Dashboard"
+msgstr "Назад до Панелі"
+
+#: templates/companies/analytics.html:33
+msgid "Date Range"
+msgstr "Діапазон Дат"
+
+#: templates/companies/analytics.html:36
+msgid "Last 7 Days"
+msgstr "Останні 7 днів"
+
+#: templates/companies/analytics.html:39
+msgid "Last 30 Days"
+msgstr "Останні 30 днів"
+
+#: templates/companies/analytics.html:42
+msgid "Last 90 Days"
+msgstr "Останні 90 днів"
+
+#: templates/companies/analytics.html:45
+msgid "Last Year"
+msgstr "Останній рік"
+
+#: templates/companies/analytics.html:48
+msgid "All Time"
+msgstr "Весь час"
+
+#: templates/companies/analytics.html:53
+msgid "Showing data from"
+msgstr "Показано дані з"
+
+#: templates/companies/analytics.html:53
+msgid "to"
+msgstr "до"
+
+#: templates/companies/analytics.html:57
+msgid "Showing all available data"
+msgstr "Показано всі доступні дані"
+
+#: templates/companies/analytics.html:70
+msgid "Total Confirmed Bookings"
+msgstr "Всього Підтверджених Бронювань"
+
+#: templates/companies/analytics.html:82
+msgid "Total Revenue"
+msgstr "Загальний Дохід"
+
+#: templates/companies/analytics.html:93
+msgid "Booking Status Breakdown"
+msgstr "Розподіл Статусів Бронювання"
+
+#: templates/companies/analytics.html:113
+msgid "Service Performance: Bookings vs Revenue"
+msgstr "Ефективність Послуг: Бронювання в порівнянні з доходом"
+
+#: templates/companies/analytics.html:122
+msgid "Service Performance"
+msgstr "Ефективність Послуг"
+
+#: templates/companies/analytics.html:129
+#: templates/companies/customer_detail.html:33
+msgid "Service Name"
+msgstr "Назва Послуги"
+
+#: templates/companies/analytics.html:135
+#, python-format
+msgid "Usage %%"
+msgstr "Використання %%"
+
+#: templates/companies/analytics.html:138
+#: templates/companies/analytics.html:269
+#: templates/companies/analytics.html:380
+msgid "Revenue"
+msgstr "Дохід"
+
+#: templates/companies/analytics.html:141
+#: templates/companies/analytics.html:272
+#, python-format
+msgid "Revenue %%"
+msgstr "Дохід %%"
+
+#: templates/companies/analytics.html:144
+msgid "Avg Price"
+msgstr "Середня Ціна"
+
+#: templates/companies/analytics.html:147
+#: templates/companies/analytics.html:278
+msgid "Unique Customers"
+msgstr "Унікальні Клієнти"
+
+#: templates/companies/analytics.html:196
+#: templates/companies/services_list.html:44
+#: templates/companies/staff_list.html:49
+msgid "Inactive"
+msgstr "Неактивний"
+
+#: templates/companies/analytics.html:204
+#: templates/companies/customer_detail.html:45
+msgid "No services found."
+msgstr "Послуги не знайдено."
+
+#: templates/companies/analytics.html:222
+msgid "Services with No Bookings"
+msgstr "Послуги без Бронювань"
+
+#: templates/companies/analytics.html:225
+msgid ""
+"The following services have not received any confirmed bookings in the "
+"selected date range:"
+msgstr ""
+"Наступні послуги не отримали підтверджених бронювань у вибраному діапазоні "
+"дат:"
+
+#: templates/companies/analytics.html:232
+msgid ""
+"Consider reviewing these services. You may want to adjust pricing, improve "
+"descriptions, or remove services that are no longer relevant."
+msgstr ""
+"Розгляньте ці послуги. Ви можете захотіти відкоригувати ціни, покращити "
+"описи або видалити послуги, які більше не актуальні."
+
+#: templates/companies/analytics.html:245
+msgid "Staff Effectiveness: Bookings vs Revenue"
+msgstr "Ефективність Персоналу: Бронювання проти Доходу"
+
+#: templates/companies/analytics.html:253
+msgid "Staff Performance"
+msgstr "Ефективність Персоналу"
+
+#: templates/companies/analytics.html:260
+msgid "Staff Member"
+msgstr "Член Персоналу"
+
+#: templates/companies/analytics.html:266
+#, python-format
+msgid "Effectiveness %%"
+msgstr "Ефективність %%"
+
+#: templates/companies/analytics.html:275
+msgid "Avg Booking Value"
+msgstr "Середня Вартість Бронювання"
+
+#: templates/companies/analytics.html:281
+msgid "Total Hours"
+msgstr "Всього Годин"
+
+#: templates/companies/analytics.html:284
+msgid "Avg Duration"
+msgstr "Середня Тривалість"
+
+#: templates/companies/analytics.html:352
+msgid "No active staff members found."
+msgstr "Активних членів персоналу не знайдено."
+
+#: templates/companies/analytics.html:366
+msgid "Monthly Trends"
+msgstr "Щомісячні Тренди"
+
+#: templates/companies/analytics.html:374
+msgid "Month"
+msgstr "Місяць"
+
+#: templates/companies/analytics.html:409
+msgid "Top Customers"
+msgstr "Топ Клієнтів"
+
+#: templates/companies/analytics.html:420
+msgid "Total Bookings"
+msgstr "Всього Бронювань"
+
+#: templates/companies/analytics.html:444
+msgid "View Details"
+msgstr "Переглянути Деталі"
+
+#: templates/companies/analytics.html:459
+msgid "Insights & Recommendations"
+msgstr "Інсайти та Рекомендації"
+
+#: templates/companies/analytics.html:470
+msgid "Most Popular Service"
+msgstr "Найпопулярніша Послуга"
+
+#: templates/companies/analytics.html:472
+msgid "is your most booked service with"
+msgstr "є вашою найбільш забронованою послугою з"
+
+#: templates/companies/analytics.html:472
+msgid "bookings, generating"
+msgstr "бронювань, що генерує"
+
+#: templates/companies/analytics.html:485
+msgid "Underperforming Services"
+msgstr "Неефективні Послуги"
+
+#: templates/companies/analytics.html:487
+msgid "You have"
+msgstr "У вас є"
+
+#: templates/companies/analytics.html:487
+msgid ""
+"service(s) with no bookings. Consider promoting these services or removing "
+"them if they're no longer relevant."
+msgstr ""
+"послуг(а) без бронювань. Розгляньте можливість просування цих послуг або "
+"видалення їх, якщо вони більше не актуальні."
+
+#: templates/companies/analytics.html:499
+msgid "Average Booking Value"
+msgstr "Середня Вартість Бронювання"
+
+#: templates/companies/analytics.html:501
+msgid "Your average booking value is"
+msgstr "Середня вартість вашого бронювання становить"
+
+#: templates/companies/analytics.html:553
+#: templates/companies/analytics.html:661
+#: templates/companies/analytics.html:720
+msgid "Revenue ($)"
+msgstr "Дохід ($)"
+
+#: templates/companies/analytics.html:582
+#: templates/companies/analytics.html:690
+msgid "bookings"
+msgstr "бронювань"
+
+#: templates/companies/analytics.html:599
+#: templates/companies/analytics.html:707
+msgid "Number of Bookings"
+msgstr "Кількість Бронювань"
+
+#: templates/companies/analytics.html:612
+msgid "Revenue (€)"
+msgstr "Дохід (€)"
+
 #: templates/companies/customer_detail.html:4
 msgid "Customer Detail"
-msgstr ""
+msgstr "Деталі Клієнта"
 
 #: templates/companies/customer_detail.html:28
-#, fuzzy
-#| msgid "Services"
 msgid "Services Booked"
-msgstr "Послуги"
-
-#: templates/companies/customer_detail.html:33
-#, fuzzy
-#| msgid "Services"
-msgid "Service Name"
-msgstr "Послуги"
+msgstr "Заброньовані Послуги"
 
 #: templates/companies/customer_detail.html:34
 msgid "Times Booked"
-msgstr ""
-
-#: templates/companies/customer_detail.html:45
-msgid "No services found."
-msgstr ""
+msgstr "Разів Заброньовано"
 
 #: templates/companies/customer_detail.html:55
-#, fuzzy
-#| msgid "Bookings"
 msgid "Booking History"
-msgstr "Бронювання"
+msgstr "Історія Бронювань"
 
 #: templates/companies/customer_detail.html:64
 msgid "with"
-msgstr ""
+msgstr "з"
 
 #: templates/companies/customer_detail.html:86
 #: templates/companies/customers_list.html:84
 msgid "First"
-msgstr ""
+msgstr "Перша"
 
 #: templates/companies/customer_detail.html:90
 #: templates/companies/customers_list.html:88
 msgid "Previous"
-msgstr ""
+msgstr "Попередня"
 
 #: templates/companies/customer_detail.html:109
 #: templates/companies/customers_list.html:107
 msgid "Next"
-msgstr ""
+msgstr "Наступна"
 
 #: templates/companies/customer_detail.html:113
 #: templates/companies/customers_list.html:111
 msgid "Last"
-msgstr ""
+msgstr "Остання"
 
 #: templates/companies/customer_detail.html:120
 #: templates/companies/customers_list.html:118
 msgid "Page"
-msgstr ""
+msgstr "Сторінка"
 
 #: templates/companies/customer_detail.html:120
 #: templates/companies/customers_list.html:118
 msgid "of"
-msgstr ""
+msgstr "з"
 
 #: templates/companies/customer_detail.html:121
-#, fuzzy
-#| msgid "Bookings"
 msgid "total bookings"
-msgstr "Бронювання"
+msgstr "Загалом бронювань"
 
 #: templates/companies/customers_list.html:15
 msgid "Customers for"
-msgstr ""
+msgstr "Клієнти"
 
 #: templates/companies/customers_list.html:21
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: templates/companies/customers_list.html:32
 msgid "Search by name or phone number..."
-msgstr ""
+msgstr "Пошук за ім'ям чи номером телефону..."
 
 #: templates/companies/customers_list.html:43
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:463
 msgid "Clear"
-msgstr ""
+msgstr "Очистити"
 
 #: templates/companies/customers_list.html:68
 msgid "No customers found matching your search."
-msgstr ""
+msgstr "За вашим запитом не знайдено співпадінь"
 
 #: templates/companies/customers_list.html:70
 msgid "No customers found."
-msgstr ""
+msgstr "Не знайдено клієнтів."
 
 #: templates/companies/customers_list.html:119
 msgid "total customers"
-msgstr ""
+msgstr "загалом клієнтів"
 
 #: templates/companies/dashboard.html:17
 msgid "Company Dashboard"
 msgstr "Панель Компанії"
 
-#: templates/companies/dashboard.html:35 templates/companies/staff_list.html:14
+#: templates/companies/dashboard.html:50 templates/companies/staff_list.html:14
 msgid "Staff Members"
-msgstr "Члени Персоналу"
+msgstr "Працівник"
 
 #: templates/companies/dashboard.html:65
 msgid "Subscription"
@@ -1292,458 +1774,591 @@ msgstr "Немає Активного Плану"
 msgid "Quick Actions"
 msgstr "Швидкі Дії"
 
-#: templates/companies/dashboard.html:89
+#: templates/companies/dashboard.html:93
 msgid "Add Staff"
 msgstr "Додати Персонал"
 
 #: templates/companies/dashboard.html:97
 msgid "View Customers"
-msgstr ""
+msgstr "Переглянути Клієнтів"
 
-#: templates/companies/dashboard.html:101
+#: templates/companies/dashboard.html:105
 msgid "Edit Profile"
 msgstr "Редагувати Профіль"
 
-#: templates/companies/dashboard.html:105
+#: templates/companies/dashboard.html:109
 msgid "Set Hours"
 msgstr "Встановити Години"
 
-#: templates/companies/dashboard.html:109
+#: templates/companies/dashboard.html:113
 msgid "View Public Page"
 msgstr "Переглянути Публічну Сторінку"
 
-#: templates/companies/dashboard.html:119 templates/companies/register.html:55
+#: templates/companies/dashboard.html:123 templates/companies/register.html:88
 msgid "Company Information"
 msgstr "Інформація Про Компанію"
 
-#: templates/companies/dashboard.html:124 templates/companies/register.html:73
+#: templates/companies/dashboard.html:128
+#: templates/companies/edit_profile.html:39
+#: templates/companies/register.html:106
 msgid "Address"
 msgstr "Адреса"
 
-#: templates/companies/dashboard.html:141
+#: templates/companies/dashboard.html:145
+#: templates/companies/edit_profile.html:85
 msgid "Website"
 msgstr "Веб-сайт"
 
-#: templates/companies/dashboard.html:151
+#: templates/companies/dashboard.html:155
 msgid "Booking Link"
 msgstr "Посилання для Бронювання"
 
-#: templates/companies/dashboard.html:154
+#: templates/companies/dashboard.html:158
 msgid "Share this link with your customers:"
 msgstr "Поділіться цим посиланням з вашими клієнтами:"
 
-#: templates/companies/dashboard.html:159
+#: templates/companies/dashboard.html:163
 msgid "Copy"
 msgstr "Копіювати"
 
-#: templates/companies/dashboard.html:165
+#: templates/companies/dashboard.html:169
 msgid "Download QR Code"
-msgstr ""
+msgstr "Завантажити QR Код"
 
-#: templates/companies/dashboard.html:171
+#: templates/companies/dashboard.html:175
 msgid "QR Code Preview:"
-msgstr ""
+msgstr "Попередній Перегляд QR Коду:"
 
-#: templates/companies/dashboard.html:186
+#: templates/companies/dashboard.html:190
 msgid "Link copied to clipboard!"
 msgstr "Посилання скопійовано в буфер обміну!"
 
-#: templates/companies/edit_profile.html:145
-#: templates/companies/edit_service.html:68
-#: templates/companies/edit_staff.html:128
-#: templates/companies/working_hours.html:71
-msgid "Save Changes"
+#: templates/companies/edit_profile.html:10
+msgid "Edit Company Profile"
+msgstr "Редагувати Профіль Компанії"
+
+#: templates/companies/edit_profile.html:22
+#: templates/companies/register.html:91
+msgid "Company Name"
+msgstr "Назва Компанії"
+
+#: templates/companies/edit_profile.html:30
+#: templates/companies/register.html:98
+#: templates/static_pages/cookie_policy.html:68
+msgid "Description"
+msgstr "Опис"
+
+#: templates/companies/edit_profile.html:46
+#: templates/companies/register.html:113
+msgid "City"
+msgstr "Місто"
+
+#: templates/companies/edit_profile.html:55
+msgid "Map Location"
+msgstr "Розташування на Карті"
+
+#: templates/companies/edit_profile.html:59
+msgid "Open"
+msgstr "Відкрити"
+
+#: templates/companies/edit_profile.html:59
+msgid "Google Maps"
+msgstr "Google Карти"
+
+#: templates/companies/edit_profile.html:60
+msgid ""
+"search for your business, click the 'Share' button and paste the link here "
+"(e.g., https://maps.app.goo.gl/...)"
 msgstr ""
+"знайдіть свій бізнес, натисніть кнопку 'Поділитися' і вставте посилання тут "
+"(наприклад, https://maps.app.goo.gl/...)"
+
+#: templates/companies/edit_profile.html:93
+msgid "Online Appointments"
+msgstr "Онлайн Записи"
+
+#: templates/companies/edit_profile.html:97
+msgid "Enable online appointment booking on your public page"
+msgstr "Увімкнути онлайн запис на вашій публічній сторінці"
+
+#: templates/companies/edit_profile.html:106
+msgid "Calendar Time Slot Interval"
+msgstr "Інтервал Часових Слотів Календаря"
+
+#: templates/companies/edit_profile.html:110
+msgid ""
+"Set the time slot interval for your booking calendar in minutes (e.g., 15, "
+"30, 60)"
+msgstr ""
+"Встановіть інтервал часових слотів для вашого календаря бронювання в "
+"хвилинах (наприклад, 15, 30, 60)"
+
+#: templates/companies/edit_profile.html:118
+msgid "Social Media"
+msgstr "Соціальні Мережі"
+
+#: templates/companies/edit_profile.html:123
+#: templates/companies/edit_profile.html:130
+msgid "Platform (e.g., facebook)"
+msgstr "Платформа (наприклад, facebook)"
+
+#: templates/companies/edit_profile.html:124
+#: templates/companies/edit_profile.html:131
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2564
+msgid "URL"
+msgstr "URL"
+
+#: templates/companies/edit_profile.html:136
+msgid "+ Add Social Media"
+msgstr "+ Додати Соціальну Мережу"
+
+#: templates/companies/edit_profile.html:137
+msgid "Add your social media profiles (e.g., facebook, instagram, twitter)"
+msgstr ""
+"Додайте ваші профілі соціальних мереж (наприклад, facebook, instagram, "
+"twitter)"
+
+#: templates/companies/edit_profile.html:141
+msgid "Logo"
+msgstr "Логотип"
+
+#: templates/companies/edit_profile.html:144
+msgid "Current logo"
+msgstr "Поточний логотип"
+
+#: templates/companies/edit_profile.html:147
+#: templates/companies/edit_staff.html:64
+#: templates/companies/services_list.html:49
+#: templates/companies/staff_list.html:54
+#: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
+msgid "Delete"
+msgstr "Видалити"
+
+#: templates/companies/edit_profile.html:158
+msgid "Images"
+msgstr "Зображення"
+
+#: templates/companies/edit_profile.html:160
+msgid "Drag and drop images to reorder them"
+msgstr "Перетягніть зображення, щоб змінити їх порядок"
+
+#: templates/companies/edit_profile.html:170
+msgid "Company image"
+msgstr "Зображення компанії"
+
+#: templates/companies/edit_profile.html:185
+msgid "Choose file"
+msgstr "Оберіть файл"
+
+#: templates/companies/edit_profile.html:199
+#: templates/companies/edit_service.html:112
+#: templates/companies/edit_staff.html:171
+#: templates/companies/working_hours.html:75
+msgid "Save Changes"
+msgstr "Зберегти Зміни"
 
 #: templates/companies/edit_service.html:10
-#, fuzzy
-#| msgid "Add Service"
 msgid "Edit Service"
-msgstr "Додати Послугу"
+msgstr "Редагувати Послугу"
 
 #: templates/companies/edit_staff.html:15
-#, fuzzy
-#| msgid "Staff Members"
 msgid "Edit Staff Member"
-msgstr "Члени Персоналу"
+msgstr "Редагувати Персонал"
 
-#: templates/companies/edit_staff.html:117
-#, fuzzy
-#| msgid "No Active Plan"
+#: templates/companies/edit_staff.html:61
+msgid "Current avatar"
+msgstr "Поточний аватар"
+
+#: templates/companies/edit_staff.html:115
+msgid "Out of Office Start Date"
+msgstr "Дата Початку Відсутності"
+
+#: templates/companies/edit_staff.html:123
+msgid "Out of Office End Date"
+msgstr "Дата Закінчення Відсутності"
+
+#: templates/companies/edit_staff.html:160
 msgid "Is Active"
-msgstr "Немає Активного Плану"
+msgstr "Активний"
 
 #: templates/companies/forgot_password.html:10
-#, fuzzy
-#| msgid "Forgot password?"
 msgid "Forgot Password"
 msgstr "Забули пароль?"
 
 #: templates/companies/forgot_password.html:11
 msgid "Enter your email address below to receive a password reset link."
 msgstr ""
+"Введіть вашу електронну адресу нижче, щоб отримати посилання для скидання "
+"пароля."
 
 #: templates/companies/forgot_password.html:19
 msgid "Send Reset Link"
-msgstr ""
+msgstr "Надіслати Посилання Для Скидання"
 
-#: templates/companies/register.html:4
+#: templates/companies/public_page.html:42
+msgid "Gallery"
+msgstr "Галерея"
+
+#: templates/companies/public_page.html:61
+msgid "Our Team"
+msgstr "Наша Команда"
+
+#: templates/companies/public_page.html:82
+msgid "Staff information coming soon."
+msgstr "Інформація про персонал незабаром."
+
+#: templates/companies/public_page.html:90
+msgid "Our Services"
+msgstr "Наші Послуги"
+
+#: templates/companies/public_page.html:109
+msgid "No services available at the moment."
+msgstr "Наразі немає доступних послуг."
+
+#: templates/companies/public_page.html:120
+msgid "Book an Appointment"
+msgstr "Забронювати Зустріч"
+
+#: templates/companies/public_page.html:123
+msgid "Book Now"
+msgstr "Забронювати Зараз"
+
+#: templates/companies/public_page.html:129
+msgid ""
+"Online booking is currently unavailable. Please contact us directly to "
+"schedule an appointment."
+msgstr ""
+"Онлайн бронювання наразі недоступне. Будь ласка, зв'яжіться з нами "
+"безпосередньо, щоб запланувати зустріч."
+
+#: templates/companies/public_page.html:135
+msgid "Contact Information"
+msgstr "Контактна Інформація"
+
+#: templates/companies/public_page.html:177
+msgid "Working Hours"
+msgstr "Години Роботи"
+
+#: templates/companies/public_page.html:183
+msgid "Closed"
+msgstr "Зачинено"
+
+#: templates/companies/register.html:5
 msgid "Register Your Company"
 msgstr "Зареєструйте Вашу Компанію"
 
-#: templates/companies/register.html:10
-#, fuzzy
-#| msgid "Register Your Company"
-msgid "Register Your Business"
-msgstr "Зареєструйте Вашу Компанію"
-
 #: templates/companies/register.html:11
-#, fuzzy
-#| msgid "Create your company account and start accepting bookings today"
-msgid "Create your company account and start accepting bookings"
-msgstr ""
-"Створіть обліковий запис компанії та почніть приймати бронювання сьогодні"
+msgid "Register Your Business"
+msgstr "Зареєструйте Ваш Бізнес"
 
-#: templates/companies/register.html:26
+#: templates/companies/register.html:12
+msgid "Create your company account and start accepting bookings"
+msgstr "Створіть обліковий запис компанії та почніть приймати бронювання"
+
+#: templates/companies/register.html:19
+msgid "Quick sign up with Google"
+msgstr "Швидка реєстрація через Google"
+
+#: templates/companies/register.html:28
+msgid "Sign up with Google"
+msgstr "Зареєструватися через Google"
+
+#: templates/companies/register.html:36
+msgid "Or register with email"
+msgstr "Або зареєструйтеся через електронну пошту"
+
+#: templates/companies/register.html:54
 msgid "Account Information"
 msgstr "Інформація Облікового Запису"
 
-#: templates/companies/register.html:58
-msgid "Company Name"
-msgstr "Назва Компанії"
+#: templates/companies/register.html:63
+msgid "Logged in via Google"
+msgstr "Увійшли через Google"
 
-#: templates/companies/register.html:65
-#: templates/static_pages/cookie_policy.html:68
-msgid "Description"
-msgstr "Опис"
-
-#: templates/companies/register.html:80
-msgid "City"
-msgstr "Місто"
-
-#: templates/companies/register.html:96
+#: templates/companies/register.html:129
 msgid "Company Email"
 msgstr "Електронна Пошта Компанії"
 
-#: templates/companies/register.html:104
+#: templates/companies/register.html:137
 msgid "Company Logo"
 msgstr "Логотип Компанії"
 
-#: templates/companies/register.html:115
+#: templates/companies/register.html:148
 msgid "Back to home"
 msgstr "Повернутися на головну"
 
-#: templates/companies/register.html:118
+#: templates/companies/register.html:151
 msgid "Create Account"
 msgstr "Створити Обліковий Запис"
 
 #: templates/companies/reset_password.html:10
 #: templates/email/password_reset.html:83
-#, fuzzy
-#| msgid "Password"
 msgid "Reset Password"
-msgstr "Пароль"
+msgstr "Скинути Пароль"
 
 #: templates/companies/reset_password.html:11
 msgid "Please set your password to reset your account."
-msgstr ""
+msgstr "Будь ласка, встановіть ваш пароль, щоб скинути обліковий запис."
 
-#: templates/companies/services_list.html:42
-#: templates/companies/staff_list.html:49
-msgid "Inactive"
-msgstr ""
+#: templates/companies/services_list.html:28
+msgid "Time for Servicing"
+msgstr "Час на Обслуговування"
 
-#: templates/companies/services_list.html:47
-#: templates/companies/staff_list.html:54
-#: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
-msgid "Delete"
-msgstr ""
-
-#: templates/companies/services_list.html:57
-#, fuzzy
-#| msgid "Services"
+#: templates/companies/services_list.html:59
 msgid "No Services Found"
-msgstr "Послуги"
-
-#: templates/companies/services_list.html:58
-msgid "You haven't added any services yet."
-msgstr ""
+msgstr "Послуг Не Знайдено"
 
 #: templates/companies/services_list.html:60
-#, fuzzy
-#| msgid "Add Service"
+msgid "You haven't added any services yet."
+msgstr "Ви ще не додали жодних послуг."
+
+#: templates/companies/services_list.html:62
 msgid "Add Your First Service"
-msgstr "Додати Послугу"
+msgstr "Додайте Вашу Першу Послугу"
 
 #: templates/companies/staff_list.html:64
-#, fuzzy
-#| msgid "Staff Members"
 msgid "No Staff Members Found"
-msgstr "Члени Персоналу"
+msgstr "Персоналу Не Знайдено"
 
 #: templates/companies/staff_list.html:65
 msgid "You haven't added any staff members yet."
-msgstr ""
+msgstr "Ви ще не додали персонал."
 
 #: templates/companies/staff_list.html:67
-#, fuzzy
-#| msgid "Staff Members"
 msgid "Add Your First Staff Member"
-msgstr "Члени Персоналу"
+msgstr "Додайте Вашого Першого Працівника"
 
+#: templates/companies/working_hours.html:4
 #: templates/companies/working_hours.html:8
 msgid "Edit Working Hours"
-msgstr ""
+msgstr "Редагувати Робочих Годин"
 
 #: templates/companies/working_hours.html:18
 msgid "Day"
-msgstr ""
+msgstr "День"
 
 #: templates/companies/working_hours.html:21
 msgid "Working Day"
-msgstr ""
+msgstr "Робочий День"
 
 #: templates/companies/working_hours.html:24
-#, fuzzy
-#| msgid "Start Free Trial"
 msgid "Start Time"
-msgstr "Почати Безкоштовну Пробну Версію"
+msgstr "Час Початку"
 
 #: templates/companies/working_hours.html:27
 msgid "End Time"
-msgstr ""
+msgstr "Час Закінчення"
 
 #: templates/email/account_activated.html:7
 msgid "Account Activated"
-msgstr ""
+msgstr "Обліковий Запис Активовано"
 
 #: templates/email/account_activated.html:60
 msgid "Account Activated!"
-msgstr ""
+msgstr "Обліковий Запис Активовано!"
 
 #: templates/email/account_activated.html:64
 #: templates/email/password_reset_success.html:64
 #, python-format
 msgid "Hello %(user_name)s,"
-msgstr ""
+msgstr "Вітаємо, %(user_name)s,"
 
 #: templates/email/account_activated.html:66
 msgid ""
 "Your account has been successfully activated. You can now log in to your "
 "account."
 msgstr ""
+"Ваш обліковий запис успішно активовано. Тепер ви можете увійти до свого "
+"облікового запису."
 
 #: templates/email/account_activation.html:7
-#, fuzzy
-#| msgid "Create Account"
 msgid "Activate Your Account"
-msgstr "Створити Обліковий Запис"
+msgstr "Активуйте Ваш Обліковий Запис"
 
 #: templates/email/account_activation.html:74
 msgid "Welcome!"
-msgstr ""
+msgstr "Вітаємо!"
 
 #: templates/email/account_activation.html:78
 msgid "Thank you for registering with us!"
-msgstr ""
+msgstr "Дякуємо за реєстрацію!"
 
 #: templates/email/account_activation.html:80
 msgid "Please confirm your registration by clicking the button below:"
-msgstr ""
+msgstr "Будь ласка, підтвердіть вашу реєстрацію, натиснувши кнопку нижче:"
 
 #: templates/email/account_activation.html:83
-#, fuzzy
-#| msgid "Create Account"
 msgid "Activate Account"
-msgstr "Створити Обліковий Запис"
+msgstr "Активувати Обліковий Запис"
 
 #: templates/email/account_activation.html:87
 #: templates/email/password_reset.html:87
 #: templates/email/staff_activation.html:87
 msgid "If the button doesn't work, copy and paste this link into your browser:"
-msgstr ""
+msgstr "Якщо кнопка не працює, скопіюйте і вставте це посилання у ваш браузер:"
 
 #: templates/email/account_activation.html:94
 #: templates/email/password_reset.html:94
 msgid "If you didn't request this, please ignore this email."
-msgstr ""
+msgstr "Якщо ви не запитували це, будь ласка, ігноруйте цей лист."
 
 #: templates/email/booking_cancellation.html:7
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Cancellation"
-msgstr "Посилання для Бронювання"
+msgstr "Скасування Бронювання"
 
 #: templates/email/booking_cancellation.html:176
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Cancelled"
-msgstr "Посилання для Бронювання"
+msgstr "Бронювання Скасовано"
 
 #: templates/email/booking_cancellation.html:182
 msgid "Your booking has been cancelled"
-msgstr ""
+msgstr "Ваше бронювання скасовано"
 
 #: templates/email/booking_cancellation.html:183
 msgid ""
 "This booking has been successfully cancelled and removed from our schedule."
-msgstr ""
+msgstr "Це бронювання успішно скасовано і видалено з нашого розкладу."
 
 #: templates/email/booking_cancellation.html:187
 msgid "Cancelled Booking Details"
-msgstr ""
+msgstr "Деталі Скасованого Бронювання"
 
 #: templates/email/booking_cancellation.html:189
 #: templates/email/booking_confirmation.html:202
 #: templates/email/booking_reminder.html:175
 #: templates/email/booking_update.html:175
-#, fuzzy
-#| msgid "Company Name"
 msgid "Customer Name:"
-msgstr "Назва Компанії"
+msgstr "Ім'я Клієнта:"
 
 #: templates/email/booking_cancellation.html:193
 #: templates/email/booking_confirmation.html:206
 #: templates/email/booking_reminder.html:179
 #: templates/email/booking_update.html:179
-#, fuzzy
-#| msgid "Services"
 msgid "Service:"
-msgstr "Послуги"
+msgstr "Послуга:"
 
 #: templates/email/booking_cancellation.html:197
 #: templates/email/booking_confirmation.html:210
 #: templates/email/booking_reminder.html:183
 #: templates/email/booking_update.html:183
-#, fuzzy
-#| msgid "Staff Members"
 msgid "Staff Member:"
-msgstr "Члени Персоналу"
+msgstr "Працівник:"
 
 #: templates/email/booking_cancellation.html:201
 #: templates/email/booking_confirmation.html:214
 #: templates/email/booking_reminder.html:187
 #: templates/email/booking_update.html:187
 msgid "Date:"
-msgstr ""
+msgstr "Дата:"
 
 #: templates/email/booking_cancellation.html:205
 #: templates/email/booking_confirmation.html:218
 #: templates/email/booking_reminder.html:191
 #: templates/email/booking_update.html:191
 msgid "Time:"
-msgstr ""
+msgstr "Час:"
 
 #: templates/email/booking_cancellation.html:211
 msgid ""
 "If you wish to book another appointment, please visit our booking page or "
 "contact us directly."
 msgstr ""
+"Якщо ви бажаєте забронювати іншу зустріч, будь ласка, відвідайте нашу "
+"сторінку бронювання або зв'яжіться з нами безпосередньо."
 
 #: templates/email/booking_cancellation.html:217
 #: templates/email/booking_confirmation.html:238
 #: templates/email/booking_reminder.html:205
 #: templates/email/booking_update.html:205
-#, fuzzy
-#| msgid "Address"
 msgid "Address:"
-msgstr "Адреса"
+msgstr "Адреса:"
 
 #: templates/email/booking_cancellation.html:220
 #: templates/email/booking_confirmation.html:191
 #: templates/email/booking_confirmation.html:241
 #: templates/email/booking_reminder.html:208
 #: templates/email/booking_update.html:208
-#, fuzzy
-#| msgid "Phone"
 msgid "Phone:"
-msgstr "Телефон"
+msgstr "Телефон:"
 
 #: templates/email/booking_cancellation.html:223
 #: templates/email/booking_confirmation.html:244
 #: templates/email/booking_reminder.html:211
 #: templates/email/booking_update.html:211
-#, fuzzy
-#| msgid "Email"
+#: templates/socialaccount/signup.html:35
 msgid "Email:"
-msgstr "Електронна Пошта"
+msgstr "Електронна Пошта:"
 
 #: templates/email/booking_cancellation.html:226
 #: templates/email/booking_update.html:214
-#, fuzzy
-#| msgid "Website"
 msgid "Website:"
-msgstr "Веб-сайт"
+msgstr "Веб-сайт:"
 
 #: templates/email/booking_cancellation.html:232
-#, fuzzy
-#| msgid "Bookings"
 msgid "Book Again"
-msgstr "Бронювання"
+msgstr "Забронювати Знову"
 
 #: templates/email/booking_cancellation.html:237
 msgid ""
 "If you have any questions or concerns, please don't hesitate to contact us."
 msgstr ""
+"Якщо у вас є якісь запитання або проблеми, будь ласка, не вагайтеся "
+"зв'язатися з нами."
 
 #: templates/email/booking_confirmation.html:7
 #: templates/email/booking_confirmation.html:182
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Confirmation"
-msgstr "Посилання для Бронювання"
+msgstr "Підтвердження Бронювання"
 
 #: templates/email/booking_confirmation.html:183
 #: templates/email/booking_update.html:164
 #, python-format
 msgid "Thank you for choosing %(company_name)s"
-msgstr ""
+msgstr "Дякуємо, що обрали %(company_name)s"
 
 #: templates/email/booking_confirmation.html:189
 msgid "Pre-Booking Received"
-msgstr ""
+msgstr "Попереднє Бронювання Отримано"
 
 #: templates/email/booking_confirmation.html:190
 msgid ""
 "Your booking request has been received and is awaiting staff confirmation. "
 "Please contact us to confirm the final price and duration."
 msgstr ""
+"Ваш запит на бронювання отримано і очікує підтвердження персоналу. Будь "
+"ласка, зв'яжіться з нами, щоб підтвердити остаточну ціну та тривалість."
 
 #: templates/email/booking_confirmation.html:195
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Confirmed"
-msgstr "Посилання для Бронювання"
+msgstr "Бронювання Підтверджено"
 
 #: templates/email/booking_confirmation.html:196
 msgid "Your appointment has been successfully confirmed."
-msgstr ""
+msgstr "Вашу зустріч успішно підтверджено."
 
 #: templates/email/booking_confirmation.html:223
 #: templates/email/booking_reminder.html:196
 #: templates/email/booking_update.html:196
-#, fuzzy
-#| msgid "Pricing"
 msgid "Price:"
-msgstr "Ціни"
+msgstr "Ціна:"
 
 #: templates/email/booking_confirmation.html:231
 msgid "Note:"
-msgstr ""
+msgstr "Примітка:"
 
 #: templates/email/booking_confirmation.html:231
 msgid ""
 "This service requires staff confirmation. The final price and duration "
 "should be confirmed by our staff."
 msgstr ""
+"Ця послуга вимагає підтвердження персоналу. Остаточну ціну та тривалість "
+"мають бути підтверджені нашим персоналом."
 
 #: templates/email/booking_confirmation.html:249
 #: templates/email/booking_reminder.html:216
 #: templates/email/booking_update.html:219
-#, fuzzy
-#| msgid "Online Booking"
 msgid "View Booking"
-msgstr "Онлайн Бронювання"
+msgstr "Переглянути Бронювання"
 
 #: templates/email/booking_confirmation.html:253
 #: templates/email/booking_update.html:223
@@ -1751,205 +2366,273 @@ msgid ""
 "If you need to make any changes or have questions, please contact us "
 "directly."
 msgstr ""
+"Якщо вам потрібно внести зміни або у вас є запитання, будь ласка, зв'яжіться "
+"з нами безпосередньо."
 
 #: templates/email/booking_reminder.html:7
 #: templates/email/booking_reminder.html:163
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Booking Reminder"
-msgstr "Посилання для Бронювання"
+msgstr "Нагадування про Бронювання"
 
 #: templates/email/booking_reminder.html:164
 #, python-format
 msgid "Don't forget your appointment at %(company_name)s"
-msgstr ""
+msgstr "Не забудьте про вашу зустріч в %(company_name)s"
 
 #: templates/email/booking_reminder.html:169
 msgid "Upcoming Appointment"
-msgstr ""
+msgstr "Найближча Зустріч"
 
 #: templates/email/booking_reminder.html:170
 msgid ""
 "This is a friendly reminder about your upcoming booking. We look forward to "
 "seeing you!"
 msgstr ""
+"Це дружнє нагадування про ваше найближче бронювання. Ми чекаємо на вас з "
+"нетерпінням!"
 
 #: templates/email/booking_reminder.html:220
 msgid ""
 "If you need to reschedule or cancel, please contact us as soon as possible."
 msgstr ""
+"Якщо вам потрібно перенести або скасувати, будь ласка, зв'яжіться з нами "
+"якомога швидше."
 
 #: templates/email/booking_update.html:7
-#, fuzzy
-#| msgid "Bookings"
 msgid "Booking Update"
-msgstr "Бронювання"
+msgstr "Оновлення Бронювання"
 
 #: templates/email/booking_update.html:163
-#, fuzzy
-#| msgid "Bookings"
 msgid "Booking Updated"
-msgstr "Бронювання"
+msgstr "Бронювання Оновлено"
 
 #: templates/email/booking_update.html:169
 msgid "Your booking has been updated"
-msgstr ""
+msgstr "Ваше бронювання оновлено"
 
 #: templates/email/booking_update.html:170
 msgid ""
 "Your appointment details have been modified. Please review the updated "
 "information below."
 msgstr ""
+"Деталі вашої зустрічі було змінено. Будь ласка, перегляньте оновлену "
+"інформацію нижче."
 
 #: templates/email/password_reset.html:7
-#, fuzzy
-#| msgid "Enter your password"
 msgid "Reset Your Password"
-msgstr "Введіть ваш пароль"
+msgstr "Скинути Ваш Пароль"
 
 #: templates/email/password_reset.html:74
 msgid "Password Reset Request"
-msgstr ""
+msgstr "Запит на Скидання Пароля"
 
 #: templates/email/password_reset.html:78
 msgid "We received a request to reset your password."
-msgstr ""
+msgstr "Ми отримали запит на скидання вашого пароля."
 
 #: templates/email/password_reset.html:80
 msgid "Please click the button below to reset your password:"
-msgstr ""
+msgstr "Будь ласка, натисніть кнопку нижче, щоб скинути ваш пароль:"
 
 #: templates/email/password_reset_success.html:7
 #: templates/email/password_reset_success.html:60
 msgid "Password Reset Successful"
-msgstr ""
+msgstr "Пароль Успішно Скинуто"
 
 #: templates/email/password_reset_success.html:66
 msgid ""
 "Your password has been successfully reset. You can now log in to your "
 "account with your new password."
 msgstr ""
+"Ваш пароль успішно скинуто. Тепер ви можете увійти до свого облікового "
+"запису з новим паролем."
 
 #: templates/email/password_reset_success.html:69
 msgid "If you didn't make this change, please contact support immediately."
 msgstr ""
+"Якщо ви не вносили цю зміну, будь ласка, негайно зв'яжіться з підтримкою."
 
 #: templates/email/staff_activation.html:7
 msgid "Activate Your Staff Account"
-msgstr ""
+msgstr "Активуйте Ваш Обліковий Запис Персоналу"
 
 #: templates/email/staff_activation.html:74
-#, fuzzy
-#| msgid "Account Information"
 msgid "Staff Account Invitation"
-msgstr "Інформація Облікового Запису"
+msgstr "Запрошення до Облікового Запису Персоналу"
 
 #: templates/email/staff_activation.html:78
 #, python-format
 msgid "You have been invited to join %(company_name)s as a staff member."
-msgstr ""
+msgstr "Вас запрошено приєднатися до %(company_name)s як члена персоналу."
 
 #: templates/email/staff_activation.html:80
 msgid "Please activate your staff account by clicking the button below:"
 msgstr ""
+"Будь ласка, активуйте ваш обліковий запис персоналу, натиснувши кнопку нижче:"
 
 #: templates/email/staff_activation.html:94
 msgid "If you didn't expect this, please ignore this email."
+msgstr "Якщо ви не очікували цього, будь ласка, ігноруйте цей лист."
+
+#: templates/hijack/notification.html:9
+msgid "You are currently hijacked as:"
+msgstr "Ви зараз представляєтеся як:"
+
+#: templates/hijack/notification.html:10
+msgid "Click Release to return to your account"
+msgstr "Натисніть Відпустити, щоб повернутися до свого облікового запису"
+
+#: templates/hijack/notification.html:17
+msgid "Release Hijack"
+msgstr "Відпустити Hijack"
+
+#: templates/socialaccount/authentication_error.html:4
+#: templates/socialaccount/authentication_error.html:10
+msgid "Authentication Error"
+msgstr "Помилка Автентифікації"
+
+#: templates/socialaccount/authentication_error.html:15
+msgid "An error occurred during authentication."
+msgstr "Сталася помилка під час автентифікації."
+
+#: templates/socialaccount/authentication_error.html:23
+#: templates/socialaccount/login.html:37
+msgid "Back to Login"
+msgstr "Повернутися до Входу"
+
+#: templates/socialaccount/login.html:4
+msgid "Sign In with Google"
+msgstr "Увійти через Google"
+
+#: templates/socialaccount/login.html:10
+msgid "Sign In Via Google"
+msgstr "Увійти Через Google"
+
+#: templates/socialaccount/login.html:12
+msgid "You are about to sign in using a third-party account from Google."
 msgstr ""
+"Ви збираєтеся увійти, використовуючи обліковий запис третьої сторони від "
+"Google."
+
+#: templates/socialaccount/login.html:31
+msgid "Continue with Google"
+msgstr "Продовжити через Google"
+
+#: templates/socialaccount/signup.html:4
+msgid "Sign Up with Google"
+msgstr "Зареєструватися через Google"
+
+#: templates/socialaccount/signup.html:10
+msgid "Complete Your Registration"
+msgstr "Завершіть Вашу Реєстрацію"
+
+#: templates/socialaccount/signup.html:12
+msgid "You're signing in with Google"
+msgstr "Ви входите через Google"
+
+#: templates/socialaccount/signup.html:39
+msgid "Name:"
+msgstr "Ім'я:"
+
+#: templates/socialaccount/signup.html:51
+msgid "Continue"
+msgstr "Продовжити"
 
 #: templates/static_pages/about_us.html:14
 msgid ""
 "We are a leading provider of booking management solutions for beauty salons "
 "and service providers."
 msgstr ""
+"Ми є провідним постачальником рішень для управління бронюванням для салонів "
+"краси та постачальників послуг."
 
 #: templates/static_pages/about_us.html:17
 msgid "Our Mission"
-msgstr ""
+msgstr "Наша Місія"
 
 #: templates/static_pages/about_us.html:19
 msgid ""
 "To simplify booking management for businesses and provide customers with a "
 "seamless booking experience."
 msgstr ""
+"Спростити управління бронюванням для бізнесу і надати клієнтам доступ до "
+"бронювання."
 
 #: templates/static_pages/about_us.html:22
 msgid "What We Offer"
-msgstr ""
+msgstr "Що Ми Пропонуємо"
 
 #: templates/static_pages/about_us.html:24
 msgid "Easy online booking system for customers"
-msgstr ""
+msgstr "Проста система онлайн бронювання для клієнтів"
 
 #: templates/static_pages/about_us.html:25
 msgid "Comprehensive calendar management for businesses"
-msgstr ""
+msgstr "Комплексне управління календарем для бізнесу"
 
 #: templates/static_pages/about_us.html:26
 msgid "Automated notifications and reminders"
-msgstr ""
+msgstr "Автоматичні сповіщення та нагадування"
 
 #: templates/static_pages/about_us.html:27
-#, fuzzy
-#| msgid "staff management"
 msgid "Staff and service management"
-msgstr "управління персоналом"
+msgstr "Управління персоналом та послугами"
 
 #: templates/static_pages/about_us.html:28
 msgid "Flexible pricing and subscription plans"
-msgstr ""
+msgstr "Гнучкі ціни та плани підписки"
 
 #: templates/static_pages/about_us.html:31
 msgid "Why Choose Us"
-msgstr ""
+msgstr "Чому Обрати Нас"
 
 #: templates/static_pages/about_us.html:33
 msgid ""
 "Our platform is designed with both businesses and customers in mind, "
 "offering intuitive interfaces, powerful features, and reliable support."
 msgstr ""
+"Наша платформа розроблена з урахуванням як бізнесу, так і клієнтів, "
+"пропонуючи інтуїтивні інтерфейси, потужні функції та надійну підтримку."
 
 #: templates/static_pages/about_us.html:38
-#, fuzzy
-#| msgid "Ready to Get Started?"
 msgid "Ready to get started?"
-msgstr "Готові Почати?"
+msgstr "Готові почати?"
 
 #: templates/static_pages/about_us.html:38
 msgid "View our pricing plans"
-msgstr ""
+msgstr "Переглянути наші цінові плани"
 
 #: templates/static_pages/contact.html:11
 msgid ""
 "Have a question or need support? Fill out the form below and we'll get back "
 "to you as soon as possible."
 msgstr ""
+"Є запитання або потрібна підтримка? Заповніть форму нижче, і ми зв'яжемося з "
+"вами якомога швидше."
 
 #: templates/static_pages/contact.html:29
 msgid "Subject"
-msgstr ""
+msgstr "Тема"
 
 #: templates/static_pages/contact.html:35
 msgid "Message"
-msgstr ""
+msgstr "Повідомлення"
 
 #: templates/static_pages/contact.html:42
 msgid "Send Message"
-msgstr ""
+msgstr "Надіслати Повідомлення"
 
 #: templates/static_pages/cookie_policy.html:14
-#, fuzzy
-#| msgid "Account Information"
 msgid "1. General Information"
-msgstr "Інформація Облікового Запису"
+msgstr "1. Загальна Інформація"
 
 #: templates/static_pages/cookie_policy.html:16
 msgid "We inform you about the use of cookies on our website."
-msgstr ""
+msgstr "Ми інформуємо вас про використання cookies на нашому веб-сайті."
 
 #: templates/static_pages/cookie_policy.html:20
 msgid "2. What are cookies?"
-msgstr ""
+msgstr "2. Що таке cookies?"
 
 #: templates/static_pages/cookie_policy.html:22
 msgid ""
@@ -1957,101 +2640,104 @@ msgid ""
 "website, allowing the storage and retrieval of information about user "
 "browsing habits."
 msgstr ""
+"Cookies - це файли, які завантажуються на ваш пристрій, коли ви відвідуєте "
+"веб-сайт, що дозволяє зберігати та отримувати інформацію про звички "
+"перегляду користувача."
 
 #: templates/static_pages/cookie_policy.html:26
 msgid "3. Types of cookies used"
-msgstr ""
+msgstr "3. Типи використовуваних cookies"
 
 #: templates/static_pages/cookie_policy.html:29
 msgid "Technical cookies:"
-msgstr ""
+msgstr "Технічні cookies:"
 
 #: templates/static_pages/cookie_policy.html:30
 msgid "necessary for the operation of the site."
-msgstr ""
+msgstr "необхідні для роботи сайту."
 
 #: templates/static_pages/cookie_policy.html:33
 msgid "Personalization cookies:"
-msgstr ""
+msgstr "Cookies персоналізації:"
 
 #: templates/static_pages/cookie_policy.html:34
 msgid "remember preferences such as language or region."
-msgstr ""
+msgstr "запам'ятовують налаштування, такі як мова або регіон."
 
 #: templates/static_pages/cookie_policy.html:37
 msgid "Analysis cookies:"
-msgstr ""
+msgstr "Аналітичні cookies:"
 
 #: templates/static_pages/cookie_policy.html:38
 msgid "allow measuring site usage."
-msgstr ""
+msgstr "дозволяють виміряти використання сайту."
 
 #: templates/static_pages/cookie_policy.html:41
 msgid "Advertising and third-party cookies:"
-msgstr ""
+msgstr "Рекламні та сторонні cookies:"
 
 #: templates/static_pages/cookie_policy.html:42
 msgid "managed by external providers (Google, Meta, etc.)."
-msgstr ""
+msgstr "керуються зовнішніми постачальниками (Google, Meta тощо)."
 
 #: templates/static_pages/cookie_policy.html:47
 msgid "4. Deactivation and elimination of cookies"
-msgstr ""
+msgstr "4. Деактивація та видалення cookies"
 
 #: templates/static_pages/cookie_policy.html:49
 msgid "You can configure your browser to allow, block or delete cookies:"
 msgstr ""
+"Ви можете налаштувати свій браузер, щоб дозволити, заблокувати або видалити "
+"cookies:"
 
 #: templates/static_pages/cookie_policy.html:60
 msgid "5. Cookies used on this website"
-msgstr ""
+msgstr "5. Cookies, що використовуються на цьому веб-сайті"
 
 #: templates/static_pages/cookie_policy.html:65
 msgid "Cookie"
-msgstr ""
+msgstr "Cookie"
 
 #: templates/static_pages/cookie_policy.html:66
 msgid "Provider"
-msgstr ""
+msgstr "Постачальник"
 
 #: templates/static_pages/cookie_policy.html:74
 #: templates/static_pages/cookie_policy.html:80
 #: templates/static_pages/cookie_policy.html:86
 #: templates/static_pages/cookie_policy.html:92
-#, fuzzy
-#| msgid "Website"
 msgid "This website"
-msgstr "Веб-сайт"
+msgstr "Цей веб-сайт"
 
 #: templates/static_pages/cookie_policy.html:75
 msgid "Session"
-msgstr ""
+msgstr "Сесія"
 
 #: templates/static_pages/cookie_policy.html:76
 msgid "Identifies the user session for authentication and security."
-msgstr ""
+msgstr "Ідентифікує сесію користувача для автентифікації та безпеки."
 
 #: templates/static_pages/cookie_policy.html:81
 #: templates/static_pages/cookie_policy.html:87
 #: templates/static_pages/cookie_policy.html:93
 msgid "1 year"
-msgstr ""
+msgstr "1 рік"
 
 #: templates/static_pages/cookie_policy.html:82
 msgid "Security token to prevent cross-site request forgery attacks."
-msgstr ""
+msgstr "Токен безпеки для запобігання атак CSRF."
 
 #: templates/static_pages/cookie_policy.html:88
 msgid "Stores user cookie consent preferences."
-msgstr ""
+msgstr "Зберігає налаштування згоди користувача на cookies."
 
 #: templates/static_pages/cookie_policy.html:94
 msgid "Stores the user's preferred language."
-msgstr ""
+msgstr "Зберігає бажану мову користувача."
 
 #: templates/static_pages/cookie_policy.html:101
 msgid "6. Acceptance of the cookie policy"
-msgstr ""
+msgstr "6. Прийняття політики cookies"
 
 #: templates/static_pages/cookie_policy.html:103
 msgid ""
@@ -2059,26 +2745,31 @@ msgid ""
 "notice will be displayed that allows you to accept, reject or configure "
 "cookies."
 msgstr ""
+"Переглядаючи наш веб-сайт, передбачається прийняття використання cookies. "
+"Буде відображено повідомлення, яке дозволить вам прийняти, відхилити або "
+"налаштувати cookies."
 
 #: templates/static_pages/cookie_policy.html:107
 msgid "Configure your cookie preferences"
-msgstr ""
+msgstr "Налаштувати ваші налаштування cookies"
 
 #: templates/static_pages/cookie_policy.html:113
 #: templates/static_pages/privacy_policy.html:43
 #: templates/static_pages/terms_of_service.html:48
 msgid "Last updated:"
-msgstr ""
+msgstr "Останнє оновлення:"
 
 #: templates/static_pages/cookie_settings.html:11
 msgid ""
 "We use different types of cookies to optimize your experience on our "
 "website. Choose which cookies you want to allow."
 msgstr ""
+"Ми використовуємо різні типи cookies, щоб оптимізувати ваш досвід на нашому "
+"веб-сайті. Оберіть, які cookies ви хочете дозволити."
 
 #: templates/static_pages/cookie_settings.html:20
 msgid "Essential Cookies"
-msgstr ""
+msgstr "Необхідні Cookies"
 
 #: templates/static_pages/cookie_settings.html:22
 msgid ""
@@ -2086,89 +2777,101 @@ msgid ""
 "disabled. They are usually set in response to actions you take, such as "
 "setting your privacy preferences, logging in, or filling in forms."
 msgstr ""
+"Ці cookies необхідні для роботи веб-сайту і не можуть бути вимкнені. Вони "
+"зазвичай встановлюються у відповідь на ваші дії, такі як встановлення "
+"налаштувань конфіденційності, вхід або заповнення форм."
 
 #: templates/static_pages/cookie_settings.html:30
 #: templates/static_pages/cookie_settings.html:54
 msgid "Examples:"
-msgstr ""
+msgstr "Приклади:"
 
 #: templates/static_pages/cookie_settings.html:30
 msgid ""
 "Session cookies, security cookies, authentication cookies, CSRF protection"
-msgstr ""
+msgstr "Cookies сесії, cookies безпеки, cookies автентифікації, захист CSRF"
 
 #: templates/static_pages/cookie_settings.html:34
 msgid "Always Active - Required for site functionality"
-msgstr ""
+msgstr "Завжди Активні - Необхідні для функціональності сайту"
 
 #: templates/static_pages/cookie_settings.html:44
 msgid "Preference Cookies"
-msgstr ""
+msgstr "Cookies Налаштувань"
 
 #: templates/static_pages/cookie_settings.html:46
 msgid ""
 "These cookies enable enhanced functionality and personalization, such as "
 "remembering your preferences and settings."
 msgstr ""
+"Ці cookies дозволяють розширені функції та персоналізацію, таку як "
+"запам'ятовування ваших налаштувань."
 
 #: templates/static_pages/cookie_settings.html:54
 msgid ""
 "Language preference, timezone, theme settings, accessibility preferences"
 msgstr ""
+"Налаштування мови, часовий пояс, налаштування теми, налаштування доступності"
 
 #: templates/static_pages/cookie_settings.html:76
 msgid ""
 "Your cookie preferences are stored locally in your browser. You can change "
 "these settings at any time by visiting this page."
 msgstr ""
+"Ваші налаштування cookies зберігаються локально у вашому браузері. Ви можете "
+"змінити ці налаштування в будь-який час, відвідавши цю сторінку."
 
 #: templates/static_pages/cookie_settings.html:77
 msgid "Learn more about our cookie policy"
-msgstr ""
+msgstr "Дізнатися більше про нашу політику cookies"
 
 #: templates/static_pages/cookie_settings.html:115
 msgid "All cookies accepted."
-msgstr ""
+msgstr "Всі cookies прийнято."
 
 #: templates/static_pages/cookie_settings.html:122
 msgid "Only essential cookies enabled."
-msgstr ""
+msgstr "Увімкнено лише необхідні cookies."
 
 #: templates/static_pages/faq.html:14
-#, fuzzy
-#| msgid "create a new company account"
 msgid "How do I create an account?"
-msgstr "створити новий обліковий запис компанії"
+msgstr "Як створити обліковий запис?"
 
 #: templates/static_pages/faq.html:15
 msgid ""
 "Click on 'Register' in the top navigation, fill in your business details, "
 "choose a subscription plan, and you're ready to start accepting bookings."
 msgstr ""
+"Натисніть 'Реєстрація' у верхньому меню, заповніть дані вашого бізнесу, "
+"оберіть план підписки, і ви готові починати приймати бронювання."
 
 #: templates/static_pages/faq.html:19
 msgid "Can customers book without creating an account?"
-msgstr ""
+msgstr "Чи можуть клієнти бронювати без створення облікового запису?"
 
 #: templates/static_pages/faq.html:20
 msgid ""
 "Yes! Customers can make bookings without creating an account. They just need "
 "to provide their contact information."
 msgstr ""
+"Так! Клієнти можуть здійснювати бронювання без створення облікового запису. "
+"Їм потрібно лише надати свою контактну інформацію."
 
 #: templates/static_pages/faq.html:24
 msgid "How do I manage my staff and services?"
-msgstr ""
+msgstr "Як керувати моїм персоналом та послугами?"
 
 #: templates/static_pages/faq.html:25
 msgid ""
 "Once logged in, go to your company dashboard where you can add/edit staff "
 "members, services, working hours, and pricing."
 msgstr ""
+"Після входу перейдіть до панелі управління вашою компанією, де ви можете "
+"додавати/редагувати членів персоналу, послуги, години роботи та ціни."
 
 #: templates/static_pages/faq.html:29
 msgid "Can I cancel my subscription anytime?"
-msgstr ""
+msgstr "Чи можу я скасувати підписку в будь-який час?"
 
 #: templates/static_pages/faq.html:30
 msgid ""
@@ -2176,442 +2879,498 @@ msgid ""
 "settings. Your access will continue until the end of the current billing "
 "period."
 msgstr ""
+"Так, ви можете скасувати підписку в будь-який час у налаштуваннях оплати. "
+"Ваш доступ продовжиться до кінця поточного розрахункового періоду."
 
 #: templates/static_pages/faq.html:34
 msgid "How do customers receive booking confirmations?"
-msgstr ""
+msgstr "Як клієнти отримують підтвердження бронювання?"
 
 #: templates/static_pages/faq.html:35
 msgid ""
 "Customers receive automated email and WhatsApp notifications with booking "
 "details and a cancellation link if needed."
 msgstr ""
+"Клієнти отримують автоматичні повідомлення на електронну пошту та в WhatsApp "
+"з деталями бронювання та посиланням для скасування за потреби."
 
 #: templates/static_pages/faq.html:39
 msgid "What payment methods do you accept?"
-msgstr ""
+msgstr "Які способи оплати ви приймаєте?"
 
 #: templates/static_pages/faq.html:40
 msgid ""
 "We accept major credit cards and debit cards through our secure payment "
 "processor."
 msgstr ""
+"Ми приймаємо основні кредитні та дебетові картки через наш захищений "
+"платіжний процесор."
 
 #: templates/static_pages/faq.html:44
 msgid "Can I upgrade or downgrade my plan?"
-msgstr ""
+msgstr "Чи можу я підвищити або понизити свій план?"
 
 #: templates/static_pages/faq.html:45
 msgid ""
 "Yes, you can change your subscription plan at any time from your billing "
 "settings. Changes take effect immediately."
 msgstr ""
+"Так, ви можете змінити свій план підписки в будь-який час у налаштуваннях "
+"оплати. Зміни набувають чинності негайно."
 
 #: templates/static_pages/faq.html:49
 msgid "Is there a mobile app?"
-msgstr ""
+msgstr "Чи є мобільний додаток?"
 
 #: templates/static_pages/faq.html:50
 msgid ""
 "Our platform is fully responsive and works great on mobile browsers. A "
 "dedicated mobile app is coming soon!"
 msgstr ""
+"Наша платформа повністю адаптивна і чудово працює в мобільних браузерах. "
+"Спеціальний мобільний додаток незабаром!"
 
 #: templates/static_pages/faq.html:54
 msgid "How do I get support?"
-msgstr ""
+msgstr "Як отримати підтримку?"
 
 #: templates/static_pages/faq.html:55
 msgid "You can contact our support team through the"
-msgstr ""
+msgstr "Ви можете зв'язатися з нашою командою підтримки через"
 
 #: templates/static_pages/faq.html:55
 msgid "contact form"
-msgstr ""
+msgstr "форму зв'язку"
 
 #: templates/static_pages/faq.html:55
 msgid "We typically respond within 24 hours."
-msgstr ""
+msgstr "Ми зазвичай відповідаємо протягом 24 годин."
 
 #: templates/static_pages/faq.html:59
 msgid "Is my data secure?"
-msgstr ""
+msgstr "Чи в безпеці мої дані?"
 
 #: templates/static_pages/faq.html:60
 msgid ""
 "Yes, we take data security seriously. All data is encrypted and stored "
 "securely. We comply with GDPR and other data protection regulations."
 msgstr ""
+"Так, ми серйозно ставимося до безпеки даних. Усі дані зашифровані та "
+"зберігаються безпечно. Ми дотримуємося GDPR та інших норм захисту даних."
 
 #: templates/static_pages/faq.html:65
 msgid "Still have questions?"
-msgstr ""
+msgstr "Ще є запитання?"
 
 #: templates/static_pages/how_it_works.html:11
 #, fuzzy
 #| msgid "Get started in minutes"
 msgid "Get started in just a few simple steps"
-msgstr "Почніть за кілька хвилин"
+msgstr "Почніть всього за кілька простих кроків"
 
 #: templates/static_pages/how_it_works.html:16
 msgid "For Businesses"
-msgstr ""
+msgstr "Для Бізнесу"
 
 #: templates/static_pages/how_it_works.html:22
 msgid ""
 "Create your business account and choose a subscription plan that fits your "
 "needs."
 msgstr ""
+"Створіть обліковий запис вашого бізнесу та оберіть план підписки, який "
+"відповідає вашим потребам."
 
 #: templates/static_pages/how_it_works.html:29
 msgid "Set Up Your Profile"
-msgstr ""
+msgstr "Налаштуйте Ваш Профіль"
 
 #: templates/static_pages/how_it_works.html:30
 msgid ""
 "Add your services, staff members, working hours, and business information."
 msgstr ""
+"Додайте ваші послуги, членів персоналу, години роботи та інформацію про "
+"бізнес."
 
 #: templates/static_pages/how_it_works.html:37
-#, fuzzy
-#| msgid "Manage Your Salon Bookings"
 msgid "Manage Bookings"
-msgstr "Керуйте Бронюваннями Вашого Салону"
+msgstr "Керувати Бронюваннями"
 
 #: templates/static_pages/how_it_works.html:38
 msgid ""
 "Use our calendar to view, confirm, and manage all your appointments in one "
 "place."
 msgstr ""
+"Використовуйте наш календар, щоб переглядати, підтверджувати та керувати "
+"всіма вашими зустрічами в одному місці."
 
 #: templates/static_pages/how_it_works.html:45
 msgid "Grow Your Business"
-msgstr ""
+msgstr "Розвивайте Ваш Бізнес"
 
 #: templates/static_pages/how_it_works.html:46
 msgid ""
 "Track your bookings, manage staff schedules, and focus on providing great "
 "service."
 msgstr ""
+"Відстежуйте свої бронювання, керуйте розкладами персоналу та зосередьтеся на "
+"наданні чудового сервісу."
 
 #: templates/static_pages/how_it_works.html:53
 msgid "For Customers"
-msgstr ""
+msgstr "Для Клієнтів"
 
 #: templates/static_pages/how_it_works.html:58
-#, fuzzy
-#| msgid "Add Service"
 msgid "Find a Service"
-msgstr "Додати Послугу"
+msgstr "Знайти Послугу"
 
 #: templates/static_pages/how_it_works.html:59
 msgid "Browse available services and select the one that suits your needs."
 msgstr ""
+"Перегляньте доступні послуги та оберіть ту, яка відповідає вашим потребам."
 
 #: templates/static_pages/how_it_works.html:66
 msgid "Choose Date & Time"
-msgstr ""
+msgstr "Оберіть Дату та Час"
 
 #: templates/static_pages/how_it_works.html:67
 msgid "Select your preferred date, time, and staff member (if applicable)."
-msgstr ""
+msgstr "Оберіть бажану дату, час та члена персоналу (якщо застосовно)."
 
 #: templates/static_pages/how_it_works.html:75
 msgid ""
 "Enter your details and confirm your booking. You'll receive a confirmation "
 "email and WhatsApp message."
 msgstr ""
+"Введіть свої дані та підтвердіть бронювання. Ви отримаєте підтвердження на "
+"електронну пошту та повідомлення в WhatsApp."
 
 #: templates/static_pages/how_it_works.html:82
 msgid "Enjoy Your Service"
-msgstr ""
+msgstr "Насолоджуйтеся Послугою"
 
 #: templates/static_pages/how_it_works.html:83
 msgid "Show up at your appointment time and enjoy your service!"
-msgstr ""
+msgstr "Прийдіть на зустріч у призначений час і насолоджуйтеся послугою!"
 
 #: templates/static_pages/how_it_works.html:91
-#, fuzzy
-#| msgid "Ready to Get Started?"
 msgid "Get Started Now"
-msgstr "Готові Почати?"
+msgstr "Почати Зараз"
 
 #: templates/static_pages/privacy_policy.html:13
 msgid "1. Information We Collect"
-msgstr ""
+msgstr "1. Інформація, Яку Ми Збираємо"
 
 #: templates/static_pages/privacy_policy.html:15
 msgid ""
 "We collect information that you provide directly to us, including when you "
 "create an account, make a booking, or contact us for support."
 msgstr ""
+"Ми збираємо інформацію, яку ви надаєте нам безпосередньо, включаючи "
+"створення облікового запису, здійснення бронювання або звернення до нас по "
+"підтримку."
 
 #: templates/static_pages/privacy_policy.html:18
 msgid "2. How We Use Your Information"
-msgstr ""
+msgstr "2. Як Ми Використовуємо Вашу Інформацію"
 
 #: templates/static_pages/privacy_policy.html:20
 msgid ""
 "We use the information we collect to provide, maintain, and improve our "
 "services, to process your bookings, and to communicate with you."
 msgstr ""
+"Ми використовуємо зібрану інформацію для надання, підтримки та покращення "
+"наших послуг, обробки ваших бронювань та спілкування з вами."
 
 #: templates/static_pages/privacy_policy.html:23
 msgid "3. Information Sharing"
-msgstr ""
+msgstr "3. Поширення Інформації"
 
 #: templates/static_pages/privacy_policy.html:25
 msgid ""
 "We do not sell your personal information. We may share your information with "
 "service providers who assist us in operating our platform."
 msgstr ""
+"Ми не продаємо вашу особисту інформацію. Ми можемо ділитися вашою "
+"інформацією з постачальниками послуг, які допомагають нам у роботі нашої "
+"платформи."
 
 #: templates/static_pages/privacy_policy.html:28
 msgid "4. Data Security"
-msgstr ""
+msgstr "4. Безпека Даних"
 
 #: templates/static_pages/privacy_policy.html:30
 msgid ""
 "We implement appropriate security measures to protect your personal "
 "information from unauthorized access, alteration, or disclosure."
 msgstr ""
+"Ми впроваджуємо відповідні заходи безпеки для захисту вашої особистої "
+"інформації від несанкціонованого доступу, змін або розголошення."
 
 #: templates/static_pages/privacy_policy.html:33
 msgid "5. Your Rights"
-msgstr ""
+msgstr "5. Ваші Права"
 
 #: templates/static_pages/privacy_policy.html:35
 msgid ""
 "You have the right to access, correct, or delete your personal information. "
 "Contact us if you wish to exercise these rights."
 msgstr ""
+"Ви маєте право на доступ, виправлення або видалення вашої особистої "
+"інформації. Зв'яжіться з нами, якщо ви бажаєте скористатися цими правами."
 
 #: templates/static_pages/privacy_policy.html:38
 msgid "6. Contact Us"
-msgstr ""
+msgstr "6. Зв'яжіться з Нами"
 
 #: templates/static_pages/privacy_policy.html:40
 msgid "If you have questions about this Privacy Policy, please"
-msgstr ""
+msgstr "Якщо у вас є запитання щодо цієї Політики Конфіденційності, будь ласка"
 
 #: templates/static_pages/privacy_policy.html:40
 msgid "contact us"
-msgstr ""
+msgstr "зв'яжіться з нами"
 
 #: templates/static_pages/terms_of_service.html:13
 msgid "1. Acceptance of Terms"
-msgstr ""
+msgstr "1. Прийняття Умов"
 
 #: templates/static_pages/terms_of_service.html:15
 msgid ""
 "By accessing and using this service, you accept and agree to be bound by the "
 "terms and provision of this agreement."
 msgstr ""
+"Використовуючи цю послугу, ви приймаєте і погоджуєтеся дотримуватися умов "
+"цієї угоди."
 
 #: templates/static_pages/terms_of_service.html:18
 msgid "2. Use of Service"
-msgstr ""
+msgstr "2. Використання Послуги"
 
 #: templates/static_pages/terms_of_service.html:20
 msgid ""
 "You agree to use the service only for lawful purposes and in accordance with "
 "these Terms of Service."
 msgstr ""
+"Ви погоджуєтеся використовувати послугу лише в законних цілях і відповідно "
+"до цих Умов Надання Послуг."
 
 #: templates/static_pages/terms_of_service.html:23
-#, fuzzy
-#| msgid "Create Account"
 msgid "3. User Accounts"
-msgstr "Створити Обліковий Запис"
+msgstr "3. Облікові Записи Користувачів"
 
 #: templates/static_pages/terms_of_service.html:25
 msgid ""
 "You are responsible for maintaining the confidentiality of your account and "
 "password and for restricting access to your account."
 msgstr ""
+"Ви несете відповідальність за збереження конфіденційності вашого облікового "
+"запису та пароля і за обмеження доступу до вашого облікового запису."
 
 #: templates/static_pages/terms_of_service.html:28
 msgid "4. Bookings and Payments"
-msgstr ""
+msgstr "4. Бронювання та Платежі"
 
 #: templates/static_pages/terms_of_service.html:30
 msgid ""
 "All bookings are subject to availability and confirmation. Payment terms "
 "will be communicated at the time of booking."
 msgstr ""
+"Всі бронювання здійснюються за наявності та підтвердження. Умови оплати "
+"будуть повідомлені під час бронювання."
 
 #: templates/static_pages/terms_of_service.html:33
 msgid "5. Cancellation Policy"
-msgstr ""
+msgstr "5. Політика Скасування"
 
 #: templates/static_pages/terms_of_service.html:35
 msgid ""
 "Cancellation policies may vary by service provider. Please review the "
 "specific cancellation policy before making a booking."
 msgstr ""
+"Політики скасування можуть відрізнятися залежно від постачальника послуг. "
+"Будь ласка, ознайомтеся з конкретною політикою скасування перед здійсненням "
+"бронювання."
 
 #: templates/static_pages/terms_of_service.html:38
 msgid "6. Limitation of Liability"
-msgstr ""
+msgstr "6. Обмеження Відповідальності"
 
 #: templates/static_pages/terms_of_service.html:40
 msgid ""
 "We shall not be liable for any indirect, incidental, special, consequential "
 "or punitive damages resulting from your use of the service."
 msgstr ""
+"Ми не несемо відповідальності за будь-які непрямі, випадкові, спеціальні, "
+"похідні або штрафні збитки, що виникають з вашого використання послуги."
 
 #: templates/static_pages/terms_of_service.html:43
 msgid "7. Changes to Terms"
-msgstr ""
+msgstr "7. Зміни в Умовах"
 
 #: templates/static_pages/terms_of_service.html:45
 msgid ""
 "We reserve the right to modify these terms at any time. Changes will be "
 "effective immediately upon posting."
 msgstr ""
+"Ми залишаємо за собою право змінювати ці умови в будь-який час. Зміни "
+"набувають чинності негайно після публікації."
 
-#: templates/users/login.html:10
+#: templates/users/login.html:11
 msgid "Sign in to your account"
 msgstr "Увійдіть у свій обліковий запис"
 
-#: templates/users/login.html:12
+#: templates/users/login.html:13
 msgid "Or"
 msgstr "Або"
 
-#: templates/users/login.html:14
+#: templates/users/login.html:15
 msgid "create a new company account"
 msgstr "створити новий обліковий запис компанії"
 
-#: templates/users/login.html:28
+#: templates/users/login.html:29
 msgid "Please correct the errors below."
 msgstr "Будь ласка, виправте помилки нижче."
 
-#: templates/users/login.html:35
+#: templates/users/login.html:36
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: templates/users/login.html:39
+#: templates/users/login.html:40
 msgid "Enter your username"
 msgstr "Введіть ваше ім'я користувача"
 
-#: templates/users/login.html:48
+#: templates/users/login.html:49
 msgid "Enter your password"
 msgstr "Введіть ваш пароль"
 
-#: templates/users/login.html:56
+#: templates/users/login.html:57
 msgid "Remember me"
 msgstr "Запам'ятати мене"
 
-#: templates/users/login.html:60
+#: templates/users/login.html:61
 msgid "Forgot password?"
 msgstr "Забули пароль?"
 
-#: templates/users/login.html:66
+#: templates/users/login.html:67
 msgid "Sign in"
 msgstr "Увійти"
 
+#: templates/users/login.html:78
+msgid "Or continue with"
+msgstr "Або продовжити з"
+
+#: templates/users/login.html:91
+msgid "Sign in with Google"
+msgstr "Увійти через Google"
+
 #: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:15
 msgid "Messages"
-msgstr ""
+msgstr "Повідомлення"
 
 #: venv/lib/python3.12/site-packages/django/contrib/sitemaps/apps.py:8
 msgid "Site Maps"
-msgstr ""
+msgstr "Карта Сайту"
 
 #: venv/lib/python3.12/site-packages/django/contrib/staticfiles/apps.py:9
 msgid "Static Files"
-msgstr ""
+msgstr "Статичні Файли"
 
 #: venv/lib/python3.12/site-packages/django/contrib/syndication/apps.py:7
 msgid "Syndication"
-msgstr ""
+msgstr "Синдикація"
 
 #. Translators: String used to replace omitted page numbers in elided page
 #. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:30
 msgid "…"
-msgstr ""
+msgstr "…"
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:50
 msgid "That page number is not an integer"
-msgstr ""
+msgstr "Цей номер сторінки не є цілим числом"
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:52
 msgid "That page number is less than 1"
-msgstr ""
+msgstr "Цей номер сторінки менше 1"
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:54
 msgid "That page contains no results"
-msgstr ""
+msgstr "Ця сторінка не містить результатів"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:22
 msgid "Enter a valid value."
-msgstr ""
+msgstr "Введіть дійсне значення."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:104
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:752
 msgid "Enter a valid URL."
-msgstr ""
+msgstr "Введіть дійсну URL-адресу."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:165
 msgid "Enter a valid integer."
-msgstr ""
+msgstr "Введіть дійсне ціле число."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:176
 msgid "Enter a valid email address."
-msgstr ""
+msgstr "Введіть дійсну адресу електронної пошти."
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: venv/lib/python3.12/site-packages/django/core/validators.py:259
 msgid ""
 "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
 msgstr ""
+"Введіть дійсний “slug”, що складається з літер, цифр, підкреслень або "
+"дефісів."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:267
 msgid ""
 "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
 "hyphens."
 msgstr ""
+"Введіть дійсний “slug”, що складається з Unicode-літер, цифр, підкреслень "
+"або дефісів."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:279
 #: venv/lib/python3.12/site-packages/django/core/validators.py:287
 #: venv/lib/python3.12/site-packages/django/core/validators.py:316
 msgid "Enter a valid IPv4 address."
-msgstr ""
+msgstr "Введіть дійсну IPv4-адресу."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:296
 #: venv/lib/python3.12/site-packages/django/core/validators.py:317
 msgid "Enter a valid IPv6 address."
-msgstr ""
+msgstr "Введіть дійсну IPv6-адресу."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:308
 #: venv/lib/python3.12/site-packages/django/core/validators.py:315
 msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
+msgstr "Введіть дійсну IPv4 або IPv6 адресу."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:351
 msgid "Enter only digits separated by commas."
-msgstr ""
+msgstr "Введіть лише цифри, розділені комами."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:357
 #, python-format
 msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
 msgstr ""
+"Переконайтеся, що це значення дорівнює %(limit_value)s (зараз "
+"%(show_value)s)."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:392
 #, python-format
 msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
+msgstr "Переконайтеся, що це значення менше або дорівнює %(limit_value)s."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:401
 #, python-format
 msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
+msgstr "Переконайтеся, що це значення більше або дорівнює %(limit_value)s."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:410
 #, python-format
 msgid "Ensure this value is a multiple of step size %(limit_value)s."
-msgstr ""
+msgstr "Переконайтеся, що це значення є кратним розміру кроку %(limit_value)s."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:420
 #, python-format
@@ -2641,7 +3400,7 @@ msgstr[2] ""
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:347
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:386
 msgid "Enter a number."
-msgstr ""
+msgstr "Введіть номер"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:463
 #, python-format
@@ -2678,40 +3437,40 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:605
 msgid "Null characters are not allowed."
-msgstr ""
+msgstr "Null-символи не дозволені."
 
 #: venv/lib/python3.12/site-packages/django/db/models/base.py:1423
 #: venv/lib/python3.12/site-packages/django/forms/models.py:893
 msgid "and"
-msgstr ""
+msgstr "і"
 
 #: venv/lib/python3.12/site-packages/django/db/models/base.py:1425
 #, python-format
 msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
+msgstr "%(model_name)s з таким %(field_labels)s вже існує."
 
 #: venv/lib/python3.12/site-packages/django/db/models/constraints.py:17
 #, python-format
 msgid "Constraint “%(name)s” is violated."
-msgstr ""
+msgstr "Обмеження “%(name)s” порушено."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:128
 #, python-format
 msgid "Value %(value)r is not a valid choice."
-msgstr ""
+msgstr "Значення %(value)r не є дійсним вибором."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:129
 msgid "This field cannot be null."
-msgstr ""
+msgstr "Це поле не може бути порожнім (null)."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:130
 msgid "This field cannot be blank."
-msgstr ""
+msgstr "Це поле не може бути порожнім."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:131
 #, python-format
 msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
+msgstr "%(model_name)s з таким %(field_label)s вже існує."
 
 #. Translators: The 'lookup_type' is one of 'date', 'year' or
 #. 'month'. Eg: "Title must be unique for pub_date year"
@@ -2724,7 +3483,7 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:173
 #, python-format
 msgid "Field of type: %(field_type)s"
-msgstr ""
+msgstr "Поле типу: %(field_type)s"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1094
 #, python-format
@@ -2738,20 +3497,20 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1097
 msgid "Boolean (Either True or False)"
-msgstr ""
+msgstr "Логічне (або True, або False)"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1147
 #, python-format
 msgid "String (up to %(max_length)s)"
-msgstr ""
+msgstr "Рядок (до %(max_length)s символів)"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1149
 msgid "String (unlimited)"
-msgstr ""
+msgstr "Рядок (необмежений)"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1253
 msgid "Comma-separated integers"
-msgstr ""
+msgstr "Цілі числа, розділені комами"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1354
 #, python-format
@@ -2770,7 +3529,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1362
 msgid "Date (without time)"
-msgstr ""
+msgstr "Дата (без часу)"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1489
 #, python-format
@@ -2788,7 +3547,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1502
 msgid "Date (with time)"
-msgstr ""
+msgstr "Дата (з часом)"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1626
 #, python-format
@@ -2797,7 +3556,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1628
 msgid "Decimal number"
-msgstr ""
+msgstr "Десяткове число"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1789
 #, python-format
@@ -2810,11 +3569,11 @@ msgstr ""
 #, fuzzy
 #| msgid "Address"
 msgid "Email address"
-msgstr "Адреса"
+msgstr "Адреса електронної пошти"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1870
 msgid "File path"
-msgstr ""
+msgstr "Шлях до файлу"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1948
 #, python-format
@@ -2823,7 +3582,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1950
 msgid "Floating point number"
-msgstr ""
+msgstr "Число з плаваючою комою"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1990
 #, python-format
@@ -2832,27 +3591,27 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1992
 msgid "Integer"
-msgstr ""
+msgstr "Ціле число"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2088
 msgid "Big (8 byte) integer"
-msgstr ""
+msgstr "Велике (8 байт) ціле число"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2105
 msgid "Small integer"
-msgstr ""
+msgstr "Мале ціле число"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2113
 #, fuzzy
 #| msgid "Address"
 msgid "IPv4 address"
-msgstr "Адреса"
+msgstr "IPv4-адреса"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2144
 #, fuzzy
 #| msgid "Address"
 msgid "IP address"
-msgstr "Адреса"
+msgstr "IP-адреса"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2237
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2238
@@ -2862,19 +3621,19 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2240
 msgid "Boolean (Either True, False or None)"
-msgstr ""
+msgstr "Логічне (або True, або False, або None)"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2291
 msgid "Positive big integer"
-msgstr ""
+msgstr "Додатне велике ціле число"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2306
 msgid "Positive integer"
-msgstr ""
+msgstr "Додатне ціле число"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2321
 msgid "Positive small integer"
-msgstr ""
+msgstr "Додатне мале ціле число"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2337
 #, python-format
@@ -2883,7 +3642,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2373
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2448
 #, python-format
@@ -2899,13 +3658,9 @@ msgid ""
 "invalid time."
 msgstr ""
 
-#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2564
-msgid "URL"
-msgstr ""
-
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2588
 msgid "Raw binary data"
-msgstr ""
+msgstr "Сирі бінарні дані"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2653
 #, python-format
@@ -2914,23 +3669,23 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2655
 msgid "Universally unique identifier"
-msgstr ""
+msgstr "Універсальний унікальний ідентифікатор"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/files.py:232
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/files.py:393
 msgid "Image"
-msgstr ""
+msgstr "Зображення"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/json.py:26
 msgid "A JSON object"
-msgstr ""
+msgstr "JSON-об'єкт"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/json.py:28
 msgid "Value must be valid JSON."
-msgstr ""
+msgstr "Значення має бути дійсним JSON."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:919
 #, python-format
@@ -2939,11 +3694,11 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:921
 msgid "Foreign Key (type determined by related field)"
-msgstr ""
+msgstr "Зовнішній ключ (тип визначається пов'язаним полем)"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1212
 msgid "One-to-one relationship"
-msgstr ""
+msgstr "Відношення один-до-одного"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1269
 #, python-format
@@ -2957,39 +3712,39 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1319
 msgid "Many-to-many relationship"
-msgstr ""
+msgstr "Відношення багато-до-багатьох"
 
 #. Translators: If found as last label character, these punctuation
 #. characters will prevent the default label_suffix to be appended to the label
 #: venv/lib/python3.12/site-packages/django/forms/boundfield.py:184
 msgid ":?.!"
-msgstr ""
+msgstr ":?.!"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:91
 msgid "This field is required."
-msgstr ""
+msgstr "Це поле є обов'язковим."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:298
 msgid "Enter a whole number."
-msgstr ""
+msgstr "Введіть ціле число."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:467
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1241
 msgid "Enter a valid date."
-msgstr ""
+msgstr "Введіть дійсну дату."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:490
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1242
 msgid "Enter a valid time."
-msgstr ""
+msgstr "Введіть дійсний час."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:517
 msgid "Enter a valid date/time."
-msgstr ""
+msgstr "Введіть дійсну дату/час. "
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:551
 msgid "Enter a valid duration."
-msgstr ""
+msgstr "Введіть дійсну тривалість."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:552
 #, python-brace-format
@@ -3002,11 +3757,11 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:622
 msgid "No file was submitted."
-msgstr ""
+msgstr "Файл не був надісланий."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:623
 msgid "The submitted file is empty."
-msgstr ""
+msgstr "Надісланий файл порожній."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:625
 #, python-format
@@ -3020,12 +3775,16 @@ msgstr[2] ""
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:630
 msgid "Please either submit a file or check the clear checkbox, not both."
 msgstr ""
+"Будь ласка, надішліть файл або поставте прапорець «Очистити», а не обидва "
+"варіанти одночасно."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:694
 msgid ""
 "Upload a valid image. The file you uploaded was either not an image or a "
 "corrupted image."
 msgstr ""
+"Завантажте дійсне зображення. Завантажений вами файл або не є зображенням, "
+"або пошкоджений."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:857
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:949
@@ -3038,24 +3797,24 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1070
 #: venv/lib/python3.12/site-packages/django/forms/models.py:1564
 msgid "Enter a list of values."
-msgstr ""
+msgstr "Введіть список значень."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1071
 msgid "Enter a complete value."
-msgstr ""
+msgstr "Введіть повне значення."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1310
 msgid "Enter a valid UUID."
-msgstr ""
+msgstr "Введіть дійсний UUID."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1340
 msgid "Enter a valid JSON."
-msgstr ""
+msgstr "Введіть дійсний JSON."
 
 #. Translators: This is the default suffix added to form field labels
 #: venv/lib/python3.12/site-packages/django/forms/forms.py:98
 msgid ":"
-msgstr ""
+msgstr ":"
 
 #: venv/lib/python3.12/site-packages/django/forms/forms.py:244
 #: venv/lib/python3.12/site-packages/django/forms/forms.py:328
@@ -3089,7 +3848,7 @@ msgstr[2] ""
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:484
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:491
 msgid "Order"
-msgstr ""
+msgstr "Порядок"
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:886
 #, fuzzy, python-format
@@ -3110,18 +3869,16 @@ msgid ""
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:907
-#, fuzzy
-#| msgid "Please correct the errors below."
 msgid "Please correct the duplicate values below."
 msgstr "Будь ласка, виправте помилки нижче."
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:1338
 msgid "The inline value did not match the parent instance."
-msgstr ""
+msgstr "Вбудоване значення не збігалося з батьківським екземпляром."
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:1429
 msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
+msgstr "Виберіть правильний варіант. Цей варіант не є одним із доступних."
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:1568
 #, python-format
@@ -3139,28 +3896,28 @@ msgstr ""
 #, fuzzy
 #| msgid "Current Plan"
 msgid "Currently"
-msgstr "Поточний План"
+msgstr "Поточно"
 
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:465
 msgid "Change"
-msgstr ""
+msgstr "Змінити"
 
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:794
 msgid "Unknown"
-msgstr ""
+msgstr "Невідомо"
 
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:795
 msgid "Yes"
-msgstr ""
+msgstr "Так"
 
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:796
 msgid "No"
-msgstr ""
+msgstr "Ні"
 
 #. Translators: Please do not add spaces around commas.
 #: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:874
 msgid "yes,no,maybe"
-msgstr ""
+msgstr "так,ні,можливо"
 
 #: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:904
 #: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:921
@@ -3198,313 +3955,253 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/dateformat.py:73
 msgid "p.m."
-msgstr ""
+msgstr "п.п."
 
 #: venv/lib/python3.12/site-packages/django/utils/dateformat.py:74
 msgid "a.m."
-msgstr ""
+msgstr "д.п."
 
 #: venv/lib/python3.12/site-packages/django/utils/dateformat.py:79
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: venv/lib/python3.12/site-packages/django/utils/dateformat.py:80
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: venv/lib/python3.12/site-packages/django/utils/dateformat.py:152
 msgid "midnight"
-msgstr ""
+msgstr "північ"
 
 #: venv/lib/python3.12/site-packages/django/utils/dateformat.py:154
 msgid "noon"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:7
-msgid "Monday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:8
-msgid "Tuesday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:9
-msgid "Wednesday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:10
-msgid "Thursday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:11
-msgid "Friday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:12
-msgid "Saturday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:13
-msgid "Sunday"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:16
-msgid "Mon"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:17
-msgid "Tue"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:18
-msgid "Wed"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:19
-msgid "Thu"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:20
-msgid "Fri"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:21
-msgid "Sat"
-msgstr ""
-
-#: venv/lib/python3.12/site-packages/django/utils/dates.py:22
-msgid "Sun"
-msgstr ""
+msgstr "полудень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:25
 msgid "January"
-msgstr ""
+msgstr "Січень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:26
 msgid "February"
-msgstr ""
+msgstr "Лютий"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:27
 msgid "March"
-msgstr ""
+msgstr "Березень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:28
 msgid "April"
-msgstr ""
+msgstr "Квітень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:29
 msgid "May"
-msgstr ""
+msgstr "Травень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:30
 msgid "June"
-msgstr ""
+msgstr "Червень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:31
 msgid "July"
-msgstr ""
+msgstr "Липень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:32
 msgid "August"
-msgstr ""
+msgstr "Серпень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:33
 #, fuzzy
 #| msgid "Staff Members"
 msgid "September"
-msgstr "Члени Персоналу"
+msgstr "Вересень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:34
 msgid "October"
-msgstr ""
+msgstr "Жовтень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:35
 msgid "November"
-msgstr ""
+msgstr "Листопад"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:36
 #, fuzzy
 #| msgid "Remember me"
 msgid "December"
-msgstr "Запам'ятати мене"
+msgstr "Грудень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:39
 msgid "jan"
-msgstr ""
+msgstr "січ"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:40
 msgid "feb"
-msgstr ""
+msgstr "лют"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:41
 msgid "mar"
-msgstr ""
+msgstr "бер"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:42
 msgid "apr"
-msgstr ""
+msgstr "квіт"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:43
 #, fuzzy
 #| msgid "Company"
 msgid "may"
-msgstr "Компанія"
+msgstr "трав"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:44
 msgid "jun"
-msgstr ""
+msgstr "черв"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:45
 msgid "jul"
-msgstr ""
+msgstr "лип"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:46
 msgid "aug"
-msgstr ""
+msgstr "серп"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:47
 msgid "sep"
-msgstr ""
+msgstr "вер"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:48
 msgid "oct"
-msgstr ""
+msgstr "жовт"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:49
 msgid "nov"
-msgstr ""
+msgstr "лист"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:50
 msgid "dec"
-msgstr ""
+msgstr "груд"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:53
 msgctxt "abbrev. month"
 msgid "Jan."
-msgstr ""
+msgstr "січ"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:54
 msgctxt "abbrev. month"
 msgid "Feb."
-msgstr ""
+msgstr "лют"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:55
 msgctxt "abbrev. month"
 msgid "March"
-msgstr ""
+msgstr "бер"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:56
 msgctxt "abbrev. month"
 msgid "April"
-msgstr ""
+msgstr "кві"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:57
 msgctxt "abbrev. month"
 msgid "May"
-msgstr ""
+msgstr "тра"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:58
 msgctxt "abbrev. month"
 msgid "June"
-msgstr ""
+msgstr "чер"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:59
 msgctxt "abbrev. month"
 msgid "July"
-msgstr ""
+msgstr "лип"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:60
 msgctxt "abbrev. month"
 msgid "Aug."
-msgstr ""
+msgstr "сер"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:61
 msgctxt "abbrev. month"
 msgid "Sept."
-msgstr ""
+msgstr "вер"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:62
 msgctxt "abbrev. month"
 msgid "Oct."
-msgstr ""
+msgstr "жов"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:63
 msgctxt "abbrev. month"
 msgid "Nov."
-msgstr ""
+msgstr "лис"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:64
 msgctxt "abbrev. month"
 msgid "Dec."
-msgstr ""
+msgstr "гру"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:67
 msgctxt "alt. month"
 msgid "January"
-msgstr ""
+msgstr "Січень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:68
 msgctxt "alt. month"
 msgid "February"
-msgstr ""
+msgstr "Лютий"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:69
 msgctxt "alt. month"
 msgid "March"
-msgstr ""
+msgstr "Березень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:70
 msgctxt "alt. month"
 msgid "April"
-msgstr ""
+msgstr "Квітень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:71
 msgctxt "alt. month"
 msgid "May"
-msgstr ""
+msgstr "Травень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:72
 msgctxt "alt. month"
 msgid "June"
-msgstr ""
+msgstr "Червень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:73
 msgctxt "alt. month"
 msgid "July"
-msgstr ""
+msgstr "Липень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:74
 msgctxt "alt. month"
 msgid "August"
-msgstr ""
+msgstr "Серпень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:75
-#, fuzzy
-#| msgid "Staff Members"
 msgctxt "alt. month"
 msgid "September"
-msgstr "Члени Персоналу"
+msgstr "Вересень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:76
 msgctxt "alt. month"
 msgid "October"
-msgstr ""
+msgstr "Жовтень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:77
 msgctxt "alt. month"
 msgid "November"
-msgstr ""
+msgstr "Листопад"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:78
-#, fuzzy
-#| msgid "Remember me"
 msgctxt "alt. month"
 msgid "December"
-msgstr "Запам'ятати мене"
+msgstr "Грудень"
 
 #: venv/lib/python3.12/site-packages/django/utils/ipv6.py:8
 msgid "This is not a valid IPv6 address."
-msgstr ""
+msgstr "Це не є дійсною IPv6-адресою."
 
 #: venv/lib/python3.12/site-packages/django/utils/text.py:137
 #, python-format
@@ -3514,13 +4211,13 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/text.py:322
 msgid "or"
-msgstr ""
+msgstr "або"
 
 #. Translators: This string is used as a separator between list elements
 #: venv/lib/python3.12/site-packages/django/utils/text.py:341
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:135
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:8
 #, python-format
@@ -3572,11 +4269,11 @@ msgstr[2] ""
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:111
 msgid "Forbidden"
-msgstr ""
+msgstr "Заборонено"
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:112
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "Перевірка CSRF не вдалася. Запит перервано."
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:116
 msgid ""
@@ -3617,29 +4314,29 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:148
 msgid "More information is available with DEBUG=True."
-msgstr ""
+msgstr "Більше інформації доступно з DEBUG=True."
 
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:44
 msgid "No year specified"
-msgstr ""
+msgstr "Рік не вказано"
 
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:64
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:115
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:214
 msgid "Date out of range"
-msgstr ""
+msgstr "Дата поза діапазоном"
 
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:94
 msgid "No month specified"
-msgstr ""
+msgstr "Місяць не вказано"
 
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:147
 msgid "No day specified"
-msgstr ""
+msgstr "День не вказано"
 
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:194
 msgid "No week specified"
-msgstr ""
+msgstr "Тиждень не вказано"
 
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:349
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:380
@@ -3680,7 +4377,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/static.py:38
 msgid "Directory indexes are not allowed here."
-msgstr ""
+msgstr "Індекси каталогів тут не дозволені."
 
 #: venv/lib/python3.12/site-packages/django/views/static.py:40
 #, python-format
@@ -3715,7 +4412,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:229
 msgid "Django Documentation"
-msgstr ""
+msgstr "Документація Django"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:230
 msgid "Topics, references, &amp; how-to’s"
@@ -3723,85 +4420,18 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:238
 msgid "Tutorial: A Polling App"
-msgstr ""
+msgstr "Посібник: Додаток для Опитування"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:239
 #, fuzzy
 #| msgid "Get started in minutes"
 msgid "Get started with Django"
-msgstr "Почніть за кілька хвилин"
+msgstr "Почати роботу з Django"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:247
 msgid "Django Community"
-msgstr ""
+msgstr "Спільнота Django"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
 msgid "Connect, get help, or contribute"
-msgstr ""
-
-#~ msgid "Salon Booking Platform"
-#~ msgstr "Платформа Бронювання для Салонів"
-
-#~ msgid "Everything You Need"
-#~ msgstr "Все Що Вам Потрібно"
-
-#~ msgid "Simple, powerful tools to grow your business"
-#~ msgstr "Прості та потужні інструменти для розвитку вашого бізнесу"
-
-#~ msgid ""
-#~ "Manage your team, assign services, and track schedules. Each staff member "
-#~ "gets their own calendar."
-#~ msgstr ""
-#~ "Керуйте командою, призначайте послуги та відстежуйте розклади. Кожен "
-#~ "співробітник має власний календар."
-
-#~ msgid "Setup"
-#~ msgstr "Налаштування"
-
-#~ msgid "Accept bookings and manage your business"
-#~ msgstr "Приймайте бронювання та керуйте бізнесом"
-
-#~ msgid "Join hundreds of businesses managing their bookings smarter"
-#~ msgstr ""
-#~ "Приєднуйтесь до сотень підприємств, які керують своїми бронюваннями "
-#~ "розумніше"
-
-#, fuzzy
-#~| msgid "Back to home"
-#~ msgid "Back to Customers"
-#~ msgstr "Повернутися на головну"
-
-#~ msgid "Preview booking page"
-#~ msgstr "Попередній перегляд сторінки бронювання"
-
-#~ msgid ""
-#~ "The complete booking platform for salons, spas, and service businesses. "
-#~ "Accept appointments online 24/7."
-#~ msgstr ""
-#~ "Повна платформа бронювання для салонів, спа та сервісних підприємств. "
-#~ "Приймайте записи онлайн 24/7."
-
-#~ msgid "Sign In"
-#~ msgstr "Увійти"
-
-#~ msgid "Business Insights"
-#~ msgstr "Бізнес Аналітика"
-
-#~ msgid ""
-#~ "Track bookings, revenue, and customer data. Make informed decisions with "
-#~ "real-time analytics."
-#~ msgstr ""
-#~ "Відстежуйте бронювання, дохід та дані клієнтів. Приймайте обґрунтовані "
-#~ "рішення з аналітикою в реальному часі."
-
-#~ msgid "Back to Subscription Details"
-#~ msgstr "Повернутися до Деталей Підписки"
-
-#~ msgid "Calendar"
-#~ msgstr "Календар"
-
-#~ msgid "Hello"
-#~ msgstr "Привіт"
-
-#~ msgid "Register"
-#~ msgstr "Реєстрація"
+msgstr "Підключіться, отримати допомогу або внести внесок"

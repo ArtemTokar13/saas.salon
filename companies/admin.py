@@ -4,9 +4,12 @@ from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLo
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['name', 'city', 'administrator', 'created_at']
+    list_display = ['name', 'city', 'administrator', 'created_at', 'calendar_step_minutes']
     search_fields = ['name', 'city', 'email']
     list_filter = ['city', 'created_at']
+    fields = ['administrator', 'name', 'description', 'address', 'city', 'map_location',
+              'phone', 'email', 'website', 'logo', 'online_appointments_enabled',
+              'calendar_step_minutes']
 
 
 @admin.register(Staff)

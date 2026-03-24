@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-23 22:35+0100\n"
+"POT-Creation-Date: 2026-03-23 22:38+0100\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "No pagado"
 msgid "Reminder: Upcoming Booking for"
 msgstr "Recordatorio: Próximas reservas para"
 
-#: bookings/forms.py:14 companies/forms.py:62
+#: bookings/forms.py:14 companies/forms.py:85
 msgid "Select Country"
 msgstr "Seleccionar país"
 
@@ -71,40 +71,62 @@ msgstr "Añade cualquier solicitud o nota especial..."
 msgid "Client notes..."
 msgstr "Notas del cliente..."
 
-#: companies/forms.py:70
+#: companies/forms.py:93 companies/models.py:11
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:7
 msgid "Monday"
 msgstr "Lunes"
 
-#: companies/forms.py:70
+#: companies/forms.py:93 companies/models.py:12
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:8
 msgid "Tuesday"
 msgstr "Martes"
 
-#: companies/forms.py:70
+#: companies/forms.py:93 companies/models.py:13
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:9
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: companies/forms.py:70
+#: companies/forms.py:93 companies/models.py:14
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:10
 msgid "Thursday"
 msgstr "Jueves"
 
-#: companies/forms.py:71
+#: companies/forms.py:94 companies/models.py:15
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:11
 msgid "Friday"
 msgstr "Viernes"
 
-#: companies/forms.py:71
+#: companies/forms.py:94 companies/models.py:16
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:12
 msgid "Saturday"
 msgstr "Sábado"
 
-#: companies/forms.py:71
+#: companies/forms.py:94 companies/models.py:17
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
 msgid "Sunday"
 msgstr "Domingo"
+
+#: companies/models.py:24
+msgid "Success"
+msgstr ""
+
+#: companies/models.py:25
+msgid "Failed"
+msgstr ""
+
+#: companies/models.py:26
+msgid "Pending"
+msgstr ""
+
+#: companies/models.py:65
+#, fuzzy
+#| msgid ""
+#| "Set the time slot interval for your booking calendar in minutes (e.g., "
+#| "15, 30, 60)"
+msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
+msgstr ""
+"Establezca el intervalo de tiempo para su calendario de reservas en minutos "
+"(p. ej., 15, 30, 60)."
 
 #: templates/Index.html:4 templates/Index.html:14
 msgid "A Simple Client Management System for Your Salon"
@@ -446,11 +468,9 @@ msgstr "¿Listo para Comenzar?"
 
 #: templates/Index.html:442
 msgid ""
-"Start your free trial today — no credit card required. Get instant access to "
-"all features."
+"Start your free trial today — no credit card required."
 msgstr ""
-"Comienza tu prueba gratuita hoy mismo, sin necesidad de tarjeta de crédito. "
-"Obtén acceso instantáneo a todas las funciones."
+"Comienza tu prueba gratuita hoy mismo, sin necesidad de tarjeta de crédito."
 
 #: templates/Index.html:446
 msgid "Start Your Free Trial Today"
@@ -598,7 +618,7 @@ msgid "Logout"
 msgstr "Cerrar sesión"
 
 #: templates/_header.html:39 templates/_header.html:88
-#: templates/users/login.html:4
+#: templates/users/login.html:5
 msgid "Login"
 msgstr "Iniciar Sesión"
 
@@ -663,10 +683,11 @@ msgstr "Continuar con el pago"
 #: templates/bookings/edit_booking.html:221
 #: templates/companies/add_service.html:100
 #: templates/companies/add_staff.html:160
-#: templates/companies/edit_profile.html:184
+#: templates/companies/edit_profile.html:196
 #: templates/companies/edit_service.html:109
 #: templates/companies/edit_staff.html:168
 #: templates/companies/working_hours.html:72
+#: templates/socialaccount/signup.html:56
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -914,6 +935,12 @@ msgstr "¿Estás seguro de que quieres cambiar a"
 msgid "No plans available at the moment"
 msgstr "No hay planes disponibles en este momento"
 
+#: templates/bookings/bookings_list.html:4
+#, fuzzy
+#| msgid "Booking Link"
+msgid "Bookings List"
+msgstr "Enlace de Reservas"
+
 #: templates/bookings/bookings_list.html:10
 #: templates/companies/analytics.html:132
 #: templates/companies/analytics.html:263
@@ -922,6 +949,48 @@ msgstr "No hay planes disponibles en este momento"
 #: templates/companies/analytics.html:653
 msgid "Bookings"
 msgstr "Reservas"
+
+#: templates/bookings/bookings_list.html:29
+#, fuzzy
+#| msgid "Confirm"
+msgid "Confirmed"
+msgstr "Confirmar"
+
+#: templates/bookings/bookings_list.html:30
+msgid "Prebooked"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:35
+msgid "Hide Filter"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:36
+msgid "Show Filter"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:43
+#, fuzzy
+#| msgid "Search by name or phone number..."
+msgid "Search by name, phone, email"
+msgstr "Buscar por nombre o número de teléfono..."
+
+#: templates/bookings/bookings_list.html:44
+msgid "From"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:45
+msgid "To"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:47
+#, fuzzy
+#| msgid "Services"
+msgid "All Services"
+msgstr "Servicios"
+
+#: templates/bookings/bookings_list.html:52
+msgid "Filter"
+msgstr ""
 
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
@@ -987,7 +1056,7 @@ msgstr "Detalles de la reserva"
 #: templates/companies/customers_list.html:55
 #: templates/companies/dashboard.html:133
 #: templates/companies/edit_profile.html:69
-#: templates/companies/register.html:89
+#: templates/companies/register.html:122
 msgid "Phone"
 msgstr "Teléfono"
 
@@ -1003,7 +1072,7 @@ msgstr "Fecha y hora"
 #: templates/companies/edit_profile.html:76
 #: templates/companies/edit_staff.html:16
 #: templates/companies/forgot_password.html:15
-#: templates/companies/register.html:29 templates/static_pages/contact.html:23
+#: templates/companies/register.html:57 templates/static_pages/contact.html:23
 msgid "Email"
 msgstr "Correo Electrónico"
 
@@ -1251,13 +1320,13 @@ msgid "Please set your password to activate your account."
 msgstr "Please set your password to activate your account."
 
 #: templates/companies/activate_staff_account.html:31
-#: templates/companies/register.html:37
-#: templates/companies/reset_password.html:31 templates/users/login.html:44
+#: templates/companies/register.html:69
+#: templates/companies/reset_password.html:31 templates/users/login.html:45
 msgid "Password"
 msgstr "Contraseña"
 
 #: templates/companies/activate_staff_account.html:39
-#: templates/companies/register.html:44
+#: templates/companies/register.html:76
 #: templates/companies/reset_password.html:39
 msgid "Confirm Password"
 msgstr "Confirmar Contraseña"
@@ -1502,6 +1571,7 @@ msgid "Staff Member"
 msgstr "Miembro"
 
 #: templates/companies/analytics.html:266
+#, python-format
 msgid "Effectiveness %%"
 msgstr "Eficacia %%"
 
@@ -1584,8 +1654,6 @@ msgstr "Su valor de reserva promedio es"
 #: templates/companies/analytics.html:553
 #: templates/companies/analytics.html:661
 #: templates/companies/analytics.html:720
-#, fuzzy
-#| msgid "Revenue (€)"
 msgid "Revenue ($)"
 msgstr "Ingresos (€)"
 
@@ -1730,13 +1798,13 @@ msgstr "Establecer Horarios"
 msgid "View Public Page"
 msgstr "Ver Página Pública"
 
-#: templates/companies/dashboard.html:123 templates/companies/register.html:55
+#: templates/companies/dashboard.html:123 templates/companies/register.html:88
 msgid "Company Information"
 msgstr "Información de la Empresa"
 
 #: templates/companies/dashboard.html:128
 #: templates/companies/edit_profile.html:39
-#: templates/companies/register.html:73
+#: templates/companies/register.html:106
 msgid "Address"
 msgstr "Dirección"
 
@@ -1774,18 +1842,18 @@ msgid "Edit Company Profile"
 msgstr "Editar Perfil"
 
 #: templates/companies/edit_profile.html:22
-#: templates/companies/register.html:58
+#: templates/companies/register.html:91
 msgid "Company Name"
 msgstr "Nombre de la Empresa"
 
 #: templates/companies/edit_profile.html:30
-#: templates/companies/register.html:65
+#: templates/companies/register.html:98
 #: templates/static_pages/cookie_policy.html:68
 msgid "Description"
 msgstr "Descripción"
 
 #: templates/companies/edit_profile.html:46
-#: templates/companies/register.html:80
+#: templates/companies/register.html:113
 msgid "City"
 msgstr "Ciudad"
 
@@ -1818,39 +1886,51 @@ msgid "Enable online appointment booking on your public page"
 msgstr "Habilite la reserva de citas en línea en su página pública"
 
 #: templates/companies/edit_profile.html:106
+msgid "Calendar Time Slot Interval"
+msgstr "Intervalo de franja horaria del calendario"
+
+#: templates/companies/edit_profile.html:110
+msgid ""
+"Set the time slot interval for your booking calendar in minutes (e.g., 15, "
+"30, 60)"
+msgstr ""
+"Establezca el intervalo de tiempo para su calendario de reservas en minutos "
+"(p. ej., 15, 30, 60)."
+
+#: templates/companies/edit_profile.html:118
 msgid "Social Media"
 msgstr "Redes sociales"
 
-#: templates/companies/edit_profile.html:111
-#: templates/companies/edit_profile.html:118
+#: templates/companies/edit_profile.html:123
+#: templates/companies/edit_profile.html:130
 msgid "Platform (e.g., facebook)"
 msgstr "Plataforma (por ejemplo, Facebook)"
 
-#: templates/companies/edit_profile.html:112
-#: templates/companies/edit_profile.html:119
+#: templates/companies/edit_profile.html:124
+#: templates/companies/edit_profile.html:131
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2564
 msgid "URL"
 msgstr "URL"
 
-#: templates/companies/edit_profile.html:124
+#: templates/companies/edit_profile.html:136
 msgid "+ Add Social Media"
 msgstr "+ Agregar redes sociales"
 
-#: templates/companies/edit_profile.html:125
+#: templates/companies/edit_profile.html:137
 msgid "Add your social media profiles (e.g., facebook, instagram, twitter)"
 msgstr ""
 "Añade tus perfiles de redes sociales (por ejemplo, Facebook, Instagram, "
 "Twitter)"
 
-#: templates/companies/edit_profile.html:129
+#: templates/companies/edit_profile.html:141
 msgid "Logo"
 msgstr "Logo"
 
-#: templates/companies/edit_profile.html:132
+#: templates/companies/edit_profile.html:144
 msgid "Current logo"
 msgstr "Plan Actual"
 
-#: templates/companies/edit_profile.html:135
+#: templates/companies/edit_profile.html:147
 #: templates/companies/edit_staff.html:64
 #: templates/companies/services_list.html:49
 #: templates/companies/staff_list.html:54
@@ -1858,23 +1938,23 @@ msgstr "Plan Actual"
 msgid "Delete"
 msgstr "Borrar"
 
-#: templates/companies/edit_profile.html:146
+#: templates/companies/edit_profile.html:158
 msgid "Images"
 msgstr "Imagenes"
 
-#: templates/companies/edit_profile.html:148
+#: templates/companies/edit_profile.html:160
 msgid "Drag and drop images to reorder them"
 msgstr "Arrastre y suelte imágenes para reordenarlas"
 
-#: templates/companies/edit_profile.html:158
+#: templates/companies/edit_profile.html:170
 msgid "Company image"
 msgstr "Imagen de la Empresa"
 
-#: templates/companies/edit_profile.html:173
+#: templates/companies/edit_profile.html:185
 msgid "Choose file"
 msgstr "Elige fichero"
 
-#: templates/companies/edit_profile.html:187
+#: templates/companies/edit_profile.html:199
 #: templates/companies/edit_service.html:112
 #: templates/companies/edit_staff.html:171
 #: templates/companies/working_hours.html:75
@@ -1967,35 +2047,51 @@ msgstr "Horas de trabajo"
 msgid "Closed"
 msgstr "Cerrado"
 
-#: templates/companies/register.html:4
+#: templates/companies/register.html:5
 msgid "Register Your Company"
 msgstr "Registra tu Empresa"
 
-#: templates/companies/register.html:10
+#: templates/companies/register.html:11
 msgid "Register Your Business"
 msgstr "Registra tu Empresa"
 
-#: templates/companies/register.html:11
+#: templates/companies/register.html:12
 msgid "Create your company account and start accepting bookings"
 msgstr "Crea tu cuenta de empresa y comienza a aceptar reservas hoy"
 
-#: templates/companies/register.html:26
+#: templates/companies/register.html:19
+msgid "Quick sign up with Google"
+msgstr "Regístrate rápidamente con Google."
+
+#: templates/companies/register.html:28
+msgid "Sign up with Google"
+msgstr "Regístrate con Google"
+
+#: templates/companies/register.html:36
+msgid "Or register with email"
+msgstr "O regístrese con su correo electrónico"
+
+#: templates/companies/register.html:54
 msgid "Account Information"
 msgstr "Información de la Cuenta"
 
-#: templates/companies/register.html:96
+#: templates/companies/register.html:63
+msgid "Logged in via Google"
+msgstr "Sesión iniciada a través de Google"
+
+#: templates/companies/register.html:129
 msgid "Company Email"
 msgstr "Correo de la Empresa"
 
-#: templates/companies/register.html:104
+#: templates/companies/register.html:137
 msgid "Company Logo"
 msgstr "Logo de la Empresa"
 
-#: templates/companies/register.html:115
+#: templates/companies/register.html:148
 msgid "Back to home"
 msgstr "Volver al inicio"
 
-#: templates/companies/register.html:118
+#: templates/companies/register.html:151
 msgid "Create Account"
 msgstr "Crear Cuenta"
 
@@ -2036,6 +2132,7 @@ msgstr "Aún no has añadido ningún miembro del personal."
 msgid "Add Your First Staff Member"
 msgstr "Agregue su primer miembro del personal"
 
+#: templates/companies/working_hours.html:4
 #: templates/companies/working_hours.html:8
 msgid "Edit Working Hours"
 msgstr "Editar horas de trabajo"
@@ -2191,6 +2288,7 @@ msgstr "Teléfono:"
 #: templates/email/booking_confirmation.html:244
 #: templates/email/booking_reminder.html:211
 #: templates/email/booking_update.html:211
+#: templates/socialaccount/signup.html:35
 msgid "Email:"
 msgstr "Correo Electrónico:"
 
@@ -2388,6 +2486,57 @@ msgstr "Click Release to return to your account"
 #: templates/hijack/notification.html:17
 msgid "Release Hijack"
 msgstr "Release Hijack"
+
+#: templates/socialaccount/authentication_error.html:4
+#: templates/socialaccount/authentication_error.html:10
+msgid "Authentication Error"
+msgstr "Error de autenticación"
+
+#: templates/socialaccount/authentication_error.html:15
+msgid "An error occurred during authentication."
+msgstr "Se produjo un error durante la autenticación."
+
+#: templates/socialaccount/authentication_error.html:23
+#: templates/socialaccount/login.html:37
+msgid "Back to Login"
+msgstr "Volver a Iniciar sesión"
+
+#: templates/socialaccount/login.html:4
+msgid "Sign In with Google"
+msgstr "Iniciar sesión con Google"
+
+#: templates/socialaccount/login.html:10
+msgid "Sign In Via Google"
+msgstr "Iniciar sesión a través de Google"
+
+#: templates/socialaccount/login.html:12
+msgid "You are about to sign in using a third-party account from Google."
+msgstr ""
+"Estás a punto de iniciar sesión utilizando una cuenta de terceros de Google."
+
+#: templates/socialaccount/login.html:31
+msgid "Continue with Google"
+msgstr "Continuar con Google"
+
+#: templates/socialaccount/signup.html:4
+msgid "Sign Up with Google"
+msgstr "Regístrate con Google"
+
+#: templates/socialaccount/signup.html:10
+msgid "Complete Your Registration"
+msgstr "Completa tu registro"
+
+#: templates/socialaccount/signup.html:12
+msgid "You're signing in with Google"
+msgstr "Estás iniciando sesión con Google."
+
+#: templates/socialaccount/signup.html:39
+msgid "Name:"
+msgstr "Nombre:"
+
+#: templates/socialaccount/signup.html:51
+msgid "Continue"
+msgstr "Continuar"
 
 #: templates/static_pages/about_us.html:14
 msgid ""
@@ -3074,45 +3223,53 @@ msgstr ""
 "Nos reservamos el derecho de modificar estos términos en cualquier momento. "
 "Los cambios entrarán en vigor inmediatamente después de su publicación."
 
-#: templates/users/login.html:10
+#: templates/users/login.html:11
 msgid "Sign in to your account"
 msgstr "Inicia sesión en tu cuenta"
 
-#: templates/users/login.html:12
+#: templates/users/login.html:13
 msgid "Or"
 msgstr "O"
 
-#: templates/users/login.html:14
+#: templates/users/login.html:15
 msgid "create a new company account"
 msgstr "crea una nueva cuenta de empresa"
 
-#: templates/users/login.html:28
+#: templates/users/login.html:29
 msgid "Please correct the errors below."
 msgstr "Por favor corrige los errores a continuación."
 
-#: templates/users/login.html:35
+#: templates/users/login.html:36
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: templates/users/login.html:39
+#: templates/users/login.html:40
 msgid "Enter your username"
 msgstr "Ingresa tu nombre de usuario"
 
-#: templates/users/login.html:48
+#: templates/users/login.html:49
 msgid "Enter your password"
 msgstr "Ingresa tu contraseña"
 
-#: templates/users/login.html:56
+#: templates/users/login.html:57
 msgid "Remember me"
 msgstr "Recuérdame"
 
-#: templates/users/login.html:60
+#: templates/users/login.html:61
 msgid "Forgot password?"
 msgstr "¿Olvidaste tu contraseña?"
 
-#: templates/users/login.html:66
+#: templates/users/login.html:67
 msgid "Sign in"
 msgstr "Iniciar sesión"
+
+#: templates/users/login.html:78
+msgid "Or continue with"
+msgstr ""
+
+#: templates/users/login.html:91
+msgid "Sign in with Google"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:15
 msgid "Messages"

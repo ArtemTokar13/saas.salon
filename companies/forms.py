@@ -115,8 +115,14 @@ class CompanyStaffForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if self.company and User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Staff with this email already registered.")
+        if self.company:
+            # Only block if a staff with this email is already registered for this company
+            user = User.objects.filter(email=email).first()
+            if user:
+                from users.models import UserProfile
+                # Check if this user is already a staff for this company
+                if UserProfile.objects.filter(user=user, company=self.company, staff__isnull=False).exists():
+                    raise forms.ValidationError("Staff with this email already registered.")
         return email
     
 class CompanyStaffActivateForm(forms.Form):

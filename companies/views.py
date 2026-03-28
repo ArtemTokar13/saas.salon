@@ -437,20 +437,32 @@ def add_staff(request):
                 )
                 staff_member.services.set(form.cleaned_data.get('services', []))
 
-                simple_password = make_random_password()
-                user = User.objects.create_user(
-                    username=form.cleaned_data['email'],
-                    email=form.cleaned_data['email'],
-                    password=simple_password
-                )
 
-                UserProfile.objects.create(
-                    user=user,
-                    company=profile.company,
-                    country_code=form.cleaned_data.get('country_code', ''),
-                    phone_number=form.cleaned_data.get('phone', ''),
-                    staff=staff_member
-                )
+                # Check if user with this email already exists
+                user = User.objects.filter(email=form.cleaned_data['email']).first()
+                if user:
+                    # If user exists, update or create UserProfile and associate staff
+                    user_profile, created = UserProfile.objects.get_or_create(user=user)
+                    user_profile.company = profile.company
+                    user_profile.country_code = form.cleaned_data.get('country_code', '')
+                    user_profile.phone_number = form.cleaned_data.get('phone', '')
+                    user_profile.staff = staff_member
+                    user_profile.save()
+                else:
+                    # Create new user and UserProfile
+                    simple_password = make_random_password()
+                    user = User.objects.create_user(
+                        username=form.cleaned_data['email'],
+                        email=form.cleaned_data['email'],
+                        password=simple_password
+                    )
+                    UserProfile.objects.create(
+                        user=user,
+                        company=profile.company,
+                        country_code=form.cleaned_data.get('country_code', ''),
+                        phone_number=form.cleaned_data.get('phone', ''),
+                        staff=staff_member
+                    )
 
                 # build activation link (uid + token)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))

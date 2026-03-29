@@ -232,7 +232,7 @@ def edit_company_profile(request):
 
                 images = request.FILES.getlist('images')
                 current_image_count = CompanyImage.objects.filter(company=company).count()
-                max_images = 15
+                max_images = 30
                 
                 if images:
                     remaining_slots = max_images - current_image_count

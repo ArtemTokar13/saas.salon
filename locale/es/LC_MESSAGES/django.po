@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 22:38+0100\n"
+"POT-Creation-Date: 2026-03-31 23:28+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,14 +119,10 @@ msgid "Pending"
 msgstr ""
 
 #: companies/models.py:65
-#, fuzzy
-#| msgid ""
-#| "Set the time slot interval for your booking calendar in minutes (e.g., "
-#| "15, 30, 60)"
 msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
 msgstr ""
-"Establezca el intervalo de tiempo para su calendario de reservas en minutos "
-"(p. ej., 15, 30, 60)."
+"Intervalo de tiempo para su calendario de reservas en minutos (p. ej., 15, "
+"30, 60)."
 
 #: templates/Index.html:4 templates/Index.html:14
 msgid "A Simple Client Management System for Your Salon"
@@ -467,8 +463,7 @@ msgid "Ready to Grow Your Salon?"
 msgstr "¿Listo para Comenzar?"
 
 #: templates/Index.html:442
-msgid ""
-"Start your free trial today — no credit card required."
+msgid "Start your free trial today — no credit card required."
 msgstr ""
 "Comienza tu prueba gratuita hoy mismo, sin necesidad de tarjeta de crédito."
 
@@ -588,7 +583,7 @@ msgstr "Preguntas frecuentes"
 msgid "Support"
 msgstr "Apoyo"
 
-#: templates/_footer.html:40 templates/companies/public_page.html:128
+#: templates/_footer.html:40 templates/companies/public_page.html:165
 #: templates/static_pages/contact.html:4 templates/static_pages/contact.html:10
 msgid "Contact Us"
 msgstr "Contacta con nosotros"
@@ -936,8 +931,6 @@ msgid "No plans available at the moment"
 msgstr "No hay planes disponibles en este momento"
 
 #: templates/bookings/bookings_list.html:4
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Bookings List"
 msgstr "Enlace de Reservas"
 
@@ -951,46 +944,40 @@ msgid "Bookings"
 msgstr "Reservas"
 
 #: templates/bookings/bookings_list.html:29
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirmed"
-msgstr "Confirmar"
+msgstr "Confirmado"
 
 #: templates/bookings/bookings_list.html:30
 msgid "Prebooked"
-msgstr ""
+msgstr "Prereservado"
 
 #: templates/bookings/bookings_list.html:35
 msgid "Hide Filter"
-msgstr ""
+msgstr "Ocultar filtro"
 
 #: templates/bookings/bookings_list.html:36
 msgid "Show Filter"
-msgstr ""
+msgstr "Mostrar filtro"
 
 #: templates/bookings/bookings_list.html:43
-#, fuzzy
-#| msgid "Search by name or phone number..."
 msgid "Search by name, phone, email"
 msgstr "Buscar por nombre o número de teléfono..."
 
 #: templates/bookings/bookings_list.html:44
 msgid "From"
-msgstr ""
+msgstr "Desde"
 
 #: templates/bookings/bookings_list.html:45
 msgid "To"
-msgstr ""
+msgstr "Hasta"
 
 #: templates/bookings/bookings_list.html:47
-#, fuzzy
-#| msgid "Services"
 msgid "All Services"
-msgstr "Servicios"
+msgstr "Todos Servicios"
 
 #: templates/bookings/bookings_list.html:52
 msgid "Filter"
-msgstr ""
+msgstr "Filtro"
 
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
@@ -2003,31 +1990,31 @@ msgstr "Enviar enlace de restablecimiento"
 msgid "Gallery"
 msgstr "Galería"
 
-#: templates/companies/public_page.html:61
+#: templates/companies/public_page.html:98
 msgid "Our Team"
 msgstr "Nuestro equipo"
 
-#: templates/companies/public_page.html:82
+#: templates/companies/public_page.html:119
 msgid "Staff information coming soon."
 msgstr "Información sobre el personal próximamente."
 
-#: templates/companies/public_page.html:90
+#: templates/companies/public_page.html:127
 msgid "Our Services"
 msgstr "Nuestros servicios"
 
-#: templates/companies/public_page.html:109
+#: templates/companies/public_page.html:146
 msgid "No services available at the moment."
 msgstr "No hay servicios disponibles en este momento."
 
-#: templates/companies/public_page.html:120
+#: templates/companies/public_page.html:157
 msgid "Book an Appointment"
 msgstr "Reservar una cita"
 
-#: templates/companies/public_page.html:123
+#: templates/companies/public_page.html:160
 msgid "Book Now"
 msgstr "Reservar ahora"
 
-#: templates/companies/public_page.html:129
+#: templates/companies/public_page.html:166
 msgid ""
 "Online booking is currently unavailable. Please contact us directly to "
 "schedule an appointment."
@@ -2035,15 +2022,15 @@ msgstr ""
 "Las reservas en línea no están disponibles en este momento. Contáctenos "
 "directamente para programar una cita."
 
-#: templates/companies/public_page.html:135
+#: templates/companies/public_page.html:172
 msgid "Contact Information"
 msgstr "Información del contacto"
 
-#: templates/companies/public_page.html:177
+#: templates/companies/public_page.html:241
 msgid "Working Hours"
 msgstr "Horas de trabajo"
 
-#: templates/companies/public_page.html:183
+#: templates/companies/public_page.html:247
 msgid "Closed"
 msgstr "Cerrado"
 
@@ -3265,11 +3252,11 @@ msgstr "Iniciar sesión"
 
 #: templates/users/login.html:78
 msgid "Or continue with"
-msgstr ""
+msgstr "O continuar con"
 
 #: templates/users/login.html:91
 msgid "Sign in with Google"
-msgstr ""
+msgstr "Iniciar sesión con Google"
 
 #: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:15
 msgid "Messages"
@@ -3457,7 +3444,7 @@ msgstr "No se permiten caracteres nulos."
 #: venv/lib/python3.12/site-packages/django/db/models/base.py:1423
 #: venv/lib/python3.12/site-packages/django/forms/models.py:893
 msgid "and"
-msgstr ""
+msgstr "y"
 
 #: venv/lib/python3.12/site-packages/django/db/models/base.py:1425
 #, python-format

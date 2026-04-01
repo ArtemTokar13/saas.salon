@@ -97,6 +97,126 @@
                     <p class="mt-1 text-xs text-gray-500">{% trans "Select the days when this staff member is available to work" %}</p>
                 </div>
 
+                <!-- Working Hours per Day -->
+                <div class="col-span-2 border-t pt-4 mt-4">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">{% trans "Working Hours per Day" %}</h3>
+                    <p class="text-sm text-gray-500 mb-4">{% trans "Set specific working hours for each day (leave empty to use company hours)" %}</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Monday -->
+                        <div class="border rounded p-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Monday" %}</label>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "Start" %}</label>
+                                    {{ form.monday_start }}
+                                </div>
+                                <span class="text-gray-500">-</span>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "End" %}</label>
+                                    {{ form.monday_end }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tuesday -->
+                        <div class="border rounded p-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Tuesday" %}</label>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "Start" %}</label>
+                                    {{ form.tuesday_start }}
+                                </div>
+                                <span class="text-gray-500">-</span>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "End" %}</label>
+                                    {{ form.tuesday_end }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wednesday -->
+                        <div class="border rounded p-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Wednesday" %}</label>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "Start" %}</label>
+                                    {{ form.wednesday_start }}
+                                </div>
+                                <span class="text-gray-500">-</span>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "End" %}</label>
+                                    {{ form.wednesday_end }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thursday -->
+                        <div class="border rounded p-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Thursday" %}</label>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "Start" %}</label>
+                                    {{ form.thursday_start }}
+                                </div>
+                                <span class="text-gray-500">-</span>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "End" %}</label>
+                                    {{ form.thursday_end }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Friday -->
+                        <div class="border rounded p-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Friday" %}</label>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "Start" %}</label>
+                                    {{ form.friday_start }}
+                                </div>
+                                <span class="text-gray-500">-</span>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "End" %}</label>
+                                    {{ form.friday_end }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saturday -->
+                        <div class="border rounded p-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Saturday" %}</label>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "Start" %}</label>
+                                    {{ form.saturday_start }}
+                                </div>
+                                <span class="text-gray-500">-</span>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "End" %}</label>
+                                    {{ form.saturday_end }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sunday -->
+                        <div class="border rounded p-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Sunday" %}</label>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "Start" %}</label>
+                                    {{ form.sunday_start }}
+                                </div>
+                                <span class="text-gray-500">-</span>
+                                <div class="flex-1">
+                                    <label class="text-xs text-gray-600">{% trans "End" %}</label>
+                                    {{ form.sunday_end }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Break Start Time" %}</label>
                     {{ form.break_start }}

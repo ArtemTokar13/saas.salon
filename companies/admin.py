@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
+from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog, StaffWorkingHours
 
 
 @admin.register(Company)
@@ -31,6 +31,13 @@ class ServiceAdmin(admin.ModelAdmin):
 class WorkingHoursAdmin(admin.ModelAdmin):
     list_display = ['company', 'day_of_week', 'start_time', 'end_time', 'is_day_off']
     list_filter = ['company', 'day_of_week', 'is_day_off']
+
+
+@admin.register(StaffWorkingHours)
+class StaffWorkingHoursAdmin(admin.ModelAdmin):
+    list_display = ['staff', 'day_of_week', 'start_time', 'end_time', 'is_day_off']
+    list_filter = ['staff', 'day_of_week', 'is_day_off']
+    list_select_related = ['staff', 'staff__company']
 
 
 @admin.register(CompanyImage)

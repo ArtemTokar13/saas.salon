@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-31 23:22+0200\n"
+"POT-Creation-Date: 2026-04-01 22:09+0200\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,36 +73,50 @@ msgid "Client notes..."
 msgstr "Нотатки клієнта..."
 
 #: companies/forms.py:93 companies/models.py:11
+#: templates/companies/add_staff.html:108
+#: templates/companies/edit_staff.html:106
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:7
 msgid "Monday"
 msgstr "Понеділок"
 
 #: companies/forms.py:93 companies/models.py:12
+#: templates/companies/add_staff.html:124
+#: templates/companies/edit_staff.html:122
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:8
 msgid "Tuesday"
 msgstr "Вівторок"
 
 #: companies/forms.py:93 companies/models.py:13
+#: templates/companies/add_staff.html:140
+#: templates/companies/edit_staff.html:138
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:9
 msgid "Wednesday"
 msgstr "Середа"
 
 #: companies/forms.py:93 companies/models.py:14
+#: templates/companies/add_staff.html:156
+#: templates/companies/edit_staff.html:154
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:10
 msgid "Thursday"
 msgstr "Четвер"
 
 #: companies/forms.py:94 companies/models.py:15
+#: templates/companies/add_staff.html:172
+#: templates/companies/edit_staff.html:170
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:11
 msgid "Friday"
 msgstr "Пʼятниця"
 
 #: companies/forms.py:94 companies/models.py:16
+#: templates/companies/add_staff.html:188
+#: templates/companies/edit_staff.html:186
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:12
 msgid "Saturday"
 msgstr "Субота"
 
 #: companies/forms.py:94 companies/models.py:17
+#: templates/companies/add_staff.html:204
+#: templates/companies/edit_staff.html:202
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
 msgid "Sunday"
 msgstr "Неділя"
@@ -674,10 +688,10 @@ msgstr "Перейти до Оплати"
 #: templates/bookings/create_booking.html:206
 #: templates/bookings/edit_booking.html:221
 #: templates/companies/add_service.html:100
-#: templates/companies/add_staff.html:160
+#: templates/companies/add_staff.html:280
 #: templates/companies/edit_profile.html:196
 #: templates/companies/edit_service.html:109
-#: templates/companies/edit_staff.html:168
+#: templates/companies/edit_staff.html:288
 #: templates/companies/working_hours.html:72
 #: templates/socialaccount/signup.html:56
 msgid "Cancel"
@@ -1366,7 +1380,7 @@ msgstr "Потрібне Підтвердження Персоналу"
 msgid "Maximum 10 dates allowed"
 msgstr "Максимум 10 дат дозволено"
 
-#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:163
+#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:283
 msgid "Add Staff Member"
 msgstr "Додати Члена Персоналу"
 
@@ -1387,26 +1401,73 @@ msgstr "Робочі Дні"
 msgid "Select the days when this staff member is available to work"
 msgstr "Оберіть дні, коли цей спеціаліст доступний для роботи"
 
-#: templates/companies/add_staff.html:101
-#: templates/companies/edit_staff.html:98
+#: templates/companies/add_staff.html:102
+#: templates/companies/edit_staff.html:100
+msgid "Working Hours per Day"
+msgstr "Години Роботи"
+
+#: templates/companies/add_staff.html:103
+#: templates/companies/edit_staff.html:101
+msgid ""
+"Set specific working hours for each day (leave empty to use company hours)"
+msgstr ""
+"Встановіть конкретний робочий час для кожного дня (залиште порожнім, "
+"щоб використовувати робочі години компанії)"
+
+#: templates/companies/add_staff.html:111
+#: templates/companies/add_staff.html:127
+#: templates/companies/add_staff.html:143
+#: templates/companies/add_staff.html:159
+#: templates/companies/add_staff.html:175
+#: templates/companies/add_staff.html:191
+#: templates/companies/add_staff.html:207
+#: templates/companies/edit_staff.html:109
+#: templates/companies/edit_staff.html:125
+#: templates/companies/edit_staff.html:141
+#: templates/companies/edit_staff.html:157
+#: templates/companies/edit_staff.html:173
+#: templates/companies/edit_staff.html:189
+#: templates/companies/edit_staff.html:205
+msgid "Start"
+msgstr "Початок"
+
+#: templates/companies/add_staff.html:116
+#: templates/companies/add_staff.html:132
+#: templates/companies/add_staff.html:148
+#: templates/companies/add_staff.html:164
+#: templates/companies/add_staff.html:180
+#: templates/companies/add_staff.html:196
+#: templates/companies/add_staff.html:212
+#: templates/companies/edit_staff.html:114
+#: templates/companies/edit_staff.html:130
+#: templates/companies/edit_staff.html:146
+#: templates/companies/edit_staff.html:162
+#: templates/companies/edit_staff.html:178
+#: templates/companies/edit_staff.html:194
+#: templates/companies/edit_staff.html:210
+msgid "End"
+msgstr "кінець"
+
+#: templates/companies/add_staff.html:221
+#: templates/companies/edit_staff.html:218
 msgid "Break Start Time"
 msgstr "Час Початку Перерви"
 
-#: templates/companies/add_staff.html:109
-#: templates/companies/edit_staff.html:106
+#: templates/companies/add_staff.html:229
+#: templates/companies/edit_staff.html:226
 msgid "Break End Time"
 msgstr "Час Закінчення Перерви"
 
-#: templates/companies/add_staff.html:117
+#: templates/companies/add_staff.html:237
 msgid "Out of Salon Start Date"
 msgstr "Дата Початку Відсутності в Салоні"
 
-#: templates/companies/add_staff.html:125
+#: templates/companies/add_staff.html:245
 msgid "Out of Salon End Date"
 msgstr "Дата Закінчення Відсутності в Салоні"
 
-#: templates/companies/add_staff.html:133 templates/companies/dashboard.html:35
-#: templates/companies/edit_staff.html:130
+#: templates/companies/add_staff.html:253 templates/companies/dashboard.html:35
+#: templates/companies/edit_staff.html:250
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Послуги"
@@ -1939,7 +2000,7 @@ msgstr "Оберіть файл"
 
 #: templates/companies/edit_profile.html:199
 #: templates/companies/edit_service.html:112
-#: templates/companies/edit_staff.html:171
+#: templates/companies/edit_staff.html:291
 #: templates/companies/working_hours.html:75
 msgid "Save Changes"
 msgstr "Зберегти Зміни"
@@ -1956,15 +2017,15 @@ msgstr "Редагувати Персонал"
 msgid "Current avatar"
 msgstr "Поточний аватар"
 
-#: templates/companies/edit_staff.html:115
+#: templates/companies/edit_staff.html:235
 msgid "Out of Office Start Date"
 msgstr "Дата Початку Відсутності"
 
-#: templates/companies/edit_staff.html:123
+#: templates/companies/edit_staff.html:243
 msgid "Out of Office End Date"
 msgstr "Дата Закінчення Відсутності"
 
-#: templates/companies/edit_staff.html:160
+#: templates/companies/edit_staff.html:280
 msgid "Is Active"
 msgstr "Активний"
 

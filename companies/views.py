@@ -460,13 +460,13 @@ def add_staff(request):
                     password=simple_password
                 )
 
-                UserProfile.objects.create(
-                    user=user,
-                    company=profile.company,
-                    country_code=form.cleaned_data.get('country_code', ''),
-                    phone_number=form.cleaned_data.get('phone', ''),
-                    staff=staff_member
-                )
+                # Get the auto-created profile and update it (signal already created it)
+                user_profile = user.userprofile
+                user_profile.company = profile.company
+                user_profile.country_code = form.cleaned_data.get('country_code', '')
+                user_profile.phone_number = form.cleaned_data.get('phone', '')
+                user_profile.staff = staff_member
+                user_profile.save()
 
                 # build activation link (uid + token)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))

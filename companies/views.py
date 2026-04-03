@@ -159,8 +159,9 @@ def activate_company(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        # login the user
-        login(request, user)
+        # login the user with explicit backend
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         messages.success(request, 'Your account has been activated.')
         return redirect('company_dashboard')
     else:
@@ -573,7 +574,8 @@ def activate_staff_account(request, uidb64, token):
                     except Exception as e:
                         logger.error(f"Failed to send confirmation email: {e}")
 
-                    login(request, user)
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     messages.success(request, 'Account activated successfully!')
                     return redirect('login')  # Redirect to staff calendar or login
                 else:

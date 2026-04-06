@@ -283,10 +283,6 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
     
     Returns welcome message if salon detected, None otherwise
     """
-    # Only check on first message or if no salon set
-    if conversation.messages.count() > 1 and conversation.company:
-        return None
-    
     lang = conversation.conversation_state.get('language', 'es')
     
     # Check for simple format: "Hola [Company Name]"
@@ -296,6 +292,7 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
     if message_clean.lower().startswith(('hola', 'hello', 'привіт')):
         # Extract potential salon name
         # Remove greeting words
+        salon_name = ""
         for greeting in ['hola', 'hello', 'привіт', 'hola!', 'hello!']:
             if message_clean.lower().startswith(greeting):
                 salon_name = message_clean[len(greeting):].strip()
@@ -311,61 +308,37 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
             company = searcher.find_company(salon_name)
             
             if company:
+                # Check if this is a salon switch (different from current)
+                is_switch = conversation.company and conversation.company.id != company.id
+                
                 # Set salon in conversation
                 conversation.company = company
+                conversation.current_state = 'idle'  # Reset state
                 state = conversation.conversation_state
                 state['company_name'] = company.name
                 state['salon_auto_selected'] = True
                 conversation.conversation_state = state
                 conversation.save()
                 
-                logger.info(f"Auto-selected salon: {company.name} for {conversation.phone_number}")
+                # Clear any pending bookings for old salon
+                PendingBooking.objects.filter(conversation=conversation).delete()
+                
+                logger.info(f"{'Switched to' if is_switch else 'Auto-selected'} salon: {company.name} for {conversation.phone_number}")
                 
                 # Return personalized welcome in selected language
-                return get_message('welcome_with_salon', lang, company_name=company.name)
+                if is_switch:
+                    messages_switch = {
+                        'es': f'¡Perfecto! Ahora estás reservando en {company.name}. ¿En qué puedo ayudarte?',
+                        'en': f'Perfect! You are now booking at {company.name}. How can I help you?',
+                        'ca': f'Perfecte! Ara estàs reservant a {company.name}. En què puc ajudar-te?',
+                        'uk': f'Чудово! Тепер ви бронюєте в {company.name}. Чим можу допомогти?'
+                    }
+                    return messages_switch.get(lang, messages_switch['es'])
+                else:
+                    return get_message('welcome_with_salon', lang, company_name=company.name)
     
-    # Pattern 2: Legacy salon codes (backward compatibility)
-    salon_codes = {
-        'SALON_CENTRO': 'centro',
-        'SALON_NORTE': 'norte', 
-        'SALON_SUR': 'sur',
-        'CENTRO': 'centro',
-        'NORTE': 'norte',
-        'SUR': 'sur',
-    }
-    
-    message_upper = message.upper().strip()
-    
-    for code, salon_keyword in salon_codes.items():
-        if code in message_upper or message_upper.startswith(code):
-            from companies.models import Company
-            searcher = BookingSearcher()
-            
-            # Try different variations
-            possible_names = [
-                salon_keyword,
-                f"salon {salon_keyword}",
-                f"peluqueria {salon_keyword}",
-            ]
-            
-            company = None
-            for name in possible_names:
-                company = searcher.find_company(name)
-                if company:
-                    break
-            
-            if company:
-                conversation.company = company
-                state = conversation.conversation_state
-                state['company_name'] = company.name
-                state['salon_auto_selected'] = True
-                conversation.conversation_state = state
-                conversation.save()
-                
-                logger.info(f"Auto-selected salon (legacy code): {company.name} for {conversation.phone_number}")
-                return get_message('welcome_with_salon', lang, company_name=company.name)
-    
-    return None
+    return None  # No salon detected
+
 
 
 def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict) -> str:
@@ -383,8 +356,18 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     time_preference = intent_data.get('time_preference')
     customer_name = intent_data.get('customer_name')
     
-    # Update conversation state
+    # If no service in new intent, clear old booking data (user wants to start fresh)
     state = conversation.conversation_state
+    if not service_name and not date_str:
+        # User is asking for services list or starting fresh - clear old booking
+        state.pop('service_name', None)
+        state.pop('date', None)
+        state.pop('staff_name', None)
+        state.pop('time_after', None)
+        state.pop('time_before', None)
+        state.pop('time_preference', None)
+    
+    # Update conversation state with new data
     if company_name:
         state['company_name'] = company_name
     if service_name:
@@ -517,8 +500,15 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         
         # Filter by specific staff member if requested
         if state.get('staff_name'):
-            staff_name_lower = state['staff_name'].lower()
-            slots = [s for s in slots if staff_name_lower in s['staff'].lower()]
+            from fuzzywuzzy import fuzz
+            staff_name_requested = state['staff_name']
+            # Use fuzzy matching to match staff names (handles Анна vs Anna)
+            filtered_slots = []
+            for slot in slots:
+                similarity = fuzz.ratio(staff_name_requested.lower(), slot['staff'].lower())
+                if similarity > 70:  # 70% similarity threshold
+                    filtered_slots.append(slot)
+            slots = filtered_slots
             
     except Exception as e:
         logger.error(f"Error finding slots: {e}")

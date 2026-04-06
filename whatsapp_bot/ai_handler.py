@@ -48,8 +48,37 @@ class BookingAI:
         """
         lang = conversation_state.get('language', 'es')
         
+        # Generate upcoming dates with day names for context
+        from datetime import timedelta
+        today = datetime.now().date()
+        upcoming_dates = []
+        day_names = {
+            0: {'es': 'lunes', 'en': 'Monday', 'ca': 'dilluns', 'uk': 'понеділок'},
+            1: {'es': 'martes', 'en': 'Tuesday', 'ca': 'dimarts', 'uk': 'вівторок'},
+            2: {'es': 'miércoles', 'en': 'Wednesday', 'ca': 'dimecres', 'uk': 'середа'},
+            3: {'es': 'jueves', 'en': 'Thursday', 'ca': 'dijous', 'uk': 'четвер'},
+            4: {'es': 'viernes', 'en': 'Friday', 'ca': 'divendres', 'uk': 'п\'ятниця'},
+            5: {'es': 'sábado', 'en': 'Saturday', 'ca': 'dissabte', 'uk': 'субота'},
+            6: {'es': 'domingo', 'en': 'Sunday', 'ca': 'diumenge', 'uk': 'неділя'}
+        }
+        
+        for i in range(14):  # Next 14 days
+            date = today + timedelta(days=i)
+            day_num = date.weekday()
+            day_name = day_names[day_num][lang]
+            upcoming_dates.append(f"  - {day_name} = {date.strftime('%Y-%m-%d')}")
+        
+        dates_reference = "\n".join(upcoming_dates)
+        today_name = day_names[today.weekday()][lang]
+        
         system_prompt = f"""You are a booking assistant AI. Extract booking information from user messages.
 Current language: {lang}
+Today is {today_name}, {today.strftime('%Y-%m-%d')}
+
+IMPORTANT - Date/Day Reference (use this to convert day names to dates):
+{dates_reference}
+
+When user says "Saturday" / "sábado" / "субота", look up the corresponding date from above!
 
 Return JSON with these fields:
 - intent: "greeting", "book", "check_availability", or "question"
@@ -83,9 +112,7 @@ Service name extraction (IMPORTANT):
    - "жіноча стрижка" / "women's haircut" / "corte mujer" -> "corte mujer"
    - "стрижка" / "haircut" (unclear gender) -> "corte de pelo"
    - "манікюр" / "manicure" -> "manicura"
-3. NEVER simplify specific service names to generic ones
-
-Current date: {datetime.now().strftime('%Y-%m-%d')}"""
+3. NEVER simplify specific service names to generic ones"""
         
         try:
             response = self.client.chat.completions.create(

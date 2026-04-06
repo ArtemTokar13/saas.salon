@@ -55,21 +55,35 @@ Return JSON with these fields:
 - intent: "greeting", "book", "check_availability", or "question"
 - company_name: salon/company name (if mentioned)
 - service: service type requested
+- staff_name: specific staff member name (if mentioned)
 - date: date in YYYY-MM-DD format
-- time: specific time in HH:MM format
-- time_preference: "morning" (before 12pm), "afternoon" (12pm-6pm), or "evening" (after 6pm)
+- time: specific exact time in HH:MM format (e.g., "15:00", "3pm"->"15:00")
+- time_after: minimum time constraint in HH:MM format (e.g., "після 16:00"->"16:00", "after 3pm"->"15:00")
+- time_before: maximum time constraint in HH:MM format (e.g., "до 17:00"->"17:00", "before 5pm"->"17:00")
+- time_preference: "morning" (before 12pm), "afternoon" (12pm-6pm), or "evening" (after 6pm) - ONLY if no specific time/time_after/time_before
 - customer_name: customer's name
 
-Examples of time expressions:
-- "mañana" -> tomorrow's date
-- "próximo viernes" -> next Friday's date
-- "3pm" -> 15:00
-- "por la tarde" -> time_preference: "afternoon"
+Time extraction priority:
+1. SPECIFIC TIME CONSTRAINTS: "після 16:00"/"after 16:00" -> time_after="16:00"
+2. EXACT TIME: "о 15:00"/"at 3pm" -> time="15:00"
+3. GENERAL PREFERENCE: "пізніше"/"later" -> time_preference="afternoon"
 
-Be flexible with service names:
-- "corte", "corte de pelo", "haircut" -> "corte de pelo"
-- "manicura", "manicure", "uñas" -> "manicura"
-- "tinte", "color", "coloración" -> "tinte"
+Multilingual examples:
+- "після 16:00" -> time_after: "16:00"
+- "после 16:00" -> time_after: "16:00"
+- "after 4pm" -> time_after: "16:00"
+- "до 17:00" -> time_before: "17:00"
+- "antes de las 5" -> time_before: "17:00"
+- "в Наталі" / "у Наталі" / "con Natali" / "with Natali" -> staff_name: "Natali"
+
+Service name extraction (IMPORTANT):
+1. If exact Spanish service name is mentioned, USE IT EXACTLY: "Corte pelo hombre" -> "Corte pelo hombre" (NOT "corte de pelo")
+2. If translating from other languages, be specific:
+   - "чоловіча стрижка" / "men's haircut" / "corte hombre" -> "corte hombre"
+   - "жіноча стрижка" / "women's haircut" / "corte mujer" -> "corte mujer"
+   - "стрижка" / "haircut" (unclear gender) -> "corte de pelo"
+   - "манікюр" / "manicure" -> "manicura"
+3. NEVER simplify specific service names to generic ones
 
 Current date: {datetime.now().strftime('%Y-%m-%d')}"""
         
@@ -174,7 +188,7 @@ Current date: {datetime.now().strftime('%Y-%m-%d')}"""
             response += templates['slot'].format(
                 num=idx,
                 time=slot['time'],
-                staff=slot['staff_name']
+                staff=slot['staff']
             )
         
         response += templates['footer'].format(count=len(slots))
@@ -191,8 +205,6 @@ Current date: {datetime.now().strftime('%Y-%m-%d')}"""
 👤 Especialista: {staff}
 📍 Salón: {company}
 
-📧 Recibirás un email de confirmación.
-
 ¡Nos vemos pronto! 👋""",
             'en': """✅ Booking confirmed!
 
@@ -201,8 +213,6 @@ Current date: {datetime.now().strftime('%Y-%m-%d')}"""
 ✂️ Service: {service}
 👤 Specialist: {staff}
 📍 Salon: {company}
-
-📧 You'll receive a confirmation email.
 
 See you soon! 👋""",
             'ca': """✅ Reserva confirmada!
@@ -213,8 +223,6 @@ See you soon! 👋""",
 👤 Especialista: {staff}
 📍 Saló: {company}
 
-📧 Rebràs un correu de confirmació.
-
 Ens veiem aviat! 👋""",
             'uk': """✅ Бронювання підтверджено!
 
@@ -224,20 +232,33 @@ Ens veiem aviat! 👋""",
 👤 Спеціаліст: {staff}
 📍 Салон: {company}
 
-📧 Ви отримаєте електронний лист з підтвердженням.
-
 До зустрічі! 👋"""
         }
         
         template = messages.get(lang, messages['es'])
         
-        return template.format(
+        # Generate booking URL
+        from django.conf import settings
+        booking_url = f"{settings.SITE_URL}/es/bookings/confirmation/{booking.id}/" if hasattr(settings, 'SITE_URL') else f"https://reserva-ya.es/es/bookings/confirmation/{booking.id}/"
+        
+        response = template.format(
             date=booking.date.strftime('%d/%m/%Y'),
             time=booking.start_time.strftime('%H:%M'),
             service=booking.service.name,
             staff=booking.staff.name,
             company=booking.company.name
         )
+        
+        # Add booking link
+        link_messages = {
+            'es': f"\n🔗 Ver detalles: {booking_url}",
+            'en': f"\n🔗 View details: {booking_url}",
+            'ca': f"\n🔗 Veure detalls: {booking_url}",
+            'uk': f"\n🔗 Переглянути деталі: {booking_url}"
+        }
+        response += link_messages.get(lang, link_messages['es'])
+        
+        return response
     
     def _generate_generic_response(self, data: Dict[str, Any], lang: str) -> str:
         """Generate generic AI response"""

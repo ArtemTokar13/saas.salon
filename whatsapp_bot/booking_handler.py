@@ -3,6 +3,7 @@ Booking Handler - Find availability and create bookings
 """
 import logging
 from datetime import datetime, timedelta, time as dtime
+from hashlib import md5
 from django.utils import timezone
 from django.db.models import Q
 from fuzzywuzzy import fuzz
@@ -200,7 +201,8 @@ class BookingSearcher:
         if preference == 'morning':
             return [s for s in slots if int(s['time'].split(':')[0]) < 12]
         elif preference == 'afternoon':
-            return [s for s in slots if 12 <= int(s['time'].split(':')[0]) < 18]
+            # Afternoon = 14:00-18:00 (after lunch)
+            return [s for s in slots if 14 <= int(s['time'].split(':')[0]) < 18]
         elif preference == 'evening':
             return [s for s in slots if int(s['time'].split(':')[0]) >= 18]
         return slots
@@ -235,6 +237,9 @@ class BookingSearcher:
         end_datetime = datetime.combine(booking_date, start_time) + duration
         end_time = end_datetime.time()
         
+        # Generate delete_code for cancellation link
+        delete_code = md5(f"{customer.email if customer.email else customer.phone}{timezone.now().timestamp()}".encode()).hexdigest()
+        
         # Create booking
         booking = Booking.objects.create(
             company=company,
@@ -247,6 +252,7 @@ class BookingSearcher:
             duration=service.duration,
             price=service.price,
             status=1 if not service.need_staff_confirmation else 3,  # Confirmed or PreBooked
+            delete_code=delete_code,
             notes=f"Booking created via WhatsApp on {timezone.now().strftime('%Y-%m-%d %H:%M')}"
         )
         

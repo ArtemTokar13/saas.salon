@@ -103,10 +103,10 @@ def get_or_create_conversation(phone_number: str) -> WhatsAppConversation:
     # Get or create active conversation
     conversation, created = WhatsAppConversation.objects.get_or_create(
         phone_number=phone_number,
-        current_state__in=['idle', 'collecting_info', 'showing_slots', 'confirming'],
+        current_state__in=['idle', 'selecting_language', 'collecting_info', 'showing_slots', 'confirming'],
         defaults={'current_state': 'idle'}
     )
-    
+
     if created:
         logger.info(f"Created new conversation for {phone_number}")
     
@@ -118,23 +118,25 @@ def process_message(conversation: WhatsAppConversation, message: str) -> str:
     Process incoming message and return response
     
     Flow:
-    1. Ask for language preference (if not set)
-    2. Detect salon-specific entry codes (from QR/links)
-    3. Check if it's a simple number selection (confirming a slot)
-    4. Use AI to extract intent
-    5. Search for availability
-    6. Generate response
+    1. Check if user is selecting language (priority)
+    2. Ask for language preference (if not set)
+    3. Detect salon-specific entry codes (from QR/links)
+    4. Check if it's a simple number selection (confirming a slot)
+    5. Use AI to extract intent
+    6. Search for availability
+    7. Generate response
     """
     
-    # Check if this is first message (language not set)
     state = conversation.conversation_state
+    
+    # PRIORITY: Check if user is in the middle of selecting language
+    if conversation.current_state == 'selecting_language':
+        return handle_language_selection(conversation, message)
+    
+    # Check if this is first message (language not set)
     if not state.get('language'):
         # First message - ask for language
         return ask_language_preference(conversation, message)
-    
-    # Check if user is selecting language
-    if conversation.current_state == 'selecting_language':
-        return handle_language_selection(conversation, message)
     
     # Detect salon-specific entry codes (first message from QR/link)
     salon_detected = detect_salon_code(conversation, message)
@@ -145,11 +147,39 @@ def process_message(conversation: WhatsAppConversation, message: str) -> str:
     if conversation.current_state == 'showing_slots':
         if message.isdigit():
             return handle_slot_selection(conversation, int(message))
+        else:
+            # User wants to refine search instead of selecting a slot
+            # Reset to idle and reprocess the message
+            conversation.current_state = 'idle'
+            conversation.save()
+            # Fall through to intent processing below
+    
+    # Check if user is confirming booking
+    if conversation.current_state == 'confirming':
+        return handle_booking_confirmation(conversation, message)
+    
+    # Check if user is collecting info (name)
+    if conversation.current_state == 'collecting_info':
+        # User provided their name
+        state = conversation.conversation_state
+        state['customer_name'] = message.strip()
+        conversation.conversation_state = state
+        conversation.save()
+        
+        # Now show confirmation
+        try:
+            pending = PendingBooking.objects.get(conversation=conversation)
+            slot = state.get('selected_slot')
+            if slot:
+                return show_booking_confirmation_preview(conversation, pending, slot, message.strip())
+        except:
+            pass
     
     # Check for cancellation keywords
     cancel_keywords = ['cancelar', 'cancel', 'stop', 'exit', 'скасувати', 'зупинити']
     if message.lower() in cancel_keywords:
         conversation.current_state = 'idle'
+        state['selected_slot'] = None
         conversation.conversation_state = state
         conversation.save()
         lang = state.get('language', 'es')
@@ -345,8 +375,11 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     # Extract information
     company_name = intent_data.get('company_name')
     service_name = intent_data.get('service')
+    staff_name = intent_data.get('staff_name')
     date_str = intent_data.get('date')
     time_str = intent_data.get('time')
+    time_after = intent_data.get('time_after')
+    time_before = intent_data.get('time_before')
     time_preference = intent_data.get('time_preference')
     customer_name = intent_data.get('customer_name')
     
@@ -356,10 +389,16 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         state['company_name'] = company_name
     if service_name:
         state['service_name'] = service_name
+    if staff_name:
+        state['staff_name'] = staff_name
     if date_str:
         state['date'] = date_str
     if time_str:
         state['time'] = time_str
+    if time_after:
+        state['time_after'] = time_after
+    if time_before:
+        state['time_before'] = time_before
     if time_preference:
         state['time_preference'] = time_preference
     if customer_name:
@@ -387,7 +426,14 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         else:
             # List available salons
             salon_list = "\n".join([f"• {c.name}" for c in companies[:10]])
-            return f"¿En qué salón te gustaría reservar?\n\n{salon_list}\n\nPor favor, indica el nombre."
+            lang = state.get('language', 'es')
+            messages_salon = {
+                'es': f"¿En qué salón te gustaría reservar?\n\n{salon_list}\n\nPor favor, indica el nombre.",
+                'en': f"Which salon would you like to book at?\n\n{salon_list}\n\nPlease indicate the name.",
+                'ca': f"A quin saló vols reservar?\n\n{salon_list}\n\nSi us plau, indica el nom.",
+                'uk': f"В якому салоні ви хочете забронювати?\n\n{salon_list}\n\nБудь ласка, вкажіть назву."
+            }
+            return messages_salon.get(lang, messages_salon['es'])
     
     # Find service
     service = None
@@ -398,24 +444,58 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         # List available services
         from companies.models import Service
         services = Service.objects.filter(company=company, is_active=True)[:10]
+        lang = state.get('language', 'es')
         if services.exists():
             service_list = "\n".join([f"• {s.name}" for s in services])
-            return f"¿Qué servicio necesitas?\n\nServicios disponibles:\n{service_list}"
+            messages_service = {
+                'es': f"¿Qué servicio necesitas?\n\nServicios disponibles:\n{service_list}",
+                'en': f"What service do you need?\n\nAvailable services:\n{service_list}",
+                'ca': f"Quin servei necessites?\n\nServeis disponibles:\n{service_list}",
+                'uk': f"Яка послуга вам потрібна?\n\nДоступні послуги:\n{service_list}"
+            }
+            return messages_service.get(lang, messages_service['es'])
         else:
-            return "No hay servicios disponibles en este salón."
+            messages_no_service = {
+                'es': "No hay servicios disponibles en este salón.",
+                'en': "No services available in this salon.",
+                'ca': "No hi ha serveis disponibles en aquest saló.",
+                'uk': "Немає доступних послуг у цьому салоні."
+            }
+            return messages_no_service.get(lang, messages_no_service['es'])
     
     # Check date
     if not state.get('date'):
-        return "¿Para qué día quieres la cita? (ej: mañana, viernes, 15 de marzo)"
+        lang = state.get('language', 'es')
+        messages_date = {
+            'es': "¿Para qué día quieres la cita? (ej: mañana, viernes, 15 de marzo)",
+            'en': "What day would you like the appointment? (e.g., tomorrow, Friday, March 15)",
+            'ca': "Per a quin dia vols la cita? (ex: demà, divendres, 15 de març)",
+            'uk': "На який день ви хочете записатися? (напр.: завтра, п'ятниця, 15 березня)"
+        }
+        return messages_date.get(lang, messages_date['es'])
     
     try:
         booking_date = datetime.strptime(state['date'], '%Y-%m-%d').date()
     except:
-        return "No entendí la fecha. ¿Podrías especificarla? (ej: mañana, próximo lunes, 15/03/2026)"
+        lang = state.get('language', 'es')
+        messages_bad_date = {
+            'es': "No entendí la fecha. ¿Podrías especificarla? (ej: mañana, próximo lunes, 15/03/2026)",
+            'en': "I didn't understand the date. Could you specify it? (e.g., tomorrow, next Monday, 03/15/2026)",
+            'ca': "No he entès la data. Podries especificar-la? (ex: demà, pròxim dilluns, 15/03/2026)",
+            'uk': "Я не зрозумів дату. Можете уточнити? (напр.: завтра, наступний понеділок, 15/03/2026)"
+        }
+        return messages_bad_date.get(lang, messages_bad_date['es'])
     
     # Check if date is in the past
     if booking_date < timezone.now().date():
-        return "Esa fecha ya pasó. Por favor, elige una fecha futura."
+        lang = state.get('language', 'es')
+        messages_past_date = {
+            'es': "Esa fecha ya pasó. Por favor, elige una fecha futura.",
+            'en': "That date has already passed. Please choose a future date.",
+            'ca': "Aquesta data ja ha passat. Si us plau, tria una data futura.",
+            'uk': "Ця дата вже минула. Будь ласка, виберіть майбутню дату."
+        }
+        return messages_past_date.get(lang, messages_past_date['es'])
     
     # Find available slots
     try:
@@ -425,6 +505,21 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
             booking_date, 
             state.get('time_preference')
         )
+        
+        # Apply time constraints if specified
+        if state.get('time_after'):
+            time_after = state['time_after']
+            slots = [s for s in slots if s['time'] >= time_after]
+        
+        if state.get('time_before'):
+            time_before = state['time_before']
+            slots = [s for s in slots if s['time'] <= time_before]
+        
+        # Filter by specific staff member if requested
+        if state.get('staff_name'):
+            staff_name_lower = state['staff_name'].lower()
+            slots = [s for s in slots if staff_name_lower in s['staff'].lower()]
+            
     except Exception as e:
         logger.error(f"Error finding slots: {e}")
         lang = state.get('language', 'es')
@@ -499,9 +594,11 @@ def handle_slot_selection(conversation: WhatsAppConversation, slot_number: int) 
     # Check if we have customer name
     customer_name = conversation.conversation_state.get('customer_name')
     if not customer_name:
-        # Extract name from phone or ask
+        # Ask for name
         conversation.current_state = 'collecting_info'
-        conversation.conversation_state['selected_slot'] = slot
+        state = conversation.conversation_state
+        state['selected_slot'] = slot
+        conversation.conversation_state = state
         conversation.save()
         messages_ask_name = {
             'es': "✅ Perfecto! ¿Cuál es tu nombre completo?",
@@ -511,8 +608,8 @@ def handle_slot_selection(conversation: WhatsAppConversation, slot_number: int) 
         }
         return messages_ask_name.get(lang, messages_ask_name['es'])
     
-    # Create booking
-    return create_booking_from_pending(conversation, pending, slot, customer_name)
+    # Show confirmation preview
+    return show_booking_confirmation_preview(conversation, pending, slot, customer_name)
 
 
 def create_booking_from_pending(conversation: WhatsAppConversation, 
@@ -562,6 +659,128 @@ def create_booking_from_pending(conversation: WhatsAppConversation,
             'uk': f"❌ Сталася помилка при створенні бронювання: {str(e)}\n\nБудь ласка, спробуйте ще раз або зв'яжіться безпосередньо з салоном."
         }
         return messages_error.get(lang, messages_error['es'])
+
+
+def show_booking_confirmation_preview(conversation: WhatsAppConversation, pending: PendingBooking, slot: dict, customer_name: str) -> str:
+    """Show booking preview and ask for confirmation"""
+    lang = conversation.conversation_state.get('language', 'es')
+    
+    # Store selected slot
+    state = conversation.conversation_state
+    state['selected_slot'] = slot
+    state['customer_name'] = customer_name
+    conversation.conversation_state = state
+    conversation.current_state = 'confirming'
+    conversation.save()
+    
+    messages = {
+        'es': """📋 Por favor confirma tu reserva:
+
+📅 Fecha: {date}
+🕐 Hora: {time}
+✂️ Servicio: {service}
+👤 Especialista: {staff}
+👤 Cliente: {customer}
+📍 Salón: {company}
+
+✅ Responde 'sí' para confirmar
+❌ Responde 'no' para cancelar""",
+        'en': """📋 Please confirm your booking:
+
+📅 Date: {date}
+🕐 Time: {time}
+✂️ Service: {service}
+👤 Specialist: {staff}
+👤 Customer: {customer}
+📍 Salon: {company}
+
+✅ Reply 'yes' to confirm
+❌ Reply 'no' to cancel""",
+        'ca': """📋 Si us plau, confirma la teva reserva:
+
+📅 Data: {date}
+🕐 Hora: {time}
+✂️ Servei: {service}
+👤 Especialista: {staff}
+👤 Client: {customer}
+📍 Saló: {company}
+
+✅ Respon 'sí' per confirmar
+❌ Respon 'no' per cancel·lar""",
+        'uk': """📋 Будь ласка, підтвердіть бронювання:
+
+📅 Дата: {date}
+🕐 Час: {time}
+✂️ Послуга: {service}
+👤 Спеціаліст: {staff}
+👤 Клієнт: {customer}
+📍 Салон: {company}
+
+✅ Відповідайте 'так' для підтвердження
+❌ Відповідайте 'ні' для скасування"""
+    }
+    
+    template = messages.get(lang, messages['es'])
+    return template.format(
+        date=pending.booking_date.strftime('%d/%m/%Y'),
+        time=slot['time'],
+        service=pending.service.name,
+        staff=slot['staff'],
+        customer=customer_name,
+        company=pending.company.name
+    )
+
+
+def handle_booking_confirmation(conversation: WhatsAppConversation, message: str) -> str:
+    """Handle yes/no confirmation for booking"""
+    lang = conversation.conversation_state.get('language', 'es')
+    message_lower = message.strip().lower()
+    
+    # Check for affirmative responses
+    yes_keywords = ['sí', 'si', 'yes', 'yeah', 'yep', 'так', 'ok', 'okay', 'confirmar', 'confirm']
+    no_keywords = ['no', 'нет', 'ні', 'cancel', 'cancelar']
+    
+    if any(word in message_lower for word in yes_keywords):
+        # Confirm and create booking
+        try:
+            pending = PendingBooking.objects.get(conversation=conversation)
+            state = conversation.conversation_state
+            slot = state.get('selected_slot')
+            customer_name = state.get('customer_name')
+            
+            if not slot or not customer_name:
+                return get_message('service_error', lang)
+            
+            return create_booking_from_pending(conversation, pending, slot, customer_name)
+        except Exception as e:
+            logger.error(f"Error confirming booking: {e}")
+            return get_message('service_error', lang)
+    
+    elif any(word in message_lower for word in no_keywords):
+        # Cancel the booking
+        conversation.current_state = 'idle'
+        state = conversation.conversation_state
+        state.pop('selected_slot', None)
+        conversation.conversation_state = state
+        conversation.save()
+        
+        messages_cancelled = {
+            'es': "❌ Reserva cancelada.\n\n¿Quieres buscar otro hora rio o servicio?",
+            'en': "❌ Booking cancelled.\n\nWould you like to search for another time or service?",
+            'ca': "❌ Reserva cancel·lada.\n\nVols buscar un altre horari o servei?",
+            'uk': "❌ Бронювання скасовано.\n\nБажаєте знайти інший час або послугу?"
+        }
+        return messages_cancelled.get(lang, messages_cancelled['es'])
+    
+    else:
+        # Unclear response
+        messages_unclear = {
+            'es': "⚠️ Por favor responde 'sí' para confirmar o 'no' para cancelar.",
+            'en': "⚠️ Please reply 'yes' to confirm or 'no' to cancel.",
+            'ca': "⚠️ Si us plau respon 'sí' per confirmar o 'no' per cancel·lar.",
+            'uk': "⚠️ Будь ласка, відповідайте 'так' для підтвердження або 'ні' для скасування."
+        }
+        return messages_unclear.get(lang, messages_unclear['es'])
 
 
 def handle_question(conversation: WhatsAppConversation, message: str) -> str:

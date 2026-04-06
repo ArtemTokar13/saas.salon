@@ -50,35 +50,36 @@ def create_booking(request, company_id):
                 redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
             )
             
-            # Send email confirmation
-            subject = 'Your Booking Confirmation'
-            html_message = render_to_string('email/booking_confirmation.html', {
-                'company': company,
-                'booking': booking,
-                'booking_link': booking_link,
-                'cancel_link': cancel_link,
-                'current_year': timezone.now().year,
-            })
-            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-            recipient_list = [booking.customer.email]
-            email_log = EmailLog.objects.create(
-                recipient_email=booking.customer.email,
-                subject=subject,
-                email_type='booking_confirmation',
-                status='pending'
-            )
-            try:
-                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-                msg.attach_alternative(html_message, "text/html")
-                msg.send()
-                email_log.status = 'sent'
-                email_log.sent_at = timezone.now()
-                email_log.save()
-            except Exception as e:
-                email_log.status = 'failed'
-                email_log.error_message = str(e)
-                email_log.save()
-                logger.error(f"Failed to send booking confirmation email: {e}")
+            # Send email confirmation (only if customer has email)
+            if booking.customer.email:
+                subject = 'Your Booking Confirmation'
+                html_message = render_to_string('email/booking_confirmation.html', {
+                    'company': company,
+                    'booking': booking,
+                    'booking_link': booking_link,
+                    'cancel_link': cancel_link,
+                    'current_year': timezone.now().year,
+                })
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                recipient_list = [booking.customer.email]
+                email_log = EmailLog.objects.create(
+                    recipient_email=booking.customer.email,
+                    subject=subject,
+                    email_type='booking_confirmation',
+                    status='pending'
+                )
+                try:
+                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                    msg.attach_alternative(html_message, "text/html")
+                    msg.send()
+                    email_log.status = 'sent'
+                    email_log.sent_at = timezone.now()
+                    email_log.save()
+                except Exception as e:
+                    email_log.status = 'failed'
+                    email_log.error_message = str(e)
+                    email_log.save()
+                    logger.error(f"Failed to send booking confirmation email: {e}")
             
             messages.success(request, 'Booking created successfully! We will contact you soon.')
             return redirect('booking_confirmation', booking_id=booking.id)
@@ -130,8 +131,14 @@ def booking_confirmation(request, booking_id):
     """Booking confirmation page"""
     booking = get_object_or_404(Booking, id=booking_id)
     
+    # Generate cancel link with delete_code
+    cancel_link = request.build_absolute_uri(
+        redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
+    )
+    
     context = {
         'booking': booking,
+        'cancel_link': cancel_link,
     }
     
     return render(request, 'bookings/confirmation.html', context)
@@ -145,35 +152,36 @@ def cancel_booking(request, booking_id, delete_code):
         booking.status = 2
         booking.save()
 
-        # Send cancellation email to customer
-        subject = 'Your Booking Cancellation'
-        html_message = render_to_string('email/booking_cancellation.html', {
-            'booking': booking,
-            'company': booking.company,
-            'cancellation_date': timezone.now(),
-            'booking_link': request.build_absolute_uri(f'/companies/{booking.company.id}/'),
-            'current_year': timezone.now().year,
-        })
-        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-        recipient_list = [booking.customer.email]
-        email_log = EmailLog.objects.create(
-            recipient_email=booking.customer.email,
-            subject=subject,
-            email_type='booking_cancellation',
-            status='pending'
-        )
-        try:
-            msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-            msg.attach_alternative(html_message, "text/html")
-            msg.send()
-            email_log.status = 'sent'
-            email_log.sent_at = timezone.now()
-            email_log.save()
-        except Exception as e:
-            email_log.status = 'failed'
-            email_log.error_message = str(e)
-            email_log.save()
-            logger.error(f"Failed to send booking cancellation email: {e}")
+        # Send cancellation email to customer (only if they have an email)
+        if booking.customer.email:
+            subject = 'Your Booking Cancellation'
+            html_message = render_to_string('email/booking_cancellation.html', {
+                'booking': booking,
+                'company': booking.company,
+                'cancellation_date': timezone.now(),
+                'booking_link': request.build_absolute_uri(f'/companies/{booking.company.id}/'),
+                'current_year': timezone.now().year,
+            })
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+            recipient_list = [booking.customer.email]
+            email_log = EmailLog.objects.create(
+                recipient_email=booking.customer.email,
+                subject=subject,
+                email_type='booking_cancellation',
+                status='pending'
+            )
+            try:
+                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                msg.attach_alternative(html_message, "text/html")
+                msg.send()
+                email_log.status = 'sent'
+                email_log.sent_at = timezone.now()
+                email_log.save()
+            except Exception as e:
+                email_log.status = 'failed'
+                email_log.error_message = str(e)
+                email_log.save()
+                logger.error(f"Failed to send booking cancellation email: {e}")
 
         messages.success(request, 'Your booking has been cancelled.')
     return HttpResponseRedirect(f'/companies/{booking.company.id}/')
@@ -861,37 +869,38 @@ def edit_booking(request, booking_id):
             if form.is_valid():
                 form.save()
 
-                # Send notification email to customer about booking update
-                booking_link = request.build_absolute_uri(
-                    redirect('booking_confirmation', booking_id=booking.id).url
-                )
-                subject = 'Your Booking Has Been Updated'
-                html_message = render_to_string('email/booking_update.html', {
-                    'booking': booking,
-                    'booking_link': booking_link,
-                    'company': profile.company,
-                    'current_year': timezone.now().year,
-                })
-                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-                recipient_list = [booking.customer.email]
-                email_log = EmailLog.objects.create(
-                    recipient_email=booking.customer.email,
-                    subject=subject,
-                    email_type='booking_update',
-                    status='pending'
-                )
-                try:
-                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-                    msg.attach_alternative(html_message, "text/html")
-                    msg.send()
-                    email_log.status = 'sent'
-                    email_log.sent_at = timezone.now()
-                    email_log.save()
-                except Exception as e:
-                    email_log.status = 'failed'
-                    email_log.error_message = str(e)
-                    email_log.save()
-                    logger.error(f"Failed to send booking update email: {e}")
+                # Send notification email to customer about booking update (only if they have email)
+                if booking.customer.email:
+                    booking_link = request.build_absolute_uri(
+                        redirect('booking_confirmation', booking_id=booking.id).url
+                    )
+                    subject = 'Your Booking Has Been Updated'
+                    html_message = render_to_string('email/booking_update.html', {
+                        'booking': booking,
+                        'booking_link': booking_link,
+                        'company': profile.company,
+                        'current_year': timezone.now().year,
+                    })
+                    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                    recipient_list = [booking.customer.email]
+                    email_log = EmailLog.objects.create(
+                        recipient_email=booking.customer.email,
+                        subject=subject,
+                        email_type='booking_update',
+                        status='pending'
+                    )
+                    try:
+                        msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                        msg.attach_alternative(html_message, "text/html")
+                        msg.send()
+                        email_log.status = 'sent'
+                        email_log.sent_at = timezone.now()
+                        email_log.save()
+                    except Exception as e:
+                        email_log.status = 'failed'
+                        email_log.error_message = str(e)
+                        email_log.save()
+                        logger.error(f"Failed to send booking update email: {e}")
                 
                 messages.success(request, 'Booking updated successfully.')
                 return redirect('booking_calendar')
@@ -975,37 +984,38 @@ def update_booking_ajax(request, booking_id):
         booking.end_time = new_end
         booking.save()
 
-        # Send email notification for booking update
-        booking_link = request.build_absolute_uri(
-            redirect('booking_confirmation', booking_id=booking.id).url
-        )
-        subject = 'Your Booking Has Been Updated'
-        html_message = render_to_string('email/booking_update.html', {
-            'booking': booking,
-            'booking_link': booking_link,
-            'company': profile.company,
-            'current_year': timezone.now().year,
-        })
-        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-        recipient_list = [booking.customer.email]
-        email_log = EmailLog.objects.create(
-            recipient_email=booking.customer.email,
-            subject=subject,
-            email_type='booking_update',
-            status='pending'
-        )
-        try:
-            msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-            msg.attach_alternative(html_message, "text/html")
-            msg.send()
-            email_log.status = 'sent'
-            email_log.sent_at = timezone.now()
-            email_log.save()
-        except Exception as e:
-            email_log.status = 'failed'
-            email_log.error_message = str(e)
-            email_log.save()
-            logger.error(f"Failed to send booking update email: {e}")
+        # Send email notification for booking update (only if customer has email)
+        if booking.customer.email:
+            booking_link = request.build_absolute_uri(
+                redirect('booking_confirmation', booking_id=booking.id).url
+            )
+            subject = 'Your Booking Has Been Updated'
+            html_message = render_to_string('email/booking_update.html', {
+                'booking': booking,
+                'booking_link': booking_link,
+                'company': profile.company,
+                'current_year': timezone.now().year,
+            })
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+            recipient_list = [booking.customer.email]
+            email_log = EmailLog.objects.create(
+                recipient_email=booking.customer.email,
+                subject=subject,
+                email_type='booking_update',
+                status='pending'
+            )
+            try:
+                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                msg.attach_alternative(html_message, "text/html")
+                msg.send()
+                email_log.status = 'sent'
+                email_log.sent_at = timezone.now()
+                email_log.save()
+            except Exception as e:
+                email_log.status = 'failed'
+                email_log.error_message = str(e)
+                email_log.save()
+                logger.error(f"Failed to send booking update email: {e}")
         
         return JsonResponse({'success': True, 'start_time': booking.start_time.strftime('%H:%M'), 'end_time': booking.end_time.strftime('%H:%M'), 'staff_id': booking.staff_id})
 

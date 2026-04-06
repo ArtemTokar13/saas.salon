@@ -221,20 +221,23 @@ CONTACT_EMAIL = ''
 
 WHATSAPP_TOKEN = ""
 PHONE_NUMBER_ID = ""
-WHATSAPP_API_VERSION = os.environ.get('WHATSAPP_API_VERSION', 'v21.0')
+WHATSAPP_API_VERSION = ""
 WHATSAPP_PHONE_NUMBER_ID = PHONE_NUMBER_ID  # Alias for consistency
 
 # Stripe settings
-STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
-STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
+STRIPE_PUBLIC_KEY = ""
+STRIPE_SECRET_KEY = ""
+STRIPE_WEBHOOK_SECRET = ""
+
+# Twilio settings for WhatsApp reminders
+TWILIO_ACCOUNT_SID = ""
+TWILIO_AUTH_TOKEN = ""
+TWILIO_WHATSAPP_FROM = ""
+TWILIO_REMINDER_TEMPLATE_SID = ""
 
 # WhatsApp AI Integration Settings
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
-OPENAI_MODEL = os.environ.get('OPENAI_MODEL', 'gpt-4o-mini')  # Cost-effective model
-TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', '')
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', '')
-TWILIO_WHATSAPP_NUMBER = os.environ.get('TWILIO_WHATSAPP_NUMBER', '')
+OPENAI_API_KEY = ""
+OPENAI_MODEL = ""
 
 # CORS settings for Flutter app
 CORS_ALLOWED_ORIGINS = [

@@ -23,7 +23,7 @@ def test_environment_variables():
         'OPENAI_API_KEY': settings.OPENAI_API_KEY,
         'TWILIO_ACCOUNT_SID': settings.TWILIO_ACCOUNT_SID,
         'TWILIO_AUTH_TOKEN': settings.TWILIO_AUTH_TOKEN,
-        'TWILIO_WHATSAPP_NUMBER': settings.TWILIO_WHATSAPP_NUMBER,
+        'TWILIO_WHATSAPP_FROM': settings.TWILIO_WHATSAPP_FROM,
     }
     
     all_set = True

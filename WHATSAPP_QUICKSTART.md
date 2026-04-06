@@ -66,7 +66,7 @@ export OPENAI_API_KEY=sk-your-key-here
 export OPENAI_MODEL=gpt-4o-mini
 export TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxx
 export TWILIO_AUTH_TOKEN=your-token
-export TWILIO_WHATSAPP_NUMBER=whatsapp:+14155238886
+export TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
 ```
 
 ### Step 4: Run Migrations (1 min)

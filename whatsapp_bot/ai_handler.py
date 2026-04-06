@@ -1,247 +1,252 @@
 """
-AI Handler using OpenAI for natural language understanding
+AI Handler for WhatsApp Booking Bot
+Uses OpenAI to extract booking intent and generate natural language responses
 """
-import json
 import logging
-from datetime import datetime, timedelta
+from typing import Dict, Any
+from datetime import datetime
+import json
 from django.conf import settings
-from django.utils import timezone
-
-logger = logging.getLogger(__name__)
 
 try:
     from openai import OpenAI
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
-    logger.warning("OpenAI not installed. Run: pip install openai")
+
+logger = logging.getLogger(__name__)
 
 
 class BookingAI:
-    """Handle AI-powered booking intent extraction and response generation"""
+    """AI-powered booking assistant"""
     
     def __init__(self):
         if not OPENAI_AVAILABLE:
-            raise ImportError("OpenAI package not installed")
+            raise ImportError("OpenAI library not installed. Install with: pip install openai")
         
         api_key = getattr(settings, 'OPENAI_API_KEY', None)
         if not api_key:
             raise ValueError("OPENAI_API_KEY not configured in settings")
         
         self.client = OpenAI(api_key=api_key)
-        self.model = getattr(settings, 'OPENAI_MODEL', 'gpt-4o-mini')  # Cost-effective model
+        self.model = getattr(settings, 'OPENAI_MODEL', 'gpt-4o-mini')
     
-    def extract_booking_intent(self, message: str, conversation_context: dict = None) -> dict:
+    def extract_booking_intent(self, message: str, conversation_state: dict) -> Dict[str, Any]:
         """
-        Extract booking information from natural language message
+        Extract booking intent from natural language message
         
         Returns:
         {
-            'intent': 'book' | 'check_availability' | 'cancel' | 'modify' | 'question',
-            'service': str or None,
-            'date': 'YYYY-MM-DD' or None,
-            'time': 'HH:MM' or None,
-            'time_preference': 'morning' | 'afternoon' | 'evening' or None,
-            'company_name': str or None,
-            'staff_name': str or None,
-            'customer_name': str or None,
-            'confidence': float (0-1)
+            'intent': 'greeting'|'book'|'check_availability'|'question',
+            'company_name': str (optional),
+            'service': str (optional),
+            'date': str (optional, YYYY-MM-DD),
+            'time': str (optional, HH:MM),
+            'time_preference': 'morning'|'afternoon'|'evening' (optional),
+            'customer_name': str (optional)
         }
         """
-        system_prompt = """You are a booking assistant for a salon/spa appointment system.
-Extract booking information from user messages. Today's date is {today}.
-
-Key Rules:
-- Detect intent: book, check_availability, cancel, modify, or question
-- Extract service type (haircut, manicure, massage, etc.)
-- Parse dates: "tomorrow", "next Monday", "15th", specific dates
-- Parse times: "2pm", "14:00", "after lunch", "morning"
-- Extract salon/company name if mentioned
-- Extract customer name if mentioned
-- Determine confidence level based on completeness
-
-Respond ONLY with JSON, no other text.
-""".format(today=timezone.now().strftime('%Y-%m-%d, %A'))
+        lang = conversation_state.get('language', 'es')
         
-        user_message = f"Extract booking info from: {message}"
+        system_prompt = f"""You are a booking assistant AI. Extract booking information from user messages.
+Current language: {lang}
+
+Return JSON with these fields:
+- intent: "greeting", "book", "check_availability", or "question"
+- company_name: salon/company name (if mentioned)
+- service: service type requested
+- date: date in YYYY-MM-DD format
+- time: specific time in HH:MM format
+- time_preference: "morning" (before 12pm), "afternoon" (12pm-6pm), or "evening" (after 6pm)
+- customer_name: customer's name
+
+Examples of time expressions:
+- "mañana" -> tomorrow's date
+- "próximo viernes" -> next Friday's date
+- "3pm" -> 15:00
+- "por la tarde" -> time_preference: "afternoon"
+
+Be flexible with service names:
+- "corte", "corte de pelo", "haircut" -> "corte de pelo"
+- "manicura", "manicure", "uñas" -> "manicura"
+- "tinte", "color", "coloración" -> "tinte"
+
+Current date: {datetime.now().strftime('%Y-%m-%d')}"""
         
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_message}
+                    {"role": "user", "content": message}
                 ],
-                functions=[{
-                    "name": "extract_booking_info",
-                    "description": "Extract booking information from message",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "intent": {
-                                "type": "string",
-                                "enum": ["book", "check_availability", "cancel", "modify", "question", "greeting"]
-                            },
-                            "service": {"type": "string", "description": "Type of service requested"},
-                            "date": {"type": "string", "description": "Date in YYYY-MM-DD format"},
-                            "time": {"type": "string", "description": "Time in HH:MM format"},
-                            "time_preference": {
-                                "type": "string",
-                                "enum": ["morning", "afternoon", "evening"],
-                                "description": "General time preference if exact time not specified"
-                            },
-                            "company_name": {"type": "string", "description": "Salon/company name"},
-                            "staff_name": {"type": "string", "description": "Specific staff member name"},
-                            "customer_name": {"type": "string", "description": "Customer's name"},
-                            "confidence": {
-                                "type": "number",
-                                "description": "Confidence level 0-1"
-                            }
-                        },
-                        "required": ["intent", "confidence"]
-                    }
-                }],
-                function_call={"name": "extract_booking_info"}
+                temperature=0.3,
+                response_format={"type": "json_object"}
             )
             
-            result = json.loads(response.choices[0].message.function_call.arguments)
+            result = json.loads(response.choices[0].message.content)
             logger.info(f"AI extracted intent: {result}")
             return result
             
         except Exception as e:
-            logger.error(f"Error extracting intent: {e}")
-            return {
-                'intent': 'question',
-                'confidence': 0.0,
-                'error': str(e)
-            }
+            logger.error(f"OpenAI API error: {e}")
+            # Fallback: simple intent detection
+            return self._fallback_intent_detection(message)
     
-    def generate_response(self, context: dict, language: str = 'es') -> str:
-        """
-        Generate a natural language response based on context
+    def _fallback_intent_detection(self, message: str) -> Dict[str, Any]:
+        """Simple fallback if AI fails"""
+        message_lower = message.lower()
         
-        context should include:
-        - response_type: 'show_slots', 'booking_confirmed', 'need_more_info', etc.
-        - available_slots: list of dicts with time, staff, price
-        - company: company info
-        - service: service info
-        - error_message: if any error occurred
+        # Check for booking keywords
+        booking_keywords = ['reservar', 'reserva', 'cita', 'book', 'appointment', 'agendar']
+        if any(word in message_lower for word in booking_keywords):
+            return {'intent': 'book'}
+        
+        # Check for greeting
+        greeting_keywords = ['hola', 'hello', 'hi', 'buenos', 'buenas', 'привіт']
+        if any(word in message_lower for word in greeting_keywords):
+            return {'intent': 'greeting'}
+        
+        return {'intent': 'question'}
+    
+    def generate_response(self, data: Dict[str, Any]) -> str:
         """
-        response_type = context.get('response_type')
+        Generate natural language response based on conversation state
+        
+        data can contain:
+        - response_type: 'show_slots', 'booking_confirmed', 'error'
+        - available_slots: list of slots
+        - booking: Booking object
+        - company, service, date, etc.
+        """
+        response_type = data.get('response_type')
+        lang = data.get('language', 'es')
         
         if response_type == 'show_slots':
-            return self._generate_slots_message(context, language)
+            return self._generate_slots_message(
+                data['available_slots'],
+                data.get('company'),
+                data.get('service'),
+                data.get('date'),
+                lang
+            )
         elif response_type == 'booking_confirmed':
-            return self._generate_confirmation_message(context, language)
-        elif response_type == 'need_more_info':
-            return self._generate_clarification_message(context, language)
-        elif response_type == 'error':
-            return self._generate_error_message(context, language)
-        else:
-            return self._generate_generic_response(context, language)
+            return self._generate_confirmation_message(
+                data['booking'],
+                lang
+            )
+        
+        return self._generate_generic_response(data, lang)
     
-    def _generate_slots_message(self, context: dict, language: str) -> str:
-        """Generate message showing available time slots"""
-        slots = context.get('available_slots', [])
-        company = context.get('company')
-        service = context.get('service')
-        date = context.get('date')
+    def _generate_slots_message(self, slots: list, company, service, date: str, lang: str) -> str:
+        """Generate available slots message"""
+        messages = {
+            'es': {
+                'header': "✅ Horarios disponibles para {service} el {date}:\n\n",
+                'slot': "{num}. {time} - {staff}\n",
+                'footer': "\n📝 Responde con el número de tu opción preferida (1-{count})."
+            },
+            'en': {
+                'header': "✅ Available times for {service} on {date}:\n\n",
+                'slot': "{num}. {time} - {staff}\n",
+                'footer': "\n📝 Reply with your preferred option number (1-{count})."
+            },
+            'ca': {
+                'header': "✅ Horaris disponibles per {service} el {date}:\n\n",
+                'slot': "{num}. {time} - {staff}\n",
+                'footer': "\n📝 Respon amb el número de la teva opció preferida (1-{count})."
+            },
+            'uk': {
+                'header': "✅ Доступні часи для {service} {date}:\n\n",
+                'slot': "{num}. {time} - {staff}\n",
+                'footer': "\n📝 Відповідайте номером вашого варіанту (1-{count})."
+            }
+        }
         
-        if not slots:
-            if language == 'es':
-                return f"Lo siento, no hay horarios disponibles para {service.name} en {company.name} el {date}. ¿Quieres probar otra fecha?"
-            else:
-                return f"Sorry, no available times for {service.name} at {company.name} on {date}. Try another date?"
+        templates = messages.get(lang, messages['es'])
         
-        if language == 'es':
-            message = f"✅ Horarios disponibles para {service.name} en {company.name} el {date}:\n\n"
-            for idx, slot in enumerate(slots[:5], 1):  # Show max 5 options
-                message += f"{idx}. {slot['time']} con {slot['staff']} (€{slot['price']}, {slot['duration']} min)\n"
-            message += f"\n💬 Responde con el número para confirmar tu reserva."
-        else:
-            message = f"✅ Available times for {service.name} at {company.name} on {date}:\n\n"
-            for idx, slot in enumerate(slots[:5], 1):
-                message += f"{idx}. {slot['time']} with {slot['staff']} (€{slot['price']}, {slot['duration']} min)\n"
-            message += f"\n💬 Reply with the number to confirm."
+        response = templates['header'].format(
+            service=service.name if service else '',
+            date=date
+        )
         
-        return message
+        for idx, slot in enumerate(slots, 1):
+            response += templates['slot'].format(
+                num=idx,
+                time=slot['time'],
+                staff=slot['staff_name']
+            )
+        
+        response += templates['footer'].format(count=len(slots))
+        return response
     
-    def _generate_confirmation_message(self, context: dict, language: str) -> str:
+    def _generate_confirmation_message(self, booking, lang: str) -> str:
         """Generate booking confirmation message"""
-        booking = context.get('booking')
+        messages = {
+            'es': """✅ ¡Reserva confirmada!
+
+📅 Fecha: {date}
+🕐 Hora: {time}
+✂️ Servicio: {service}
+👤 Especialista: {staff}
+📍 Salón: {company}
+
+📧 Recibirás un email de confirmación.
+
+¡Nos vemos pronto! 👋""",
+            'en': """✅ Booking confirmed!
+
+📅 Date: {date}
+🕐 Time: {time}
+✂️ Service: {service}
+👤 Specialist: {staff}
+📍 Salon: {company}
+
+📧 You'll receive a confirmation email.
+
+See you soon! 👋""",
+            'ca': """✅ Reserva confirmada!
+
+📅 Data: {date}
+🕐 Hora: {time}
+✂️ Servei: {service}
+👤 Especialista: {staff}
+📍 Saló: {company}
+
+📧 Rebràs un correu de confirmació.
+
+Ens veiem aviat! 👋""",
+            'uk': """✅ Бронювання підтверджено!
+
+📅 Дата: {date}
+🕐 Час: {time}
+✂️ Послуга: {service}
+👤 Спеціаліст: {staff}
+📍 Салон: {company}
+
+📧 Ви отримаєте електронний лист з підтвердженням.
+
+До зустрічі! 👋"""
+        }
         
-        if language == 'es':
-            return f"""✅ ¡Reserva confirmada!
-
-📍 {booking.company.name}
-💇 {booking.service.name}
-👤 {booking.staff.name}
-📅 {booking.date.strftime('%d/%m/%Y')}
-🕐 {booking.start_time.strftime('%H:%M')}
-💰 €{booking.price}
-
-Recibirás un email de confirmación. Para cancelar, responde CANCELAR."""
-        else:
-            return f"""✅ Booking confirmed!
-
-📍 {booking.company.name}
-💇 {booking.service.name}
-👤 {booking.staff.name}
-📅 {booking.date.strftime('%Y-%m-%d')}
-🕐 {booking.start_time.strftime('%H:%M')}
-💰 €{booking.price}
-
-You'll receive a confirmation email. To cancel, reply CANCEL."""
+        template = messages.get(lang, messages['es'])
+        
+        return template.format(
+            date=booking.date.strftime('%d/%m/%Y'),
+            time=booking.start_time.strftime('%H:%M'),
+            service=booking.service.name,
+            staff=booking.staff.name,
+            company=booking.company.name
+        )
     
-    def _generate_clarification_message(self, context: dict, language: str) -> str:
-        """Ask for missing information"""
-        missing = context.get('missing_fields', [])
-        
-        if language == 'es':
-            if 'service' in missing:
-                return "¿Qué servicio necesitas? (corte de pelo, manicura, masaje, etc.)"
-            elif 'date' in missing:
-                return "¿Para qué día quieres la cita?"
-            elif 'company' in missing:
-                return "¿En qué salón quieres reservar?"
-            elif 'customer_name' in missing:
-                return "¿Cuál es tu nombre?"
-        else:
-            if 'service' in missing:
-                return "What service do you need? (haircut, manicure, massage, etc.)"
-            elif 'date' in missing:
-                return "What date do you want?"
-            elif 'company' in missing:
-                return "Which salon?"
-            elif 'customer_name' in missing:
-                return "What's your name?"
-        
-        return "Could you provide more details about your booking?"
-    
-    def _generate_error_message(self, context: dict, language: str) -> str:
-        """Generate error message"""
-        error = context.get('error_message', '')
-        
-        if language == 'es':
-            return f"❌ Hubo un problema: {error}\n\nPor favor, intenta de nuevo o contacta con el salón directamente."
-        else:
-            return f"❌ There was a problem: {error}\n\nPlease try again or contact the salon directly."
-    
-    def _generate_generic_response(self, context: dict, language: str) -> str:
-        """Generic helpful response"""
-        if language == 'es':
-            return """👋 ¡Hola! Soy tu asistente de reservas.
-
-Puedes decirme algo como:
-"Quiero reservar un corte de pelo mañana a las 3pm"
-"Disponibilidad para manicura el viernes"
-
-¿Cómo puedo ayudarte?"""
-        else:
-            return """👋 Hi! I'm your booking assistant.
-
-You can say something like:
-"I want to book a haircut tomorrow at 3pm"
-"Availability for manicure on Friday"
-
-How can I help?"""
+    def _generate_generic_response(self, data: Dict[str, Any], lang: str) -> str:
+        """Generate generic AI response"""
+        # For now, return a simple message
+        # You can enhance this with OpenAI later if needed
+        messages = {
+            'es': "¿En qué puedo ayudarte?",
+            'en': "How can I help you?",
+            'ca': "En què puc ajudar-te?",
+            'uk': "Як я можу допомогти?"
+        }
+        return messages.get(lang, messages['es'])

@@ -189,11 +189,17 @@ def company_dashboard(request):
             is_active=True
         ).first()
         
+        # Get WhatsApp number for QR code generation
+        whatsapp_number = getattr(settings, 'TWILIO_WHATSAPP_FROM', '')
+        # Remove 'whatsapp:' prefix and '+' if present
+        whatsapp_number_clean = whatsapp_number.replace('whatsapp:', '').replace('+', '').strip()
+        
         context = {
             'company': company,
             'staff_count': staff_count,
             'service_count': service_count,
             'subscription': subscription,
+            'whatsapp_number': whatsapp_number_clean,
         }
         
         return render(request, 'companies/dashboard.html', context)
@@ -1192,6 +1198,61 @@ def generate_qr_code(request):
     safe_name = "".join(c for c in company.name if c.isalnum() or c in (' ', '-', '_')).rstrip()
     safe_name = safe_name.replace(' ', '_')
     response['Content-Disposition'] = f'attachment; filename="{safe_name}_qr_code.png"'
+    return response
+
+
+@login_required
+def generate_whatsapp_qr_code(request):
+    """Generate WhatsApp booking QR code for company"""
+    company_id = request.GET.get('company_id')
+    
+    if not company_id:
+        return HttpResponse('Missing company_id parameter', status=400)
+    
+    # Verify the user owns this company
+    try:
+        company = Company.objects.get(id=company_id, administrator=request.user)
+    except Company.DoesNotExist:
+        return HttpResponse('Unauthorized', status=403)
+    
+    # Get WhatsApp number from settings
+    whatsapp_number = getattr(settings, 'TWILIO_WHATSAPP_FROM', '')
+    if not whatsapp_number:
+        return HttpResponse('WhatsApp not configured', status=400)
+    
+    # Remove 'whatsapp:' prefix if present
+    phone_number = whatsapp_number.replace('whatsapp:', '').replace('+', '').strip()
+    
+    # Generate simple Spanish greeting for WhatsApp link
+    # The bot will ask for language preference on first response
+    greeting_text = f"Hola {company.name}"
+    
+    # Generate WhatsApp link
+    whatsapp_url = f"https://wa.me/{phone_number}?text={greeting_text}"
+    
+    # Generate QR code with higher quality for printing
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,  # High error correction for logos
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(whatsapp_url)
+    qr.make(fit=True)
+    
+    # Create QR code image
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    # Save to BytesIO
+    buffer = BytesIO()
+    img.save(buffer, format='PNG')
+    buffer.seek(0)
+    
+    # Return as HTTP response
+    response = HttpResponse(buffer.getvalue(), content_type='image/png')
+    safe_name = "".join(c for c in company.name if c.isalnum() or c in (' ', '-', '_')).rstrip()
+    safe_name = safe_name.replace(' ', '_')
+    response['Content-Disposition'] = f'attachment; filename="{safe_name}_whatsapp_qr.png"'
     return response
 
 

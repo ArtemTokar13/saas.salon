@@ -28,7 +28,7 @@ Add to your `.env` or settings:
 OPENAI_API_KEY=sk-your-api-key
 TWILIO_ACCOUNT_SID=your-account-sid
 TWILIO_AUTH_TOKEN=your-auth-token
-TWILIO_WHATSAPP_NUMBER=whatsapp:+14155238886
+TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
 ```
 
 ## Step 3: Create WhatsApp Integration App

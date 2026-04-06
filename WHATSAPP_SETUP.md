@@ -48,7 +48,7 @@ OPENAI_API_KEY=sk-your-openai-key-here
 OPENAI_MODEL=gpt-4o-mini
 TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=your-twilio-auth-token
-TWILIO_WHATSAPP_NUMBER=whatsapp:+14155238886
+TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
 ```
 
 ## Step 4: Run Migrations
@@ -115,7 +115,7 @@ The bot should respond with available times! 🎉
 export OPENAI_API_KEY=sk-...
 export TWILIO_ACCOUNT_SID=AC...
 export TWILIO_AUTH_TOKEN=...
-export TWILIO_WHATSAPP_NUMBER=whatsapp:+...
+export TWILIO_WHATSAPP_FROM=whatsapp:+...
 ```
 
 2. Update Twilio webhook to production URL:
@@ -131,7 +131,7 @@ For production (not sandbox):
 1. Go to Twilio Console → Messaging → Senders → WhatsApp senders
 2. Request to use your own WhatsApp Business number
 3. Submit business info for approval (takes 1-3 days)
-4. Once approved, update `TWILIO_WHATSAPP_NUMBER`
+4. Once approved, update `TWILIO_WHATSAPP_FROM`
 
 ## Monitoring
 

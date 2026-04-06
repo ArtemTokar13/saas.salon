@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 22:37+0100\n"
+"POT-Creation-Date: 2026-04-01 22:09+0200\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,36 +73,50 @@ msgid "Client notes..."
 msgstr "Нотатки клієнта..."
 
 #: companies/forms.py:93 companies/models.py:11
+#: templates/companies/add_staff.html:108
+#: templates/companies/edit_staff.html:106
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:7
 msgid "Monday"
 msgstr "Понеділок"
 
 #: companies/forms.py:93 companies/models.py:12
+#: templates/companies/add_staff.html:124
+#: templates/companies/edit_staff.html:122
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:8
 msgid "Tuesday"
 msgstr "Вівторок"
 
 #: companies/forms.py:93 companies/models.py:13
+#: templates/companies/add_staff.html:140
+#: templates/companies/edit_staff.html:138
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:9
 msgid "Wednesday"
 msgstr "Середа"
 
 #: companies/forms.py:93 companies/models.py:14
+#: templates/companies/add_staff.html:156
+#: templates/companies/edit_staff.html:154
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:10
 msgid "Thursday"
 msgstr "Четвер"
 
 #: companies/forms.py:94 companies/models.py:15
+#: templates/companies/add_staff.html:172
+#: templates/companies/edit_staff.html:170
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:11
 msgid "Friday"
 msgstr "Пʼятниця"
 
 #: companies/forms.py:94 companies/models.py:16
+#: templates/companies/add_staff.html:188
+#: templates/companies/edit_staff.html:186
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:12
 msgid "Saturday"
 msgstr "Субота"
 
 #: companies/forms.py:94 companies/models.py:17
+#: templates/companies/add_staff.html:204
+#: templates/companies/edit_staff.html:202
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
 msgid "Sunday"
 msgstr "Неділя"
@@ -120,14 +134,10 @@ msgid "Pending"
 msgstr ""
 
 #: companies/models.py:65
-#, fuzzy
-#| msgid ""
-#| "Set the time slot interval for your booking calendar in minutes (e.g., "
-#| "15, 30, 60)"
 msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
 msgstr ""
-"Встановіть інтервал часових слотів для вашого календаря бронювання в "
-"хвилинах (наприклад, 15, 30, 60)"
+"Інтервал часових слотів для вашого календаря бронювання в хвилинах "
+"(наприклад, 15, 30, 60)"
 
 #: templates/Index.html:4 templates/Index.html:14
 msgid "A Simple Client Management System for Your Salon"
@@ -464,8 +474,7 @@ msgid "Ready to Grow Your Salon?"
 msgstr "Готові Розвивати Ваш Салон?"
 
 #: templates/Index.html:442
-msgid ""
-"Start your free trial today — no credit card required."
+msgid "Start your free trial today — no credit card required."
 msgstr ""
 "Почніть безкоштовну пробну версію сьогодні — кредитна картка не потрібна."
 
@@ -585,7 +594,7 @@ msgstr "Часті Питання"
 msgid "Support"
 msgstr "Підтримка"
 
-#: templates/_footer.html:40 templates/companies/public_page.html:128
+#: templates/_footer.html:40 templates/companies/public_page.html:165
 #: templates/static_pages/contact.html:4 templates/static_pages/contact.html:10
 msgid "Contact Us"
 msgstr "Зв'язатися з Нами"
@@ -679,10 +688,10 @@ msgstr "Перейти до Оплати"
 #: templates/bookings/create_booking.html:206
 #: templates/bookings/edit_booking.html:221
 #: templates/companies/add_service.html:100
-#: templates/companies/add_staff.html:160
+#: templates/companies/add_staff.html:280
 #: templates/companies/edit_profile.html:196
 #: templates/companies/edit_service.html:109
-#: templates/companies/edit_staff.html:168
+#: templates/companies/edit_staff.html:288
 #: templates/companies/working_hours.html:72
 #: templates/socialaccount/signup.html:56
 msgid "Cancel"
@@ -933,8 +942,6 @@ msgid "No plans available at the moment"
 msgstr "Наразі немає доступних планів"
 
 #: templates/bookings/bookings_list.html:4
-#, fuzzy
-#| msgid "Booking Link"
 msgid "Bookings List"
 msgstr "Посилання для Бронювання"
 
@@ -948,10 +955,8 @@ msgid "Bookings"
 msgstr "Бронювання"
 
 #: templates/bookings/bookings_list.html:29
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirmed"
-msgstr "Підтвердити"
+msgstr "Підтверджено"
 
 #: templates/bookings/bookings_list.html:30
 msgid "Prebooked"
@@ -966,28 +971,24 @@ msgid "Show Filter"
 msgstr ""
 
 #: templates/bookings/bookings_list.html:43
-#, fuzzy
-#| msgid "Search by name or phone number..."
 msgid "Search by name, phone, email"
 msgstr "Пошук за ім'ям чи номером телефону..."
 
 #: templates/bookings/bookings_list.html:44
 msgid "From"
-msgstr ""
+msgstr "Від"
 
 #: templates/bookings/bookings_list.html:45
 msgid "To"
-msgstr ""
+msgstr "До"
 
 #: templates/bookings/bookings_list.html:47
-#, fuzzy
-#| msgid "Services"
 msgid "All Services"
-msgstr "Послуги"
+msgstr "Всі послуги"
 
 #: templates/bookings/bookings_list.html:52
 msgid "Filter"
-msgstr ""
+msgstr "Фільтр"
 
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
@@ -1379,7 +1380,7 @@ msgstr "Потрібне Підтвердження Персоналу"
 msgid "Maximum 10 dates allowed"
 msgstr "Максимум 10 дат дозволено"
 
-#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:163
+#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:283
 msgid "Add Staff Member"
 msgstr "Додати Члена Персоналу"
 
@@ -1400,26 +1401,73 @@ msgstr "Робочі Дні"
 msgid "Select the days when this staff member is available to work"
 msgstr "Оберіть дні, коли цей спеціаліст доступний для роботи"
 
-#: templates/companies/add_staff.html:101
-#: templates/companies/edit_staff.html:98
+#: templates/companies/add_staff.html:102
+#: templates/companies/edit_staff.html:100
+msgid "Working Hours per Day"
+msgstr "Години Роботи"
+
+#: templates/companies/add_staff.html:103
+#: templates/companies/edit_staff.html:101
+msgid ""
+"Set specific working hours for each day (leave empty to use company hours)"
+msgstr ""
+"Встановіть конкретний робочий час для кожного дня (залиште порожнім, "
+"щоб використовувати робочі години компанії)"
+
+#: templates/companies/add_staff.html:111
+#: templates/companies/add_staff.html:127
+#: templates/companies/add_staff.html:143
+#: templates/companies/add_staff.html:159
+#: templates/companies/add_staff.html:175
+#: templates/companies/add_staff.html:191
+#: templates/companies/add_staff.html:207
+#: templates/companies/edit_staff.html:109
+#: templates/companies/edit_staff.html:125
+#: templates/companies/edit_staff.html:141
+#: templates/companies/edit_staff.html:157
+#: templates/companies/edit_staff.html:173
+#: templates/companies/edit_staff.html:189
+#: templates/companies/edit_staff.html:205
+msgid "Start"
+msgstr "Початок"
+
+#: templates/companies/add_staff.html:116
+#: templates/companies/add_staff.html:132
+#: templates/companies/add_staff.html:148
+#: templates/companies/add_staff.html:164
+#: templates/companies/add_staff.html:180
+#: templates/companies/add_staff.html:196
+#: templates/companies/add_staff.html:212
+#: templates/companies/edit_staff.html:114
+#: templates/companies/edit_staff.html:130
+#: templates/companies/edit_staff.html:146
+#: templates/companies/edit_staff.html:162
+#: templates/companies/edit_staff.html:178
+#: templates/companies/edit_staff.html:194
+#: templates/companies/edit_staff.html:210
+msgid "End"
+msgstr "кінець"
+
+#: templates/companies/add_staff.html:221
+#: templates/companies/edit_staff.html:218
 msgid "Break Start Time"
 msgstr "Час Початку Перерви"
 
-#: templates/companies/add_staff.html:109
-#: templates/companies/edit_staff.html:106
+#: templates/companies/add_staff.html:229
+#: templates/companies/edit_staff.html:226
 msgid "Break End Time"
 msgstr "Час Закінчення Перерви"
 
-#: templates/companies/add_staff.html:117
+#: templates/companies/add_staff.html:237
 msgid "Out of Salon Start Date"
 msgstr "Дата Початку Відсутності в Салоні"
 
-#: templates/companies/add_staff.html:125
+#: templates/companies/add_staff.html:245
 msgid "Out of Salon End Date"
 msgstr "Дата Закінчення Відсутності в Салоні"
 
-#: templates/companies/add_staff.html:133 templates/companies/dashboard.html:35
-#: templates/companies/edit_staff.html:130
+#: templates/companies/add_staff.html:253 templates/companies/dashboard.html:35
+#: templates/companies/edit_staff.html:250
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Послуги"
@@ -1952,7 +2000,7 @@ msgstr "Оберіть файл"
 
 #: templates/companies/edit_profile.html:199
 #: templates/companies/edit_service.html:112
-#: templates/companies/edit_staff.html:171
+#: templates/companies/edit_staff.html:291
 #: templates/companies/working_hours.html:75
 msgid "Save Changes"
 msgstr "Зберегти Зміни"
@@ -1969,15 +2017,15 @@ msgstr "Редагувати Персонал"
 msgid "Current avatar"
 msgstr "Поточний аватар"
 
-#: templates/companies/edit_staff.html:115
+#: templates/companies/edit_staff.html:235
 msgid "Out of Office Start Date"
 msgstr "Дата Початку Відсутності"
 
-#: templates/companies/edit_staff.html:123
+#: templates/companies/edit_staff.html:243
 msgid "Out of Office End Date"
 msgstr "Дата Закінчення Відсутності"
 
-#: templates/companies/edit_staff.html:160
+#: templates/companies/edit_staff.html:280
 msgid "Is Active"
 msgstr "Активний"
 
@@ -1999,31 +2047,31 @@ msgstr "Надіслати Посилання Для Скидання"
 msgid "Gallery"
 msgstr "Галерея"
 
-#: templates/companies/public_page.html:61
+#: templates/companies/public_page.html:98
 msgid "Our Team"
 msgstr "Наша Команда"
 
-#: templates/companies/public_page.html:82
+#: templates/companies/public_page.html:119
 msgid "Staff information coming soon."
 msgstr "Інформація про персонал незабаром."
 
-#: templates/companies/public_page.html:90
+#: templates/companies/public_page.html:127
 msgid "Our Services"
 msgstr "Наші Послуги"
 
-#: templates/companies/public_page.html:109
+#: templates/companies/public_page.html:146
 msgid "No services available at the moment."
 msgstr "Наразі немає доступних послуг."
 
-#: templates/companies/public_page.html:120
+#: templates/companies/public_page.html:157
 msgid "Book an Appointment"
 msgstr "Забронювати Зустріч"
 
-#: templates/companies/public_page.html:123
+#: templates/companies/public_page.html:160
 msgid "Book Now"
 msgstr "Забронювати Зараз"
 
-#: templates/companies/public_page.html:129
+#: templates/companies/public_page.html:166
 msgid ""
 "Online booking is currently unavailable. Please contact us directly to "
 "schedule an appointment."
@@ -2031,15 +2079,15 @@ msgstr ""
 "Онлайн бронювання наразі недоступне. Будь ласка, зв'яжіться з нами "
 "безпосередньо, щоб запланувати зустріч."
 
-#: templates/companies/public_page.html:135
+#: templates/companies/public_page.html:172
 msgid "Contact Information"
 msgstr "Контактна Інформація"
 
-#: templates/companies/public_page.html:177
+#: templates/companies/public_page.html:241
 msgid "Working Hours"
 msgstr "Години Роботи"
 
-#: templates/companies/public_page.html:183
+#: templates/companies/public_page.html:247
 msgid "Closed"
 msgstr "Зачинено"
 
@@ -2963,8 +3011,6 @@ msgid "Still have questions?"
 msgstr "Ще є запитання?"
 
 #: templates/static_pages/how_it_works.html:11
-#, fuzzy
-#| msgid "Get started in minutes"
 msgid "Get started in just a few simple steps"
 msgstr "Почніть всього за кілька простих кроків"
 
@@ -3566,8 +3612,6 @@ msgid ""
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1845
-#, fuzzy
-#| msgid "Address"
 msgid "Email address"
 msgstr "Адреса електронної пошти"
 
@@ -3602,14 +3646,10 @@ msgid "Small integer"
 msgstr "Мале ціле число"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2113
-#, fuzzy
-#| msgid "Address"
 msgid "IPv4 address"
 msgstr "IPv4-адреса"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2144
-#, fuzzy
-#| msgid "Address"
 msgid "IP address"
 msgstr "IP-адреса"
 
@@ -3852,7 +3892,7 @@ msgstr "Порядок"
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:886
 #, fuzzy, python-format
-#| msgid "Please correct the errors below."
+#| msgid "Please correct the duplicate data for %(field)s."
 msgid "Please correct the duplicate data for %(field)s."
 msgstr "Будь ласка, виправте помилки нижче."
 
@@ -3893,8 +3933,6 @@ msgid ""
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:464
-#, fuzzy
-#| msgid "Current Plan"
 msgid "Currently"
 msgstr "Поточно"
 
@@ -4010,8 +4048,6 @@ msgid "August"
 msgstr "Серпень"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:33
-#, fuzzy
-#| msgid "Staff Members"
 msgid "September"
 msgstr "Вересень"
 
@@ -4024,8 +4060,6 @@ msgid "November"
 msgstr "Листопад"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:36
-#, fuzzy
-#| msgid "Remember me"
 msgid "December"
 msgstr "Грудень"
 
@@ -4046,8 +4080,6 @@ msgid "apr"
 msgstr "квіт"
 
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:43
-#, fuzzy
-#| msgid "Company"
 msgid "may"
 msgstr "трав"
 
@@ -4423,8 +4455,6 @@ msgid "Tutorial: A Polling App"
 msgstr "Посібник: Додаток для Опитування"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:239
-#, fuzzy
-#| msgid "Get started in minutes"
 msgid "Get started with Django"
 msgstr "Почати роботу з Django"
 

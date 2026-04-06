@@ -195,6 +195,22 @@ class WorkingHours(models.Model):
         return f"{self.company.name} — {self.get_day_of_week_display()}"
 
 
+class StaffWorkingHours(models.Model):
+    """Individual working hours for each staff member per day of the week"""
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name="staff_working_hours")
+    day_of_week = models.IntegerField(choices=DAYS_OF_WEEK)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    is_day_off = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ['staff', 'day_of_week']
+        ordering = ['day_of_week']
+
+    def __str__(self):
+        return f"{self.staff.name} — {self.get_day_of_week_display()} ({self.start_time} - {self.end_time})"
+
+
 class CompanyImage(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to=company_img_upload)

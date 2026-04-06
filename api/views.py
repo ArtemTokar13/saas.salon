@@ -48,7 +48,8 @@ def auth_login(request):
             user = None
 
         if user is not None:
-            login(request, user)
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return JsonResponse({
                 'token': request.session.session_key or 'session_token',
                 'user': {
@@ -100,7 +101,8 @@ def auth_register(request):
         )
         
         # Auto login after registration
-        login(request, user)
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         
         return JsonResponse({
             'token': request.session.session_key or 'session_token',

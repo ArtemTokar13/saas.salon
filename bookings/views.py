@@ -15,7 +15,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import Booking, Customer
 from .forms import BookingForm
-from companies.models import Company, Staff, Service, WorkingHours, EmailLog
+from companies.models import Company, Staff, Service, WorkingHours, EmailLog, StaffWorkingHours
 from users.models import UserProfile
 from app.decorators import subscription_required
 
@@ -223,18 +223,33 @@ def get_available_dates(request, company_id, staff_id):
                     date = datetime.strptime(date_str, '%Y-%m-%d').date()
                     if date >= today:
                         day_of_week = date.weekday()
-                        # Check if company is open on this day
-                        working_hours = WorkingHours.objects.filter(
-                            company=company,
-                            day_of_week=day_of_week,
-                            is_day_off=False
-                        ).first()
                         # Check if staff works on this day
-                        if working_hours and (not staff.working_days or day_of_week in staff.working_days):
-                            available_dates.append({
-                                'date': date.strftime('%Y-%m-%d'),
-                                'display': date.strftime('%a, %b %d')
-                            })
+                        if not staff.working_days or day_of_week in staff.working_days:
+                            # Check if staff has working hours for this day
+                            staff_hours = StaffWorkingHours.objects.filter(
+                                staff=staff,
+                                day_of_week=day_of_week,
+                                is_day_off=False
+                            ).first()
+                            
+                            if staff_hours:
+                                # Staff has custom working hours for this day
+                                available_dates.append({
+                                    'date': date.strftime('%Y-%m-%d'),
+                                    'display': date.strftime('%a, %b %d')
+                                })
+                            else:
+                                # Check company working hours
+                                working_hours = WorkingHours.objects.filter(
+                                    company=company,
+                                    day_of_week=day_of_week,
+                                    is_day_off=False
+                                ).first()
+                                if working_hours:
+                                    available_dates.append({
+                                        'date': date.strftime('%Y-%m-%d'),
+                                        'display': date.strftime('%a, %b %d')
+                                    })
                 except ValueError:
                     continue
             return JsonResponse({'available_dates': available_dates})
@@ -244,19 +259,34 @@ def get_available_dates(request, company_id, staff_id):
             date = today + timedelta(days=i)
             day_of_week = date.weekday()
             
-            # Check if company is open on this day
-            working_hours = WorkingHours.objects.filter(
-                company=company,
-                day_of_week=day_of_week,
-                is_day_off=False
-            ).first()
-            
             # Check if staff member works on this day
-            if working_hours and (not staff.working_days or day_of_week in staff.working_days):
-                available_dates.append({
-                    'date': date.strftime('%Y-%m-%d'),
-                    'display': date.strftime('%a, %b %d')
-                })
+            if not staff.working_days or day_of_week in staff.working_days:
+                # Check if staff has custom working hours for this day
+                staff_hours = StaffWorkingHours.objects.filter(
+                    staff=staff,
+                    day_of_week=day_of_week,
+                    is_day_off=False
+                ).first()
+                
+                if staff_hours:
+                    # Staff has custom working hours for this day
+                    available_dates.append({
+                        'date': date.strftime('%Y-%m-%d'),
+                        'display': date.strftime('%a, %b %d')
+                    })
+                else:
+                    # Check if company is open on this day
+                    working_hours = WorkingHours.objects.filter(
+                        company=company,
+                        day_of_week=day_of_week,
+                        is_day_off=False
+                    ).first()
+                    
+                    if working_hours:
+                        available_dates.append({
+                            'date': date.strftime('%Y-%m-%d'),
+                            'display': date.strftime('%a, %b %d')
+                        })
         
         return JsonResponse({'available_dates': available_dates})
     
@@ -279,14 +309,30 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         if staff.working_days and day_of_week not in staff.working_days:
             return JsonResponse({'available_times': []})
         
-        working_hours = WorkingHours.objects.filter(
-            company=company,
+        # Try to get staff-specific working hours for this day
+        staff_hours = StaffWorkingHours.objects.filter(
+            staff=staff,
             day_of_week=day_of_week,
             is_day_off=False
         ).first()
         
-        if not working_hours:
-            return JsonResponse({'available_times': []})
+        if staff_hours:
+            # Use staff-specific hours
+            start_time = staff_hours.start_time
+            end_time = staff_hours.end_time
+        else:
+            # Fall back to company working hours
+            working_hours = WorkingHours.objects.filter(
+                company=company,
+                day_of_week=day_of_week,
+                is_day_off=False
+            ).first()
+            
+            if not working_hours:
+                return JsonResponse({'available_times': []})
+            
+            start_time = working_hours.start_time
+            end_time = working_hours.end_time
         
         # Get existing bookings for this staff member on this date
         # Exclude the current booking if editing (booking_id parameter)
@@ -307,21 +353,21 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         
         # Generate time slots based on company's calendar step setting
         available_times = []
-        current_time = datetime.combine(date, working_hours.start_time)
-        end_time = datetime.combine(date, working_hours.end_time)
+        current_time = datetime.combine(date, start_time)
+        end_time_dt = datetime.combine(date, end_time)
         time_step = timedelta(minutes=company.calendar_step_minutes)
         
         # Calculate the end time of the new booking based on service duration + time_for_servicing
         service_duration = timedelta(minutes=service.duration + service.time_for_servicing)
         
-        while current_time < end_time:
+        while current_time < end_time_dt:
             time_str = current_time.strftime('%H:%M')
             
             # Calculate when this service would end
             potential_end_time = current_time + service_duration
             
             # Check if the service can fit within working hours
-            if potential_end_time > end_time:
+            if potential_end_time > end_time_dt:
                 break  # Can't start a service that would end after working hours
             
             # Check if this time slot would overlap with staff break time

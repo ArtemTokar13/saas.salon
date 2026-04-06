@@ -23,7 +23,7 @@ from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.db import models
-from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog
+from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog, StaffWorkingHours
 from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, CompanyStaffActivateForm, ServiceForm
 from .utils import make_random_password
 from billing.models import Subscription
@@ -159,8 +159,9 @@ def activate_company(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        # login the user
-        login(request, user)
+        # login the user with explicit backend
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         messages.success(request, 'Your account has been activated.')
         return redirect('company_dashboard')
     else:
@@ -232,7 +233,7 @@ def edit_company_profile(request):
 
                 images = request.FILES.getlist('images')
                 current_image_count = CompanyImage.objects.filter(company=company).count()
-                max_images = 15
+                max_images = 30
                 
                 if images:
                     remaining_slots = max_images - current_image_count
@@ -436,6 +437,21 @@ def add_staff(request):
                     is_active=False
                 )
                 staff_member.services.set(form.cleaned_data.get('services', []))
+                
+                # Create StaffWorkingHours for each day
+                day_names = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+                for day_num, day_name in enumerate(day_names):
+                    start_time = form.cleaned_data.get(f'{day_name}_start')
+                    end_time = form.cleaned_data.get(f'{day_name}_end')
+                    
+                    if start_time and end_time:
+                        StaffWorkingHours.objects.create(
+                            staff=staff_member,
+                            day_of_week=day_num,
+                            start_time=start_time,
+                            end_time=end_time,
+                            is_day_off=False
+                        )
 
 
                 # Check if user with this email already exists
@@ -570,7 +586,8 @@ def activate_staff_account(request, uidb64, token):
                     except Exception as e:
                         logger.error(f"Failed to send confirmation email: {e}")
 
-                    login(request, user)
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     messages.success(request, 'Account activated successfully!')
                     return redirect('login')  # Redirect to staff calendar or login
                 else:
@@ -705,6 +722,25 @@ def edit_staff(request, staff_id):
                     staff_member.avatar = form.cleaned_data.get('avatar')
                 staff_member.save()
                 
+                # Update StaffWorkingHours for each day
+                day_names = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+                for day_num, day_name in enumerate(day_names):
+                    start_time = form.cleaned_data.get(f'{day_name}_start')
+                    end_time = form.cleaned_data.get(f'{day_name}_end')
+                    
+                    # Delete existing hours for this day
+                    StaffWorkingHours.objects.filter(staff=staff_member, day_of_week=day_num).delete()
+                    
+                    # Create new hours if both start and end times are provided
+                    if start_time and end_time:
+                        StaffWorkingHours.objects.create(
+                            staff=staff_member,
+                            day_of_week=day_num,
+                            start_time=start_time,
+                            end_time=end_time,
+                            is_day_off=False
+                        )
+                
                 # Update services relationship
                 staff_member.services.set(form.cleaned_data.get('services', []))
                 # Update associated UserProfile (phone_number, country_code)
@@ -733,6 +769,15 @@ def edit_staff(request, staff_id):
                 'is_active': staff_member.is_active,
                 'services': staff_member.services.all(),
             }
+            
+            # Populate working hours for each day
+            staff_hours = StaffWorkingHours.objects.filter(staff=staff_member)
+            day_names = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+            for hours in staff_hours:
+                day_name = day_names[hours.day_of_week]
+                initial_data[f'{day_name}_start'] = hours.start_time
+                initial_data[f'{day_name}_end'] = hours.end_time
+            
             # populate phone and country_code from related UserProfile if available
             user_profile = UserProfile.objects.filter(staff=staff_member).first()
             if user_profile:

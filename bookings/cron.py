@@ -13,17 +13,21 @@ from companies.models import EmailLog
 
 
 def send_booking_reminders():
+    """
+    Send reminders for all bookings scheduled for tomorrow.
+    This should be run daily at 14:00.
+    """
     now = timezone.localtime(timezone.now())
-    buffer = timedelta(minutes=30)
+    tomorrow = now.date() + timedelta(days=1)
+    
+    # Get all bookings for tomorrow that haven't been reminded yet
     bookings_to_remind = Booking.objects.filter(
-        start_time__gte=now - buffer,
-        start_time__lt=now + buffer,
-        date=now.date() + timedelta(days=1),
+        date=tomorrow,
         reminder_sent=False
-    )
-    print(now)
-    print(now + timedelta(hours=24) - buffer)
-    print(now + timedelta(hours=24) + buffer)
+    ).order_by('start_time')
+    
+    print(f"Current time: {now}")
+    print(f"Sending reminders for bookings on: {tomorrow}")
     print(f"Found {bookings_to_remind.count()} bookings to send reminders for.")
 
     for booking in bookings_to_remind:

@@ -272,9 +272,9 @@ def handle_greeting(conversation: WhatsAppConversation) -> str:
     
     # Check if salon is already set
     if conversation.company:
-        return get_message('welcome_with_salon', lang, company_name=conversation.company.name)
+        return get_message('welcome_with_salon', lang, company=conversation.company, company_name=conversation.company.name)
     
-    return get_message('welcome_general', lang)
+    return get_message('welcome_general', lang, company=None)
 
 
 def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
@@ -338,7 +338,7 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
                 }
                 return messages_switch.get(lang, messages_switch['es'])
             else:
-                return get_message('welcome_with_salon', lang, company_name=company.name)
+                return get_message('welcome_with_salon', lang, company=company, company_name=company.name)
     
     return None  # No salon detected
 
@@ -784,20 +784,77 @@ def handle_question(conversation: WhatsAppConversation, message: str) -> str:
     return get_message('help_message', lang)
 
 
-def get_message(key: str, lang: str, **kwargs) -> str:
+def get_service_examples(company, lang: str) -> list:
+    """Generate dynamic service examples based on company's actual services"""
+    from companies.models import Service
+    
+    if not company:
+        return []
+    
+    # Get up to 3 active services from the company
+    services = Service.objects.filter(company=company, is_active=True)[:3]
+    
+    if not services:
+        return []
+    
+    # Time examples in different languages
+    time_examples = {
+        'es': ['mañana a las 3pm', 'el viernes', 'el lunes por la tarde'],
+        'en': ['tomorrow at 3pm', 'on Friday', 'Monday afternoon'],
+        'ca': ['demà a les 3pm', 'el divendres', 'dilluns a la tarda'],
+        'uk': ['завтра о 3pm', "в п'ятницю", 'на понеділок після обіду'],
+    }
+    
+    # Action phrases in different languages
+    action_phrases = {
+        'es': ['Quiero', 'Disponibilidad para', 'Reserva'],
+        'en': ['I want', 'Availability for', 'Book'],
+        'ca': ['Vull', 'Disponibilitat per a', 'Reserva'],
+        'uk': ['Хочу', 'Доступність для', 'Забронюйте'],
+    }
+    
+    times = time_examples.get(lang, time_examples['es'])
+    actions = action_phrases.get(lang, action_phrases['es'])
+    
+    examples = []
+    for i, service in enumerate(services):
+        if i < len(times) and i < len(actions):
+            examples.append(f'{actions[i]} {service.name.lower()} {times[i]}')
+    
+    return examples
+
+
+def get_message(key: str, lang: str, company=None, **kwargs) -> str:
     """Get predefined message in specified language"""
+    
+    # Generate dynamic service examples if company is provided
+    service_examples = get_service_examples(company, lang) if company else []
+    
+    # Build examples string
+    if service_examples:
+        examples_str = '\n'.join([f'• "{ex}"' for ex in service_examples])
+    else:
+        # Fallback to generic examples
+        generic_examples = {
+            'es': '• "Quiero una cita mañana a las 3pm"\n• "Disponibilidad el viernes"\n• "Reserva para el lunes por la tarde"',
+            'en': '• "I want an appointment tomorrow at 3pm"\n• "Availability on Friday"\n• "Book for Monday afternoon"',
+            'ca': '• "Vull una cita demà a les 3pm"\n• "Disponibilitat el divendres"\n• "Reserva per dilluns a la tarda"',
+            'uk': '• "Хочу відвідування завтра о 3pm"\n• "Доступність в п\'ятницю"\n• "Забронюйте на понеділок після обіду"',
+        }
+        examples_str = generic_examples.get(lang, generic_examples['es'])
+    
     messages = {
         'welcome_with_salon': {
-            'es': "👋 ¡Hola! Bienvenido a {company_name}.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n• \"Quiero un corte de pelo mañana a las 3pm\"\n• \"Disponibilidad para manicura el viernes\"\n• \"Reserva masaje para el lunes por la tarde\"\n\n¿En qué puedo ayudarte?",
-            'en': "👋 Hello! Welcome to {company_name}.\n\nI can help you book an appointment. For example:\n• \"I want a haircut tomorrow at 3pm\"\n• \"Availability for manicure on Friday\"\n• \"Book a massage for Monday afternoon\"\n\nHow can I help you?",
-            'ca': "👋 Hola! Benvingut a {company_name}.\n\nPuc ajudar-te a fer una reserva. Per exemple:\n• \"Vull un tall de cabell demà a les 3pm\"\n• \"Disponibilitat per a manicura el divendres\"\n• \"Reserva massatge per dilluns a la tarda\"\n\nEn què puc ajudar-te?",
-            'uk': "👋 Привіт! Ласкаво просимо до {company_name}.\n\nЯ можу допомогти вам забронювати візит. Наприклад:\n• \"Хочу стрижку завтра о 3pm\"\n• \"Доступність для манікюру в п'ятницю\"\n• \"Забронюйте масаж на понеділок після обіду\"\n\nЯк я можу допомогти?",
+            'es': "👋 ¡Hola! Bienvenido a {company_name}.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n{examples}\n\n¿En qué puedo ayudarte?",
+            'en': "👋 Hello! Welcome to {company_name}.\n\nI can help you book an appointment. For example:\n{examples}\n\nHow can I help you?",
+            'ca': "👋 Hola! Benvingut a {company_name}.\n\nPuc ajudar-te a fer una reserva. Per exemple:\n{examples}\n\nEn què puc ajudar-te?",
+            'uk': "👋 Привіт! Ласкаво просимо до {company_name}.\n\nЯ можу допомогти вам забронювати візит. Наприклад:\n{examples}\n\nЯк я можу допомогти?",
         },
         'welcome_general': {
-            'es': "👋 ¡Hola! Soy tu asistente de reservas inteligente.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n• \"Quiero un corte de pelo mañana a las 3pm\"\n• \"Disponibilidad para manicura el viernes\"\n\n¿En qué puedo ayudarte?",
-            'en': "👋 Hello! I'm your smart booking assistant.\n\nI can help you book an appointment. For example:\n• \"I want a haircut tomorrow at 3pm\"\n• \"Availability for manicure on Friday\"\n\nHow can I help you?",
-            'ca': "👋 Hola! Sóc el teu assistent de reserves intel·ligent.\n\nPuc ajudar-te a fer una reserva. Per exemple:\n• \"Vull un tall de cabell demà a les 3pm\"\n• \"Disponibilitat per a manicura el divendres\"\n\nEn què puc ajudar-te?",
-            'uk': "👋 Привіт! Я ваш розумний асистент бронювання.\n\nЯ можу допомогти забронювати візит. Наприклад:\n• \"Хочу стрижку завтра о 3pm\"\n• \"Доступність для манікюру в п'ятницю\"\n\nЯк я можу допомогти?",
+            'es': "👋 ¡Hola! Soy tu asistente de reservas inteligente.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n{examples}\n\n¿En qué puedo ayudarte?",
+            'en': "👋 Hello! I'm your smart booking assistant.\n\nI can help you book an appointment. For example:\n{examples}\n\nHow can I help you?",
+            'ca': "👋 Hola! Sóc el teu assistent de reserves intel·ligent.\n\nPuc ajudar-te a fer una reserva. Per exemple:\n{examples}\n\nEn què puc ajudar-te?",
+            'uk': "👋 Привіт! Я ваш розумний асистент бронювання.\n\nЯ можу допомогти забронювати візит. Наприклад:\n{examples}\n\nЯк я можу допомогти?",
         },
         'conversation_cancelled': {
             'es': "❌ Conversación cancelada. Escribe cuando quieras hacer una reserva.",
@@ -821,6 +878,10 @@ def get_message(key: str, lang: str, **kwargs) -> str:
     
     message_dict = messages.get(key, {})
     template = message_dict.get(lang, message_dict.get('es', ''))
+    
+    # Add examples to kwargs for welcome messages
+    if key in ['welcome_with_salon', 'welcome_general']:
+        kwargs['examples'] = examples_str
     
     # Format with kwargs if provided
     if kwargs:

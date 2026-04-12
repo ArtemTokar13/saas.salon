@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-01 22:09+0200\n"
+"POT-Creation-Date: 2026-04-10 17:32+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1874,6 +1874,7 @@ msgid "Copy"
 msgstr "Copiar"
 
 #: templates/companies/dashboard.html:169
+#: templates/companies/dashboard.html:238
 msgid "Download QR Code"
 msgstr "Descargar código QR"
 
@@ -1881,9 +1882,77 @@ msgstr "Descargar código QR"
 msgid "QR Code Preview:"
 msgstr "Vista previa del código QR:"
 
+#: templates/companies/dashboard.html:189
+msgid "WhatsApp Booking"
+msgstr "Reserva por WhatsApp"
+
 #: templates/companies/dashboard.html:190
+msgid "NEW!"
+msgstr "¡NUEVO!"
+
+#: templates/companies/dashboard.html:199
+msgid "AI-Powered Booking via WhatsApp"
+msgstr "Reservas con IA a través de WhatsApp"
+
+#: templates/companies/dashboard.html:202
+msgid ""
+"Your customers can now book appointments by simply sending a WhatsApp "
+"message! The AI assistant will:"
+msgstr ""
+"¡Tus clientes ahora pueden reservar citas simplemente enviando un "
+"mensaje de WhatsApp! El asistente de IA hará lo siguiente:"
+
+#: templates/companies/dashboard.html:205
+msgid "Understand natural language requests"
+msgstr "Comprender las solicitudes en lenguaje natural"
+
+#: templates/companies/dashboard.html:206
+msgid "Show available time slots"
+msgstr "Mostrar franjas horarias disponibles"
+
+#: templates/companies/dashboard.html:207
+msgid "Create confirmed bookings automatically"
+msgstr "Crear reservas confirmadas automáticamente"
+
+#: templates/companies/dashboard.html:208
+msgid "Support multiple languages (ES/EN/CA/UK)"
+msgstr "Soporta múltiples idiomas (ES/EN/UK)""
+
+#: templates/companies/dashboard.html:212
+msgid "WhatsApp Link:"
+msgstr "Enlace de WhatsApp:"
+
+#: templates/companies/dashboard.html:222
+msgid "Use this link on your website, social media, or anywhere online"
+msgstr "Utilice este enlace en su sitio web, redes sociales o en cualquier lugar en línea."
+
+#: templates/companies/dashboard.html:232
+msgid "WhatsApp QR Code"
+msgstr "Código QR de WhatsApp"
+
+#: templates/companies/dashboard.html:243
+msgid "Preview QR"
+msgstr "Vista previa QR"
+
+#: templates/companies/dashboard.html:255
+msgid "Print this QR code on:"
+msgstr "Imprime este código QR en:"
+
+#: templates/companies/dashboard.html:258
+msgid "Business cards • Posters • Window stickers • Flyers"
+msgstr "Tarjetas de visita • Carteles • Pegatinas para ventanas • Folletos"
+
+#: templates/companies/dashboard.html:268
+msgid "Example conversation:"
+msgstr "Ejemplo de conversación:"
+
+#: templates/companies/dashboard.html:292
 msgid "Link copied to clipboard!"
 msgstr "¡Enlace copiado al portapapeles!"
+
+#: templates/companies/dashboard.html:329
+msgid "WhatsApp link copied!"
+msgstr "¡Enlace de WhatsApp copiado!"
 
 #: templates/companies/edit_profile.html:10
 msgid "Edit Company Profile"

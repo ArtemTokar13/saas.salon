@@ -284,58 +284,61 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
     Returns welcome message if salon detected, None otherwise
     """
     lang = conversation.conversation_state.get('language', 'es')
-    
-    # Check for simple format: "Hola [Company Name]"
     message_clean = message.strip()
+    
+    from companies.models import Company
+    searcher = BookingSearcher()
+    company = None
+    salon_name = None
     
     # Pattern 1: "Hola SalonName" or "Hola! SalonName"
     if message_clean.lower().startswith(('hola', 'hello', 'привіт')):
         # Extract potential salon name
         # Remove greeting words
-        salon_name = ""
         for greeting in ['hola', 'hello', 'привіт', 'hola!', 'hello!']:
             if message_clean.lower().startswith(greeting):
                 salon_name = message_clean[len(greeting):].strip()
                 break
         else:
             salon_name = message_clean
+    # Pattern 2: Standalone salon name (e.g., just "ANIMA" when asked which salon)
+    else:
+        # Try to match as salon name directly
+        salon_name = message_clean
+    
+    if salon_name:
+        # Try to find company by name
+        company = searcher.find_company(salon_name)
         
-        if salon_name:
-            from companies.models import Company
-            searcher = BookingSearcher()
+        if company:
+            # Check if this is a salon switch (different from current)
+            is_switch = conversation.company and conversation.company.id != company.id
             
-            # Try to find company by name
-            company = searcher.find_company(salon_name)
+            # Set salon in conversation
+            conversation.company = company
+            conversation.current_state = 'idle'  # Reset state
+            state = conversation.conversation_state
+            state['company_name'] = company.name
+            state['salon_auto_selected'] = True
+            conversation.conversation_state = state
+            conversation.save()
             
-            if company:
-                # Check if this is a salon switch (different from current)
-                is_switch = conversation.company and conversation.company.id != company.id
-                
-                # Set salon in conversation
-                conversation.company = company
-                conversation.current_state = 'idle'  # Reset state
-                state = conversation.conversation_state
-                state['company_name'] = company.name
-                state['salon_auto_selected'] = True
-                conversation.conversation_state = state
-                conversation.save()
-                
-                # Clear any pending bookings for old salon
-                PendingBooking.objects.filter(conversation=conversation).delete()
-                
-                logger.info(f"{'Switched to' if is_switch else 'Auto-selected'} salon: {company.name} for {conversation.phone_number}")
-                
-                # Return personalized welcome in selected language
-                if is_switch:
-                    messages_switch = {
-                        'es': f'¡Perfecto! Ahora estás reservando en {company.name}. ¿En qué puedo ayudarte?',
-                        'en': f'Perfect! You are now booking at {company.name}. How can I help you?',
-                        'ca': f'Perfecte! Ara estàs reservant a {company.name}. En què puc ajudar-te?',
-                        'uk': f'Чудово! Тепер ви бронюєте в {company.name}. Чим можу допомогти?'
-                    }
-                    return messages_switch.get(lang, messages_switch['es'])
-                else:
-                    return get_message('welcome_with_salon', lang, company_name=company.name)
+            # Clear any pending bookings for old salon
+            PendingBooking.objects.filter(conversation=conversation).delete()
+            
+            logger.info(f"{'Switched to' if is_switch else 'Auto-selected'} salon: {company.name} for {conversation.phone_number}")
+            
+            # Return personalized welcome in selected language
+            if is_switch:
+                messages_switch = {
+                    'es': f'¡Perfecto! Ahora estás reservando en {company.name}. ¿En qué puedo ayudarte?',
+                    'en': f'Perfect! You are now booking at {company.name}. How can I help you?',
+                    'ca': f'Perfecte! Ara estàs reservant a {company.name}. En què puc ajudar-te?',
+                    'uk': f'Чудово! Тепер ви бронюєте в {company.name}. Чим можу допомогти?'
+                }
+                return messages_switch.get(lang, messages_switch['es'])
+            else:
+                return get_message('welcome_with_salon', lang, company_name=company.name)
     
     return None  # No salon detected
 
@@ -358,8 +361,10 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     
     # If no service in new intent, clear old booking data (user wants to start fresh)
     state = conversation.conversation_state
-    if not service_name and not date_str:
-        # User is asking for services list or starting fresh - clear old booking
+    # Only clear if user is starting completely fresh (no booking-related data at all)
+    has_booking_data = any([service_name, date_str, time_after, time_before, time_preference, staff_name])
+    if not has_booking_data:
+        # User is asking for services list or general question - clear old booking
         state.pop('service_name', None)
         state.pop('date', None)
         state.pop('staff_name', None)

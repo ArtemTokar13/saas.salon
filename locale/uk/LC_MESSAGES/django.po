@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-01 22:09+0200\n"
+"POT-Creation-Date: 2026-04-10 17:32+0200\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1411,8 +1411,8 @@ msgstr "Години Роботи"
 msgid ""
 "Set specific working hours for each day (leave empty to use company hours)"
 msgstr ""
-"Встановіть конкретний робочий час для кожного дня (залиште порожнім, "
-"щоб використовувати робочі години компанії)"
+"Встановіть конкретний робочий час для кожного дня (залиште порожнім, щоб "
+"використовувати робочі години компанії)"
 
 #: templates/companies/add_staff.html:111
 #: templates/companies/add_staff.html:127
@@ -1870,6 +1870,7 @@ msgid "Copy"
 msgstr "Копіювати"
 
 #: templates/companies/dashboard.html:169
+#: templates/companies/dashboard.html:238
 msgid "Download QR Code"
 msgstr "Завантажити QR Код"
 
@@ -1877,9 +1878,77 @@ msgstr "Завантажити QR Код"
 msgid "QR Code Preview:"
 msgstr "Попередній Перегляд QR Коду:"
 
+#: templates/companies/dashboard.html:189
+msgid "WhatsApp Booking"
+msgstr "Бронювання у WhatsApp"
+
 #: templates/companies/dashboard.html:190
+msgid "NEW!"
+msgstr ""
+
+#: templates/companies/dashboard.html:199
+msgid "AI-Powered Booking via WhatsApp"
+msgstr "Бронювання через WhatsApp на основі штучного інтелекту"
+
+#: templates/companies/dashboard.html:202
+msgid ""
+"Your customers can now book appointments by simply sending a WhatsApp "
+"message! The AI assistant will:"
+msgstr ""
+"Тепер ваші клієнти можуть записатися на прийом, просто надіславши "
+"повідомлення у WhatsApp! Помічник зі штучним інтелектом:"
+
+#: templates/companies/dashboard.html:205
+msgid "Understand natural language requests"
+msgstr "Розуміє запити природньою мовою"
+
+#: templates/companies/dashboard.html:206
+msgid "Show available time slots"
+msgstr "Показано всі доступні вікна"
+
+#: templates/companies/dashboard.html:207
+msgid "Create confirmed bookings automatically"
+msgstr "Автоматично створювати підтверджені бронювання"
+
+#: templates/companies/dashboard.html:208
+msgid "Support multiple languages (ES/EN/CA/UK)"
+msgstr "Підтримка кількох мов (ES/EN/UK)"
+
+#: templates/companies/dashboard.html:212
+msgid "WhatsApp Link:"
+msgstr "Посилання WhatsApp"
+
+#: templates/companies/dashboard.html:222
+msgid "Use this link on your website, social media, or anywhere online"
+msgstr "Використовуйте це посилання на своєму вебсайті, у соціальних мережах або будь-де в Інтернеті"
+
+#: templates/companies/dashboard.html:232
+msgid "WhatsApp QR Code"
+msgstr "QR Code WhatsApp"
+
+#: templates/companies/dashboard.html:243
+msgid "Preview QR"
+msgstr "Попередній перегляд QR-коду"
+
+#: templates/companies/dashboard.html:255
+msgid "Print this QR code on:"
+msgstr "Роздрукуйте цей QR-код на:"
+
+#: templates/companies/dashboard.html:258
+msgid "Business cards • Posters • Window stickers • Flyers"
+msgstr "Візитки • Плакати • Наклейки на вікна • Флаєри"
+
+#: templates/companies/dashboard.html:268
+msgid "Example conversation:"
+msgstr "Приклади:"
+
+#: templates/companies/dashboard.html:292
 msgid "Link copied to clipboard!"
 msgstr "Посилання скопійовано в буфер обміну!"
+
+#: templates/companies/dashboard.html:329
+msgid "WhatsApp link copied!"
+msgstr "WhatsApp посилання скопійовано!"
 
 #: templates/companies/edit_profile.html:10
 msgid "Edit Company Profile"

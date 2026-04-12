@@ -16,6 +16,7 @@ urlpatterns = [
     path('staff/add/', views.add_staff, name='add_staff'),
     path('staff/activate/<uidb64>/<token>/', views.activate_staff_account, name='activate_staff_account'),
     path('staff/edit/<int:staff_id>/', views.edit_staff, name='edit_staff'),
+    path('staff/<int:staff_id>/resend-activation/', views.resend_staff_activation, name='resend_staff_activation'),
     path('staff/delete/<int:staff_id>/', views.delete_staff, name='delete_staff'),
     path('staff/<int:staff_id>/delete-avatar/', views.delete_staff_avatar, name='delete_staff_avatar'),
     path('services/', views.service_list, name='service_list'),

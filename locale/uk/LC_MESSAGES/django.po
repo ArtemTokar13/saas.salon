@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 17:32+0200\n"
+"POT-Creation-Date: 2026-04-12 15:24+0200\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,49 +74,49 @@ msgstr "Нотатки клієнта..."
 
 #: companies/forms.py:93 companies/models.py:11
 #: templates/companies/add_staff.html:108
-#: templates/companies/edit_staff.html:106
+#: templates/companies/edit_staff.html:111
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:7
 msgid "Monday"
 msgstr "Понеділок"
 
 #: companies/forms.py:93 companies/models.py:12
 #: templates/companies/add_staff.html:124
-#: templates/companies/edit_staff.html:122
+#: templates/companies/edit_staff.html:127
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:8
 msgid "Tuesday"
 msgstr "Вівторок"
 
 #: companies/forms.py:93 companies/models.py:13
 #: templates/companies/add_staff.html:140
-#: templates/companies/edit_staff.html:138
+#: templates/companies/edit_staff.html:143
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:9
 msgid "Wednesday"
 msgstr "Середа"
 
 #: companies/forms.py:93 companies/models.py:14
 #: templates/companies/add_staff.html:156
-#: templates/companies/edit_staff.html:154
+#: templates/companies/edit_staff.html:159
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:10
 msgid "Thursday"
 msgstr "Четвер"
 
 #: companies/forms.py:94 companies/models.py:15
 #: templates/companies/add_staff.html:172
-#: templates/companies/edit_staff.html:170
+#: templates/companies/edit_staff.html:175
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:11
 msgid "Friday"
 msgstr "Пʼятниця"
 
 #: companies/forms.py:94 companies/models.py:16
 #: templates/companies/add_staff.html:188
-#: templates/companies/edit_staff.html:186
+#: templates/companies/edit_staff.html:191
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:12
 msgid "Saturday"
 msgstr "Субота"
 
 #: companies/forms.py:94 companies/models.py:17
 #: templates/companies/add_staff.html:204
-#: templates/companies/edit_staff.html:202
+#: templates/companies/edit_staff.html:207
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
 msgid "Sunday"
 msgstr "Неділя"
@@ -691,7 +691,7 @@ msgstr "Перейти до Оплати"
 #: templates/companies/add_staff.html:280
 #: templates/companies/edit_profile.html:196
 #: templates/companies/edit_service.html:109
-#: templates/companies/edit_staff.html:288
+#: templates/companies/edit_staff.html:293
 #: templates/companies/working_hours.html:72
 #: templates/socialaccount/signup.html:56
 msgid "Cancel"
@@ -1068,7 +1068,7 @@ msgstr "Дата і Час"
 #: templates/bookings/edit_booking.html:77
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
 #: templates/companies/edit_profile.html:76
-#: templates/companies/edit_staff.html:16
+#: templates/companies/edit_staff.html:17
 #: templates/companies/forgot_password.html:15
 #: templates/companies/register.html:57 templates/static_pages/contact.html:23
 msgid "Email"
@@ -1162,7 +1162,7 @@ msgstr "Ваша Інформація"
 #: templates/companies/add_staff.html:53
 #: templates/companies/customers_list.html:54
 #: templates/companies/edit_service.html:21
-#: templates/companies/edit_staff.html:27
+#: templates/companies/edit_staff.html:32
 #: templates/companies/services_list.html:25
 #: templates/companies/staff_list.html:25
 #: templates/static_pages/contact.html:17
@@ -1384,30 +1384,31 @@ msgstr "Максимум 10 дат дозволено"
 msgid "Add Staff Member"
 msgstr "Додати Члена Персоналу"
 
-#: templates/companies/add_staff.html:61 templates/companies/edit_staff.html:34
+#: templates/companies/add_staff.html:61 templates/companies/edit_staff.html:39
 #: templates/companies/staff_list.html:26
 msgid "Specialization"
 msgstr "Спеціалізація"
 
-#: templates/companies/add_staff.html:69 templates/companies/edit_staff.html:58
+#: templates/companies/add_staff.html:69 templates/companies/edit_staff.html:63
 msgid "Avatar"
 msgstr "Аватар"
 
-#: templates/companies/add_staff.html:77 templates/companies/edit_staff.html:75
+#: templates/companies/add_staff.html:77 templates/companies/edit_staff.html:80
 msgid "Working Days"
 msgstr "Робочі Дні"
 
-#: templates/companies/add_staff.html:97 templates/companies/edit_staff.html:95
+#: templates/companies/add_staff.html:97
+#: templates/companies/edit_staff.html:100
 msgid "Select the days when this staff member is available to work"
 msgstr "Оберіть дні, коли цей спеціаліст доступний для роботи"
 
 #: templates/companies/add_staff.html:102
-#: templates/companies/edit_staff.html:100
+#: templates/companies/edit_staff.html:105
 msgid "Working Hours per Day"
 msgstr "Години Роботи"
 
 #: templates/companies/add_staff.html:103
-#: templates/companies/edit_staff.html:101
+#: templates/companies/edit_staff.html:106
 msgid ""
 "Set specific working hours for each day (leave empty to use company hours)"
 msgstr ""
@@ -1421,13 +1422,13 @@ msgstr ""
 #: templates/companies/add_staff.html:175
 #: templates/companies/add_staff.html:191
 #: templates/companies/add_staff.html:207
-#: templates/companies/edit_staff.html:109
-#: templates/companies/edit_staff.html:125
-#: templates/companies/edit_staff.html:141
-#: templates/companies/edit_staff.html:157
-#: templates/companies/edit_staff.html:173
-#: templates/companies/edit_staff.html:189
-#: templates/companies/edit_staff.html:205
+#: templates/companies/edit_staff.html:114
+#: templates/companies/edit_staff.html:130
+#: templates/companies/edit_staff.html:146
+#: templates/companies/edit_staff.html:162
+#: templates/companies/edit_staff.html:178
+#: templates/companies/edit_staff.html:194
+#: templates/companies/edit_staff.html:210
 msgid "Start"
 msgstr "Початок"
 
@@ -1438,23 +1439,23 @@ msgstr "Початок"
 #: templates/companies/add_staff.html:180
 #: templates/companies/add_staff.html:196
 #: templates/companies/add_staff.html:212
-#: templates/companies/edit_staff.html:114
-#: templates/companies/edit_staff.html:130
-#: templates/companies/edit_staff.html:146
-#: templates/companies/edit_staff.html:162
-#: templates/companies/edit_staff.html:178
-#: templates/companies/edit_staff.html:194
-#: templates/companies/edit_staff.html:210
+#: templates/companies/edit_staff.html:119
+#: templates/companies/edit_staff.html:135
+#: templates/companies/edit_staff.html:151
+#: templates/companies/edit_staff.html:167
+#: templates/companies/edit_staff.html:183
+#: templates/companies/edit_staff.html:199
+#: templates/companies/edit_staff.html:215
 msgid "End"
 msgstr "кінець"
 
 #: templates/companies/add_staff.html:221
-#: templates/companies/edit_staff.html:218
+#: templates/companies/edit_staff.html:223
 msgid "Break Start Time"
 msgstr "Час Початку Перерви"
 
 #: templates/companies/add_staff.html:229
-#: templates/companies/edit_staff.html:226
+#: templates/companies/edit_staff.html:231
 msgid "Break End Time"
 msgstr "Час Закінчення Перерви"
 
@@ -1467,7 +1468,7 @@ msgid "Out of Salon End Date"
 msgstr "Дата Закінчення Відсутності в Салоні"
 
 #: templates/companies/add_staff.html:253 templates/companies/dashboard.html:35
-#: templates/companies/edit_staff.html:250
+#: templates/companies/edit_staff.html:255
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Послуги"
@@ -1920,7 +1921,9 @@ msgstr "Посилання WhatsApp"
 
 #: templates/companies/dashboard.html:222
 msgid "Use this link on your website, social media, or anywhere online"
-msgstr "Використовуйте це посилання на своєму вебсайті, у соціальних мережах або будь-де в Інтернеті"
+msgstr ""
+"Використовуйте це посилання на своєму вебсайті, у соціальних мережах або "
+"будь-де в Інтернеті"
 
 #: templates/companies/dashboard.html:232
 msgid "WhatsApp QR Code"
@@ -2044,7 +2047,7 @@ msgid "Current logo"
 msgstr "Поточний логотип"
 
 #: templates/companies/edit_profile.html:147
-#: templates/companies/edit_staff.html:64
+#: templates/companies/edit_staff.html:69
 #: templates/companies/services_list.html:49
 #: templates/companies/staff_list.html:54
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
@@ -2069,7 +2072,7 @@ msgstr "Оберіть файл"
 
 #: templates/companies/edit_profile.html:199
 #: templates/companies/edit_service.html:112
-#: templates/companies/edit_staff.html:291
+#: templates/companies/edit_staff.html:296
 #: templates/companies/working_hours.html:75
 msgid "Save Changes"
 msgstr "Зберегти Зміни"
@@ -2082,21 +2085,47 @@ msgstr "Редагувати Послугу"
 msgid "Edit Staff Member"
 msgstr "Редагувати Персонал"
 
-#: templates/companies/edit_staff.html:61
+#: templates/companies/edit_staff.html:19
+msgid "Resend Activation Email"
+msgstr "Повторно надіслати активаційний лист"
+
+#: templates/companies/edit_staff.html:66
 msgid "Current avatar"
 msgstr "Поточний аватар"
 
-#: templates/companies/edit_staff.html:235
+#: templates/companies/edit_staff.html:240
 msgid "Out of Office Start Date"
 msgstr "Дата Початку Відсутності"
 
-#: templates/companies/edit_staff.html:243
+#: templates/companies/edit_staff.html:248
 msgid "Out of Office End Date"
 msgstr "Дата Закінчення Відсутності"
 
-#: templates/companies/edit_staff.html:280
+#: templates/companies/edit_staff.html:285
 msgid "Is Active"
 msgstr "Активний"
+
+#: templates/companies/edit_staff.html:307
+#, fuzzy
+#| msgid "Are you sure you want to switch to"
+msgid "Are you sure you want to resend the activation email?"
+msgstr "Ви впевнені, що хочете змінити на"
+
+#: templates/companies/edit_staff.html:323
+msgid "Activation email sent successfully!"
+msgstr "Активаційний лист успішно надіслано!"
+
+#: templates/companies/edit_staff.html:325
+msgid "Error:"
+msgstr "Помилка:"
+
+#: templates/companies/edit_staff.html:325
+msgid "Unknown error"
+msgstr "Невідома помилка"
+
+#: templates/companies/edit_staff.html:330
+msgid "Error sending activation email. Please try again."
+msgstr "Помилка надсилання активаційного листа. Будь ласка, спробуйте ще раз."
 
 #: templates/companies/forgot_password.html:10
 msgid "Forgot Password"

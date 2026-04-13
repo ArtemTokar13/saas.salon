@@ -63,9 +63,11 @@ def send_booking_reminders():
 
         # Send WhatsApp reminder if company has WhatsApp feature
         if has_whatsapp_feature(booking.company):
-            print(f"Sending WhatsApp reminder to {booking.customer.phone} for booking {booking.id}")
+            # Use booking_phone if available, otherwise fall back to customer.phone
+            phone_to_use = booking.get_phone_for_notifications()
+            print(f"Sending WhatsApp reminder to {phone_to_use} for booking {booking.id}")
             res = send_whatsapp_template(
-                to=booking.customer.phone,
+                to=phone_to_use,
                 content_sid=settings.TWILIO_REMINDER_TEMPLATE_SID,
                 variables={
                     '1': booking.customer.name,

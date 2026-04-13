@@ -112,8 +112,15 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
     });
 
     /* ---------------------------------------------------------
-     * 2. Staff → Syncfusion resources
+     * 2. Staff → Syncfusion resources with working hours
      * --------------------------------------------------------- */
+    
+    // Create a map of staff working hours for easy access
+    const staffWorkingHoursMap = {};
+    staffList.forEach(s => {
+        staffWorkingHoursMap[s.id] = s.workingHours || { isDayOff: true };
+    });
+    
     const resources = [{
         field: 'StaffId',
         title: 'Staff',
@@ -123,7 +130,8 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
             Id: s.id,
             Name: s.title,
             Avatar: s.avatar,
-            Occupancy: s.occupancy || 0
+            Occupancy: s.occupancy || 0,
+            WorkingHours: s.workingHours || { isDayOff: true }
         })),
         textField: 'Name',
         idField: 'Id'
@@ -183,13 +191,13 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
         /* Робочі години */
         workHours: {
             highlight: true,
-            start: `${dayStart}:00`,
-            end: `${dayEnd}:00`
+            start: dayStart,
+            end: dayEnd
         },
 
         /* Показувати тільки робочі години */
-        startHour: `${dayStart}:00`,
-        endHour: `${dayEnd}:00`,
+        startHour: dayStart,
+        endHour: dayEnd,
 
         /* Staff columns */
         group: {
@@ -309,22 +317,23 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
                         };
                     });
 
-                    // Update staff resources with new occupancy
+                    // Update staff resources with new occupancy and working hours
                     const staffResources = data.staff.map(s => ({
                         Id: s.id,
                         Name: s.title,
                         Avatar: s.avatar,
-                        Occupancy: s.occupancy || 0
+                        Occupancy: s.occupancy || 0,
+                        WorkingHours: s.workingHours || { isDayOff: true }
                     }));
                     
                     this.resources[0].dataSource = staffResources;
                     
                     // Update working hours
                     if (data.dayStart && data.dayEnd) {
-                        this.startHour = `${data.dayStart}:00`;
-                        this.endHour = `${data.dayEnd}:00`;
-                        this.workHours.start = `${data.dayStart}:00`;
-                        this.workHours.end = `${data.dayEnd}:00`;
+                        this.startHour = data.dayStart;
+                        this.endHour = data.dayEnd;
+                        this.workHours.start = data.dayStart;
+                        this.workHours.end = data.dayEnd;
                     }
 
                     this.eventSettings.dataSource = events;
@@ -367,6 +376,48 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
         /* Prevent all default Syncfusion popups */
         popupOpen: function(args) {
             args.cancel = true;  // Prevent quick info popup, editor dialog, etc.
+        },
+
+        /* Render cells - color non-working hours in grey */
+        renderCell: function(args) {
+            // Only process work cells (time slots), not date header cells
+            if (args.elementType === 'workCells' || args.elementType === 'monthCells') {
+                // Get the staff ID for this cell (resource/column)
+                const groupIndex = args.groupIndex;
+                if (groupIndex !== undefined && this.resourceCollection && this.resourceCollection.length > 0) {
+                    const resourceData = this.resourceCollection[0].dataSource;
+                    if (resourceData && resourceData[groupIndex]) {
+                        const staffData = resourceData[groupIndex];
+                        const workingHours = staffData.WorkingHours;
+                        
+                        // Check if it's a day off or outside working hours
+                        if (workingHours && workingHours.isDayOff) {
+                            // Day off - mark entire column in grey
+                            args.element.style.backgroundColor = '#7e838b';
+                            args.element.style.opacity = '0.6';
+                        } else if (workingHours && !workingHours.isDayOff && workingHours.start && workingHours.end) {
+                            // Check if current time slot is outside working hours
+                            const cellTime = new Date(args.date);
+                            const cellHour = cellTime.getHours();
+                            const cellMinute = cellTime.getMinutes();
+                            const cellTimeStr = `${cellHour.toString().padStart(2, '0')}:${cellMinute.toString().padStart(2, '0')}`;
+                            
+                            const [startHour, startMinute] = workingHours.start.split(':').map(Number);
+                            const [endHour, endMinute] = workingHours.end.split(':').map(Number);
+                            
+                            const cellMinutes = cellHour * 60 + cellMinute;
+                            const startMinutes = startHour * 60 + startMinute;
+                            const endMinutes = endHour * 60 + endMinute;
+                            
+                            // If cell time is before start or after end, color it grey
+                            if (cellMinutes < startMinutes || cellMinutes >= endMinutes) {
+                                args.element.style.backgroundColor = '#7e838b';
+                                args.element.style.opacity = '0.6';
+                            }
+                        }
+                    }
+                }
+            }
         }
     });
 

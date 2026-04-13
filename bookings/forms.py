@@ -3,6 +3,7 @@ from django import forms
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from .models import Booking, Customer, COUNTRY_CHOICES
+from .utils import normalize_phone_number
 from companies.models import Company, Staff, Service
 
 
@@ -80,6 +81,14 @@ class BookingForm(forms.ModelForm):
 
     def save(self, commit=True):
         booking = super().save(commit=False)
+        
+        # Store the phone number from this booking for reminders
+        # This prevents issues when customer phone changes later
+        # Normalize the phone number to E.164 format for WhatsApp/SMS
+        raw_phone = self.cleaned_data.get('customer_phone')
+        country_code = self.cleaned_data.get('customer_country_code', '')
+        booking.booking_phone = normalize_phone_number(raw_phone, country_code)
+        booking.booking_country_code = country_code
         
         # If editing existing booking, keep the existing customer
         if self.instance.pk:

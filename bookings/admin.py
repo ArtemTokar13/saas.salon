@@ -12,7 +12,7 @@ class CustomerAdmin(admin.ModelAdmin):
 class BookingAdmin(admin.ModelAdmin):
     list_display = ['customer', 'company', 'service', 'staff', 'date', 'start_time', 'duration', 'price', 'status', 'created_at']
     list_filter = ['company', 'status', 'date', 'created_at']
-    search_fields = ['customer__name', 'customer__phone']
+    search_fields = ['customer__name', 'customer__phone', 'booking_phone']
     date_hierarchy = 'date'
     readonly_fields = ['created_at', 'confirmed_at', 'confirmed_by', 'delete_code']
     fieldsets = (
@@ -21,6 +21,10 @@ class BookingAdmin(admin.ModelAdmin):
         }),
         ('Details', {
             'fields': ('duration', 'price', 'status')
+        }),
+        ('Contact Info', {
+            'fields': ('booking_phone', 'booking_country_code'),
+            'description': 'Phone number as provided when this booking was created (for notifications)'
         }),
         ('Confirmation', {
             'fields': ('confirmed_at', 'confirmed_by'),

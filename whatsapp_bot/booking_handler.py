@@ -9,6 +9,8 @@ from django.db.models import Q
 from fuzzywuzzy import fuzz
 from companies.models import Company, Service, Staff, WorkingHours
 from bookings.models import Booking, Customer
+from bookings.utils import normalize_phone_number
+from bookings.models import Booking, Customer
 
 logger = logging.getLogger(__name__)
 
@@ -135,11 +137,25 @@ class BookingSearcher:
                     return []
         
         # Get working hours for this day
-        working_hours = WorkingHours.objects.filter(
-            company=staff.company,
+        # First check staff-specific hours, then fall back to company hours
+        from companies.models import StaffWorkingHours
+        
+        staff_hours = StaffWorkingHours.objects.filter(
+            staff=staff,
             day_of_week=day_of_week,
             is_day_off=False
         ).first()
+        
+        if staff_hours:
+            # Use staff-specific working hours
+            working_hours = staff_hours
+        else:
+            # Fall back to company working hours
+            working_hours = WorkingHours.objects.filter(
+                company=staff.company,
+                day_of_week=day_of_week,
+                is_day_off=False
+            ).first()
         
         if not working_hours:
             return []
@@ -253,7 +269,9 @@ class BookingSearcher:
             price=service.price,
             status=1 if not service.need_staff_confirmation else 3,  # Confirmed or PreBooked
             delete_code=delete_code,
-            notes=f"Booking created via WhatsApp on {timezone.now().strftime('%Y-%m-%d %H:%M')}"
+            notes=f"Booking created via WhatsApp on {timezone.now().strftime('%Y-%m-%d %H:%M')}",
+            booking_phone=normalize_phone_number(customer_phone, customer.country_code),  # Store normalized phone
+            booking_country_code=customer.country_code  # Store country code
         )
         
         logger.info(f"Created booking: {booking.id} for {customer_name}")

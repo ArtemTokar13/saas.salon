@@ -42,6 +42,21 @@ class Booking(models.Model):
     reminder_sent = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
     client_notes = models.TextField(blank=True, null=True, help_text="Notes added by the client when booking")
+    # Store phone at time of booking to avoid issues when customer phone changes
+    booking_phone = models.CharField(max_length=50, blank=True, null=True, help_text="Phone number used when booking was created")
+    booking_country_code = models.CharField(max_length=10, blank=True, null=True, choices=COUNTRY_CHOICES, help_text="Country code at time of booking")
+
+    def get_phone_for_notifications(self):
+        """Get the phone number to use for notifications (booking_phone or fallback to customer.phone)
+        Returns normalized phone number ready for WhatsApp/SMS"""
+        from .utils import normalize_phone_number
+        
+        # Prefer booking_phone (already normalized when saved)
+        if self.booking_phone:
+            return self.booking_phone
+        
+        # Fallback to customer phone (normalize it)
+        return normalize_phone_number(self.customer.phone, self.booking_country_code or self.customer.country_code)
 
     def __str__(self):
         return f"{self.customer.name} → {self.service.name} ({self.date})"

@@ -307,8 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Parse staff occupancy safely (if not already available)
     const staffOccupancyObj = {{ staff_occupancy|safe }} || {};
     const currentDate = new Date('{{ current_date|date:"Y-m-d" }}');
-    const dayStart = {{ day_start }};
-    const dayEnd = {{ day_end }};
+    const dayStart = '{{ day_start }}';
+    const dayEnd = '{{ day_end }}';
     const calendarStepMinutes = {{ calendar_step_minutes }};
     
     // Attach occupancy data to staffList

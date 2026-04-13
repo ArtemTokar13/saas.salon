@@ -603,14 +603,43 @@ def booking_calendar(request):
         ).select_related('customer', 'staff', 'service').order_by('start_time')
 
         # Serialize staff and bookings into JSON-friendly structures
-        staff_data = [
-            {
+        staff_data = []
+        for s in staff_list:
+            # Get staff working hours for the current day
+            staff_wh = StaffWorkingHours.objects.filter(
+                staff=s, 
+                day_of_week=current_date.weekday()
+            ).first()
+            
+            staff_info = {
                 'id': s.id, 
                 'title': s.name,
                 'avatar': s.avatar.url if s.avatar else None
             }
-            for s in staff_list
-        ]
+            
+            # Add working hours for this staff member
+            # First check staff-specific hours, then fall back to company hours
+            if staff_wh and not staff_wh.is_day_off:
+                # Staff has custom working hours for this day
+                staff_info['workingHours'] = {
+                    'start': staff_wh.start_time.strftime('%H:%M'),
+                    'end': staff_wh.end_time.strftime('%H:%M'),
+                    'isDayOff': False
+                }
+            elif working_hours and not working_hours.is_day_off:
+                # Fall back to company working hours
+                staff_info['workingHours'] = {
+                    'start': working_hours.start_time.strftime('%H:%M'),
+                    'end': working_hours.end_time.strftime('%H:%M'),
+                    'isDayOff': False
+                }
+            else:
+                # Both staff and company have this as a day off
+                staff_info['workingHours'] = {
+                    'isDayOff': True
+                }
+            
+            staff_data.append(staff_info)
 
         bookings_data = []
         for b in bookings:
@@ -693,8 +722,8 @@ def booking_calendar(request):
             'bookings': bookings,
             'events_json': json.dumps(bookings_data),
             'current_date': current_date,
-            'day_start': day_start.strftime('%H'),
-            'day_end': day_end.strftime('%H'),
+            'day_start': day_start.strftime('%H:%M'),
+            'day_end': day_end.strftime('%H:%M'),
             'today': today,
             'calendar_step_minutes': company.calendar_step_minutes,
             'ej_base_license_key': getattr(settings, 'EJ_BASE_LICENSE_KEY', ''),
@@ -739,10 +768,14 @@ def calendar_api(request):
         else:
             staff_list = list(Staff.objects.filter(company=company, id=profile.staff.id, is_active=True))
 
-        working_hours = WorkingHours.objects.filter(company=company, day_of_week=current_date.weekday()).first()
+        working_hours = WorkingHours.objects.filter(
+            company=company, 
+            day_of_week=current_date.weekday(),
+            is_day_off=False
+        ).first()
         if working_hours:
-            day_start = dtime(hour=working_hours.start_time.hour, minute=0)
-            day_end = dtime(hour=working_hours.end_time.hour, minute=0)
+            day_start = working_hours.start_time
+            day_end = working_hours.end_time
         else:
             day_start = dtime(hour=8, minute=0)
             day_end = dtime(hour=20, minute=0)
@@ -824,22 +857,51 @@ def calendar_api(request):
             
             staff_occupancy[staff.id] = occupancy
 
-        # Serialize staff data with occupancy
-        staff_data = [
-            {
+        # Serialize staff data with occupancy and working hours
+        staff_data = []
+        for s in staff_list:
+            # Get staff working hours for the current day
+            staff_wh = StaffWorkingHours.objects.filter(
+                staff=s, 
+                day_of_week=current_date.weekday()
+            ).first()
+            
+            staff_info = {
                 'id': s.id,
                 'title': s.name,
                 'avatar': s.avatar.url if s.avatar else None,
                 'occupancy': staff_occupancy.get(s.id, 0)
             }
-            for s in staff_list
-        ]
+            
+            # Add working hours for this staff member
+            # First check staff-specific hours, then fall back to company hours
+            if staff_wh and not staff_wh.is_day_off:
+                # Staff has custom working hours for this day
+                staff_info['workingHours'] = {
+                    'start': staff_wh.start_time.strftime('%H:%M'),
+                    'end': staff_wh.end_time.strftime('%H:%M'),
+                    'isDayOff': False
+                }
+            elif working_hours and not working_hours.is_day_off:
+                # Fall back to company working hours
+                staff_info['workingHours'] = {
+                    'start': working_hours.start_time.strftime('%H:%M'),
+                    'end': working_hours.end_time.strftime('%H:%M'),
+                    'isDayOff': False
+                }
+            else:
+                # Both staff and company have this as a day off
+                staff_info['workingHours'] = {
+                    'isDayOff': True
+                }
+            
+            staff_data.append(staff_info)
 
         return JsonResponse({
             'bookings': bookings_data,
             'staff': staff_data,
-            'dayStart': day_start.strftime('%H'),
-            'dayEnd': day_end.strftime('%H'),
+            'dayStart': day_start.strftime('%H:%M'),
+            'dayEnd': day_end.strftime('%H:%M'),
             'calendarStepMinutes': company.calendar_step_minutes
         })
     

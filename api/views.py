@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from billing.models import Plan
 from bookings.models import Booking, Customer
+from bookings.utils import normalize_phone_number
 from companies.models import Company, Service, Staff
 from decimal import Decimal
 import json
@@ -193,6 +194,8 @@ def bookings_list(request):
             )
             
             # Create booking
+            raw_phone = data.get('customer_phone', '')
+            country_code = data.get('customer_country_code', '')
             booking = Booking.objects.create(
                 customer=customer,
                 company_id=data['company_id'],
@@ -203,6 +206,8 @@ def bookings_list(request):
                 end_time=data.get('end_time'),
                 price=data.get('price', 0),
                 status=0,  # Pending
+                booking_phone=normalize_phone_number(raw_phone, country_code),  # Store normalized phone
+                booking_country_code=country_code,  # Store country code
             )
             
             return JsonResponse({

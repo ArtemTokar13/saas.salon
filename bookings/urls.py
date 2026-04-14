@@ -11,6 +11,7 @@ urlpatterns = [
     path('calendar-api/', views.calendar_api, name='calendar_api'),
     path('edit/<int:booking_id>/', views.edit_booking, name='edit_booking'),
     path('update-status/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
+    path('api/guess-customer/', views.guess_customer_data, name='guess_customer_data'),
     path('api/update-booking/<int:booking_id>/', views.update_booking_ajax, name='update_booking_ajax'),
     path('api/update-notes/<int:booking_id>/', views.update_booking_notes, name='update_booking_notes'),
     path('api/delete-booking/<int:booking_id>/', views.delete_booking_ajax, name='delete_booking_ajax'),

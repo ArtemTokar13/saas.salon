@@ -1007,7 +1007,26 @@ def update_booking_status(request, booking_id):
     
     except UserProfile.DoesNotExist:
         return JsonResponse({'error': 'User profile not found'}, status=403)
+    
 
+@login_required
+@subscription_required
+def guess_customer_data(request):
+    """API endpoint to guess customer data based on phone or email input"""
+    try:
+        customers = Customer.objects.filter(phone__icontains=request.GET.get('phone')).order_by('-id')[:5]
+        customers_list = []
+        for c in customers:
+            customers_list.append({
+                'country_code': c.country_code,
+                'name': c.name,
+                'email': c.email,
+                'phone': c.phone,
+            })
+        return JsonResponse({'customers': customers_list})
+
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'error': 'User profile not found'}, status=403)
 
 @csrf_exempt
 @login_required

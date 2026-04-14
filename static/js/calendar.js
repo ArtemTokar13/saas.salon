@@ -393,7 +393,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
                         // Check if it's a day off or outside working hours
                         if (workingHours && workingHours.isDayOff) {
                             // Day off - mark entire column in grey
-                            args.element.style.backgroundColor = '#7e838b';
+                            args.element.style.background = "repeating-linear-gradient(45deg, #7e838b 0 1px, transparent 1px 6px)";
                             args.element.style.opacity = '0.6';
                         } else if (workingHours && !workingHours.isDayOff && workingHours.start && workingHours.end) {
                             // Check if current time slot is outside working hours
@@ -411,7 +411,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
                             
                             // If cell time is before start or after end, color it grey
                             if (cellMinutes < startMinutes || cellMinutes >= endMinutes) {
-                                args.element.style.backgroundColor = '#7e838b';
+                                args.element.style.background = "repeating-linear-gradient(45deg, #7e838b 0 1px, transparent 1px 6px)";
                                 args.element.style.opacity = '0.6';
                             }
                         }

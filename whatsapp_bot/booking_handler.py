@@ -50,31 +50,72 @@ class BookingSearcher:
     
     def find_service(self, company: Company, service_name: str) -> Service:
         """
-        Find service by name using fuzzy matching
+        Find service by name using fuzzy matching with multilingual support
         """
         if not service_name or not company:
             return None
         
         services = Service.objects.filter(company=company, is_active=True)
         
-        # Try exact match
-        exact = services.filter(name__iexact=service_name).first()
-        if exact:
-            return exact
+        # Translation mapping for common service terms
+        translations = {
+            'маникюр': 'manicura',
+            'манікюр': 'manicura',
+            'педикюр': 'pedicura',
+            'педікюр': 'pedicura',
+            'стрижка': 'corte',
+            'окрашивание': 'tinte',
+            'фарбування': 'tinte',
+            'японский': 'japonesa',
+            'японська': 'japonesa',
+            'полуперманентный': 'semipermanente',
+            'напівперманентний': 'semipermanente',
+            'без покрытия': 'sin pintar',
+            'без покриття': 'sin pintar',
+            'наращивание': 'extensión',
+            'нарощування': 'extensión',
+            'ногтей': 'uñas',
+            'нігтів': 'uñas',
+        }
+        
+        # Normalize search term and translate
+        search_normalized = service_name.lower().strip()
+        
+        # Apply translations
+        for ru_term, es_term in translations.items():
+            search_normalized = search_normalized.replace(ru_term, es_term)
+        
+        # Remove parentheses
+        search_normalized = search_normalized.replace('(', '').replace(')', '')
+        
+        logger.info(f"AI extracted: '{service_name}' → Normalized: '{search_normalized}'")
+        
+        # Try exact match first
+        for service in services:
+            service_normalized = service.name.replace('(', '').replace(')', '').lower().strip()
+            if search_normalized == service_normalized:
+                logger.info(f"✓ Exact match: {service.name}")
+                return service
         
         # Fuzzy matching
         best_match = None
         best_score = 0
         
         for service in services:
-            score = fuzz.ratio(service_name.lower(), service.name.lower())
+            service_normalized = service.name.replace('(', '').replace(')', '').lower().strip()
+            score = fuzz.token_sort_ratio(search_normalized, service_normalized)
+            
+            logger.info(f"  '{service.name}' = {score}%")
+            
             if score > best_score:
                 best_score = score
                 best_match = service
         
-        if best_score > 60:  # Lower threshold for services
+        if best_score >= 75:
+            logger.info(f"✓ Best fuzzy match: {best_match.name} ({best_score}%)")
             return best_match
         
+        logger.warning(f"✗ No match found for: '{search_normalized}'")
         return None
     
     def find_available_slots(self, company: Company, service: Service, 
@@ -104,12 +145,18 @@ class BookingSearcher:
             services=service
         )
         
+        logger.info(f"Searching availability for '{service.name}' on {date}")
+        
         if not staff_members.exists():
             # If no staff assigned to service, check all staff
             staff_members = Staff.objects.filter(company=company, is_active=True)
+            logger.info(f"No staff assigned to service, checking all {staff_members.count()} staff")
+        else:
+            logger.info(f"Found {staff_members.count()} staff for this service")
         
         for staff in staff_members:
             slots = self._get_staff_available_times(staff, service, date)
+            logger.info(f"  {staff.name}: {len(slots)} slots")
             
             # Filter by time preference if specified
             if time_preference:
@@ -125,15 +172,18 @@ class BookingSearcher:
     def _get_staff_available_times(self, staff: Staff, service: Service, date: datetime.date) -> list:
         """Get available time slots for a specific staff member"""
         day_of_week = date.weekday()
+        logger.info(f"    Checking {staff.name} for {date} (weekday={day_of_week})")
         
         # Check if staff works on this day
         if staff.working_days and day_of_week not in staff.working_days:
+            logger.info(f"    ✗ {staff.name} doesn't work on day {day_of_week}. Working days: {staff.working_days}")
             return []
         
         # Check if staff is out of office
         if staff.out_of_office:
             if staff.out_of_office_start and staff.out_of_office_end:
                 if staff.out_of_office_start <= date <= staff.out_of_office_end:
+                    logger.info(f"    ✗ {staff.name} is out of office {staff.out_of_office_start} to {staff.out_of_office_end}")
                     return []
         
         # Get working hours for this day
@@ -149,6 +199,7 @@ class BookingSearcher:
         if staff_hours:
             # Use staff-specific working hours
             working_hours = staff_hours
+            logger.info(f"    Using staff-specific hours: {working_hours.start_time} - {working_hours.end_time}")
         else:
             # Fall back to company working hours
             working_hours = WorkingHours.objects.filter(
@@ -156,8 +207,11 @@ class BookingSearcher:
                 day_of_week=day_of_week,
                 is_day_off=False
             ).first()
+            if working_hours:
+                logger.info(f"    Using company hours: {working_hours.start_time} - {working_hours.end_time}")
         
         if not working_hours:
+            logger.info(f"    ✗ No working hours found for day {day_of_week}")
             return []
         
         # Get existing bookings
@@ -167,12 +221,15 @@ class BookingSearcher:
             status__in=[1, 3]  # Confirmed or PreBooked
         ).values_list('start_time', 'end_time')
         
+        logger.info(f"    Found {len(existing_bookings)} existing bookings")
+        
         # Generate time slots
         available_times = []
         current_time = datetime.combine(date, working_hours.start_time)
         end_time = datetime.combine(date, working_hours.end_time)
         
         service_duration = timedelta(minutes=service.duration + service.time_for_servicing)
+        logger.info(f"    Service duration: {service.duration + service.time_for_servicing} minutes")
         
         while current_time < end_time:
             potential_end_time = current_time + service_duration
@@ -210,6 +267,7 @@ class BookingSearcher:
             
             current_time += timedelta(minutes=30)
         
+        logger.info(f"    ✓ Generated {len(available_times)} available slots for {staff.name}")
         return available_times
     
     def _filter_by_time_preference(self, slots: list, preference: str) -> list:

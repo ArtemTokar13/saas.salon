@@ -185,6 +185,20 @@ def process_message(conversation: WhatsAppConversation, message: str) -> str:
         lang = state.get('language', 'es')
         return get_message('conversation_cancelled', lang)
     
+    # Check for language change keywords
+    language_keywords = ['language', 'idioma', 'язык', 'мова', 'lingua', 'lengua']
+    if message.lower() in language_keywords:
+        conversation.current_state = 'selecting_language'
+        conversation.save()
+        return """🌍 Please select your language / Elige tu idioma:
+
+1️⃣ Español (ES)
+2️⃣ English (EN)
+3️⃣ Русский (RU)
+4️⃣ Українська (UK)
+
+Reply with the number (1-4) or language code."""
+    
     # Use AI to extract intent
     try:
         ai = BookingAI()
@@ -196,6 +210,14 @@ def process_message(conversation: WhatsAppConversation, message: str) -> str:
     
     # Handle different intents
     intent = intent_data.get('intent')
+    
+    # Override intent if AI extracted a service name, even if classified as "question"
+    # This handles cases where user just types service name without "I want" or "book"
+    if intent == 'question' and conversation.company:
+        # If AI extracted a service name, treat it as a booking request
+        if intent_data.get('service'):
+            intent = 'book'
+            intent_data['intent'] = 'book'
     
     if intent == 'greeting':
         return handle_greeting(conversation)
@@ -219,7 +241,7 @@ def ask_language_preference(conversation: WhatsAppConversation, first_message: s
 
 1️⃣ Español (ES)
 2️⃣ English (EN)
-3️⃣ Català (CA)
+3️⃣ Русский (RU)
 4️⃣ Українська (UK)
 
 Reply with the number (1-4) or language code."""
@@ -233,7 +255,7 @@ def handle_language_selection(conversation: WhatsAppConversation, message: str) 
     language_map = {
         '1': 'es', 'español': 'es', 'spanish': 'es', 'es': 'es',
         '2': 'en', 'english': 'en', 'inglés': 'en', 'en': 'en',
-        '3': 'ca', 'català': 'ca', 'catalan': 'ca', 'ca': 'ca',
+        '3': 'ru', 'русский': 'ru', 'russian': 'ru', 'ru': 'ru',
         '4': 'uk', 'українська': 'uk', 'ukrainian': 'uk', 'uk': 'uk'
     }
     
@@ -333,7 +355,7 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
                 messages_switch = {
                     'es': f'¡Perfecto! Ahora estás reservando en {company.name}. ¿En qué puedo ayudarte?',
                     'en': f'Perfect! You are now booking at {company.name}. How can I help you?',
-                    'ca': f'Perfecte! Ara estàs reservant a {company.name}. En què puc ajudar-te?',
+                    'ru': f'Отлично! Теперь вы бронируете в {company.name}. Чем могу помочь?',
                     'uk': f'Чудово! Тепер ви бронюєте в {company.name}. Чим можу допомогти?'
                 }
                 return messages_switch.get(lang, messages_switch['es'])
@@ -418,7 +440,7 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
             messages_salon = {
                 'es': f"¿En qué salón te gustaría reservar?\n\n{salon_list}\n\nPor favor, indica el nombre.",
                 'en': f"Which salon would you like to book at?\n\n{salon_list}\n\nPlease indicate the name.",
-                'ca': f"A quin saló vols reservar?\n\n{salon_list}\n\nSi us plau, indica el nom.",
+                'ru': f"В каком салоне вы хотите забронировать?\n\n{salon_list}\n\nПожалуйста, укажите название.",
                 'uk': f"В якому салоні ви хочете забронювати?\n\n{salon_list}\n\nБудь ласка, вкажіть назву."
             }
             return messages_salon.get(lang, messages_salon['es'])
@@ -435,18 +457,34 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         lang = state.get('language', 'es')
         if services.exists():
             service_list = "\n".join([f"• {s.name}" for s in services])
+            
+            # Add contact info for complex inquiries
+            contact_info = ""
+            if company.phone or company.email:
+                contact_lines = {
+                    'es': "\n\n💡 Para consultas sobre servicios específicos:",
+                    'en': "\n\n💡 For specific service inquiries:",
+                    'ru': "\n\n💡 Для вопросов о конкретных услугах:",
+                    'uk': "\n\n💡 Для питань про конкретні послуги:"
+                }
+                contact_info = contact_lines.get(lang, contact_lines['es'])
+                public_page_url = f"https://reserva-ya.es/companies/{company.id}/"
+                contact_info += f"\n🌐 {public_page_url}"
+                if company.phone:
+                    contact_info += f"\n📞 {company.phone}"
+            
             messages_service = {
-                'es': f"¿Qué servicio necesitas?\n\nServicios disponibles:\n{service_list}",
-                'en': f"What service do you need?\n\nAvailable services:\n{service_list}",
-                'ca': f"Quin servei necessites?\n\nServeis disponibles:\n{service_list}",
-                'uk': f"Яка послуга вам потрібна?\n\nДоступні послуги:\n{service_list}"
+                'es': f"¿Qué servicio necesitas?\n\nServicios disponibles:\n{service_list}{contact_info}",
+                'en': f"What service do you need?\n\nAvailable services:\n{service_list}{contact_info}",
+                'ru': f"Какая услуга вам нужна?\n\nДоступные услуги:\n{service_list}{contact_info}",
+                'uk': f"Яка послуга вам потрібна?\n\nДоступні послуги:\n{service_list}{contact_info}"
             }
             return messages_service.get(lang, messages_service['es'])
         else:
             messages_no_service = {
                 'es': "No hay servicios disponibles en este salón.",
                 'en': "No services available in this salon.",
-                'ca': "No hi ha serveis disponibles en aquest saló.",
+                'ru': "В этом салоне нет доступных услуг.",
                 'uk': "Немає доступних послуг у цьому салоні."
             }
             return messages_no_service.get(lang, messages_no_service['es'])
@@ -457,7 +495,7 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         messages_date = {
             'es': "¿Para qué día quieres la cita? (ej: mañana, viernes, 15 de marzo)",
             'en': "What day would you like the appointment? (e.g., tomorrow, Friday, March 15)",
-            'ca': "Per a quin dia vols la cita? (ex: demà, divendres, 15 de març)",
+            'ru': "На какой день вы хотите записаться? (напр.: завтра, пятница, 15 марта)",
             'uk': "На який день ви хочете записатися? (напр.: завтра, п'ятниця, 15 березня)"
         }
         return messages_date.get(lang, messages_date['es'])
@@ -469,7 +507,7 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         messages_bad_date = {
             'es': "No entendí la fecha. ¿Podrías especificarla? (ej: mañana, próximo lunes, 15/03/2026)",
             'en': "I didn't understand the date. Could you specify it? (e.g., tomorrow, next Monday, 03/15/2026)",
-            'ca': "No he entès la data. Podries especificar-la? (ex: demà, pròxim dilluns, 15/03/2026)",
+            'ru': "Я не понял дату. Можете уточнить? (напр.: завтра, следующий понедельник, 15/03/2026)",
             'uk': "Я не зрозумів дату. Можете уточнити? (напр.: завтра, наступний понеділок, 15/03/2026)"
         }
         return messages_bad_date.get(lang, messages_bad_date['es'])
@@ -480,7 +518,7 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         messages_past_date = {
             'es': "Esa fecha ya pasó. Por favor, elige una fecha futura.",
             'en': "That date has already passed. Please choose a future date.",
-            'ca': "Aquesta data ja ha passat. Si us plau, tria una data futura.",
+            'ru': "Эта дата уже прошла. Пожалуйста, выберите будущую дату.",
             'uk': "Ця дата вже минула. Будь ласка, виберіть майбутню дату."
         }
         return messages_past_date.get(lang, messages_past_date['es'])
@@ -502,18 +540,6 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         if state.get('time_before'):
             time_before = state['time_before']
             slots = [s for s in slots if s['time'] <= time_before]
-        
-        # Filter by specific staff member if requested
-        if state.get('staff_name'):
-            from fuzzywuzzy import fuzz
-            staff_name_requested = state['staff_name']
-            # Use fuzzy matching to match staff names (handles Анна vs Anna)
-            filtered_slots = []
-            for slot in slots:
-                similarity = fuzz.ratio(staff_name_requested.lower(), slot['staff'].lower())
-                if similarity > 70:  # 70% similarity threshold
-                    filtered_slots.append(slot)
-            slots = filtered_slots
             
     except Exception as e:
         logger.error(f"Error finding slots: {e}")
@@ -525,7 +551,7 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         messages_no_slots = {
             'es': f"😔 Lo siento, no hay horarios disponibles para {service.name} el {booking_date.strftime('%d/%m/%Y')}.\n\n¿Quieres probar otra fecha?",
             'en': f"😔 Sorry, no times available for {service.name} on {booking_date.strftime('%d/%m/%Y')}.\n\nWant to try another date?",
-            'ca': f"😔 Ho sento, no hi ha horaris disponibles per {service.name} el {booking_date.strftime('%d/%m/%Y')}.\n\nVols provar una altra data?",
+            'ru': f"😔 Извините, нет доступного времени для {service.name} {booking_date.strftime('%d/%m/%Y')}.\n\nПопробовать другую дату?",
             'uk': f"😔 Вибачте, немає доступних часів для {service.name} {booking_date.strftime('%d/%m/%Y')}.\n\nСпробувати іншу дату?"
         }
         return messages_no_slots.get(lang, messages_no_slots['es'])
@@ -568,7 +594,7 @@ def handle_slot_selection(conversation: WhatsAppConversation, slot_number: int) 
         messages_no_pending = {
             'es': "⚠️ No encontré una reserva pendiente. Por favor, empieza de nuevo.",
             'en': "⚠️ I couldn't find a pending booking. Please start again.",
-            'ca': "⚠️ No he trobat una reserva pendent. Si us plau, comença de nou.",
+            'ru': "⚠️ Я не нашел незавершенное бронирование. Пожалуйста, начните заново.",
             'uk': "⚠️ Я не знайшов незавершене бронювання. Будь ласка, почніть спочатку."
         }
         return messages_no_pending.get(lang, messages_no_pending['es'])
@@ -578,7 +604,7 @@ def handle_slot_selection(conversation: WhatsAppConversation, slot_number: int) 
         messages_invalid_slot = {
             'es': f"⚠️ Por favor, elige un número entre 1 y {len(pending.available_slots)}.",
             'en': f"⚠️ Please choose a number between 1 and {len(pending.available_slots)}.",
-            'ca': f"⚠️ Si us plau, tria un número entre 1 i {len(pending.available_slots)}.",
+            'ru': f"⚠️ Пожалуйста, выберите номер между 1 и {len(pending.available_slots)}.",
             'uk': f"⚠️ Будь ласка, виберіть номер між 1 та {len(pending.available_slots)}."
         }
         return messages_invalid_slot.get(lang, messages_invalid_slot['es'])
@@ -598,7 +624,7 @@ def handle_slot_selection(conversation: WhatsAppConversation, slot_number: int) 
         messages_ask_name = {
             'es': "✅ Perfecto! ¿Cuál es tu nombre completo?",
             'en': "✅ Perfect! What's your full name?",
-            'ca': "✅ Perfecte! Quin és el teu nom complet?",
+            'ru': "✅ Отлично! Как ваше полное имя?",
             'uk': "✅ Чудово! Яке ваше повне ім'я?"
         }
         return messages_ask_name.get(lang, messages_ask_name['es'])
@@ -650,7 +676,7 @@ def create_booking_from_pending(conversation: WhatsAppConversation,
         messages_error = {
             'es': f"❌ Hubo un error al crear la reserva: {str(e)}\n\nPor favor, intenta de nuevo o contacta directamente con el salón.",
             'en': f"❌ There was an error creating the booking: {str(e)}\n\nPlease try again or contact the salon directly.",
-            'ca': f"❌ Hi ha hagut un error en crear la reserva: {str(e)}\n\nSi us plau, torna-ho a provar o contacta directament amb el saló.",
+            'ru': f"❌ Произошла ошибка при создании бронирования: {str(e)}\n\nПожалуйста, попробуйте еще раз или свяжитесь с салоном напрямую.",
             'uk': f"❌ Сталася помилка при створенні бронювання: {str(e)}\n\nБудь ласка, спробуйте ще раз або зв'яжіться безпосередньо з салоном."
         }
         return messages_error.get(lang, messages_error['es'])
@@ -691,17 +717,17 @@ def show_booking_confirmation_preview(conversation: WhatsAppConversation, pendin
 
 ✅ Reply 'yes' to confirm
 ❌ Reply 'no' to cancel""",
-        'ca': """📋 Si us plau, confirma la teva reserva:
+        'ru': """📋 Пожалуйста, подтвердите бронирование:
 
-📅 Data: {date}
-🕐 Hora: {time}
-✂️ Servei: {service}
-👤 Especialista: {staff}
-👤 Client: {customer}
-📍 Saló: {company}
+📅 Дата: {date}
+🕐 Время: {time}
+✂️ Услуга: {service}
+👤 Специалист: {staff}
+👤 Клиент: {customer}
+📍 Салон: {company}
 
-✅ Respon 'sí' per confirmar
-❌ Respon 'no' per cancel·lar""",
+✅ Ответьте 'да' для подтверждения
+❌ Ответьте 'нет' для отмены""",
         'uk': """📋 Будь ласка, підтвердіть бронювання:
 
 📅 Дата: {date}
@@ -732,7 +758,7 @@ def handle_booking_confirmation(conversation: WhatsAppConversation, message: str
     message_lower = message.strip().lower()
     
     # Check for affirmative responses
-    yes_keywords = ['sí', 'si', 'yes', 'yeah', 'yep', 'так', 'ok', 'okay', 'confirmar', 'confirm']
+    yes_keywords = ['sí', 'si', 'yes', 'yeah', 'yep', 'так', 'да', 'ok', 'okay', 'confirmar', 'confirm']
     no_keywords = ['no', 'нет', 'ні', 'cancel', 'cancelar']
     
     if any(word in message_lower for word in yes_keywords):
@@ -762,7 +788,7 @@ def handle_booking_confirmation(conversation: WhatsAppConversation, message: str
         messages_cancelled = {
             'es': "❌ Reserva cancelada.\n\n¿Quieres buscar otro hora rio o servicio?",
             'en': "❌ Booking cancelled.\n\nWould you like to search for another time or service?",
-            'ca': "❌ Reserva cancel·lada.\n\nVols buscar un altre horari o servei?",
+            'ru': "❌ Бронирование отменено.\n\nХотите найти другое время или услугу?",
             'uk': "❌ Бронювання скасовано.\n\nБажаєте знайти інший час або послугу?"
         }
         return messages_cancelled.get(lang, messages_cancelled['es'])
@@ -772,16 +798,54 @@ def handle_booking_confirmation(conversation: WhatsAppConversation, message: str
         messages_unclear = {
             'es': "⚠️ Por favor responde 'sí' para confirmar o 'no' para cancelar.",
             'en': "⚠️ Please reply 'yes' to confirm or 'no' to cancel.",
-            'ca': "⚠️ Si us plau respon 'sí' per confirmar o 'no' per cancel·lar.",
+            'ru': "⚠️ Пожалуйста, ответьте 'да' для подтверждения или 'нет' для отмены.",
             'uk': "⚠️ Будь ласка, відповідайте 'так' для підтвердження або 'ні' для скасування."
         }
         return messages_unclear.get(lang, messages_unclear['es'])
 
 
 def handle_question(conversation: WhatsAppConversation, message: str) -> str:
-    """Handle general questions"""
+    """Handle general questions - provide salon contact for complex inquiries"""
     lang = conversation.conversation_state.get('language', 'es')
+    
+    # If salon is known, provide contact information
+    if conversation.company:
+        company = conversation.company
+        
+        # Build public page URL
+        public_page_url = f"https://reserva-ya.es/companies/{company.id}/"
+        
+        contact_messages = {
+            'es': f"""Para consultas específicas sobre servicios, precios o disponibilidad:
+
+🌐 Ver servicios y precios: {public_page_url}
+📞 Teléfono: {company.phone if company.phone else 'No disponible'}
+
+¿O prefieres que te ayude a hacer una reserva?""",
+            'en': f"""For specific questions about services, prices or availability:
+
+🌐 View services and prices: {public_page_url}
+📞 Phone: {company.phone if company.phone else 'Not available'}
+
+Or would you like me to help you make a booking?""",
+            'ru': f"""Для конкретных вопросов об услугах, ценах или доступности:
+
+🌐 Посмотреть услуги и цены: {public_page_url}
+📞 Телефон: {company.phone if company.phone else 'Недоступно'}
+
+Или хотите, чтобы я помог вам сделать бронирование?""",
+            'uk': f"""Для конкретних питань про послуги, ціни або доступність:
+
+🌐 Переглянути послуги та ціни: {public_page_url}
+📞 Телефон: {company.phone if company.phone else 'Недоступно'}
+
+Або хочете, щоб я допоміг вам зробити бронювання?"""
+        }
+        return contact_messages.get(lang, contact_messages['es'])
+    
+    # If no salon set, show general help
     return get_message('help_message', lang)
+
 
 
 def get_service_examples(company, lang: str) -> list:
@@ -801,7 +865,7 @@ def get_service_examples(company, lang: str) -> list:
     time_examples = {
         'es': ['mañana a las 3pm', 'el viernes', 'el lunes por la tarde'],
         'en': ['tomorrow at 3pm', 'on Friday', 'Monday afternoon'],
-        'ca': ['demà a les 3pm', 'el divendres', 'dilluns a la tarda'],
+        'ru': ['завтра в 3pm', 'в пятницу', 'в понедельник после обеда'],
         'uk': ['завтра о 3pm', "в п'ятницю", 'на понеділок після обіду'],
     }
     
@@ -809,7 +873,7 @@ def get_service_examples(company, lang: str) -> list:
     action_phrases = {
         'es': ['Quiero', 'Disponibilidad para', 'Reserva'],
         'en': ['I want', 'Availability for', 'Book'],
-        'ca': ['Vull', 'Disponibilitat per a', 'Reserva'],
+        'ru': ['Хочу', 'Доступность для', 'Забронировать'],
         'uk': ['Хочу', 'Доступність для', 'Забронюйте'],
     }
     
@@ -838,7 +902,7 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
         generic_examples = {
             'es': '• "Quiero una cita mañana a las 3pm"\n• "Disponibilidad el viernes"\n• "Reserva para el lunes por la tarde"',
             'en': '• "I want an appointment tomorrow at 3pm"\n• "Availability on Friday"\n• "Book for Monday afternoon"',
-            'ca': '• "Vull una cita demà a les 3pm"\n• "Disponibilitat el divendres"\n• "Reserva per dilluns a la tarda"',
+            'ru': '• "Хочу запись завтра в 3pm"\n• "Доступность в пятницу"\n• "Забронировать на понедельник после обеда"',
             'uk': '• "Хочу відвідування завтра о 3pm"\n• "Доступність в п\'ятницю"\n• "Забронюйте на понеділок після обіду"',
         }
         examples_str = generic_examples.get(lang, generic_examples['es'])
@@ -847,32 +911,32 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
         'welcome_with_salon': {
             'es': "👋 ¡Hola! Bienvenido a {company_name}.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n{examples}\n\n¿En qué puedo ayudarte?",
             'en': "👋 Hello! Welcome to {company_name}.\n\nI can help you book an appointment. For example:\n{examples}\n\nHow can I help you?",
-            'ca': "👋 Hola! Benvingut a {company_name}.\n\nPuc ajudar-te a fer una reserva. Per exemple:\n{examples}\n\nEn què puc ajudar-te?",
+            'ru': "👋 Здравствуйте! Добро пожаловать в {company_name}.\n\nЯ могу помочь вам забронировать визит. Например:\n{examples}\n\nЧем могу помочь?",
             'uk': "👋 Привіт! Ласкаво просимо до {company_name}.\n\nЯ можу допомогти вам забронювати візит. Наприклад:\n{examples}\n\nЯк я можу допомогти?",
         },
         'welcome_general': {
             'es': "👋 ¡Hola! Soy tu asistente de reservas inteligente.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n{examples}\n\n¿En qué puedo ayudarte?",
             'en': "👋 Hello! I'm your smart booking assistant.\n\nI can help you book an appointment. For example:\n{examples}\n\nHow can I help you?",
-            'ca': "👋 Hola! Sóc el teu assistent de reserves intel·ligent.\n\nPuc ajudar-te a fer una reserva. Per exemple:\n{examples}\n\nEn què puc ajudar-te?",
+            'ru': "👋 Здравствуйте! Я ваш умный помощник по бронированию.\n\nЯ могу помочь вам забронировать визит. Например:\n{examples}\n\nЧем могу помочь?",
             'uk': "👋 Привіт! Я ваш розумний асистент бронювання.\n\nЯ можу допомогти забронювати візит. Наприклад:\n{examples}\n\nЯк я можу допомогти?",
         },
         'conversation_cancelled': {
             'es': "❌ Conversación cancelada. Escribe cuando quieras hacer una reserva.",
             'en': "❌ Conversation cancelled. Write when you want to make a booking.",
-            'ca': "❌ Conversa cancel·lada. Escriu quan vulguis fer una reserva.",
+            'ru': "❌ Разговор отменен. Пишите, когда захотите сделать бронирование.",
             'uk': "❌ Розмову скасовано. Напишіть, коли захочете зробити бронювання.",
         },
         'service_error': {
             'es': "⚠️ Lo siento, hay un problema con el servicio. Por favor, intenta más tarde o llama directamente al salón.",
             'en': "⚠️ Sorry, there's a problem with the service. Please try again later or call the salon directly.",
-            'ca': "⚠️ Ho sento, hi ha un problema amb el servei. Si us plau, torna-ho a provar més tard o truca directament al saló.",
+            'ru': "⚠️ Извините, проблема с сервисом. Пожалуйста, попробуйте позже или позвоните в салон напрямую.",
             'uk': "⚠️ Вибачте, проблема з сервісом. Будь ласка, спробуйте пізніше або зателефонуйте безпосередньо до салону.",
         },
         'help_message': {
-            'es': "Puedo ayudarte a:\n• Hacer una reserva\n• Consultar disponibilidad\n• Ver servicios disponibles\n\n¿Qué necesitas?",
-            'en': "I can help you:\n• Make a booking\n• Check availability\n• See available services\n\nWhat do you need?",
-            'ca': "Puc ajudar-te a:\n• Fer una reserva\n• Consultar disponibilitat\n• Veure serveis disponibles\n\nQue necessites?",
-            'uk': "Я можу допомогти вам:\n• Зробити бронювання\n• Перевірити доступність\n• Переглянути доступні послуги\n\nЩо вам потрібно?",
+            'es': "Puedo ayudarte a:\n• Hacer una reserva\n• Consultar disponibilidad\n• Ver servicios disponibles\n\nEscribe 'idioma' para cambiar el idioma.\n\n¿Qué necesitas?",
+            'en': "I can help you:\n• Make a booking\n• Check availability\n• See available services\n\nType 'language' to change language.\n\nWhat do you need?",
+            'ru': "Я могу помочь вам:\n• Сделать бронирование\n• Проверить доступность\n• Посмотреть доступные услуги\n\nНапишите 'язык' чтобы изменить язык.\n\nЧто вам нужно?",
+            'uk': "Я можу допомогти вам:\n• Зробити бронювання\n• Перевірити доступність\n• Переглянути доступні послуги\n\nНапишіть 'мова' щоб змінити мову.\n\nЩо вам потрібно?",
         },
     }
     

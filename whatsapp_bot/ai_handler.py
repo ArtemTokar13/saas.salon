@@ -53,13 +53,13 @@ class BookingAI:
         today = datetime.now().date()
         upcoming_dates = []
         day_names = {
-            0: {'es': 'lunes', 'en': 'Monday', 'ca': 'dilluns', 'uk': 'понеділок'},
-            1: {'es': 'martes', 'en': 'Tuesday', 'ca': 'dimarts', 'uk': 'вівторок'},
-            2: {'es': 'miércoles', 'en': 'Wednesday', 'ca': 'dimecres', 'uk': 'середа'},
-            3: {'es': 'jueves', 'en': 'Thursday', 'ca': 'dijous', 'uk': 'четвер'},
-            4: {'es': 'viernes', 'en': 'Friday', 'ca': 'divendres', 'uk': 'п\'ятниця'},
-            5: {'es': 'sábado', 'en': 'Saturday', 'ca': 'dissabte', 'uk': 'субота'},
-            6: {'es': 'domingo', 'en': 'Sunday', 'ca': 'diumenge', 'uk': 'неділя'}
+            0: {'es': 'lunes', 'en': 'Monday', 'ru': 'понедельник', 'uk': 'понеділок'},
+            1: {'es': 'martes', 'en': 'Tuesday', 'ru': 'вторник', 'uk': 'вівторок'},
+            2: {'es': 'miércoles', 'en': 'Wednesday', 'ru': 'среда', 'uk': 'середа'},
+            3: {'es': 'jueves', 'en': 'Thursday', 'ru': 'четверг', 'uk': 'четвер'},
+            4: {'es': 'viernes', 'en': 'Friday', 'ru': 'пятница', 'uk': 'п\'ятниця'},
+            5: {'es': 'sábado', 'en': 'Saturday', 'ru': 'суббота', 'uk': 'субота'},
+            6: {'es': 'domingo', 'en': 'Sunday', 'ru': 'воскресенье', 'uk': 'неділя'}
         }
         
         for i in range(14):  # Next 14 days
@@ -75,16 +75,28 @@ class BookingAI:
 Current language: {lang}
 Today is {today_name}, {today.strftime('%Y-%m-%d')}
 
-IMPORTANT - Date/Day Reference (use this to convert day names to dates):
+CRITICAL - Date/Day Reference Calendar:
 {dates_reference}
 
-When user says "Saturday" / "sábado" / "субота", look up the corresponding date from above!
+DATE EXTRACTION RULES (PRIORITY ORDER):
+1. DIRECT DATE NUMBER (highest priority): 
+   - "27 апреля" = April 27 → date: "2026-04-27"
+   - "21 апреля" = April 21 → date: "2026-04-21"
+   - "20 числа" = 20th → date: "2026-04-20"
+   - If user gives a number (20, 21, 27), use THAT number as the day of April 2026
+   
+2. DAY NAME ONLY (when no date number given):
+   - "понедельник" → Find "понедельник" in calendar above → Use that exact date
+   - "пятницу" → Find "пятница" in calendar above → Use that exact date
+   - MUST use calendar lookup, do NOT calculate
+
+3. NEVER change the date number the user provides
 
 Return JSON with these fields:
 - intent: "greeting", "book", "check_availability", or "question"
 - company_name: salon/company name (if mentioned)
 - service: service type requested
-- staff_name: specific staff member name (if mentioned)
+- staff_name: ONLY extract if user EXPLICITLY mentions a staff member name (e.g., "с Анной", "with Anna", "у Наталії"). DO NOT extract if no staff mentioned!
 - date: date in YYYY-MM-DD format
 - time: specific exact time in HH:MM format (e.g., "15:00", "3pm"->"15:00")
 - time_after: minimum time constraint in HH:MM format (e.g., "після 16:00"->"16:00", "after 3pm"->"15:00")
@@ -92,10 +104,22 @@ Return JSON with these fields:
 - time_preference: "morning" (before 12pm), "afternoon" (12pm-6pm), or "evening" (after 6pm) - ONLY if no specific time/time_after/time_before
 - customer_name: customer's name
 
+INTENT CLASSIFICATION:
+- "greeting": ONLY first-time hello/hi messages like "Привіт", "Hello", "Hola"
+- "book": ANY booking-related request like "Хочу записаться", "Сделать бронирование", "Book", "Reservar", "Make booking"
+- "check_availability": When asking about availability without booking
+- "question": General questions about services, prices, etc.
+
 Time extraction priority:
 1. SPECIFIC TIME CONSTRAINTS: "після 16:00"/"after 16:00" -> time_after="16:00"
 2. EXACT TIME: "о 15:00"/"at 3pm" -> time="15:00"
 3. GENERAL PREFERENCE: "пізніше"/"later" -> time_preference="afternoon"
+
+Multilingual booking keywords:
+- Spanish: "reservar", "reserva", "cita", "agendar"
+- English: "book", "booking", "appointment", "schedule"
+- Russian: "забронировать", "бронирование", "записаться", "запись"
+- Ukrainian: "забронювати", "бронювання", "записатися"
 
 Multilingual examples:
 - "після 16:00" -> time_after: "16:00"
@@ -105,14 +129,17 @@ Multilingual examples:
 - "antes de las 5" -> time_before: "17:00"
 - "в Наталі" / "у Наталі" / "con Natali" / "with Natali" -> staff_name: "Natali"
 
-Service name extraction (IMPORTANT):
-1. If exact Spanish service name is mentioned, USE IT EXACTLY: "Corte pelo hombre" -> "Corte pelo hombre" (NOT "corte de pelo")
-2. If translating from other languages, be specific:
-   - "чоловіча стрижка" / "men's haircut" / "corte hombre" -> "corte hombre"
-   - "жіноча стрижка" / "women's haircut" / "corte mujer" -> "corte mujer"
-   - "стрижка" / "haircut" (unclear gender) -> "corte de pelo"
-   - "манікюр" / "manicure" -> "manicura"
-3. NEVER simplify specific service names to generic ones"""
+Service name extraction (CRITICAL - PRESERVE ALL WORDS):
+1. Extract the COMPLETE service name with ALL descriptive words
+2. Keep the ORIGINAL language - do NOT translate service names
+3. Examples of CORRECT extraction:
+   - Spanish: "Manicura sin pintar" -> "Manicura sin pintar" (NOT just "manicura")
+   - Spanish: "Manicura semipermanente" -> "Manicura semipermanente"
+   - Spanish: "Manicura japonesa" -> "Manicura japonesa"
+   - Russian: "японский маникюр" -> "японский маникюр" (NOT just "маникюр")
+   - Russian: "маникюр без покрытия" -> "маникюр без покрытия"
+   - Ukrainian: "японський манікюр" -> "японський манікюр"
+4. NEVER simplify or shorten - keep ALL words the user provides"""
         
         try:
             response = self.client.chat.completions.create(
@@ -192,10 +219,10 @@ Service name extraction (IMPORTANT):
                 'slot': "{num}. {time} - {staff}\n",
                 'footer': "\n📝 Reply with your preferred option number (1-{count})."
             },
-            'ca': {
-                'header': "✅ Horaris disponibles per {service} el {date}:\n\n",
+            'ru': {
+                'header': "✅ Доступное время для {service} {date}:\n\n",
                 'slot': "{num}. {time} - {staff}\n",
-                'footer': "\n📝 Respon amb el número de la teva opció preferida (1-{count})."
+                'footer': "\n📝 Ответьте номером вашего варианта (1-{count})."
             },
             'uk': {
                 'header': "✅ Доступні часи для {service} {date}:\n\n",
@@ -242,15 +269,15 @@ Service name extraction (IMPORTANT):
 📍 Salon: {company}
 
 See you soon! 👋""",
-            'ca': """✅ Reserva confirmada!
+            'ru': """✅ Бронирование подтверждено!
 
-📅 Data: {date}
-🕐 Hora: {time}
-✂️ Servei: {service}
-👤 Especialista: {staff}
-📍 Saló: {company}
+📅 Дата: {date}
+🕐 Время: {time}
+✂️ Услуга: {service}
+👤 Специалист: {staff}
+📍 Салон: {company}
 
-Ens veiem aviat! 👋""",
+До встречи! 👋""",
             'uk': """✅ Бронювання підтверджено!
 
 📅 Дата: {date}
@@ -280,7 +307,7 @@ Ens veiem aviat! 👋""",
         link_messages = {
             'es': f"\n🔗 Ver detalles: {booking_url}",
             'en': f"\n🔗 View details: {booking_url}",
-            'ca': f"\n🔗 Veure detalls: {booking_url}",
+            'ru': f"\n🔗 Просмотреть детали: {booking_url}",
             'uk': f"\n🔗 Переглянути деталі: {booking_url}"
         }
         response += link_messages.get(lang, link_messages['es'])
@@ -294,7 +321,7 @@ Ens veiem aviat! 👋""",
         messages = {
             'es': "¿En qué puedo ayudarte?",
             'en': "How can I help you?",
-            'ca': "En què puc ajudar-te?",
+            'ru': "Чем могу помочь?",
             'uk': "Як я можу допомогти?"
         }
         return messages.get(lang, messages['es'])

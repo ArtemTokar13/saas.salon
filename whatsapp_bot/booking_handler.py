@@ -214,6 +214,10 @@ class BookingSearcher:
             logger.info(f"    ✗ No working hours found for day {day_of_week}")
             return []
         
+        if hasattr(working_hours, 'is_day_off') and working_hours.is_day_off:
+            logger.info(f"    ✗ Day marked as day off")
+            return []
+        
         # Get existing bookings
         existing_bookings = Booking.objects.filter(
             staff=staff,

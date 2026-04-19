@@ -4,6 +4,7 @@ WhatsApp Webhook Views
 import logging
 from datetime import datetime, timedelta
 from django.conf import settings
+from django.db import models
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -14,6 +15,8 @@ from twilio.request_validator import RequestValidator
 from .models import WhatsAppConversation, WhatsAppMessage, PendingBooking
 from .ai_handler import BookingAI
 from .booking_handler import BookingSearcher
+from bookings.models import Customer
+from bookings.utils import normalize_phone_number
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +45,9 @@ def whatsapp_webhook(request):
     
     # Get or create conversation
     conversation = get_or_create_conversation(from_number)
+    
+    # Try to find and link existing customer
+    find_and_link_customer(conversation)
     
     # Log message
     WhatsAppMessage.objects.create(
@@ -103,7 +109,7 @@ def get_or_create_conversation(phone_number: str) -> WhatsAppConversation:
     # Get or create active conversation
     conversation, created = WhatsAppConversation.objects.get_or_create(
         phone_number=phone_number,
-        current_state__in=['idle', 'selecting_language', 'collecting_info', 'showing_slots', 'confirming'],
+        current_state__in=['idle', 'selecting_language', 'selecting_service', 'collecting_info', 'showing_slots', 'confirming'],
         defaults={'current_state': 'idle'}
     )
 
@@ -111,6 +117,49 @@ def get_or_create_conversation(phone_number: str) -> WhatsAppConversation:
         logger.info(f"Created new conversation for {phone_number}")
     
     return conversation
+
+
+def find_and_link_customer(conversation: WhatsAppConversation) -> Customer:
+    """
+    Find existing customer by phone number and link to conversation
+    Also set their preferred language if available
+    
+    Returns:
+        Customer object if found, None otherwise
+    """
+    # Skip if already linked
+    if conversation.customer:
+        return conversation.customer
+    
+    # Normalize the WhatsApp phone number (format: whatsapp:+1234567890)
+    phone = conversation.phone_number
+    normalized_phone = normalize_phone_number(phone, '')
+    
+    # Try to find customer by phone number
+    # Check both normalized and various formats
+    customers = Customer.objects.filter(
+        models.Q(phone=phone) | 
+        models.Q(phone=normalized_phone) |
+        models.Q(phone=phone.replace('whatsapp:', ''))
+    ).first()
+    
+    if customers:
+        # Link customer to conversation
+        conversation.customer = customers
+        
+        # Set language preference from customer if available
+        if customers.preferred_language:
+            state = conversation.conversation_state
+            if not state.get('language'):  # Only set if not already set
+                state['language'] = customers.preferred_language
+                conversation.conversation_state = state
+                logger.info(f"Set language to {customers.preferred_language} for returning customer {customers.name}")
+        
+        conversation.save()
+        logger.info(f"Linked conversation to existing customer: {customers.name}")
+        return customers
+    
+    return None
 
 
 def process_message(conversation: WhatsAppConversation, message: str) -> str:
@@ -142,6 +191,16 @@ def process_message(conversation: WhatsAppConversation, message: str) -> str:
     salon_detected = detect_salon_code(conversation, message)
     if salon_detected:
         return salon_detected  # Returns welcome message
+    
+    # Check if user is selecting a service by number
+    if conversation.current_state == 'selecting_service':
+        if message.isdigit():
+            return handle_service_selection(conversation, int(message))
+        else:
+            # User wants to specify service by name instead
+            conversation.current_state = 'idle'
+            conversation.save()
+            # Fall through to intent processing below
     
     # Check if user is confirming a slot selection
     if conversation.current_state == 'showing_slots':
@@ -274,6 +333,12 @@ Por favor responde: 1, 2, 3, o 4"""
     conversation.current_state = 'idle'
     conversation.save()
     
+    # Also save to customer record if linked
+    if conversation.customer:
+        conversation.customer.preferred_language = selected_language
+        conversation.customer.save()
+        logger.info(f"Saved language preference {selected_language} to customer {conversation.customer.name}")
+    
     logger.info(f"Language set to {selected_language} for {conversation.phone_number}")
     
     # Now process the first message they sent
@@ -292,11 +357,16 @@ def handle_greeting(conversation: WhatsAppConversation) -> str:
     """Handle greeting message"""
     lang = conversation.conversation_state.get('language', 'es')
     
+    # Get customer name if available
+    customer_name = None
+    if conversation.customer:
+        customer_name = conversation.customer.name
+    
     # Check if salon is already set
     if conversation.company:
-        return get_message('welcome_with_salon', lang, company=conversation.company, company_name=conversation.company.name)
+        return get_message('welcome_with_salon', lang, company=conversation.company, company_name=conversation.company.name, customer_name=customer_name)
     
-    return get_message('welcome_general', lang, company=None)
+    return get_message('welcome_general', lang, company=None, customer_name=customer_name)
 
 
 def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
@@ -398,6 +468,11 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     if company_name:
         state['company_name'] = company_name
     if service_name:
+        # When a new service is specified, clear old time constraints
+        if state.get('service_name') != service_name:
+            state.pop('time_after', None)
+            state.pop('time_before', None)
+            state.pop('time_preference', None)
         state['service_name'] = service_name
     if staff_name:
         state['staff_name'] = staff_name
@@ -405,12 +480,21 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         state['date'] = date_str
     if time_str:
         state['time'] = time_str
-    if time_after:
-        state['time_after'] = time_after
-    if time_before:
-        state['time_before'] = time_before
+    
+    # Handle time constraints - they are mutually exclusive
     if time_preference:
+        # Clear conflicting time_after/time_before when time_preference is set
         state['time_preference'] = time_preference
+        state.pop('time_after', None)
+        state.pop('time_before', None)
+    elif time_after or time_before:
+        # Clear time_preference when specific time constraints are set
+        if time_after:
+            state['time_after'] = time_after
+        if time_before:
+            state['time_before'] = time_before
+        state.pop('time_preference', None)
+    
     if customer_name:
         state['customer_name'] = customer_name
     
@@ -456,7 +540,15 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         services = Service.objects.filter(company=company, is_active=True)[:10]
         lang = state.get('language', 'es')
         if services.exists():
-            service_list = "\n".join([f"• {s.name}" for s in services])
+            # Store services in state for numbered selection
+            service_list_data = [{'id': s.id, 'name': s.name} for s in services]
+            state['service_list'] = service_list_data
+            conversation.conversation_state = state
+            conversation.current_state = 'selecting_service'
+            conversation.save()
+            
+            # Create numbered list
+            service_list = "\n".join([f"{i+1}️⃣ {s.name}" for i, s in enumerate(services)])
             
             # Add contact info for complex inquiries
             contact_info = ""
@@ -473,11 +565,18 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
                 if company.phone:
                     contact_info += f"\n📞 {company.phone}"
             
+            reply_instructions = {
+                'es': "\n\n✏️ Responde con el número o el nombre del servicio.",
+                'en': "\n\n✏️ Reply with the number or service name.",
+                'ru': "\n\n✏️ Ответьте номером или названием услуги.",
+                'uk': "\n\n✏️ Відповідь номером або назвою послуги."
+            }
+            
             messages_service = {
-                'es': f"¿Qué servicio necesitas?\n\nServicios disponibles:\n{service_list}{contact_info}",
-                'en': f"What service do you need?\n\nAvailable services:\n{service_list}{contact_info}",
-                'ru': f"Какая услуга вам нужна?\n\nДоступные услуги:\n{service_list}{contact_info}",
-                'uk': f"Яка послуга вам потрібна?\n\nДоступні послуги:\n{service_list}{contact_info}"
+                'es': f"¿Qué servicio necesitas?\n\nServicios disponibles:\n{service_list}{reply_instructions['es']}{contact_info}",
+                'en': f"What service do you need?\n\nAvailable services:\n{service_list}{reply_instructions['en']}{contact_info}",
+                'ru': f"Какая услуга вам нужна?\n\nДоступные услуги:\n{service_list}{reply_instructions['ru']}{contact_info}",
+                'uk': f"Яка послуга вам потрібна?\n\nДоступні послуги:\n{service_list}{reply_instructions['uk']}{contact_info}"
             }
             return messages_service.get(lang, messages_service['es'])
         else:
@@ -525,6 +624,12 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     
     # Find available slots
     try:
+        logger.info(f"=== SEARCHING SLOTS ===")
+        logger.info(f"Company: {company.name} (ID: {company.id})")
+        logger.info(f"Service: {service.name} (ID: {service.id})")
+        logger.info(f"Date: {booking_date}")
+        logger.info(f"Time preference: {state.get('time_preference')}")
+        
         slots = searcher.find_available_slots(
             company, 
             service, 
@@ -532,22 +637,28 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
             state.get('time_preference')
         )
         
+        logger.info(f"Found {len(slots)} total slots before filtering")
+        
         # Apply time constraints if specified
         if state.get('time_after'):
             time_after = state['time_after']
             slots = [s for s in slots if s['time'] >= time_after]
+            logger.info(f"After time_after filter ({time_after}): {len(slots)} slots")
         
         if state.get('time_before'):
             time_before = state['time_before']
             slots = [s for s in slots if s['time'] <= time_before]
+            logger.info(f"After time_before filter ({time_before}): {len(slots)} slots")
             
     except Exception as e:
-        logger.error(f"Error finding slots: {e}")
+        logger.error(f"Error finding slots: {e}", exc_info=True)
         lang = state.get('language', 'es')
         return get_message('service_error', lang)
     
     if not slots:
         lang = state.get('language', 'es')
+        logger.warning(f"NO SLOTS FOUND for {service.name} on {booking_date}")
+        
         messages_no_slots = {
             'es': f"😔 Lo siento, no hay horarios disponibles para {service.name} el {booking_date.strftime('%d/%m/%Y')}.\n\n¿Quieres probar otra fecha?",
             'en': f"😔 Sorry, no times available for {service.name} on {booking_date.strftime('%d/%m/%Y')}.\n\nWant to try another date?",
@@ -582,6 +693,54 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     })
     
     return response
+
+
+def handle_service_selection(conversation: WhatsAppConversation, service_number: int) -> str:
+    """Handle when user selects a service by number"""
+    lang = conversation.conversation_state.get('language', 'es')
+    state = conversation.conversation_state
+    
+    # Get service list from state
+    service_list = state.get('service_list', [])
+    
+    if not service_list:
+        messages_no_list = {
+            'es': "⚠️ No encontré la lista de servicios. Por favor, empieza de nuevo.",
+            'en': "⚠️ I couldn't find the service list. Please start again.",
+            'ru': "⚠️ Я не нашел список услуг. Пожалуйста, начните заново.",
+            'uk': "⚠️ Я не знайшов список послуг. Будь ласка, почніть спочатку."
+        }
+        conversation.current_state = 'idle'
+        conversation.save()
+        return messages_no_list.get(lang, messages_no_list['es'])
+    
+    # Validate service number
+    if service_number < 1 or service_number > len(service_list):
+        messages_invalid_service = {
+            'es': f"⚠️ Por favor, elige un número entre 1 y {len(service_list)}.",
+            'en': f"⚠️ Please choose a number between 1 and {len(service_list)}.",
+            'ru': f"⚠️ Пожалуйста, выберите номер между 1 и {len(service_list)}.",
+            'uk': f"⚠️ Будь ласка, виберіть номер між 1 та {len(service_list)}."
+        }
+        return messages_invalid_service.get(lang, messages_invalid_service['es'])
+    
+    # Get selected service
+    selected_service = service_list[service_number - 1]
+    
+    # Update state with selected service
+    state['service_name'] = selected_service['name']
+    conversation.conversation_state = state
+    conversation.current_state = 'idle'
+    conversation.save()
+    
+    # Continue with booking flow - ask for date
+    messages_date = {
+        'es': f"✅ {selected_service['name']} seleccionado.\n\n¿Para qué día quieres la cita? (ej: mañana, viernes, 21 de abril)",
+        'en': f"✅ {selected_service['name']} selected.\n\nWhat day would you like the appointment? (e.g., tomorrow, Friday, April 21)",
+        'ru': f"✅ {selected_service['name']} выбран.\n\nНа какой день вы хотите записаться? (напр.: завтра, пятница, 21 апреля)",
+        'uk': f"✅ {selected_service['name']} вибрано.\n\nНа який день ви хочете записатися? (напр.: завтра, п'ятниця, 21 квітня)"
+    }
+    return messages_date.get(lang, messages_date['es'])
 
 
 def handle_slot_selection(conversation: WhatsAppConversation, slot_number: int) -> str:
@@ -909,16 +1068,16 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
     
     messages = {
         'welcome_with_salon': {
-            'es': "👋 ¡Hola! Bienvenido a {company_name}.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n{examples}\n\n¿En qué puedo ayudarte?",
-            'en': "👋 Hello! Welcome to {company_name}.\n\nI can help you book an appointment. For example:\n{examples}\n\nHow can I help you?",
-            'ru': "👋 Здравствуйте! Добро пожаловать в {company_name}.\n\nЯ могу помочь вам забронировать визит. Например:\n{examples}\n\nЧем могу помочь?",
-            'uk': "👋 Привіт! Ласкаво просимо до {company_name}.\n\nЯ можу допомогти вам забронювати візит. Наприклад:\n{examples}\n\nЯк я можу допомогти?",
+            'es': "👋 ¡Hola{name_greeting}! Bienvenido a {company_name}.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n{examples}\n\n¿En qué puedo ayudarte?",
+            'en': "👋 Hello{name_greeting}! Welcome to {company_name}.\n\nI can help you book an appointment. For example:\n{examples}\n\nHow can I help you?",
+            'ru': "👋 Здравствуйте{name_greeting}! Добро пожаловать в {company_name}.\n\nЯ могу помочь вам забронировать визит. Например:\n{examples}\n\nЧем могу помочь?",
+            'uk': "👋 Привіт{name_greeting}! Ласкаво просимо до {company_name}.\n\nЯ можу допомогти вам забронювати візит. Наприклад:\n{examples}\n\nЯк я можу допомогти?",
         },
         'welcome_general': {
-            'es': "👋 ¡Hola! Soy tu asistente de reservas inteligente.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n{examples}\n\n¿En qué puedo ayudarte?",
-            'en': "👋 Hello! I'm your smart booking assistant.\n\nI can help you book an appointment. For example:\n{examples}\n\nHow can I help you?",
-            'ru': "👋 Здравствуйте! Я ваш умный помощник по бронированию.\n\nЯ могу помочь вам забронировать визит. Например:\n{examples}\n\nЧем могу помочь?",
-            'uk': "👋 Привіт! Я ваш розумний асистент бронювання.\n\nЯ можу допомогти забронювати візит. Наприклад:\n{examples}\n\nЯк я можу допомогти?",
+            'es': "👋 ¡Hola{name_greeting}! Soy tu asistente de reservas inteligente.\n\nPuedo ayudarte a reservar una cita. Por ejemplo:\n{examples}\n\n¿En qué puedo ayudarte?",
+            'en': "👋 Hello{name_greeting}! I'm your smart booking assistant.\n\nI can help you book an appointment. For example:\n{examples}\n\nHow can I help you?",
+            'ru': "👋 Здравствуйте{name_greeting}! Я ваш умный помощник по бронированию.\n\nЯ могу помочь вам забронировать визит. Например:\n{examples}\n\nЧем могу помочь?",
+            'uk': "👋 Привіт{name_greeting}! Я ваш розумний асистент бронювання.\n\nЯ можу допомогти забронювати візит. Наприклад:\n{examples}\n\nЯк я можу допомогти?",
         },
         'conversation_cancelled': {
             'es': "❌ Conversación cancelada. Escribe cuando quieras hacer una reserva.",
@@ -946,6 +1105,14 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
     # Add examples to kwargs for welcome messages
     if key in ['welcome_with_salon', 'welcome_general']:
         kwargs['examples'] = examples_str
+        
+        # Add personalized name greeting if customer name is provided
+        customer_name = kwargs.get('customer_name')
+        if customer_name:
+            # Format: ", [Name]" (e.g., "¡Hola, Maria!")
+            kwargs['name_greeting'] = f", {customer_name}"
+        else:
+            kwargs['name_greeting'] = ""
     
     # Format with kwargs if provided
     if kwargs:

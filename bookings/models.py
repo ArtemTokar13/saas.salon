@@ -5,10 +5,18 @@ from companies.models import Company, Staff, Service
 
 
 class Customer(models.Model):
+    LANGUAGE_CHOICES = [
+        ('es', 'Español'),
+        ('en', 'English'),
+        ('ru', 'Русский'),
+        ('uk', 'Українська'),
+    ]
+    
     name = models.CharField(max_length=255)
     country_code = models.CharField(max_length=10, blank=True, null=True, choices=COUNTRY_CHOICES)
     phone = models.CharField(max_length=50)
     email = models.EmailField(blank=True, null=True)
+    preferred_language = models.CharField(max_length=5, blank=True, null=True, choices=LANGUAGE_CHOICES, help_text="Customer's preferred language for communications")
 
     def total_bookings(self):
         return Booking.objects.filter(customer=self, status=1).count()

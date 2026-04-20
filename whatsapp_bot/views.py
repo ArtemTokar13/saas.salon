@@ -657,13 +657,40 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     
     if not slots:
         lang = state.get('language', 'es')
-        logger.warning(f"NO SLOTS FOUND for {service.name} on {booking_date}")
+        logger.warning(f"❌ NO SLOTS FOUND for {service.name} on {booking_date}")
+        logger.warning(f"   Search criteria: time_after={state.get('time_after')}, time_before={state.get('time_before')}, time_preference={state.get('time_preference')}")
+        
+        # Build a more helpful message
+        criteria_parts = []
+        if state.get('time_after'):
+            criteria_parts.append({
+                'es': f"después de las {state['time_after']}",
+                'en': f"after {state['time_after']}",
+                'ru': f"после {state['time_after']}",
+                'uk': f"після {state['time_after']}"
+            })
+        if state.get('time_before'):
+            criteria_parts.append({
+                'es': f"antes de las {state['time_before']}",
+                'en': f"before {state['time_before']}",
+                'ru': f"до {state['time_before']}",
+                'uk': f"до {state['time_before']}"
+            })
+        
+        criteria_text = ""
+        if criteria_parts:
+            criteria_text = {
+                'es': f" {criteria_parts[0]['es']}",
+                'en': f" {criteria_parts[0]['en']}",
+                'ru': f" {criteria_parts[0]['ru']}",
+                'uk': f" {criteria_parts[0]['uk']}"
+            }
         
         messages_no_slots = {
-            'es': f"😔 Lo siento, no hay horarios disponibles para {service.name} el {booking_date.strftime('%d/%m/%Y')}.\n\n¿Quieres probar otra fecha?",
-            'en': f"😔 Sorry, no times available for {service.name} on {booking_date.strftime('%d/%m/%Y')}.\n\nWant to try another date?",
-            'ru': f"😔 Извините, нет доступного времени для {service.name} {booking_date.strftime('%d/%m/%Y')}.\n\nПопробовать другую дату?",
-            'uk': f"😔 Вибачте, немає доступних часів для {service.name} {booking_date.strftime('%d/%m/%Y')}.\n\nСпробувати іншу дату?"
+            'es': f"😔 Lo siento, no hay horarios disponibles para {service.name} el {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('es', '')}.\n\n¿Quieres probar otra fecha u horario?",
+            'en': f"😔 Sorry, no times available for {service.name} on {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('en', '')}.\n\nWant to try another date or time?",
+            'ru': f"😔 Извините, нет доступного времени для {service.name} {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('ru', '')}.\n\nПопробовать другую дату или время?",
+            'uk': f"😔 Вибачте, немає доступних часів для {service.name} {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('uk', '')}.\n\nСпробувати іншу дату або час?"
         }
         return messages_no_slots.get(lang, messages_no_slots['es'])
     
@@ -1022,10 +1049,10 @@ def get_service_examples(company, lang: str) -> list:
     
     # Time examples in different languages
     time_examples = {
-        'es': ['mañana a las 3pm', 'el viernes', 'el lunes por la tarde'],
-        'en': ['tomorrow at 3pm', 'on Friday', 'Monday afternoon'],
-        'ru': ['завтра в 3pm', 'в пятницу', 'в понедельник после обеда'],
-        'uk': ['завтра о 3pm', "в п'ятницю", 'на понеділок після обіду'],
+        'es': ['mañana a las 3pm', 'el viernes después de las 5pm', 'el lunes a las 2pm'],
+        'en': ['tomorrow at 3pm', 'on Friday after 5pm', 'Monday at 2pm'],
+        'ru': ['завтра в 3pm', 'в пятницу после 17:00', 'в понедельник в 14:00'],
+        'uk': ['завтра о 3pm', "в п'ятницю після 17:00", 'на понеділок о 14:00'],
     }
     
     # Action phrases in different languages
@@ -1059,10 +1086,10 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
     else:
         # Fallback to generic examples
         generic_examples = {
-            'es': '• "Quiero una cita mañana a las 3pm"\n• "Disponibilidad el viernes"\n• "Reserva para el lunes por la tarde"',
-            'en': '• "I want an appointment tomorrow at 3pm"\n• "Availability on Friday"\n• "Book for Monday afternoon"',
-            'ru': '• "Хочу запись завтра в 3pm"\n• "Доступность в пятницу"\n• "Забронировать на понедельник после обеда"',
-            'uk': '• "Хочу відвідування завтра о 3pm"\n• "Доступність в п\'ятницю"\n• "Забронюйте на понеділок після обіду"',
+            'es': '• "Quiero una cita mañana a las 3pm"\n• "Disponibilidad el viernes después de las 5pm"\n• "Reserva para el lunes a las 2pm"',
+            'en': '• "I want an appointment tomorrow at 3pm"\n• "Availability on Friday after 5pm"\n• "Book for Monday at 2pm"',
+            'ru': '• "Хочу запись завтра в 3pm"\n• "Доступность в пятницу после 17:00"\n• "Забронировать на понедельник в 14:00"',
+            'uk': '• "Хочу відвідування завтра о 3pm"\n• "Доступність в п\'ятницю після 17:00"\n• "Забронюйте на понеділок о 14:00"',
         }
         examples_str = generic_examples.get(lang, generic_examples['es'])
     

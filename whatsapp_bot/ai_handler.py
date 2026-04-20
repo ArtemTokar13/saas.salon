@@ -92,6 +92,13 @@ DATE EXTRACTION RULES (PRIORITY ORDER):
 
 3. NEVER change the date number the user provides
 
+CRITICAL - EXTRACT BOTH DATE AND TIME:
+When a message contains BOTH date and time information, you MUST extract BOTH fields!
+Examples:
+- "На вторник после 17:00" -> date: "2026-04-21" AND time_after: "17:00" (extract BOTH!)
+- "На пятницу в 14:00" -> date: "2026-04-23" AND time: "14:00" (extract BOTH!)
+- "27 апреля до 16:00" -> date: "2026-04-27" AND time_before: "16:00" (extract BOTH!)
+
 Return JSON with these fields:
 - intent: "greeting", "book", "check_availability", or "question"
 - company_name: salon/company name (if mentioned)
@@ -101,8 +108,9 @@ Return JSON with these fields:
 - time: specific exact time in HH:MM format (e.g., "15:00", "3pm"->"15:00")
 - time_after: minimum time constraint in HH:MM format (e.g., "після 16:00"->"16:00", "after 3pm"->"15:00")
 - time_before: maximum time constraint in HH:MM format (e.g., "до 17:00"->"17:00", "before 5pm"->"17:00")
-- time_preference: "morning" (before 12pm), "afternoon" (12pm-6pm), or "evening" (after 6pm) - ONLY if no specific time/time_after/time_before
 - customer_name: customer's name
+
+DO NOT EXTRACT time_preference field at all! Ignore vague time words like "later", "позже", "пізніше" completely.
 
 INTENT CLASSIFICATION:
 - "greeting": ONLY first-time hello/hi messages like "Привіт", "Hello", "Hola"
@@ -110,23 +118,39 @@ INTENT CLASSIFICATION:
 - "check_availability": When asking about availability without booking
 - "question": General questions about services, prices, etc.
 
-Time extraction priority:
-1. SPECIFIC TIME CONSTRAINTS: "після 16:00"/"after 16:00" -> time_after="16:00"
-2. EXACT TIME: "о 15:00"/"at 3pm" -> time="15:00"
-3. GENERAL PREFERENCE: "пізніше"/"later" -> time_preference="afternoon"
+Time extraction rules (ONLY extract if user provides SPECIFIC TIME):
 
-Multilingual booking keywords:
-- Spanish: "reservar", "reserva", "cita", "agendar"
-- English: "book", "booking", "appointment", "schedule"
-- Russian: "забронировать", "бронирование", "записаться", "запись"
-- Ukrainian: "забронювати", "бронювання", "записатися"
+CRITICAL: Ignore vague time words without specific times!
+- "later" / "позже" / "пізніше" WITHOUT a time = DO NOT EXTRACT
+- "after lunch" / "после обеда" WITHOUT a time = DO NOT EXTRACT
+- ONLY extract when user provides a SPECIFIC TIME like "17:00", "3pm", etc.
+
+AFTER (only with specific time):
+- "после 16:00" / "after 4pm" / "після 17:00" -> time_after: "16:00" or "17:00"
+- Keywords: "после", "після", "después de", "after"
+- MUST have a specific time! Ignore if no time provided.
+
+BEFORE (only with specific time):
+- "до 17:00" / "before 5pm" / "до 18:00" -> time_before: "17:00" or "18:00"
+- Keywords: "до", "antes de", "before"
+- MUST have a specific time! Ignore if no time provided.
+
+AT/EXACT TIME:
+- Russian: "в" (v), "на" (na when referring to time), "о" (o)
+- Ukrainian: "в" (v), "на" (na), "о" (o)
+- Spanish: "a las", "a la"
+- English: "at"
+Examples: "в 14:00" -> time: "14:00", "на 14:00" -> time: "14:00"
 
 Multilingual examples:
 - "після 16:00" -> time_after: "16:00"
 - "после 16:00" -> time_after: "16:00"
+- "после 17:00" -> time_after: "17:00"
 - "after 4pm" -> time_after: "16:00"
 - "до 17:00" -> time_before: "17:00"
 - "antes de las 5" -> time_before: "17:00"
+- "в 14:00" -> time: "14:00"
+- "на 14:00" -> time: "14:00"
 - "в Наталі" / "у Наталі" / "con Natali" / "with Natali" -> staff_name: "Natali"
 
 Service name extraction (CRITICAL - PRESERVE ALL WORDS):

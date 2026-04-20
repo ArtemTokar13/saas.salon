@@ -1012,9 +1012,21 @@ def update_booking_status(request, booking_id):
 @login_required
 @subscription_required
 def guess_customer_data(request):
-    """API endpoint to guess customer data based on phone or email input"""
+    """API endpoint to guess customer data based on phone or name input"""
     try:
-        customers = Customer.objects.filter(phone__icontains=request.GET.get('phone')).order_by('-id')[:5]
+        phone = request.GET.get('phone', '')
+        name = request.GET.get('name', '')
+        
+        customers = Customer.objects.all()
+        
+        if phone:
+            customers = customers.filter(phone__icontains=phone)
+        elif name:
+            customers = customers.filter(name__icontains=name)
+        else:
+            return JsonResponse({'customers': []})
+        
+        customers = customers.order_by('-id')[:7]
         customers_list = []
         for c in customers:
             customers_list.append({

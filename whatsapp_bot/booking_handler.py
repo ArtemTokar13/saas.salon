@@ -292,16 +292,23 @@ class BookingSearcher:
         """
         Create a new booking
         """
-        # Get or create customer
-        customer, created = Customer.objects.get_or_create(
-            phone=customer_phone,
-            defaults={'name': customer_name, 'email': customer_email}
-        )
+        # Find or create customer (use filter().first() to handle duplicates)
+        customer = Customer.objects.filter(phone=customer_phone).first()
         
-        # Update customer info if needed
-        if not customer.name or customer.name == customer_phone:
-            customer.name = customer_name
+        if customer:
+            # Update customer info if needed
+            if not customer.name or customer.name == customer_phone:
+                customer.name = customer_name
+            if customer_email:
+                customer.email = customer_email
             customer.save()
+        else:
+            # Create new customer
+            customer = Customer.objects.create(
+                phone=customer_phone,
+                name=customer_name,
+                email=customer_email or ''
+            )
         
         # Get staff
         staff = Staff.objects.get(id=staff_id, company=company)
@@ -331,6 +338,7 @@ class BookingSearcher:
             price=service.price,
             status=1 if not service.need_staff_confirmation else 3,  # Confirmed or PreBooked
             delete_code=delete_code,
+            created_by='whatsapp',
             notes=f"Booking created via WhatsApp on {timezone.now().strftime('%Y-%m-%d %H:%M')}",
             booking_phone=normalize_phone_number(customer_phone, customer.country_code),  # Store normalized phone
             booking_country_code=customer.country_code  # Store country code

@@ -184,14 +184,21 @@ def bookings_list(request):
         try:
             data = json.loads(request.body)
             
-            # Get or create customer
-            customer, _ = Customer.objects.get_or_create(
-                email=request.user.email,
-                defaults={
-                    'name': request.user.get_full_name() or request.user.username,
-                    'phone': data.get('customer_phone', ''),
-                }
-            )
+            # Find or create customer (use filter().first() to handle duplicates)
+            customer = Customer.objects.filter(email=request.user.email).first()
+            
+            if customer:
+                # Update customer info if needed
+                if data.get('customer_phone'):
+                    customer.phone = data.get('customer_phone')
+                    customer.save()
+            else:
+                # Create new customer
+                customer = Customer.objects.create(
+                    email=request.user.email,
+                    name=request.user.get_full_name() or request.user.username,
+                    phone=data.get('customer_phone', '')
+                )
             
             # Create booking
             raw_phone = data.get('customer_phone', '')

@@ -4,6 +4,13 @@ from app.constants import COUNTRY_CHOICES
 from companies.models import Company, Staff, Service
 
 
+BOOCING_CREATED_BY_CHOICES = [
+    ('client', 'Client'),
+    ('staff', 'Staff'),
+    ('whatsapp', 'WhatsApp'),
+]
+
+
 class Customer(models.Model):
     LANGUAGE_CHOICES = [
         ('es', 'Español'),
@@ -44,6 +51,7 @@ class Booking(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True, help_text="Price (set by staff if need_staff_confirmation)")
     status = models.CharField(max_length=20, choices=STATUS, default=0)
     delete_code = models.CharField(max_length=100, blank=True, null=True)
+    created_by = models.CharField(max_length=60, blank=True, null=True, choices=BOOCING_CREATED_BY_CHOICES, help_text="Indicates how the booking was created (e.g., 'client', 'staff', 'whatsapp')")
     created_at = models.DateTimeField(auto_now_add=True)
     confirmed_at = models.DateTimeField(blank=True, null=True)  # When staff confirms the booking
     confirmed_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='confirmed_bookings')

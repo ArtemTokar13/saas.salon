@@ -95,22 +95,26 @@ class BookingForm(forms.ModelForm):
             # Customer stays the same, just update booking details
             pass
         else:
-            # New booking - get or create customer
-            customer, created = Customer.objects.get_or_create(
-                phone=self.cleaned_data['customer_phone'],
-                defaults={
-                    'name': self.cleaned_data['customer_name'],
-                    'email': self.cleaned_data.get('customer_email', ''),
-                    'country_code': self.cleaned_data.get('customer_country_code', ''),
-                }
-            )
+            # New booking - find or create customer
+            # Use filter().first() to handle potential duplicates gracefully
+            customer = Customer.objects.filter(
+                phone=self.cleaned_data['customer_phone']
+            ).first()
             
-            # Update customer info if it changed
-            if not created:
+            if customer:
+                # Update existing customer info
                 customer.name = self.cleaned_data['customer_name']
                 customer.email = self.cleaned_data.get('customer_email', '')
                 customer.country_code = self.cleaned_data.get('customer_country_code', '')
                 customer.save()
+            else:
+                # Create new customer
+                customer = Customer.objects.create(
+                    phone=self.cleaned_data['customer_phone'],
+                    name=self.cleaned_data['customer_name'],
+                    email=self.cleaned_data.get('customer_email', ''),
+                    country_code=self.cleaned_data.get('customer_country_code', ''),
+                )
             
             booking.customer = customer
             booking.company = self.company
@@ -146,6 +150,9 @@ class BookingForm(forms.ModelForm):
 
         if hasattr(self, 'user') and self.user.is_authenticated and (hasattr(self.user, 'userprofile') and self.user.userprofile.company == self.company):
             booking.status = 1  # Auto-confirm for staff users
+            booking.created_by = 'staff'
+        else:
+            booking.created_by = 'client'
         
         # Auto-assign staff if not selected
         if not self.cleaned_data.get('staff'):

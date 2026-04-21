@@ -566,10 +566,10 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
                     contact_info += f"\n📞 {company.phone}"
             
             reply_instructions = {
-                'es': "\n\n✏️ Responde con el número o el nombre del servicio.",
-                'en': "\n\n✏️ Reply with the number or service name.",
-                'ru': "\n\n✏️ Ответьте номером или названием услуги.",
-                'uk': "\n\n✏️ Відповідь номером або назвою послуги."
+                'es': "\n\n✏️ Responde con el número o el nombre del servicio. Solo puedes reservar un servicio a la vez.",
+                'en': "\n\n✏️ Reply with the number or service name. You can only book one service at a time.",
+                'ru': "\n\n✏️ Ответьте номером или названием услуги. Одновременно можно записаться на одну услугу.",
+                'uk': "\n\n✏️ Відповідь номером або назвою послуги. Одночасно можна записатися лише на одну послугу."
             }
             
             messages_service = {

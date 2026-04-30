@@ -178,6 +178,20 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# Сесія живе 14 днів (можна збільшити до 30)
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 14  # 14 днів
+
+# НЕ видаляти cookie при закритті браузера
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Оновлювати час життя при кожному запиті
+SESSION_SAVE_EVERY_REQUEST = True
+
+# Безпека cookie
+SESSION_COOKIE_SECURE = True        # обов'язково на HTTPS
+SESSION_COOKIE_HTTPONLY = True      # JS не має доступу
+SESSION_COOKIE_SAMESITE = 'Lax'     # оптимально для SaaS
+
 # Allauth settings (using new configuration format for django-allauth 65.x)
 ACCOUNT_LOGIN_METHODS = {'email'}  # Login using email
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']  # Required signup fields

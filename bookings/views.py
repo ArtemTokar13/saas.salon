@@ -10,17 +10,49 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.utils import timezone
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import Booking, Customer
 from .forms import BookingForm
-from companies.models import Company, Staff, Service, WorkingHours, EmailLog, StaffWorkingHours
+from companies.models import Company, Staff, Service, WorkingHours, EmailLog, StaffWorkingHours, StaffOutOfOffice
 from users.models import UserProfile
 from app.decorators import subscription_required
 
 
 logger = logging.getLogger(__name__)
+
+
+################### HELPER FUNCTIONS #####################
+def is_staff_out_of_office_at_time(staff, check_datetime):
+    """Check if staff is out of office at a specific datetime"""
+    return StaffOutOfOffice.objects.filter(
+        staff=staff,
+        start_datetime__lte=check_datetime,
+        end_datetime__gte=check_datetime
+    ).exists()
+
+
+def is_staff_out_all_day(staff, date, work_start_time, work_end_time):
+    """Check if staff is out of office for the entire working day"""
+    work_start = datetime.combine(date, work_start_time)
+    work_end = datetime.combine(date, work_end_time)
+    
+    # Make timezone-aware if needed
+    if StaffOutOfOffice.objects.filter(staff=staff).exists():
+        first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+        if timezone.is_aware(first_period.start_datetime):
+            work_start = timezone.make_aware(work_start)
+            work_end = timezone.make_aware(work_end)
+    
+    # Check if any out-of-office period completely covers the working hours
+    covering_periods = StaffOutOfOffice.objects.filter(
+        staff=staff,
+        start_datetime__lte=work_start,
+        end_datetime__gte=work_end
+    )
+    
+    return covering_periods.exists()
 
 
 ################### BOOKING VIEWS #####################
@@ -205,6 +237,7 @@ def get_available_staff(request, company_id, service_id):
     return JsonResponse({'staff': staff_data})
 
 
+@never_cache
 def get_available_dates(request, company_id, staff_id):
     """API endpoint to get available dates for a staff member (next 30 days)"""
     try:
@@ -240,12 +273,10 @@ def get_available_dates(request, company_id, staff_id):
                                 is_day_off=False
                             ).first()
                             
+                            # Determine working hours for this day
                             if staff_hours:
-                                # Staff has custom working hours for this day
-                                available_dates.append({
-                                    'date': date.strftime('%Y-%m-%d'),
-                                    'display': date.strftime('%a, %b %d')
-                                })
+                                work_start = datetime.combine(date, staff_hours.start_time)
+                                work_end = datetime.combine(date, staff_hours.end_time)
                             else:
                                 # Check company working hours
                                 working_hours = WorkingHours.objects.filter(
@@ -253,11 +284,21 @@ def get_available_dates(request, company_id, staff_id):
                                     day_of_week=day_of_week,
                                     is_day_off=False
                                 ).first()
-                                if working_hours:
-                                    available_dates.append({
-                                        'date': date.strftime('%Y-%m-%d'),
-                                        'display': date.strftime('%a, %b %d')
-                                    })
+                                if not working_hours:
+                                    continue
+                                work_start_time = working_hours.start_time
+                                work_end_time = working_hours.end_time
+                                work_start = datetime.combine(date, work_start_time)
+                                work_end = datetime.combine(date, work_end_time)
+                            
+                            # Only skip date if out-of-office covers ENTIRE working day
+                            skip_date = is_staff_out_all_day(staff, date, work_start.time(), work_end.time())
+                            
+                            if not skip_date:
+                                available_dates.append({
+                                    'date': date.strftime('%Y-%m-%d'),
+                                    'display': date.strftime('%a, %b %d')
+                                })
                 except ValueError:
                     continue
             return JsonResponse({'available_dates': available_dates})
@@ -265,6 +306,7 @@ def get_available_dates(request, company_id, staff_id):
         # Otherwise, check next 90 days (3 months) based on working hours
         for i in range(90):
             date = today + timedelta(days=i)
+            
             day_of_week = date.weekday()
             
             # Check if staff member works on this day
@@ -276,12 +318,10 @@ def get_available_dates(request, company_id, staff_id):
                     is_day_off=False
                 ).first()
                 
+                # Determine working hours for this day
                 if staff_hours:
-                    # Staff has custom working hours for this day
-                    available_dates.append({
-                        'date': date.strftime('%Y-%m-%d'),
-                        'display': date.strftime('%a, %b %d')
-                    })
+                    work_start = datetime.combine(date, staff_hours.start_time)
+                    work_end = datetime.combine(date, staff_hours.end_time)
                 else:
                     # Check if company is open on this day
                     working_hours = WorkingHours.objects.filter(
@@ -290,11 +330,21 @@ def get_available_dates(request, company_id, staff_id):
                         is_day_off=False
                     ).first()
                     
-                    if working_hours:
-                        available_dates.append({
-                            'date': date.strftime('%Y-%m-%d'),
-                            'display': date.strftime('%a, %b %d')
-                        })
+                    if not working_hours:
+                        continue
+                    
+                    work_start = datetime.combine(date, working_hours.start_time)
+                    work_end = datetime.combine(date, working_hours.end_time)
+                
+                
+                # Only skip date if out-of-office covers ENTIRE working day
+                skip_date = is_staff_out_all_day(staff, date, work_start.time(), work_end.time())
+                
+                if not skip_date:
+                    available_dates.append({
+                        'date': date.strftime('%Y-%m-%d'),
+                        'display': date.strftime('%a, %b %d')
+                    })
         
         return JsonResponse({'available_dates': available_dates})
     
@@ -302,6 +352,7 @@ def get_available_dates(request, company_id, staff_id):
         return JsonResponse({'error': str(e)}, status=400)
 
 
+@never_cache
 def get_available_times(request, company_id, staff_id, service_id, date_str):
     """API endpoint to get available time slots for a staff member on a specific date"""
     try:
@@ -309,6 +360,9 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         staff = get_object_or_404(Staff, id=staff_id, company_id=company_id)
         service = get_object_or_404(Service, id=service_id, company_id=company_id)
         company = staff.company
+        
+        # Note: We don't check if entire day is out-of-office here
+        # Instead, we filter individual time slots below
         
         # Get working hours for this day
         day_of_week = date.weekday()
@@ -378,6 +432,29 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
             if potential_end_time > end_time_dt:
                 break  # Can't start a service that would end after working hours
             
+            # Check if this time slot overlaps with any out-of-office period
+            check_start = current_time
+            check_end = potential_end_time
+            
+            # Make timezone-aware if needed
+            if StaffOutOfOffice.objects.filter(staff=staff).exists():
+                first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+                if timezone.is_aware(first_period.start_datetime):
+                    if timezone.is_naive(check_start):
+                        check_start = timezone.make_aware(check_start)
+                    if timezone.is_naive(check_end):
+                        check_end = timezone.make_aware(check_end)
+            
+            # Skip if booking would overlap with any out-of-office period
+            overlapping_periods = StaffOutOfOffice.objects.filter(
+                staff=staff,
+                start_datetime__lt=check_end,
+                end_datetime__gt=check_start
+            )
+            if overlapping_periods.exists():
+                current_time += time_step
+                continue
+            
             # Check if this time slot would overlap with staff break time
             if staff.break_start and staff.break_end:
                 break_start_dt = datetime.combine(date, staff.break_start)
@@ -410,6 +487,7 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
         return JsonResponse({'error': str(e)}, status=400)
 
 
+@never_cache
 def get_available_dates_any_staff(request, company_id, service_id):
     """API endpoint to get available dates for ANY staff member who can perform the service"""
     try:
@@ -444,10 +522,10 @@ def get_available_dates_any_staff(request, company_id, service_id):
                                 is_day_off=False
                             ).first()
                             
+                            # Determine working hours
                             if staff_hours:
-                                # Staff has specific hours and is not off
-                                available_dates.append(date_str)
-                                break
+                                work_start = datetime.combine(date, staff_hours.start_time)
+                                work_end = datetime.combine(date, staff_hours.end_time)
                             else:
                                 # Check company hours
                                 company_hours = WorkingHours.objects.filter(
@@ -455,9 +533,18 @@ def get_available_dates_any_staff(request, company_id, service_id):
                                     day_of_week=day_of_week,
                                     is_day_off=False
                                 ).first()
-                                if company_hours:
-                                    available_dates.append(date_str)
-                                    break
+                                if not company_hours:
+                                    continue
+                                work_start = datetime.combine(date, company_hours.start_time)
+                                work_end = datetime.combine(date, company_hours.end_time)
+                            
+                            # Only skip staff if out-of-office covers ENTIRE working day
+                            skip_staff = is_staff_out_all_day(staff, date, work_start.time(), work_end.time())
+                            
+                            if not skip_staff:
+                                # At least one staff member is available
+                                available_dates.append(date_str)
+                                break
                 except ValueError:
                     continue
             return JsonResponse({'available_dates': available_dates})
@@ -488,11 +575,30 @@ def get_available_dates_any_staff(request, company_id, service_id):
                         is_day_off=False
                     ).first()
                     
-                    # If staff has specific hours, use those; otherwise use company hours
-                    if staff_hours or not StaffWorkingHours.objects.filter(staff=staff, day_of_week=day_of_week).exists():
-                        # Staff either has specific hours set (and not day off) or no override (use company hours)
-                        available_dates.append(date.strftime('%Y-%m-%d'))
-                        break  # At least one staff available, add this date
+                    # Determine working hours
+                    if staff_hours:
+                        work_start = datetime.combine(date, staff_hours.start_time)
+                        work_end = datetime.combine(date, staff_hours.end_time)
+                    else:
+                        work_start = datetime.combine(date, working_hours.start_time)
+                        work_end = datetime.combine(date, working_hours.end_time)
+                    
+                    # Only skip staff if out-of-office covers ENTIRE working day
+                    skip_staff = is_staff_out_all_day(staff, date, work_start.time(), work_end.time())
+                    
+                    if not skip_staff:
+                        # Check if staff has working hours for this day
+                        staff_hours = StaffWorkingHours.objects.filter(
+                            staff=staff,
+                            day_of_week=day_of_week,
+                            is_day_off=False
+                        ).first()
+                        
+                        # If staff has specific hours, use those; otherwise use company hours
+                        if staff_hours or not StaffWorkingHours.objects.filter(staff=staff, day_of_week=day_of_week).exists():
+                            # Staff either has specific hours set (and not day off) or no override (use company hours)
+                            available_dates.append(date.strftime('%Y-%m-%d'))
+                            break  # At least one staff available, add this date
         
         return JsonResponse({'available_dates': available_dates})
     
@@ -500,6 +606,7 @@ def get_available_dates_any_staff(request, company_id, service_id):
         return JsonResponse({'error': str(e)}, status=400)
 
 
+@never_cache
 def get_available_times_any_staff(request, company_id, service_id, date_str):
     """API endpoint to get available time slots when ANY staff can perform the service"""
     try:
@@ -542,6 +649,28 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
             # Check if AT LEAST ONE staff member is available at this time
             is_available = False
             for staff in staff_members:
+                # Check if staff is out of office during this time slot
+                check_start = current_time
+                check_end = potential_end_time
+                
+                # Make timezone-aware if needed
+                if StaffOutOfOffice.objects.filter(staff=staff).exists():
+                    first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+                    if timezone.is_aware(first_period.start_datetime):
+                        if timezone.is_naive(check_start):
+                            check_start = timezone.make_aware(check_start)
+                        if timezone.is_naive(check_end):
+                            check_end = timezone.make_aware(check_end)
+                
+                # Skip if time slot overlaps with any out-of-office period
+                overlapping_periods = StaffOutOfOffice.objects.filter(
+                    staff=staff,
+                    start_datetime__lt=check_end,
+                    end_datetime__gt=check_start
+                )
+                if overlapping_periods.exists():
+                    continue  # Skip this staff member
+                
                 # Skip staff who don't work on this day
                 if staff.working_days and day_of_week not in staff.working_days:
                     continue
@@ -1030,6 +1159,7 @@ def edit_booking(request, booking_id):
             'company': profile.company,
             'staff_list': staff_list,
             'services': services,
+            'booking_phone': booking.booking_phone
         }
         
         return render(request, 'bookings/edit_booking.html', context)

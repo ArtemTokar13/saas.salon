@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog, StaffWorkingHours
+from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog, StaffWorkingHours, StaffOutOfOffice
 
 
 @admin.register(Company)
@@ -58,3 +58,12 @@ class EmailLogAdmin(admin.ModelAdmin):
     
     def has_delete_permission(self, request, obj=None):
         return True  # Allow deletion for cleanup
+
+
+@admin.register(StaffOutOfOffice)
+class StaffOutOfOfficeAdmin(admin.ModelAdmin):
+    list_display = ['staff', 'start_datetime', 'end_datetime', 'reason', 'created_at']
+    list_filter = ['staff__company', 'staff', 'start_datetime']
+    search_fields = ['staff__name', 'reason']
+    date_hierarchy = 'start_datetime'
+    ordering = ['-start_datetime']

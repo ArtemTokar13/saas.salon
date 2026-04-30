@@ -23,7 +23,7 @@ from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.db import models
-from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog, StaffWorkingHours
+from .models import Company, Staff, Service, WorkingHours, CompanyImage, EmailLog, StaffWorkingHours, StaffOutOfOffice
 from .forms import CompanyRegistrationForm, CompanyProfileForm, CompanyStaffForm, CompanyStaffActivateForm, ServiceForm
 from .utils import make_random_password
 from billing.models import Subscription
@@ -430,6 +430,10 @@ def add_staff(request):
                 # Convert working_days from strings to integers
                 working_days = [int(day) for day in form.cleaned_data.get('working_days', [])]
                 
+                # Form clean methods already handle timezone conversion
+                out_of_office_start = form.cleaned_data.get('out_of_office_start')
+                out_of_office_end = form.cleaned_data.get('out_of_office_end')
+                
                 staff_member = Staff.objects.create(
                     company=profile.company,
                     name=form.cleaned_data['name'],
@@ -438,8 +442,8 @@ def add_staff(request):
                     working_days=working_days,
                     break_start=form.cleaned_data.get('break_start'),
                     break_end=form.cleaned_data.get('break_end'),
-                    out_of_office_start=form.cleaned_data.get('out_of_office_start'),
-                    out_of_office_end=form.cleaned_data.get('out_of_office_end'),
+                    out_of_office_start=out_of_office_start,
+                    out_of_office_end=out_of_office_end,
                     is_active=False
                 )
                 staff_member.services.set(form.cleaned_data.get('services', []))
@@ -720,8 +724,11 @@ def edit_staff(request, staff_id):
                 staff_member.working_days = working_days
                 staff_member.break_start = form.cleaned_data.get('break_start')
                 staff_member.break_end = form.cleaned_data.get('break_end')
+                
+                # Form clean methods already handle timezone conversion
                 staff_member.out_of_office_start = form.cleaned_data.get('out_of_office_start')
                 staff_member.out_of_office_end = form.cleaned_data.get('out_of_office_end')
+                
                 # Staff model doesn't store phone/country; these are on UserProfile
                 country_code_val = form.cleaned_data.get('country_code', '')
                 phone_val = form.cleaned_data.get('phone', '')
@@ -765,6 +772,21 @@ def edit_staff(request, staff_id):
                 messages.success(request, 'Staff member updated successfully!')
                 return redirect('staff_list')
         else:
+            import pytz
+            spain_tz = pytz.timezone('Europe/Madrid')
+            
+            # Convert out_of_office times to Spain timezone for display
+            out_of_office_start_display = None
+            out_of_office_end_display = None
+            
+            if staff_member.out_of_office_start:
+                out_of_office_start_spain = staff_member.out_of_office_start.astimezone(spain_tz)
+                out_of_office_start_display = out_of_office_start_spain.strftime('%Y-%m-%dT%H:%M')
+            
+            if staff_member.out_of_office_end:
+                out_of_office_end_spain = staff_member.out_of_office_end.astimezone(spain_tz)
+                out_of_office_end_display = out_of_office_end_spain.strftime('%Y-%m-%dT%H:%M')
+            
             initial_data = {
                 'name': staff_member.name,
                 'specialization': staff_member.specialization,
@@ -772,8 +794,8 @@ def edit_staff(request, staff_id):
                 'working_days': [str(day) for day in staff_member.working_days],
                 'break_start': staff_member.break_start,
                 'break_end': staff_member.break_end,
-                'out_of_office_start': staff_member.out_of_office_start,
-                'out_of_office_end': staff_member.out_of_office_end,
+                'out_of_office_start': out_of_office_start_display,
+                'out_of_office_end': out_of_office_end_display,
                 'is_active': staff_member.is_active,
                 'services': staff_member.services.all(),
             }
@@ -793,7 +815,23 @@ def edit_staff(request, staff_id):
                 initial_data['phone'] = user_profile.phone_number
 
             form = CompanyStaffForm(initial=initial_data, company=profile.company)
-        return render(request, 'companies/edit_staff.html', {'form': form, 'staff_member': staff_member, 'staff_email': staff_email})
+        
+        # Get all out-of-office periods for this staff member
+        import pytz
+        spain_tz = pytz.timezone('Europe/Madrid')
+        out_of_office_periods = StaffOutOfOffice.objects.filter(staff=staff_member).order_by('-start_datetime')
+        
+        # Convert to Spain timezone for display
+        for period in out_of_office_periods:
+            period.start_datetime = period.start_datetime.astimezone(spain_tz)
+            period.end_datetime = period.end_datetime.astimezone(spain_tz)
+        
+        return render(request, 'companies/edit_staff.html', {
+            'form': form, 
+            'staff_member': staff_member, 
+            'staff_email': staff_email,
+            'out_of_office_periods': out_of_office_periods
+        })
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')
@@ -873,6 +911,82 @@ def resend_staff_activation(request, staff_id):
             return JsonResponse({'success': False, 'error': 'Failed to send activation email. Please try again later.'}, status=500)
     except Exception as e:
         logger.error(f"Error in resend_staff_activation: {str(e)}", exc_info=True)
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+
+@login_required
+@subscription_required
+@require_POST
+def add_staff_out_of_office(request, staff_id):
+    """Add a new out-of-office period for a staff member"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            return JsonResponse({'success': False, 'error': 'Access denied.'}, status=403)
+        
+        staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
+        
+        # Parse request data
+        import json
+        data = json.loads(request.body)
+        start_datetime_str = data.get('start_datetime')
+        end_datetime_str = data.get('end_datetime')
+        reason = data.get('reason', '')
+        
+        if not start_datetime_str or not end_datetime_str:
+            return JsonResponse({'success': False, 'error': 'Start and end datetime are required.'}, status=400)
+        
+        # Parse datetime strings and localize to Spain timezone
+        from datetime import datetime
+        import pytz
+        spain_tz = pytz.timezone('Europe/Madrid')
+        
+        # Parse the datetime-local input (which is in Spain timezone)
+        start_naive = datetime.fromisoformat(start_datetime_str)
+        end_naive = datetime.fromisoformat(end_datetime_str)
+        
+        # Localize to Spain timezone
+        start_aware = spain_tz.localize(start_naive)
+        end_aware = spain_tz.localize(end_naive)
+        
+        # Validate
+        if end_aware <= start_aware:
+            return JsonResponse({'success': False, 'error': 'End time must be after start time.'}, status=400)
+        
+        # Create the period
+        StaffOutOfOffice.objects.create(
+            staff=staff_member,
+            start_datetime=start_aware,
+            end_datetime=end_aware,
+            reason=reason
+        )
+        
+        return JsonResponse({'success': True})
+        
+    except Exception as e:
+        logger.error(f"Error adding out-of-office period: {e}")
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+
+@login_required
+@subscription_required
+@require_POST
+def delete_staff_out_of_office(request, staff_id, period_id):
+    """Delete an out-of-office period"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            return JsonResponse({'success': False, 'error': 'Access denied.'}, status=403)
+        
+        staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
+        period = get_object_or_404(StaffOutOfOffice, id=period_id, staff=staff_member)
+        
+        period.delete()
+        
+        return JsonResponse({'success': True})
+        
+    except Exception as e:
+        logger.error(f"Error deleting out-of-office period: {e}")
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 

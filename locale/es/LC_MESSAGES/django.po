@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-12 15:27+0200\n"
+"POT-Creation-Date: 2026-04-22 00:24+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,25 +51,32 @@ msgstr "Vencido"
 msgid "Unpaid"
 msgstr "No pagado"
 
-#: bookings/cron.py:33
+#: bookings/cron.py:37
 msgid "Reminder: Upcoming Booking for"
 msgstr "Recordatorio: Próximas reservas para"
 
-#: bookings/forms.py:14 companies/forms.py:85
+#: bookings/forms.py:15 companies/forms.py:85
 msgid "Select Country"
 msgstr "Seleccionar país"
 
-#: bookings/forms.py:27
+#: bookings/forms.py:28
 msgid "Add any notes about this booking..."
 msgstr "Añade cualquier nota sobre esta reserva..."
 
-#: bookings/forms.py:32
+#: bookings/forms.py:33
 msgid "Add any special requests or notes..."
 msgstr "Añade cualquier solicitud o nota especial..."
 
-#: bookings/forms.py:64
+#: bookings/forms.py:65
 msgid "Client notes..."
 msgstr "Notas del cliente..."
+
+#: bookings/forms.py:108
+msgid ""
+"{staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d "
+"%H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select "
+"a different date/time or staff member."
+msgstr ""
 
 #: companies/forms.py:93 companies/models.py:11
 #: templates/companies/add_staff.html:108
@@ -688,13 +695,14 @@ msgstr "Continuar con el pago"
 
 #: templates/billing/change_plan.html:191
 #: templates/bookings/confirm_prebooked.html:90
-#: templates/bookings/create_booking.html:206
+#: templates/bookings/create_booking.html:210
 #: templates/bookings/edit_booking.html:221
 #: templates/companies/add_service.html:100
-#: templates/companies/add_staff.html:280
+#: templates/companies/add_staff.html:279
 #: templates/companies/edit_profile.html:196
 #: templates/companies/edit_service.html:109
-#: templates/companies/edit_staff.html:293
+#: templates/companies/edit_staff.html:273
+#: templates/companies/edit_staff.html:360
 #: templates/companies/working_hours.html:72
 #: templates/socialaccount/signup.html:56
 msgid "Cancel"
@@ -996,7 +1004,7 @@ msgstr "Filtro"
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
 #: templates/bookings/confirmation.html:37
-#: templates/bookings/create_booking.html:87
+#: templates/bookings/create_booking.html:91
 #: templates/bookings/edit_booking.html:86
 msgid "Service"
 msgstr "Servicio"
@@ -1039,7 +1047,7 @@ msgid "No bookings found."
 msgstr "No se encontraron reservas."
 
 #: templates/bookings/confirm_prebooked.html:10
-#: templates/bookings/create_booking.html:209
+#: templates/bookings/create_booking.html:213
 #: templates/bookings/edit_booking.html:224
 #: templates/static_pages/how_it_works.html:74
 msgid "Confirm Booking"
@@ -1067,7 +1075,7 @@ msgid "Date & Time"
 msgstr "Fecha y hora"
 
 #: templates/bookings/confirm_prebooked.html:46
-#: templates/bookings/create_booking.html:73
+#: templates/bookings/create_booking.html:77
 #: templates/bookings/edit_booking.html:77
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
 #: templates/companies/edit_profile.html:76
@@ -1078,7 +1086,7 @@ msgid "Email"
 msgstr "Correo Electrónico"
 
 #: templates/bookings/confirm_prebooked.html:58
-#: templates/bookings/create_booking.html:104
+#: templates/bookings/create_booking.html:108
 #: templates/bookings/edit_booking.html:103
 #: templates/companies/add_service.html:29
 #: templates/companies/edit_service.html:29
@@ -1171,108 +1179,108 @@ msgstr "Su información"
 msgid "Name"
 msgstr "Nombre"
 
-#: templates/bookings/create_booking.html:84
+#: templates/bookings/create_booking.html:88
 #: templates/bookings/edit_booking.html:84
 msgid "Select Service"
 msgstr "Seleccionar servicio"
 
-#: templates/bookings/create_booking.html:90
+#: templates/bookings/create_booking.html:94
 #: templates/bookings/edit_booking.html:89
 msgid "Choose a service..."
 msgstr "Elija un servicio..."
 
-#: templates/bookings/create_booking.html:117
+#: templates/bookings/create_booking.html:121
 #: templates/bookings/edit_booking.html:114
 msgid "Select Specialist"
 msgstr "Elija un Especialista"
 
-#: templates/bookings/create_booking.html:117
-#: templates/bookings/create_booking.html:193
+#: templates/bookings/create_booking.html:121
+#: templates/bookings/create_booking.html:197
 msgid "Optional"
 msgstr "Opcional"
 
-#: templates/bookings/create_booking.html:120
+#: templates/bookings/create_booking.html:124
 #: templates/bookings/edit_booking.html:116
 msgid "Please select a service first"
 msgstr "Por favor seleccione un servicio primero"
 
-#: templates/bookings/create_booking.html:137
+#: templates/bookings/create_booking.html:141
 #: templates/bookings/edit_booking.html:133
 msgid "Select Date & Time"
 msgstr "Fecha y hora"
 
-#: templates/bookings/create_booking.html:142
+#: templates/bookings/create_booking.html:146
 #: templates/bookings/edit_booking.html:138
 #: templates/companies/add_service.html:53
 #: templates/companies/edit_service.html:53
 msgid "Available Dates"
 msgstr "Planes disponibles"
 
-#: templates/bookings/create_booking.html:158
+#: templates/bookings/create_booking.html:162
 #: templates/bookings/edit_booking.html:154
 msgid "Please select a specialist first"
 msgstr "Por favor seleccione un especialista primero"
 
-#: templates/bookings/create_booking.html:162
+#: templates/bookings/create_booking.html:166
 #: templates/bookings/edit_booking.html:158
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:22
 msgid "Sun"
 msgstr "Dom"
 
-#: templates/bookings/create_booking.html:163
+#: templates/bookings/create_booking.html:167
 #: templates/bookings/edit_booking.html:159
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:16
 msgid "Mon"
 msgstr "Lun"
 
-#: templates/bookings/create_booking.html:164
+#: templates/bookings/create_booking.html:168
 #: templates/bookings/edit_booking.html:160
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:17
 msgid "Tue"
 msgstr "Mar"
 
-#: templates/bookings/create_booking.html:165
+#: templates/bookings/create_booking.html:169
 #: templates/bookings/edit_booking.html:161
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:18
 msgid "Wed"
 msgstr "Mie"
 
-#: templates/bookings/create_booking.html:166
+#: templates/bookings/create_booking.html:170
 #: templates/bookings/edit_booking.html:162
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:19
 msgid "Thu"
 msgstr "Jue"
 
-#: templates/bookings/create_booking.html:167
+#: templates/bookings/create_booking.html:171
 #: templates/bookings/edit_booking.html:163
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:20
 msgid "Fri"
 msgstr "Vie"
 
-#: templates/bookings/create_booking.html:168
+#: templates/bookings/create_booking.html:172
 #: templates/bookings/edit_booking.html:164
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:21
 msgid "Sat"
 msgstr "Sab"
 
-#: templates/bookings/create_booking.html:180
+#: templates/bookings/create_booking.html:184
 #: templates/bookings/edit_booking.html:176
 msgid "Available Time"
 msgstr "Tiempos disponibles"
 
-#: templates/bookings/create_booking.html:193
+#: templates/bookings/create_booking.html:197
 msgid "Additional Notes"
 msgstr "Notas adicionales"
 
-#: templates/bookings/create_booking.html:195
+#: templates/bookings/create_booking.html:199
 msgid "Do you have any special requests or notes?"
 msgstr "¿Tiene alguna petición o nota especial?"
 
-#: templates/bookings/create_booking.html:220
+#: templates/bookings/create_booking.html:224
 msgid "Any Available"
 msgstr "Cualquiera disponible"
 
-#: templates/bookings/create_booking.html:221
+#: templates/bookings/create_booking.html:225
 msgid "We'll assign"
 msgstr "Nosotros asignaremos"
 
@@ -1382,7 +1390,7 @@ msgstr "Requiere confirmación del personal"
 msgid "Maximum 10 dates allowed"
 msgstr "Máximo 10 fechas permitidas"
 
-#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:283
+#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:282
 msgid "Add Staff Member"
 msgstr "Agregar personal"
 
@@ -1463,16 +1471,21 @@ msgstr "Hora de inicio del descanso"
 msgid "Break End Time"
 msgstr "Hora de finalización del descanso"
 
-#: templates/companies/add_staff.html:237
-msgid "Out of Salon Start Date"
-msgstr "Fecha de inicio fuera del salon"
+#: templates/companies/add_staff.html:243
+#: templates/companies/edit_staff.html:242
+msgid "Out of Office Periods"
+msgstr "Períodos fuera de la oficina"
 
 #: templates/companies/add_staff.html:245
-msgid "Out of Salon End Date"
-msgstr "Fecha de finalización fuera del salon"
+msgid ""
+"You can manage multiple out-of-office periods after creating the staff "
+"member."
+msgstr ""
+"Puedes gestionar varios periodos de ausencia después de crear el miembro del "
+"personal."
 
-#: templates/companies/add_staff.html:253 templates/companies/dashboard.html:35
-#: templates/companies/edit_staff.html:255
+#: templates/companies/add_staff.html:252 templates/companies/dashboard.html:35
+#: templates/companies/edit_staff.html:322
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Servicios"
@@ -2052,6 +2065,7 @@ msgstr "Plan Actual"
 
 #: templates/companies/edit_profile.html:147
 #: templates/companies/edit_staff.html:69
+#: templates/companies/edit_staff.html:303
 #: templates/companies/services_list.html:49
 #: templates/companies/staff_list.html:54
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
@@ -2076,7 +2090,8 @@ msgstr "Elige fichero"
 
 #: templates/companies/edit_profile.html:199
 #: templates/companies/edit_service.html:112
-#: templates/companies/edit_staff.html:296
+#: templates/companies/edit_staff.html:270
+#: templates/companies/edit_staff.html:363
 #: templates/companies/working_hours.html:75
 msgid "Save Changes"
 msgstr "Guardar cambios"
@@ -2091,43 +2106,105 @@ msgstr "Editar Personal"
 
 #: templates/companies/edit_staff.html:19
 msgid "Resend Activation Email"
-msgstr ""
+msgstr "Reenviar correo electrónico de activación"
 
 #: templates/companies/edit_staff.html:66
 msgid "Current avatar"
 msgstr "Imagen Actual"
 
-#: templates/companies/edit_staff.html:240
-msgid "Out of Office Start Date"
-msgstr "Fecha de inicio fuera de la oficina"
+#: templates/companies/edit_staff.html:247
+msgid "Add Period"
+msgstr "Añadir Periodo"
 
-#: templates/companies/edit_staff.html:248
-msgid "Out of Office End Date"
-msgstr "Fecha de finalización fuera de la oficina"
+#: templates/companies/edit_staff.html:253
+msgid "New Out of Office Period"
+msgstr "Nuevo período fuera del salon"
 
-#: templates/companies/edit_staff.html:285
+#: templates/companies/edit_staff.html:256
+msgid "Start Date & Time"
+msgstr "Fecha y hora de inicio"
+
+#: templates/companies/edit_staff.html:260
+msgid "End Date & Time"
+msgstr "Fecha y hora del fin"
+
+#: templates/companies/edit_staff.html:265
+msgid "Reason (Optional)"
+msgstr "Motivo (opcional)"
+
+#: templates/companies/edit_staff.html:266
+msgid "e.g., Vacation, Medical appointment..."
+msgstr "Por ejemplo, vacaciones, cita médica..."
+
+#: templates/companies/edit_staff.html:296
+msgid "Reason:"
+msgstr "Motivo:"
+
+#: templates/companies/edit_staff.html:300
+msgid "Added"
+msgstr "Agregado"
+
+#: templates/companies/edit_staff.html:315
+#: templates/companies/edit_staff.html:547
+msgid "No out of office periods scheduled"
+msgstr "No hay períodos de ausencia programados."
+
+#: templates/companies/edit_staff.html:352
 msgid "Is Active"
 msgstr "Activo"
 
-#: templates/companies/edit_staff.html:307
+#: templates/companies/edit_staff.html:374
 msgid "Are you sure you want to resend the activation email?"
 msgstr ""
 "¿Estás seguro de que quieres reenviar el correo electrónico de activación?"
 
-#: templates/companies/edit_staff.html:323
+#: templates/companies/edit_staff.html:390
 msgid "Activation email sent successfully!"
 msgstr "¡Correo electrónico de activación enviado correctamente!"
 
-#: templates/companies/edit_staff.html:325
+#: templates/companies/edit_staff.html:392
+#: templates/companies/edit_staff.html:510
+#: templates/companies/edit_staff.html:552
 msgid "Error:"
 msgstr "Error:"
 
-#: templates/companies/edit_staff.html:325
+#: templates/companies/edit_staff.html:392
+#: templates/companies/edit_staff.html:510
+#: templates/companies/edit_staff.html:552
 msgid "Unknown error"
 msgstr "Error desconocido"
 
-#: templates/companies/edit_staff.html:330
+#: templates/companies/edit_staff.html:397
 msgid "Error sending activation email. Please try again."
+msgstr ""
+"Error al enviar el correo electrónico de activación. Inténtalo de nuevo."
+
+#: templates/companies/edit_staff.html:480
+msgid "Please fill in both start and end date/time"
+msgstr ""
+
+#: templates/companies/edit_staff.html:488
+msgid "End date must be after start date"
+msgstr ""
+
+#: templates/companies/edit_staff.html:515
+#, fuzzy
+#| msgid "Error sending activation email. Please try again."
+msgid "Error saving period. Please try again."
+msgstr ""
+"Error al enviar el correo electrónico de activación. Inténtalo de nuevo."
+
+#: templates/companies/edit_staff.html:520
+#, fuzzy
+#| msgid "Are you sure you want to resend the activation email?"
+msgid "Are you sure you want to delete this out of office period?"
+msgstr ""
+"¿Estás seguro de que quieres reenviar el correo electrónico de activación?"
+
+#: templates/companies/edit_staff.html:557
+#, fuzzy
+#| msgid "Error sending activation email. Please try again."
+msgid "Error deleting period. Please try again."
 msgstr ""
 "Error al enviar el correo electrónico de activación. Inténtalo de nuevo."
 

@@ -23,7 +23,8 @@ def send_booking_reminders():
     # Get all bookings for tomorrow that haven't been reminded yet
     bookings_to_remind = Booking.objects.filter(
         date=tomorrow,
-        reminder_sent=False
+        reminder_sent=False,
+        status=1  # Only consider confirmed bookings
     ).order_by('start_time')
     
     print(f"Current time: {now}")

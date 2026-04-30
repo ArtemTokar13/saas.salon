@@ -78,6 +78,37 @@ class BookingForm(forms.ModelForm):
         if date and date < timezone.now().date() and not self.instance.pk:
             raise forms.ValidationError("Cannot book in the past.")
         return date
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        staff = cleaned_data.get('staff')
+        date = cleaned_data.get('date')
+        start_time = cleaned_data.get('start_time')
+        
+        # If staff is explicitly selected, check if they're out of office
+        if staff and date and start_time:
+            from companies.models import StaffOutOfOffice
+            from datetime import datetime
+            
+            booking_datetime = datetime.combine(date, start_time)
+            # Make timezone-aware if needed
+            if timezone.is_aware(staff.out_of_office_periods.first().start_datetime if staff.out_of_office_periods.exists() else booking_datetime):
+                booking_datetime = timezone.make_aware(booking_datetime)
+            
+            # Check if booking time falls within any out-of-office period
+            conflicting_periods = StaffOutOfOffice.objects.filter(
+                staff=staff,
+                start_datetime__lte=booking_datetime,
+                end_datetime__gte=booking_datetime
+            )
+            
+            if conflicting_periods.exists():
+                period = conflicting_periods.first()
+                raise forms.ValidationError(
+                    _(f"{staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d %H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select a different date/time or staff member.")
+                )
+        
+        return cleaned_data
 
     def save(self, commit=True):
         booking = super().save(commit=False)
@@ -189,6 +220,26 @@ class BookingForm(forms.ModelForm):
         available_staff = []
         
         for staff in staff_members:
+            # Check if staff is out of office during this booking time
+            from companies.models import StaffOutOfOffice
+            
+            booking_datetime = start_datetime
+            # Make timezone-aware if needed
+            if StaffOutOfOffice.objects.filter(staff=staff).exists():
+                first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+                if timezone.is_aware(first_period.start_datetime) and not timezone.is_aware(booking_datetime):
+                    booking_datetime = timezone.make_aware(booking_datetime)
+                elif not timezone.is_aware(first_period.start_datetime) and timezone.is_aware(booking_datetime):
+                    booking_datetime = timezone.make_naive(booking_datetime)
+            
+            # Skip if booking would occur during any out-of-office period
+            if StaffOutOfOffice.objects.filter(
+                staff=staff,
+                start_datetime__lte=booking_datetime,
+                end_datetime__gte=booking_datetime
+            ).exists():
+                continue  # Skip this staff member
+            
             # Check if staff is working on this day
             day_of_week = date.weekday()
             working_hours = WorkingHours.objects.filter(

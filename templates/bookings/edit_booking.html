@@ -61,15 +61,16 @@
                             <div class="w-1/4">
                                 {{ form.customer_country_code }}
                                 {% if form.customer_country_code.errors %}
-                                    <p class="mt-1 text-sm text-red-600">{{ form.customer_country_code.errors.0 }}</p>
+                                <p class="mt-1 text-sm text-red-600">{{ form.customer_country_code.errors.0 }}</p>
                                 {% endif %}
                             </div>
                             <div class="flex-1">
                                 {{ form.customer_phone }}
                                 {% if form.customer_phone.errors %}
-                                    <p class="mt-1 text-sm text-red-600">{{ form.customer_phone.errors.0 }}</p>
+                                <p class="mt-1 text-sm text-red-600">{{ form.customer_phone.errors.0 }}</p>
                                 {% endif %}
                             </div>
+                            <a href="whatsapp://send?phone={{ booking_phone }}"><i class="fab fa-whatsapp text-green-500 text-4xl"></i></a>
                         </div>
                     </div>
                     
@@ -456,9 +457,11 @@ async function loadAvailableDates() {
     if (!serviceSelect.value || !selectedStaff) return;
     
     try {
-        const url = `/bookings/api/dates/${companyId}/${selectedStaff}/`;
+        const url = `/bookings/api/dates/${companyId}/${selectedStaff}/?service_id=${serviceSelect.value}&_=${Date.now()}`;
         
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            cache: 'no-store'
+        });
         const data = await response.json();
         
         availableDates = data.available_dates ? data.available_dates.map(d => d.date || d) : [];
@@ -576,9 +579,11 @@ async function loadAvailableTimes() {
     }
 
     try {
-        const url = `/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/?booking_id=${currentBookingId}`;
+        const url = `/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/?booking_id=${bookingId}&_=${Date.now()}`;
         
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            cache: 'no-store'
+        });
         const data = await response.json();
         
         timeSlotsGrid.innerHTML = '';

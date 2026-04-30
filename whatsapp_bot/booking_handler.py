@@ -7,7 +7,7 @@ from hashlib import md5
 from django.utils import timezone
 from django.db.models import Q
 from fuzzywuzzy import fuzz
-from companies.models import Company, Service, Staff, WorkingHours
+from companies.models import Company, Service, Staff, WorkingHours, StaffOutOfOffice
 from bookings.models import Booking, Customer
 from bookings.utils import normalize_phone_number
 from bookings.models import Booking, Customer
@@ -179,12 +179,52 @@ class BookingSearcher:
             logger.info(f"    ✗ {staff.name} doesn't work on day {day_of_week}. Working days: {staff.working_days}")
             return []
         
-        # Check if staff is out of office
+        # Check if staff is out of office (legacy fields - for backward compatibility)
         if staff.out_of_office:
             if staff.out_of_office_start and staff.out_of_office_end:
-                if staff.out_of_office_start <= date <= staff.out_of_office_end:
-                    logger.info(f"    ✗ {staff.name} is out of office {staff.out_of_office_start} to {staff.out_of_office_end}")
+                # Convert to date if these are datetime fields
+                out_start = staff.out_of_office_start if isinstance(staff.out_of_office_start, datetime) else datetime.combine(staff.out_of_office_start, dtime.min)
+                out_end = staff.out_of_office_end if isinstance(staff.out_of_office_end, datetime) else datetime.combine(staff.out_of_office_end, dtime.max)
+                
+                check_datetime_start = datetime.combine(date, dtime.min)
+                check_datetime_end = datetime.combine(date, dtime.max)
+                
+                # Make timezone-aware if needed
+                if timezone.is_aware(out_start):
+                    check_datetime_start = timezone.make_aware(check_datetime_start)
+                    check_datetime_end = timezone.make_aware(check_datetime_end)
+                
+                # Check if the date falls within the out-of-office period
+                if out_start <= check_datetime_end and out_end >= check_datetime_start:
+                    logger.info(f"    ✗ {staff.name} is out of office (legacy) {staff.out_of_office_start} to {staff.out_of_office_end}")
                     return []
+        
+        # Check if staff is out of office using the new StaffOutOfOffice model
+        # This checks if the staff has any out-of-office periods that overlap with this date
+        date_start = datetime.combine(date, dtime.min)
+        date_end = datetime.combine(date, dtime.max)
+        
+        # Make timezone-aware if needed
+        if StaffOutOfOffice.objects.filter(staff=staff).exists():
+            first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+            if timezone.is_aware(first_period.start_datetime):
+                date_start = timezone.make_aware(date_start)
+                date_end = timezone.make_aware(date_end)
+        
+        # Check if any out-of-office period overlaps with this entire day
+        overlapping_periods = StaffOutOfOffice.objects.filter(
+            staff=staff,
+            start_datetime__lte=date_end,
+            end_datetime__gte=date_start
+        )
+        
+        if overlapping_periods.exists():
+            # Staff has at least one out-of-office period that overlaps with this day
+            # For simplicity, we'll exclude the entire day if any part is blocked
+            # TODO: In the future, could check individual time slots against out-of-office periods
+            period = overlapping_periods.first()
+            logger.info(f"    ✗ {staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d %H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}")
+            return []
         
         # Get working hours for this day
         # First check staff-specific hours, then fall back to company hours

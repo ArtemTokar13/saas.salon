@@ -120,8 +120,8 @@ class Staff(models.Model):
     break_start = models.TimeField(blank=True, null=True)
     break_end = models.TimeField(blank=True, null=True)
     out_of_office = models.BooleanField(default=False)
-    out_of_office_start = models.DateField(blank=True, null=True)
-    out_of_office_end = models.DateField(blank=True, null=True)
+    out_of_office_start = models.DateTimeField(blank=True, null=True)
+    out_of_office_end = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     services = models.ManyToManyField('Service', blank=True, related_name='staff_members')
 
@@ -209,6 +209,30 @@ class StaffWorkingHours(models.Model):
 
     def __str__(self):
         return f"{self.staff.name} — {self.get_day_of_week_display()} ({self.start_time} - {self.end_time})"
+
+
+class StaffOutOfOffice(models.Model):
+    """Track multiple out-of-office periods for staff members"""
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name="out_of_office_periods")
+    start_datetime = models.DateTimeField(help_text="When the out-of-office period starts")
+    end_datetime = models.DateTimeField(help_text="When the out-of-office period ends")
+    reason = models.CharField(max_length=255, blank=True, help_text="Optional reason (e.g., 'Vacation', 'Sick leave')")
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['start_datetime']
+        verbose_name = "Staff Out of Office"
+        verbose_name_plural = "Staff Out of Office Periods"
+    
+    def __str__(self):
+        return f"{self.staff.name} — {self.start_datetime.strftime('%Y-%m-%d %H:%M')} to {self.end_datetime.strftime('%Y-%m-%d %H:%M')}"
+    
+    def clean(self):
+        """Validate that start is before end"""
+        from django.core.exceptions import ValidationError
+        if self.start_datetime and self.end_datetime:
+            if self.start_datetime >= self.end_datetime:
+                raise ValidationError("End time must be after start time")
 
 
 class CompanyImage(models.Model):

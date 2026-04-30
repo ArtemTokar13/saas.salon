@@ -97,8 +97,8 @@ class CompanyStaffForm(forms.Form):
     )
     break_start = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'}))
     break_end = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'}))
-    out_of_office_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
-    out_of_office_end = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    out_of_office_start = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+    out_of_office_end = forms.DateTimeField(required=False, widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     is_active = forms.BooleanField(initial=True, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
     services = forms.ModelMultipleChoiceField(
         queryset=None,
@@ -140,6 +140,28 @@ class CompanyStaffForm(forms.Form):
                 if UserProfile.objects.filter(user=user, company=self.company, staff__isnull=False).exists():
                     raise forms.ValidationError("Staff with this email already registered.")
         return email
+    
+    def clean_out_of_office_start(self):
+        """Convert naive datetime to Spain timezone"""
+        dt = self.cleaned_data.get('out_of_office_start')
+        if dt:
+            from django.utils import timezone
+            import pytz
+            spain_tz = pytz.timezone('Europe/Madrid')
+            if timezone.is_naive(dt):
+                dt = spain_tz.localize(dt)
+        return dt
+    
+    def clean_out_of_office_end(self):
+        """Convert naive datetime to Spain timezone"""
+        dt = self.cleaned_data.get('out_of_office_end')
+        if dt:
+            from django.utils import timezone
+            import pytz
+            spain_tz = pytz.timezone('Europe/Madrid')
+            if timezone.is_naive(dt):
+                dt = spain_tz.localize(dt)
+        return dt
     
 class CompanyStaffActivateForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")

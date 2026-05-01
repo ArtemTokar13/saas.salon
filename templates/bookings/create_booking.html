@@ -61,105 +61,123 @@
                     </div>
                 </div>
 
-                <!-- Service Selection -->
-                <div class="border-b pb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Select Service" %}</h2>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Service" %} *</label>
-                        <select name="service" id="serviceSelect" required 
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">{% trans "Choose a service..." %}</option>
-                            {% for service in services %}
-                                <option value="{{ service.id }}" data-duration="{{ service.duration }}" data-price="{{ service.price }}" {% if service.id == preselected_service_id %}selected{% endif %}>
-                                    {{ service.name }} - {{ service.duration }} min - €{{ service.price }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                        {% if form.service.errors %}
-                            <p class="mt-1 text-sm text-red-600">{{ form.service.errors.0 }}</p>
-                        {% endif %}
-                    </div>
-                    
-                    {% if form.duration %}
-                        <div class="mt-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Duration (minutes)" %}</label>
-                            {{ form.duration }}
-                            {% if form.duration.errors %}
-                                <p class="mt-1 text-sm text-red-600">{{ form.duration.errors.0 }}</p>
-                            {% endif %}
-                        </div>
-                    {% endif %}
+                <!-- Multiple Bookings Header -->
+                <div class="mb-4 border-b pb-4">
+                    <h2 class="text-xl font-semibold text-gray-900">{% trans "Services" %}</h2>
                 </div>
 
-
-                <!-- Staff Selection -->
-                <div class="border-b pb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">
-                        {% trans "Select Specialist" %} <span class="text-sm font-normal text-gray-500">({% trans "Optional" %})</span>
-                    </h2>
-                    <div id="staffContainer">
-                        <p class="text-gray-500 text-sm">{% trans "Please select a service first" %}</p>
-                    </div>
-                    <div id="staffSelectContainer" class="hidden">
-                        <div class="overflow-x-auto -mx-2 px-2">
-                            <div id="staffGrid" class="flex space-x-6 pt-4 pb-4">
-                                <!-- Staff members will be populated here dynamically (including "Any Available") -->
-                            </div>
-                        </div>
-                        <input type="hidden" name="staff" id="selectedStaff">
-                    </div>
+                <!-- Bookings Container -->
+                <div id="bookingsContainer">
+                    <!-- Booking rows will be added here dynamically -->
                 </div>
 
-                <!-- Date & Time -->
-                <div>
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Select Date & Time" %}</h2>
-                    
-                    <!-- Available Dates -->
-                    <div class="mb-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <label class="block text-sm font-medium text-gray-700">{% trans "Available Dates" %} *</label>
-                            <div id="monthNavigation" class="hidden flex items-center space-x-2">
-                                <button type="button" id="prevMonth" class="p-1 hover:bg-gray-100 rounded">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                                    </svg>
-                                </button>
-                                <span id="currentMonth" class="text-sm font-medium min-w-32 text-center"></span>
-                                <button type="button" id="nextMonth" class="p-1 hover:bg-gray-100 rounded">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div id="datesContainer">
-                            <p class="text-gray-500 text-sm">{% trans "Please select a specialist first" %}</p>
-                        </div>
-                        <div id="calendarContainer" class="hidden">
-                            <div class="grid grid-cols-7 gap-1 text-center mb-2">
-                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Sun" %}</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Mon" %}</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Tue" %}</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Wed" %}</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Thu" %}</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Fri" %}</div>
-                                <div class="text-xs font-medium text-gray-500 py-2">{% trans "Sat" %}</div>
-                            </div>
-                            <div id="datesGrid" class="grid grid-cols-7 gap-1"></div>
-                        </div>
-                        <input type="hidden" name="date" id="selectedDate" required>
-                    </div>
-
-                    <!-- Available Time Slots -->
-                    <div id="timeSlotsSection" class="hidden">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">{% trans "Available Time" %} *</label>
-                        <div class="overflow-x-auto -mx-2 px-2">
-                            <div id="timeSlotsGrid" class="flex flex-wrap gap-2"></div>
-                        </div>
-                        <input type="hidden" name="start_time" id="selectedTime" required>
-                    </div>
+                <!-- Add Service Button -->
+                <div class="mb-6">
+                    <button type="button" id="addServiceBtn" 
+                            class="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        {% trans "Add Service" %}
+                    </button>
                 </div>
+
+                <!-- Booking Row Template (hidden) -->
+                <template id="bookingRowTemplate">
+                    <div class="booking-row border-2 border-gray-200 rounded-lg p-6 mb-6 bg-white" data-row-index="0">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                {% trans "Service" %} <span class="booking-number">1</span>
+                            </h3>
+                            <button type="button" class="remove-service-btn hidden text-red-600 hover:text-red-800">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Service Selection -->
+                        <div class="border-b pb-4 mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Service" %} *</label>
+                            <select name="bookings[INDEX][service]" class="service-select w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                                <option value="">{% trans "Choose a service..." %}</option>
+                                {% for service in services %}
+                                    <option value="{{ service.id }}" data-duration="{{ service.duration }}" data-price="{{ service.price }}">
+                                        {{ service.name }} - {{ service.duration }} min - €{{ service.price }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Staff Selection -->
+                        <div class="border-b pb-4 mb-4">
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">
+                                {% trans "Select Specialist" %} <span class="text-sm font-normal text-gray-500">({% trans "Optional" %})</span>
+                            </h4>
+                            <div class="staff-container">
+                                <p class="text-gray-500 text-sm">{% trans "Please select a service first" %}</p>
+                            </div>
+                            <div class="staff-select-container hidden">
+                                <div class="overflow-x-auto -mx-2 px-2">
+                                    <div class="staff-grid flex space-x-4 pt-2 pb-2">
+                                        <!-- Staff members will be populated here -->
+                                    </div>
+                                </div>
+                                <input type="hidden" name="bookings[INDEX][staff]" class="selected-staff">
+                            </div>
+                        </div>
+
+                        <!-- Date & Time Selection -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">{% trans "Select Date & Time" %}</h4>
+                            
+                            <!-- Available Dates -->
+                            <div class="mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="block text-xs font-medium text-gray-600">{% trans "Available Dates" %} *</label>
+                                    <div class="month-navigation hidden flex items-center gap-2">
+                                        <button type="button" class="prev-month p-1 hover:bg-gray-100 rounded">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                            </svg>
+                                        </button>
+                                        <span class="current-month text-xs font-medium min-w-24 text-center"></span>
+                                        <button type="button" class="next-month p-1 hover:bg-gray-100 rounded">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="dates-container">
+                                    <p class="text-gray-500 text-sm">{% trans "Please select a specialist first" %}</p>
+                                </div>
+                                <div class="calendar-container hidden">
+                                    <div class="grid grid-cols-7 gap-1 text-center mb-1">
+                                        <div class="text-xs font-medium text-gray-500 py-1">{% trans "Sun" %}</div>
+                                        <div class="text-xs font-medium text-gray-500 py-1">{% trans "Mon" %}</div>
+                                        <div class="text-xs font-medium text-gray-500 py-1">{% trans "Tue" %}</div>
+                                        <div class="text-xs font-medium text-gray-500 py-1">{% trans "Wed" %}</div>
+                                        <div class="text-xs font-medium text-gray-500 py-1">{% trans "Thu" %}</div>
+                                        <div class="text-xs font-medium text-gray-500 py-1">{% trans "Fri" %}</div>
+                                        <div class="text-xs font-medium text-gray-500 py-1">{% trans "Sat" %}</div>
+                                    </div>
+                                    <div class="dates-grid grid grid-cols-7 gap-1"></div>
+                                </div>
+                                <input type="hidden" name="bookings[INDEX][date]" class="selected-date" required>
+                            </div>
+
+                            <!-- Available Time Slots -->
+                            <div class="timeslots-section hidden">
+                                <label class="block text-xs font-medium text-gray-600 mb-2">{% trans "Available Time" %} *</label>
+                                <div class="overflow-x-auto -mx-2 px-2">
+                                    <div class="timeslots-grid flex flex-wrap gap-2"></div>
+                                </div>
+                                <input type="hidden" name="bookings[INDEX][start_time]" class="selected-time" required>
+                            </div>
+                        </div>
+                    </div>
+                </template>
 
                 <!-- Client Notes -->
                 <div class="border-b pb-6">
@@ -177,8 +195,9 @@
                     <a href="javascript:history.back()" class="flex-1 bg-gray-200 text-gray-700 py-2 text-center rounded-lg font-semibold hover:bg-gray-300 transition">
                         {% trans "Cancel" %}
                     </a>
-                    <button type="submit" class="flex-1 bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition">
-                        {% trans "Confirm Booking" %}
+                    <button type="submit" id="submitBtn" class="flex-1 bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition">
+                        <span id="submitBtnText">{% trans "Confirm Booking" %}</span>
+                        <span id="submitBtnCount" class="hidden"></span>
                     </button>
                 </div>
             </form>
@@ -250,30 +269,18 @@ const translations = {
 
 // Global variables
 const companyId = {{ company.id }};
-const serviceSelect = document.getElementById('serviceSelect');
-const staffSelectContainer = document.getElementById('staffSelectContainer');
 const bookingForm = document.getElementById('bookingForm');
 const validationError = document.getElementById('validationError');
 const validationErrorList = document.getElementById('validationErrorList');
-const staffContainer = document.getElementById('staffContainer');
-const staffGrid = document.getElementById('staffGrid');
-const selectedStaffInput = document.getElementById('selectedStaff');
-const datesContainer = document.getElementById('datesContainer');
-const calendarContainer = document.getElementById('calendarContainer');
-const datesGrid = document.getElementById('datesGrid');
-const monthNavigation = document.getElementById('monthNavigation');
-const currentMonthSpan = document.getElementById('currentMonth');
-const prevMonthBtn = document.getElementById('prevMonth');
-const nextMonthBtn = document.getElementById('nextMonth');
-const timeSlotsSection = document.getElementById('timeSlotsSection');
-const timeSlotsGrid = document.getElementById('timeSlotsGrid');
-const selectedDateInput = document.getElementById('selectedDate');
-const selectedTimeInput = document.getElementById('selectedTime');
+const bookingsContainer = document.getElementById('bookingsContainer');
+const addServiceBtn = document.getElementById('addServiceBtn');
+const submitBtn = document.getElementById('submitBtn');
+const submitBtnText = document.getElementById('submitBtnText');
+const submitBtnCount = document.getElementById('submitBtnCount');
 
-let selectedDate = null;
-let selectedStaff = null;
-let currentMonth = new Date();
-let availableDates = [];
+let bookingRowCounter = 0;
+let bookingRows = new Map(); // Store row data
+let bookedSlots = []; // Track all booked staff/date/time slots to prevent conflicts
 
 document.addEventListener('DOMContentLoaded', function() {
     // Add event listener for customer phone autocomplete
@@ -290,51 +297,108 @@ document.addEventListener('DOMContentLoaded', function() {
             guessCustomerData('name');
         });
     }
+    
+    // Add first booking row automatically
+    addBookingRow();
+    
+    // Add service button
+    addServiceBtn.addEventListener('click', addBookingRow);
 });
 
-// Form validation on submit
-bookingForm.addEventListener('submit', function(e) {
-    const errors = [];
+// Add a new booking row
+function addBookingRow() {
+    const template = document.getElementById('bookingRowTemplate');
+    const clone = template.content.cloneNode(true);
+    const rowDiv = clone.querySelector('.booking-row');
     
-    if (!serviceSelect.value) {
-        errors.push('Service');
+    // Set row index
+    rowDiv.dataset.rowIndex = bookingRowCounter;
+    
+    // Replace INDEX with actual row number in all name attributes
+    rowDiv.querySelectorAll('[name*="INDEX"]').forEach(element => {
+        element.name = element.name.replace('INDEX', bookingRowCounter);
+    });
+    
+    // Update booking number
+    rowDiv.querySelector('.booking-number').textContent = bookingRowCounter + 1;
+    
+    // Show remove button if not first row
+    const removeBtn = rowDiv.querySelector('.remove-service-btn');
+    if (bookingRowCounter > 0) {
+        removeBtn.classList.remove('hidden');
     }
     
-    if (!selectedDateInput.value) {
-        errors.push('Date');
-    }
+    // Add to container
+    bookingsContainer.appendChild(rowDiv);
     
-    if (!selectedTimeInput.value) {
-        errors.push('Time');
-    }
+    // Initialize row data
+    bookingRows.set(bookingRowCounter, {
+        selectedStaff: null,
+        selectedDate: null,
+        currentMonth: new Date(),
+        availableDates: []
+    });
     
-    if (errors.length > 0) {
-        e.preventDefault();
-        validationErrorList.innerHTML = errors.map(field => `<li>${field}</li>`).join('');
-        validationError.classList.remove('hidden');
-        validationError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    } else {
-        validationError.classList.add('hidden');
-    }
-});
+    // Initialize event listeners for this row
+    initializeBookingRow(bookingRowCounter);
+    
+    bookingRowCounter++;
+    updateSubmitButton();
+}
 
-// Check if service is pre-selected from URL
-const urlParams = new URLSearchParams(window.location.search);
-const preselectedServiceId = urlParams.get('service_id');
+// Initialize event listeners for a booking row
+function initializeBookingRow(rowIndex) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
+    
+    const serviceSelect = row.querySelector('.service-select');
+    const removeBtn = row.querySelector('.remove-service-btn');
+    
+    // Service change event
+    serviceSelect.addEventListener('change', function() {
+        const rowData = bookingRows.get(rowIndex);
+        const oldStaffId = rowData?.selectedStaff;
+        const oldDate = rowData?.selectedDate;
+        
+        // Clear booked slots for this row when service changes
+        bookedSlots = bookedSlots.filter(slot => slot.rowIndex !== rowIndex);
+        
+        // Refresh other rows that might have been affected
+        if (oldStaffId && oldDate) {
+            setTimeout(() => {
+                refreshOtherRowsTimeslots(-1, oldStaffId, oldDate);
+            }, 100);
+        }
+        
+        loadStaffForRow(rowIndex);
+    });
+    
+    // Remove button event
+    removeBtn.addEventListener('click', function() {
+        removeBookingRow(rowIndex);
+    });
+}
 
-// (no staff override JS on this template)
-
-// When service is selected, load available staff
-serviceSelect.addEventListener('change', async function() {
-    const serviceId = this.value;
+// Load staff for a specific row
+async function loadStaffForRow(rowIndex) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
+    
+    const serviceSelect = row.querySelector('.service-select');
+    const serviceId = serviceSelect.value;
+    
+    const staffContainer = row.querySelector('.staff-container');
+    const staffSelectContainer = row.querySelector('.staff-select-container');
+    const staffGrid = row.querySelector('.staff-grid');
+    
     if (!serviceId) {
         staffSelectContainer.classList.add('hidden');
         staffContainer.classList.remove('hidden');
         staffContainer.innerHTML = '<p class="text-gray-500 text-sm">Please select a service first</p>';
-        resetDatesAndTimes();
+        resetRowDatesAndTimes(rowIndex);
         return;
     }
-
+    
     try {
         const response = await fetch(`/bookings/api/staff/${companyId}/${serviceId}/`);
         const data = await response.json();
@@ -342,51 +406,13 @@ serviceSelect.addEventListener('change', async function() {
         staffGrid.innerHTML = '';
         
         if (data.staff && data.staff.length > 0) {
-            // Add "Any Available" option first
-            const anyStaffCard = document.createElement('div');
-            anyStaffCard.className = 'flex-shrink-0 text-center cursor-pointer staff-card';
-            anyStaffCard.style.minWidth = '120px';
-            anyStaffCard.innerHTML = `
-                <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-2 border-4 border-gray-100 shadow-md ring-4 ring-gray-500">
-                    <svg class="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                    </svg>
-                </div>
-                <div class="mt-3">
-                    <h3 class="font-semibold text-gray-900 text-sm">${translations.anyAvailable}</h3>
-                    <p class="text-xs text-gray-600 mt-1">${translations.weAssign}</p>
-                </div>
-            `;
-            anyStaffCard.addEventListener('click', function() {
-                selectStaff(null, this);
-            });
+            // Add "Any Available" option
+            const anyStaffCard = createStaffCard(null, translations.anyAvailable, null, rowIndex);
             staffGrid.appendChild(anyStaffCard);
             
-            // Add actual staff members
+            // Add staff members
             data.staff.forEach(member => {
-                const staffCard = document.createElement('div');
-                staffCard.className = 'flex-shrink-0 text-center cursor-pointer staff-card';
-                staffCard.style.minWidth = '120px';
-                staffCard.dataset.staffId = member.id;
-                
-                const avatarHtml = member.avatar 
-                    ? `<img src="${member.avatar}" alt="${member.name}" class="h-24 w-24 rounded-full object-cover mx-auto border-4 border-gray-100 shadow-md">`
-                    : `<div class="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center mx-auto border-4 border-gray-100 shadow-md">
-                           <i class="fas fa-user text-gray-500 text-3xl"></i>
-                       </div>`;
-                
-                staffCard.innerHTML = `
-                    ${avatarHtml}
-                    <div class="mt-3">
-                        <h3 class="font-semibold text-gray-900 text-sm">${member.name}</h3>
-                        ${member.specialization ? `<p class="text-xs text-gray-600 mt-1">${member.specialization}</p>` : ''}
-                    </div>
-                `;
-                
-                staffCard.addEventListener('click', function() {
-                    selectStaff(member.id, this);
-                });
-                
+                const staffCard = createStaffCard(member.id, member.name, member.avatar, rowIndex);
                 staffGrid.appendChild(staffCard);
             });
             
@@ -394,89 +420,143 @@ serviceSelect.addEventListener('change', async function() {
             staffSelectContainer.classList.remove('hidden');
             
             // Auto-select "Any Available" and load dates
-            selectedStaff = null;
-            selectedStaffInput.value = '';
-            currentMonth = new Date();
-            loadAvailableDates();
+            selectStaffForRow(rowIndex, null, anyStaffCard);
         } else {
             staffContainer.classList.remove('hidden');
-            staffContainer.innerHTML = '<p class="text-red-500 text-sm">No staff available for this service</p>';
+            staffContainer.innerHTML = '<p class="text-red-500 text-sm">No staff available</p>';
             staffSelectContainer.classList.add('hidden');
         }
         
-        resetDatesAndTimes();
+        resetRowDatesAndTimes(rowIndex);
     } catch (error) {
         console.error('Error loading staff:', error);
         staffContainer.classList.remove('hidden');
         staffContainer.innerHTML = '<p class="text-red-500 text-sm">Error loading staff</p>';
     }
-});
-
-// Auto-select service if provided in URL
-if (preselectedServiceId) {
-    serviceSelect.value = preselectedServiceId;
-    serviceSelect.dispatchEvent(new Event('change'));
 }
 
-// Select a staff member (staffId can be null for "Any Available")
-function selectStaff(staffId, element) {
-    selectedStaff = staffId;
+// Create staff card element
+function createStaffCard(staffId, name, avatar, rowIndex) {
+    const card = document.createElement('div');
+    card.className = 'flex-shrink-0 text-center cursor-pointer staff-card';
+    card.style.minWidth = '100px';
+    card.dataset.staffId = staffId || '';
+    
+    const avatarHtml = avatar 
+        ? `<img src="${avatar}" alt="${name}" class="h-16 w-16 rounded-full object-cover mx-auto border-2 border-gray-200 shadow">`
+        : `<div class="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto border-2 border-gray-200 shadow">
+               <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+               </svg>
+           </div>`;
+    
+    card.innerHTML = `
+        ${avatarHtml}
+        <div class="mt-2">
+            <p class="text-xs font-medium text-gray-900">${name}</p>
+        </div>
+    `;
+    
+    card.addEventListener('click', function() {
+        selectStaffForRow(rowIndex, staffId, card);
+    });
+    
+    return card;
+}
+
+// Select staff for a specific row
+function selectStaffForRow(rowIndex, staffId, cardElement) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
+    
+    const rowData = bookingRows.get(rowIndex);
+    
+    // If staff is changing, clear booked slots and refresh other rows
+    if (rowData.selectedStaff !== staffId) {
+        const oldStaffId = rowData.selectedStaff;
+        const oldDate = rowData.selectedDate;
+        
+        // Clear booked slots for this row
+        bookedSlots = bookedSlots.filter(slot => slot.rowIndex !== rowIndex);
+        
+        // Refresh other rows that might have been affected
+        if (oldStaffId && oldDate) {
+            setTimeout(() => {
+                refreshOtherRowsTimeslots(-1, oldStaffId, oldDate);
+            }, 100);
+        }
+    }
+    
+    rowData.selectedStaff = staffId;
+    
+    const selectedStaffInput = row.querySelector('.selected-staff');
     selectedStaffInput.value = staffId || '';
     
     // Update visual selection
-    document.querySelectorAll('.staff-card').forEach(card => {
-        const avatar = card.querySelector('img, div.h-24');
+    row.querySelectorAll('.staff-card').forEach(card => {
+        const avatar = card.querySelector('img, div.h-16');
         if (avatar) {
-            avatar.classList.remove('ring-4', 'ring-blue-500');
-            avatar.classList.add('border-4', 'border-gray-100');
+            avatar.classList.remove('ring-2', 'ring-blue-500');
+            avatar.classList.add('border-2', 'border-gray-200');
         }
     });
     
-    const selectedAvatar = element.querySelector('img, div.h-24');
+    const selectedAvatar = cardElement.querySelector('img, div.h-16');
     if (selectedAvatar) {
-        selectedAvatar.classList.remove('border-4', 'border-gray-100');
-        selectedAvatar.classList.add('ring-4', 'ring-blue-500');
+        selectedAvatar.classList.remove('border-2', 'border-gray-200');
+        selectedAvatar.classList.add('ring-2', 'ring-blue-500');
     }
     
-    currentMonth = new Date();
-    loadAvailableDates();
+    rowData.currentMonth = new Date();
+    loadAvailableDatesForRow(rowIndex);
 }
 
-// Month navigation
-prevMonthBtn.addEventListener('click', () => {
-    currentMonth.setMonth(currentMonth.getMonth() - 1);
-    renderCalendar();
-});
-
-nextMonthBtn.addEventListener('click', () => {
-    currentMonth.setMonth(currentMonth.getMonth() + 1);
-    renderCalendar();
-});
-
-// Load available dates
-async function loadAvailableDates() {
-    if (!serviceSelect.value) return;
+// Load available dates for a row
+async function loadAvailableDatesForRow(rowIndex) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
+    
+    const serviceSelect = row.querySelector('.service-select');
+    const serviceId = serviceSelect.value;
+    if (!serviceId) return;
+    
+    const rowData = bookingRows.get(rowIndex);
+    const datesContainer = row.querySelector('.dates-container');
+    const calendarContainer = row.querySelector('.calendar-container');
+    const monthNavigation = row.querySelector('.month-navigation');
     
     try {
         let url;
-        if (selectedStaff) {
-            url = `/bookings/api/dates/${companyId}/${selectedStaff}/?service_id=${serviceSelect.value}&_=${Date.now()}`;
+        if (rowData.selectedStaff) {
+            url = `/bookings/api/dates/${companyId}/${rowData.selectedStaff}/?service_id=${serviceId}&_=${Date.now()}`;
         } else {
-            url = `/bookings/api/dates-any/${companyId}/${serviceSelect.value}/?_=${Date.now()}`;
+            url = `/bookings/api/dates-any/${companyId}/${serviceId}/?_=${Date.now()}`;
         }
         
-        const response = await fetch(url, {
-            cache: 'no-store'
-        });
+        const response = await fetch(url, { cache: 'no-store' });
         const data = await response.json();
         
-        availableDates = data.available_dates ? data.available_dates.map(d => d.date || d) : [];
+        rowData.availableDates = data.available_dates ? data.available_dates.map(d => d.date || d) : [];
         
-        if (availableDates.length > 0) {
+        if (rowData.availableDates.length > 0) {
             datesContainer.classList.add('hidden');
             calendarContainer.classList.remove('hidden');
             monthNavigation.classList.remove('hidden');
-            renderCalendar();
+            renderCalendarForRow(rowIndex);
+            
+            // Initialize month navigation
+            const prevBtn = row.querySelector('.prev-month');
+            const nextBtn = row.querySelector('.next-month');
+            
+            prevBtn.onclick = () => {
+                rowData.currentMonth.setMonth(rowData.currentMonth.getMonth() - 1);
+                renderCalendarForRow(rowIndex);
+            };
+            
+            nextBtn.onclick = () => {
+                rowData.currentMonth.setMonth(rowData.currentMonth.getMonth() + 1);
+                renderCalendarForRow(rowIndex);
+            };
         } else {
             datesContainer.classList.remove('hidden');
             datesContainer.innerHTML = '<p class="text-red-500 text-sm">No available dates</p>';
@@ -484,9 +564,9 @@ async function loadAvailableDates() {
             monthNavigation.classList.add('hidden');
         }
         
-        selectedDate = null;
-        selectedDateInput.value = '';
-        timeSlotsSection.classList.add('hidden');
+        rowData.selectedDate = null;
+        row.querySelector('.selected-date').value = '';
+        row.querySelector('.timeslots-section').classList.add('hidden');
         
     } catch (error) {
         console.error('Error loading dates:', error);
@@ -495,13 +575,20 @@ async function loadAvailableDates() {
     }
 }
 
-// Render calendar
-function renderCalendar() {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
+// Render calendar for a specific row
+function renderCalendarForRow(rowIndex) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
+    
+    const rowData = bookingRows.get(rowIndex);
+    const datesGrid = row.querySelector('.dates-grid');
+    const currentMonthSpan = row.querySelector('.current-month');
+    
+    const year = rowData.currentMonth.getFullYear();
+    const month = rowData.currentMonth.getMonth();
     const locale = document.documentElement.lang || 'en';
     
-    currentMonthSpan.textContent = currentMonth.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+    currentMonthSpan.textContent = rowData.currentMonth.toLocaleDateString(locale, { month: 'short', year: 'numeric' });
     
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -522,129 +609,320 @@ function renderCalendar() {
         const date = new Date(year, month, day);
         date.setHours(12, 0, 0, 0);
         const dateStr = date.toISOString().split('T')[0];
-        const isAvailable = availableDates.includes(dateStr);
+        const isAvailable = rowData.availableDates.includes(dateStr);
         const isPast = date < today;
         
         const dayCell = document.createElement('button');
         dayCell.type = 'button';
-        dayCell.className = 'aspect-square flex items-center justify-center text-sm rounded-lg transition';
+        dayCell.className = 'aspect-square flex items-center justify-center text-xs rounded transition';
         dayCell.textContent = day;
         
         if (isPast || !isAvailable) {
-            dayCell.className += ' bg-red-50 text-red-300 cursor-not-allowed';
+            dayCell.className += ' bg-gray-100 text-gray-400 cursor-not-allowed';
             dayCell.disabled = true;
         } else {
-            dayCell.className += ' border border-gray-300 hover:bg-gray-100 hover:border-gray-500 cursor-pointer';
+            dayCell.className += ' border border-gray-300 hover:bg-gray-100 cursor-pointer';
             dayCell.dataset.date = dateStr;
-            dayCell.addEventListener('click', function() {
-                selectDate(dateStr, this);
-            });
+            dayCell.onclick = () => selectDateForRow(rowIndex, dateStr, dayCell);
         }
         
         datesGrid.appendChild(dayCell);
     }
 }
 
-// Select a date
-function selectDate(date, element) {
-    selectedDate = date;
-    selectedDateInput.value = date;
+// Select date for a row
+function selectDateForRow(rowIndex, date, element) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
     
-    document.querySelectorAll('#datesGrid button[data-date]').forEach(btn => {
-        btn.classList.remove('bg-gray-800', 'text-white', 'border-gray-800');
+    const rowData = bookingRows.get(rowIndex);
+    
+    // If date is changing, clear booked slots and refresh other rows
+    if (rowData.selectedDate !== date) {
+        const oldDate = rowData.selectedDate;
+        const staffId = rowData.selectedStaff;
+        
+        // Clear booked slots for this row
+        bookedSlots = bookedSlots.filter(slot => slot.rowIndex !== rowIndex);
+        
+        // Refresh other rows that might have been affected
+        if (staffId && oldDate) {
+            setTimeout(() => {
+                refreshOtherRowsTimeslots(-1, staffId, oldDate);
+            }, 100);
+        }
+    }
+    
+    rowData.selectedDate = date;
+    row.querySelector('.selected-date').value = date;
+    
+    row.querySelectorAll('.dates-grid button[data-date]').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
         btn.classList.add('border-gray-300');
     });
-    element.classList.add('bg-gray-800', 'text-white', 'border-gray-800');
+    element.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
     element.classList.remove('border-gray-300');
     
-    loadAvailableTimes();
+    loadAvailableTimesForRow(rowIndex);
 }
 
-// Load available times
-async function loadAvailableTimes() {
+// Load available times for a row
+async function loadAvailableTimesForRow(rowIndex) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
+    
+    const rowData = bookingRows.get(rowIndex);
+    const serviceSelect = row.querySelector('.service-select');
     const serviceId = serviceSelect.value;
     
-    if (!selectedDate || !serviceId) {
-        return;
-    }
-
+    if (!rowData.selectedDate || !serviceId) return;
+    
+    const timeslotsSection = row.querySelector('.timeslots-section');
+    const timeslotsGrid = row.querySelector('.timeslots-grid');
+    
     try {
         let url;
-        if (selectedStaff) {
-            url = `/bookings/api/times/${companyId}/${selectedStaff}/${serviceId}/${selectedDate}/?_=${Date.now()}`;
+        if (rowData.selectedStaff) {
+            url = `/bookings/api/times/${companyId}/${rowData.selectedStaff}/${serviceId}/${rowData.selectedDate}/?_=${Date.now()}`;
         } else {
-            url = `/bookings/api/times-any/${companyId}/${serviceId}/${selectedDate}/?_=${Date.now()}`;
+            url = `/bookings/api/times-any/${companyId}/${serviceId}/${rowData.selectedDate}/?_=${Date.now()}`;
         }
         
-        const response = await fetch(url, {
-            cache: 'no-store'
-        });
+        const response = await fetch(url, { cache: 'no-store' });
         const data = await response.json();
         
-        timeSlotsGrid.innerHTML = '';
+        timeslotsGrid.innerHTML = '';
+        
+        // Get currently selected time (if any) to preserve selection
+        const currentlySelectedTime = row.querySelector('.selected-time').value;
         
         if (data.available_times && data.available_times.length > 0) {
-            data.available_times.forEach(time => {
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.className = 'time-btn px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-100 hover:border-gray-500 transition whitespace-nowrap';
-                button.textContent = time;
-                button.dataset.time = time;
-                
-                button.addEventListener('click', function() {
-                    selectTime(time, this);
-                });
-                
-                timeSlotsGrid.appendChild(button);
+            // Get current service duration for overlap checking
+            const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+            const currentServiceDuration = parseInt(selectedOption.dataset.duration) || 30;
+            
+            // Filter out times that are already booked for the same staff on the same date
+            const availableTimes = data.available_times.filter(time => {
+                return !isTimeSlotBooked(rowData.selectedStaff, rowData.selectedDate, time, rowIndex, currentServiceDuration);
             });
             
-            timeSlotsSection.classList.remove('hidden');
+            if (availableTimes.length > 0) {
+                availableTimes.forEach(time => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'px-3 py-1 text-xs border border-gray-300 rounded hover:bg-gray-100 transition';
+                    button.textContent = time;
+                    button.dataset.time = time;
+                    button.onclick = () => selectTimeForRow(rowIndex, time, button);
+                    
+                    // Restore selection if this was the previously selected time
+                    if (currentlySelectedTime && time === currentlySelectedTime) {
+                        button.classList.remove('border-gray-300');
+                        button.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+                    }
+                    
+                    timeslotsGrid.appendChild(button);
+                });
+            } else {
+                timeslotsGrid.innerHTML = '<p class="text-amber-600 text-xs">All times already booked in other services</p>';
+                // Clear selection if the previously selected time is no longer available
+                row.querySelector('.selected-time').value = '';
+            }
+            
+            timeslotsSection.classList.remove('hidden');
         } else {
-            const noTimesMsg = document.createElement('p');
-            noTimesMsg.className = 'text-red-500 text-sm';
-            noTimesMsg.textContent = 'No available time slots';
-            timeSlotsGrid.appendChild(noTimesMsg);
-            timeSlotsSection.classList.remove('hidden');
+            timeslotsGrid.innerHTML = '<p class="text-red-500 text-xs">No available times</p>';
+            timeslotsSection.classList.remove('hidden');
+            // Clear selection when no times available
+            row.querySelector('.selected-time').value = '';
         }
-        
-        selectedTimeInput.value = '';
         
     } catch (error) {
         console.error('Error loading times:', error);
-        timeSlotsGrid.innerHTML = '<p class="text-red-500 text-sm">Error loading times</p>';
-        timeSlotsSection.classList.remove('hidden');
+        timeslotsGrid.innerHTML = '<p class="text-red-500 text-xs">Error loading times</p>';
+        timeslotsSection.classList.remove('hidden');
     }
 }
 
-// Select a time
-function selectTime(time, element) {
-    selectedTimeInput.value = time;
-    
-    document.querySelectorAll('.time-btn').forEach(btn => {
-        btn.classList.remove('bg-gray-800', 'text-white', 'border-gray-800');
-        btn.classList.add('border-gray-300');
+// Check if a time slot is already booked for the same staff and date
+function isTimeSlotBooked(staffId, date, time, currentRowIndex, serviceDuration = 30) {
+    return bookedSlots.some(slot => {
+        if (slot.rowIndex === currentRowIndex || slot.staffId !== staffId || slot.date !== date) {
+            return false;
+        }
+        
+        // Check for time overlap considering service durations
+        const checkTimeMinutes = timeToMinutes(time);
+        const bookedTimeMinutes = timeToMinutes(slot.time);
+        const bookedEndMinutes = bookedTimeMinutes + slot.duration;
+        const checkEndMinutes = checkTimeMinutes + serviceDuration;
+        
+        // Times overlap if: checkTime starts before bookedSlot ends AND checkTime ends after bookedSlot starts
+        return checkTimeMinutes < bookedEndMinutes && checkEndMinutes > bookedTimeMinutes;
     });
-    element.classList.add('bg-gray-800', 'text-white', 'border-gray-800');
-    element.classList.remove('border-gray-300');
 }
 
-// Reset dates and times
-function resetDatesAndTimes() {
+// Helper function to convert time string (HH:MM) to minutes
+function timeToMinutes(timeStr) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+}
+
+// Select time for a row
+function selectTimeForRow(rowIndex, time, element) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
+    
+    const rowData = bookingRows.get(rowIndex);
+    
+    // Get service duration
+    const serviceSelect = row.querySelector('.service-select');
+    const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+    const duration = parseInt(selectedOption.dataset.duration) || 30;
+    
+    // Remove previous booking for this row from bookedSlots
+    bookedSlots = bookedSlots.filter(slot => slot.rowIndex !== rowIndex);
+    
+    // Add new booking to bookedSlots with duration
+    bookedSlots.push({
+        rowIndex: rowIndex,
+        staffId: rowData.selectedStaff,
+        date: rowData.selectedDate,
+        time: time,
+        duration: duration
+    });
+    
+    row.querySelector('.selected-time').value = time;
+    
+    row.querySelectorAll('.timeslots-grid button').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+        btn.classList.add('border-gray-300');
+    });
+    element.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+    element.classList.remove('border-gray-300');
+    
+    // Refresh time slots in other rows for the same staff and date
+    refreshOtherRowsTimeslots(rowIndex, rowData.selectedStaff, rowData.selectedDate);
+}
+
+// Refresh time slots in other rows when a slot is booked
+function refreshOtherRowsTimeslots(currentRowIndex, staffId, date) {
+    document.querySelectorAll('.booking-row').forEach(row => {
+        const thisRowIndex = parseInt(row.dataset.rowIndex);
+        if (thisRowIndex !== currentRowIndex) {
+            const thisRowData = bookingRows.get(thisRowIndex);
+            if (thisRowData && thisRowData.selectedStaff === staffId && thisRowData.selectedDate === date) {
+                // Reload times for this row
+                loadAvailableTimesForRow(thisRowIndex);
+            }
+        }
+    });
+}
+
+// Reset dates and times for a row
+function resetRowDatesAndTimes(rowIndex) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (!row) return;
+    
+    const rowData = bookingRows.get(rowIndex);
+    
+    // Remove any booked slots for this row
+    bookedSlots = bookedSlots.filter(slot => slot.rowIndex !== rowIndex);
+    
+    rowData.selectedDate = null;
+    rowData.availableDates = [];
+    
+    const datesContainer = row.querySelector('.dates-container');
+    const calendarContainer = row.querySelector('.calendar-container');
+    const monthNavigation = row.querySelector('.month-navigation');
+    const timeslotsSection = row.querySelector('.timeslots-section');
+    
     datesContainer.innerHTML = '<p class="text-gray-500 text-sm">Please select a specialist first</p>';
     datesContainer.classList.remove('hidden');
     calendarContainer.classList.add('hidden');
     monthNavigation.classList.add('hidden');
-    datesGrid.innerHTML = '';
-    timeSlotsSection.classList.add('hidden');
-    timeSlotsGrid.innerHTML = '';
-    selectedDate = null;
-    selectedStaff = null;
-    selectedDateInput.value = '';
-    selectedStaffInput.value = '';
-    selectedTimeInput.value = '';
-    availableDates = [];
+    timeslotsSection.classList.add('hidden');
+    
+    row.querySelector('.selected-date').value = '';
+    row.querySelector('.selected-time').value = '';
 }
 
+// Remove booking row
+function removeBookingRow(rowIndex) {
+    const row = document.querySelector(`.booking-row[data-row-index="${rowIndex}"]`);
+    if (row) {
+        const rowData = bookingRows.get(rowIndex);
+        
+        // Remove booked slots for this row
+        bookedSlots = bookedSlots.filter(slot => slot.rowIndex !== rowIndex);
+        
+        // If this row had a booking that blocked others, refresh those rows
+        if (rowData && rowData.selectedStaff && rowData.selectedDate) {
+            setTimeout(() => {
+                refreshOtherRowsTimeslots(-1, rowData.selectedStaff, rowData.selectedDate);
+            }, 100);
+        }
+        
+        row.remove();
+        bookingRows.delete(rowIndex);
+        updateBookingNumbers();
+        updateSubmitButton();
+    }
+}
+
+// Update booking numbers after removal
+function updateBookingNumbers() {
+    const rows = document.querySelectorAll('.booking-row');
+    rows.forEach((row, index) => {
+        row.querySelector('.booking-number').textContent = index + 1;
+    });
+}
+
+// Update submit button text
+function updateSubmitButton() {
+    const count = document.querySelectorAll('.booking-row').length;
+    if (count > 1) {
+        submitBtnText.textContent = '{% trans "Confirm" %} ';
+        submitBtnCount.textContent = `(${count} {% trans "services" %})`;
+        submitBtnCount.classList.remove('hidden');
+    } else {
+        submitBtnText.textContent = '{% trans "Confirm Booking" %}';
+        submitBtnCount.classList.add('hidden');
+    }
+}
+
+// Form validation on submit
+bookingForm.addEventListener('submit', function(e) {
+    const errors = [];
+    const rows = document.querySelectorAll('.booking-row');
+    
+    rows.forEach((row, index) => {
+        const serviceSelect = row.querySelector('.service-select');
+        const selectedDate = row.querySelector('.selected-date');
+        const selectedTime = row.querySelector('.selected-time');
+        
+        if (!serviceSelect.value) {
+            errors.push(`Service ${index + 1}: Please select a service`);
+        }
+        if (!selectedDate.value) {
+            errors.push(`Service ${index + 1}: Please select a date`);
+        }
+        if (!selectedTime.value) {
+            errors.push(`Service ${index + 1}: Please select a time`);
+        }
+    });
+    
+    if (errors.length > 0) {
+        e.preventDefault();
+        validationErrorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+        validationError.classList.remove('hidden');
+        validationError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+        validationError.classList.add('hidden');
+    }
+});
+
+// Guess customer data function
 function guessCustomerData(searchBy) {
     var phoneInput = document.getElementById('customer_phone');
     var nameInput = document.getElementById('customer_name');

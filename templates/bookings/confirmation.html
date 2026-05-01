@@ -5,79 +5,177 @@
 
 {% block content %}
 <div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full">
-        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
-            {% if booking.status == '3' %}
-                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gray-100 mb-6">
-                    <i class="fas fa-clock text-gray-600 text-3xl"></i>
+    <div class="max-w-3xl w-full">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            {% if is_multiple %}
+                <!-- Multiple Bookings Confirmation -->
+                <div class="text-center mb-8">
+                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                        <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">{% trans "Bookings Confirmed!" %}</h2>
+                    <p class="text-gray-600 mb-2">{% trans "Thank you for booking" %} {{ total_bookings }} {% trans "services with us." %}</p>
+                    {% if primary_booking.status == '3' %}
+                        <p class="text-sm text-amber-600">{% trans "Some services require staff confirmation. We will contact you soon." %}</p>
+                    {% endif %}
                 </div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">{% trans "Booking Received!" %}</h2>
-                <p class="text-gray-600 mb-8">{% trans "Thank you for your booking. For confirm your booking, please call " %}{{ booking.company.phone }}.</p>
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8">
-                    <p class="text-sm text-gray-800">
-                        <strong>{% trans "Status:" %}</strong> {% trans "Awaiting Staff Confirmation" %}
+
+                <!-- All Bookings List -->
+                <div class="space-y-6 mb-8">
+                    {% for item in bookings %}
+                    <div class="bg-gray-50 rounded-lg p-6 border-2 border-gray-200">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg text-gray-900">
+                                <span class="inline-block w-8 h-8 bg-blue-600 text-white rounded-full text-center leading-8 mr-2">{{ forloop.counter }}</span>
+                                {{ item.booking.service.name }}
+                            </h3>
+                            {% if item.booking.status == '3' %}
+                                <span class="px-3 py-1 text-xs font-semibold text-amber-700 bg-amber-100 rounded-full">
+                                    {% trans "Pending Confirmation" %}
+                                </span>
+                            {% else %}
+                                <span class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
+                                    {% trans "Confirmed" %}
+                                </span>
+                            {% endif %}
+                        </div>
+                        
+                        <dl class="grid grid-cols-2 gap-4">
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Specialist" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">{{ item.booking.staff.name }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Date & Time" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">
+                                    {{ item.booking.date|date:"M d, Y" }}<br>
+                                    {{ item.booking.start_time|time:"H:i" }}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Duration" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">{{ item.booking.duration }} {% trans "min" %}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Price" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">€{{ item.booking.price }}</dd>
+                            </div>
+                        </dl>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-300">
+                            <a href="{{ item.cancel_link }}" 
+                               onclick="return confirm('{% trans "Are you sure you want to cancel this booking?" %}');"
+                               class="text-sm text-red-600 hover:text-red-800 font-medium">
+                                {% trans "Cancel this service" %}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Company Info -->
+                <div class="bg-blue-50 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-gray-700">
+                        <strong>{{ primary_booking.company.name }}</strong><br>
+                        {% if primary_booking.company.phone %}
+                            📞 {{ primary_booking.company.phone }}
+                        {% endif %}
                     </p>
                 </div>
-            {% else %}
-                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gray-100 mb-6">
-                    <i class="fas fa-check text-gray-600 text-3xl"></i>
+
+                <!-- Actions -->
+                <div class="flex gap-3">
+                    <a href="{% url 'company_public_page' primary_booking.company.id %}" 
+                       class="flex-1 bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition text-center">
+                        {% trans "Back to" %} {{ primary_booking.company.name }}
+                    </a>
+                    <a href="{% url 'index' %}" 
+                       class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition text-center">
+                        {% trans "Go to Home" %}
+                    </a>
                 </div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">{% trans "Booking Confirmed!" %}</h2>
-                <p class="text-gray-600 mb-8">{% trans "Thank you for your booking." %}</p>
+
+            {% else %}
+                <!-- Single Booking Confirmation -->
+                <div class="text-center">
+                    {% if booking.status == '3' %}
+                        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-amber-100 mb-6">
+                            <svg class="h-10 w-10 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">{% trans "Booking Received!" %}</h2>
+                        <p class="text-gray-600 mb-8">{% trans "Thank you for your booking. For confirm your booking, please call" %} {{ booking.company.phone }}.</p>
+                        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8">
+                            <p class="text-sm text-amber-800">
+                                <strong>{% trans "Status:" %}</strong> {% trans "Awaiting Staff Confirmation" %}
+                            </p>
+                        </div>
+                    {% else %}
+                        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                            <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">{% trans "Booking Confirmed!" %}</h2>
+                        <p class="text-gray-600 mb-8">{% trans "Thank you for your booking." %}</p>
+                    {% endif %}
+                    
+                    <div class="bg-gray-50 rounded-lg p-6 text-left mb-8">
+                        <h3 class="font-semibold text-gray-900 mb-4">{% trans "Booking Details" %}</h3>
+                        <dl class="space-y-3">
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Company" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">{{ booking.company.name }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Service" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">{{ booking.service.name }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Specialist" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">{{ booking.staff.name }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Date & Time" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">
+                                    {{ booking.date|date:"F d, Y" }} at {{ booking.start_time|time:"H:i" }}
+                                </dd>
+                            </div>
+                            {% if booking.duration %}
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Duration" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">{{ booking.duration }} {% trans "minutes" %}</dd>
+                            </div>
+                            {% endif %}
+                            {% if booking.price %}
+                            <div>
+                                <dt class="text-sm text-gray-600">{% trans "Price" %}</dt>
+                                <dd class="text-sm font-medium text-gray-900">€{{ booking.price }}</dd>
+                            </div>
+                            {% endif %}
+                        </dl>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <a href="{% url 'company_public_page' booking.company.id %}" 
+                           class="block w-full bg-gray-800 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-700 transition">
+                            {% trans "Back to" %} {{ booking.company.name }}
+                        </a>
+                        <a href="{% url 'index' %}" 
+                           class="block w-full bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">
+                            {% trans "Go to Home" %}
+                        </a>
+                        <a href="{{ cancel_link }}"
+                           onclick="return confirm('{% trans "Are you sure you want to cancel this booking?" %}');"
+                           class="block w-full bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition">
+                            {% trans "Cancel Booking" %}
+                        </a>
+                    </div>
+                </div>
             {% endif %}
-            
-            <div class="bg-gray-50 rounded-lg p-6 text-left mb-8">
-                <h3 class="font-semibold text-gray-900 mb-4">{% trans "Booking Details" %}</h3>
-                <dl class="space-y-3">
-                    <div>
-                        <dt class="text-sm text-gray-600">{% trans "Company" %}</dt>
-                        <dd class="text-sm font-medium text-gray-900">{{ booking.company.name }}</dd>
-                    </div>
-                    <div>
-                        <dt class="text-sm text-gray-600">{% trans "Service" %}</dt>
-                        <dd class="text-sm font-medium text-gray-900">{{ booking.service.name }}</dd>
-                    </div>
-                    <div>
-                        <dt class="text-sm text-gray-600">{% trans "Specialist" %}</dt>
-                        <dd class="text-sm font-medium text-gray-900">{{ booking.staff.name }}</dd>
-                    </div>
-                    <div>
-                        <dt class="text-sm text-gray-600">{% trans "Date & Time" %}</dt>
-                        <dd class="text-sm font-medium text-gray-900">
-                            {{ booking.date|date:"F d, Y" }} at {{ booking.start_time|time:"H:i" }}
-                        </dd>
-                    </div>
-                    {% if booking.duration %}
-                    <div>
-                        <dt class="text-sm text-gray-600">{% trans "Duration" %}</dt>
-                        <dd class="text-sm font-medium text-gray-900">{{ booking.duration }} {% trans "minutes" %}</dd>
-                    </div>
-                    {% endif %}
-                    {% if booking.price %}
-                    <div>
-                        <dt class="text-sm text-gray-600">{% trans "Price" %}</dt>
-                        <dd class="text-sm font-medium text-gray-900">€{{ booking.price }}</dd>
-                    </div>
-                    {% endif %}
-                </dl>
-            </div>
-            
-            <div class="space-y-3">
-                <a href="{% url 'company_public_page' booking.company.id %}" 
-                   class="block w-full bg-gray-800 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-700 transition">
-                    Back to {{ booking.company.name }}
-                </a>
-                <a href="{% url 'index' %}" 
-                   class="block w-full bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">
-                    Go to Home
-                </a>
-                <form method="POST" action="{% url 'cancel_booking' booking.id booking.delete_code %}" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
-                    {% csrf_token %}
-                    <button type="submit" class="block w-full bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition">
-                        Cancel Booking
-                    </button>
-                </form>
-            </div>
         </div>
     </div>
 </div>

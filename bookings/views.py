@@ -62,18 +62,15 @@ def create_booking(request, company_id):
     
     if request.method == 'POST':
         from .utils import normalize_phone_number
+        from django.db import transaction
         
         try:
-            # Get raw form data
+            # Get customer information
             customer_name = request.POST.get('customer_name', '').strip()
             customer_phone = request.POST.get('customer_phone', '').strip()
-            service_id = request.POST.get('service')
-            staff_id = request.POST.get('staff')
-            date_str = request.POST.get('date')
-            start_time_str = request.POST.get('start_time')
             client_notes = request.POST.get('client_notes', '').strip()
             
-            # Validate required fields
+            # Validate customer info
             if not customer_name:
                 messages.error(request, 'Name is required')
                 return redirect('create_booking', company_id=company.id)
@@ -81,31 +78,6 @@ def create_booking(request, company_id):
             if not customer_phone or not customer_phone.startswith('+'):
                 messages.error(request, 'Phone number must include country code (e.g., +34612345678)')
                 return redirect('create_booking', company_id=company.id)
-            
-            if not service_id or not date_str or not start_time_str:
-                messages.error(request, 'Please complete all required fields')
-                return redirect('create_booking', company_id=company.id)
-            
-            # Get service and staff
-            service = get_object_or_404(Service, id=service_id, company=company)
-            
-            if staff_id:
-                staff = get_object_or_404(Staff, id=staff_id, company=company)
-            else:
-                # Auto-assign first available staff
-                staff = service.staff_members.filter(is_active=True).first()
-                if not staff:
-                    messages.error(request, 'No staff available for this service')
-                    return redirect('create_booking', company_id=company.id)
-            
-            # Parse date and time
-            date = datetime.strptime(date_str, '%Y-%m-%d').date()
-            start_time = datetime.strptime(start_time_str, '%H:%M').time()
-            
-            # Calculate end time
-            start_datetime = datetime.combine(date, start_time)
-            end_datetime = start_datetime + timedelta(minutes=service.duration + service.time_for_servicing)
-            end_time = end_datetime.time()
             
             # Find or create customer
             customer = Customer.objects.filter(phone=customer_phone).first()
@@ -118,45 +90,114 @@ def create_booking(request, company_id):
                     phone=customer_phone
                 )
             
-            # Generate delete code
-            delete_code = md5(f"{customer.phone}{timezone.now().timestamp()}".encode()).hexdigest()
+            # Parse booking data (support both single and multiple bookings)
+            bookings_data = []
             
-            # Determine status
-            status = 1  # Confirmed
-            if service.need_staff_confirmation and (not request.user.is_authenticated or 
-                                                   (request.user.is_authenticated and 
-                                                    request.user.userprofile.company != company)):
-                status = 3  # PreBooked
+            # Check for multiple bookings format: bookings[0][service], bookings[1][service], etc.
+            index = 0
+            while True:
+                service_key = f'bookings[{index}][service]'
+                if service_key not in request.POST:
+                    break
+                
+                service_id = request.POST.get(service_key)
+                staff_id = request.POST.get(f'bookings[{index}][staff]') or None
+                date_str = request.POST.get(f'bookings[{index}][date]')
+                start_time_str = request.POST.get(f'bookings[{index}][start_time]')
+                
+                if service_id and date_str and start_time_str:
+                    bookings_data.append({
+                        'service_id': service_id,
+                        'staff_id': staff_id,
+                        'date': date_str,
+                        'start_time': start_time_str
+                    })
+                
+                index += 1
             
-            # Create booking
-            booking = Booking.objects.create(
-                company=company,
-                staff=staff,
-                service=service,
-                customer=customer,
-                date=date,
-                start_time=start_time,
-                end_time=end_time,
-                duration=service.duration,
-                price=service.price,
-                status=status,
-                delete_code=delete_code,
-                created_by='client',
-                client_notes=client_notes,
-                booking_phone=normalize_phone_number(customer_phone)
-            )
+            # If no multiple bookings found, check for single booking format
+            if not bookings_data:
+                service_id = request.POST.get('service')
+                staff_id = request.POST.get('staff')
+                date_str = request.POST.get('date')
+                start_time_str = request.POST.get('start_time')
+                
+                if service_id and date_str and start_time_str:
+                    bookings_data.append({
+                        'service_id': service_id,
+                        'staff_id': staff_id,
+                        'date': date_str,
+                        'start_time': start_time_str
+                    })
             
-            # Build links
-            booking_link = request.build_absolute_uri(
-                redirect('booking_confirmation', booking_id=booking.id).url
-            )
-            cancel_link = request.build_absolute_uri(
-                redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
-            )
+            if not bookings_data:
+                messages.error(request, 'Please complete all required fields')
+                return redirect('create_booking', company_id=company.id)
             
-            # Send email confirmation (only if customer has email)
-            if customer.email:
-                subject = 'Your Booking Confirmation'
+            # Create all bookings in a transaction
+            created_bookings = []
+            with transaction.atomic():
+                for booking_data in bookings_data:
+                    service = get_object_or_404(Service, id=booking_data['service_id'], company=company)
+                    
+                    # Get staff or auto-assign
+                    if booking_data['staff_id']:
+                        staff = get_object_or_404(Staff, id=booking_data['staff_id'], company=company)
+                    else:
+                        staff = service.staff_members.filter(is_active=True).first()
+                        if not staff:
+                            raise ValueError(f'No staff available for service: {service.name}')
+                    
+                    # Parse date and time
+                    date = datetime.strptime(booking_data['date'], '%Y-%m-%d').date()
+                    start_time = datetime.strptime(booking_data['start_time'], '%H:%M').time()
+                    
+                    # Calculate end time
+                    start_datetime = datetime.combine(date, start_time)
+                    end_datetime = start_datetime + timedelta(minutes=service.duration + service.time_for_servicing)
+                    end_time = end_datetime.time()
+                    
+                    # Generate delete code
+                    delete_code = md5(f"{customer.phone}{timezone.now().timestamp()}{service.id}".encode()).hexdigest()
+                    
+                    # Determine status
+                    status = 1  # Confirmed
+                    if service.need_staff_confirmation and (not request.user.is_authenticated or 
+                                                           (request.user.is_authenticated and 
+                                                            request.user.userprofile.company != company)):
+                        status = 3  # PreBooked
+                    
+                    # Create booking
+                    booking = Booking.objects.create(
+                        company=company,
+                        staff=staff,
+                        service=service,
+                        customer=customer,
+                        date=date,
+                        start_time=start_time,
+                        end_time=end_time,
+                        duration=service.duration,
+                        price=service.price,
+                        status=status,
+                        delete_code=delete_code,
+                        created_by='client',
+                        client_notes=client_notes,
+                        booking_phone=normalize_phone_number(customer_phone)
+                    )
+                    created_bookings.append(booking)
+                    logger.info(f"Created booking: {booking.id} for {customer_name} - {service.name}")
+            
+            # Send email confirmation for first booking (if customer has email)
+            if customer.email and created_bookings:
+                booking = created_bookings[0]
+                booking_link = request.build_absolute_uri(
+                    redirect('booking_confirmation', booking_id=booking.id).url
+                )
+                cancel_link = request.build_absolute_uri(
+                    redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
+                )
+                
+                subject = f'Your Booking Confirmation' + (f' - {len(created_bookings)} Services' if len(created_bookings) > 1 else '')
                 html_message = render_to_string('email/booking_confirmation.html', {
                     'company': company,
                     'booking': booking,
@@ -184,8 +225,15 @@ def create_booking(request, company_id):
                     email_log.save()
                     logger.error(f"Failed to send booking confirmation email: {e}")
             
-            messages.success(request, 'Booking created successfully! We will contact you soon.')
-            return redirect('booking_confirmation', booking_id=booking.id)
+            # Success message
+            if len(created_bookings) > 1:
+                messages.success(request, f'Successfully booked {len(created_bookings)} services! We will contact you soon.')
+            else:
+                messages.success(request, 'Booking created successfully! We will contact you soon.')
+            
+            # Redirect to confirmation page with all booking IDs
+            booking_ids = ','.join(str(b.id) for b in created_bookings)
+            return redirect(f'/bookings/confirmation/{booking_ids}/')
             
         except Exception as e:
             logger.error(f"Error creating booking: {e}")
@@ -234,18 +282,50 @@ def create_booking(request, company_id):
 
 
 def booking_confirmation(request, booking_id):
-    """Booking confirmation page"""
-    booking = get_object_or_404(Booking, id=booking_id)
-    
-    # Generate cancel link with delete_code
-    cancel_link = request.build_absolute_uri(
-        redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
-    )
-    
-    context = {
-        'booking': booking,
-        'cancel_link': cancel_link,
-    }
+    """Booking confirmation page - supports single or multiple bookings"""
+    # Check if booking_id contains multiple IDs (comma-separated)
+    if ',' in str(booking_id):
+        booking_ids = [int(id.strip()) for id in str(booking_id).split(',')]
+        bookings = Booking.objects.filter(id__in=booking_ids).select_related('customer', 'staff', 'service', 'company')
+        
+        if not bookings.exists():
+            messages.error(request, 'Booking not found')
+            return redirect('/')
+        
+        # Use first booking for customer info and company
+        primary_booking = bookings.first()
+        
+        # Generate cancel links for all bookings
+        bookings_with_links = []
+        for booking in bookings:
+            cancel_link = request.build_absolute_uri(
+                redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
+            )
+            bookings_with_links.append({
+                'booking': booking,
+                'cancel_link': cancel_link
+            })
+        
+        context = {
+            'bookings': bookings_with_links,
+            'primary_booking': primary_booking,
+            'is_multiple': True,
+            'total_bookings': len(bookings),
+        }
+    else:
+        # Single booking
+        booking = get_object_or_404(Booking, id=booking_id)
+        
+        # Generate cancel link with delete_code
+        cancel_link = request.build_absolute_uri(
+            redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
+        )
+        
+        context = {
+            'booking': booking,
+            'cancel_link': cancel_link,
+            'is_multiple': False,
+        }
     
     return render(request, 'bookings/confirmation.html', context)
 

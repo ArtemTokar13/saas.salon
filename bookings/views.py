@@ -61,20 +61,92 @@ def create_booking(request, company_id):
     company = get_object_or_404(Company, id=company_id)
     
     if request.method == 'POST':
-        form = BookingForm(request.POST, company=company, user=request.user)
-        if form.is_valid():
-            booking = form.save(commit=False)
-            booking.delete_code = md5(f"{booking.customer.email}{timezone.now().timestamp()}".encode()).hexdigest()
+        from .utils import normalize_phone_number
+        
+        try:
+            # Get raw form data
+            customer_name = request.POST.get('customer_name', '').strip()
+            customer_phone = request.POST.get('customer_phone', '').strip()
+            service_id = request.POST.get('service')
+            staff_id = request.POST.get('staff')
+            date_str = request.POST.get('date')
+            start_time_str = request.POST.get('start_time')
+            client_notes = request.POST.get('client_notes', '').strip()
             
-            # Check if service requires staff confirmation
-            if booking.service.need_staff_confirmation and (request.user.is_authenticated == False or (request.user.is_authenticated and request.user.userprofile.company != company)):
-                booking.status = 3  # PreBooked
+            # Validate required fields
+            if not customer_name:
+                messages.error(request, 'Name is required')
+                return redirect('create_booking', company_id=company.id)
+            
+            if not customer_phone or not customer_phone.startswith('+'):
+                messages.error(request, 'Phone number must include country code (e.g., +34612345678)')
+                return redirect('create_booking', company_id=company.id)
+            
+            if not service_id or not date_str or not start_time_str:
+                messages.error(request, 'Please complete all required fields')
+                return redirect('create_booking', company_id=company.id)
+            
+            # Get service and staff
+            service = get_object_or_404(Service, id=service_id, company=company)
+            
+            if staff_id:
+                staff = get_object_or_404(Staff, id=staff_id, company=company)
             else:
-                booking.status = 1  # Confirmed normal confirmation
+                # Auto-assign first available staff
+                staff = service.staff_members.filter(is_active=True).first()
+                if not staff:
+                    messages.error(request, 'No staff available for this service')
+                    return redirect('create_booking', company_id=company.id)
             
-            if booking.price is None:
-                booking.price = booking.service.price
-            booking.save()
+            # Parse date and time
+            date = datetime.strptime(date_str, '%Y-%m-%d').date()
+            start_time = datetime.strptime(start_time_str, '%H:%M').time()
+            
+            # Calculate end time
+            start_datetime = datetime.combine(date, start_time)
+            end_datetime = start_datetime + timedelta(minutes=service.duration + service.time_for_servicing)
+            end_time = end_datetime.time()
+            
+            # Find or create customer
+            customer = Customer.objects.filter(phone=customer_phone).first()
+            if customer:
+                customer.name = customer_name
+                customer.save()
+            else:
+                customer = Customer.objects.create(
+                    name=customer_name,
+                    phone=customer_phone
+                )
+            
+            # Generate delete code
+            delete_code = md5(f"{customer.phone}{timezone.now().timestamp()}".encode()).hexdigest()
+            
+            # Determine status
+            status = 1  # Confirmed
+            if service.need_staff_confirmation and (not request.user.is_authenticated or 
+                                                   (request.user.is_authenticated and 
+                                                    request.user.userprofile.company != company)):
+                status = 3  # PreBooked
+            
+            # Create booking
+            booking = Booking.objects.create(
+                company=company,
+                staff=staff,
+                service=service,
+                customer=customer,
+                date=date,
+                start_time=start_time,
+                end_time=end_time,
+                duration=service.duration,
+                price=service.price,
+                status=status,
+                delete_code=delete_code,
+                created_by='client',
+                client_notes=client_notes,
+                booking_phone=normalize_phone_number(customer_phone)
+            )
+            
+            # Build links
             booking_link = request.build_absolute_uri(
                 redirect('booking_confirmation', booking_id=booking.id).url
             )
@@ -83,7 +155,7 @@ def create_booking(request, company_id):
             )
             
             # Send email confirmation (only if customer has email)
-            if booking.customer.email:
+            if customer.email:
                 subject = 'Your Booking Confirmation'
                 html_message = render_to_string('email/booking_confirmation.html', {
                     'company': company,
@@ -93,15 +165,14 @@ def create_booking(request, company_id):
                     'current_year': timezone.now().year,
                 })
                 from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-                recipient_list = [booking.customer.email]
                 email_log = EmailLog.objects.create(
-                    recipient_email=booking.customer.email,
+                    recipient_email=customer.email,
                     subject=subject,
                     email_type='booking_confirmation',
                     status='pending'
                 )
                 try:
-                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                    msg = EmailMultiAlternatives(subject, '', from_email, [customer.email])
                     msg.attach_alternative(html_message, "text/html")
                     msg.send()
                     email_log.status = 'sent'
@@ -115,14 +186,17 @@ def create_booking(request, company_id):
             
             messages.success(request, 'Booking created successfully! We will contact you soon.')
             return redirect('booking_confirmation', booking_id=booking.id)
-    else:
-        form = BookingForm(company=company, user=request.user)
+            
+        except Exception as e:
+            logger.error(f"Error creating booking: {e}")
+            messages.error(request, f'Error creating booking: {str(e)}')
+            return redirect('create_booking', company_id=company.id)
     
+    # GET request
     services = Service.objects.filter(company=company, is_active=True)
     
     context = {
         'company': company,
-        'form': form,
         'services': services,
     }
     

@@ -34,12 +34,6 @@
             
             <form method="post" id="bookingForm" class="space-y-6">
                 {% csrf_token %}
-                
-                {% if form.non_field_errors %}
-                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                        {{ form.non_field_errors }}
-                    </div>
-                {% endif %}
 
                 <!-- Customer Information -->
                 <div class="border-b pb-6">
@@ -47,25 +41,16 @@
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 relative">
                         <div class="relative">
                             <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Name" %} *</label>
-                            {{ form.customer_name }}
-                            {% if form.customer_name.errors %}
-                                <p class="mt-1 text-sm text-red-600">{{ form.customer_name.errors.0 }}</p>
-                            {% endif %}
+                            <input type="text" name="customer_name" id="customer_name" required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Phone" %} <span class="text-gray-400">{% trans "(e.g. +1234567890)" %}</span> *</label>
                             <div class="flex gap-2 relative">
-                                <!-- <div class="w-1/4">
-                                    {{ form.customer_country_code }}
-                                    {% if form.customer_country_code.errors %}
-                                        <p class="mt-1 text-sm text-red-600">{{ form.customer_country_code.errors.0 }}</p>
-                                    {% endif %}
-                                </div> -->
                                 <div class="flex-1 relative">
-                                    {{ form.customer_phone }}
-                                    {% if form.customer_phone.errors %}
-                                        <p class="mt-1 text-sm text-red-600">{{ form.customer_phone.errors.0 }}</p>
-                                    {% endif %}
+                                    <input type="tel" name="customer_phone" id="customer_phone" required
+                                           placeholder="+34612345678"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                                 </div>
                             </div>
                         </div>
@@ -73,13 +58,6 @@
                         <div id="customersList" class="absolute z-10 bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto" style="min-width: 300px;">
                             <!-- Customer suggestions will be populated here -->
                         </div>
-                        <!-- <div class="sm:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Email" %}</label>
-                            {{ form.customer_email }}
-                            {% if form.customer_email.errors %}
-                                <p class="mt-1 text-sm text-red-600">{{ form.customer_email.errors.0 }}</p>
-                            {% endif %}
-                        </div> -->
                     </div>
                 </div>
 
@@ -130,9 +108,6 @@
                             </div>
                         </div>
                         <input type="hidden" name="staff" id="selectedStaff">
-                        {% if form.staff.errors %}
-                            <p class="mt-1 text-sm text-red-600">{{ form.staff.errors.0 }}</p>
-                        {% endif %}
                     </div>
                 </div>
 
@@ -174,9 +149,6 @@
                             <div id="datesGrid" class="grid grid-cols-7 gap-1"></div>
                         </div>
                         <input type="hidden" name="date" id="selectedDate" required>
-                        {% if form.date.errors %}
-                            <p class="mt-1 text-sm text-red-600">{{ form.date.errors.0 }}</p>
-                        {% endif %}
                     </div>
 
                     <!-- Available Time Slots -->
@@ -186,9 +158,6 @@
                             <div id="timeSlotsGrid" class="flex flex-wrap gap-2"></div>
                         </div>
                         <input type="hidden" name="start_time" id="selectedTime" required>
-                        {% if form.start_time.errors %}
-                            <p class="mt-1 text-sm text-red-600">{{ form.start_time.errors.0 }}</p>
-                        {% endif %}
                     </div>
                 </div>
 
@@ -197,10 +166,9 @@
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Additional Notes" %} <span class="text-sm font-normal text-gray-500">({% trans "Optional" %})</span></h2>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Do you have any special requests or notes?" %}</label>
-                        {{ form.client_notes }}
-                        {% if form.client_notes.errors %}
-                            <p class="mt-1 text-sm text-red-600">{{ form.client_notes.errors.0 }}</p>
-                        {% endif %}
+                        <textarea name="client_notes" rows="3" 
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                  placeholder="{% trans 'Add any special requests or notes...' %}"></textarea>
                     </div>
                 </div>
 
@@ -252,27 +220,18 @@ const translations = {
 //         }
 //     }
     
-//     // Add event listener for customer phone autocomplete
-//     const phoneInput = document.getElementById('id_customer_phone');
-//     const nameInput = document.getElementById('id_customer_name');
-    
-//     if (phoneInput) {
-//         phoneInput.addEventListener('input', function() {
-//             guessCustomerData('phone');
-//         });
-//     }
-    
+
 //     if (nameInput) {
-//         nameInput.addEventListener('input', function() {
+    //         nameInput.addEventListener('input', function() {
 //             guessCustomerData('name');
 //         });
 //     }
-    
+
 //     // Hide customers list when clicking outside
 //     if (phoneInput || nameInput) {
-//         document.addEventListener('click', function(e) {
-//             const customersList = document.getElementById('customersList');
-//             if (customersList) {
+    //         document.addEventListener('click', function(e) {
+        //             const customersList = document.getElementById('customersList');
+        //             if (customersList) {
 //                 const isClickInsidePhone = phoneInput && phoneInput.contains(e.target);
 //                 const isClickInsideName = nameInput && nameInput.contains(e.target);
 //                 const isClickInsideList = customersList.contains(e.target);
@@ -289,6 +248,7 @@ const translations = {
 //     updateCountry();
 // });
 
+// Global variables
 const companyId = {{ company.id }};
 const serviceSelect = document.getElementById('serviceSelect');
 const staffSelectContainer = document.getElementById('staffSelectContainer');
@@ -314,6 +274,23 @@ let selectedDate = null;
 let selectedStaff = null;
 let currentMonth = new Date();
 let availableDates = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listener for customer phone autocomplete
+    const phoneInput = document.getElementById('customer_phone');
+    const nameInput = document.getElementById('customer_name');
+
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+            guessCustomerData('phone');
+        });
+    }
+    if (nameInput) {
+        nameInput.addEventListener('input', function() {
+            guessCustomerData('name');
+        });
+    }
+});
 
 // Form validation on submit
 bookingForm.addEventListener('submit', function(e) {
@@ -669,8 +646,8 @@ function resetDatesAndTimes() {
 }
 
 function guessCustomerData(searchBy) {
-    var phoneInput = document.getElementById('id_customer_phone');
-    var nameInput = document.getElementById('id_customer_name');
+    var phoneInput = document.getElementById('customer_phone');
+    var nameInput = document.getElementById('customer_name');
     var customersList = document.getElementById('customersList');
     
     if (!customersList) return;

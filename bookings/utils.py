@@ -5,7 +5,7 @@ import re
 from app.constants import COUNTRY_CHOICES
 
 
-def normalize_phone_number(phone, country_code=''):
+def normalize_phone_number(phone):
     """
     Normalize phone number to E.164 format for WhatsApp/SMS
     
@@ -39,21 +39,21 @@ def normalize_phone_number(phone, country_code=''):
         return phone  # Return original if nothing left
     
     # Get the country code prefix
-    country_prefix = ''
-    if country_code:
-        # If country_code is already a prefix like '+34', use it
-        if country_code.startswith('+'):
-            country_prefix = country_code
-        else:
-            # Look up the prefix from COUNTRY_CHOICES
-            for code, prefix in COUNTRY_CHOICES:
-                if code == country_code:
-                    country_prefix = prefix
-                    break
+    # country_prefix = ''
+    # if country_code:
+    #     # If country_code is already a prefix like '+34', use it
+    #     if country_code.startswith('+'):
+    #         country_prefix = country_code
+    #     else:
+    #         # Look up the prefix from COUNTRY_CHOICES
+    #         for code, prefix in COUNTRY_CHOICES:
+    #             if code == country_code:
+    #                 country_prefix = prefix
+    #                 break
     
     # If we have a country prefix, combine it with the number
-    if country_prefix:
-        return f"{country_prefix}{digits_only}"
+    # if country_prefix:
+    #     return f"{country_prefix}{digits_only}"
     
     # If number already looks like it has country code (long enough), just add +
     if len(digits_only) >= 10:

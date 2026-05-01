@@ -365,6 +365,12 @@ class BookingSearcher:
         # Generate delete_code for cancellation link
         delete_code = md5(f"{customer.email if customer.email else customer.phone}{timezone.now().timestamp()}".encode()).hexdigest()
         
+        # Validate phone has country code (WhatsApp should always provide this, but double-check)
+        normalized_phone = normalize_phone_number(customer_phone)
+        if not normalized_phone.startswith('+'):
+            logger.error(f"Phone number missing country code: {customer_phone}")
+            raise ValueError("Phone number must include country code")
+        
         # Create booking
         booking = Booking.objects.create(
             company=company,
@@ -380,8 +386,8 @@ class BookingSearcher:
             delete_code=delete_code,
             created_by='whatsapp',
             notes=f"Booking created via WhatsApp on {timezone.now().strftime('%Y-%m-%d %H:%M')}",
-            booking_phone=normalize_phone_number(customer_phone, customer.country_code),  # Store normalized phone
-            booking_country_code=customer.country_code  # Store country code
+            booking_phone=normalized_phone,  # Store normalized phone
+            # booking_country_code=customer.country_code  # Store country code
         )
         
         logger.info(f"Created booking: {booking.id} for {customer_name}")

@@ -81,11 +81,11 @@ class CompanyProfileForm(forms.ModelForm):
 class CompanyStaffForm(forms.Form):
     name = forms.CharField(max_length=255, required=True)
     email = forms.EmailField(required=False)
-    country_code = forms.ChoiceField(
-        choices=[('', _('Select Country'))] + list(COUNTRY_CHOICES), 
-        required=True, 
-        initial='ES'
-    )
+    # country_code = forms.ChoiceField(
+    #     choices=[('', _('Select Country'))] + list(COUNTRY_CHOICES), 
+    #     required=True, 
+    #     initial='ES'
+    # )
     phone = forms.CharField(max_length=50, required=False)
     specialization = forms.CharField(max_length=255, required=False)
     avatar = forms.ImageField(required=False)

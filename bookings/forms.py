@@ -10,12 +10,12 @@ from companies.models import Company, Staff, Service
 class BookingForm(forms.ModelForm):
     customer_name = forms.CharField(max_length=255, required=True)
     customer_phone = forms.CharField(max_length=50, required=True)
-    customer_email = forms.EmailField(required=False)
-    customer_country_code = forms.ChoiceField(
-        choices=[('', _('Select Country'))] + list(COUNTRY_CHOICES), 
-        required=True, 
-        initial='ES'
-    )
+    # customer_email = forms.EmailField(required=False)
+    # customer_country_code = forms.ChoiceField(
+    #     choices=[('', _('Select Country'))] + list(COUNTRY_CHOICES), 
+    #     required=True, 
+    #     initial='ES'
+    # )
     
     class Meta:
         model = Booking
@@ -54,8 +54,8 @@ class BookingForm(forms.ModelForm):
         if self.instance and self.instance.pk:
             self.fields['customer_name'].required = False
             self.fields['customer_phone'].required = False
-            self.fields['customer_email'].required = False
-            self.fields['customer_country_code'].required = False
+            # self.fields['customer_email'].required = False
+            # self.fields['customer_country_code'].required = False
             
             # Make client_notes readonly when editing
             self.fields['client_notes'].widget.attrs.update({
@@ -69,8 +69,8 @@ class BookingForm(forms.ModelForm):
             if hasattr(self.instance, 'customer'):
                 self.fields['customer_name'].initial = self.instance.customer.name
                 self.fields['customer_phone'].initial = self.instance.customer.phone
-                self.fields['customer_email'].initial = self.instance.customer.email
-                self.fields['customer_country_code'].initial = self.instance.customer.country_code
+                # self.fields['customer_email'].initial = self.instance.customer.email
+                # self.fields['customer_country_code'].initial = self.instance.customer.country_code
 
     def clean_date(self):
         date = self.cleaned_data.get('date')
@@ -78,6 +78,34 @@ class BookingForm(forms.ModelForm):
         if date and date < timezone.now().date() and not self.instance.pk:
             raise forms.ValidationError("Cannot book in the past.")
         return date
+    
+    def clean_customer_phone(self):
+        """Validate that phone number includes country code"""
+        phone = self.cleaned_data.get('customer_phone')
+        
+        # Skip validation if editing existing booking (customer fields readonly)
+        if self.instance and self.instance.pk:
+            return phone
+        
+        if not phone:
+            return phone
+        
+        # Remove whitespace for validation
+        phone_stripped = phone.strip()
+        
+        # Check if phone starts with + (country code)
+        if not phone_stripped.startswith('+'):
+            raise forms.ValidationError(
+                _("Phone number must include country code (e.g., +34612345678)")
+            )
+        
+        # Check if there are digits after the +
+        if len(phone_stripped) < 8:  # Minimum: +1234567
+            raise forms.ValidationError(
+                _("Phone number is too short. Please include country code and full number.")
+            )
+        
+        return phone
     
     def clean(self):
         cleaned_data = super().clean()
@@ -117,9 +145,9 @@ class BookingForm(forms.ModelForm):
         # This prevents issues when customer phone changes later
         # Normalize the phone number to E.164 format for WhatsApp/SMS
         raw_phone = self.cleaned_data.get('customer_phone')
-        country_code = self.cleaned_data.get('customer_country_code', '')
-        booking.booking_phone = normalize_phone_number(raw_phone, country_code)
-        booking.booking_country_code = country_code
+        # country_code = self.cleaned_data.get('customer_country_code', '')
+        booking.booking_phone = normalize_phone_number(raw_phone)
+        # booking.booking_country_code = country_code
         
         # If editing existing booking, keep the existing customer
         if self.instance.pk:
@@ -135,16 +163,16 @@ class BookingForm(forms.ModelForm):
             if customer:
                 # Update existing customer info
                 customer.name = self.cleaned_data['customer_name']
-                customer.email = self.cleaned_data.get('customer_email', '')
-                customer.country_code = self.cleaned_data.get('customer_country_code', '')
+                # customer.email = self.cleaned_data.get('customer_email', '')
+                # customer.country_code = self.cleaned_data.get('customer_country_code', '')
                 customer.save()
             else:
                 # Create new customer
                 customer = Customer.objects.create(
                     phone=self.cleaned_data['customer_phone'],
                     name=self.cleaned_data['customer_name'],
-                    email=self.cleaned_data.get('customer_email', ''),
-                    country_code=self.cleaned_data.get('customer_country_code', ''),
+                    # email=self.cleaned_data.get('customer_email', ''),
+                    # country_code=self.cleaned_data.get('customer_country_code', ''),
                 )
             
             booking.customer = customer

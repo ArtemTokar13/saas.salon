@@ -72,7 +72,7 @@ class Booking(models.Model):
             return self.booking_phone
         
         # Fallback to customer phone (normalize it)
-        return normalize_phone_number(self.customer.phone, self.booking_country_code or self.customer.country_code)
+        return normalize_phone_number(self.customer.phone)
 
     def __str__(self):
         return f"{self.customer.name} → {self.service.name} ({self.date})"

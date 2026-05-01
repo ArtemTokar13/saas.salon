@@ -522,10 +522,10 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
             salon_list = "\n".join([f"• {c.name}" for c in companies[:10]])
             lang = state.get('language', 'es')
             messages_salon = {
-                'es': f"¿En qué salón te gustaría reservar?\n\n{salon_list}\n\nPor favor, indica el nombre.",
-                'en': f"Which salon would you like to book at?\n\n{salon_list}\n\nPlease indicate the name.",
-                'ru': f"В каком салоне вы хотите забронировать?\n\n{salon_list}\n\nПожалуйста, укажите название.",
-                'uk': f"В якому салоні ви хочете забронювати?\n\n{salon_list}\n\nБудь ласка, вкажіть назву."
+                'es': f"¿En qué salón te gustaría reservar?\n\nPor favor, indica el nombre.",
+                'en': f"Which salon would you like to book at?\n\nPlease indicate the name.",
+                'ru': f"В каком салоне вы хотите забронировать?\n\nПожалуйста, укажите название.",
+                'uk': f"В якому салоні ви хочете забронювати?\n\nБудь ласка, вкажіть назву."
             }
             return messages_salon.get(lang, messages_salon['es'])
     

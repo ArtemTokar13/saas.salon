@@ -200,9 +200,14 @@ def bookings_list(request):
                     phone=data.get('customer_phone', '')
                 )
             
-            # Create booking
+            # Validate phone number has country code
             raw_phone = data.get('customer_phone', '')
-            country_code = data.get('customer_country_code', '')
+            if raw_phone and not raw_phone.strip().startswith('+'):
+                return JsonResponse({
+                    'error': 'Phone number must include country code (e.g., +34612345678)'
+                }, status=400)
+            
+            # country_code = data.get('customer_country_code', '')
             booking = Booking.objects.create(
                 customer=customer,
                 company_id=data['company_id'],
@@ -213,8 +218,8 @@ def bookings_list(request):
                 end_time=data.get('end_time'),
                 price=data.get('price', 0),
                 status=0,  # Pending
-                booking_phone=normalize_phone_number(raw_phone, country_code),  # Store normalized phone
-                booking_country_code=country_code,  # Store country code
+                booking_phone=normalize_phone_number(raw_phone),  # Store normalized phone
+                # booking_country_code=country_code,  # Store country code
             )
             
             return JsonResponse({

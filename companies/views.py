@@ -470,7 +470,7 @@ def add_staff(request):
                     # If user exists, update or create UserProfile and associate staff
                     user_profile, created = UserProfile.objects.get_or_create(user=user)
                     user_profile.company = profile.company
-                    user_profile.country_code = form.cleaned_data.get('country_code', '')
+                    # user_profile.country_code = form.cleaned_data.get('country_code', '')
                     user_profile.phone_number = form.cleaned_data.get('phone', '')
                     user_profile.staff = staff_member
                     user_profile.save()
@@ -485,7 +485,7 @@ def add_staff(request):
                     # UserProfile is automatically created by signal, so use get_or_create
                     user_profile, created = UserProfile.objects.get_or_create(user=user)
                     user_profile.company = profile.company
-                    user_profile.country_code = form.cleaned_data.get('country_code', '')
+                    # user_profile.country_code = form.cleaned_data.get('country_code', '')
                     user_profile.phone_number = form.cleaned_data.get('phone', '')
                     user_profile.staff = staff_member
                     user_profile.save()
@@ -730,7 +730,7 @@ def edit_staff(request, staff_id):
                 staff_member.out_of_office_end = form.cleaned_data.get('out_of_office_end')
                 
                 # Staff model doesn't store phone/country; these are on UserProfile
-                country_code_val = form.cleaned_data.get('country_code', '')
+                # country_code_val = form.cleaned_data.get('country_code', '')
                 phone_val = form.cleaned_data.get('phone', '')
                 staff_member.is_active = form.cleaned_data.get('is_active', True)
                 if form.cleaned_data.get('avatar'):
@@ -762,7 +762,7 @@ def edit_staff(request, staff_id):
                 try:
                     user_profile = UserProfile.objects.filter(staff=staff_member).first()
                     if user_profile:
-                        user_profile.country_code = country_code_val
+                        # user_profile.country_code = country_code_val
                         user_profile.phone_number = phone_val
                         user_profile.save()
                 except Exception:
@@ -811,7 +811,7 @@ def edit_staff(request, staff_id):
             # populate phone and country_code from related UserProfile if available
             user_profile = UserProfile.objects.filter(staff=staff_member).first()
             if user_profile:
-                initial_data['country_code'] = user_profile.country_code
+                # initial_data['country_code'] = user_profile.country_code
                 initial_data['phone'] = user_profile.phone_number
 
             form = CompanyStaffForm(initial=initial_data, company=profile.company)

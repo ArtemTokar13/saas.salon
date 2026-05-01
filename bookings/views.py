@@ -1215,7 +1215,7 @@ def guess_customer_data(request):
         customers_list = []
         for c in customers:
             customers_list.append({
-                'country_code': c.country_code,
+                # 'country_code': c.country_code,
                 'name': c.name,
                 'email': c.email,
                 'phone': c.phone,

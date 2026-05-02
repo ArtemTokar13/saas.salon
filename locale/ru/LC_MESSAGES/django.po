@@ -1,0 +1,4547 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-01 15:25+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: billing/models.py:95 templates/billing/pricing_periods.html:26
+#: templates/billing/pricing_periods.html:137
+msgid "Monthly"
+msgstr "Ежемесячно"
+
+#: billing/models.py:96 templates/billing/pricing_periods.html:45
+#: templates/billing/pricing_periods.html:144
+msgid "3 Months"
+msgstr "3 месяца"
+
+#: billing/models.py:97 templates/billing/pricing_periods.html:70
+#: templates/billing/pricing_periods.html:151
+msgid "6 Months"
+msgstr "6 месяцев"
+
+#: billing/models.py:98 templates/billing/pricing_periods.html:95
+#: templates/billing/pricing_periods.html:158
+msgid "Yearly"
+msgstr "Ежегодно"
+
+#: billing/models.py:107 templates/companies/add_service.html:92
+#: templates/companies/analytics.html:192
+#: templates/companies/edit_service.html:101
+#: templates/companies/services_list.html:29
+#: templates/companies/services_list.html:42
+#: templates/companies/staff_list.html:27
+#: templates/companies/staff_list.html:47
+msgid "Active"
+msgstr "Активный"
+
+#: billing/models.py:108
+msgid "Cancelled"
+msgstr "Отменено"
+
+#: billing/models.py:109
+msgid "Past Due"
+msgstr "Просрочено"
+
+#: billing/models.py:110
+msgid "Unpaid"
+msgstr "Неоплачено"
+
+#: bookings/cron.py:38
+msgid "Reminder: Upcoming Booking for"
+msgstr "Напоминание: Предстоящее бронирование на"
+
+#: bookings/forms.py:28
+msgid "Add any notes about this booking..."
+msgstr "Добавьте любые примечания к этому бронированию..."
+
+#: bookings/forms.py:33 templates/bookings/create_booking.html:189
+msgid "Add any special requests or notes..."
+msgstr "Добавьте любые особые пожелания или примечания..."
+
+#: bookings/forms.py:65
+msgid "Client notes..."
+msgstr "Примечания клиента..."
+
+#: bookings/forms.py:99
+msgid "Phone number must include country code (e.g., +34612345678)"
+msgstr "В номер телефона обязательно должен быть включен код страны (например, +34612345678)."
+
+#: bookings/forms.py:105
+msgid "Phone number is too short. Please include country code and full number."
+msgstr "Номер телефона слишком короткий. Пожалуйста, укажите код страны и полный номер."
+
+#: bookings/forms.py:136
+msgid ""
+"{staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d "
+"%H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select "
+"a different date/time or staff member."
+msgstr ""
+""Сотрудник (имя сотрудника) отсутствует с (дата/время) по (конец) с (дата/время) "
+"по (конец). Пожалуйста, выберите другую дату/время или другого сотрудника.
+
+#: companies/forms.py:93 companies/models.py:11
+#: templates/companies/add_staff.html:108
+#: templates/companies/edit_staff.html:111
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:7
+msgid "Monday"
+msgstr "Понедельник"
+
+#: companies/forms.py:93 companies/models.py:12
+#: templates/companies/add_staff.html:124
+#: templates/companies/edit_staff.html:127
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:8
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: companies/forms.py:93 companies/models.py:13
+#: templates/companies/add_staff.html:140
+#: templates/companies/edit_staff.html:143
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:9
+msgid "Wednesday"
+msgstr "Среда"
+
+#: companies/forms.py:93 companies/models.py:14
+#: templates/companies/add_staff.html:156
+#: templates/companies/edit_staff.html:159
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:10
+msgid "Thursday"
+msgstr "Четверг"
+
+#: companies/forms.py:94 companies/models.py:15
+#: templates/companies/add_staff.html:172
+#: templates/companies/edit_staff.html:175
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:11
+msgid "Friday"
+msgstr "Пятница"
+
+#: companies/forms.py:94 companies/models.py:16
+#: templates/companies/add_staff.html:188
+#: templates/companies/edit_staff.html:191
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:12
+msgid "Saturday"
+msgstr "Суббота"
+
+#: companies/forms.py:94 companies/models.py:17
+#: templates/companies/add_staff.html:204
+#: templates/companies/edit_staff.html:207
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:13
+msgid "Sunday"
+msgstr "Воскресенье"
+
+#: companies/models.py:24
+msgid "Success"
+msgstr "Успех"
+
+#: companies/models.py:25
+msgid "Failed"
+msgstr "Неуспешный"
+
+#: companies/models.py:26
+msgid "Pending"
+msgstr "В ожидании"
+
+#: companies/models.py:65
+msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
+msgstr "Интервал временного интервала в минутах (например, 15, 30, 60)"
+
+#: templates/Index.html:4 templates/Index.html:14
+msgid "A Simple Client Management System for Your Salon"
+msgstr "Простая система управления клиентами для вашего салона."
+
+#: templates/Index.html:17
+msgid ""
+"Reduce no‑shows, save time, and let clients book 24/7 — all in one simple "
+"platform."
+msgstr ""
+"Сократите количество неявок, сэкономьте время и позвольте клиентам бронировать "
+"круглосуточно — все это на одной простой платформе."
+
+#: templates/Index.html:23
+msgid "Start Free Trial"
+msgstr "Начать бесплатную пробную версию"
+
+#: templates/Index.html:28
+msgid "Go to Dashboard"
+msgstr "Перейдите на панель управления."
+
+#: templates/Index.html:33
+msgid "See How It Works"
+msgstr "Посмотрите, как это работает."
+
+#: templates/Index.html:52
+msgid "Everything You Need to Run Your Salon Smoothly"
+msgstr "Всё необходимое для бесперебойной работы вашего салона."
+
+#: templates/Index.html:62 templates/companies/dashboard.html:189
+msgid "WhatsApp Booking"
+msgstr "Бронирование через WhatsApp"
+
+#: templates/Index.html:63 templates/companies/dashboard.html:190
+msgid "NEW!"
+msgstr "NEW!"
+
+#: templates/Index.html:72 templates/companies/dashboard.html:199
+msgid "AI-Powered Booking via WhatsApp"
+msgstr "Бронирование через WhatsApp с помощью ИИ"
+
+#: templates/Index.html:75 templates/companies/dashboard.html:202
+msgid ""
+"Your customers can now book appointments by simply sending a WhatsApp "
+"message! The AI assistant will:"
+msgstr ""
+"Теперь ваши клиенты могут записываться на прием, просто отправив сообщение "
+"в WhatsApp! Искусственный интеллект-помощник выполнит следующие действия:"
+
+#: templates/Index.html:78 templates/companies/dashboard.html:205
+msgid "Understand natural language requests"
+msgstr "Понимание запросов на естественном языке."
+
+#: templates/Index.html:79 templates/companies/dashboard.html:206
+msgid "Show available time slots"
+msgstr "Показать доступные временные интервалы"
+
+#: templates/Index.html:80 templates/companies/dashboard.html:207
+msgid "Create confirmed bookings automatically"
+msgstr "Автоматическое создание подтвержденных бронирований"
+
+#: templates/Index.html:81 templates/companies/dashboard.html:208
+msgid "Support multiple languages (ES/EN/CA/UK)"
+msgstr "Поддержка нескольких языков (ES/EN/RU/UK)"
+
+#: templates/Index.html:90 templates/companies/dashboard.html:268
+msgid "Example conversation:"
+msgstr "Пример диалога:"
+
+#: templates/Index.html:115
+msgid "Online Booking"
+msgstr "Онлайн-бронирование"
+
+#: templates/Index.html:117
+msgid ""
+"Let clients book appointments anytime. Automatic confirmations included."
+msgstr ""
+"Позвольте клиентам записываться на прием в любое время. Автоматическое подтверждение включено."
+
+#: templates/Index.html:126
+msgid "WhatsApp Reminders"
+msgstr "Напоминания WhatsApp"
+
+#: templates/Index.html:128
+msgid ""
+"Reduce no‑shows with instant WhatsApp notifications clients actually read."
+msgstr ""
+"Сократите количество неявок благодаря мгновенным уведомлениям в WhatsApp, "
+"которые клиенты действительно читают."
+
+#: templates/Index.html:137
+msgid "Staff Management"
+msgstr "Управление персоналом"
+
+#: templates/Index.html:139
+msgid "Each staff member gets their own calendar and schedule."
+msgstr "Каждый сотрудник получает собственный календарь и расписание."
+
+#: templates/Index.html:148
+msgid "Service Management"
+msgstr "Управление услугами"
+
+#: templates/Index.html:150
+msgid "Create services, durations, prices, and assign them to staff."
+msgstr "Создавайте услуги, устанавливайте продолжительность, цены и назначайте их сотрудникам."
+
+#: templates/Index.html:159
+msgid "Client Profiles"
+msgstr "Профили клиентов"
+
+#: templates/Index.html:161
+msgid "Keep track of client history, notes, and preferences."
+msgstr "Отслеживайте историю взаимодействия с клиентами, заметки и их предпочтения."
+
+#: templates/Index.html:170
+msgid "Analytics Dashboard"
+msgstr "Панель аналитики"
+
+#: templates/Index.html:172
+msgid "Track your bookings, no-shows, and business performance."
+msgstr "Отслеживайте бронирования, неявки и показатели эффективности бизнеса."
+
+#: templates/Index.html:185
+msgid "Why WhatsApp Reminders Matter"
+msgstr "Почему напоминания в WhatsApp важны"
+
+#: templates/Index.html:191
+msgid "Clients read WhatsApp messages instantly"
+msgstr "Клиенты мгновенно читают сообщения WhatsApp."
+
+#: templates/Index.html:192
+#, python-format
+msgid "Higher open rates than email — 97%% read rate within minutes"
+msgstr ""
+"Более высокий процент открытия писем, чем у электронных — 97% читателей "
+"в течение нескольких минут."
+
+#: templates/Index.html:198
+msgid "Reduce missed appointments"
+msgstr "Сократите количество пропущенных приемов."
+
+#: templates/Index.html:199
+msgid "Cut no-shows with timely reminders"
+msgstr "Прекратите неявку на мероприятия, своевременно напоминая о ней."
+
+#: templates/Index.html:205
+msgid "Automatic reminders before each visit"
+msgstr "Автоматические напоминания перед каждым визитом"
+
+#: templates/Index.html:206
+msgid "Set it up once and let it run automatically"
+msgstr "Настройте один раз и пусть работает автоматически."
+
+#: templates/Index.html:212
+msgid "Works even if clients ignore email"
+msgstr "Работает, даже если клиенты игнорируют электронные письма."
+
+#: templates/Index.html:213
+msgid "Reach your clients where they actually are"
+msgstr "Находите своих клиентов там, где они действительно находятся."
+
+#: templates/Index.html:224
+msgid "Example WhatsApp Message"
+msgstr "Пример сообщения в WhatsApp"
+
+#: templates/Index.html:227
+msgid "Hi Maria! 💅"
+msgstr "Привет, Мария!"
+
+#: templates/Index.html:228
+msgid "Your appointment reminder:"
+msgstr "Напоминание о вашей записи на прием:"
+
+#: templates/Index.html:229
+msgid "Tomorrow at 3:00 PM"
+msgstr "Завтра в 15:00"
+
+#: templates/Index.html:230
+msgid "Haircut - 60 min"
+msgstr "Стрижка - 60 мин."
+
+#: templates/Index.html:231
+msgid "With Anna"
+msgstr "С Анной"
+
+#: templates/Index.html:232
+msgid "See you soon!"
+msgstr "До скорой встречи!"
+
+#: templates/Index.html:245
+msgid "Perfect for beauty & wellness businesses"
+msgstr "Идеально подходит для предприятий индустрии красоты и здоровья."
+
+#: templates/Index.html:248
+msgid "If you run any of these, Reserva-Ya is for you"
+msgstr "Если вы используете что-либо из перечисленного, Reserva-Ya — это то, что вам нужно."
+
+#: templates/Index.html:255
+msgid "Hair salons"
+msgstr "Парикмахерские"
+
+#: templates/Index.html:259
+msgid "Barber shops"
+msgstr "Мужские парикмахерские"
+
+#: templates/Index.html:263
+msgid "Nail & manicure studios"
+msgstr "Студии маникюра и педикюра"
+
+#: templates/Index.html:267
+msgid "Beauty & aesthetics"
+msgstr "Салоны красоты и эстетики"
+
+#: templates/Index.html:271
+msgid "Massage & wellness"
+msgstr "Массаж и оздоровление"
+
+#: templates/Index.html:282
+msgid "Get Started in Minutes"
+msgstr "Начните работу за считанные минуты"
+
+#: templates/Index.html:285
+msgid "Simple setup, immediate results"
+msgstr "Простая настройка, мгновенный результат"
+
+#: templates/Index.html:294 templates/static_pages/how_it_works.html:21
+msgid "Sign Up"
+msgstr "Зарегистрироваться"
+
+#: templates/Index.html:296
+msgid "Create your company account in under 2 minutes."
+msgstr "Создайте корпоративный аккаунт менее чем за 2 минуты."
+
+#: templates/Index.html:304
+msgid "Set Up"
+msgstr "Настройте"
+
+#: templates/Index.html:306
+msgid "Add staff, services, and working hours."
+msgstr "Добавьте информацию о персонале, услугах и рабочем времени."
+
+#: templates/Index.html:314
+msgid "Share"
+msgstr "Поделитесь"
+
+#: templates/Index.html:316
+msgid "Send your booking link to clients."
+msgstr "Отправьте клиентам ссылку для бронирования."
+
+#: templates/Index.html:324
+msgid "Grow"
+msgstr "Растите"
+
+#: templates/Index.html:326
+msgid "Receive bookings automatically and reduce no‑shows."
+msgstr "Получайте бронирования автоматически и сокращайте количество неявок."
+
+#: templates/Index.html:338
+msgid "Simple, transparent pricing"
+msgstr "Простое и прозрачное ценообразование"
+
+#: templates/Index.html:341
+msgid "Choose the perfect plan for your business"
+msgstr "Выберите идеальный план для вашего бизнеса."
+
+#: templates/Index.html:345
+msgid "View Our Pricing Plans"
+msgstr "Посмотреть наши тарифные планы"
+
+#: templates/Index.html:351
+msgid "All plans include:"
+msgstr "Все тарифные планы включают:"
+
+#: templates/Index.html:356
+msgid "Online booking"
+msgstr "Онлайн-бронирование"
+
+#: templates/Index.html:360
+msgid "Staff calendars"
+msgstr "Календари сотрудников"
+
+#: templates/Index.html:364
+msgid "Unlimited appointments"
+msgstr "Неограниченное количество приемов"
+
+#: templates/Index.html:376 templates/static_pages/faq.html:10
+msgid "Frequently Asked Questions"
+msgstr "Часто задаваемые вопросы"
+
+#: templates/Index.html:384
+msgid "Do I need to install anything?"
+msgstr "Нужно ли мне что-нибудь устанавливать?"
+
+#: templates/Index.html:388
+msgid ""
+"No, everything works in your browser. No downloads or installations needed — "
+"just sign up and start using it immediately."
+msgstr ""
+"Нет, всё работает в вашем браузере. Никаких загрузок или установок не "
+"требуется — просто зарегистрируйтесь и начните использовать его немедленно."
+
+#: templates/Index.html:395
+msgid "Can clients book without downloading an app?"
+msgstr "Могут ли клиенты бронировать услуги без скачивания приложения?"
+
+#: templates/Index.html:399
+msgid ""
+"Yes, bookings work on any device through a web link. Clients don't need to "
+"download anything — they simply click your booking link and book."
+msgstr ""
+"Да, бронирование работает на любом устройстве через веб-ссылку. Клиентам "
+"не нужно ничего скачивать — они просто переходят по вашей ссылке для бронирования и бронируют."
+
+#: templates/Index.html:406
+msgid "Is WhatsApp included?"
+msgstr "Включен ли WhatsApp?"
+
+#: templates/Index.html:410
+msgid ""
+"WhatsApp reminders are available in our Connect plan. You'll be able to send "
+"automatic reminders to all your clients."
+msgstr ""
+"В нашем тарифном плане Connect доступны напоминания WhatsApp. Вы сможете "
+"отправлять автоматические напоминания всем своим клиентам."
+
+#: templates/Index.html:417
+msgid "Can I cancel anytime?"
+msgstr "Могу ли я отменить заказ в любое время?"
+
+#: templates/Index.html:421
+msgid ""
+"Of course — no long-term contracts. You can cancel your subscription anytime "
+"from your account settings."
+msgstr ""
+"Конечно, никаких долгосрочных контрактов. Вы можете отменить подписку в любое время "
+"в настройках своей учетной записи."
+
+#: templates/Index.html:428
+msgid "How do I connect WhatsApp?"
+msgstr "Как подключить WhatsApp?"
+
+#: templates/Index.html:432
+msgid ""
+"We provide step-by-step instructions to connect your WhatsApp account. It's "
+"a simple 5-minute setup process."
+msgstr ""
+"Мы предоставляем пошаговые инструкции по подключению вашей учетной записи WhatsApp. Это "
+"простой процесс настройки, занимающий всего 5 минут.""
+
+#: templates/Index.html:444
+msgid "See the Platform in Action"
+msgstr "Посмотрите, как работает платформа."
+
+#: templates/Index.html:453
+msgid "Calendar View"
+msgstr "Календарный вид"
+
+#: templates/Index.html:462
+msgid "Staff Schedule"
+msgstr "График работы персонала"
+
+#: templates/Index.html:471
+msgid "Booking Form"
+msgstr "Форма бронирования"
+
+#: templates/Index.html:480
+msgid "WhatsApp Reminder"
+msgstr "Напоминание в WhatsApp"
+
+#: templates/Index.html:493
+msgid "Ready to Grow Your Salon?"
+msgstr "Готовы развивать свой салон?"
+
+#: templates/Index.html:496
+msgid "Start your free trial today — no credit card required."
+msgstr "Начните бесплатную пробную версию сегодня — кредитная карта не требуется."
+
+#: templates/Index.html:500
+msgid "Start Your Free Trial Today"
+msgstr "Начните бесплатную пробную версию сегодня!"
+
+#: templates/Index.html:503
+msgid "30 days free. No credit card. Cancel anytime."
+msgstr "30 дней бесплатно. Кредитная карта не требуется. Отменить можно в любое время."
+
+#: templates/Index.html:511
+msgid "Welcome back!"
+msgstr "Добро пожаловать!"
+
+#: templates/Index.html:515
+msgid "Go to your dashboard"
+msgstr "Перейдите в свою панель управления."
+
+#: templates/_cookie-consent.html:7
+msgid "We use cookies"
+msgstr "Мы используем файлы cookie"
+
+#: templates/_cookie-consent.html:9
+msgid ""
+"We use essential cookies to make our site work. With your consent, we may "
+"also use non-essential cookies to improve user experience and analyze "
+"website traffic. By clicking 'Accept All', you agree to our use of cookies."
+msgstr ""
+"Для обеспечения работы нашего сайта мы используем основные файлы cookie. "
+"С вашего согласия мы можем также использовать дополнительные файлы cookie "
+"для улучшения пользовательского опыта и анализа трафика сайта. "
+"Нажав «Принять все», вы соглашаетесь с использованием файлов cookie."
+
+#: templates/_cookie-consent.html:10
+msgid "Learn more"
+msgstr "Узнать больше"
+
+#: templates/_cookie-consent.html:16
+#: templates/static_pages/cookie_settings.html:63
+msgid "Accept All"
+msgstr ""
+
+#: templates/_cookie-consent.html:20
+#: templates/static_pages/cookie_settings.html:68
+msgid "Essential Only"
+msgstr ""
+
+#: templates/_cookie-consent.html:24
+msgid "Customize"
+msgstr ""
+
+#: templates/_footer.html:7
+msgid "Reserva-ya"
+msgstr ""
+
+#: templates/_footer.html:8
+msgid ""
+"Professional booking management system for beauty salons and service "
+"providers."
+msgstr ""
+
+#: templates/_footer.html:10
+msgid "Your Address Here"
+msgstr ""
+
+#: templates/_footer.html:16
+msgid "Legal"
+msgstr ""
+
+#: templates/_footer.html:18 templates/static_pages/privacy_policy.html:4
+#: templates/static_pages/privacy_policy.html:10
+msgid "Privacy Policy"
+msgstr ""
+
+#: templates/_footer.html:19 templates/static_pages/terms_of_service.html:4
+#: templates/static_pages/terms_of_service.html:10
+msgid "Terms of Service"
+msgstr ""
+
+#: templates/_footer.html:20 templates/static_pages/cookie_policy.html:4
+#: templates/static_pages/cookie_policy.html:10
+msgid "Cookie Policy"
+msgstr ""
+
+#: templates/_footer.html:21 templates/static_pages/cookie_settings.html:4
+#: templates/static_pages/cookie_settings.html:10
+msgid "Cookie Settings"
+msgstr ""
+
+#: templates/_footer.html:27
+msgid "Information"
+msgstr ""
+
+#: templates/_footer.html:29 templates/companies/public_page.html:34
+#: templates/static_pages/about_us.html:4
+#: templates/static_pages/about_us.html:10
+msgid "About Us"
+msgstr ""
+
+#: templates/_footer.html:30 templates/static_pages/how_it_works.html:4
+#: templates/static_pages/how_it_works.html:10
+msgid "How It Works"
+msgstr ""
+
+#: templates/_footer.html:31
+msgid "Pricing Plans"
+msgstr ""
+
+#: templates/_footer.html:32 templates/static_pages/faq.html:4
+msgid "FAQ"
+msgstr ""
+
+#: templates/_footer.html:38
+msgid "Support"
+msgstr ""
+
+#: templates/_footer.html:40 templates/companies/public_page.html:165
+#: templates/static_pages/contact.html:4 templates/static_pages/contact.html:10
+msgid "Contact Us"
+msgstr ""
+
+#: templates/_footer.html:53
+msgid "Salon Booking System. All rights reserved."
+msgstr ""
+
+#: templates/_header.html:17 templates/_header.html:69
+msgid "Home"
+msgstr ""
+
+#: templates/_header.html:18 templates/_header.html:70
+msgid "Pricing"
+msgstr ""
+
+#: templates/_header.html:29 templates/_header.html:78
+msgid "Platform Admin"
+msgstr ""
+
+#: templates/_header.html:32 templates/_header.html:81
+msgid "Dashboard"
+msgstr ""
+
+#: templates/_header.html:36 templates/_header.html:85
+msgid "Logout"
+msgstr ""
+
+#: templates/_header.html:39 templates/_header.html:88
+#: templates/users/login.html:5
+msgid "Login"
+msgstr ""
+
+#: templates/_header.html:40 templates/_header.html:48
+#: templates/_header.html:89
+msgid "Try Free"
+msgstr ""
+
+#: templates/billing/change_plan.html:4
+msgid "Choose Plan"
+msgstr ""
+
+#: templates/billing/change_plan.html:127
+msgid "How many workers do you need?"
+msgstr ""
+
+#: templates/billing/change_plan.html:137
+msgid "worker"
+msgstr ""
+
+#: templates/billing/change_plan.html:137
+msgid "s"
+msgstr ""
+
+#: templates/billing/change_plan.html:145
+msgid "Base"
+msgstr ""
+
+#: templates/billing/change_plan.html:145
+msgid "workers included"
+msgstr ""
+
+#: templates/billing/change_plan.html:145
+msgid "Each additional worker"
+msgstr ""
+
+#: templates/billing/change_plan.html:145
+#: templates/billing/change_plan.html:179
+#: templates/billing/pricing_periods.html:29
+#: templates/billing/pricing_periods.html:51
+#: templates/billing/pricing_periods.html:76
+#: templates/billing/pricing_periods.html:101
+#: templates/billing/subscription_details.html:42
+msgid "month"
+msgstr ""
+
+#: templates/billing/change_plan.html:151
+msgid "Select Billing Period"
+msgstr ""
+
+#: templates/billing/change_plan.html:171
+msgid "SAVE"
+msgstr ""
+
+#: templates/billing/change_plan.html:188
+msgid "Continue to Payment"
+msgstr ""
+
+#: templates/billing/change_plan.html:191
+#: templates/bookings/confirm_prebooked.html:90
+#: templates/bookings/create_booking.html:196
+#: templates/bookings/edit_booking.html:213
+#: templates/companies/add_service.html:100
+#: templates/companies/add_staff.html:279
+#: templates/companies/edit_profile.html:196
+#: templates/companies/edit_service.html:109
+#: templates/companies/edit_staff.html:273
+#: templates/companies/edit_staff.html:360
+#: templates/companies/working_hours.html:72
+#: templates/socialaccount/signup.html:56
+msgid "Cancel"
+msgstr ""
+
+#: templates/billing/change_plan.html:203
+msgid "Billing Information"
+msgstr ""
+
+#: templates/billing/change_plan.html:206
+msgid "You will be redirected to Stripe to complete your payment securely."
+msgstr ""
+
+#: templates/billing/change_plan.html:209
+msgid "Secure payment processing"
+msgstr ""
+
+#: templates/billing/change_plan.html:210
+msgid "Cancel anytime"
+msgstr ""
+
+#: templates/billing/change_plan.html:211
+msgid "Automatic renewal"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:5
+#: templates/billing/view_plans.html:11
+msgid "Choose Your Plan"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:11
+msgid "Choose Your Billing Period"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:12
+msgid "Save more with longer billing periods"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:31
+msgid "Billed monthly"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:34
+#: templates/billing/pricing_periods.html:59
+#: templates/billing/pricing_periods.html:84
+#: templates/billing/pricing_periods.html:109
+#: templates/billing/view_plans.html:76
+msgid "Select Plan"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:42
+#: templates/billing/pricing_periods.html:53
+#: templates/billing/pricing_periods.html:67
+#: templates/billing/pricing_periods.html:78
+#: templates/billing/pricing_periods.html:103
+#: templates/companies/reset_password.html:47
+msgid "Save"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:48
+#: templates/billing/pricing_periods.html:73
+msgid "months"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:56
+msgid "Billed every 3 months"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:81
+msgid "Billed every 6 months"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:92
+msgid "Mejor Valor - Ahorre"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:98
+msgid "year"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:106
+msgid "Billed annually"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:119
+msgid "Pricing Comparison"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:124
+msgid "Billing Period"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:125
+msgid "Total Price"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:126
+msgid "Effective Monthly"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:127
+msgid "Discount"
+msgstr ""
+
+#: templates/billing/pricing_periods.html:128
+msgid "You Save"
+msgstr ""
+
+#: templates/billing/subscription_details.html:4
+#: templates/billing/subscription_details.html:18
+msgid "Subscription & Billing"
+msgstr ""
+
+#: templates/billing/subscription_details.html:13
+#: templates/companies/customer_detail.html:11
+#: templates/companies/customers_list.html:11
+#: templates/companies/services_list.html:10
+#: templates/companies/staff_list.html:10
+msgid "Back"
+msgstr ""
+
+#: templates/billing/subscription_details.html:31
+msgid "Current Subscription"
+msgstr ""
+
+#: templates/billing/subscription_details.html:50
+msgid "Start Date"
+msgstr ""
+
+#: templates/billing/subscription_details.html:54
+msgid "Next Billing Date"
+msgstr ""
+
+#: templates/billing/subscription_details.html:60
+msgid "Change Plan"
+msgstr ""
+
+#: templates/billing/subscription_details.html:63
+msgid "Cancel Subscription"
+msgstr ""
+
+#: templates/billing/subscription_details.html:69
+msgid "No active subscription"
+msgstr ""
+
+#: templates/billing/subscription_details.html:71
+msgid "View Available Plans"
+msgstr ""
+
+#: templates/billing/subscription_details.html:81
+msgid "Billing History"
+msgstr ""
+
+#: templates/billing/subscription_details.html:88
+#: templates/bookings/bookings_list.html:64
+msgid "Date"
+msgstr ""
+
+#: templates/billing/subscription_details.html:89
+msgid "Transaction ID"
+msgstr ""
+
+#: templates/billing/subscription_details.html:90
+msgid "Plan"
+msgstr ""
+
+#: templates/billing/subscription_details.html:91
+#: templates/companies/analytics.html:150
+msgid "Status"
+msgstr ""
+
+#: templates/billing/subscription_details.html:92
+msgid "Amount"
+msgstr ""
+
+#: templates/billing/subscription_details.html:128
+msgid "No billing history yet"
+msgstr ""
+
+#: templates/billing/subscription_details.html:139
+msgid "Account Summary"
+msgstr ""
+
+#: templates/billing/subscription_details.html:142
+#: templates/companies/analytics.html:423
+msgid "Total Spent"
+msgstr ""
+
+#: templates/billing/subscription_details.html:148
+msgid "Active Since"
+msgstr ""
+
+#: templates/billing/subscription_details.html:158
+msgid "Transactions"
+msgstr ""
+
+#: templates/billing/subscription_details.html:166
+msgid "Need Help?"
+msgstr ""
+
+#: templates/billing/subscription_details.html:168
+msgid "Have questions about billing or your subscription?"
+msgstr ""
+
+#: templates/billing/subscription_details.html:171
+#: templates/static_pages/faq.html:67
+msgid "Contact Support"
+msgstr ""
+
+#: templates/billing/view_plans.html:12
+msgid "Select the plan that best fits your business needs"
+msgstr ""
+
+#: templates/billing/view_plans.html:20 templates/billing/view_plans.html:65
+msgid "Current Plan"
+msgstr ""
+
+#: templates/billing/view_plans.html:46
+msgid "Up to"
+msgstr ""
+
+#: templates/billing/view_plans.html:46
+msgid "staff members"
+msgstr ""
+
+#: templates/billing/view_plans.html:50
+msgid "Unlimited bookings"
+msgstr ""
+
+#: templates/billing/view_plans.html:54
+msgid "Calendar view"
+msgstr ""
+
+#: templates/billing/view_plans.html:58
+msgid "Public booking page"
+msgstr ""
+
+#: templates/billing/view_plans.html:71
+msgid "Register"
+msgstr ""
+
+#: templates/billing/view_plans.html:75
+msgid "Are you sure you want to switch to"
+msgstr ""
+
+#: templates/billing/view_plans.html:84
+msgid "No plans available at the moment"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:4
+msgid "Bookings List"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:10
+#: templates/companies/analytics.html:132
+#: templates/companies/analytics.html:263
+#: templates/companies/analytics.html:377
+#: templates/companies/analytics.html:545
+#: templates/companies/analytics.html:653
+msgid "Bookings"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:29
+#: templates/bookings/confirmation.html:40
+msgid "Confirmed"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:30
+msgid "Prebooked"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:35
+msgid "Hide Filter"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:36
+msgid "Show Filter"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:43
+msgid "Search by name, phone, email"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:44
+msgid "From"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:45
+msgid "To"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:47
+msgid "All Services"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:52
+msgid "Filter"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:62
+#: templates/bookings/confirm_prebooked.html:33
+#: templates/bookings/confirmation.html:134
+#: templates/bookings/create_booking.html:90
+#: templates/bookings/create_booking.html:101
+#: templates/bookings/edit_booking.html:78
+msgid "Service"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:63
+#: templates/bookings/confirm_prebooked.html:41
+msgid "Staff"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:65
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2456
+msgid "Time"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:66
+#: templates/bookings/confirm_prebooked.html:25
+msgid "Customer"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:67
+msgid "Phone & Email"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:68
+#: templates/companies/analytics.html:426
+#: templates/companies/services_list.html:30
+#: templates/companies/staff_list.html:28
+msgid "Actions"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:84
+#: templates/companies/services_list.html:48
+#: templates/companies/staff_list.html:53
+msgid "Edit"
+msgstr ""
+
+#: templates/bookings/bookings_list.html:89
+#: templates/companies/customer_detail.html:76
+msgid "No bookings found."
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:10
+#: templates/bookings/create_booking.html:199
+#: templates/bookings/create_booking.html:889
+#: templates/bookings/edit_booking.html:216
+#: templates/static_pages/how_it_works.html:74
+msgid "Confirm Booking"
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:21
+#: templates/bookings/confirmation.html:127
+msgid "Booking Details"
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:29
+#: templates/bookings/create_booking.html:48
+#: templates/bookings/edit_booking.html:59
+#: templates/companies/customer_detail.html:20
+#: templates/companies/customers_list.html:55
+#: templates/companies/dashboard.html:133
+#: templates/companies/edit_profile.html:69
+#: templates/companies/register.html:122
+msgid "Phone"
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:37
+#: templates/bookings/confirmation.html:51
+#: templates/bookings/confirmation.html:142
+msgid "Date & Time"
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:46
+#: templates/bookings/edit_booking.html:69
+#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
+#: templates/companies/edit_profile.html:76
+#: templates/companies/edit_staff.html:17
+#: templates/companies/forgot_password.html:15
+#: templates/companies/register.html:57 templates/static_pages/contact.html:23
+msgid "Email"
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:58
+#: templates/bookings/edit_booking.html:95
+#: templates/companies/add_service.html:29
+#: templates/companies/edit_service.html:29
+msgid "Duration (minutes)"
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:68
+msgid "Minimum 15 minutes"
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:72
+#: templates/bookings/confirmation.html:62
+#: templates/bookings/confirmation.html:155
+#: templates/companies/add_service.html:45
+#: templates/companies/edit_service.html:45
+#: templates/companies/services_list.html:26
+msgid "Price"
+msgstr ""
+
+#: templates/bookings/confirm_prebooked.html:93
+#: templates/bookings/create_booking.html:885
+msgid "Confirm"
+msgstr ""
+
+#: templates/bookings/confirmation.html:18
+msgid "Bookings Confirmed!"
+msgstr ""
+
+#: templates/bookings/confirmation.html:19
+msgid "Thank you for booking"
+msgstr ""
+
+#: templates/bookings/confirmation.html:19
+msgid "services with us."
+msgstr ""
+
+#: templates/bookings/confirmation.html:21
+msgid "Some services require staff confirmation. We will contact you soon."
+msgstr ""
+
+#: templates/bookings/confirmation.html:36
+msgid "Pending Confirmation"
+msgstr ""
+
+#: templates/bookings/confirmation.html:47
+#: templates/bookings/confirmation.html:138
+msgid "Specialist"
+msgstr ""
+
+#: templates/bookings/confirmation.html:58
+#: templates/bookings/confirmation.html:149
+#: templates/companies/services_list.html:27
+#: templates/static_pages/cookie_policy.html:67
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1793
+msgid "Duration"
+msgstr ""
+
+#: templates/bookings/confirmation.html:59
+#: templates/bookings/edit_booking.html:84
+#: templates/companies/analytics.html:159
+#: templates/companies/analytics.html:346
+msgid "min"
+msgstr ""
+
+#: templates/bookings/confirmation.html:69
+#: templates/bookings/confirmation.html:172
+msgid "Are you sure you want to cancel this booking?"
+msgstr ""
+
+#: templates/bookings/confirmation.html:71
+msgid "Cancel this service"
+msgstr ""
+
+#: templates/bookings/confirmation.html:92
+#: templates/bookings/confirmation.html:165
+msgid "Back to"
+msgstr ""
+
+#: templates/bookings/confirmation.html:96
+#: templates/bookings/confirmation.html:169
+msgid "Go to Home"
+msgstr ""
+
+#: templates/bookings/confirmation.html:109
+msgid "Booking Received!"
+msgstr ""
+
+#: templates/bookings/confirmation.html:110
+msgid "Thank you for your booking. For confirm your booking, please call"
+msgstr ""
+
+#: templates/bookings/confirmation.html:113
+msgid "Status:"
+msgstr ""
+
+#: templates/bookings/confirmation.html:113
+msgid "Awaiting Staff Confirmation"
+msgstr ""
+
+#: templates/bookings/confirmation.html:122
+msgid "Booking Confirmed!"
+msgstr ""
+
+#: templates/bookings/confirmation.html:123
+msgid "Thank you for your booking."
+msgstr ""
+
+#: templates/bookings/confirmation.html:130
+msgid "Company"
+msgstr ""
+
+#: templates/bookings/confirmation.html:150
+#: templates/companies/services_list.html:38
+#: templates/companies/services_list.html:39
+msgid "minutes"
+msgstr ""
+
+#: templates/bookings/confirmation.html:174
+msgid "Cancel Booking"
+msgstr ""
+
+#: templates/bookings/create_booking.html:17
+msgid "Book Your Appointment"
+msgstr ""
+
+#: templates/bookings/create_booking.html:29
+#: templates/bookings/edit_booking.html:34
+msgid "Please complete the following fields:"
+msgstr ""
+
+#: templates/bookings/create_booking.html:40
+msgid "Your Information"
+msgstr ""
+
+#: templates/bookings/create_booking.html:43
+#: templates/companies/add_service.html:21
+#: templates/companies/add_staff.html:53
+#: templates/companies/customers_list.html:54
+#: templates/companies/edit_service.html:21
+#: templates/companies/edit_staff.html:32
+#: templates/companies/services_list.html:25
+#: templates/companies/staff_list.html:25
+#: templates/static_pages/contact.html:17
+msgid "Name"
+msgstr ""
+
+#: templates/bookings/create_booking.html:48
+#: templates/bookings/edit_booking.html:59
+msgid "(e.g. +1234567890)"
+msgstr ""
+
+#: templates/bookings/create_booking.html:66
+#: templates/companies/add_staff.html:252 templates/companies/dashboard.html:35
+#: templates/companies/edit_staff.html:322
+#: templates/companies/services_list.html:15
+msgid "Services"
+msgstr ""
+
+#: templates/bookings/create_booking.html:81
+#: templates/companies/add_service.html:10
+#: templates/companies/add_service.html:103
+#: templates/companies/dashboard.html:89
+msgid "Add Service"
+msgstr ""
+
+#: templates/bookings/create_booking.html:103
+#: templates/bookings/edit_booking.html:81
+msgid "Choose a service..."
+msgstr ""
+
+#: templates/bookings/create_booking.html:115
+#: templates/bookings/edit_booking.html:106
+msgid "Select Specialist"
+msgstr ""
+
+#: templates/bookings/create_booking.html:115
+#: templates/bookings/create_booking.html:184
+msgid "Optional"
+msgstr ""
+
+#: templates/bookings/create_booking.html:118
+#: templates/bookings/edit_booking.html:108
+msgid "Please select a service first"
+msgstr ""
+
+#: templates/bookings/create_booking.html:132
+#: templates/bookings/edit_booking.html:125
+msgid "Select Date & Time"
+msgstr ""
+
+#: templates/bookings/create_booking.html:137
+#: templates/bookings/edit_booking.html:130
+#: templates/companies/add_service.html:53
+#: templates/companies/edit_service.html:53
+msgid "Available Dates"
+msgstr ""
+
+#: templates/bookings/create_booking.html:153
+#: templates/bookings/edit_booking.html:146
+msgid "Please select a specialist first"
+msgstr ""
+
+#: templates/bookings/create_booking.html:157
+#: templates/bookings/edit_booking.html:150
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:22
+msgid "Sun"
+msgstr ""
+
+#: templates/bookings/create_booking.html:158
+#: templates/bookings/edit_booking.html:151
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:16
+msgid "Mon"
+msgstr ""
+
+#: templates/bookings/create_booking.html:159
+#: templates/bookings/edit_booking.html:152
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:17
+msgid "Tue"
+msgstr ""
+
+#: templates/bookings/create_booking.html:160
+#: templates/bookings/edit_booking.html:153
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:18
+msgid "Wed"
+msgstr ""
+
+#: templates/bookings/create_booking.html:161
+#: templates/bookings/edit_booking.html:154
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:19
+msgid "Thu"
+msgstr ""
+
+#: templates/bookings/create_booking.html:162
+#: templates/bookings/edit_booking.html:155
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:20
+msgid "Fri"
+msgstr ""
+
+#: templates/bookings/create_booking.html:163
+#: templates/bookings/edit_booking.html:156
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:21
+msgid "Sat"
+msgstr ""
+
+#: templates/bookings/create_booking.html:172
+#: templates/bookings/edit_booking.html:168
+msgid "Available Time"
+msgstr ""
+
+#: templates/bookings/create_booking.html:184
+msgid "Additional Notes"
+msgstr ""
+
+#: templates/bookings/create_booking.html:186
+msgid "Do you have any special requests or notes?"
+msgstr ""
+
+#: templates/bookings/create_booking.html:211
+msgid "Any Available"
+msgstr ""
+
+#: templates/bookings/create_booking.html:212
+msgid "We'll assign"
+msgstr ""
+
+#: templates/bookings/create_booking.html:886
+msgid "services"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:19
+msgid "Edit Booking"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:51
+msgid "Customer Information"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:54
+#: templates/companies/analytics.html:417
+msgid "Customer Name"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:76
+msgid "Select Service"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:183
+msgid "Booking details"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:187
+msgid "View customer details"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:203
+msgid "Client Notes"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:203
+msgid "from customer"
+msgstr ""
+
+#: templates/bookings/edit_booking.html:333
+msgid "Phone (must include country code, e.g. +1234567890)"
+msgstr ""
+
+#: templates/companies/activate_staff_account.html:10
+#: templates/email/staff_activation.html:83
+msgid "Activate Staff Account"
+msgstr ""
+
+#: templates/companies/activate_staff_account.html:11
+msgid "Please set your password to activate your account."
+msgstr ""
+
+#: templates/companies/activate_staff_account.html:31
+#: templates/companies/register.html:69
+#: templates/companies/reset_password.html:31 templates/users/login.html:45
+msgid "Password"
+msgstr ""
+
+#: templates/companies/activate_staff_account.html:39
+#: templates/companies/register.html:76
+#: templates/companies/reset_password.html:39
+msgid "Confirm Password"
+msgstr ""
+
+#: templates/companies/activate_staff_account.html:47
+msgid "Activate"
+msgstr ""
+
+#: templates/companies/activate_staff_account.html:52
+#: templates/companies/forgot_password.html:23
+#: templates/companies/reset_password.html:52
+msgid "Return to homepage"
+msgstr ""
+
+#: templates/companies/add_service.html:37
+#: templates/companies/edit_service.html:37
+msgid "Time for Servicing (minutes)"
+msgstr ""
+
+#: templates/companies/add_service.html:60
+#: templates/companies/edit_service.html:60
+msgid "Restrict service to specific dates only"
+msgstr ""
+
+#: templates/companies/add_service.html:63
+#: templates/companies/edit_service.html:63
+msgid ""
+"Specify up to 10 dates when this service is available. Leave empty if always "
+"available."
+msgstr ""
+
+#: templates/companies/add_service.html:70
+#: templates/companies/edit_service.html:79
+msgid "+ Add Date"
+msgstr ""
+
+#: templates/companies/add_service.html:79
+#: templates/companies/edit_service.html:88
+msgid "Require Staff Confirmation"
+msgstr ""
+
+#: templates/companies/add_service.html:132
+#: templates/companies/edit_service.html:144
+msgid "Maximum 10 dates allowed"
+msgstr ""
+
+#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:282
+msgid "Add Staff Member"
+msgstr ""
+
+#: templates/companies/add_staff.html:61 templates/companies/edit_staff.html:39
+#: templates/companies/staff_list.html:26
+msgid "Specialization"
+msgstr ""
+
+#: templates/companies/add_staff.html:69 templates/companies/edit_staff.html:63
+msgid "Avatar"
+msgstr ""
+
+#: templates/companies/add_staff.html:77 templates/companies/edit_staff.html:80
+msgid "Working Days"
+msgstr ""
+
+#: templates/companies/add_staff.html:97
+#: templates/companies/edit_staff.html:100
+msgid "Select the days when this staff member is available to work"
+msgstr ""
+
+#: templates/companies/add_staff.html:102
+#: templates/companies/edit_staff.html:105
+msgid "Working Hours per Day"
+msgstr ""
+
+#: templates/companies/add_staff.html:103
+#: templates/companies/edit_staff.html:106
+msgid ""
+"Set specific working hours for each day (leave empty to use company hours)"
+msgstr ""
+
+#: templates/companies/add_staff.html:111
+#: templates/companies/add_staff.html:127
+#: templates/companies/add_staff.html:143
+#: templates/companies/add_staff.html:159
+#: templates/companies/add_staff.html:175
+#: templates/companies/add_staff.html:191
+#: templates/companies/add_staff.html:207
+#: templates/companies/edit_staff.html:114
+#: templates/companies/edit_staff.html:130
+#: templates/companies/edit_staff.html:146
+#: templates/companies/edit_staff.html:162
+#: templates/companies/edit_staff.html:178
+#: templates/companies/edit_staff.html:194
+#: templates/companies/edit_staff.html:210
+msgid "Start"
+msgstr ""
+
+#: templates/companies/add_staff.html:116
+#: templates/companies/add_staff.html:132
+#: templates/companies/add_staff.html:148
+#: templates/companies/add_staff.html:164
+#: templates/companies/add_staff.html:180
+#: templates/companies/add_staff.html:196
+#: templates/companies/add_staff.html:212
+#: templates/companies/edit_staff.html:119
+#: templates/companies/edit_staff.html:135
+#: templates/companies/edit_staff.html:151
+#: templates/companies/edit_staff.html:167
+#: templates/companies/edit_staff.html:183
+#: templates/companies/edit_staff.html:199
+#: templates/companies/edit_staff.html:215
+msgid "End"
+msgstr ""
+
+#: templates/companies/add_staff.html:221
+#: templates/companies/edit_staff.html:223
+msgid "Break Start Time"
+msgstr ""
+
+#: templates/companies/add_staff.html:229
+#: templates/companies/edit_staff.html:231
+msgid "Break End Time"
+msgstr ""
+
+#: templates/companies/add_staff.html:243
+#: templates/companies/edit_staff.html:242
+msgid "Out of Office Periods"
+msgstr ""
+
+#: templates/companies/add_staff.html:245
+msgid ""
+"You can manage multiple out-of-office periods after creating the staff "
+"member."
+msgstr ""
+
+#: templates/companies/analytics.html:4 templates/companies/dashboard.html:101
+msgid "Analytics"
+msgstr ""
+
+#: templates/companies/analytics.html:14
+msgid "Service Analytics"
+msgstr ""
+
+#: templates/companies/analytics.html:22
+msgid "Back to Dashboard"
+msgstr ""
+
+#: templates/companies/analytics.html:33
+msgid "Date Range"
+msgstr ""
+
+#: templates/companies/analytics.html:36
+msgid "Last 7 Days"
+msgstr ""
+
+#: templates/companies/analytics.html:39
+msgid "Last 30 Days"
+msgstr ""
+
+#: templates/companies/analytics.html:42
+msgid "Last 90 Days"
+msgstr ""
+
+#: templates/companies/analytics.html:45
+msgid "Last Year"
+msgstr ""
+
+#: templates/companies/analytics.html:48
+msgid "All Time"
+msgstr ""
+
+#: templates/companies/analytics.html:53
+msgid "Showing data from"
+msgstr ""
+
+#: templates/companies/analytics.html:53
+msgid "to"
+msgstr ""
+
+#: templates/companies/analytics.html:57
+msgid "Showing all available data"
+msgstr ""
+
+#: templates/companies/analytics.html:70
+msgid "Total Confirmed Bookings"
+msgstr ""
+
+#: templates/companies/analytics.html:82
+msgid "Total Revenue"
+msgstr ""
+
+#: templates/companies/analytics.html:93
+msgid "Booking Status Breakdown"
+msgstr ""
+
+#: templates/companies/analytics.html:113
+msgid "Service Performance: Bookings vs Revenue"
+msgstr ""
+
+#: templates/companies/analytics.html:122
+msgid "Service Performance"
+msgstr ""
+
+#: templates/companies/analytics.html:129
+#: templates/companies/customer_detail.html:33
+msgid "Service Name"
+msgstr ""
+
+#: templates/companies/analytics.html:135
+#, python-format
+msgid "Usage %%"
+msgstr ""
+
+#: templates/companies/analytics.html:138
+#: templates/companies/analytics.html:269
+#: templates/companies/analytics.html:380
+msgid "Revenue"
+msgstr ""
+
+#: templates/companies/analytics.html:141
+#: templates/companies/analytics.html:272
+#, python-format
+msgid "Revenue %%"
+msgstr ""
+
+#: templates/companies/analytics.html:144
+msgid "Avg Price"
+msgstr ""
+
+#: templates/companies/analytics.html:147
+#: templates/companies/analytics.html:278
+msgid "Unique Customers"
+msgstr ""
+
+#: templates/companies/analytics.html:196
+#: templates/companies/services_list.html:44
+#: templates/companies/staff_list.html:49
+msgid "Inactive"
+msgstr ""
+
+#: templates/companies/analytics.html:204
+#: templates/companies/customer_detail.html:45
+msgid "No services found."
+msgstr ""
+
+#: templates/companies/analytics.html:222
+msgid "Services with No Bookings"
+msgstr ""
+
+#: templates/companies/analytics.html:225
+msgid ""
+"The following services have not received any confirmed bookings in the "
+"selected date range:"
+msgstr ""
+
+#: templates/companies/analytics.html:232
+msgid ""
+"Consider reviewing these services. You may want to adjust pricing, improve "
+"descriptions, or remove services that are no longer relevant."
+msgstr ""
+
+#: templates/companies/analytics.html:245
+msgid "Staff Effectiveness: Bookings vs Revenue"
+msgstr ""
+
+#: templates/companies/analytics.html:253
+msgid "Staff Performance"
+msgstr ""
+
+#: templates/companies/analytics.html:260
+msgid "Staff Member"
+msgstr ""
+
+#: templates/companies/analytics.html:266
+#, python-format
+msgid "Effectiveness %%"
+msgstr ""
+
+#: templates/companies/analytics.html:275
+msgid "Avg Booking Value"
+msgstr ""
+
+#: templates/companies/analytics.html:281
+msgid "Total Hours"
+msgstr ""
+
+#: templates/companies/analytics.html:284
+msgid "Avg Duration"
+msgstr ""
+
+#: templates/companies/analytics.html:352
+msgid "No active staff members found."
+msgstr ""
+
+#: templates/companies/analytics.html:366
+msgid "Monthly Trends"
+msgstr ""
+
+#: templates/companies/analytics.html:374
+msgid "Month"
+msgstr ""
+
+#: templates/companies/analytics.html:409
+msgid "Top Customers"
+msgstr ""
+
+#: templates/companies/analytics.html:420
+msgid "Total Bookings"
+msgstr ""
+
+#: templates/companies/analytics.html:444
+msgid "View Details"
+msgstr ""
+
+#: templates/companies/analytics.html:459
+msgid "Insights & Recommendations"
+msgstr ""
+
+#: templates/companies/analytics.html:470
+msgid "Most Popular Service"
+msgstr ""
+
+#: templates/companies/analytics.html:472
+msgid "is your most booked service with"
+msgstr ""
+
+#: templates/companies/analytics.html:472
+msgid "bookings, generating"
+msgstr ""
+
+#: templates/companies/analytics.html:485
+msgid "Underperforming Services"
+msgstr ""
+
+#: templates/companies/analytics.html:487
+msgid "You have"
+msgstr ""
+
+#: templates/companies/analytics.html:487
+msgid ""
+"service(s) with no bookings. Consider promoting these services or removing "
+"them if they're no longer relevant."
+msgstr ""
+
+#: templates/companies/analytics.html:499
+msgid "Average Booking Value"
+msgstr ""
+
+#: templates/companies/analytics.html:501
+msgid "Your average booking value is"
+msgstr ""
+
+#: templates/companies/analytics.html:553
+#: templates/companies/analytics.html:661
+#: templates/companies/analytics.html:720
+msgid "Revenue ($)"
+msgstr ""
+
+#: templates/companies/analytics.html:582
+#: templates/companies/analytics.html:690
+msgid "bookings"
+msgstr ""
+
+#: templates/companies/analytics.html:599
+#: templates/companies/analytics.html:707
+msgid "Number of Bookings"
+msgstr ""
+
+#: templates/companies/analytics.html:612
+msgid "Revenue (€)"
+msgstr ""
+
+#: templates/companies/customer_detail.html:4
+msgid "Customer Detail"
+msgstr ""
+
+#: templates/companies/customer_detail.html:28
+msgid "Services Booked"
+msgstr ""
+
+#: templates/companies/customer_detail.html:34
+msgid "Times Booked"
+msgstr ""
+
+#: templates/companies/customer_detail.html:55
+msgid "Booking History"
+msgstr ""
+
+#: templates/companies/customer_detail.html:64
+msgid "with"
+msgstr ""
+
+#: templates/companies/customer_detail.html:86
+#: templates/companies/customers_list.html:84
+msgid "First"
+msgstr ""
+
+#: templates/companies/customer_detail.html:90
+#: templates/companies/customers_list.html:88
+msgid "Previous"
+msgstr ""
+
+#: templates/companies/customer_detail.html:109
+#: templates/companies/customers_list.html:107
+msgid "Next"
+msgstr ""
+
+#: templates/companies/customer_detail.html:113
+#: templates/companies/customers_list.html:111
+msgid "Last"
+msgstr ""
+
+#: templates/companies/customer_detail.html:120
+#: templates/companies/customers_list.html:118
+msgid "Page"
+msgstr ""
+
+#: templates/companies/customer_detail.html:120
+#: templates/companies/customers_list.html:118
+msgid "of"
+msgstr ""
+
+#: templates/companies/customer_detail.html:121
+msgid "total bookings"
+msgstr ""
+
+#: templates/companies/customers_list.html:15
+msgid "Customers for"
+msgstr ""
+
+#: templates/companies/customers_list.html:21
+msgid "Search"
+msgstr ""
+
+#: templates/companies/customers_list.html:32
+msgid "Search by name or phone number..."
+msgstr ""
+
+#: templates/companies/customers_list.html:43
+#: venv/lib/python3.12/site-packages/django/forms/widgets.py:463
+msgid "Clear"
+msgstr ""
+
+#: templates/companies/customers_list.html:68
+msgid "No customers found matching your search."
+msgstr ""
+
+#: templates/companies/customers_list.html:70
+msgid "No customers found."
+msgstr ""
+
+#: templates/companies/customers_list.html:119
+msgid "total customers"
+msgstr ""
+
+#: templates/companies/dashboard.html:17
+msgid "Company Dashboard"
+msgstr ""
+
+#: templates/companies/dashboard.html:50 templates/companies/staff_list.html:14
+msgid "Staff Members"
+msgstr ""
+
+#: templates/companies/dashboard.html:65
+msgid "Subscription"
+msgstr ""
+
+#: templates/companies/dashboard.html:68
+msgid "Expires:"
+msgstr ""
+
+#: templates/companies/dashboard.html:70
+msgid "No Active Plan"
+msgstr ""
+
+#: templates/companies/dashboard.html:83
+msgid "Quick Actions"
+msgstr ""
+
+#: templates/companies/dashboard.html:93
+msgid "Add Staff"
+msgstr ""
+
+#: templates/companies/dashboard.html:97
+msgid "View Customers"
+msgstr ""
+
+#: templates/companies/dashboard.html:105
+msgid "Edit Profile"
+msgstr ""
+
+#: templates/companies/dashboard.html:109
+msgid "Set Hours"
+msgstr ""
+
+#: templates/companies/dashboard.html:113
+msgid "View Public Page"
+msgstr ""
+
+#: templates/companies/dashboard.html:123 templates/companies/register.html:88
+msgid "Company Information"
+msgstr ""
+
+#: templates/companies/dashboard.html:128
+#: templates/companies/edit_profile.html:39
+#: templates/companies/register.html:106
+msgid "Address"
+msgstr ""
+
+#: templates/companies/dashboard.html:145
+#: templates/companies/edit_profile.html:85
+msgid "Website"
+msgstr ""
+
+#: templates/companies/dashboard.html:155
+msgid "Booking Link"
+msgstr ""
+
+#: templates/companies/dashboard.html:158
+msgid "Share this link with your customers:"
+msgstr ""
+
+#: templates/companies/dashboard.html:163
+msgid "Copy"
+msgstr ""
+
+#: templates/companies/dashboard.html:169
+#: templates/companies/dashboard.html:238
+msgid "Download QR Code"
+msgstr ""
+
+#: templates/companies/dashboard.html:175
+msgid "QR Code Preview:"
+msgstr ""
+
+#: templates/companies/dashboard.html:212
+msgid "WhatsApp Link:"
+msgstr ""
+
+#: templates/companies/dashboard.html:222
+msgid "Use this link on your website, social media, or anywhere online"
+msgstr ""
+
+#: templates/companies/dashboard.html:232
+msgid "WhatsApp QR Code"
+msgstr ""
+
+#: templates/companies/dashboard.html:243
+msgid "Preview QR"
+msgstr ""
+
+#: templates/companies/dashboard.html:255
+msgid "Print this QR code on:"
+msgstr ""
+
+#: templates/companies/dashboard.html:258
+msgid "Business cards • Posters • Window stickers • Flyers"
+msgstr ""
+
+#: templates/companies/dashboard.html:292
+msgid "Link copied to clipboard!"
+msgstr ""
+
+#: templates/companies/dashboard.html:329
+msgid "WhatsApp link copied!"
+msgstr ""
+
+#: templates/companies/edit_profile.html:10
+msgid "Edit Company Profile"
+msgstr ""
+
+#: templates/companies/edit_profile.html:22
+#: templates/companies/register.html:91
+msgid "Company Name"
+msgstr ""
+
+#: templates/companies/edit_profile.html:30
+#: templates/companies/register.html:98
+#: templates/static_pages/cookie_policy.html:68
+msgid "Description"
+msgstr ""
+
+#: templates/companies/edit_profile.html:46
+#: templates/companies/register.html:113
+msgid "City"
+msgstr ""
+
+#: templates/companies/edit_profile.html:55
+msgid "Map Location"
+msgstr ""
+
+#: templates/companies/edit_profile.html:59
+msgid "Open"
+msgstr ""
+
+#: templates/companies/edit_profile.html:59
+msgid "Google Maps"
+msgstr ""
+
+#: templates/companies/edit_profile.html:60
+msgid ""
+"search for your business, click the 'Share' button and paste the link here "
+"(e.g., https://maps.app.goo.gl/...)"
+msgstr ""
+
+#: templates/companies/edit_profile.html:93
+msgid "Online Appointments"
+msgstr ""
+
+#: templates/companies/edit_profile.html:97
+msgid "Enable online appointment booking on your public page"
+msgstr ""
+
+#: templates/companies/edit_profile.html:106
+msgid "Calendar Time Slot Interval"
+msgstr ""
+
+#: templates/companies/edit_profile.html:110
+msgid ""
+"Set the time slot interval for your booking calendar in minutes (e.g., 15, "
+"30, 60)"
+msgstr ""
+
+#: templates/companies/edit_profile.html:118
+msgid "Social Media"
+msgstr ""
+
+#: templates/companies/edit_profile.html:123
+#: templates/companies/edit_profile.html:130
+msgid "Platform (e.g., facebook)"
+msgstr ""
+
+#: templates/companies/edit_profile.html:124
+#: templates/companies/edit_profile.html:131
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2564
+msgid "URL"
+msgstr ""
+
+#: templates/companies/edit_profile.html:136
+msgid "+ Add Social Media"
+msgstr ""
+
+#: templates/companies/edit_profile.html:137
+msgid "Add your social media profiles (e.g., facebook, instagram, twitter)"
+msgstr ""
+
+#: templates/companies/edit_profile.html:141
+msgid "Logo"
+msgstr ""
+
+#: templates/companies/edit_profile.html:144
+msgid "Current logo"
+msgstr ""
+
+#: templates/companies/edit_profile.html:147
+#: templates/companies/edit_staff.html:69
+#: templates/companies/edit_staff.html:303
+#: templates/companies/services_list.html:49
+#: templates/companies/staff_list.html:54
+#: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
+msgid "Delete"
+msgstr ""
+
+#: templates/companies/edit_profile.html:158
+msgid "Images"
+msgstr ""
+
+#: templates/companies/edit_profile.html:160
+msgid "Drag and drop images to reorder them"
+msgstr ""
+
+#: templates/companies/edit_profile.html:170
+msgid "Company image"
+msgstr ""
+
+#: templates/companies/edit_profile.html:185
+msgid "Choose file"
+msgstr ""
+
+#: templates/companies/edit_profile.html:199
+#: templates/companies/edit_service.html:112
+#: templates/companies/edit_staff.html:270
+#: templates/companies/edit_staff.html:363
+#: templates/companies/working_hours.html:75
+msgid "Save Changes"
+msgstr ""
+
+#: templates/companies/edit_service.html:10
+msgid "Edit Service"
+msgstr ""
+
+#: templates/companies/edit_staff.html:15
+msgid "Edit Staff Member"
+msgstr ""
+
+#: templates/companies/edit_staff.html:19
+msgid "Resend Activation Email"
+msgstr ""
+
+#: templates/companies/edit_staff.html:66
+msgid "Current avatar"
+msgstr ""
+
+#: templates/companies/edit_staff.html:247
+msgid "Add Period"
+msgstr ""
+
+#: templates/companies/edit_staff.html:253
+msgid "New Out of Office Period"
+msgstr ""
+
+#: templates/companies/edit_staff.html:256
+msgid "Start Date & Time"
+msgstr ""
+
+#: templates/companies/edit_staff.html:260
+msgid "End Date & Time"
+msgstr ""
+
+#: templates/companies/edit_staff.html:265
+msgid "Reason (Optional)"
+msgstr ""
+
+#: templates/companies/edit_staff.html:266
+msgid "e.g., Vacation, Medical appointment..."
+msgstr ""
+
+#: templates/companies/edit_staff.html:296
+msgid "Reason:"
+msgstr ""
+
+#: templates/companies/edit_staff.html:300
+msgid "Added"
+msgstr ""
+
+#: templates/companies/edit_staff.html:315
+#: templates/companies/edit_staff.html:547
+msgid "No out of office periods scheduled"
+msgstr ""
+
+#: templates/companies/edit_staff.html:352
+msgid "Is Active"
+msgstr ""
+
+#: templates/companies/edit_staff.html:374
+msgid "Are you sure you want to resend the activation email?"
+msgstr ""
+
+#: templates/companies/edit_staff.html:390
+msgid "Activation email sent successfully!"
+msgstr ""
+
+#: templates/companies/edit_staff.html:392
+#: templates/companies/edit_staff.html:510
+#: templates/companies/edit_staff.html:552
+msgid "Error:"
+msgstr ""
+
+#: templates/companies/edit_staff.html:392
+#: templates/companies/edit_staff.html:510
+#: templates/companies/edit_staff.html:552
+msgid "Unknown error"
+msgstr ""
+
+#: templates/companies/edit_staff.html:397
+msgid "Error sending activation email. Please try again."
+msgstr ""
+
+#: templates/companies/edit_staff.html:480
+msgid "Please fill in both start and end date/time"
+msgstr ""
+
+#: templates/companies/edit_staff.html:488
+msgid "End date must be after start date"
+msgstr ""
+
+#: templates/companies/edit_staff.html:515
+msgid "Error saving period. Please try again."
+msgstr ""
+
+#: templates/companies/edit_staff.html:520
+msgid "Are you sure you want to delete this out of office period?"
+msgstr ""
+
+#: templates/companies/edit_staff.html:557
+msgid "Error deleting period. Please try again."
+msgstr ""
+
+#: templates/companies/forgot_password.html:10
+msgid "Forgot Password"
+msgstr ""
+
+#: templates/companies/forgot_password.html:11
+msgid "Enter your email address below to receive a password reset link."
+msgstr ""
+
+#: templates/companies/forgot_password.html:19
+msgid "Send Reset Link"
+msgstr ""
+
+#: templates/companies/public_page.html:42
+msgid "Gallery"
+msgstr ""
+
+#: templates/companies/public_page.html:98
+msgid "Our Team"
+msgstr ""
+
+#: templates/companies/public_page.html:119
+msgid "Staff information coming soon."
+msgstr ""
+
+#: templates/companies/public_page.html:127
+msgid "Our Services"
+msgstr ""
+
+#: templates/companies/public_page.html:146
+msgid "No services available at the moment."
+msgstr ""
+
+#: templates/companies/public_page.html:157
+msgid "Book an Appointment"
+msgstr ""
+
+#: templates/companies/public_page.html:160
+msgid "Book Now"
+msgstr ""
+
+#: templates/companies/public_page.html:166
+msgid ""
+"Online booking is currently unavailable. Please contact us directly to "
+"schedule an appointment."
+msgstr ""
+
+#: templates/companies/public_page.html:172
+msgid "Contact Information"
+msgstr ""
+
+#: templates/companies/public_page.html:241
+msgid "Working Hours"
+msgstr ""
+
+#: templates/companies/public_page.html:247
+msgid "Closed"
+msgstr ""
+
+#: templates/companies/register.html:5
+msgid "Register Your Company"
+msgstr ""
+
+#: templates/companies/register.html:11
+msgid "Register Your Business"
+msgstr ""
+
+#: templates/companies/register.html:12
+msgid "Create your company account and start accepting bookings"
+msgstr ""
+
+#: templates/companies/register.html:19
+msgid "Quick sign up with Google"
+msgstr ""
+
+#: templates/companies/register.html:28
+msgid "Sign up with Google"
+msgstr ""
+
+#: templates/companies/register.html:36
+msgid "Or register with email"
+msgstr ""
+
+#: templates/companies/register.html:54
+msgid "Account Information"
+msgstr ""
+
+#: templates/companies/register.html:63
+msgid "Logged in via Google"
+msgstr ""
+
+#: templates/companies/register.html:129
+msgid "Company Email"
+msgstr ""
+
+#: templates/companies/register.html:137
+msgid "Company Logo"
+msgstr ""
+
+#: templates/companies/register.html:148
+msgid "Back to home"
+msgstr ""
+
+#: templates/companies/register.html:151
+msgid "Create Account"
+msgstr ""
+
+#: templates/companies/reset_password.html:10
+#: templates/email/password_reset.html:83
+msgid "Reset Password"
+msgstr ""
+
+#: templates/companies/reset_password.html:11
+msgid "Please set your password to reset your account."
+msgstr ""
+
+#: templates/companies/services_list.html:28
+msgid "Time for Servicing"
+msgstr ""
+
+#: templates/companies/services_list.html:59
+msgid "No Services Found"
+msgstr ""
+
+#: templates/companies/services_list.html:60
+msgid "You haven't added any services yet."
+msgstr ""
+
+#: templates/companies/services_list.html:62
+msgid "Add Your First Service"
+msgstr ""
+
+#: templates/companies/staff_list.html:64
+msgid "No Staff Members Found"
+msgstr ""
+
+#: templates/companies/staff_list.html:65
+msgid "You haven't added any staff members yet."
+msgstr ""
+
+#: templates/companies/staff_list.html:67
+msgid "Add Your First Staff Member"
+msgstr ""
+
+#: templates/companies/working_hours.html:4
+#: templates/companies/working_hours.html:8
+msgid "Edit Working Hours"
+msgstr ""
+
+#: templates/companies/working_hours.html:18
+msgid "Day"
+msgstr ""
+
+#: templates/companies/working_hours.html:21
+msgid "Working Day"
+msgstr ""
+
+#: templates/companies/working_hours.html:24
+msgid "Start Time"
+msgstr ""
+
+#: templates/companies/working_hours.html:27
+msgid "End Time"
+msgstr ""
+
+#: templates/email/account_activated.html:7
+msgid "Account Activated"
+msgstr ""
+
+#: templates/email/account_activated.html:60
+msgid "Account Activated!"
+msgstr ""
+
+#: templates/email/account_activated.html:64
+#: templates/email/password_reset_success.html:64
+#, python-format
+msgid "Hello %(user_name)s,"
+msgstr ""
+
+#: templates/email/account_activated.html:66
+msgid ""
+"Your account has been successfully activated. You can now log in to your "
+"account."
+msgstr ""
+
+#: templates/email/account_activation.html:7
+msgid "Activate Your Account"
+msgstr ""
+
+#: templates/email/account_activation.html:74
+msgid "Welcome!"
+msgstr ""
+
+#: templates/email/account_activation.html:78
+msgid "Thank you for registering with us!"
+msgstr ""
+
+#: templates/email/account_activation.html:80
+msgid "Please confirm your registration by clicking the button below:"
+msgstr ""
+
+#: templates/email/account_activation.html:83
+msgid "Activate Account"
+msgstr ""
+
+#: templates/email/account_activation.html:87
+#: templates/email/password_reset.html:87
+#: templates/email/staff_activation.html:87
+msgid "If the button doesn't work, copy and paste this link into your browser:"
+msgstr ""
+
+#: templates/email/account_activation.html:94
+#: templates/email/password_reset.html:94
+msgid "If you didn't request this, please ignore this email."
+msgstr ""
+
+#: templates/email/booking_cancellation.html:7
+msgid "Booking Cancellation"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:176
+msgid "Booking Cancelled"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:182
+msgid "Your booking has been cancelled"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:183
+msgid ""
+"This booking has been successfully cancelled and removed from our schedule."
+msgstr ""
+
+#: templates/email/booking_cancellation.html:187
+msgid "Cancelled Booking Details"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:189
+#: templates/email/booking_confirmation.html:202
+#: templates/email/booking_reminder.html:175
+#: templates/email/booking_update.html:175
+msgid "Customer Name:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:193
+#: templates/email/booking_confirmation.html:206
+#: templates/email/booking_reminder.html:179
+#: templates/email/booking_update.html:179
+msgid "Service:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:197
+#: templates/email/booking_confirmation.html:210
+#: templates/email/booking_reminder.html:183
+#: templates/email/booking_update.html:183
+msgid "Staff Member:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:201
+#: templates/email/booking_confirmation.html:214
+#: templates/email/booking_reminder.html:187
+#: templates/email/booking_update.html:187
+msgid "Date:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:205
+#: templates/email/booking_confirmation.html:218
+#: templates/email/booking_reminder.html:191
+#: templates/email/booking_update.html:191
+msgid "Time:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:211
+msgid ""
+"If you wish to book another appointment, please visit our booking page or "
+"contact us directly."
+msgstr ""
+
+#: templates/email/booking_cancellation.html:217
+#: templates/email/booking_confirmation.html:238
+#: templates/email/booking_reminder.html:205
+#: templates/email/booking_update.html:205
+msgid "Address:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:220
+#: templates/email/booking_confirmation.html:191
+#: templates/email/booking_confirmation.html:241
+#: templates/email/booking_reminder.html:208
+#: templates/email/booking_update.html:208
+msgid "Phone:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:223
+#: templates/email/booking_confirmation.html:244
+#: templates/email/booking_reminder.html:211
+#: templates/email/booking_update.html:211
+#: templates/socialaccount/signup.html:35
+msgid "Email:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:226
+#: templates/email/booking_update.html:214
+msgid "Website:"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:232
+msgid "Book Again"
+msgstr ""
+
+#: templates/email/booking_cancellation.html:237
+msgid ""
+"If you have any questions or concerns, please don't hesitate to contact us."
+msgstr ""
+
+#: templates/email/booking_confirmation.html:7
+#: templates/email/booking_confirmation.html:182
+msgid "Booking Confirmation"
+msgstr ""
+
+#: templates/email/booking_confirmation.html:183
+#: templates/email/booking_update.html:164
+#, python-format
+msgid "Thank you for choosing %(company_name)s"
+msgstr ""
+
+#: templates/email/booking_confirmation.html:189
+msgid "Pre-Booking Received"
+msgstr ""
+
+#: templates/email/booking_confirmation.html:190
+msgid ""
+"Your booking request has been received and is awaiting staff confirmation. "
+"Please contact us to confirm the final price and duration."
+msgstr ""
+
+#: templates/email/booking_confirmation.html:195
+msgid "Booking Confirmed"
+msgstr ""
+
+#: templates/email/booking_confirmation.html:196
+msgid "Your appointment has been successfully confirmed."
+msgstr ""
+
+#: templates/email/booking_confirmation.html:223
+#: templates/email/booking_reminder.html:196
+#: templates/email/booking_update.html:196
+msgid "Price:"
+msgstr ""
+
+#: templates/email/booking_confirmation.html:231
+msgid "Note:"
+msgstr ""
+
+#: templates/email/booking_confirmation.html:231
+msgid ""
+"This service requires staff confirmation. The final price and duration "
+"should be confirmed by our staff."
+msgstr ""
+
+#: templates/email/booking_confirmation.html:249
+#: templates/email/booking_reminder.html:216
+#: templates/email/booking_update.html:219
+msgid "View Booking"
+msgstr ""
+
+#: templates/email/booking_confirmation.html:253
+#: templates/email/booking_update.html:223
+msgid ""
+"If you need to make any changes or have questions, please contact us "
+"directly."
+msgstr ""
+
+#: templates/email/booking_reminder.html:7
+#: templates/email/booking_reminder.html:163
+msgid "Booking Reminder"
+msgstr ""
+
+#: templates/email/booking_reminder.html:164
+#, python-format
+msgid "Don't forget your appointment at %(company_name)s"
+msgstr ""
+
+#: templates/email/booking_reminder.html:169
+msgid "Upcoming Appointment"
+msgstr ""
+
+#: templates/email/booking_reminder.html:170
+msgid ""
+"This is a friendly reminder about your upcoming booking. We look forward to "
+"seeing you!"
+msgstr ""
+
+#: templates/email/booking_reminder.html:220
+msgid ""
+"If you need to reschedule or cancel, please contact us as soon as possible."
+msgstr ""
+
+#: templates/email/booking_update.html:7
+msgid "Booking Update"
+msgstr ""
+
+#: templates/email/booking_update.html:163
+msgid "Booking Updated"
+msgstr ""
+
+#: templates/email/booking_update.html:169
+msgid "Your booking has been updated"
+msgstr ""
+
+#: templates/email/booking_update.html:170
+msgid ""
+"Your appointment details have been modified. Please review the updated "
+"information below."
+msgstr ""
+
+#: templates/email/password_reset.html:7
+msgid "Reset Your Password"
+msgstr ""
+
+#: templates/email/password_reset.html:74
+msgid "Password Reset Request"
+msgstr ""
+
+#: templates/email/password_reset.html:78
+msgid "We received a request to reset your password."
+msgstr ""
+
+#: templates/email/password_reset.html:80
+msgid "Please click the button below to reset your password:"
+msgstr ""
+
+#: templates/email/password_reset_success.html:7
+#: templates/email/password_reset_success.html:60
+msgid "Password Reset Successful"
+msgstr ""
+
+#: templates/email/password_reset_success.html:66
+msgid ""
+"Your password has been successfully reset. You can now log in to your "
+"account with your new password."
+msgstr ""
+
+#: templates/email/password_reset_success.html:69
+msgid "If you didn't make this change, please contact support immediately."
+msgstr ""
+
+#: templates/email/staff_activation.html:7
+msgid "Activate Your Staff Account"
+msgstr ""
+
+#: templates/email/staff_activation.html:74
+msgid "Staff Account Invitation"
+msgstr ""
+
+#: templates/email/staff_activation.html:78
+#, python-format
+msgid "You have been invited to join %(company_name)s as a staff member."
+msgstr ""
+
+#: templates/email/staff_activation.html:80
+msgid "Please activate your staff account by clicking the button below:"
+msgstr ""
+
+#: templates/email/staff_activation.html:94
+msgid "If you didn't expect this, please ignore this email."
+msgstr ""
+
+#: templates/hijack/notification.html:9
+msgid "You are currently hijacked as:"
+msgstr ""
+
+#: templates/hijack/notification.html:10
+msgid "Click Release to return to your account"
+msgstr ""
+
+#: templates/hijack/notification.html:17
+msgid "Release Hijack"
+msgstr ""
+
+#: templates/socialaccount/authentication_error.html:4
+#: templates/socialaccount/authentication_error.html:10
+msgid "Authentication Error"
+msgstr ""
+
+#: templates/socialaccount/authentication_error.html:15
+msgid "An error occurred during authentication."
+msgstr ""
+
+#: templates/socialaccount/authentication_error.html:23
+#: templates/socialaccount/login.html:37
+msgid "Back to Login"
+msgstr ""
+
+#: templates/socialaccount/login.html:4
+msgid "Sign In with Google"
+msgstr ""
+
+#: templates/socialaccount/login.html:10
+msgid "Sign In Via Google"
+msgstr ""
+
+#: templates/socialaccount/login.html:12
+msgid "You are about to sign in using a third-party account from Google."
+msgstr ""
+
+#: templates/socialaccount/login.html:31
+msgid "Continue with Google"
+msgstr ""
+
+#: templates/socialaccount/signup.html:4
+msgid "Sign Up with Google"
+msgstr ""
+
+#: templates/socialaccount/signup.html:10
+msgid "Complete Your Registration"
+msgstr ""
+
+#: templates/socialaccount/signup.html:12
+msgid "You're signing in with Google"
+msgstr ""
+
+#: templates/socialaccount/signup.html:39
+msgid "Name:"
+msgstr ""
+
+#: templates/socialaccount/signup.html:51
+msgid "Continue"
+msgstr ""
+
+#: templates/static_pages/about_us.html:14
+msgid ""
+"We are a leading provider of booking management solutions for beauty salons "
+"and service providers."
+msgstr ""
+
+#: templates/static_pages/about_us.html:17
+msgid "Our Mission"
+msgstr ""
+
+#: templates/static_pages/about_us.html:19
+msgid ""
+"To simplify booking management for businesses and provide customers with a "
+"seamless booking experience."
+msgstr ""
+
+#: templates/static_pages/about_us.html:22
+msgid "What We Offer"
+msgstr ""
+
+#: templates/static_pages/about_us.html:24
+msgid "Easy online booking system for customers"
+msgstr ""
+
+#: templates/static_pages/about_us.html:25
+msgid "Comprehensive calendar management for businesses"
+msgstr ""
+
+#: templates/static_pages/about_us.html:26
+msgid "Automated notifications and reminders"
+msgstr ""
+
+#: templates/static_pages/about_us.html:27
+msgid "Staff and service management"
+msgstr ""
+
+#: templates/static_pages/about_us.html:28
+msgid "Flexible pricing and subscription plans"
+msgstr ""
+
+#: templates/static_pages/about_us.html:31
+msgid "Why Choose Us"
+msgstr ""
+
+#: templates/static_pages/about_us.html:33
+msgid ""
+"Our platform is designed with both businesses and customers in mind, "
+"offering intuitive interfaces, powerful features, and reliable support."
+msgstr ""
+
+#: templates/static_pages/about_us.html:38
+msgid "Ready to get started?"
+msgstr ""
+
+#: templates/static_pages/about_us.html:38
+msgid "View our pricing plans"
+msgstr ""
+
+#: templates/static_pages/contact.html:11
+msgid ""
+"Have a question or need support? Fill out the form below and we'll get back "
+"to you as soon as possible."
+msgstr ""
+
+#: templates/static_pages/contact.html:29
+msgid "Subject"
+msgstr ""
+
+#: templates/static_pages/contact.html:35
+msgid "Message"
+msgstr ""
+
+#: templates/static_pages/contact.html:42
+msgid "Send Message"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:14
+msgid "1. General Information"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:16
+msgid "We inform you about the use of cookies on our website."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:20
+msgid "2. What are cookies?"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:22
+msgid ""
+"Cookies are files that are downloaded to your device when you access a "
+"website, allowing the storage and retrieval of information about user "
+"browsing habits."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:26
+msgid "3. Types of cookies used"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:29
+msgid "Technical cookies:"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:30
+msgid "necessary for the operation of the site."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:33
+msgid "Personalization cookies:"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:34
+msgid "remember preferences such as language or region."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:37
+msgid "Analysis cookies:"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:38
+msgid "allow measuring site usage."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:41
+msgid "Advertising and third-party cookies:"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:42
+msgid "managed by external providers (Google, Meta, etc.)."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:47
+msgid "4. Deactivation and elimination of cookies"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:49
+msgid "You can configure your browser to allow, block or delete cookies:"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:60
+msgid "5. Cookies used on this website"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:65
+msgid "Cookie"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:66
+msgid "Provider"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:74
+#: templates/static_pages/cookie_policy.html:80
+#: templates/static_pages/cookie_policy.html:86
+#: templates/static_pages/cookie_policy.html:92
+msgid "This website"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:75
+msgid "Session"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:76
+msgid "Identifies the user session for authentication and security."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:81
+#: templates/static_pages/cookie_policy.html:87
+#: templates/static_pages/cookie_policy.html:93
+msgid "1 year"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:82
+msgid "Security token to prevent cross-site request forgery attacks."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:88
+msgid "Stores user cookie consent preferences."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:94
+msgid "Stores the user's preferred language."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:101
+msgid "6. Acceptance of the cookie policy"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:103
+msgid ""
+"By browsing our website, acceptance of the use of cookies is assumed. A "
+"notice will be displayed that allows you to accept, reject or configure "
+"cookies."
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:107
+msgid "Configure your cookie preferences"
+msgstr ""
+
+#: templates/static_pages/cookie_policy.html:113
+#: templates/static_pages/privacy_policy.html:43
+#: templates/static_pages/terms_of_service.html:48
+msgid "Last updated:"
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:11
+msgid ""
+"We use different types of cookies to optimize your experience on our "
+"website. Choose which cookies you want to allow."
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:20
+msgid "Essential Cookies"
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:22
+msgid ""
+"These cookies are necessary for the website to function and cannot be "
+"disabled. They are usually set in response to actions you take, such as "
+"setting your privacy preferences, logging in, or filling in forms."
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:30
+#: templates/static_pages/cookie_settings.html:54
+msgid "Examples:"
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:30
+msgid ""
+"Session cookies, security cookies, authentication cookies, CSRF protection"
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:34
+msgid "Always Active - Required for site functionality"
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:44
+msgid "Preference Cookies"
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:46
+msgid ""
+"These cookies enable enhanced functionality and personalization, such as "
+"remembering your preferences and settings."
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:54
+msgid ""
+"Language preference, timezone, theme settings, accessibility preferences"
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:76
+msgid ""
+"Your cookie preferences are stored locally in your browser. You can change "
+"these settings at any time by visiting this page."
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:77
+msgid "Learn more about our cookie policy"
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:115
+msgid "All cookies accepted."
+msgstr ""
+
+#: templates/static_pages/cookie_settings.html:122
+msgid "Only essential cookies enabled."
+msgstr ""
+
+#: templates/static_pages/faq.html:14
+msgid "How do I create an account?"
+msgstr ""
+
+#: templates/static_pages/faq.html:15
+msgid ""
+"Click on 'Register' in the top navigation, fill in your business details, "
+"choose a subscription plan, and you're ready to start accepting bookings."
+msgstr ""
+
+#: templates/static_pages/faq.html:19
+msgid "Can customers book without creating an account?"
+msgstr ""
+
+#: templates/static_pages/faq.html:20
+msgid ""
+"Yes! Customers can make bookings without creating an account. They just need "
+"to provide their contact information."
+msgstr ""
+
+#: templates/static_pages/faq.html:24
+msgid "How do I manage my staff and services?"
+msgstr ""
+
+#: templates/static_pages/faq.html:25
+msgid ""
+"Once logged in, go to your company dashboard where you can add/edit staff "
+"members, services, working hours, and pricing."
+msgstr ""
+
+#: templates/static_pages/faq.html:29
+msgid "Can I cancel my subscription anytime?"
+msgstr ""
+
+#: templates/static_pages/faq.html:30
+msgid ""
+"Yes, you can cancel your subscription at any time from your billing "
+"settings. Your access will continue until the end of the current billing "
+"period."
+msgstr ""
+
+#: templates/static_pages/faq.html:34
+msgid "How do customers receive booking confirmations?"
+msgstr ""
+
+#: templates/static_pages/faq.html:35
+msgid ""
+"Customers receive automated email and WhatsApp notifications with booking "
+"details and a cancellation link if needed."
+msgstr ""
+
+#: templates/static_pages/faq.html:39
+msgid "What payment methods do you accept?"
+msgstr ""
+
+#: templates/static_pages/faq.html:40
+msgid ""
+"We accept major credit cards and debit cards through our secure payment "
+"processor."
+msgstr ""
+
+#: templates/static_pages/faq.html:44
+msgid "Can I upgrade or downgrade my plan?"
+msgstr ""
+
+#: templates/static_pages/faq.html:45
+msgid ""
+"Yes, you can change your subscription plan at any time from your billing "
+"settings. Changes take effect immediately."
+msgstr ""
+
+#: templates/static_pages/faq.html:49
+msgid "Is there a mobile app?"
+msgstr ""
+
+#: templates/static_pages/faq.html:50
+msgid ""
+"Our platform is fully responsive and works great on mobile browsers. A "
+"dedicated mobile app is coming soon!"
+msgstr ""
+
+#: templates/static_pages/faq.html:54
+msgid "How do I get support?"
+msgstr ""
+
+#: templates/static_pages/faq.html:55
+msgid "You can contact our support team through the"
+msgstr ""
+
+#: templates/static_pages/faq.html:55
+msgid "contact form"
+msgstr ""
+
+#: templates/static_pages/faq.html:55
+msgid "We typically respond within 24 hours."
+msgstr ""
+
+#: templates/static_pages/faq.html:59
+msgid "Is my data secure?"
+msgstr ""
+
+#: templates/static_pages/faq.html:60
+msgid ""
+"Yes, we take data security seriously. All data is encrypted and stored "
+"securely. We comply with GDPR and other data protection regulations."
+msgstr ""
+
+#: templates/static_pages/faq.html:65
+msgid "Still have questions?"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:11
+msgid "Get started in just a few simple steps"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:16
+msgid "For Businesses"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:22
+msgid ""
+"Create your business account and choose a subscription plan that fits your "
+"needs."
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:29
+msgid "Set Up Your Profile"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:30
+msgid ""
+"Add your services, staff members, working hours, and business information."
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:37
+msgid "Manage Bookings"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:38
+msgid ""
+"Use our calendar to view, confirm, and manage all your appointments in one "
+"place."
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:45
+msgid "Grow Your Business"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:46
+msgid ""
+"Track your bookings, manage staff schedules, and focus on providing great "
+"service."
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:53
+msgid "For Customers"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:58
+msgid "Find a Service"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:59
+msgid "Browse available services and select the one that suits your needs."
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:66
+msgid "Choose Date & Time"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:67
+msgid "Select your preferred date, time, and staff member (if applicable)."
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:75
+msgid ""
+"Enter your details and confirm your booking. You'll receive a confirmation "
+"email and WhatsApp message."
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:82
+msgid "Enjoy Your Service"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:83
+msgid "Show up at your appointment time and enjoy your service!"
+msgstr ""
+
+#: templates/static_pages/how_it_works.html:91
+msgid "Get Started Now"
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:13
+msgid "1. Information We Collect"
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:15
+msgid ""
+"We collect information that you provide directly to us, including when you "
+"create an account, make a booking, or contact us for support."
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:18
+msgid "2. How We Use Your Information"
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:20
+msgid ""
+"We use the information we collect to provide, maintain, and improve our "
+"services, to process your bookings, and to communicate with you."
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:23
+msgid "3. Information Sharing"
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:25
+msgid ""
+"We do not sell your personal information. We may share your information with "
+"service providers who assist us in operating our platform."
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:28
+msgid "4. Data Security"
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:30
+msgid ""
+"We implement appropriate security measures to protect your personal "
+"information from unauthorized access, alteration, or disclosure."
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:33
+msgid "5. Your Rights"
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:35
+msgid ""
+"You have the right to access, correct, or delete your personal information. "
+"Contact us if you wish to exercise these rights."
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:38
+msgid "6. Contact Us"
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:40
+msgid "If you have questions about this Privacy Policy, please"
+msgstr ""
+
+#: templates/static_pages/privacy_policy.html:40
+msgid "contact us"
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:13
+msgid "1. Acceptance of Terms"
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:15
+msgid ""
+"By accessing and using this service, you accept and agree to be bound by the "
+"terms and provision of this agreement."
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:18
+msgid "2. Use of Service"
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:20
+msgid ""
+"You agree to use the service only for lawful purposes and in accordance with "
+"these Terms of Service."
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:23
+msgid "3. User Accounts"
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:25
+msgid ""
+"You are responsible for maintaining the confidentiality of your account and "
+"password and for restricting access to your account."
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:28
+msgid "4. Bookings and Payments"
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:30
+msgid ""
+"All bookings are subject to availability and confirmation. Payment terms "
+"will be communicated at the time of booking."
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:33
+msgid "5. Cancellation Policy"
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:35
+msgid ""
+"Cancellation policies may vary by service provider. Please review the "
+"specific cancellation policy before making a booking."
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:38
+msgid "6. Limitation of Liability"
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:40
+msgid ""
+"We shall not be liable for any indirect, incidental, special, consequential "
+"or punitive damages resulting from your use of the service."
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:43
+msgid "7. Changes to Terms"
+msgstr ""
+
+#: templates/static_pages/terms_of_service.html:45
+msgid ""
+"We reserve the right to modify these terms at any time. Changes will be "
+"effective immediately upon posting."
+msgstr ""
+
+#: templates/users/login.html:11
+msgid "Sign in to your account"
+msgstr ""
+
+#: templates/users/login.html:13
+msgid "Or"
+msgstr ""
+
+#: templates/users/login.html:15
+msgid "create a new company account"
+msgstr ""
+
+#: templates/users/login.html:29
+msgid "Please correct the errors below."
+msgstr ""
+
+#: templates/users/login.html:36
+msgid "Username"
+msgstr ""
+
+#: templates/users/login.html:40
+msgid "Enter your username"
+msgstr ""
+
+#: templates/users/login.html:49
+msgid "Enter your password"
+msgstr ""
+
+#: templates/users/login.html:57
+msgid "Remember me"
+msgstr ""
+
+#: templates/users/login.html:61
+msgid "Forgot password?"
+msgstr ""
+
+#: templates/users/login.html:67
+msgid "Sign in"
+msgstr ""
+
+#: templates/users/login.html:78
+msgid "Or continue with"
+msgstr ""
+
+#: templates/users/login.html:91
+msgid "Sign in with Google"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:15
+msgid "Messages"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/contrib/sitemaps/apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/contrib/staticfiles/apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/contrib/syndication/apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: venv/lib/python3.12/site-packages/django/core/paginator.py:30
+msgid "…"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/paginator.py:50
+msgid "That page number is not an integer"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/paginator.py:52
+msgid "That page number is less than 1"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/paginator.py:54
+msgid "That page contains no results"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:104
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:752
+msgid "Enter a valid URL."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:165
+msgid "Enter a valid integer."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:176
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: venv/lib/python3.12/site-packages/django/core/validators.py:259
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:267
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:279
+#: venv/lib/python3.12/site-packages/django/core/validators.py:287
+#: venv/lib/python3.12/site-packages/django/core/validators.py:316
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:296
+#: venv/lib/python3.12/site-packages/django/core/validators.py:317
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:308
+#: venv/lib/python3.12/site-packages/django/core/validators.py:315
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:351
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:357
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:392
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:401
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:410
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:420
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:438
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:461
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:347
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:386
+msgid "Enter a number."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:463
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:468
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:473
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:544
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/core/validators.py:605
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/base.py:1423
+#: venv/lib/python3.12/site-packages/django/forms/models.py:893
+msgid "and"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/base.py:1425
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/constraints.py:17
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:128
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:129
+msgid "This field cannot be null."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:130
+msgid "This field cannot be blank."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:131
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:135
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:173
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1094
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1095
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1097
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1147
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1149
+msgid "String (unlimited)"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1253
+msgid "Comma-separated integers"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1354
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1358
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1493
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1362
+msgid "Date (without time)"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1489
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1497
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1502
+msgid "Date (with time)"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1626
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1628
+msgid "Decimal number"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1789
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1845
+msgid "Email address"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1870
+msgid "File path"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1948
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1950
+msgid "Floating point number"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1990
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1992
+msgid "Integer"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2088
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2105
+msgid "Small integer"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2113
+msgid "IPv4 address"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2144
+msgid "IP address"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2237
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2238
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2240
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2291
+msgid "Positive big integer"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2306
+msgid "Positive integer"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2321
+msgid "Positive small integer"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2337
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2373
+msgid "Text"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2448
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2452
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2588
+msgid "Raw binary data"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2653
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2655
+msgid "Universally unique identifier"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/files.py:232
+msgid "File"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/files.py:393
+msgid "Image"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/json.py:26
+msgid "A JSON object"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/json.py:28
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:919
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:921
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1212
+msgid "One-to-one relationship"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1269
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1271
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1319
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: venv/lib/python3.12/site-packages/django/forms/boundfield.py:184
+msgid ":?.!"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:91
+msgid "This field is required."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:298
+msgid "Enter a whole number."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:467
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:1241
+msgid "Enter a valid date."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:490
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:1242
+msgid "Enter a valid time."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:517
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:551
+msgid "Enter a valid duration."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:552
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:621
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:622
+msgid "No file was submitted."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:623
+msgid "The submitted file is empty."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:625
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:630
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:694
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:857
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:949
+#: venv/lib/python3.12/site-packages/django/forms/models.py:1566
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:951
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:1070
+#: venv/lib/python3.12/site-packages/django/forms/models.py:1564
+msgid "Enter a list of values."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:1071
+msgid "Enter a complete value."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:1310
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/fields.py:1340
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: venv/lib/python3.12/site-packages/django/forms/forms.py:98
+msgid ":"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/forms.py:244
+#: venv/lib/python3.12/site-packages/django/forms/forms.py:328
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/formsets.py:63
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/formsets.py:67
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/forms/formsets.py:72
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/forms/formsets.py:484
+#: venv/lib/python3.12/site-packages/django/forms/formsets.py:491
+msgid "Order"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/models.py:886
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/models.py:891
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/models.py:898
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/models.py:907
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/models.py:1338
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/models.py:1429
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/models.py:1568
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/utils.py:226
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/widgets.py:464
+msgid "Currently"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/widgets.py:465
+msgid "Change"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/widgets.py:794
+msgid "Unknown"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/widgets.py:795
+msgid "Yes"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/forms/widgets.py:796
+msgid "No"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:874
+msgid "yes,no,maybe"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:904
+#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:921
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:923
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:925
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:927
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:929
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/template/defaultfilters.py:931
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:73
+msgid "p.m."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:74
+msgid "a.m."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:79
+msgid "PM"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:80
+msgid "AM"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:152
+msgid "midnight"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dateformat.py:154
+msgid "noon"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:25
+msgid "January"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:26
+msgid "February"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:27
+msgid "March"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:28
+msgid "April"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:29
+msgid "May"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:30
+msgid "June"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:31
+msgid "July"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:32
+msgid "August"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:33
+msgid "September"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:34
+msgid "October"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:35
+msgid "November"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:36
+msgid "December"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:39
+msgid "jan"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:40
+msgid "feb"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:41
+msgid "mar"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:42
+msgid "apr"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:43
+msgid "may"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:44
+msgid "jun"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:45
+msgid "jul"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:46
+msgid "aug"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:47
+msgid "sep"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:48
+msgid "oct"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:49
+msgid "nov"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:50
+msgid "dec"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/text.py:137
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/text.py:322
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: venv/lib/python3.12/site-packages/django/utils/text.py:341
+#: venv/lib/python3.12/site-packages/django/utils/timesince.py:135
+msgid ", "
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/utils/timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/utils/timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/utils/timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/utils/timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/utils/timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/utils/timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/lib/python3.12/site-packages/django/views/csrf.py:111
+msgid "Forbidden"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/csrf.py:112
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/csrf.py:116
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/csrf.py:122
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/csrf.py:127
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/csrf.py:136
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/csrf.py:142
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/csrf.py:148
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:64
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:115
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:214
+msgid "Date out of range"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:349
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:380
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:652
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/dates.py:692
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/generic/list.py:169
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/static.py:38
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/static.py:40
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/static.py:79
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:7
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:220
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:221
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:229
+msgid "Django Documentation"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:230
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:238
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:239
+msgid "Get started with Django"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:247
+msgid "Django Community"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
+msgid "Connect, get help, or contribute"
+msgstr ""

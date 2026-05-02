@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'hijack',
     'hijack.contrib.admin',
+    'app',  # Main app with template tags
     'companies',
     'bookings',
     'users',

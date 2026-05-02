@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load language_extras %}
 
 <div class="relative inline-block text-left" x-data="{ open: false }">
   {% get_current_language as LANGUAGE_CODE %}
@@ -6,7 +7,7 @@
 
   <button
     @click="open = !open"
-    @click.away="open = false"
+    @click.outside="open = false"
     type="button"
     class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
   >
@@ -30,19 +31,21 @@
     class="absolute left-0 sm:right-0 sm:left-auto mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" style="z-index: 10000;"
   >
     <div class="py-1">
+      {% get_current_language as current_lang %}
+      {% get_path_without_language as path_no_lang %}
       {% for code, name in LANGUAGES %}
-        <form action="{% url 'set_language' %}" method="post">
+        <form action="{% url 'set_language' %}" method="post" id="lang-form-{{ code }}" style="display: inline;">
           {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          <input type="hidden" name="next" value="{{ path_no_lang }}">
           <input type="hidden" name="language" value="{{ code }}">
-
-          <button
-            type="submit"
-            class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100
-            {% if code == LANGUAGE_CODE %}bg-gray-100 font-semibold{% endif %}">
-            {{ name }}
-          </button>
         </form>
+        <button
+          onclick="event.stopPropagation(); document.getElementById('lang-form-{{ code }}').submit(); return false;"
+          type="button"
+          class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100
+          {% if code == current_lang %}bg-gray-100 font-semibold{% endif %}">
+          {{ name }}
+        </button>
       {% endfor %}
     </div>
   </div>

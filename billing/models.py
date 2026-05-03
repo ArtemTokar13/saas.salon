@@ -120,6 +120,10 @@ class Subscription(models.Model):
     is_active = models.BooleanField(default=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_ACTIVE)
     cancelled_at = models.DateTimeField(blank=True, null=True)
+    
+    # Stripe fields for automatic renewals
+    stripe_subscription_id = models.CharField(max_length=255, blank=True, null=True, help_text='Stripe Subscription ID')
+    stripe_customer_id = models.CharField(max_length=255, blank=True, null=True, help_text='Stripe Customer ID')
 
     def __str__(self):
         return f"{self.company.name} - {self.plan.name} ({self.get_billing_period_display()})"

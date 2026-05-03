@@ -258,6 +258,8 @@ def handle_checkout_session_completed(session):
         checkout_id = session.get("id")
         invoice_id = session.get("invoice")
         payment_intent_id = session.get("payment_intent")
+        stripe_subscription_id = session.get("subscription")
+        stripe_customer_id = session.get("customer")
 
         company = Company.objects.get(id=company_id)
         plan = Plan.objects.get(id=plan_id)
@@ -283,6 +285,8 @@ def handle_checkout_session_completed(session):
             end_date=end_date,
             is_active=True,
             status=Subscription.STATUS_ACTIVE,
+            stripe_subscription_id=stripe_subscription_id,
+            stripe_customer_id=stripe_customer_id,
         )
 
         # Create transaction record
@@ -305,19 +309,37 @@ def handle_checkout_session_completed(session):
 
 
 def handle_invoice_payment_succeeded(invoice):
-    """Handle successful invoice payment"""
+    """Handle successful invoice payment - including automatic renewals"""
     subscription = None
     try:
-        subscription = Subscription.objects.filter(id=invoice.get("subscription")).first()
+        stripe_subscription_id = invoice.get("subscription")
+        subscription = Subscription.objects.filter(stripe_subscription_id=stripe_subscription_id).first()
         if subscription:
+            # Record the transaction
             Transaction.objects.create(
                 subscription=subscription,
                 amount=invoice["amount_paid"] / 100,
                 transaction_id=f"TXN-{uuid.uuid4().hex[:12].upper()}",
                 payment_status=Transaction.PAYMENT_STATUS_SUCCEEDED,
+                stripe_invoice_id=invoice.get("id"),
+                stripe_payment_intent_id=invoice.get("payment_intent"),
             )
+            
+            # Update subscription status
             subscription.status = Subscription.STATUS_ACTIVE
             subscription.is_active = True
+            
+            # Extend subscription end_date for renewal (if current period is ending)
+            if subscription.end_date <= timezone.now().date():
+                period_days = {
+                    "monthly": 30,
+                    "three_months": 90,
+                    "six_months": 180,
+                    "yearly": 365,
+                }
+                days_to_add = period_days.get(subscription.billing_period, 30)
+                subscription.end_date = subscription.end_date + timedelta(days=days_to_add)
+            
             subscription.save()
     except Exception as e:
         StripeErrorLog.log_error(
@@ -333,7 +355,8 @@ def handle_invoice_payment_failed(invoice):
     """Handle failed invoice payment"""
     subscription = None
     try:
-        subscription = Subscription.objects.filter(id=invoice.get("subscription")).first()
+        stripe_subscription_id = invoice.get("subscription")
+        subscription = Subscription.objects.filter(stripe_subscription_id=stripe_subscription_id).first()
         if subscription:
             subscription.status = Subscription.STATUS_PAST_DUE
             subscription.save()
@@ -342,6 +365,7 @@ def handle_invoice_payment_failed(invoice):
                 amount=invoice["amount_due"] / 100,
                 transaction_id=f"TXN-{uuid.uuid4().hex[:12].upper()}",
                 payment_status=Transaction.PAYMENT_STATUS_FAILED,
+                stripe_invoice_id=invoice.get("id"),
             )
     except Exception as e:
         StripeErrorLog.log_error(

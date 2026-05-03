@@ -1505,45 +1505,46 @@ msgstr "+ Добавить дату"
 #: templates/companies/add_service.html:79
 #: templates/companies/edit_service.html:88
 msgid "Require Staff Confirmation"
-msgstr ""
+msgstr "Требуется подтверждение от персонала."
 
 #: templates/companies/add_service.html:132
 #: templates/companies/edit_service.html:144
 msgid "Maximum 10 dates allowed"
-msgstr ""
+msgstr "Допускается максимум 10 дат."
 
 #: templates/companies/add_staff.html:15 templates/companies/add_staff.html:282
 msgid "Add Staff Member"
-msgstr ""
+msgstr "Добавить сотрудника"
 
 #: templates/companies/add_staff.html:61 templates/companies/edit_staff.html:39
 #: templates/companies/staff_list.html:26
 msgid "Specialization"
-msgstr ""
+msgstr "Специализация"
 
 #: templates/companies/add_staff.html:69 templates/companies/edit_staff.html:63
 msgid "Avatar"
-msgstr ""
+msgstr "Аватар"
 
 #: templates/companies/add_staff.html:77 templates/companies/edit_staff.html:80
 msgid "Working Days"
-msgstr ""
+msgstr "Рабочие дни"
 
 #: templates/companies/add_staff.html:97
 #: templates/companies/edit_staff.html:100
 msgid "Select the days when this staff member is available to work"
-msgstr ""
+msgstr "Выберите дни, когда этот сотрудник может работать."
 
 #: templates/companies/add_staff.html:102
 #: templates/companies/edit_staff.html:105
 msgid "Working Hours per Day"
-msgstr ""
+msgstr "Рабочие часы в день"
 
 #: templates/companies/add_staff.html:103
 #: templates/companies/edit_staff.html:106
 msgid ""
 "Set specific working hours for each day (leave empty to use company hours)"
 msgstr ""
+"Укажите конкретное рабочее время каждый день (оставьте поле пустым, если используете рабочее время компании)."
 
 #: templates/companies/add_staff.html:111
 #: templates/companies/add_staff.html:127
@@ -1560,7 +1561,7 @@ msgstr ""
 #: templates/companies/edit_staff.html:194
 #: templates/companies/edit_staff.html:210
 msgid "Start"
-msgstr ""
+msgstr "Старт"
 
 #: templates/companies/add_staff.html:116
 #: templates/companies/add_staff.html:132
@@ -1582,542 +1583,553 @@ msgstr ""
 #: templates/companies/add_staff.html:221
 #: templates/companies/edit_staff.html:223
 msgid "Break Start Time"
-msgstr ""
+msgstr "Время начала перерыва"
 
 #: templates/companies/add_staff.html:229
 #: templates/companies/edit_staff.html:231
 msgid "Break End Time"
-msgstr ""
+msgstr "Время окончания перерыва"
 
 #: templates/companies/add_staff.html:243
 #: templates/companies/edit_staff.html:242
 msgid "Out of Office Periods"
-msgstr ""
+msgstr "Периоды отсутствия на рабочем месте"
 
 #: templates/companies/add_staff.html:245
 msgid ""
 "You can manage multiple out-of-office periods after creating the staff "
 "member."
 msgstr ""
+"После создания сотрудника вы можете управлять несколькими периодами "
+"отсутствия на рабочем месте."
 
 #: templates/companies/analytics.html:4 templates/companies/dashboard.html:101
 msgid "Analytics"
-msgstr ""
+msgstr "Аналитика"
 
 #: templates/companies/analytics.html:14
 msgid "Service Analytics"
-msgstr ""
+msgstr "Аналитика сервисов"
 
 #: templates/companies/analytics.html:22
 msgid "Back to Dashboard"
-msgstr ""
+msgstr "Вернуться на панель управления"
 
 #: templates/companies/analytics.html:33
 msgid "Date Range"
-msgstr ""
+msgstr "Диапазон дат"
 
 #: templates/companies/analytics.html:36
 msgid "Last 7 Days"
-msgstr ""
+msgstr "Последние 7 дней"
 
 #: templates/companies/analytics.html:39
 msgid "Last 30 Days"
-msgstr ""
+msgstr "Последние 30 дней"
 
 #: templates/companies/analytics.html:42
 msgid "Last 90 Days"
-msgstr ""
+msgstr "Последние 90 дней"
 
 #: templates/companies/analytics.html:45
 msgid "Last Year"
-msgstr ""
+msgstr "Последний год"
 
 #: templates/companies/analytics.html:48
 msgid "All Time"
-msgstr ""
+msgstr "Все время"
 
 #: templates/companies/analytics.html:53
 msgid "Showing data from"
-msgstr ""
+msgstr "Отображение данных из"
 
 #: templates/companies/analytics.html:53
 msgid "to"
-msgstr ""
+msgstr "до"
 
 #: templates/companies/analytics.html:57
 msgid "Showing all available data"
-msgstr ""
+msgstr "Отображение всех доступных данных"
 
 #: templates/companies/analytics.html:70
 msgid "Total Confirmed Bookings"
-msgstr ""
+msgstr "Общее количество подтвержденных бронирований"
 
 #: templates/companies/analytics.html:82
 msgid "Total Revenue"
-msgstr ""
+msgstr "Общий доход"
 
 #: templates/companies/analytics.html:93
 msgid "Booking Status Breakdown"
-msgstr ""
+msgstr "Разбивка по статусам бронирования"
 
 #: templates/companies/analytics.html:113
 msgid "Service Performance: Bookings vs Revenue"
-msgstr ""
+msgstr "Показатели качества обслуживания: количество бронирований против выручки."
 
 #: templates/companies/analytics.html:122
 msgid "Service Performance"
-msgstr ""
+msgstr "Качество обслуживания"
 
 #: templates/companies/analytics.html:129
 #: templates/companies/customer_detail.html:33
 msgid "Service Name"
-msgstr ""
+msgstr "Название услуги"
 
 #: templates/companies/analytics.html:135
 #, python-format
 msgid "Usage %%"
-msgstr ""
+msgstr "Использование %%"
 
 #: templates/companies/analytics.html:138
 #: templates/companies/analytics.html:269
 #: templates/companies/analytics.html:380
 msgid "Revenue"
-msgstr ""
+msgstr "Доход"
 
 #: templates/companies/analytics.html:141
 #: templates/companies/analytics.html:272
 #, python-format
 msgid "Revenue %%"
-msgstr ""
+msgstr "Доход %%"
 
 #: templates/companies/analytics.html:144
 msgid "Avg Price"
-msgstr ""
+msgstr "Средняя цена"
 
 #: templates/companies/analytics.html:147
 #: templates/companies/analytics.html:278
 msgid "Unique Customers"
-msgstr ""
+msgstr "Уникальные клиенты"
 
 #: templates/companies/analytics.html:196
 #: templates/companies/services_list.html:44
 #: templates/companies/staff_list.html:49
 msgid "Inactive"
-msgstr ""
+msgstr "Неактивный"
 
 #: templates/companies/analytics.html:204
 #: templates/companies/customer_detail.html:45
 msgid "No services found."
-msgstr ""
+msgstr "Сервисы не найдены."
 
 #: templates/companies/analytics.html:222
 msgid "Services with No Bookings"
-msgstr ""
+msgstr "Услуги без предварительного бронирования"
 
 #: templates/companies/analytics.html:225
 msgid ""
 "The following services have not received any confirmed bookings in the "
 "selected date range:"
 msgstr ""
+"Следующие услуги не получили подтвержденных бронирований в выбранном диапазоне дат:"
 
 #: templates/companies/analytics.html:232
 msgid ""
 "Consider reviewing these services. You may want to adjust pricing, improve "
 "descriptions, or remove services that are no longer relevant."
 msgstr ""
+"Рассмотрите возможность пересмотра этих услуг. Возможно, вам потребуется скорректировать "
+"цены, улучшить описания или удалить услуги, которые больше не актуальны."
 
 #: templates/companies/analytics.html:245
 msgid "Staff Effectiveness: Bookings vs Revenue"
-msgstr ""
+msgstr "Эффективность персонала: бронирования против выручки"
 
 #: templates/companies/analytics.html:253
 msgid "Staff Performance"
-msgstr ""
+msgstr "Эффективность работы персонала"
 
 #: templates/companies/analytics.html:260
 msgid "Staff Member"
-msgstr ""
+msgstr "Staff Member"
 
 #: templates/companies/analytics.html:266
 #, python-format
 msgid "Effectiveness %%"
-msgstr ""
+msgstr "Эффективность %%"
 
 #: templates/companies/analytics.html:275
 msgid "Avg Booking Value"
-msgstr ""
+msgstr "Средняя стоимость бронирования"
 
 #: templates/companies/analytics.html:281
 msgid "Total Hours"
-msgstr ""
+msgstr "Всего часов"
 
 #: templates/companies/analytics.html:284
 msgid "Avg Duration"
-msgstr ""
+msgstr "Средняя длительность"
 
 #: templates/companies/analytics.html:352
 msgid "No active staff members found."
-msgstr ""
+msgstr "Активных сотрудников не найдено."
 
 #: templates/companies/analytics.html:366
 msgid "Monthly Trends"
-msgstr ""
+msgstr "Ежемесячные тренды"
 
 #: templates/companies/analytics.html:374
 msgid "Month"
-msgstr ""
+msgstr "Месяц"
 
 #: templates/companies/analytics.html:409
 msgid "Top Customers"
-msgstr ""
+msgstr "Лучшие клиенты"
 
 #: templates/companies/analytics.html:420
 msgid "Total Bookings"
-msgstr ""
+msgstr "Общее количество бронирований"
 
 #: templates/companies/analytics.html:444
 msgid "View Details"
-msgstr ""
+msgstr "Просмотреть подробности"
 
 #: templates/companies/analytics.html:459
 msgid "Insights & Recommendations"
-msgstr ""
+msgstr "Аналитические выводы и рекомендации"
 
 #: templates/companies/analytics.html:470
 msgid "Most Popular Service"
-msgstr ""
+msgstr "Самая популярная услуга"
 
 #: templates/companies/analytics.html:472
 msgid "is your most booked service with"
-msgstr ""
+msgstr "Самая популярная услуга"
 
 #: templates/companies/analytics.html:472
 msgid "bookings, generating"
-msgstr ""
+msgstr "бронирования, генерация"
 
 #: templates/companies/analytics.html:485
 msgid "Underperforming Services"
-msgstr ""
+msgstr "Неэффективные услуги"
 
 #: templates/companies/analytics.html:487
 msgid "You have"
-msgstr ""
+msgstr "У вас есть"
 
 #: templates/companies/analytics.html:487
 msgid ""
 "service(s) with no bookings. Consider promoting these services or removing "
 "them if they're no longer relevant."
 msgstr ""
+"Услуги, по которым нет бронирований. Рассмотрите возможность продвижения "
+"этих услуг или удаления их, если они больше не актуальны."
 
 #: templates/companies/analytics.html:499
 msgid "Average Booking Value"
-msgstr ""
+msgstr "Средняя стоимость бронирования"
 
 #: templates/companies/analytics.html:501
 msgid "Your average booking value is"
-msgstr ""
+msgstr "Средняя стоимость вашего бронирования составляет"
 
 #: templates/companies/analytics.html:553
 #: templates/companies/analytics.html:661
 #: templates/companies/analytics.html:720
 msgid "Revenue ($)"
-msgstr ""
+msgstr "Доход ($)"
 
 #: templates/companies/analytics.html:582
 #: templates/companies/analytics.html:690
 msgid "bookings"
-msgstr ""
+msgstr "бронирования"
 
 #: templates/companies/analytics.html:599
 #: templates/companies/analytics.html:707
 msgid "Number of Bookings"
-msgstr ""
+msgstr "Количество бронирований"
 
 #: templates/companies/analytics.html:612
 msgid "Revenue (€)"
-msgstr ""
+msgstr "Выручка (€)"
 
 #: templates/companies/customer_detail.html:4
 msgid "Customer Detail"
-msgstr ""
+msgstr "Данные клиента"
 
 #: templates/companies/customer_detail.html:28
 msgid "Services Booked"
-msgstr ""
+msgstr "Забронированные услуги"
 
 #: templates/companies/customer_detail.html:34
 msgid "Times Booked"
-msgstr ""
+msgstr "Забронированное время"
 
 #: templates/companies/customer_detail.html:55
 msgid "Booking History"
-msgstr ""
+msgstr "Booking History"
 
 #: templates/companies/customer_detail.html:64
 msgid "with"
-msgstr ""
+msgstr "с"
 
 #: templates/companies/customer_detail.html:86
 #: templates/companies/customers_list.html:84
 msgid "First"
-msgstr ""
+msgstr "Первая"
 
 #: templates/companies/customer_detail.html:90
 #: templates/companies/customers_list.html:88
 msgid "Previous"
-msgstr ""
+msgstr "Последняя"
 
 #: templates/companies/customer_detail.html:109
 #: templates/companies/customers_list.html:107
 msgid "Next"
-msgstr ""
+msgstr "Следующая"
 
 #: templates/companies/customer_detail.html:113
 #: templates/companies/customers_list.html:111
 msgid "Last"
-msgstr ""
+msgstr "Последняя"
 
 #: templates/companies/customer_detail.html:120
 #: templates/companies/customers_list.html:118
 msgid "Page"
-msgstr ""
+msgstr "Страница"
 
 #: templates/companies/customer_detail.html:120
 #: templates/companies/customers_list.html:118
 msgid "of"
-msgstr ""
+msgstr "из"
 
 #: templates/companies/customer_detail.html:121
 msgid "total bookings"
-msgstr ""
+msgstr "всего бронирований"
 
 #: templates/companies/customers_list.html:15
 msgid "Customers for"
-msgstr ""
+msgstr "Клиенты для"
 
 #: templates/companies/customers_list.html:21
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: templates/companies/customers_list.html:32
 msgid "Search by name or phone number..."
-msgstr ""
+msgstr "Поиск по имени или номеру телефона..."
 
 #: templates/companies/customers_list.html:43
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:463
 msgid "Clear"
-msgstr ""
+msgstr "Очистить"
 
 #: templates/companies/customers_list.html:68
 msgid "No customers found matching your search."
-msgstr ""
+msgstr "Клиентов, соответствующих вашему запросу, не найдено."
 
 #: templates/companies/customers_list.html:70
 msgid "No customers found."
-msgstr ""
+msgstr "Клиентов не найдено."
 
 #: templates/companies/customers_list.html:119
 msgid "total customers"
-msgstr ""
+msgstr "всего клиентов"
 
 #: templates/companies/dashboard.html:17
 msgid "Company Dashboard"
-msgstr ""
+msgstr "Панель управления"
 
 #: templates/companies/dashboard.html:50 templates/companies/staff_list.html:14
 msgid "Staff Members"
-msgstr ""
+msgstr "Сотрудники"
 
 #: templates/companies/dashboard.html:65
 msgid "Subscription"
-msgstr ""
+msgstr "Подписка"
 
 #: templates/companies/dashboard.html:68
 msgid "Expires:"
-msgstr ""
+msgstr "Срок действия истекает:"
 
 #: templates/companies/dashboard.html:70
 msgid "No Active Plan"
-msgstr ""
+msgstr "Нет активного плана"
 
 #: templates/companies/dashboard.html:83
 msgid "Quick Actions"
-msgstr ""
+msgstr "Быстрые действия"
 
 #: templates/companies/dashboard.html:93
 msgid "Add Staff"
-msgstr ""
+msgstr "Добавить персонал"
 
 #: templates/companies/dashboard.html:97
 msgid "View Customers"
-msgstr ""
+msgstr "Просмотреть клиентов"
 
 #: templates/companies/dashboard.html:105
 msgid "Edit Profile"
-msgstr ""
+msgstr "Редактировать профиль"
 
 #: templates/companies/dashboard.html:109
 msgid "Set Hours"
-msgstr ""
+msgstr "Установить часы"
 
 #: templates/companies/dashboard.html:113
 msgid "View Public Page"
-msgstr ""
+msgstr "Просмотреть общедоступную страницу"
 
 #: templates/companies/dashboard.html:123 templates/companies/register.html:88
 msgid "Company Information"
-msgstr ""
+msgstr "Информация о компании"
 
 #: templates/companies/dashboard.html:128
 #: templates/companies/edit_profile.html:39
 #: templates/companies/register.html:106
 msgid "Address"
-msgstr ""
+msgstr "Адрес"
 
 #: templates/companies/dashboard.html:145
 #: templates/companies/edit_profile.html:85
 msgid "Website"
-msgstr ""
+msgstr "Веб-сайт"
 
 #: templates/companies/dashboard.html:155
 msgid "Booking Link"
-msgstr ""
+msgstr "Ссылка для бронирования"
 
 #: templates/companies/dashboard.html:158
 msgid "Share this link with your customers:"
-msgstr ""
+msgstr "Поделитесь этой ссылкой со своими клиентами:"
 
 #: templates/companies/dashboard.html:163
 msgid "Copy"
-msgstr ""
+msgstr "Копировать"
 
 #: templates/companies/dashboard.html:169
 #: templates/companies/dashboard.html:238
 msgid "Download QR Code"
-msgstr ""
+msgstr "Скачать QR-код"
 
 #: templates/companies/dashboard.html:175
 msgid "QR Code Preview:"
-msgstr ""
+msgstr "Предварительный просмотр QR-кода:"
 
 #: templates/companies/dashboard.html:212
 msgid "WhatsApp Link:"
-msgstr ""
+msgstr "Ссылка на WhatsApp:"
 
 #: templates/companies/dashboard.html:222
 msgid "Use this link on your website, social media, or anywhere online"
-msgstr ""
+msgstr "Используйте эту ссылку на своем веб-сайте, в социальных сетях или где угодно в интернете."
 
 #: templates/companies/dashboard.html:232
 msgid "WhatsApp QR Code"
-msgstr ""
+msgstr "QR-код WhatsApp"
 
 #: templates/companies/dashboard.html:243
 msgid "Preview QR"
-msgstr ""
+msgstr "Предварительный просмотр QR-кода"
 
 #: templates/companies/dashboard.html:255
 msgid "Print this QR code on:"
-msgstr ""
+msgstr "Распечатайте этот QR-код на:"
 
 #: templates/companies/dashboard.html:258
 msgid "Business cards • Posters • Window stickers • Flyers"
-msgstr ""
+msgstr "Визитки • Плакаты • Наклейки на окна • Листовки"
 
 #: templates/companies/dashboard.html:292
 msgid "Link copied to clipboard!"
-msgstr ""
+msgstr "Ссылка скопирована в буфер обмена!"
 
 #: templates/companies/dashboard.html:329
 msgid "WhatsApp link copied!"
-msgstr ""
+msgstr "Ссылка на WhatsApp скопирована!"
 
 #: templates/companies/edit_profile.html:10
 msgid "Edit Company Profile"
-msgstr ""
+msgstr "Редактировать профиль компании"
 
 #: templates/companies/edit_profile.html:22
 #: templates/companies/register.html:91
 msgid "Company Name"
-msgstr ""
+msgstr "Название салона"
 
 #: templates/companies/edit_profile.html:30
 #: templates/companies/register.html:98
 #: templates/static_pages/cookie_policy.html:68
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: templates/companies/edit_profile.html:46
 #: templates/companies/register.html:113
 msgid "City"
-msgstr ""
+msgstr "Город"
 
 #: templates/companies/edit_profile.html:55
 msgid "Map Location"
-msgstr ""
+msgstr "Место на карте"
 
 #: templates/companies/edit_profile.html:59
 msgid "Open"
-msgstr ""
+msgstr "Открыто"
 
 #: templates/companies/edit_profile.html:59
 msgid "Google Maps"
-msgstr ""
+msgstr "Google Maps"
 
 #: templates/companies/edit_profile.html:60
 msgid ""
 "search for your business, click the 'Share' button and paste the link here "
 "(e.g., https://maps.app.goo.gl/...)"
 msgstr ""
+"Найдите свою компанию, нажмите кнопку «Поделиться» и вставьте ссылку сюда:
+(например, https://maps.app.goo.gl/...)"
 
 #: templates/companies/edit_profile.html:93
 msgid "Online Appointments"
-msgstr ""
+msgstr "Онлайн-запись на прием"
 
 #: templates/companies/edit_profile.html:97
 msgid "Enable online appointment booking on your public page"
-msgstr ""
+msgstr "Включите возможность онлайн-записи на прием на вашей общедоступной странице."
 
 #: templates/companies/edit_profile.html:106
 msgid "Calendar Time Slot Interval"
-msgstr ""
+msgstr "Интервал расписания календаря"
 
 #: templates/companies/edit_profile.html:110
 msgid ""
 "Set the time slot interval for your booking calendar in minutes (e.g., 15, "
 "30, 60)"
 msgstr ""
+"Установите интервал временного интервала для вашего календаря бронирования "
+"в минутах (например, 15, 30, 60)."
 
 #: templates/companies/edit_profile.html:118
 msgid "Social Media"
-msgstr ""
+msgstr "Социальные сети"
 
 #: templates/companies/edit_profile.html:123
 #: templates/companies/edit_profile.html:130
 msgid "Platform (e.g., facebook)"
-msgstr ""
+msgstr "Платформа (например, Facebook)"
 
 #: templates/companies/edit_profile.html:124
 #: templates/companies/edit_profile.html:131
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2564
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: templates/companies/edit_profile.html:136
 msgid "+ Add Social Media"
-msgstr ""
+msgstr "+ Добавить социальные сети"
 
 #: templates/companies/edit_profile.html:137
 msgid "Add your social media profiles (e.g., facebook, instagram, twitter)"
-msgstr ""
+msgstr "Добавьте ссылки на свои профили в социальных сетях (например, Facebook, Instagram, Twitter)."
 
 #: templates/companies/edit_profile.html:141
 msgid "Logo"
-msgstr ""
+msgstr "Логотип"
 
 #: templates/companies/edit_profile.html:144
 msgid "Current logo"
-msgstr ""
+msgstr "Текущий логотип"
 
 #: templates/companies/edit_profile.html:147
 #: templates/companies/edit_staff.html:69
@@ -2126,23 +2138,23 @@ msgstr ""
 #: templates/companies/staff_list.html:54
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: templates/companies/edit_profile.html:158
 msgid "Images"
-msgstr ""
+msgstr "Изображения"
 
 #: templates/companies/edit_profile.html:160
 msgid "Drag and drop images to reorder them"
-msgstr ""
+msgstr "Перетаскивайте изображения, чтобы изменить их порядок."
 
 #: templates/companies/edit_profile.html:170
 msgid "Company image"
-msgstr ""
+msgstr "имидж компании"
 
 #: templates/companies/edit_profile.html:185
 msgid "Choose file"
-msgstr ""
+msgstr "Выберите файл"
 
 #: templates/companies/edit_profile.html:199
 #: templates/companies/edit_service.html:112
@@ -2150,51 +2162,51 @@ msgstr ""
 #: templates/companies/edit_staff.html:363
 #: templates/companies/working_hours.html:75
 msgid "Save Changes"
-msgstr ""
+msgstr "Сохранить изменения"
 
 #: templates/companies/edit_service.html:10
 msgid "Edit Service"
-msgstr ""
+msgstr "Редактировать сервис"
 
 #: templates/companies/edit_staff.html:15
 msgid "Edit Staff Member"
-msgstr ""
+msgstr "Редактировать сотрудника"
 
 #: templates/companies/edit_staff.html:19
 msgid "Resend Activation Email"
-msgstr ""
+msgstr "Повторная отправка письма активации"
 
 #: templates/companies/edit_staff.html:66
 msgid "Current avatar"
-msgstr ""
+msgstr "Текущий аватар"
 
 #: templates/companies/edit_staff.html:247
 msgid "Add Period"
-msgstr ""
+msgstr "Добавить период"
 
 #: templates/companies/edit_staff.html:253
 msgid "New Out of Office Period"
-msgstr ""
+msgstr "Новый период отсутствия на рабочем месте"
 
 #: templates/companies/edit_staff.html:256
 msgid "Start Date & Time"
-msgstr ""
+msgstr "Дата и время начала"
 
 #: templates/companies/edit_staff.html:260
 msgid "End Date & Time"
-msgstr ""
+msgstr "Дата и время окончания"
 
 #: templates/companies/edit_staff.html:265
 msgid "Reason (Optional)"
-msgstr ""
+msgstr "Причина (необязательно)"
 
 #: templates/companies/edit_staff.html:266
 msgid "e.g., Vacation, Medical appointment..."
-msgstr ""
+msgstr "Например, отпуск, визит к врачу..."
 
 #: templates/companies/edit_staff.html:296
 msgid "Reason:"
-msgstr ""
+msgstr "Причина:"
 
 #: templates/companies/edit_staff.html:300
 msgid "Added"

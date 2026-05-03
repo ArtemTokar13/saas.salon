@@ -135,6 +135,10 @@ def create_booking(request, company_id):
                 return redirect('create_booking', company_id=company.id)
             
             # Create all bookings in a transaction
+            if request.user.is_authenticated and request.user.userprofile.company == company:
+                created_by = 'staff'
+            else:
+                created_by = 'client'
             created_bookings = []
             with transaction.atomic():
                 for booking_data in bookings_data:
@@ -180,7 +184,7 @@ def create_booking(request, company_id):
                         price=service.price,
                         status=status,
                         delete_code=delete_code,
-                        created_by='client',
+                        created_by=created_by,
                         client_notes=client_notes,
                         booking_phone=normalize_phone_number(customer_phone)
                     )

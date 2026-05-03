@@ -215,3 +215,4 @@ __marimo__/
 docker-compose.yml
 .vscode/launch.json
 .vscode/launch.json
+update_stripe_ids.py

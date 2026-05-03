@@ -574,148 +574,150 @@ msgstr "Узнать больше"
 #: templates/_cookie-consent.html:16
 #: templates/static_pages/cookie_settings.html:63
 msgid "Accept All"
-msgstr ""
+msgstr "Принять все"
 
 #: templates/_cookie-consent.html:20
 #: templates/static_pages/cookie_settings.html:68
 msgid "Essential Only"
-msgstr ""
+msgstr "Только необходимые"
 
 #: templates/_cookie-consent.html:24
 msgid "Customize"
-msgstr ""
+msgstr "Настроить"
 
 #: templates/_footer.html:7
 msgid "Reserva-ya"
-msgstr ""
+msgstr "Reserva-ya"
 
 #: templates/_footer.html:8
 msgid ""
 "Professional booking management system for beauty salons and service "
 "providers."
 msgstr ""
+"Профессиональная система управления бронированием для салонов красоты "
+"и поставщиков услуг."
 
 #: templates/_footer.html:10
 msgid "Your Address Here"
-msgstr ""
+msgstr "Ваш адрес здесь"
 
 #: templates/_footer.html:16
 msgid "Legal"
-msgstr ""
+msgstr "Правовая информация"
 
 #: templates/_footer.html:18 templates/static_pages/privacy_policy.html:4
 #: templates/static_pages/privacy_policy.html:10
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Политика конфиденциальности"
 
 #: templates/_footer.html:19 templates/static_pages/terms_of_service.html:4
 #: templates/static_pages/terms_of_service.html:10
 msgid "Terms of Service"
-msgstr ""
+msgstr "Условия предоставления услуг"
 
 #: templates/_footer.html:20 templates/static_pages/cookie_policy.html:4
 #: templates/static_pages/cookie_policy.html:10
 msgid "Cookie Policy"
-msgstr ""
+msgstr "Политика использования файлов cookie"
 
 #: templates/_footer.html:21 templates/static_pages/cookie_settings.html:4
 #: templates/static_pages/cookie_settings.html:10
 msgid "Cookie Settings"
-msgstr ""
+msgstr "Настройки файлов cookie"
 
 #: templates/_footer.html:27
 msgid "Information"
-msgstr ""
+msgstr "Информация"
 
 #: templates/_footer.html:29 templates/companies/public_page.html:34
 #: templates/static_pages/about_us.html:4
 #: templates/static_pages/about_us.html:10
 msgid "About Us"
-msgstr ""
+msgstr "Про нас"
 
 #: templates/_footer.html:30 templates/static_pages/how_it_works.html:4
 #: templates/static_pages/how_it_works.html:10
 msgid "How It Works"
-msgstr ""
+msgstr "Как это работает"
 
 #: templates/_footer.html:31
 msgid "Pricing Plans"
-msgstr ""
+msgstr "Тарифные планы"
 
 #: templates/_footer.html:32 templates/static_pages/faq.html:4
 msgid "FAQ"
-msgstr ""
+msgstr "Часто задаваемые вопросы"
 
 #: templates/_footer.html:38
 msgid "Support"
-msgstr ""
+msgstr "Поддержка"
 
 #: templates/_footer.html:40 templates/companies/public_page.html:165
 #: templates/static_pages/contact.html:4 templates/static_pages/contact.html:10
 msgid "Contact Us"
-msgstr ""
+msgstr "Связаться с нами"
 
 #: templates/_footer.html:53
 msgid "Salon Booking System. All rights reserved."
-msgstr ""
+msgstr "Система бронирования салона. Все права защищены."
 
 #: templates/_header.html:17 templates/_header.html:69
 msgid "Home"
-msgstr ""
+msgstr "Домой"
 
 #: templates/_header.html:18 templates/_header.html:70
 msgid "Pricing"
-msgstr ""
+msgstr "Цены"
 
 #: templates/_header.html:29 templates/_header.html:78
 msgid "Platform Admin"
-msgstr ""
+msgstr "Администратор платформы"
 
 #: templates/_header.html:32 templates/_header.html:81
 msgid "Dashboard"
-msgstr ""
+msgstr "Панель управления"
 
 #: templates/_header.html:36 templates/_header.html:85
 msgid "Logout"
-msgstr ""
+msgstr "Выйти"
 
 #: templates/_header.html:39 templates/_header.html:88
 #: templates/users/login.html:5
 msgid "Login"
-msgstr ""
+msgstr "Авторизоваться"
 
 #: templates/_header.html:40 templates/_header.html:48
 #: templates/_header.html:89
 msgid "Try Free"
-msgstr ""
+msgstr "Попробуйте бесплатно"
 
 #: templates/billing/change_plan.html:4
 msgid "Choose Plan"
-msgstr ""
+msgstr "Выберите план"
 
 #: templates/billing/change_plan.html:127
 msgid "How many workers do you need?"
-msgstr ""
+msgstr "Сколько работников вам нужно?"
 
 #: templates/billing/change_plan.html:137
 msgid "worker"
-msgstr ""
+msgstr "работник"
 
 #: templates/billing/change_plan.html:137
 msgid "s"
-msgstr ""
+msgstr "а"
 
 #: templates/billing/change_plan.html:145
 msgid "Base"
-msgstr ""
+msgstr "База"
 
 #: templates/billing/change_plan.html:145
 msgid "workers included"
-msgstr ""
+msgstr "работника включено"
 
 #: templates/billing/change_plan.html:145
 msgid "Each additional worker"
-msgstr ""
+msgstr "Каждый дополнительный работник"
 
 #: templates/billing/change_plan.html:145
 #: templates/billing/change_plan.html:179
@@ -725,19 +727,19 @@ msgstr ""
 #: templates/billing/pricing_periods.html:101
 #: templates/billing/subscription_details.html:42
 msgid "month"
-msgstr ""
+msgstr "месяц"
 
 #: templates/billing/change_plan.html:151
 msgid "Select Billing Period"
-msgstr ""
+msgstr "Выберите расчетный период"
 
 #: templates/billing/change_plan.html:171
 msgid "SAVE"
-msgstr ""
+msgstr "СБЕРЕЧЬ"
 
 #: templates/billing/change_plan.html:188
 msgid "Continue to Payment"
-msgstr ""
+msgstr "Перейти к оплате"
 
 #: templates/billing/change_plan.html:191
 #: templates/bookings/confirm_prebooked.html:90
@@ -752,44 +754,45 @@ msgstr ""
 #: templates/companies/working_hours.html:72
 #: templates/socialaccount/signup.html:56
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: templates/billing/change_plan.html:203
 msgid "Billing Information"
-msgstr ""
+msgstr "Платежная информация"
 
 #: templates/billing/change_plan.html:206
 msgid "You will be redirected to Stripe to complete your payment securely."
 msgstr ""
+"Вы будете перенаправлены на сайт Stripe для безопасного завершения платежа."
 
 #: templates/billing/change_plan.html:209
 msgid "Secure payment processing"
-msgstr ""
+msgstr "Безопасная обработка платежей"
 
 #: templates/billing/change_plan.html:210
 msgid "Cancel anytime"
-msgstr ""
+msgstr "Отменить можно в любое время."
 
 #: templates/billing/change_plan.html:211
 msgid "Automatic renewal"
-msgstr ""
+msgstr "Автоматическое продление"
 
 #: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:5
 #: templates/billing/view_plans.html:11
 msgid "Choose Your Plan"
-msgstr ""
+msgstr "Choose Your Plan"
 
 #: templates/billing/pricing_periods.html:11
 msgid "Choose Your Billing Period"
-msgstr ""
+msgstr "Выберите расчетный период"
 
 #: templates/billing/pricing_periods.html:12
 msgid "Save more with longer billing periods"
-msgstr ""
+msgstr "Экономьте больше благодаря более длительным расчетным периодам."
 
 #: templates/billing/pricing_periods.html:31
 msgid "Billed monthly"
-msgstr ""
+msgstr "Оплата ежемесячно"
 
 #: templates/billing/pricing_periods.html:34
 #: templates/billing/pricing_periods.html:59
@@ -797,7 +800,7 @@ msgstr ""
 #: templates/billing/pricing_periods.html:109
 #: templates/billing/view_plans.html:76
 msgid "Select Plan"
-msgstr ""
+msgstr "Выберите план"
 
 #: templates/billing/pricing_periods.html:42
 #: templates/billing/pricing_periods.html:53
@@ -806,12 +809,12 @@ msgstr ""
 #: templates/billing/pricing_periods.html:103
 #: templates/companies/reset_password.html:47
 msgid "Save"
-msgstr ""
+msgstr "Сберечь"
 
 #: templates/billing/pricing_periods.html:48
 #: templates/billing/pricing_periods.html:73
 msgid "months"
-msgstr ""
+msgstr "месяц"
 
 #: templates/billing/pricing_periods.html:56
 msgid "Billed every 3 months"
@@ -819,48 +822,48 @@ msgstr ""
 
 #: templates/billing/pricing_periods.html:81
 msgid "Billed every 6 months"
-msgstr ""
+msgstr "Оплата производится каждые 6 месяцев."
 
 #: templates/billing/pricing_periods.html:92
-msgid "Mejor Valor - Ahorre"
-msgstr ""
+msgid "Best Value - Save"
+msgstr "Выгоднее — Экономьте"
 
 #: templates/billing/pricing_periods.html:98
 msgid "year"
-msgstr ""
+msgstr "год"
 
 #: templates/billing/pricing_periods.html:106
 msgid "Billed annually"
-msgstr ""
+msgstr "Оплата ежегодно"
 
 #: templates/billing/pricing_periods.html:119
 msgid "Pricing Comparison"
-msgstr ""
+msgstr "Сравнение цен"
 
 #: templates/billing/pricing_periods.html:124
 msgid "Billing Period"
-msgstr ""
+msgstr "Расчетный период"
 
 #: templates/billing/pricing_periods.html:125
 msgid "Total Price"
-msgstr ""
+msgstr "Общая цена"
 
 #: templates/billing/pricing_periods.html:126
 msgid "Effective Monthly"
-msgstr ""
+msgstr "Действует ежемесячно"
 
 #: templates/billing/pricing_periods.html:127
 msgid "Discount"
-msgstr ""
+msgstr "Скидка"
 
 #: templates/billing/pricing_periods.html:128
 msgid "You Save"
-msgstr ""
+msgstr "Вы экономите"
 
 #: templates/billing/subscription_details.html:4
 #: templates/billing/subscription_details.html:18
 msgid "Subscription & Billing"
-msgstr ""
+msgstr "Подписка и оплата"
 
 #: templates/billing/subscription_details.html:13
 #: templates/companies/customer_detail.html:11
@@ -868,139 +871,140 @@ msgstr ""
 #: templates/companies/services_list.html:10
 #: templates/companies/staff_list.html:10
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: templates/billing/subscription_details.html:31
 msgid "Current Subscription"
-msgstr ""
+msgstr "Текущая подписка"
 
 #: templates/billing/subscription_details.html:50
 msgid "Start Date"
-msgstr ""
+msgstr "Дата начала"
 
 #: templates/billing/subscription_details.html:54
 msgid "Next Billing Date"
-msgstr ""
+msgstr "Дата следующего выставления счета"
 
 #: templates/billing/subscription_details.html:60
 msgid "Change Plan"
-msgstr ""
+msgstr "Сменить план"
 
 #: templates/billing/subscription_details.html:63
 msgid "Cancel Subscription"
-msgstr ""
+msgstr "Отменить подписку"
 
 #: templates/billing/subscription_details.html:69
 msgid "No active subscription"
-msgstr ""
+msgstr "Нет активной подписки"
 
 #: templates/billing/subscription_details.html:71
 msgid "View Available Plans"
-msgstr ""
+msgstr "Посмотреть доступные тарифные планы"
 
 #: templates/billing/subscription_details.html:81
 msgid "Billing History"
-msgstr ""
+msgstr "История платежей"
 
 #: templates/billing/subscription_details.html:88
 #: templates/bookings/bookings_list.html:64
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: templates/billing/subscription_details.html:89
 msgid "Transaction ID"
-msgstr ""
+msgstr "Идентификатор транзакции"
 
 #: templates/billing/subscription_details.html:90
 msgid "Plan"
-msgstr ""
+msgstr "План"
 
 #: templates/billing/subscription_details.html:91
 #: templates/companies/analytics.html:150
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: templates/billing/subscription_details.html:92
 msgid "Amount"
-msgstr ""
+msgstr "Количество"
 
 #: templates/billing/subscription_details.html:128
 msgid "No billing history yet"
-msgstr ""
+msgstr "История платежей пока отсутствует."
 
 #: templates/billing/subscription_details.html:139
 msgid "Account Summary"
-msgstr ""
+msgstr "Сводка по счету"
 
 #: templates/billing/subscription_details.html:142
 #: templates/companies/analytics.html:423
 msgid "Total Spent"
-msgstr ""
+msgstr "Total Spent"
 
 #: templates/billing/subscription_details.html:148
 msgid "Active Since"
-msgstr ""
+msgstr "Активен с"
 
 #: templates/billing/subscription_details.html:158
 msgid "Transactions"
-msgstr ""
+msgstr "Транзакции"
 
 #: templates/billing/subscription_details.html:166
 msgid "Need Help?"
-msgstr ""
+msgstr "Нужна помощь?"
 
 #: templates/billing/subscription_details.html:168
 msgid "Have questions about billing or your subscription?"
-msgstr ""
+msgstr "Возникли вопросы по оплате или подписке?"
 
 #: templates/billing/subscription_details.html:171
 #: templates/static_pages/faq.html:67
 msgid "Contact Support"
-msgstr ""
+msgstr "Связаться со службой поддержки"
 
 #: templates/billing/view_plans.html:12
 msgid "Select the plan that best fits your business needs"
-msgstr ""
+msgstr "Выберите тарифный план, который наилучшим образом соответствует "
+"потребностям вашего бизнеса."
 
 #: templates/billing/view_plans.html:20 templates/billing/view_plans.html:65
 msgid "Current Plan"
-msgstr ""
+msgstr "Текущий план"
 
 #: templates/billing/view_plans.html:46
 msgid "Up to"
-msgstr ""
+msgstr "До"
 
 #: templates/billing/view_plans.html:46
 msgid "staff members"
-msgstr ""
+msgstr "работников"
 
 #: templates/billing/view_plans.html:50
 msgid "Unlimited bookings"
-msgstr ""
+msgstr "Неограниченное количество бронирований"
 
 #: templates/billing/view_plans.html:54
 msgid "Calendar view"
-msgstr ""
+msgstr "Календарный вид"
 
 #: templates/billing/view_plans.html:58
 msgid "Public booking page"
-msgstr ""
+msgstr "Страница онлайн‑бронирования"
 
 #: templates/billing/view_plans.html:71
 msgid "Register"
-msgstr ""
+msgstr "Зарегистрироватся"
 
 #: templates/billing/view_plans.html:75
 msgid "Are you sure you want to switch to"
-msgstr ""
+msgstr "Вы уверены, что хотите переключиться на"
 
 #: templates/billing/view_plans.html:84
 msgid "No plans available at the moment"
-msgstr ""
+msgstr "В данный момент планы отсутствуют."
 
 #: templates/bookings/bookings_list.html:4
 msgid "Bookings List"
-msgstr ""
+msgstr "Список бронирований"
 
 #: templates/bookings/bookings_list.html:10
 #: templates/companies/analytics.html:132
@@ -1009,44 +1013,44 @@ msgstr ""
 #: templates/companies/analytics.html:545
 #: templates/companies/analytics.html:653
 msgid "Bookings"
-msgstr ""
+msgstr "Бронирования"
 
 #: templates/bookings/bookings_list.html:29
 #: templates/bookings/confirmation.html:40
 msgid "Confirmed"
-msgstr ""
+msgstr "Подтверждено"
 
 #: templates/bookings/bookings_list.html:30
 msgid "Prebooked"
-msgstr ""
+msgstr "Предварительное бронирование"
 
 #: templates/bookings/bookings_list.html:35
 msgid "Hide Filter"
-msgstr ""
+msgstr "Скрыть фильтр"
 
 #: templates/bookings/bookings_list.html:36
 msgid "Show Filter"
-msgstr ""
+msgstr "Показать фильтр"
 
 #: templates/bookings/bookings_list.html:43
 msgid "Search by name, phone, email"
-msgstr ""
+msgstr "Поиск по имени, телефону, электронной почте."
 
 #: templates/bookings/bookings_list.html:44
 msgid "From"
-msgstr ""
+msgstr "С"
 
 #: templates/bookings/bookings_list.html:45
 msgid "To"
-msgstr ""
+msgstr "До"
 
 #: templates/bookings/bookings_list.html:47
 msgid "All Services"
-msgstr ""
+msgstr "Все услуги"
 
 #: templates/bookings/bookings_list.html:52
 msgid "Filter"
-msgstr ""
+msgstr "Фильтр"
 
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
@@ -1055,44 +1059,44 @@ msgstr ""
 #: templates/bookings/create_booking.html:101
 #: templates/bookings/edit_booking.html:78
 msgid "Service"
-msgstr ""
+msgstr "Услуга"
 
 #: templates/bookings/bookings_list.html:63
 #: templates/bookings/confirm_prebooked.html:41
 msgid "Staff"
-msgstr ""
+msgstr "Работник"
 
 #: templates/bookings/bookings_list.html:65
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2456
 msgid "Time"
-msgstr ""
+msgstr "Время"
 
 #: templates/bookings/bookings_list.html:66
 #: templates/bookings/confirm_prebooked.html:25
 msgid "Customer"
-msgstr ""
+msgstr "Клиент"
 
 #: templates/bookings/bookings_list.html:67
 msgid "Phone & Email"
-msgstr ""
+msgstr "Телефон и электронная почта"
 
 #: templates/bookings/bookings_list.html:68
 #: templates/companies/analytics.html:426
 #: templates/companies/services_list.html:30
 #: templates/companies/staff_list.html:28
 msgid "Actions"
-msgstr ""
+msgstr "Действия"
 
 #: templates/bookings/bookings_list.html:84
 #: templates/companies/services_list.html:48
 #: templates/companies/staff_list.html:53
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: templates/bookings/bookings_list.html:89
 #: templates/companies/customer_detail.html:76
 msgid "No bookings found."
-msgstr ""
+msgstr "No bookings found."
 
 #: templates/bookings/confirm_prebooked.html:10
 #: templates/bookings/create_booking.html:199
@@ -1100,12 +1104,12 @@ msgstr ""
 #: templates/bookings/edit_booking.html:216
 #: templates/static_pages/how_it_works.html:74
 msgid "Confirm Booking"
-msgstr ""
+msgstr "Подтвердить бронирование"
 
 #: templates/bookings/confirm_prebooked.html:21
 #: templates/bookings/confirmation.html:127
 msgid "Booking Details"
-msgstr ""
+msgstr "Детали бронирования"
 
 #: templates/bookings/confirm_prebooked.html:29
 #: templates/bookings/create_booking.html:48
@@ -1116,13 +1120,13 @@ msgstr ""
 #: templates/companies/edit_profile.html:69
 #: templates/companies/register.html:122
 msgid "Phone"
-msgstr ""
+msgstr "Телефон"
 
 #: templates/bookings/confirm_prebooked.html:37
 #: templates/bookings/confirmation.html:51
 #: templates/bookings/confirmation.html:142
 msgid "Date & Time"
-msgstr ""
+msgstr "Дата и время"
 
 #: templates/bookings/confirm_prebooked.html:46
 #: templates/bookings/edit_booking.html:69
@@ -1132,18 +1136,18 @@ msgstr ""
 #: templates/companies/forgot_password.html:15
 #: templates/companies/register.html:57 templates/static_pages/contact.html:23
 msgid "Email"
-msgstr ""
+msgstr "Электронная почта"
 
 #: templates/bookings/confirm_prebooked.html:58
 #: templates/bookings/edit_booking.html:95
 #: templates/companies/add_service.html:29
 #: templates/companies/edit_service.html:29
 msgid "Duration (minutes)"
-msgstr ""
+msgstr "Длительность (в минутах)"
 
 #: templates/bookings/confirm_prebooked.html:68
 msgid "Minimum 15 minutes"
-msgstr ""
+msgstr "Минимум 15 минут"
 
 #: templates/bookings/confirm_prebooked.html:72
 #: templates/bookings/confirmation.html:62
@@ -1152,37 +1156,38 @@ msgstr ""
 #: templates/companies/edit_service.html:45
 #: templates/companies/services_list.html:26
 msgid "Price"
-msgstr ""
+msgstr "Цена"
 
 #: templates/bookings/confirm_prebooked.html:93
 #: templates/bookings/create_booking.html:885
 msgid "Confirm"
-msgstr ""
+msgstr "Подтвердить"
 
 #: templates/bookings/confirmation.html:18
 msgid "Bookings Confirmed!"
-msgstr ""
+msgstr "Бронирование подтверждено!"
 
 #: templates/bookings/confirmation.html:19
 msgid "Thank you for booking"
-msgstr ""
+msgstr "Спасибо за бронирование"
 
 #: templates/bookings/confirmation.html:19
 msgid "services with us."
-msgstr ""
+msgstr "услуги у нас."
 
 #: templates/bookings/confirmation.html:21
 msgid "Some services require staff confirmation. We will contact you soon."
 msgstr ""
+"Для некоторых услуг требуется подтверждение от персонала. Мы свяжемся с вами в ближайшее время."
 
 #: templates/bookings/confirmation.html:36
 msgid "Pending Confirmation"
-msgstr ""
+msgstr "Ожидается подтверждение"
 
 #: templates/bookings/confirmation.html:47
 #: templates/bookings/confirmation.html:138
 msgid "Specialist"
-msgstr ""
+msgstr "Специалист"
 
 #: templates/bookings/confirmation.html:58
 #: templates/bookings/confirmation.html:149
@@ -1190,84 +1195,85 @@ msgstr ""
 #: templates/static_pages/cookie_policy.html:67
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1793
 msgid "Duration"
-msgstr ""
+msgstr "Продолжительность"
 
 #: templates/bookings/confirmation.html:59
 #: templates/bookings/edit_booking.html:84
 #: templates/companies/analytics.html:159
 #: templates/companies/analytics.html:346
 msgid "min"
-msgstr ""
+msgstr "минут"
 
 #: templates/bookings/confirmation.html:69
 #: templates/bookings/confirmation.html:172
 msgid "Are you sure you want to cancel this booking?"
-msgstr ""
+msgstr "Вы уверены, что хотите отменить это бронирование?"
 
 #: templates/bookings/confirmation.html:71
 msgid "Cancel this service"
-msgstr ""
+msgstr "Отменить эту услугу"
 
 #: templates/bookings/confirmation.html:92
 #: templates/bookings/confirmation.html:165
 msgid "Back to"
-msgstr ""
+msgstr "Назад к"
 
 #: templates/bookings/confirmation.html:96
 #: templates/bookings/confirmation.html:169
 msgid "Go to Home"
-msgstr ""
+msgstr "Перейти на главную страницу"
 
 #: templates/bookings/confirmation.html:109
 msgid "Booking Received!"
-msgstr ""
+msgstr "Бронирование получено!"
 
 #: templates/bookings/confirmation.html:110
 msgid "Thank you for your booking. For confirm your booking, please call"
 msgstr ""
+"Благодарим вас за бронирование. Для подтверждения бронирования, пожалуйста, позвоните по телефону."
 
 #: templates/bookings/confirmation.html:113
 msgid "Status:"
-msgstr ""
+msgstr "Статус:"
 
 #: templates/bookings/confirmation.html:113
 msgid "Awaiting Staff Confirmation"
-msgstr ""
+msgstr "Ожидается подтверждение от персонала."
 
 #: templates/bookings/confirmation.html:122
 msgid "Booking Confirmed!"
-msgstr ""
+msgstr "Бронирование подтверждено!"
 
 #: templates/bookings/confirmation.html:123
 msgid "Thank you for your booking."
-msgstr ""
+msgstr "Спасибо за бронирование."
 
 #: templates/bookings/confirmation.html:130
 msgid "Company"
-msgstr ""
+msgstr "Салон"
 
 #: templates/bookings/confirmation.html:150
 #: templates/companies/services_list.html:38
 #: templates/companies/services_list.html:39
 msgid "minutes"
-msgstr ""
+msgstr "минут"
 
 #: templates/bookings/confirmation.html:174
 msgid "Cancel Booking"
-msgstr ""
+msgstr "Отменить бронирование"
 
 #: templates/bookings/create_booking.html:17
 msgid "Book Your Appointment"
-msgstr ""
+msgstr "Запишитесь на прием"
 
 #: templates/bookings/create_booking.html:29
 #: templates/bookings/edit_booking.html:34
 msgid "Please complete the following fields:"
-msgstr ""
+msgstr "Пожалуйста, заполните следующие поля:"
 
 #: templates/bookings/create_booking.html:40
 msgid "Your Information"
-msgstr ""
+msgstr "Ваша информация"
 
 #: templates/bookings/create_booking.html:43
 #: templates/companies/add_service.html:21
@@ -1279,208 +1285,208 @@ msgstr ""
 #: templates/companies/staff_list.html:25
 #: templates/static_pages/contact.html:17
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: templates/bookings/create_booking.html:48
 #: templates/bookings/edit_booking.html:59
 msgid "(e.g. +1234567890)"
-msgstr ""
+msgstr "(например, +1234567890)"
 
 #: templates/bookings/create_booking.html:66
 #: templates/companies/add_staff.html:252 templates/companies/dashboard.html:35
 #: templates/companies/edit_staff.html:322
 #: templates/companies/services_list.html:15
 msgid "Services"
-msgstr ""
+msgstr "Услуги"
 
 #: templates/bookings/create_booking.html:81
 #: templates/companies/add_service.html:10
 #: templates/companies/add_service.html:103
 #: templates/companies/dashboard.html:89
 msgid "Add Service"
-msgstr ""
+msgstr "Добавить услугу"
 
 #: templates/bookings/create_booking.html:103
 #: templates/bookings/edit_booking.html:81
 msgid "Choose a service..."
-msgstr ""
+msgstr "Выберите услугу..."
 
 #: templates/bookings/create_booking.html:115
 #: templates/bookings/edit_booking.html:106
 msgid "Select Specialist"
-msgstr ""
+msgstr "Выберите специалиста"
 
 #: templates/bookings/create_booking.html:115
 #: templates/bookings/create_booking.html:184
 msgid "Optional"
-msgstr ""
+msgstr "Необязательно"
 
 #: templates/bookings/create_booking.html:118
 #: templates/bookings/edit_booking.html:108
 msgid "Please select a service first"
-msgstr ""
+msgstr "Пожалуйста, сначала выберите услугу."
 
 #: templates/bookings/create_booking.html:132
 #: templates/bookings/edit_booking.html:125
 msgid "Select Date & Time"
-msgstr ""
+msgstr "Выберите дату и время"
 
 #: templates/bookings/create_booking.html:137
 #: templates/bookings/edit_booking.html:130
 #: templates/companies/add_service.html:53
 #: templates/companies/edit_service.html:53
 msgid "Available Dates"
-msgstr ""
+msgstr "Доступные даты"
 
 #: templates/bookings/create_booking.html:153
 #: templates/bookings/edit_booking.html:146
 msgid "Please select a specialist first"
-msgstr ""
+msgstr "Пожалуйста, сначала выберите специалиста."
 
 #: templates/bookings/create_booking.html:157
 #: templates/bookings/edit_booking.html:150
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:22
 msgid "Sun"
-msgstr ""
+msgstr "Вс"
 
 #: templates/bookings/create_booking.html:158
 #: templates/bookings/edit_booking.html:151
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:16
 msgid "Mon"
-msgstr ""
+msgstr "Пн"
 
 #: templates/bookings/create_booking.html:159
 #: templates/bookings/edit_booking.html:152
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:17
 msgid "Tue"
-msgstr ""
+msgstr "Вт"
 
 #: templates/bookings/create_booking.html:160
 #: templates/bookings/edit_booking.html:153
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:18
 msgid "Wed"
-msgstr ""
+msgstr "Ср"
 
 #: templates/bookings/create_booking.html:161
 #: templates/bookings/edit_booking.html:154
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:19
 msgid "Thu"
-msgstr ""
+msgstr "Чт"
 
 #: templates/bookings/create_booking.html:162
 #: templates/bookings/edit_booking.html:155
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:20
 msgid "Fri"
-msgstr ""
+msgstr "Пт"
 
 #: templates/bookings/create_booking.html:163
 #: templates/bookings/edit_booking.html:156
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:21
 msgid "Sat"
-msgstr ""
+msgstr "Сб"
 
 #: templates/bookings/create_booking.html:172
 #: templates/bookings/edit_booking.html:168
 msgid "Available Time"
-msgstr ""
+msgstr "Доступное время"
 
 #: templates/bookings/create_booking.html:184
 msgid "Additional Notes"
-msgstr ""
+msgstr "Дополнительные комментарии"
 
 #: templates/bookings/create_booking.html:186
 msgid "Do you have any special requests or notes?"
-msgstr ""
+msgstr "У вас есть какие-либо особые пожелания или замечания?"
 
 #: templates/bookings/create_booking.html:211
 msgid "Any Available"
-msgstr ""
+msgstr "Любой доступный"
 
 #: templates/bookings/create_booking.html:212
 msgid "We'll assign"
-msgstr ""
+msgstr "Мы назначим"
 
 #: templates/bookings/create_booking.html:886
 msgid "services"
-msgstr ""
+msgstr "услуги"
 
 #: templates/bookings/edit_booking.html:19
 msgid "Edit Booking"
-msgstr ""
+msgstr "Редактировать бронирование"
 
 #: templates/bookings/edit_booking.html:51
 msgid "Customer Information"
-msgstr ""
+msgstr "Информация о клиенте"
 
 #: templates/bookings/edit_booking.html:54
 #: templates/companies/analytics.html:417
 msgid "Customer Name"
-msgstr ""
+msgstr "Имя клиента"
 
 #: templates/bookings/edit_booking.html:76
 msgid "Select Service"
-msgstr ""
+msgstr "Выберите услугу"
 
 #: templates/bookings/edit_booking.html:183
 msgid "Booking details"
-msgstr ""
+msgstr "Детали бронирования"
 
 #: templates/bookings/edit_booking.html:187
 msgid "View customer details"
-msgstr ""
+msgstr "Просмотреть данные о клиенте"
 
 #: templates/bookings/edit_booking.html:203
 msgid "Client Notes"
-msgstr ""
+msgstr "Примечания клиента"
 
 #: templates/bookings/edit_booking.html:203
 msgid "from customer"
-msgstr ""
+msgstr "от клиента"
 
 #: templates/bookings/edit_booking.html:333
 msgid "Phone (must include country code, e.g. +1234567890)"
-msgstr ""
+msgstr "Номер телефона (обязательно должен включать код страны, например, +1234567890)"
 
 #: templates/companies/activate_staff_account.html:10
 #: templates/email/staff_activation.html:83
 msgid "Activate Staff Account"
-msgstr ""
+msgstr "Активировать учетную запись сотрудника"
 
 #: templates/companies/activate_staff_account.html:11
 msgid "Please set your password to activate your account."
-msgstr ""
+msgstr "Пожалуйста, установите пароль для активации вашей учетной записи."
 
 #: templates/companies/activate_staff_account.html:31
 #: templates/companies/register.html:69
 #: templates/companies/reset_password.html:31 templates/users/login.html:45
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: templates/companies/activate_staff_account.html:39
 #: templates/companies/register.html:76
 #: templates/companies/reset_password.html:39
 msgid "Confirm Password"
-msgstr ""
+msgstr "Подтвердить пароль"
 
 #: templates/companies/activate_staff_account.html:47
 msgid "Activate"
-msgstr ""
+msgstr "Активировать"
 
 #: templates/companies/activate_staff_account.html:52
 #: templates/companies/forgot_password.html:23
 #: templates/companies/reset_password.html:52
 msgid "Return to homepage"
-msgstr ""
+msgstr "Вернуться на главную страницу"
 
 #: templates/companies/add_service.html:37
 #: templates/companies/edit_service.html:37
 msgid "Time for Servicing (minutes)"
-msgstr ""
+msgstr "Время, затраченное на обслуживание инструментов (в минутах)"
 
 #: templates/companies/add_service.html:60
 #: templates/companies/edit_service.html:60
 msgid "Restrict service to specific dates only"
-msgstr ""
+msgstr "Ограничьте предоставление услуг только определенными датами."
 
 #: templates/companies/add_service.html:63
 #: templates/companies/edit_service.html:63
@@ -1488,11 +1494,13 @@ msgid ""
 "Specify up to 10 dates when this service is available. Leave empty if always "
 "available."
 msgstr ""
+"Укажите до 10 дат, когда эта услуга доступна. Оставьте поле пустым, если "
+"услуга всегда доступна."
 
 #: templates/companies/add_service.html:70
 #: templates/companies/edit_service.html:79
 msgid "+ Add Date"
-msgstr ""
+msgstr "+ Добавить дату"
 
 #: templates/companies/add_service.html:79
 #: templates/companies/edit_service.html:88

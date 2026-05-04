@@ -796,7 +796,7 @@ msgstr "Автоматическое продление"
 #: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:5
 #: templates/billing/view_plans.html:11
 msgid "Choose Your Plan"
-msgstr "Choose Your Plan"
+msgstr "Выберите свой план"
 
 #: templates/billing/pricing_periods.html:11
 msgid "Choose Your Billing Period"

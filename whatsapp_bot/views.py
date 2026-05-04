@@ -133,7 +133,7 @@ def find_and_link_customer(conversation: WhatsAppConversation) -> Customer:
     
     # Normalize the WhatsApp phone number (format: whatsapp:+1234567890)
     phone = conversation.phone_number
-    normalized_phone = normalize_phone_number(phone, '')
+    normalized_phone = normalize_phone_number(phone)
     
     # Try to find customer by phone number
     # Check both normalized and various formats

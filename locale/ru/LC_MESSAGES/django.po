@@ -80,11 +80,15 @@ msgstr "Примечания клиента..."
 
 #: bookings/forms.py:99
 msgid "Phone number must include country code (e.g., +34612345678)"
-msgstr "В номер телефона обязательно должен быть включен код страны (например, +34612345678)."
+msgstr ""
+"В номер телефона обязательно должен быть включен код страны (например, "
+"+34612345678)."
 
 #: bookings/forms.py:105
 msgid "Phone number is too short. Please include country code and full number."
-msgstr "Номер телефона слишком короткий. Пожалуйста, укажите код страны и полный номер."
+msgstr ""
+"Номер телефона слишком короткий. Пожалуйста, укажите код страны и полный "
+"номер."
 
 #: bookings/forms.py:136
 msgid ""
@@ -92,9 +96,9 @@ msgid ""
 "%H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select "
 "a different date/time or staff member."
 msgstr ""
-"{staff.name} отсутствует на рабочем месте с {period.start_datetime.strftime('%Y-%m-%d "
-"%H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Пожалуйста, "
-"выберите другую дату/время или другого сотрудника."
+"{staff.name} отсутствует на рабочем месте с {period.start_datetime."
+"strftime('%Y-%m-%d %H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:"
+"%M')}. Пожалуйста, выберите другую дату/время или другого сотрудника."
 
 #: companies/forms.py:93 companies/models.py:11
 #: templates/companies/add_staff.html:108
@@ -170,8 +174,8 @@ msgid ""
 "Reduce no‑shows, save time, and let clients book 24/7 — all in one simple "
 "platform."
 msgstr ""
-"Сократите количество неявок, сэкономьте время и позвольте клиентам бронировать "
-"круглосуточно — все это на одной простой платформе."
+"Сократите количество неявок, сэкономьте время и позвольте клиентам "
+"бронировать круглосуточно — все это на одной простой платформе."
 
 #: templates/Index.html:23
 msgid "Start Free Trial"
@@ -206,8 +210,8 @@ msgid ""
 "Your customers can now book appointments by simply sending a WhatsApp "
 "message! The AI assistant will:"
 msgstr ""
-"Теперь ваши клиенты могут записываться на прием, просто отправив сообщение "
-"в WhatsApp! Искусственный интеллект-помощник выполнит следующие действия:"
+"Теперь ваши клиенты могут записываться на прием, просто отправив сообщение в "
+"WhatsApp! Искусственный интеллект-помощник выполнит следующие действия:"
 
 #: templates/Index.html:78 templates/companies/dashboard.html:205
 msgid "Understand natural language requests"
@@ -237,7 +241,8 @@ msgstr "Онлайн-бронирование"
 msgid ""
 "Let clients book appointments anytime. Automatic confirmations included."
 msgstr ""
-"Позвольте клиентам записываться на прием в любое время. Автоматическое подтверждение включено."
+"Позвольте клиентам записываться на прием в любое время. Автоматическое "
+"подтверждение включено."
 
 #: templates/Index.html:126
 msgid "WhatsApp Reminders"
@@ -264,7 +269,9 @@ msgstr "Управление услугами"
 
 #: templates/Index.html:150
 msgid "Create services, durations, prices, and assign them to staff."
-msgstr "Создавайте услуги, устанавливайте продолжительность, цены и назначайте их сотрудникам."
+msgstr ""
+"Создавайте услуги, устанавливайте продолжительность, цены и назначайте их "
+"сотрудникам."
 
 #: templates/Index.html:159
 msgid "Client Profiles"
@@ -272,7 +279,8 @@ msgstr "Профили клиентов"
 
 #: templates/Index.html:161
 msgid "Keep track of client history, notes, and preferences."
-msgstr "Отслеживайте историю взаимодействия с клиентами, заметки и их предпочтения."
+msgstr ""
+"Отслеживайте историю взаимодействия с клиентами, заметки и их предпочтения."
 
 #: templates/Index.html:170
 msgid "Analytics Dashboard"
@@ -293,7 +301,9 @@ msgstr "Клиенты мгновенно читают сообщения WhatsA
 #: templates/Index.html:192
 #, python-format
 msgid "Higher open rates than email — 97%% read rate within minutes"
-msgstr "Более высокий процент открытия, чем у электронной почты — 97%% прочитанных за минуты"
+msgstr ""
+"Более высокий процент открытия, чем у электронной почты — 97%% прочитанных "
+"за минуты"
 
 #: templates/Index.html:198
 msgid "Reduce missed appointments"
@@ -353,7 +363,9 @@ msgstr "Идеально подходит для предприятий инду
 
 #: templates/Index.html:248
 msgid "If you run any of these, Reserva-Ya is for you"
-msgstr "Если вы используете что-либо из перечисленного, Reserva-Ya — это то, что вам нужно."
+msgstr ""
+"Если вы используете что-либо из перечисленного, Reserva-Ya — это то, что вам "
+"нужно."
 
 #: templates/Index.html:255
 msgid "Hair salons"
@@ -468,8 +480,9 @@ msgid ""
 "Yes, bookings work on any device through a web link. Clients don't need to "
 "download anything — they simply click your booking link and book."
 msgstr ""
-"Да, бронирование работает на любом устройстве через веб-ссылку. Клиентам "
-"не нужно ничего скачивать — они просто переходят по вашей ссылке для бронирования и бронируют."
+"Да, бронирование работает на любом устройстве через веб-ссылку. Клиентам не "
+"нужно ничего скачивать — они просто переходят по вашей ссылке для "
+"бронирования и бронируют."
 
 #: templates/Index.html:406
 msgid "Is WhatsApp included?"
@@ -492,8 +505,8 @@ msgid ""
 "Of course — no long-term contracts. You can cancel your subscription anytime "
 "from your account settings."
 msgstr ""
-"Конечно, никаких долгосрочных контрактов. Вы можете отменить подписку в любое время "
-"в настройках своей учетной записи."
+"Конечно, никаких долгосрочных контрактов. Вы можете отменить подписку в "
+"любое время в настройках своей учетной записи."
 
 #: templates/Index.html:428
 msgid "How do I connect WhatsApp?"
@@ -504,8 +517,8 @@ msgid ""
 "We provide step-by-step instructions to connect your WhatsApp account. It's "
 "a simple 5-minute setup process."
 msgstr ""
-"Мы предоставляем пошаговые инструкции по подключению вашей учетной записи WhatsApp. Это "
-"простой процесс настройки, занимающий всего 5 минут."
+"Мы предоставляем пошаговые инструкции по подключению вашей учетной записи "
+"WhatsApp. Это простой процесс настройки, занимающий всего 5 минут."
 
 #: templates/Index.html:444
 msgid "See the Platform in Action"
@@ -533,7 +546,8 @@ msgstr "Готовы развивать свой салон?"
 
 #: templates/Index.html:496
 msgid "Start your free trial today — no credit card required."
-msgstr "Начните бесплатную пробную версию сегодня — кредитная карта не требуется."
+msgstr ""
+"Начните бесплатную пробную версию сегодня — кредитная карта не требуется."
 
 #: templates/Index.html:500
 msgid "Start Your Free Trial Today"
@@ -541,7 +555,9 @@ msgstr "Начните бесплатную пробную версию сего
 
 #: templates/Index.html:503
 msgid "30 days free. No credit card. Cancel anytime."
-msgstr "30 дней бесплатно. Кредитная карта не требуется. Отменить можно в любое время."
+msgstr ""
+"30 дней бесплатно. Кредитная карта не требуется. Отменить можно в любое "
+"время."
 
 #: templates/Index.html:511
 msgid "Welcome back!"
@@ -561,10 +577,10 @@ msgid ""
 "also use non-essential cookies to improve user experience and analyze "
 "website traffic. By clicking 'Accept All', you agree to our use of cookies."
 msgstr ""
-"Для обеспечения работы нашего сайта мы используем основные файлы cookie. "
-"С вашего согласия мы можем также использовать дополнительные файлы cookie "
-"для улучшения пользовательского опыта и анализа трафика сайта. "
-"Нажав «Принять все», вы соглашаетесь с использованием файлов cookie."
+"Для обеспечения работы нашего сайта мы используем основные файлы cookie. С "
+"вашего согласия мы можем также использовать дополнительные файлы cookie для "
+"улучшения пользовательского опыта и анализа трафика сайта. Нажав «Принять "
+"все», вы соглашаетесь с использованием файлов cookie."
 
 #: templates/_cookie-consent.html:10
 msgid "Learn more"
@@ -593,8 +609,8 @@ msgid ""
 "Professional booking management system for beauty salons and service "
 "providers."
 msgstr ""
-"Профессиональная система управления бронированием для салонов красоты "
-"и поставщиков услуг."
+"Профессиональная система управления бронированием для салонов красоты и "
+"поставщиков услуг."
 
 #: templates/_footer.html:10
 msgid "Your Address Here"
@@ -761,8 +777,9 @@ msgstr "Платежная информация"
 
 #: templates/billing/change_plan.html:206
 msgid "You will be redirected to Stripe to complete your payment securely."
-msgstr "Вы будете перенаправлены в Stripe для безопасного завершения оплаты."
-"Вы будете перенаправлены на сайт Stripe для безопасного завершения платежа."
+msgstr ""
+"Вы будете перенаправлены в Stripe для безопасного завершения оплаты.Вы "
+"будете перенаправлены на сайт Stripe для безопасного завершения платежа."
 
 #: templates/billing/change_plan.html:209
 msgid "Secure payment processing"
@@ -962,8 +979,9 @@ msgstr "Связаться со службой поддержки"
 
 #: templates/billing/view_plans.html:12
 msgid "Select the plan that best fits your business needs"
-msgstr "Выберите тарифный план, который наилучшим образом соответствует "
-"потребностям вашего бизнеса."
+msgstr ""
+"Выберите тарифный план, который наилучшим образом соответствует потребностям "
+"вашего бизнеса."
 
 #: templates/billing/view_plans.html:20 templates/billing/view_plans.html:65
 msgid "Current Plan"
@@ -1176,8 +1194,10 @@ msgstr "услуги у нас."
 
 #: templates/bookings/confirmation.html:21
 msgid "Some services require staff confirmation. We will contact you soon."
-msgstr "Некоторые услуги требуют подтверждения персонала. Мы свяжемся с вами в ближайшее время."
-"Для некоторых услуг требуется подтверждение от персонала. Мы свяжемся с вами в ближайшее время."
+msgstr ""
+"Некоторые услуги требуют подтверждения персонала. Мы свяжемся с вами в "
+"ближайшее время.Для некоторых услуг требуется подтверждение от персонала. Мы "
+"свяжемся с вами в ближайшее время."
 
 #: templates/bookings/confirmation.html:36
 msgid "Pending Confirmation"
@@ -1228,8 +1248,10 @@ msgstr "Бронирование получено!"
 
 #: templates/bookings/confirmation.html:110
 msgid "Thank you for your booking. For confirm your booking, please call"
-msgstr "Спасибо за ваше бронирование. Для подтверждения бронирования, пожалуйста, позвоните"
-"Благодарим вас за бронирование. Для подтверждения бронирования, пожалуйста, позвоните по телефону."
+msgstr ""
+"Спасибо за ваше бронирование. Для подтверждения бронирования, пожалуйста, "
+"позвонитеБлагодарим вас за бронирование. Для подтверждения бронирования, "
+"пожалуйста, позвоните по телефону."
 
 #: templates/bookings/confirmation.html:113
 msgid "Status:"
@@ -1444,7 +1466,9 @@ msgstr "от клиента"
 
 #: templates/bookings/edit_booking.html:333
 msgid "Phone (must include country code, e.g. +1234567890)"
-msgstr "Номер телефона (обязательно должен включать код страны, например, +1234567890)"
+msgstr ""
+"Номер телефона (обязательно должен включать код страны, например, "
+"+1234567890)"
 
 #: templates/companies/activate_staff_account.html:10
 #: templates/email/staff_activation.html:83
@@ -1543,7 +1567,8 @@ msgstr "Рабочие часы в день"
 msgid ""
 "Set specific working hours for each day (leave empty to use company hours)"
 msgstr ""
-"Укажите конкретное рабочее время каждый день (оставьте поле пустым, если используете рабочее время компании)."
+"Укажите конкретное рабочее время на каждый день (оставьте поле пустым, если "
+"используете рабочее время компании)."
 
 #: templates/companies/add_staff.html:111
 #: templates/companies/add_staff.html:127
@@ -1664,7 +1689,8 @@ msgstr "Разбивка по статусам бронирования"
 
 #: templates/companies/analytics.html:113
 msgid "Service Performance: Bookings vs Revenue"
-msgstr "Показатели качества обслуживания: количество бронирований против выручки."
+msgstr ""
+"Показатели качества обслуживания: количество бронирований против выручки."
 
 #: templates/companies/analytics.html:122
 msgid "Service Performance"
@@ -1721,15 +1747,17 @@ msgid ""
 "The following services have not received any confirmed bookings in the "
 "selected date range:"
 msgstr ""
-"Следующие услуги не получили подтвержденных бронирований в выбранном диапазоне дат:"
+"Следующие услуги не получили подтвержденных бронирований в выбранном "
+"диапазоне дат:"
 
 #: templates/companies/analytics.html:232
 msgid ""
 "Consider reviewing these services. You may want to adjust pricing, improve "
 "descriptions, or remove services that are no longer relevant."
 msgstr ""
-"Рассмотрите возможность пересмотра этих услуг. Возможно, вам потребуется скорректировать "
-"цены, улучшить описания или удалить услуги, которые больше не актуальны."
+"Рассмотрите возможность пересмотра этих услуг. Возможно, вам потребуется "
+"скорректировать цены, улучшить описания или удалить услуги, которые больше "
+"не актуальны."
 
 #: templates/companies/analytics.html:245
 msgid "Staff Effectiveness: Bookings vs Revenue"
@@ -2013,7 +2041,9 @@ msgstr "Ссылка на WhatsApp:"
 
 #: templates/companies/dashboard.html:222
 msgid "Use this link on your website, social media, or anywhere online"
-msgstr "Используйте эту ссылку на своем веб-сайте, в социальных сетях или где угодно в интернете."
+msgstr ""
+"Используйте эту ссылку на своем веб-сайте, в социальных сетях или где угодно "
+"в интернете."
 
 #: templates/companies/dashboard.html:232
 msgid "WhatsApp QR Code"
@@ -2085,7 +2115,8 @@ msgstr "Онлайн-запись на прием"
 
 #: templates/companies/edit_profile.html:97
 msgid "Enable online appointment booking on your public page"
-msgstr "Включите возможность онлайн-записи на прием на вашей общедоступной странице."
+msgstr ""
+"Включите возможность онлайн-записи на прием на вашей общедоступной странице."
 
 #: templates/companies/edit_profile.html:106
 msgid "Calendar Time Slot Interval"
@@ -2096,8 +2127,8 @@ msgid ""
 "Set the time slot interval for your booking calendar in minutes (e.g., 15, "
 "30, 60)"
 msgstr ""
-"Установите интервал временного интервала для вашего календаря бронирования "
-"в минутах (например, 15, 30, 60)."
+"Установите интервал временного интервала для вашего календаря бронирования в "
+"минутах (например, 15, 30, 60)."
 
 #: templates/companies/edit_profile.html:118
 msgid "Social Media"
@@ -2120,7 +2151,9 @@ msgstr "+ Добавить социальные сети"
 
 #: templates/companies/edit_profile.html:137
 msgid "Add your social media profiles (e.g., facebook, instagram, twitter)"
-msgstr "Добавьте ссылки на свои профили в социальных сетях (например, Facebook, Instagram, Twitter)."
+msgstr ""
+"Добавьте ссылки на свои профили в социальных сетях (например, Facebook, "
+"Instagram, Twitter)."
 
 #: templates/companies/edit_profile.html:141
 msgid "Logo"
@@ -2242,7 +2275,8 @@ msgstr "Неизвестная ошибка"
 
 #: templates/companies/edit_staff.html:397
 msgid "Error sending activation email. Please try again."
-msgstr "Ошибка при отправке письма с активацией. Пожалуйста, попробуйте еще раз."
+msgstr ""
+"Ошибка при отправке письма с активацией. Пожалуйста, попробуйте еще раз."
 
 #: templates/companies/edit_staff.html:480
 msgid "Please fill in both start and end date/time"
@@ -2258,7 +2292,8 @@ msgstr "Ошибка сохранения периода. Пожалуйста, 
 
 #: templates/companies/edit_staff.html:520
 msgid "Are you sure you want to delete this out of office period?"
-msgstr "Вы уверены, что хотите удалить этот период отсутствия на рабочем месте?"
+msgstr ""
+"Вы уверены, что хотите удалить этот период отсутствия на рабочем месте?"
 
 #: templates/companies/edit_staff.html:557
 msgid "Error deleting period. Please try again."
@@ -2270,7 +2305,9 @@ msgstr "Забыли пароль"
 
 #: templates/companies/forgot_password.html:11
 msgid "Enter your email address below to receive a password reset link."
-msgstr "Введите свой адрес электронной почты ниже, чтобы получить ссылку для сброса пароля."
+msgstr ""
+"Введите свой адрес электронной почты ниже, чтобы получить ссылку для сброса "
+"пароля."
 
 #: templates/companies/forgot_password.html:19
 msgid "Send Reset Link"
@@ -2309,8 +2346,8 @@ msgid ""
 "Online booking is currently unavailable. Please contact us directly to "
 "schedule an appointment."
 msgstr ""
-"Онлайн-бронирование в настоящее время недоступно. Пожалуйста, свяжитесь "
-"с нами напрямую, чтобы записаться на прием."
+"Онлайн-бронирование в настоящее время недоступно. Пожалуйста, свяжитесь с "
+"нами напрямую, чтобы записаться на прием."
 
 #: templates/companies/public_page.html:172
 msgid "Contact Information"
@@ -2379,7 +2416,9 @@ msgstr "Сбросить пароль"
 
 #: templates/companies/reset_password.html:11
 msgid "Please set your password to reset your account."
-msgstr "Пожалуйста, установите новый пароль, чтобы сбросить настройки вашей учетной записи."
+msgstr ""
+"Пожалуйста, установите новый пароль, чтобы сбросить настройки вашей учетной "
+"записи."
 
 #: templates/companies/services_list.html:28
 msgid "Time for Servicing"
@@ -2475,7 +2514,8 @@ msgstr "Активировать аккаунт"
 #: templates/email/password_reset.html:87
 #: templates/email/staff_activation.html:87
 msgid "If the button doesn't work, copy and paste this link into your browser:"
-msgstr "Если кнопка не работает, скопируйте и вставьте эту ссылку в свой браузер:"
+msgstr ""
+"Если кнопка не работает, скопируйте и вставьте эту ссылку в свой браузер:"
 
 #: templates/email/account_activation.html:94
 #: templates/email/password_reset.html:94
@@ -2542,7 +2582,9 @@ msgstr "Время:"
 msgid ""
 "If you wish to book another appointment, please visit our booking page or "
 "contact us directly."
-msgstr "Если вы хотите записаться на другой прием, посетите нашу страницу бронирования или свяжитесь с нами напрямую."
+msgstr ""
+"Если вы хотите записаться на другой прием, посетите нашу страницу "
+"бронирования или свяжитесь с нами напрямую."
 
 #: templates/email/booking_cancellation.html:217
 #: templates/email/booking_confirmation.html:238
@@ -2579,7 +2621,9 @@ msgstr "Забронировать снова"
 #: templates/email/booking_cancellation.html:237
 msgid ""
 "If you have any questions or concerns, please don't hesitate to contact us."
-msgstr "Если у вас есть какие-либо вопросы или опасения, пожалуйста, не стесняйтесь обращаться к нам."
+msgstr ""
+"Если у вас есть какие-либо вопросы или опасения, пожалуйста, не стесняйтесь "
+"обращаться к нам."
 
 #: templates/email/booking_confirmation.html:7
 #: templates/email/booking_confirmation.html:182
@@ -2601,6 +2645,9 @@ msgid ""
 "Your booking request has been received and is awaiting staff confirmation. "
 "Please contact us to confirm the final price and duration."
 msgstr ""
+"Ваш запрос на бронирование получен и ожидает подтверждения от персонала. "
+"Пожалуйста, свяжитесь с нами, чтобы уточнить окончательную цену и "
+"продолжительность."
 
 #: templates/email/booking_confirmation.html:195
 msgid "Booking Confirmed"
@@ -2625,6 +2672,9 @@ msgid ""
 "This service requires staff confirmation. The final price and duration "
 "should be confirmed by our staff."
 msgstr ""
+"Для предоставления этой услуги требуется подтверждение от персонала. "
+"Окончательная цена и продолжительность должны быть подтверждены нашими "
+"сотрудниками."
 
 #: templates/email/booking_confirmation.html:249
 #: templates/email/booking_reminder.html:216
@@ -2638,6 +2688,8 @@ msgid ""
 "If you need to make any changes or have questions, please contact us "
 "directly."
 msgstr ""
+"Если вам необходимо внести какие-либо изменения или у вас возникли вопросы, "
+"пожалуйста, свяжитесь с нами напрямую."
 
 #: templates/email/booking_reminder.html:7
 #: templates/email/booking_reminder.html:163
@@ -2658,11 +2710,15 @@ msgid ""
 "This is a friendly reminder about your upcoming booking. We look forward to "
 "seeing you!"
 msgstr ""
+"Это дружеское напоминание о вашем предстоящем бронировании. Мы с нетерпением "
+"ждём встречи с вами!"
 
 #: templates/email/booking_reminder.html:220
 msgid ""
 "If you need to reschedule or cancel, please contact us as soon as possible."
 msgstr ""
+"Если вам необходимо перенести или отменить мероприятие, пожалуйста, "
+"свяжитесь с нами как можно скорее."
 
 #: templates/email/booking_update.html:7
 msgid "Booking Update"
@@ -2681,6 +2737,8 @@ msgid ""
 "Your appointment details have been modified. Please review the updated "
 "information below."
 msgstr ""
+"Информация о вашей записи изменена. Пожалуйста, ознакомьтесь с обновленной "
+"информацией ниже."
 
 #: templates/email/password_reset.html:7
 msgid "Reset Your Password"
@@ -2708,10 +2766,13 @@ msgid ""
 "Your password has been successfully reset. You can now log in to your "
 "account with your new password."
 msgstr ""
+"Ваш пароль успешно сброшен. Теперь вы можете войти в свою учетную запись, "
+"используя новый пароль."
 
 #: templates/email/password_reset_success.html:69
 msgid "If you didn't make this change, please contact support immediately."
-msgstr "Если вы не вносили это изменение, немедленно свяжитесь со службой поддержки."
+msgstr ""
+"Если вы не вносили это изменение, немедленно свяжитесь со службой поддержки."
 
 #: templates/email/staff_activation.html:7
 msgid "Activate Your Staff Account"
@@ -2724,7 +2785,8 @@ msgstr "Приглашение в учетную запись сотрудник
 #: templates/email/staff_activation.html:78
 #, python-format
 msgid "You have been invited to join %(company_name)s as a staff member."
-msgstr "Вас пригласили присоединиться к %(company_name)s в качестве сотрудника."
+msgstr ""
+"Вас пригласили присоединиться к %(company_name)s в качестве сотрудника."
 
 #: templates/email/staff_activation.html:80
 msgid "Please activate your staff account by clicking the button below:"
@@ -2801,6 +2863,8 @@ msgid ""
 "We are a leading provider of booking management solutions for beauty salons "
 "and service providers."
 msgstr ""
+"Мы являемся ведущим поставщиком решений для управления бронированием для "
+"салонов красоты и поставщиков услуг."
 
 #: templates/static_pages/about_us.html:17
 msgid "Our Mission"
@@ -2811,6 +2875,8 @@ msgid ""
 "To simplify booking management for businesses and provide customers with a "
 "seamless booking experience."
 msgstr ""
+"Упростить управление бронированиями для предприятий и обеспечить клиентам "
+"беспроблемный процесс бронирования."
 
 #: templates/static_pages/about_us.html:22
 msgid "What We Offer"
@@ -2845,6 +2911,9 @@ msgid ""
 "Our platform is designed with both businesses and customers in mind, "
 "offering intuitive interfaces, powerful features, and reliable support."
 msgstr ""
+"Наша платформа разработана с учетом потребностей как бизнеса, так и "
+"клиентов, предлагая интуитивно понятные интерфейсы, мощные функции и "
+"надежную поддержку."
 
 #: templates/static_pages/about_us.html:38
 msgid "Ready to get started?"
@@ -2859,6 +2928,8 @@ msgid ""
 "Have a question or need support? Fill out the form below and we'll get back "
 "to you as soon as possible."
 msgstr ""
+"Есть вопрос или нужна помощь? Заполните форму ниже, и мы свяжемся с вами как "
+"можно скорее."
 
 #: templates/static_pages/contact.html:29
 msgid "Subject"
@@ -2890,6 +2961,9 @@ msgid ""
 "website, allowing the storage and retrieval of information about user "
 "browsing habits."
 msgstr ""
+"Файлы cookie — это файлы, которые загружаются на ваше устройство при "
+"посещении веб-сайта, позволяя хранить и извлекать информацию о привычках "
+"пользователя при просмотре веб-страниц."
 
 #: templates/static_pages/cookie_policy.html:26
 msgid "3. Types of cookies used"
@@ -2933,7 +3007,9 @@ msgstr "4. Деактивация и удаление файлов cookie"
 
 #: templates/static_pages/cookie_policy.html:49
 msgid "You can configure your browser to allow, block or delete cookies:"
-msgstr "Вы можете настроить свой браузер для разрешения, блокировки или удаления файлов cookie:"
+msgstr ""
+"Вы можете настроить свой браузер для разрешения, блокировки или удаления "
+"файлов cookie:"
 
 #: templates/static_pages/cookie_policy.html:60
 msgid "5. Cookies used on this website"
@@ -2970,11 +3046,14 @@ msgstr "1 год"
 
 #: templates/static_pages/cookie_policy.html:82
 msgid "Security token to prevent cross-site request forgery attacks."
-msgstr "Токен безопасности для предотвращения атак с подделкой межсайтовых запросов."
+msgstr ""
+"Токен безопасности для предотвращения атак с подделкой межсайтовых запросов."
 
 #: templates/static_pages/cookie_policy.html:88
 msgid "Stores user cookie consent preferences."
-msgstr "Сохраняет предпочтения пользователя относительно согласия на использование файлов cookie."
+msgstr ""
+"Сохраняет предпочтения пользователя относительно согласия на использование "
+"файлов cookie."
 
 #: templates/static_pages/cookie_policy.html:94
 msgid "Stores the user's preferred language."
@@ -2990,6 +3069,9 @@ msgid ""
 "notice will be displayed that allows you to accept, reject or configure "
 "cookies."
 msgstr ""
+"Просматривая наш веб-сайт, вы тем самым соглашаетесь с использованием файлов "
+"cookie. Будет отображено уведомление, позволяющее вам принять, отклонить или "
+"настроить файлы cookie."
 
 #: templates/static_pages/cookie_policy.html:107
 msgid "Configure your cookie preferences"
@@ -3006,6 +3088,9 @@ msgid ""
 "We use different types of cookies to optimize your experience on our "
 "website. Choose which cookies you want to allow."
 msgstr ""
+"Мы используем различные типы файлов cookie для оптимизации вашего "
+"взаимодействия с нашим сайтом. Выберите, какие файлы cookie вы хотите "
+"разрешить."
 
 #: templates/static_pages/cookie_settings.html:20
 msgid "Essential Cookies"
@@ -3017,6 +3102,10 @@ msgid ""
 "disabled. They are usually set in response to actions you take, such as "
 "setting your privacy preferences, logging in, or filling in forms."
 msgstr ""
+"Эти файлы cookie необходимы для функционирования веб-сайта и не могут быть "
+"отключены. Обычно они устанавливаются в ответ на ваши действия, такие как "
+"установка ваших настроек конфиденциальности, вход в систему или заполнение "
+"форм."
 
 #: templates/static_pages/cookie_settings.html:30
 #: templates/static_pages/cookie_settings.html:54
@@ -3027,6 +3116,8 @@ msgstr "Примеры:"
 msgid ""
 "Session cookies, security cookies, authentication cookies, CSRF protection"
 msgstr ""
+"Сессионные файлы cookie, файлы cookie безопасности, файлы cookie "
+"аутентификации, защита от CSRF-атак"
 
 #: templates/static_pages/cookie_settings.html:34
 msgid "Always Active - Required for site functionality"
@@ -3041,17 +3132,22 @@ msgid ""
 "These cookies enable enhanced functionality and personalization, such as "
 "remembering your preferences and settings."
 msgstr ""
+"Эти файлы cookie обеспечивают расширенную функциональность и персонализацию, "
+"например, запоминание ваших предпочтений и настроек."
 
 #: templates/static_pages/cookie_settings.html:54
 msgid ""
 "Language preference, timezone, theme settings, accessibility preferences"
 msgstr ""
+"Языковые настройки, часовой пояс, настройки темы, параметры доступности."
 
 #: templates/static_pages/cookie_settings.html:76
 msgid ""
 "Your cookie preferences are stored locally in your browser. You can change "
 "these settings at any time by visiting this page."
 msgstr ""
+"Ваши настройки файлов cookie хранятся локально в вашем браузере. Вы можете "
+"изменить эти настройки в любое время, посетив эту страницу."
 
 #: templates/static_pages/cookie_settings.html:77
 msgid "Learn more about our cookie policy"
@@ -3074,6 +3170,9 @@ msgid ""
 "Click on 'Register' in the top navigation, fill in your business details, "
 "choose a subscription plan, and you're ready to start accepting bookings."
 msgstr ""
+"Нажмите на кнопку «Регистрация» в верхнем меню, заполните информацию о вашей "
+"компании, выберите тарифный план подписки, и вы готовы начать принимать "
+"заказы."
 
 #: templates/static_pages/faq.html:19
 msgid "Can customers book without creating an account?"
@@ -3084,6 +3183,8 @@ msgid ""
 "Yes! Customers can make bookings without creating an account. They just need "
 "to provide their contact information."
 msgstr ""
+"Да! Клиенты могут бронировать билеты без создания учетной записи. Им нужно "
+"лишь указать свои контактные данные."
 
 #: templates/static_pages/faq.html:24
 msgid "How do I manage my staff and services?"
@@ -3094,6 +3195,8 @@ msgid ""
 "Once logged in, go to your company dashboard where you can add/edit staff "
 "members, services, working hours, and pricing."
 msgstr ""
+"После входа в систему перейдите на панель управления вашей компании, где вы "
+"можете добавлять/редактировать сотрудников, услуги, рабочее время и цены."
 
 #: templates/static_pages/faq.html:29
 msgid "Can I cancel my subscription anytime?"
@@ -3115,6 +3218,9 @@ msgid ""
 "Customers receive automated email and WhatsApp notifications with booking "
 "details and a cancellation link if needed."
 msgstr ""
+"Клиенты получают автоматические уведомления по электронной почте и WhatsApp "
+"с подробной информацией о бронировании и ссылкой для отмены, если это "
+"необходимо."
 
 #: templates/static_pages/faq.html:39
 msgid "What payment methods do you accept?"
@@ -3125,6 +3231,8 @@ msgid ""
 "We accept major credit cards and debit cards through our secure payment "
 "processor."
 msgstr ""
+"Мы принимаем основные кредитные и дебетовые карты через нашу защищенную "
+"платежную систему."
 
 #: templates/static_pages/faq.html:44
 msgid "Can I upgrade or downgrade my plan?"
@@ -3135,6 +3243,8 @@ msgid ""
 "Yes, you can change your subscription plan at any time from your billing "
 "settings. Changes take effect immediately."
 msgstr ""
+"Да, вы можете изменить свой тарифный план в любое время в настройках "
+"выставления счетов. Изменения вступают в силу немедленно."
 
 #: templates/static_pages/faq.html:49
 msgid "Is there a mobile app?"
@@ -3145,6 +3255,8 @@ msgid ""
 "Our platform is fully responsive and works great on mobile browsers. A "
 "dedicated mobile app is coming soon!"
 msgstr ""
+"Наша платформа полностью адаптивна и отлично работает в мобильных браузерах. "
+"Скоро появится специальное мобильное приложение!"
 
 #: templates/static_pages/faq.html:54
 msgid "How do I get support?"
@@ -3171,6 +3283,8 @@ msgid ""
 "Yes, we take data security seriously. All data is encrypted and stored "
 "securely. We comply with GDPR and other data protection regulations."
 msgstr ""
+"Да, мы серьезно относимся к безопасности данных. Все данные шифруются и "
+"хранятся в безопасности. Мы соблюдаем GDPR и другие правила защиты данных."
 
 #: templates/static_pages/faq.html:65
 msgid "Still have questions?"
@@ -3189,6 +3303,8 @@ msgid ""
 "Create your business account and choose a subscription plan that fits your "
 "needs."
 msgstr ""
+"Создайте бизнес-аккаунт и выберите тарифный план, соответствующий вашим "
+"потребностям."
 
 #: templates/static_pages/how_it_works.html:29
 msgid "Set Up Your Profile"
@@ -3198,6 +3314,8 @@ msgstr "Настройте свой профиль"
 msgid ""
 "Add your services, staff members, working hours, and business information."
 msgstr ""
+"Добавьте информацию о ваших услугах, сотрудниках, рабочем времени и другие "
+"данные о вашей компании."
 
 #: templates/static_pages/how_it_works.html:37
 msgid "Manage Bookings"
@@ -3208,6 +3326,8 @@ msgid ""
 "Use our calendar to view, confirm, and manage all your appointments in one "
 "place."
 msgstr ""
+"Используйте наш календарь, чтобы просматривать, подтверждать и управлять "
+"всеми своими встречами в одном месте."
 
 #: templates/static_pages/how_it_works.html:45
 msgid "Grow Your Business"
@@ -3218,6 +3338,8 @@ msgid ""
 "Track your bookings, manage staff schedules, and focus on providing great "
 "service."
 msgstr ""
+"Отслеживайте бронирования, управляйте графиками работы персонала и "
+"сосредоточьтесь на предоставлении отличного сервиса."
 
 #: templates/static_pages/how_it_works.html:53
 msgid "For Customers"
@@ -3229,7 +3351,9 @@ msgstr "Найдите услугу"
 
 #: templates/static_pages/how_it_works.html:59
 msgid "Browse available services and select the one that suits your needs."
-msgstr "Просмотрите доступные услуги и выберите ту, которая соответствует вашим потребностям."
+msgstr ""
+"Просмотрите доступные услуги и выберите ту, которая соответствует вашим "
+"потребностям."
 
 #: templates/static_pages/how_it_works.html:66
 msgid "Choose Date & Time"
@@ -3244,6 +3368,8 @@ msgid ""
 "Enter your details and confirm your booking. You'll receive a confirmation "
 "email and WhatsApp message."
 msgstr ""
+"Введите свои данные и подтвердите бронирование. Вы получите подтверждение по "
+"электронной почте и в сообщении WhatsApp."
 
 #: templates/static_pages/how_it_works.html:82
 msgid "Enjoy Your Service"
@@ -3266,6 +3392,9 @@ msgid ""
 "We collect information that you provide directly to us, including when you "
 "create an account, make a booking, or contact us for support."
 msgstr ""
+"Мы собираем информацию, которую вы предоставляете нам напрямую, в том числе, "
+"когда вы создаете учетную запись, делаете бронирование или обращаетесь к нам "
+"за поддержкой."
 
 #: templates/static_pages/privacy_policy.html:18
 msgid "2. How We Use Your Information"
@@ -3276,6 +3405,8 @@ msgid ""
 "We use the information we collect to provide, maintain, and improve our "
 "services, to process your bookings, and to communicate with you."
 msgstr ""
+"Мы используем собранную информацию для предоставления, поддержания и "
+"улучшения наших услуг, обработки ваших бронирований и связи с вами."
 
 #: templates/static_pages/privacy_policy.html:23
 msgid "3. Information Sharing"
@@ -3286,6 +3417,8 @@ msgid ""
 "We do not sell your personal information. We may share your information with "
 "service providers who assist us in operating our platform."
 msgstr ""
+"Мы не продаем вашу личную информацию. Мы можем передавать вашу информацию "
+"поставщикам услуг, которые помогают нам в работе нашей платформы."
 
 #: templates/static_pages/privacy_policy.html:28
 msgid "4. Data Security"
@@ -3296,6 +3429,8 @@ msgid ""
 "We implement appropriate security measures to protect your personal "
 "information from unauthorized access, alteration, or disclosure."
 msgstr ""
+"Мы применяем соответствующие меры безопасности для защиты вашей личной "
+"информации от несанкционированного доступа, изменения или разглашения."
 
 #: templates/static_pages/privacy_policy.html:33
 msgid "5. Your Rights"
@@ -3306,6 +3441,8 @@ msgid ""
 "You have the right to access, correct, or delete your personal information. "
 "Contact us if you wish to exercise these rights."
 msgstr ""
+"Вы имеете право на доступ, исправление или удаление вашей личной информации. "
+"Свяжитесь с нами, если вы хотите воспользоваться этими правами."
 
 #: templates/static_pages/privacy_policy.html:38
 msgid "6. Contact Us"
@@ -3313,7 +3450,8 @@ msgstr "6. Свяжитесь с нами"
 
 #: templates/static_pages/privacy_policy.html:40
 msgid "If you have questions about this Privacy Policy, please"
-msgstr "Если у вас есть вопросы об этой Политике конфиденциальности, пожалуйста"
+msgstr ""
+"Если у вас есть вопросы об этой Политике конфиденциальности, пожалуйста"
 
 #: templates/static_pages/privacy_policy.html:40
 msgid "contact us"
@@ -3328,6 +3466,8 @@ msgid ""
 "By accessing and using this service, you accept and agree to be bound by the "
 "terms and provision of this agreement."
 msgstr ""
+"Получая доступ к данной услуге и используя ее, вы принимаете и соглашаетесь "
+"соблюдать условия настоящего соглашения."
 
 #: templates/static_pages/terms_of_service.html:18
 msgid "2. Use of Service"
@@ -3338,6 +3478,8 @@ msgid ""
 "You agree to use the service only for lawful purposes and in accordance with "
 "these Terms of Service."
 msgstr ""
+"Вы соглашаетесь использовать сервис только в законных целях и в соответствии "
+"с настоящими Условиями предоставления услуг."
 
 #: templates/static_pages/terms_of_service.html:23
 msgid "3. User Accounts"
@@ -3348,6 +3490,8 @@ msgid ""
 "You are responsible for maintaining the confidentiality of your account and "
 "password and for restricting access to your account."
 msgstr ""
+"Вы несете ответственность за сохранение конфиденциальности вашей учетной "
+"записи и пароля, а также за ограничение доступа к вашей учетной записи."
 
 #: templates/static_pages/terms_of_service.html:28
 msgid "4. Bookings and Payments"
@@ -3358,6 +3502,8 @@ msgid ""
 "All bookings are subject to availability and confirmation. Payment terms "
 "will be communicated at the time of booking."
 msgstr ""
+"Все бронирования зависят от наличия мест и подтверждения. Условия оплаты "
+"будут сообщены во время бронирования."
 
 #: templates/static_pages/terms_of_service.html:33
 msgid "5. Cancellation Policy"
@@ -3368,6 +3514,9 @@ msgid ""
 "Cancellation policies may vary by service provider. Please review the "
 "specific cancellation policy before making a booking."
 msgstr ""
+"Правила отмены бронирования могут различаться в зависимости от поставщика "
+"услуг. Пожалуйста, ознакомьтесь с конкретными правилами отмены бронирования "
+"перед оформлением заказа."
 
 #: templates/static_pages/terms_of_service.html:38
 msgid "6. Limitation of Liability"
@@ -3378,6 +3527,9 @@ msgid ""
 "We shall not be liable for any indirect, incidental, special, consequential "
 "or punitive damages resulting from your use of the service."
 msgstr ""
+"Мы не несем ответственности за любые косвенные, случайные, особые, "
+"последующие или штрафные убытки, возникшие в результате использования вами "
+"данной услуги."
 
 #: templates/static_pages/terms_of_service.html:43
 msgid "7. Changes to Terms"
@@ -3388,6 +3540,8 @@ msgid ""
 "We reserve the right to modify these terms at any time. Changes will be "
 "effective immediately upon posting."
 msgstr ""
+"Мы оставляем за собой право изменять настоящие условия в любое время. "
+"Изменения вступают в силу немедленно после их публикации."
 
 #: templates/users/login.html:11
 msgid "Sign in to your account"
@@ -3493,12 +3647,16 @@ msgstr "Введите правильный адрес электронной п
 msgid ""
 "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
 msgstr ""
+"Введите допустимый «slug», состоящий из букв, цифр, подчеркиваний или "
+"дефисов."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:267
 msgid ""
 "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
 "hyphens."
 msgstr ""
+"Введите допустимый «slug», состоящий из букв Unicode, цифр, символов "
+"подчеркивания или дефисов."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:279
 #: venv/lib/python3.12/site-packages/django/core/validators.py:287
@@ -3601,6 +3759,8 @@ msgid ""
 "File extension “%(extension)s” is not allowed. Allowed extensions are: "
 "%(allowed_extensions)s."
 msgstr ""
+"Расширение файла «%(extension)s» недопустимо. Допустимые расширения: "
+"%(allowed_extensions)s."
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:605
 msgid "Null characters are not allowed."
@@ -3619,7 +3779,7 @@ msgstr "%(model_name)s с этим %(field_labels)s уже существует.
 #: venv/lib/python3.12/site-packages/django/db/models/constraints.py:17
 #, python-format
 msgid "Constraint “%(name)s” is violated."
-msgstr ""
+msgstr "Нарушено ограничение %(name)s."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:128
 #, python-format
@@ -3646,6 +3806,8 @@ msgstr "%(model_name)s с этим %(field_label)s уже существует."
 msgid ""
 "%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
 msgstr ""
+"Для %(date_field_label)s %(lookup_type)s значения %(field_label)s должны "
+"быть уникальными."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:173
 #, python-format
@@ -3655,12 +3817,13 @@ msgstr "Поле типа: %(field_type)s"
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1094
 #, python-format
 msgid "“%(value)s” value must be either True or False."
-msgstr ""
+msgstr "Значение параметра “%(value)s” должно быть либо True, либо False."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1095
 #, python-format
 msgid "“%(value)s” value must be either True, False, or None."
 msgstr ""
+"Значение параметра “%(value)s” должно быть либо True, False, либо None."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1097
 msgid "Boolean (Either True or False)"
@@ -3693,6 +3856,8 @@ msgid ""
 "“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
 "date."
 msgstr ""
+"Значение %(value)s имеет правильный формат (ГГГГ-ММ-ДД), но является "
+"недопустимой датой."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1362
 msgid "Date (without time)"
@@ -3704,6 +3869,8 @@ msgid ""
 "“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
 "uuuuuu]][TZ] format."
 msgstr ""
+"Значение %(value)s имеет недопустимый формат. Оно должно быть в формате ГГГГ-"
+"ММ-ДД ЧЧ:ММ[:ss[.uuuuuu]][TZ]."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1497
 #, python-format
@@ -3711,6 +3878,8 @@ msgid ""
 "“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
 "[TZ]) but it is an invalid date/time."
 msgstr ""
+"Значение %(value)s имеет правильный формат (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]), но является недопустимой датой/временем."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1502
 msgid "Date (with time)"
@@ -3719,7 +3888,7 @@ msgstr "Дата (со временем)"
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1626
 #, python-format
 msgid "“%(value)s” value must be a decimal number."
-msgstr ""
+msgstr "Значение %(value)s должно быть десятичным числом."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1628
 msgid "Decimal number"
@@ -3731,6 +3900,8 @@ msgid ""
 "“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
 "uuuuuu] format."
 msgstr ""
+"Значение %(value)s имеет недопустимый формат. Оно должно быть в формате [DD] "
+"[[HH:]MM:]ss[.uuuuuu]."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1845
 msgid "Email address"
@@ -3743,7 +3914,7 @@ msgstr "Путь к файлу"
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1948
 #, python-format
 msgid "“%(value)s” value must be a float."
-msgstr ""
+msgstr "Значение параметра “%(value)s” должно быть числом с плавающей запятой."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1950
 msgid "Floating point number"
@@ -3752,7 +3923,7 @@ msgstr "Число с плавающей точкой"
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1990
 #, python-format
 msgid "“%(value)s” value must be an integer."
-msgstr ""
+msgstr "Значение параметра “%(value)s” должно быть целым числом."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1992
 msgid "Integer"
@@ -3779,6 +3950,7 @@ msgstr "IP адрес"
 #, python-format
 msgid "“%(value)s” value must be either None, True or False."
 msgstr ""
+"Значение параметра “%(value)s” должно быть либо None, True, либо False."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2240
 msgid "Boolean (Either True, False or None)"
@@ -3811,6 +3983,8 @@ msgid ""
 "“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
 "format."
 msgstr ""
+"Значение %(value)s имеет недопустимый формат. Оно должно быть в формате HH:"
+"MM[:ss[.uuuuuu]] формат."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2452
 #, python-format
@@ -3818,6 +3992,8 @@ msgid ""
 "“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
 "invalid time."
 msgstr ""
+"Значение %(value)s имеет правильный формат (HH:MM[:ss[.uuuuuu]]), но это "
+"недопустимое время."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2588
 msgid "Raw binary data"
@@ -3826,7 +4002,7 @@ msgstr "Необработанные двоичные данные"
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2653
 #, python-format
 msgid "“%(value)s” is not a valid UUID."
-msgstr ""
+msgstr "%(value)s не является допустимым UUID."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2655
 msgid "Universally unique identifier"
@@ -3934,20 +4110,25 @@ msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:630
 msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr "Пожалуйста, либо отправьте файл, либо установите флажок очистки, но не оба."
+msgstr ""
+"Пожалуйста, либо отправьте файл, либо установите флажок очистки, но не оба."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:694
 msgid ""
 "Upload a valid image. The file you uploaded was either not an image or a "
 "corrupted image."
 msgstr ""
+"Загрузите корректное изображение. Загруженный вами файл либо не является "
+"изображением, либо является поврежденным изображением."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:857
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:949
 #: venv/lib/python3.12/site-packages/django/forms/models.py:1566
 #, python-format
 msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr "Выберите правильный вариант. %(value)s не является одним из доступных вариантов."
+msgstr ""
+"Выберите правильный вариант. %(value)s не является одним из доступных "
+"вариантов."
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:951
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1070
@@ -3984,6 +4165,9 @@ msgid ""
 "ManagementForm data is missing or has been tampered with. Missing fields: "
 "%(field_names)s. You may need to file a bug report if the issue persists."
 msgstr ""
+"Данные в форме управления отсутствуют или были изменены. Отсутствующие поля: "
+"%(field_names)s. Возможно, вам потребуется отправить отчет об ошибке, если "
+"проблема сохранится."
 
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:67
 #, python-format
@@ -4016,7 +4200,9 @@ msgstr "Пожалуйста, исправьте дублирующиеся да
 #: venv/lib/python3.12/site-packages/django/forms/models.py:891
 #, python-format
 msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr "Пожалуйста, исправьте дублирующиеся данные для %(field)s, которые должны быть уникальными."
+msgstr ""
+"Пожалуйста, исправьте дублирующиеся данные для %(field)s, которые должны "
+"быть уникальными."
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:898
 #, python-format
@@ -4024,6 +4210,8 @@ msgid ""
 "Please correct the duplicate data for %(field_name)s which must be unique "
 "for the %(lookup)s in %(date_field)s."
 msgstr ""
+"Пожалуйста, исправьте повторяющиеся данные для %(field_name)s, которые "
+"должны быть уникальными для %(lookup)s в %(date_field)s."
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:907
 msgid "Please correct the duplicate values below."
@@ -4035,12 +4223,13 @@ msgstr "Встроенное значение не соответствует р
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:1429
 msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr "Выберите правильный вариант. Этот вариант не является одним из доступных."
+msgstr ""
+"Выберите правильный вариант. Этот вариант не является одним из доступных."
 
 #: venv/lib/python3.12/site-packages/django/forms/models.py:1568
 #, python-format
 msgid "“%(pk)s” is not a valid value."
-msgstr ""
+msgstr "%(pk)s — недопустимое значение."
 
 #: venv/lib/python3.12/site-packages/django/forms/utils.py:226
 #, python-format
@@ -4048,6 +4237,8 @@ msgid ""
 "%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
 "may be ambiguous or it may not exist."
 msgstr ""
+"%(datetime)s не удалось интерпретировать в часовом поясе "
+"%(current_timezone)s; это  может быть неоднозначно или может не существовать."
 
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:464
 msgid "Currently"
@@ -4438,6 +4629,10 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third parties."
 msgstr ""
+"Вы видите это сообщение, потому что для этого HTTPS-сайта требуется отправка "
+"заголовка Referer вашим веб-браузером, но он не был отправлен. Этот "
+"заголовок необходим в целях безопасности, чтобы гарантировать, что ваш "
+"браузер не будет взломан третьими лицами."
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:122
 msgid ""
@@ -4445,6 +4640,9 @@ msgid ""
 "enable them, at least for this site, or for HTTPS connections, or for “same-"
 "origin” requests."
 msgstr ""
+"Если вы настроили свой браузер на отключение заголовков «Referer», "
+"пожалуйста, включите их снова, по крайней мере, для этого сайта, или для "
+"HTTPS-соединений, или для запросов с тем же источником."
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:127
 msgid ""
@@ -4461,12 +4659,18 @@ msgid ""
 "submitting forms. This cookie is required for security reasons, to ensure "
 "that your browser is not being hijacked by third parties."
 msgstr ""
+"Вы видите это сообщение, потому что этот сайт требует наличия CSRF-файла "
+"cookie при отправке форм. Этот файл cookie необходим в целях безопасности, "
+"чтобы гарантировать, что ваш браузер не будет взломан третьими лицами."
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:142
 msgid ""
 "If you have configured your browser to disable cookies, please re-enable "
 "them, at least for this site, or for “same-origin” requests."
 msgstr ""
+"Если в настройках вашего браузера отключены файлы cookie, пожалуйста, "
+"включите их снова, по крайней мере, для этого сайта или для запросов «одного "
+"происхождения»."
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:148
 msgid "More information is available with DEBUG=True."

@@ -141,8 +141,8 @@ LANGUAGE_CODE = 'en'
 LANGUAGES = [
     ('en', 'English'),
     ('es', 'Español'),
-    # ('ca', 'Valencià'),
     ('uk', 'Українська'),
+    ('ru', 'Русский'),
 ]
 
 LOCALE_PATHS = [

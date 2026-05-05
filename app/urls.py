@@ -23,6 +23,7 @@ from django.views.i18n import JavaScriptCatalog
 from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, faq, contact, schedule_page, generate_schedule
 from app import admin_views
 from billing.views import stripe_webhook
+from companies.views import update_customer
 
 
 urlpatterns = [
@@ -31,6 +32,8 @@ urlpatterns = [
     # API endpoints (no i18n prefix)
     path('api/', include('api.urls')),
     path('billing/webhook/', stripe_webhook, name='stripe_webhook'),
+    # Companies API endpoints (no i18n prefix to avoid POST to GET conversion)
+    path('companies/api/update-customer/<int:customer_id>/', update_customer, name='update_customer'),
     # Allauth URLs (no i18n prefix for OAuth callbacks)
     path('accounts/', include('allauth.urls')),
     # WhatsApp webhook (no i18n prefix, no CSRF)

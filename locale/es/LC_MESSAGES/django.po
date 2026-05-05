@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-01 12:46+0200\n"
+"POT-Creation-Date: 2026-05-05 11:36+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,11 +69,15 @@ msgstr "Notas del cliente..."
 
 #: bookings/forms.py:99
 msgid "Phone number must include country code (e.g., +34612345678)"
-msgstr "El número de teléfono debe incluir el código de país (por ejemplo, +34612345678)."
+msgstr ""
+"El número de teléfono debe incluir el código de país (por ejemplo, "
+"+34612345678)."
 
 #: bookings/forms.py:105
 msgid "Phone number is too short. Please include country code and full number."
-msgstr "El número de teléfono es demasiado corto. Por favor, incluya el código de país y el número completo."
+msgstr ""
+"El número de teléfono es demasiado corto. Por favor, incluya el código de "
+"país y el número completo."
 
 #: bookings/forms.py:136
 msgid ""
@@ -81,9 +85,9 @@ msgid ""
 "%H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select "
 "a different date/time or staff member."
 msgstr ""
-"{staff.name} estará fuera de la oficina desde {period.start_datetime.strftime('%Y-%m-%d ""%H:%M')} "
-"hasta {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Por favor, seleccione otra fecha, hora o "
-"miembro del personal."
+"{staff.name} estará fuera de la oficina desde {period.start_datetime."
+"strftime('%Y-%m-%d %H:%M')} hasta {period.end_datetime.strftime('%Y-%m-%d %H:"
+"%M')}. Por favor, seleccione otra fecha, hora o miembro del personal."
 
 #: companies/forms.py:93 companies/models.py:11
 #: templates/companies/add_staff.html:108
@@ -136,21 +140,46 @@ msgstr "Domingo"
 
 #: companies/models.py:24
 msgid "Success"
-msgstr ""
+msgstr "Éxito"
 
 #: companies/models.py:25
 msgid "Failed"
-msgstr ""
+msgstr "Fallido"
 
 #: companies/models.py:26
 msgid "Pending"
-msgstr ""
+msgstr "Pendiente"
 
 #: companies/models.py:65
 msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
 msgstr ""
 "Intervalo de tiempo para su calendario de reservas en minutos (p. ej., 15, "
 "30, 60)."
+
+#: companies/views.py:1364
+msgid "User profile not found"
+msgstr "Perfil de usuario no encontrado"
+
+#: companies/views.py:1370
+msgid "Access denied"
+msgstr "Acceso denegado"
+
+#: companies/views.py:1379 templates/companies/customer_detail.html:183
+msgid "Name is required"
+msgstr "Se requiere el nombre"
+
+#: companies/views.py:1382 templates/companies/customer_detail.html:188
+msgid "Phone is required"
+msgstr "Se requiere teléfono"
+
+#: companies/views.py:1385 templates/companies/customer_detail.html:194
+msgid "Phone must include country code (e.g. +1234567890)"
+msgstr "Teléfono debe incluir el código de país (por ejemplo, +1234567890)"
+
+#: companies/views.py:1402
+#, python-format
+msgid "Invalid JSON: %(error)s"
+msgstr "JSON no válido: %(error)s"
 
 #: templates/Index.html:4 templates/Index.html:14
 msgid "A Simple Client Management System for Your Salon"
@@ -805,6 +834,7 @@ msgstr "Seleccionar Plan"
 #: templates/billing/pricing_periods.html:67
 #: templates/billing/pricing_periods.html:78
 #: templates/billing/pricing_periods.html:103
+#: templates/companies/customer_detail.html:23
 #: templates/companies/reset_password.html:47
 msgid "Save"
 msgstr "Ahorre"
@@ -823,7 +853,7 @@ msgid "Billed every 6 months"
 msgstr "Facturado cada 6 meses"
 
 #: templates/billing/pricing_periods.html:92
-msgid "Mejor Valor - Ahorre"
+msgid "Best Value - Save"
 msgstr "Mejor Valor - Ahorre"
 
 #: templates/billing/pricing_periods.html:98
@@ -1054,7 +1084,7 @@ msgstr "Filtro"
 #: templates/bookings/confirmation.html:134
 #: templates/bookings/create_booking.html:90
 #: templates/bookings/create_booking.html:101
-#: templates/bookings/edit_booking.html:78
+#: templates/bookings/edit_booking.html:88
 msgid "Service"
 msgstr "Servicio"
 
@@ -1085,13 +1115,14 @@ msgid "Actions"
 msgstr "Acciones"
 
 #: templates/bookings/bookings_list.html:84
+#: templates/companies/customer_detail.html:20
 #: templates/companies/services_list.html:48
 #: templates/companies/staff_list.html:53
 msgid "Edit"
 msgstr "Cambiar"
 
 #: templates/bookings/bookings_list.html:89
-#: templates/companies/customer_detail.html:76
+#: templates/companies/customer_detail.html:90
 msgid "No bookings found."
 msgstr "No se encontraron reservas."
 
@@ -1110,8 +1141,8 @@ msgstr "Detalles de la reserva"
 
 #: templates/bookings/confirm_prebooked.html:29
 #: templates/bookings/create_booking.html:48
-#: templates/bookings/edit_booking.html:59
-#: templates/companies/customer_detail.html:20
+#: templates/bookings/edit_booking.html:69
+#: templates/companies/customer_detail.html:33
 #: templates/companies/customers_list.html:55
 #: templates/companies/dashboard.html:133
 #: templates/companies/edit_profile.html:69
@@ -1126,7 +1157,7 @@ msgid "Date & Time"
 msgstr "Fecha y hora"
 
 #: templates/bookings/confirm_prebooked.html:46
-#: templates/bookings/edit_booking.html:69
+#: templates/bookings/edit_booking.html:79
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
 #: templates/companies/edit_profile.html:76
 #: templates/companies/edit_staff.html:17
@@ -1136,7 +1167,7 @@ msgid "Email"
 msgstr "Correo Electrónico"
 
 #: templates/bookings/confirm_prebooked.html:58
-#: templates/bookings/edit_booking.html:95
+#: templates/bookings/edit_booking.html:105
 #: templates/companies/add_service.html:29
 #: templates/companies/edit_service.html:29
 msgid "Duration (minutes)"
@@ -1208,7 +1239,7 @@ msgid "Duration"
 msgstr "Descripción"
 
 #: templates/bookings/confirmation.html:59
-#: templates/bookings/edit_booking.html:84
+#: templates/bookings/edit_booking.html:94
 #: templates/companies/analytics.html:159
 #: templates/companies/analytics.html:346
 msgid "min"
@@ -1291,6 +1322,7 @@ msgstr "Su información"
 #: templates/bookings/create_booking.html:43
 #: templates/companies/add_service.html:21
 #: templates/companies/add_staff.html:53
+#: templates/companies/customer_detail.html:28
 #: templates/companies/customers_list.html:54
 #: templates/companies/edit_service.html:21
 #: templates/companies/edit_staff.html:32
@@ -1301,7 +1333,7 @@ msgid "Name"
 msgstr "Nombre"
 
 #: templates/bookings/create_booking.html:48
-#: templates/bookings/edit_booking.html:59
+#: templates/bookings/edit_booking.html:69
 msgid "(e.g. +1234567890)"
 msgstr "(por ejemplo +1234567890)"
 
@@ -1320,12 +1352,12 @@ msgid "Add Service"
 msgstr "Añadir Servicio"
 
 #: templates/bookings/create_booking.html:103
-#: templates/bookings/edit_booking.html:81
+#: templates/bookings/edit_booking.html:91
 msgid "Choose a service..."
 msgstr "Elija un servicio..."
 
 #: templates/bookings/create_booking.html:115
-#: templates/bookings/edit_booking.html:106
+#: templates/bookings/edit_booking.html:116
 msgid "Select Specialist"
 msgstr "Elija un Especialista"
 
@@ -1335,71 +1367,71 @@ msgid "Optional"
 msgstr "Opcional"
 
 #: templates/bookings/create_booking.html:118
-#: templates/bookings/edit_booking.html:108
+#: templates/bookings/edit_booking.html:118
 msgid "Please select a service first"
 msgstr "Por favor seleccione un servicio primero"
 
 #: templates/bookings/create_booking.html:132
-#: templates/bookings/edit_booking.html:125
+#: templates/bookings/edit_booking.html:135
 msgid "Select Date & Time"
 msgstr "Fecha y hora"
 
 #: templates/bookings/create_booking.html:137
-#: templates/bookings/edit_booking.html:130
+#: templates/bookings/edit_booking.html:140
 #: templates/companies/add_service.html:53
 #: templates/companies/edit_service.html:53
 msgid "Available Dates"
 msgstr "Planes disponibles"
 
 #: templates/bookings/create_booking.html:153
-#: templates/bookings/edit_booking.html:146
+#: templates/bookings/edit_booking.html:156
 msgid "Please select a specialist first"
 msgstr "Por favor seleccione un especialista primero"
 
 #: templates/bookings/create_booking.html:157
-#: templates/bookings/edit_booking.html:150
+#: templates/bookings/edit_booking.html:160
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:22
 msgid "Sun"
 msgstr "Dom"
 
 #: templates/bookings/create_booking.html:158
-#: templates/bookings/edit_booking.html:151
+#: templates/bookings/edit_booking.html:161
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:16
 msgid "Mon"
 msgstr "Lun"
 
 #: templates/bookings/create_booking.html:159
-#: templates/bookings/edit_booking.html:152
+#: templates/bookings/edit_booking.html:162
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:17
 msgid "Tue"
 msgstr "Mar"
 
 #: templates/bookings/create_booking.html:160
-#: templates/bookings/edit_booking.html:153
+#: templates/bookings/edit_booking.html:163
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:18
 msgid "Wed"
 msgstr "Mie"
 
 #: templates/bookings/create_booking.html:161
-#: templates/bookings/edit_booking.html:154
+#: templates/bookings/edit_booking.html:164
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:19
 msgid "Thu"
 msgstr "Jue"
 
 #: templates/bookings/create_booking.html:162
-#: templates/bookings/edit_booking.html:155
+#: templates/bookings/edit_booking.html:165
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:20
 msgid "Fri"
 msgstr "Vie"
 
 #: templates/bookings/create_booking.html:163
-#: templates/bookings/edit_booking.html:156
+#: templates/bookings/edit_booking.html:166
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:21
 msgid "Sat"
 msgstr "Sab"
 
 #: templates/bookings/create_booking.html:172
-#: templates/bookings/edit_booking.html:168
+#: templates/bookings/edit_booking.html:178
 msgid "Available Time"
 msgstr "Tiempos disponibles"
 
@@ -1427,26 +1459,27 @@ msgstr "servicios"
 msgid "Edit Booking"
 msgstr "Editar reserva"
 
-#: templates/bookings/edit_booking.html:51
+#: templates/bookings/edit_booking.html:52
+#: templates/companies/customer_detail.html:18
 msgid "Customer Information"
 msgstr "Información del cliente"
 
-#: templates/bookings/edit_booking.html:54
+#: templates/bookings/edit_booking.html:55
+msgid "View customer details"
+msgstr "Ver detalles del cliente"
+
+#: templates/bookings/edit_booking.html:64
 #: templates/companies/analytics.html:417
 msgid "Customer Name"
 msgstr "Nombre del cliente"
 
-#: templates/bookings/edit_booking.html:76
+#: templates/bookings/edit_booking.html:86
 msgid "Select Service"
 msgstr "Seleccionar servicio"
 
-#: templates/bookings/edit_booking.html:183
+#: templates/bookings/edit_booking.html:192
 msgid "Booking details"
 msgstr "Detalles de la reserva"
-
-#: templates/bookings/edit_booking.html:187
-msgid "View customer details"
-msgstr "Ver detalles del cliente"
 
 #: templates/bookings/edit_booking.html:203
 msgid "Client Notes"
@@ -1688,7 +1721,7 @@ msgid "Service Performance"
 msgstr "Rendimiento del servicio"
 
 #: templates/companies/analytics.html:129
-#: templates/companies/customer_detail.html:33
+#: templates/companies/customer_detail.html:47
 msgid "Service Name"
 msgstr "Servicio"
 
@@ -1725,7 +1758,7 @@ msgid "Inactive"
 msgstr "Inactivo"
 
 #: templates/companies/analytics.html:204
-#: templates/companies/customer_detail.html:45
+#: templates/companies/customer_detail.html:59
 msgid "No services found."
 msgstr "No se encontraron servicios."
 
@@ -1866,55 +1899,63 @@ msgstr "Ingresos (€)"
 msgid "Customer Detail"
 msgstr "Detalle del cliente"
 
-#: templates/companies/customer_detail.html:28
+#: templates/companies/customer_detail.html:42
 msgid "Services Booked"
 msgstr "Servicios"
 
-#: templates/companies/customer_detail.html:34
+#: templates/companies/customer_detail.html:48
 msgid "Times Booked"
 msgstr "Tiempo"
 
-#: templates/companies/customer_detail.html:55
+#: templates/companies/customer_detail.html:69
 msgid "Booking History"
 msgstr "Historial de reservas"
 
-#: templates/companies/customer_detail.html:64
+#: templates/companies/customer_detail.html:78
 msgid "with"
 msgstr "con"
 
-#: templates/companies/customer_detail.html:86
+#: templates/companies/customer_detail.html:100
 #: templates/companies/customers_list.html:84
 msgid "First"
 msgstr "Primera"
 
-#: templates/companies/customer_detail.html:90
+#: templates/companies/customer_detail.html:104
 #: templates/companies/customers_list.html:88
 msgid "Previous"
 msgstr "Previa"
 
-#: templates/companies/customer_detail.html:109
+#: templates/companies/customer_detail.html:123
 #: templates/companies/customers_list.html:107
 msgid "Next"
 msgstr "Próxima"
 
-#: templates/companies/customer_detail.html:113
+#: templates/companies/customer_detail.html:127
 #: templates/companies/customers_list.html:111
 msgid "Last"
 msgstr "Última"
 
-#: templates/companies/customer_detail.html:120
+#: templates/companies/customer_detail.html:134
 #: templates/companies/customers_list.html:118
 msgid "Page"
 msgstr "Pagina"
 
-#: templates/companies/customer_detail.html:120
+#: templates/companies/customer_detail.html:134
 #: templates/companies/customers_list.html:118
 msgid "of"
 msgstr "de"
 
-#: templates/companies/customer_detail.html:121
+#: templates/companies/customer_detail.html:135
 msgid "total bookings"
 msgstr "Reservas"
+
+#: templates/companies/customer_detail.html:227
+msgid "Error updating customer"
+msgstr "Error al actualizar la cliente"
+
+#: templates/companies/customer_detail.html:231
+msgid "Network error. Please try again."
+msgstr "Error de red. Por favor, inténtelo de nuevo."
 
 #: templates/companies/customers_list.html:15
 msgid "Customers for"
@@ -4731,3 +4772,6 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "Mejor Valor - Ahorre"
+#~ msgstr "Mejor Valor - Ahorre"

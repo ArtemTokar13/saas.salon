@@ -1,3 +1,8 @@
+// Fallback for gettext if not loaded yet
+if (typeof gettext === 'undefined') {
+    window.gettext = function(msgid) { return msgid; };
+}
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -31,17 +36,17 @@ async function updateStatus(bookingId, status) {
         if (response.ok) {
             location.reload();
         } else {
-            alert('Error updating booking status');
+            alert(gettext('Error updating booking status'));
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error updating booking status');
+        alert(gettext('Error updating booking status'));
     }
 }
 
 // Confirm booking
 async function confirmBooking(bookingId) {
-    if (!confirm('Confirm this booking?')) return;
+    if (!confirm(gettext('Confirm this booking?'))) return;
     await updateStatus(bookingId, '1'); // 1 = Confirmed
 }
 
@@ -53,7 +58,7 @@ function editBooking(bookingId) {
 
 // Delete booking
 async function deleteBooking(bookingId) {
-    if (!confirm('Are you sure you want to delete this booking?')) return;
+    if (!confirm(gettext('Are you sure you want to delete this booking?'))) return;
     
     const csrf_token = getCookie('csrftoken');
     const urlPrefix = window.location.pathname.split('/').slice(0, 2).join('/');
@@ -68,15 +73,15 @@ async function deleteBooking(bookingId) {
         });
         
         if (response.ok) {
-            alert('Booking deleted successfully');
+            alert(gettext('Booking deleted successfully'));
             location.reload();
         } else {
             const data = await response.json();
-            alert('Error deleting booking: ' + (data.error || 'Unknown error'));
+            alert(gettext('Error deleting booking: ') + (data.error || gettext('Unknown error')));
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error deleting booking: ' + error.message);
+        alert(gettext('Error deleting booking: ') + error.message);
     }
 }
 
@@ -356,7 +361,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
                     }, 100);
                 } catch (error) {
                     console.error('Error fetching calendar data:', error);
-                    alert('Error loading calendar data. Please refresh the page.');
+                    alert(gettext('Error loading calendar data. Please refresh the page.'));
                 }
             }
         },

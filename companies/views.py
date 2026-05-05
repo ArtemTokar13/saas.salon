@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
@@ -1350,6 +1351,59 @@ def customer_detail(request, customer_id):
     except UserProfile.DoesNotExist:
         messages.error(request, 'User profile not found.')
         return redirect('/')
+
+
+@csrf_exempt  # Needed because it's outside i18n_patterns
+@login_required
+@require_POST
+def update_customer(request, customer_id):
+    """Update customer information (name and phone)"""
+    try:
+        profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        return JsonResponse({'error': _('User profile not found')}, status=403)
+    
+    customer = get_object_or_404(Customer, id=customer_id)
+    
+    # Ensure the customer is associated with the company
+    if not customer.booking_set.filter(company=profile.company).exists():
+        return JsonResponse({'error': _('Access denied')}, status=403)
+    
+    try:
+        data = json.loads(request.body)
+        name = data.get('name', '').strip()
+        phone = data.get('phone', '').strip()
+        
+        # Validate
+        if not name:
+            return JsonResponse({'error': _('Name is required')}, status=400)
+        
+        if not phone:
+            return JsonResponse({'error': _('Phone is required')}, status=400)
+        
+        if not phone.startswith('+'):
+            return JsonResponse({'error': _('Phone must include country code (e.g. +1234567890)')}, status=400)
+        
+        # Update customer
+        customer.name = name
+        customer.phone = phone
+        customer.save()
+        
+        return JsonResponse({
+            'success': True,
+            'customer': {
+                'id': customer.id,
+                'name': customer.name,
+                'phone': customer.phone
+            }
+        })
+        
+    except json.JSONDecodeError as e:
+        return JsonResponse({'error': _('Invalid JSON: %(error)s') % {'error': str(e)}}, status=400)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': str(e)}, status=500)
 
 
 @login_required

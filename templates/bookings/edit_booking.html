@@ -48,7 +48,17 @@
                 
                 <!-- Customer Information -->
                 <div class="mb-6 border-b pb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Customer Information" %}</h2>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-900">{% trans "Customer Information" %}</h2>
+                        <a href="{% url 'customer_detail' booking.customer.id %}"
+                        class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-900">
+                            {% trans "View customer details" %}
+                            <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
                     
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Customer Name" %}</label>
@@ -178,19 +188,9 @@
                 
                 <!-- Notes -->
                 <div class="mb-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-lg font-semibold text-gray-900">
-                            {% trans "Booking details" %}
-                        </h2>
-                        <a href="{% url 'customer_detail' booking.customer.id %}"
-                        class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-900">
-                            {% trans "View customer details" %}
-                            <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path d="M9 5l7 7-7 7"/>
-                            </svg>
-                        </a>
-                    </div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
+                        {% trans "Booking details" %}
+                    </h2>
                     {{ form.notes }}
                     {% if form.notes.errors %}
                         <p class="mt-1 text-sm text-red-600">{{ form.notes.errors.0 }}</p>
@@ -248,7 +248,7 @@
 // });
 
 const companyId = {{ company.id }};
-const currentBookingStaffId = {{ booking.staff.id }};
+const currentBookingStaffId = {% if booking.staff %}{{ booking.staff.id }}{% else %}null{% endif %};
 const currentBookingDate = "{{ booking.date|date:'Y-m-d' }}";
 const bookingId = {{ booking.id }};
 
@@ -417,7 +417,7 @@ serviceSelect.addEventListener('change', async function() {
 });
 
 // Initialize: trigger service change to load staff
-if (serviceSelect.value) {
+if (serviceSelect && serviceSelect.value) {
     serviceSelect.dispatchEvent(new Event('change'));
 }
 

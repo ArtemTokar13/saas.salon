@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 17:55+0100\n"
+"POT-Creation-Date: 2026-05-05 10:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,42 +21,70 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: static/js/calendar.js:95 static/js/calendar.js:293
+#: static/js/calendar.js:34 static/js/calendar.js:38
+msgid "Error updating booking status"
+msgstr "Помилка оновлення статусу бронювання"
+
+#: static/js/calendar.js:44
+msgid "Confirm this booking?"
+msgstr "Підтвердити це бронювання?"
+
+#: static/js/calendar.js:56
+msgid "Are you sure you want to delete this booking?"
+msgstr "Ви впевнені, що хочете видалити це бронювання?"
+
+#: static/js/calendar.js:71
+msgid "Booking deleted successfully"
+msgstr "Бронювання успішно видалено"
+
+#: static/js/calendar.js:75 static/js/calendar.js:79
+msgid "Error deleting booking: "
+msgstr "Помилка видалення бронювання: "
+
+#: static/js/calendar.js:75
+msgid "Unknown error"
+msgstr "Невідома помилка"
+
+#: static/js/calendar.js:95 static/js/calendar.js:301
 msgid "Confirmed"
 msgstr "Підтверджено"
 
-#: static/js/calendar.js:97 static/js/calendar.js:295
+#: static/js/calendar.js:97 static/js/calendar.js:303
 msgid "PreBooked"
 msgstr "Попередньо Заброньовано"
 
-#: static/js/calendar.js:428
+#: static/js/calendar.js:359
+msgid "Error loading calendar data. Please refresh the page."
+msgstr "Помилка завантаження даних календаря. Оновіть сторінку."
+
+#: static/js/calendar.js:479
 msgid "Booking Details"
 msgstr "Деталі Бронювання"
 
-#: static/js/calendar.js:429
+#: static/js/calendar.js:480
 msgid "Customer"
 msgstr "Клієнт"
 
-#: static/js/calendar.js:430
+#: static/js/calendar.js:481
 msgid "Service"
 msgstr "Послуга"
 
-#: static/js/calendar.js:431
+#: static/js/calendar.js:482
 msgid "Time"
 msgstr "Час"
 
-#: static/js/calendar.js:432
+#: static/js/calendar.js:483
 msgid "Client Notes"
 msgstr "Примітки Клієнта"
 
-#: static/js/calendar.js:437
+#: static/js/calendar.js:488
 msgid "Edit"
 msgstr "Редагувати"
 
-#: static/js/calendar.js:441
+#: static/js/calendar.js:492
 msgid "Delete"
 msgstr "Видалити"
 
-#: static/js/calendar.js:445
+#: static/js/calendar.js:496
 msgid "Close"
 msgstr "Закрити"

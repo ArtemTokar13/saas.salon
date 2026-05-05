@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 18:15+0100\n"
+"POT-Creation-Date: 2026-05-05 10:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,71 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: static/js/calendar.js:410
-msgid "Booking Details"
-msgstr "Detalles de la Reserva"
 
-#: static/js/calendar.js:411
-msgid "Customer"
-msgstr "Cliente"
+#: static/js/calendar.js:34 static/js/calendar.js:38
+msgid "Error updating booking status"
+msgstr "Error al actualizar el estado de la reserva."
 
-#: static/js/calendar.js:412
-msgid "Service"
-msgstr "Servicio"
+#: static/js/calendar.js:44
+msgid "Confirm this booking?"
+msgstr "¿Confirmar esta reserva?"
 
-#: static/js/calendar.js
+#: static/js/calendar.js:56
+msgid "Are you sure you want to delete this booking?"
+msgstr "¿Está seguro de que desea eliminar esta reserva?"
+
+#: static/js/calendar.js:71
+msgid "Booking deleted successfully"
+msgstr "Reserva eliminada correctamente"
+
+#: static/js/calendar.js:75 static/js/calendar.js:79
+msgid "Error deleting booking: "
+msgstr "Error al eliminar la reserva: "
+
+#: static/js/calendar.js:75
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: static/js/calendar.js:95 static/js/calendar.js:301
 msgid "Confirmed"
 msgstr "Confirmado"
 
-#: static/js/calendar.js
+#: static/js/calendar.js:97 static/js/calendar.js:303
 msgid "PreBooked"
 msgstr "Prereservado"
 
-#: static/js/calendar.js:413
+#: static/js/calendar.js:359
+msgid "Error loading calendar data. Please refresh the page."
+msgstr "Error al cargar los datos del calendario. Por favor, actualice la página."
+
+#: static/js/calendar.js:479
+msgid "Booking Details"
+msgstr "Detalles de la Reserva"
+
+#: static/js/calendar.js:480
+msgid "Customer"
+msgstr "Cliente"
+
+#: static/js/calendar.js:481
+msgid "Service"
+msgstr "Servicio"
+
+#: static/js/calendar.js:482
 msgid "Time"
 msgstr "Hora"
 
-#: static/js/calendar.js:414
+#: static/js/calendar.js:483
 msgid "Client Notes"
 msgstr "Notas del Cliente"
 
-#: static/js/calendar.js:419
+#: static/js/calendar.js:488
 msgid "Edit"
 msgstr "Editar"
 
-#: static/js/calendar.js:423
+#: static/js/calendar.js:492
 msgid "Delete"
 msgstr "Eliminar"
 
-#: static/js/calendar.js:427
+#: static/js/calendar.js:496
 msgid "Close"
 msgstr "Cerrar"

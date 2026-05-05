@@ -85,4 +85,4 @@ msgstr "Удалить"
 
 #: static/js/calendar.js:501
 msgid "Close"
-msgstr "Закрывать"
+msgstr "Закрыть"

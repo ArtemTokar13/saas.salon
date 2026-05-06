@@ -31,27 +31,11 @@ class BookingAI:
         self.client = OpenAI(api_key=api_key)
         self.model = getattr(settings, 'OPENAI_MODEL', 'gpt-4o-mini')
     
-    def extract_booking_intent(self, message: str, conversation_state: dict) -> Dict[str, Any]:
-        """
-        Extract booking intent from natural language message
-        
-        Returns:
-        {
-            'intent': 'greeting'|'book'|'check_availability'|'question',
-            'company_name': str (optional),
-            'service': str (optional),
-            'date': str (optional, YYYY-MM-DD),
-            'time': str (optional, HH:MM),
-            'time_preference': 'morning'|'afternoon'|'evening' (optional),
-            'customer_name': str (optional)
-        }
-        """
-        lang = conversation_state.get('language', 'es')
-        
-        # Generate upcoming dates with day names for context
+    def _get_day_names_calendar(self, lang: str) -> tuple:
+        """Generate calendar reference for date extraction"""
         from datetime import timedelta
         today = datetime.now().date()
-        upcoming_dates = []
+        
         day_names = {
             0: {'es': 'lunes', 'en': 'Monday', 'ru': 'понедельник', 'uk': 'понеділок'},
             1: {'es': 'martes', 'en': 'Tuesday', 'ru': 'вторник', 'uk': 'вівторок'},
@@ -62,6 +46,7 @@ class BookingAI:
             6: {'es': 'domingo', 'en': 'Sunday', 'ru': 'воскресенье', 'uk': 'неділя'}
         }
         
+        upcoming_dates = []
         for i in range(14):  # Next 14 days
             date = today + timedelta(days=i)
             day_num = date.weekday()
@@ -71,99 +56,133 @@ class BookingAI:
         dates_reference = "\n".join(upcoming_dates)
         today_name = day_names[today.weekday()][lang]
         
-        system_prompt = f"""You are a booking assistant AI. Extract booking information from user messages.
+        return today, today_name, dates_reference
+    
+    def _build_date_extraction_prompt(self, dates_reference: str) -> str:
+        """Build focused prompt for date extraction"""
+        return f"""📅 DATE EXTRACTION RULES (PRIORITY ORDER):
+
+Calendar Reference:
+{dates_reference}
+
+Rules:
+1. DIRECT DATE NUMBER (highest priority): 
+   - "27 апреля" = April 27 → use that exact number
+   - "21 числа" = 21st → use that exact number
+   - NEVER change the date number the user provides
+   
+2. DAY NAME ONLY (when no date number given):
+   - "понедельник" → Find in calendar above → Use that exact date
+   - "пятницу" → Find in calendar above → Use that exact date
+   - MUST use calendar lookup, do NOT calculate
+
+3. Extract BOTH date and time when present:
+   - "На вторник после 17:00" -> date AND time_after"""
+    
+    def _build_time_extraction_prompt(self) -> str:
+        """Build focused prompt for time extraction"""
+        return """⏰ TIME EXTRACTION (only with specific times):
+
+Extract time ONLY if user provides a specific time like "14:00" or "3pm".
+Ignore vague words like "later", "позже" without specific times.
+
+Types:
+- EXACT TIME: "в 14:00" / "at 2pm" → time: "14:00"
+  Keywords: "в", "на", "at", "a las"
+  
+- AFTER: "после 16:00" / "after 4pm" / "після 17:00" → time_after: "16:00"
+  Keywords: "после", "після", "después de", "after"
+  
+- BEFORE: "до 17:00" / "before 5pm" → time_before: "17:00"
+  Keywords: "до", "antes de", "before"
+
+Examples:
+  - "после 16:00" → time_after: "16:00"
+  - "до 17:00" → time_before: "17:00"
+  - "в 14:00" → time: "14:00"
+  - "позже" (no time) → DO NOT EXTRACT"""
+    
+    def _build_service_extraction_prompt(self) -> str:
+        """Build focused prompt for service name extraction"""
+        return """💅 SERVICE NAME EXTRACTION:
+
+CRITICAL: Extract the COMPLETE service name with ALL descriptive words.
+Keep the ORIGINAL language - do NOT translate.
+NEVER simplify or shorten.
+
+Examples:
+  ✅ CORRECT:
+    - Spanish: "Manicura sin pintar" → "Manicura sin pintar"
+    - Spanish: "Manicura semipermanente" → "Manicura semipermanente"
+    - Russian: "японский маникюр" → "японский маникюр"
+    - Russian: "маникюр без покрытия" → "маникюр без покрытия"
+  
+  ❌ WRONG:
+    - "Manicura sin pintar" → "manicura" (missing words!)
+    - "японский маникюр" → "маникюр" (missing adjective!)"""
+    
+    def _build_staff_extraction_prompt(self) -> str:
+        """Build focused prompt for staff name extraction"""
+        return """👤 STAFF NAME EXTRACTION:
+
+Extract staff name ONLY if user EXPLICITLY mentions it.
+
+Keywords indicating staff:
+  - Spanish: "con", "de"
+  - Russian: "с", "у"
+  - Ukrainian: "в", "у", "з"
+  - English: "with"
+
+Examples:
+  ✅ Extract: "с Анной", "con Maria", "у Наталії", "with Sarah"
+  ❌ Do NOT extract: Just service name without staff mention"""
+    
+    def _build_output_format_prompt(self) -> str:
+        """Build prompt for output format specification"""
+        return """📤 OUTPUT FORMAT:
+
+Return JSON with these fields (ONLY include fields mentioned in message):
+  - service: service name (complete, original language)
+  - staff_name: staff name (only if explicitly mentioned)
+  - date: date in YYYY-MM-DD format
+  - time: specific time in HH:MM format
+  - time_after: minimum time in HH:MM
+  - time_before: maximum time in HH:MM
+  - customer_name: customer's name (if mentioned)
+
+Do NOT include fields that are not mentioned in the message."""
+    
+    def _build_extraction_prompt(self, lang: str) -> str:
+        """Build complete extraction prompt from modular components"""
+        today, today_name, dates_reference = self._get_day_names_calendar(lang)
+        
+        return f"""You are a booking assistant AI. Extract booking information from user messages.
 Current language: {lang}
 Today is {today_name}, {today.strftime('%Y-%m-%d')}
 
-CRITICAL - Date/Day Reference Calendar:
-{dates_reference}
+TASK: Extract ONLY the booking details mentioned in the message.
+Do NOT invent or assume information.
 
-DATE EXTRACTION RULES (PRIORITY ORDER):
-1. DIRECT DATE NUMBER (highest priority): 
-   - "27 апреля" = April 27 → date: "2026-04-27"
-   - "21 апреля" = April 21 → date: "2026-04-21"
-   - "20 числа" = 20th → date: "2026-04-20"
-   - If user gives a number (20, 21, 27), use THAT number as the day of April 2026
-   
-2. DAY NAME ONLY (when no date number given):
-   - "понедельник" → Find "понедельник" in calendar above → Use that exact date
-   - "пятницу" → Find "пятница" in calendar above → Use that exact date
-   - MUST use calendar lookup, do NOT calculate
+{self._build_date_extraction_prompt(dates_reference)}
 
-3. NEVER change the date number the user provides
+{self._build_time_extraction_prompt()}
 
-CRITICAL - EXTRACT BOTH DATE AND TIME:
-When a message contains BOTH date and time information, you MUST extract BOTH fields!
-Examples:
-- "На вторник после 17:00" -> date: "2026-04-21" AND time_after: "17:00" (extract BOTH!)
-- "На пятницу в 14:00" -> date: "2026-04-23" AND time: "14:00" (extract BOTH!)
-- "27 апреля до 16:00" -> date: "2026-04-27" AND time_before: "16:00" (extract BOTH!)
+{self._build_service_extraction_prompt()}
 
-Return JSON with these fields:
-- intent: "greeting", "book", "check_availability", or "question"
-- company_name: salon/company name (if mentioned)
-- service: service type requested
-- staff_name: ONLY extract if user EXPLICITLY mentions a staff member name (e.g., "с Анной", "with Anna", "у Наталії"). DO NOT extract if no staff mentioned!
-- date: date in YYYY-MM-DD format
-- time: specific exact time in HH:MM format (e.g., "15:00", "3pm"->"15:00")
-- time_after: minimum time constraint in HH:MM format (e.g., "після 16:00"->"16:00", "after 3pm"->"15:00")
-- time_before: maximum time constraint in HH:MM format (e.g., "до 17:00"->"17:00", "before 5pm"->"17:00")
-- customer_name: customer's name
+{self._build_staff_extraction_prompt()}
 
-DO NOT EXTRACT time_preference field at all! Ignore vague time words like "later", "позже", "пізніше" completely.
-
-INTENT CLASSIFICATION:
-- "greeting": ONLY first-time hello/hi messages like "Привіт", "Hello", "Hola"
-- "book": ANY booking-related request like "Хочу записаться", "Сделать бронирование", "Book", "Reservar", "Make booking"
-- "check_availability": When asking about availability without booking
-- "question": General questions about services, prices, etc.
-
-Time extraction rules (ONLY extract if user provides SPECIFIC TIME):
-
-CRITICAL: Ignore vague time words without specific times!
-- "later" / "позже" / "пізніше" WITHOUT a time = DO NOT EXTRACT
-- "after lunch" / "после обеда" WITHOUT a time = DO NOT EXTRACT
-- ONLY extract when user provides a SPECIFIC TIME like "17:00", "3pm", etc.
-
-AFTER (only with specific time):
-- "после 16:00" / "after 4pm" / "після 17:00" -> time_after: "16:00" or "17:00"
-- Keywords: "после", "після", "después de", "after"
-- MUST have a specific time! Ignore if no time provided.
-
-BEFORE (only with specific time):
-- "до 17:00" / "before 5pm" / "до 18:00" -> time_before: "17:00" or "18:00"
-- Keywords: "до", "antes de", "before"
-- MUST have a specific time! Ignore if no time provided.
-
-AT/EXACT TIME:
-- Russian: "в" (v), "на" (na when referring to time), "о" (o)
-- Ukrainian: "в" (v), "на" (na), "о" (o)
-- Spanish: "a las", "a la"
-- English: "at"
-Examples: "в 14:00" -> time: "14:00", "на 14:00" -> time: "14:00"
-
-Multilingual examples:
-- "після 16:00" -> time_after: "16:00"
-- "после 16:00" -> time_after: "16:00"
-- "после 17:00" -> time_after: "17:00"
-- "after 4pm" -> time_after: "16:00"
-- "до 17:00" -> time_before: "17:00"
-- "antes de las 5" -> time_before: "17:00"
-- "в 14:00" -> time: "14:00"
-- "на 14:00" -> time: "14:00"
-- "в Наталі" / "у Наталі" / "con Natali" / "with Natali" -> staff_name: "Natali"
-
-Service name extraction (CRITICAL - PRESERVE ALL WORDS):
-1. Extract the COMPLETE service name with ALL descriptive words
-2. Keep the ORIGINAL language - do NOT translate service names
-3. Examples of CORRECT extraction:
-   - Spanish: "Manicura sin pintar" -> "Manicura sin pintar" (NOT just "manicura")
-   - Spanish: "Manicura semipermanente" -> "Manicura semipermanente"
-   - Spanish: "Manicura japonesa" -> "Manicura japonesa"
-   - Russian: "японский маникюр" -> "японский маникюр" (NOT just "маникюр")
-   - Russian: "маникюр без покрытия" -> "маникюр без покрытия"
-   - Ukrainian: "японський манікюр" -> "японський манікюр"
-4. NEVER simplify or shorten - keep ALL words the user provides"""
+{self._build_output_format_prompt()}"""
+    
+    def extract_booking_intent(self, message: str, conversation_state: dict) -> Dict[str, Any]:
+        """
+        Extract booking intent from natural language message
+        
+        Returns dict with extracted booking information
+        """
+        lang = conversation_state.get('language', 'es')
+        
+        # Build the system prompt from modular components
+        system_prompt = self._build_extraction_prompt(lang)
         
         try:
             response = self.client.chat.completions.create(
@@ -186,20 +205,8 @@ Service name extraction (CRITICAL - PRESERVE ALL WORDS):
             return self._fallback_intent_detection(message)
     
     def _fallback_intent_detection(self, message: str) -> Dict[str, Any]:
-        """Simple fallback if AI fails"""
-        message_lower = message.lower()
-        
-        # Check for booking keywords
-        booking_keywords = ['reservar', 'reserva', 'cita', 'book', 'appointment', 'agendar']
-        if any(word in message_lower for word in booking_keywords):
-            return {'intent': 'book'}
-        
-        # Check for greeting
-        greeting_keywords = ['hola', 'hello', 'hi', 'buenos', 'buenas', 'привіт']
-        if any(word in message_lower for word in greeting_keywords):
-            return {'intent': 'greeting'}
-        
-        return {'intent': 'question'}
+        """Simple fallback if AI fails - just return empty dict"""
+        return {}
     
     def generate_response(self, data: Dict[str, Any]) -> str:
         """

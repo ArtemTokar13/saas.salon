@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 from hashlib import md5
 from datetime import datetime, timedelta, time as dtime
 from django.conf import settings
@@ -13,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.utils.translation import gettext as _
 from .models import Booking, Customer
 from .forms import BookingForm
 from companies.models import Company, Staff, Service, WorkingHours, EmailLog, StaffWorkingHours, StaffOutOfOffice
@@ -72,12 +74,24 @@ def create_booking(request, company_id):
             
             # Validate customer info
             if not customer_name:
-                messages.error(request, 'Name is required')
+                messages.error(request, _('Name is required'))
                 return redirect('create_booking', company_id=company.id)
             
-            if not customer_phone or not customer_phone.startswith('+'):
-                messages.error(request, 'Phone number must include country code (e.g., +34612345678)')
+            # Validate and clean phone number
+            if not customer_phone:
+                messages.error(request, _('Phone number is required'))
                 return redirect('create_booking', company_id=company.id)
+            
+            # Remove ALL whitespace including Unicode variants and zero-width characters
+            cleaned_phone = re.sub(r'\s+', '', customer_phone)
+            cleaned_phone = ''.join(c for c in cleaned_phone if c.isprintable() or c == '+')
+            
+            if not cleaned_phone.startswith('+'):
+                messages.error(request, _('Phone number must include country code (e.g., +34612345678)'))
+                return redirect('create_booking', company_id=company.id)
+            
+            # Use cleaned phone for the rest of the processing
+            customer_phone = cleaned_phone
             
             # Find or create customer
             customer = Customer.objects.filter(phone=customer_phone).first()
@@ -131,7 +145,7 @@ def create_booking(request, company_id):
                     })
             
             if not bookings_data:
-                messages.error(request, 'Please complete all required fields')
+                messages.error(request, _('Please complete all required fields'))
                 return redirect('create_booking', company_id=company.id)
             
             # Create all bookings in a transaction
@@ -293,7 +307,7 @@ def booking_confirmation(request, booking_id):
         bookings = Booking.objects.filter(id__in=booking_ids).select_related('customer', 'staff', 'service', 'company')
         
         if not bookings.exists():
-            messages.error(request, 'Booking not found')
+            messages.error(request, _('Booking not found'))
             return redirect('/')
         
         # Use first booking for customer info and company
@@ -373,7 +387,7 @@ def cancel_booking(request, booking_id, delete_code):
                 email_log.save()
                 logger.error(f"Failed to send booking cancellation email: {e}")
 
-        messages.success(request, 'Your booking has been cancelled.')
+        messages.success(request, _('Your booking has been cancelled.'))
     return HttpResponseRedirect(f'/companies/{booking.company.id}/')
 
 
@@ -1515,10 +1529,10 @@ def confirm_prebooked_booking(request, booking_id):
         profile = request.user.userprofile
         # Check permission - only admin or staff assigned to this booking
         if not profile.is_admin and profile.staff != booking.staff:
-            messages.error(request, 'You do not have permission to confirm this booking.')
+            messages.error(request, _('You do not have permission to confirm this booking.'))
             return redirect('/')
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
     
     if request.method == 'POST':
@@ -1526,7 +1540,7 @@ def confirm_prebooked_booking(request, booking_id):
         price = request.POST.get('price')
         
         if not duration or not price:
-            messages.error(request, 'Duration and price are required.')
+            messages.error(request, _('Duration and price are required.'))
             return redirect('confirm_prebooked_booking', booking_id=booking_id)
         
         try:
@@ -1546,10 +1560,10 @@ def confirm_prebooked_booking(request, booking_id):
             booking.confirmed_by = request.user
             booking.save()
             
-            messages.success(request, 'Booking confirmed successfully!')
+            messages.success(request, _('Booking confirmed successfully!'))
             return redirect('bookings_list')
         except (ValueError, TypeError):
-            messages.error(request, 'Invalid duration or price format.')
+            messages.error(request, _('Invalid duration or price format.'))
             return redirect('confirm_prebooked_booking', booking_id=booking_id)
     
     context = {
@@ -1634,5 +1648,5 @@ def bookings_list(request):
         }
         return render(request, 'bookings/bookings_list.html', context)
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')

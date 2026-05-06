@@ -10,6 +10,7 @@ from bookings.utils import normalize_phone_number
 from companies.models import Company, Service, Staff
 from decimal import Decimal
 import json
+import re
 from datetime import datetime
 
 
@@ -202,10 +203,18 @@ def bookings_list(request):
             
             # Validate phone number has country code
             raw_phone = data.get('customer_phone', '')
-            if raw_phone and not raw_phone.strip().startswith('+'):
-                return JsonResponse({
-                    'error': 'Phone number must include country code (e.g., +34612345678)'
-                }, status=400)
+            if raw_phone:
+                # Remove ALL whitespace including Unicode variants and zero-width characters
+                cleaned_phone = re.sub(r'\s+', '', raw_phone)  # Remove all whitespace
+                cleaned_phone = ''.join(c for c in cleaned_phone if c.isprintable() or c == '+')  # Remove invisible chars
+                
+                if not cleaned_phone.startswith('+'):
+                    return JsonResponse({
+                        'error': 'Phone number must include country code (e.g., +34612345678)'
+                    }, status=400)
+                
+                # Use cleaned phone for the rest of the processing
+                raw_phone = cleaned_phone
             
             # country_code = data.get('customer_country_code', '')
             booking = Booking.objects.create(

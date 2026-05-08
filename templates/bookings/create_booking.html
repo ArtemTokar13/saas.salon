@@ -269,6 +269,7 @@ const translations = {
 
 // Global variables
 const companyId = {{ company.id }};
+const preselectedServiceId = '{{ preselected_service_id|escapejs }}';
 const bookingForm = document.getElementById('bookingForm');
 const validationError = document.getElementById('validationError');
 const validationErrorList = document.getElementById('validationErrorList');
@@ -300,6 +301,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add first booking row automatically
     addBookingRow();
+    
+    // Pre-select service if specified in URL
+    if (preselectedServiceId) {
+        setTimeout(() => {
+            const firstRow = document.querySelector('.booking-row[data-row-index="0"]');
+            if (firstRow) {
+                const serviceSelect = firstRow.querySelector('.service-select');
+                if (serviceSelect) {
+                    serviceSelect.value = preselectedServiceId;
+                    // Trigger change event to load staff
+                    serviceSelect.dispatchEvent(new Event('change'));
+                }
+            }
+        }, 100);
+    }
     
     // Add service button
     addServiceBtn.addEventListener('click', addBookingRow);

@@ -261,9 +261,13 @@ def create_booking(request, company_id):
     # GET request
     services = Service.objects.filter(company=company, is_active=True)
     
+    # Get service_id from query params if provided
+    service_id = request.GET.get('service_id', '')
+    
     context = {
         'company': company,
         'services': services,
+        'preselected_service_id': service_id,
     }
     
     return render(request, 'bookings/create_booking.html', context)

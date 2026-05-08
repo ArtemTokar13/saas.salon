@@ -30,52 +30,82 @@ def whatsapp_webhook(request):
     Twilio will POST to this URL when a message is received
     """
     
-    # Verify request is from Twilio (security)
-    if not verify_twilio_request(request):
-        logger.warning("Invalid Twilio request signature")
-        return HttpResponse("Forbidden", status=403)
-    
-    # Extract message data
-    from_number = request.POST.get('From', '')  # Format: whatsapp:+1234567890
-    to_number = request.POST.get('To', '')
-    message_body = request.POST.get('Body', '').strip()
-    message_sid = request.POST.get('MessageSid', '')
-    
-    logger.info(f"Received WhatsApp message from {from_number}: {message_body}")
-    
-    # Get or create conversation
-    conversation = get_or_create_conversation(from_number)
-    
-    # Try to find and link existing customer
-    find_and_link_customer(conversation)
-    
-    # Log message
-    WhatsAppMessage.objects.create(
-        conversation=conversation,
-        from_number=from_number,
-        to_number=to_number,
-        message_body=message_body,
-        direction='inbound',
-        message_sid=message_sid
-    )
-    
-    # Process message and generate response
-    response_text = process_message(conversation, message_body)
-    
-    # Send response via Twilio
-    response = MessagingResponse()
-    response.message(response_text)
-    
-    # Log outbound message
-    WhatsAppMessage.objects.create(
-        conversation=conversation,
-        from_number=to_number,
-        to_number=from_number,
-        message_body=response_text,
-        direction='outbound'
-    )
-    
-    return HttpResponse(str(response), content_type='text/xml')
+    try:
+        # Verify request is from Twilio (security)
+        if not verify_twilio_request(request):
+            logger.warning("Invalid Twilio request signature")
+            return HttpResponse("Forbidden", status=403)
+        
+        # Extract message data
+        from_number = request.POST.get('From', '')  # Format: whatsapp:+1234567890
+        to_number = request.POST.get('To', '')
+        message_body = request.POST.get('Body', '').strip()
+        message_sid = request.POST.get('MessageSid', '')
+        
+        logger.info(f"Received WhatsApp message from {from_number}: {message_body}")
+        
+        # Get or create conversation
+        conversation = get_or_create_conversation(from_number)
+        
+        # Try to find and link existing customer
+        find_and_link_customer(conversation)
+        
+        # Log message
+        WhatsAppMessage.objects.create(
+            conversation=conversation,
+            from_number=from_number,
+            to_number=to_number,
+            message_body=message_body,
+            direction='inbound',
+            message_sid=message_sid
+        )
+        
+        # Process message and generate response
+        try:
+            response_text = process_message(conversation, message_body)
+            
+            # Safety check: ensure we have a valid response
+            if not response_text or not isinstance(response_text, str):
+                logger.error(f"process_message returned invalid response: {type(response_text)}")
+                lang = conversation.conversation_state.get('language', 'es')
+                response_text = get_message('service_error', lang)
+        except Exception as e:
+            logger.error(f"Error in process_message: {e}", exc_info=True)
+            # Try to get language and show error message
+            try:
+                lang = conversation.conversation_state.get('language', 'es')
+                response_text = get_message('service_error', lang)
+            except:
+                response_text = "⚠️ Sorry, there was an error. Please try again."
+        
+        # Send response via Twilio
+        response = MessagingResponse()
+        response.message(response_text)
+        
+        # Log outbound message
+        WhatsAppMessage.objects.create(
+            conversation=conversation,
+            from_number=to_number,
+            to_number=from_number,
+            message_body=response_text,
+            direction='outbound'
+        )
+        
+        return HttpResponse(str(response), content_type='text/xml')
+        
+    except Exception as e:
+        # Log the full error for debugging
+        logger.error(f"WhatsApp webhook error: {e}", exc_info=True)
+        
+        # Return a friendly error message to the user
+        try:
+            response = MessagingResponse()
+            response.message("⚠️ Sorry, there was a technical error. Please try again in a moment or contact us directly.")
+            return HttpResponse(str(response), content_type='text/xml', status=200)
+        except:
+            # If even creating the error response fails, return a simple 200
+            return HttpResponse('<?xml version="1.0" encoding="UTF-8"?><Response></Response>', 
+                              content_type='text/xml', status=200)
 
 
 def verify_twilio_request(request):
@@ -269,13 +299,36 @@ Reply with the number (1-4) or language code."""
         return handle_menu_choice(conversation, menu_choice)
     
     # Use AI to extract booking details
+    lang = state.get('language', 'es')  # Get language at the start
     try:
         ai = BookingAI()
         intent_data = ai.extract_booking_intent(message, conversation.conversation_state)
+        logger.info(f"AI extracted data: {intent_data}")
     except Exception as e:
         logger.error(f"AI error: {e}")
-        lang = state.get('language', 'es')
         return get_message('service_error', lang)
+    
+    # Safety check: if only "service" extracted, check if it's actually a company name
+    if intent_data.get('service') and not any([
+        intent_data.get('date'),
+        intent_data.get('time'),
+        intent_data.get('time_after'),
+        intent_data.get('time_before'),
+        intent_data.get('staff_name')
+    ]):
+        # Only service name extracted - might be a company name
+        searcher = BookingSearcher()
+        potential_company = searcher.find_company(intent_data['service'])
+        if potential_company:
+            # It's a company! Set it and return greeting
+            conversation.company = potential_company
+            conversation.current_state = 'idle'
+            state = conversation.conversation_state
+            state['company_name'] = potential_company.name
+            conversation.conversation_state = state
+            conversation.save()
+            logger.info(f"AI extracted company name as service: {potential_company.name}")
+            return get_message('welcome_menu_with_salon', lang, company=potential_company, company_name=potential_company.name)
     
     # Infer intent from extracted data
     # If service, date, or time info was extracted, treat as booking request
@@ -540,15 +593,20 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
     salon_name = None
     
     # Pattern 1: "Hola SalonName" or "Hola! SalonName"
-    if message_clean.lower().startswith(('hola', 'hello', 'привіт')):
+    is_greeting_with_salon = False
+    if message_clean.lower().startswith(('hola', 'hello', 'привіт', 'hi')):
+        is_greeting_with_salon = True
         # Extract potential salon name
         # Remove greeting words
-        for greeting in ['hola', 'hello', 'привіт', 'hola!', 'hello!']:
-            if message_clean.lower().startswith(greeting):
+        message_lower = message_clean.lower()
+        for greeting in ['hello', 'hola!', 'hello!', 'hola', 'привіт', 'hi']:
+            if message_lower.startswith(greeting):
                 salon_name = message_clean[len(greeting):].strip()
                 break
         else:
             salon_name = message_clean
+        
+        logger.info(f"Detected greeting with potential salon: '{salon_name}'")
     # Pattern 2: Standalone salon name (e.g., just "ANIMA" when asked which salon)
     else:
         # Try to match as salon name directly
@@ -556,7 +614,9 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
     
     if salon_name:
         # Try to find company by name
+        logger.info(f"Searching for company: '{salon_name}'")
         company = searcher.find_company(salon_name)
+        logger.info(f"Company found: {company.name if company else 'None'}")
         
         if company:
             # Check if this is a salon switch (different from current)
@@ -587,6 +647,12 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
                 return messages_switch.get(lang, messages_switch['es'])
             else:
                 return get_message('welcome_menu_with_salon', lang, company=company, company_name=company.name)
+        else:
+            # Salon not found but user sent a greeting
+            if is_greeting_with_salon:
+                logger.warning(f"Salon name '{salon_name}' not found after greeting")
+                # Return generic greeting since salon wasn't found
+                return handle_greeting(conversation)
     
     return None  # No salon detected
 
@@ -1354,7 +1420,9 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
     # Add examples to kwargs for welcome messages
     if key in ['welcome_with_salon', 'welcome_general']:
         kwargs['examples'] = examples_str
-        
+    
+    # Add personalized name greeting if customer name is provided for all welcome/menu messages
+    if key in ['welcome_with_salon', 'welcome_general', 'welcome_menu_with_salon', 'welcome_menu_general']:
         # Add personalized name greeting if customer name is provided
         customer_name = kwargs.get('customer_name')
         if customer_name:
@@ -1364,6 +1432,11 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
             kwargs['name_greeting'] = ""
     
     # Format with kwargs if provided
-    if kwargs:
-        return template.format(**kwargs)
-    return template
+    try:
+        if kwargs:
+            return template.format(**kwargs)
+        return template
+    except KeyError as e:
+        # If a required key is missing, log and return a safe default
+        logger.error(f"Missing key in message template '{key}': {e}")
+        return template  # Return unformatted template as fallback

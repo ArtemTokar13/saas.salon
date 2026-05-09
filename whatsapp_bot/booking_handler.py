@@ -119,9 +119,16 @@ class BookingSearcher:
         return None
     
     def find_available_slots(self, company: Company, service: Service, 
-                            date: datetime.date, time_preference: str = None) -> list:
+                            date: datetime.date, time_preference: str = None, staff_id: int = None) -> list:
         """
         Find available time slots for a service on a specific date
+        
+        Args:
+            company: Company object
+            service: Service object
+            date: Date to search for availability
+            time_preference: Optional time preference (morning, afternoon, evening)
+            staff_id: Optional staff ID to search only for specific staff member
         
         Returns list of dicts:
         [
@@ -138,21 +145,30 @@ class BookingSearcher:
         """
         available_slots = []
         
-        # Get staff who can perform this service
-        staff_members = Staff.objects.filter(
-            company=company,
-            is_active=True,
-            services=service
-        )
-        
-        logger.info(f"Searching availability for '{service.name}' on {date}")
-        
-        if not staff_members.exists():
-            # If no staff assigned to service, check all staff
-            staff_members = Staff.objects.filter(company=company, is_active=True)
-            logger.info(f"No staff assigned to service, checking all {staff_members.count()} staff")
+        # If specific staff is requested, only get that staff member
+        if staff_id:
+            staff_members = Staff.objects.filter(
+                company=company,
+                is_active=True,
+                id=staff_id
+            )
+            logger.info(f"Searching availability for staff_id={staff_id} for '{service.name}' on {date}")
         else:
-            logger.info(f"Found {staff_members.count()} staff for this service")
+            # Get staff who can perform this service
+            staff_members = Staff.objects.filter(
+                company=company,
+                is_active=True,
+                services=service
+            )
+            
+            logger.info(f"Searching availability for '{service.name}' on {date}")
+            
+            if not staff_members.exists():
+                # If no staff assigned to service, check all staff
+                staff_members = Staff.objects.filter(company=company, is_active=True)
+                logger.info(f"No staff assigned to service, checking all {staff_members.count()} staff")
+            else:
+                logger.info(f"Found {staff_members.count()} staff for this service")
         
         for staff in staff_members:
             slots = self._get_staff_available_times(staff, service, date)
@@ -199,8 +215,8 @@ class BookingSearcher:
                     logger.info(f"    ✗ {staff.name} is out of office (legacy) {staff.out_of_office_start} to {staff.out_of_office_end}")
                     return []
         
-        # Check if staff is out of office using the new StaffOutOfOffice model
-        # This checks if the staff has any out-of-office periods that overlap with this date
+        # Check if staff has any out-of-office periods that overlap with this date
+        # We'll check individual time slots against these periods later
         date_start = datetime.combine(date, dtime.min)
         date_end = datetime.combine(date, dtime.max)
         
@@ -211,20 +227,16 @@ class BookingSearcher:
                 date_start = timezone.make_aware(date_start)
                 date_end = timezone.make_aware(date_end)
         
-        # Check if any out-of-office period overlaps with this entire day
-        overlapping_periods = StaffOutOfOffice.objects.filter(
+        # Get any out-of-office periods that overlap with this date
+        # We'll check each time slot against these periods individually
+        out_of_office_periods = StaffOutOfOffice.objects.filter(
             staff=staff,
             start_datetime__lte=date_end,
             end_datetime__gte=date_start
         )
         
-        if overlapping_periods.exists():
-            # Staff has at least one out-of-office period that overlaps with this day
-            # For simplicity, we'll exclude the entire day if any part is blocked
-            # TODO: In the future, could check individual time slots against out-of-office periods
-            period = overlapping_periods.first()
-            logger.info(f"    ✗ {staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d %H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}")
-            return []
+        if out_of_office_periods.exists():
+            logger.info(f"    ℹ {staff.name} has {out_of_office_periods.count()} out-of-office period(s) on this day - will check individual slots")
         
         # Get working hours for this day
         # First check staff-specific hours, then fall back to company hours
@@ -289,6 +301,28 @@ class BookingSearcher:
                     current_time += timedelta(minutes=30)
                     continue
             
+            # Check if this time slot overlaps with any out-of-office period
+            slot_blocked_by_out_of_office = False
+            for out_period in out_of_office_periods:
+                # Make current_time and potential_end_time timezone-aware if needed
+                check_start = current_time
+                check_end = potential_end_time
+                
+                if timezone.is_aware(out_period.start_datetime):
+                    if timezone.is_naive(check_start):
+                        check_start = timezone.make_aware(check_start)
+                    if timezone.is_naive(check_end):
+                        check_end = timezone.make_aware(check_end)
+                
+                # Check if the slot overlaps with this out-of-office period
+                if check_start < out_period.end_datetime and check_end > out_period.start_datetime:
+                    slot_blocked_by_out_of_office = True
+                    break
+            
+            if slot_blocked_by_out_of_office:
+                current_time += timedelta(minutes=30)
+                continue
+            
             # Check existing bookings
             is_available = True
             for booking_start, booking_end in existing_bookings:
@@ -332,6 +366,8 @@ class BookingSearcher:
         """
         Create a new booking
         """
+        # Clean WhatsApp phone number (remove spaces, dashes, parentheses)
+        customer_phone = normalize_phone_number(customer_phone)
         # Find or create customer (use filter().first() to handle duplicates)
         customer = Customer.objects.filter(phone=customer_phone).first()
         

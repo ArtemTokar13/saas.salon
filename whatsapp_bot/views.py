@@ -139,7 +139,7 @@ def get_or_create_conversation(phone_number: str) -> WhatsAppConversation:
     # Get or create active conversation
     conversation, created = WhatsAppConversation.objects.get_or_create(
         phone_number=phone_number,
-        current_state__in=['idle', 'selecting_language', 'selecting_service', 'collecting_info', 'showing_slots', 'confirming'],
+        current_state__in=['idle', 'selecting_language', 'selecting_service', 'selecting_staff', 'collecting_info', 'showing_slots', 'confirming'],
         defaults={'current_state': 'idle'}
     )
 
@@ -228,6 +228,16 @@ def process_message(conversation: WhatsAppConversation, message: str) -> str:
             return handle_service_selection(conversation, int(message))
         else:
             # User wants to specify service by name instead
+            conversation.current_state = 'idle'
+            conversation.save()
+            # Fall through to intent processing below
+    
+    # Check if user is selecting staff by number
+    if conversation.current_state == 'selecting_staff':
+        if message.isdigit():
+            return handle_staff_selection(conversation, int(message))
+        else:
+            # User wants to specify staff by name instead or go back
             conversation.current_state = 'idle'
             conversation.save()
             # Fall through to intent processing below
@@ -850,27 +860,32 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
         logger.info(f"Company: {company.name} (ID: {company.id})")
         logger.info(f"Service: {service.name} (ID: {service.id})")
         logger.info(f"Date: {booking_date}")
+        logger.info(f"Staff ID: {state.get('staff_id', 'Any available')}")
         logger.info(f"Time preference: {state.get('time_preference')}")
         
+        # Pass staff_id directly to find_available_slots if specific staff was selected
         slots = searcher.find_available_slots(
             company, 
             service, 
             booking_date, 
-            state.get('time_preference')
+            state.get('time_preference'),
+            staff_id=state.get('staff_id')  # Pass staff_id to search only for that staff
         )
         
-        logger.info(f"Found {len(slots)} total slots before filtering")
+        logger.info(f"Found {len(slots)} total slots")
         
         # Apply time constraints if specified
         if state.get('time_after'):
             time_after = state['time_after']
+            before_filter = len(slots)
             slots = [s for s in slots if s['time'] >= time_after]
-            logger.info(f"After time_after filter ({time_after}): {len(slots)} slots")
+            logger.info(f"After time_after filter ({time_after}): {before_filter} -> {len(slots)} slots")
         
         if state.get('time_before'):
             time_before = state['time_before']
+            before_filter = len(slots)
             slots = [s for s in slots if s['time'] <= time_before]
-            logger.info(f"After time_before filter ({time_before}): {len(slots)} slots")
+            logger.info(f"After time_before filter ({time_before}): {before_filter} -> {len(slots)} slots")
             
     except Exception as e:
         logger.error(f"Error finding slots: {e}", exc_info=True)
@@ -899,7 +914,8 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
                 'uk': f"до {state['time_before']}"
             })
         
-        criteria_text = ""
+        # Initialize as dictionaries with empty strings
+        criteria_text = {'es': '', 'en': '', 'ru': '', 'uk': ''}
         if criteria_parts:
             criteria_text = {
                 'es': f" {criteria_parts[0]['es']}",
@@ -908,11 +924,21 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
                 'uk': f" {criteria_parts[0]['uk']}"
             }
         
+        # Add staff name if specific staff was selected
+        staff_text = {'es': '', 'en': '', 'ru': '', 'uk': ''}
+        if state.get('staff_name'):
+            staff_text = {
+                'es': f" con {state['staff_name']}",
+                'en': f" with {state['staff_name']}",
+                'ru': f" у {state['staff_name']}",
+                'uk': f" у {state['staff_name']}"
+            }
+        
         messages_no_slots = {
-            'es': f"😔 Lo siento, no hay horarios disponibles para {service.name} el {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('es', '')}.\n\n¿Quieres probar otra fecha u horario?",
-            'en': f"😔 Sorry, no times available for {service.name} on {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('en', '')}.\n\nWant to try another date or time?",
-            'ru': f"😔 Извините, нет доступного времени для {service.name} {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('ru', '')}.\n\nПопробовать другую дату или время?",
-            'uk': f"😔 Вибачте, немає доступних часів для {service.name} {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('uk', '')}.\n\nСпробувати іншу дату або час?"
+            'es': f"😔 Lo siento, no hay horarios disponibles para {service.name}{staff_text.get('es', '')} el {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('es', '')}.\n\n¿Quieres probar otra fecha, horario o especialista?",
+            'en': f"😔 Sorry, no times available for {service.name}{staff_text.get('en', '')} on {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('en', '')}.\n\nWant to try another date, time or specialist?",
+            'ru': f"😔 Извините, нет доступного времени для {service.name}{staff_text.get('ru', '')} {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('ru', '')}.\n\nПопробовать другую дату, время или специалиста?",
+            'uk': f"😔 Вибачте, немає доступних часів для {service.name}{staff_text.get('uk', '')} {booking_date.strftime('%d/%m/%Y')}{criteria_text.get('uk', '')}.\n\nСпробувати іншу дату, час або спеціаліста?"
         }
         return messages_no_slots.get(lang, messages_no_slots['es'])
     
@@ -922,7 +948,7 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     pending.service = service
     pending.service_name = service.name
     pending.booking_date = booking_date
-    pending.available_slots = slots[:5]  # Store top 5 slots
+    pending.available_slots = slots
     pending.save()
     
     # Update conversation state
@@ -934,7 +960,7 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
     ai = BookingAI()
     response = ai.generate_response({
         'response_type': 'show_slots',
-        'available_slots': slots[:5],
+        'available_slots': slots,
         'company': company,
         'service': service,
         'date': booking_date.strftime('%d/%m/%Y'),
@@ -976,18 +1002,160 @@ def handle_service_selection(conversation: WhatsAppConversation, service_number:
     # Get selected service
     selected_service = service_list[service_number - 1]
     
-    # Update state with selected service
+    # Update state with selected service and clear old time constraints
     state['service_name'] = selected_service['name']
+    state['service_id'] = selected_service['id']
+    # Clear any old time filters from previous searches
+    state.pop('time_after', None)
+    state.pop('time_before', None)
+    state.pop('time_preference', None)
+    conversation.conversation_state = state
+    conversation.save()
+    
+    # Show staff list for this service
+    return show_staff_selection(conversation, selected_service)
+
+
+def show_staff_selection(conversation: WhatsAppConversation, selected_service: dict) -> str:
+    """Show staff selection after service is chosen"""
+    lang = conversation.conversation_state.get('language', 'es')
+    
+    if not conversation.company:
+        messages_no_company = {
+            'es': "⚠️ No se ha seleccionado un salón. Por favor, empieza de nuevo.",
+            'en': "⚠️ No salon selected. Please start again.",
+            'ru': "⚠️ Салон не выбран. Пожалуйста, начните заново.",
+            'uk': "⚠️ Салон не вибрано. Будь ласка, почніть спочатку."
+        }
+        return messages_no_company.get(lang, messages_no_company['es'])
+    
+    from companies.models import Staff, Service
+    
+    # Get the service object to find related staff
+    try:
+        service = Service.objects.get(id=selected_service['id'], company=conversation.company)
+    except Service.DoesNotExist:
+        messages_service_not_found = {
+            'es': "⚠️ Servicio no encontrado. Por favor, empieza de nuevo.",
+            'en': "⚠️ Service not found. Please start again.",
+            'ru': "⚠️ Услуга не найдена. Пожалуйста, начните заново.",
+            'uk': "⚠️ Послугу не знайдено. Будь ласка, почніть спочатку."
+        }
+        return messages_service_not_found.get(lang, messages_service_not_found['es'])
+    
+    # Get staff who can perform this service
+    staff_members = Staff.objects.filter(
+        company=conversation.company,
+        is_active=True,
+        services=service
+    ).order_by('name')
+    
+    # If no staff assigned to service, get all active staff
+    if not staff_members.exists():
+        staff_members = Staff.objects.filter(
+            company=conversation.company,
+            is_active=True
+        ).order_by('name')
+    
+    if not staff_members.exists():
+        messages_no_staff = {
+            'es': "⚠️ No hay personal disponible para este servicio.",
+            'en': "⚠️ No staff available for this service.",
+            'ru': "⚠️ Нет доступных специалистов для этой услуги.",
+            'uk': "⚠️ Немає доступних спеціалістів для цієї послуги."
+        }
+        return messages_no_staff.get(lang, messages_no_staff['es'])
+    
+    # Build staff list with "Any Available" option
+    message_templates = {
+        'es': "✅ **{service}** seleccionado.\n\n👥 **Selecciona un especialista:**\n\n0️⃣ Cualquier disponible\n{staff}\n\n📝 Responde con el número (0-{count}).",
+        'en': "✅ **{service}** selected.\n\n👥 **Select a specialist:**\n\n0️⃣ Any available\n{staff}\n\n📝 Reply with the number (0-{count}).",
+        'ru': "✅ **{service}** выбран.\n\n👥 **Выберите специалиста:**\n\n0️⃣ Любой доступный\n{staff}\n\n📝 Ответьте номером (0-{count}).",
+        'uk': "✅ **{service}** вибрано.\n\n👥 **Виберіть спеціаліста:**\n\n0️⃣ Будь-який доступний\n{staff}\n\n📝 Відповідайте номером (0-{count})."
+    }
+    
+    staff_text = ""
+    staff_list = []
+    for idx, staff in enumerate(staff_members, 1):
+        specialization = f" - {staff.specialization}" if staff.specialization else ""
+        staff_text += f"{idx}️⃣ {staff.name}{specialization}\n"
+        staff_list.append({'id': staff.id, 'name': staff.name})
+    
+    # Save staff list to state
+    state = conversation.conversation_state
+    state['staff_list'] = staff_list
+    conversation.conversation_state = state
+    conversation.current_state = 'selecting_staff'
+    conversation.save()
+    
+    template = message_templates.get(lang, message_templates['es'])
+    return template.format(
+        service=selected_service['name'],
+        staff=staff_text.strip(),
+        count=len(staff_list)
+    )
+
+
+def handle_staff_selection(conversation: WhatsAppConversation, staff_number: int) -> str:
+    """Handle when user selects a staff member by number"""
+    lang = conversation.conversation_state.get('language', 'es')
+    state = conversation.conversation_state
+    
+    # Get staff list from state
+    staff_list = state.get('staff_list', [])
+    
+    # staff_number 0 means "any available"
+    if staff_number == 0:
+        # Clear any previously selected staff and old time constraints
+        state.pop('staff_name', None)
+        state.pop('staff_id', None)
+        # Clear any old time filters from previous searches
+        state.pop('time_after', None)
+        state.pop('time_before', None)
+        state.pop('time_preference', None)
+        conversation.conversation_state = state
+        conversation.current_state = 'idle'
+        conversation.save()
+        
+        # Ask for date
+        messages_date = {
+            'es': "✅ Buscaremos cualquier especialista disponible.\n\n¿Para qué día quieres la cita? (ej: mañana, viernes, 21 de abril)",
+            'en': "✅ We'll find any available specialist.\n\nWhat day would you like the appointment? (e.g., tomorrow, Friday, April 21)",
+            'ru': "✅ Найдём любого доступного специалиста.\n\nНа какой день вы хотите записаться? (напр.: завтра, пятница, 21 апреля)",
+            'uk': "✅ Знайдемо будь-якого доступного спеціаліста.\n\nНа який день ви хочете записатися? (напр.: завтра, п'ятниця, 21 квітня)"
+        }
+        return messages_date.get(lang, messages_date['es'])
+    
+    # Validate staff number
+    if staff_number < 0 or staff_number > len(staff_list):
+        messages_invalid_staff = {
+            'es': f"⚠️ Por favor, elige un número entre 0 y {len(staff_list)}.",
+            'en': f"⚠️ Please choose a number between 0 and {len(staff_list)}.",
+            'ru': f"⚠️ Пожалуйста, выберите номер между 0 и {len(staff_list)}.",
+            'uk': f"⚠️ Будь ласка, виберіть номер між 0 та {len(staff_list)}."
+        }
+        return messages_invalid_staff.get(lang, messages_invalid_staff['es'])
+    
+    # Get selected staff
+    selected_staff = staff_list[staff_number - 1]
+    
+    # Update state with selected staff and clear old time constraints
+    state['staff_name'] = selected_staff['name']
+    state['staff_id'] = selected_staff['id']
+    # Clear any old time filters from previous searches
+    state.pop('time_after', None)
+    state.pop('time_before', None)
+    state.pop('time_preference', None)
     conversation.conversation_state = state
     conversation.current_state = 'idle'
     conversation.save()
     
-    # Continue with booking flow - ask for date
+    # Ask for date
     messages_date = {
-        'es': f"✅ {selected_service['name']} seleccionado.\n\n¿Para qué día quieres la cita? (ej: mañana, viernes, 21 de abril)",
-        'en': f"✅ {selected_service['name']} selected.\n\nWhat day would you like the appointment? (e.g., tomorrow, Friday, April 21)",
-        'ru': f"✅ {selected_service['name']} выбран.\n\nНа какой день вы хотите записаться? (напр.: завтра, пятница, 21 апреля)",
-        'uk': f"✅ {selected_service['name']} вибрано.\n\nНа який день ви хочете записатися? (напр.: завтра, п'ятниця, 21 квітня)"
+        'es': f"✅ {selected_staff['name']} seleccionado.\n\n¿Para qué día quieres la cita? (ej: mañana, viernes, 21 de abril)",
+        'en': f"✅ {selected_staff['name']} selected.\n\nWhat day would you like the appointment? (e.g., tomorrow, Friday, April 21)",
+        'ru': f"✅ {selected_staff['name']} выбран.\n\nНа какой день вы хотите записаться? (напр.: завтра, пятница, 21 апреля)",
+        'uk': f"✅ {selected_staff['name']} вибрано.\n\nНа який день ви хочете записатися? (напр.: завтра, п'ятниця, 21 квітня)"
     }
     return messages_date.get(lang, messages_date['es'])
 
@@ -1226,9 +1394,7 @@ def handle_question(conversation: WhatsAppConversation, message: str) -> str:
         public_page_url = f"{site_url}/companies/{company.id}/"
         
         contact_messages = {
-            'es': f"""❓ No estoy seguro de cómo ayudarte con eso.
-
-📱 Puedo ayudarte con:
+            'es': f"""❓ Puedo ayudarte con:
 1️⃣ Reservar una cita
 2️⃣ Ver servicios
 3️⃣ Ver equipo
@@ -1239,9 +1405,7 @@ def handle_question(conversation: WhatsAppConversation, message: str) -> str:
 📞 Teléfono: {company.phone if company.phone else 'No disponible'}
 
 📝 Escribe el número (1-5) o 'menu' para ver opciones.""",
-            'en': f"""❓ I'm not sure how to help with that.
-
-📱 I can help you with:
+            'en': f"""❓ I can help you with:
 1️⃣ Book an appointment
 2️⃣ View services
 3️⃣ View team
@@ -1252,9 +1416,7 @@ def handle_question(conversation: WhatsAppConversation, message: str) -> str:
 📞 Phone: {company.phone if company.phone else 'Not available'}
 
 📝 Type the number (1-5) or 'menu' to see options.""",
-            'ru': f"""❓ Я не уверен, как помочь с этим.
-
-📱 Я могу помочь вам:
+            'ru': f"""❓ Я могу помочь вам:
 1️⃣ Забронировать визит
 2️⃣ Посмотреть услуги
 3️⃣ Посмотреть команду
@@ -1265,9 +1427,7 @@ def handle_question(conversation: WhatsAppConversation, message: str) -> str:
 📞 Телефон: {company.phone if company.phone else 'Недоступно'}
 
 📝 Напишите номер (1-5) или 'menu' чтобы увидеть опции.""",
-            'uk': f"""❓ Я не впевнений, як допомогти з цим.
-
-📱 Я можу допомогти вам:
+            'uk': f"""❓ Я можу допомогти вам:
 1️⃣ Забронювати візит
 2️⃣ Подивитися послуги
 3️⃣ Подивитися команду

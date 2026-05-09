@@ -999,6 +999,54 @@ def booking_calendar(request):
                     'isDayOff': True
                 }
             
+            # Add out of office periods for this staff member on this date
+            date_start = datetime.combine(current_date, dtime.min)
+            date_end = datetime.combine(current_date, dtime.max)
+            
+            # Make timezone-aware if needed
+            if StaffOutOfOffice.objects.filter(staff=s).exists():
+                first_period = StaffOutOfOffice.objects.filter(staff=s).first()
+                if timezone.is_aware(first_period.start_datetime):
+                    date_start = timezone.make_aware(date_start)
+                    date_end = timezone.make_aware(date_end)
+            
+            # Get out of office periods that overlap with this day
+            out_of_office_periods = StaffOutOfOffice.objects.filter(
+                staff=s,
+                start_datetime__lt=date_end,
+                end_datetime__gt=date_start
+            )
+            
+            if out_of_office_periods.exists():
+                staff_info['outOfOfficePeriods'] = []
+                for period in out_of_office_periods:
+                    # Convert to local date/time and extract just the time portion
+                    # If period starts before today, use day start; if ends after today, use day end
+                    period_start = period.start_datetime
+                    period_end = period.end_datetime
+                    
+                    # If timezone aware, convert to local
+                    if timezone.is_aware(period_start):
+                        period_start = timezone.localtime(period_start)
+                        period_end = timezone.localtime(period_end)
+                    
+                    # Clamp to current date
+                    if period_start.date() < current_date:
+                        start_time = '00:00'
+                    else:
+                        start_time = period_start.strftime('%H:%M')
+                    
+                    if period_end.date() > current_date:
+                        end_time = '23:59'
+                    else:
+                        end_time = period_end.strftime('%H:%M')
+                    
+                    staff_info['outOfOfficePeriods'].append({
+                        'start': start_time,
+                        'end': end_time,
+                        'reason': period.reason or ''
+                    })
+            
             staff_data.append(staff_info)
 
         bookings_data = []
@@ -1254,6 +1302,53 @@ def calendar_api(request):
                 staff_info['workingHours'] = {
                     'isDayOff': True
                 }
+            
+            # Add out of office periods for this staff member on this date
+            date_start = datetime.combine(current_date, dtime.min)
+            date_end = datetime.combine(current_date, dtime.max)
+            
+            # Make timezone-aware if needed
+            if StaffOutOfOffice.objects.filter(staff=s).exists():
+                first_period = StaffOutOfOffice.objects.filter(staff=s).first()
+                if timezone.is_aware(first_period.start_datetime):
+                    date_start = timezone.make_aware(date_start)
+                    date_end = timezone.make_aware(date_end)
+            
+            # Get out of office periods that overlap with this day
+            out_of_office_periods = StaffOutOfOffice.objects.filter(
+                staff=s,
+                start_datetime__lt=date_end,
+                end_datetime__gt=date_start
+            )
+            
+            if out_of_office_periods.exists():
+                staff_info['outOfOfficePeriods'] = []
+                for period in out_of_office_periods:
+                    # Convert to local date/time and extract just the time portion
+                    period_start = period.start_datetime
+                    period_end = period.end_datetime
+                    
+                    # If timezone aware, convert to local
+                    if timezone.is_aware(period_start):
+                        period_start = timezone.localtime(period_start)
+                        period_end = timezone.localtime(period_end)
+                    
+                    # Clamp to current date
+                    if period_start.date() < current_date:
+                        start_time = '00:00'
+                    else:
+                        start_time = period_start.strftime('%H:%M')
+                    
+                    if period_end.date() > current_date:
+                        end_time = '23:59'
+                    else:
+                        end_time = period_end.strftime('%H:%M')
+                    
+                    staff_info['outOfOfficePeriods'].append({
+                        'start': start_time,
+                        'end': end_time,
+                        'reason': period.reason or ''
+                    })
             
             staff_data.append(staff_info)
 

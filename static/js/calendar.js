@@ -136,7 +136,8 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
             Name: s.title,
             Avatar: s.avatar,
             Occupancy: s.occupancy || 0,
-            WorkingHours: s.workingHours || { isDayOff: true }
+            WorkingHours: s.workingHours || { isDayOff: true },
+            OutOfOfficePeriods: s.outOfOfficePeriods || []
         })),
         textField: 'Name',
         idField: 'Id'
@@ -328,7 +329,8 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
                         Name: s.title,
                         Avatar: s.avatar,
                         Occupancy: s.occupancy || 0,
-                        WorkingHours: s.workingHours || { isDayOff: true }
+                        WorkingHours: s.workingHours || { isDayOff: true },
+                        OutOfOfficePeriods: s.outOfOfficePeriods || []
                     }));
                     
                     this.resources[0].dataSource = staffResources;
@@ -383,7 +385,7 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
             args.cancel = true;  // Prevent quick info popup, editor dialog, etc.
         },
 
-        /* Render cells - color non-working hours in grey */
+        /* Render cells - color non-working hours and out of office periods in grey */
         renderCell: function(args) {
             // Only process work cells (time slots), not date header cells
             if (args.elementType === 'workCells' || args.elementType === 'monthCells') {
@@ -394,6 +396,12 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
                     if (resourceData && resourceData[groupIndex]) {
                         const staffData = resourceData[groupIndex];
                         const workingHours = staffData.WorkingHours;
+                        const outOfOfficePeriods = staffData.OutOfOfficePeriods || [];
+                        
+                        const cellTime = new Date(args.date);
+                        const cellHour = cellTime.getHours();
+                        const cellMinute = cellTime.getMinutes();
+                        const cellMinutes = cellHour * 60 + cellMinute;
                         
                         // Check if it's a day off or outside working hours
                         if (workingHours && workingHours.isDayOff) {
@@ -402,15 +410,9 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
                             args.element.style.opacity = '0.6';
                         } else if (workingHours && !workingHours.isDayOff && workingHours.start && workingHours.end) {
                             // Check if current time slot is outside working hours
-                            const cellTime = new Date(args.date);
-                            const cellHour = cellTime.getHours();
-                            const cellMinute = cellTime.getMinutes();
-                            const cellTimeStr = `${cellHour.toString().padStart(2, '0')}:${cellMinute.toString().padStart(2, '0')}`;
-                            
                             const [startHour, startMinute] = workingHours.start.split(':').map(Number);
                             const [endHour, endMinute] = workingHours.end.split(':').map(Number);
                             
-                            const cellMinutes = cellHour * 60 + cellMinute;
                             const startMinutes = startHour * 60 + startMinute;
                             const endMinutes = endHour * 60 + endMinute;
                             
@@ -418,6 +420,23 @@ function buildCalendar(rawBookings, staffList, currentDate, dayStart, dayEnd, ca
                             if (cellMinutes < startMinutes || cellMinutes >= endMinutes) {
                                 args.element.style.background = "repeating-linear-gradient(45deg, #7e838b 0 1px, transparent 1px 6px)";
                                 args.element.style.opacity = '0.6';
+                            }
+                        }
+                        
+                        // Check if current time slot is during an out of office period
+                        for (const period of outOfOfficePeriods) {
+                            const [startHour, startMinute] = period.start.split(':').map(Number);
+                            const [endHour, endMinute] = period.end.split(':').map(Number);
+                            
+                            const periodStartMinutes = startHour * 60 + startMinute;
+                            const periodEndMinutes = endHour * 60 + endMinute;
+                            
+                            // If cell time is within out of office period, mark it
+                            if (cellMinutes >= periodStartMinutes && cellMinutes < periodEndMinutes) {
+                                args.element.style.background = "repeating-linear-gradient(45deg, #7e838b 0 1px, transparent 1px 6px)";
+                                args.element.style.opacity = '0.7';
+                                args.element.title = period.reason ? `Out of Office: ${period.reason}` : 'Out of Office';
+                                break; // No need to check other periods
                             }
                         }
                     }

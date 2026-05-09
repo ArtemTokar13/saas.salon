@@ -112,22 +112,35 @@ class BookingForm(forms.ModelForm):
         staff = cleaned_data.get('staff')
         date = cleaned_data.get('date')
         start_time = cleaned_data.get('start_time')
+        service = cleaned_data.get('service')
         
         # If staff is explicitly selected, check if they're out of office
-        if staff and date and start_time:
+        if staff and date and start_time and service:
             from companies.models import StaffOutOfOffice
             from datetime import datetime
             
-            booking_datetime = datetime.combine(date, start_time)
-            # Make timezone-aware if needed
-            if timezone.is_aware(staff.out_of_office_periods.first().start_datetime if staff.out_of_office_periods.exists() else booking_datetime):
-                booking_datetime = timezone.make_aware(booking_datetime)
+            start_datetime = datetime.combine(date, start_time)
+            # Calculate end time based on service duration
+            total_duration = service.duration + service.time_for_servicing
+            end_datetime = start_datetime + timedelta(minutes=total_duration)
             
-            # Check if booking time falls within any out-of-office period
+            # Make timezone-aware if needed
+            check_start = start_datetime
+            check_end = end_datetime
+            
+            if StaffOutOfOffice.objects.filter(staff=staff).exists():
+                first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+                if timezone.is_aware(first_period.start_datetime):
+                    if timezone.is_naive(check_start):
+                        check_start = timezone.make_aware(check_start)
+                    if timezone.is_naive(check_end):
+                        check_end = timezone.make_aware(check_end)
+            
+            # Check if booking overlaps with any out-of-office period
             conflicting_periods = StaffOutOfOffice.objects.filter(
                 staff=staff,
-                start_datetime__lte=booking_datetime,
-                end_datetime__gte=booking_datetime
+                start_datetime__lt=check_end,
+                end_datetime__gt=check_start
             )
             
             if conflicting_periods.exists():
@@ -251,21 +264,26 @@ class BookingForm(forms.ModelForm):
             # Check if staff is out of office during this booking time
             from companies.models import StaffOutOfOffice
             
-            booking_datetime = start_datetime
-            # Make timezone-aware if needed
+            # Make timezone-aware if needed for comparison
+            check_start = start_datetime
+            check_end = end_datetime
+            
             if StaffOutOfOffice.objects.filter(staff=staff).exists():
                 first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
-                if timezone.is_aware(first_period.start_datetime) and not timezone.is_aware(booking_datetime):
-                    booking_datetime = timezone.make_aware(booking_datetime)
-                elif not timezone.is_aware(first_period.start_datetime) and timezone.is_aware(booking_datetime):
-                    booking_datetime = timezone.make_naive(booking_datetime)
+                if timezone.is_aware(first_period.start_datetime):
+                    if timezone.is_naive(check_start):
+                        check_start = timezone.make_aware(check_start)
+                    if timezone.is_naive(check_end):
+                        check_end = timezone.make_aware(check_end)
             
-            # Skip if booking would occur during any out-of-office period
-            if StaffOutOfOffice.objects.filter(
+            # Skip if booking would overlap with any out-of-office period
+            overlapping_periods = StaffOutOfOffice.objects.filter(
                 staff=staff,
-                start_datetime__lte=booking_datetime,
-                end_datetime__gte=booking_datetime
-            ).exists():
+                start_datetime__lt=check_end,
+                end_datetime__gt=check_start
+            )
+            
+            if overlapping_periods.exists():
                 continue  # Skip this staff member
             
             # Check if staff is working on this day

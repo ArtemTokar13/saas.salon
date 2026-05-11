@@ -58,7 +58,7 @@ class BookingAI:
         
         return today, today_name, dates_reference
     
-    def _build_date_extraction_prompt(self, dates_reference: str) -> str:
+    def _build_date_extraction_prompt(self, dates_reference: str, today_date: str) -> str:
         """Build focused prompt for date extraction"""
         return f"""📅 DATE EXTRACTION RULES (PRIORITY ORDER):
 
@@ -66,17 +66,21 @@ Calendar Reference:
 {dates_reference}
 
 Rules:
-1. DIRECT DATE NUMBER (highest priority): 
+1. TODAY (highest priority):
+   - "hoy", "today", "сегодня", "сьогодні" → use TODAY's date: {today_date}
+   - Any form of "today" in any language → {today_date}
+   
+2. DIRECT DATE NUMBER: 
    - "27 апреля" = April 27 → use that exact number
    - "21 числа" = 21st → use that exact number
    - NEVER change the date number the user provides
    
-2. DAY NAME ONLY (when no date number given):
+3. DAY NAME ONLY (when no date number given):
    - "понедельник" → Find in calendar above → Use that exact date
    - "пятницу" → Find in calendar above → Use that exact date
    - MUST use calendar lookup, do NOT calculate
 
-3. Extract BOTH date and time when present:
+4. Extract BOTH date and time when present:
    - "На вторник после 17:00" -> date AND time_after"""
     
     def _build_time_extraction_prompt(self) -> str:
@@ -155,15 +159,16 @@ Do NOT include fields that are not mentioned in the message."""
     def _build_extraction_prompt(self, lang: str) -> str:
         """Build complete extraction prompt from modular components"""
         today, today_name, dates_reference = self._get_day_names_calendar(lang)
+        today_date = today.strftime('%Y-%m-%d')
         
         return f"""You are a booking assistant AI. Extract booking information from user messages.
 Current language: {lang}
-Today is {today_name}, {today.strftime('%Y-%m-%d')}
+Today is {today_name}, {today_date}
 
 TASK: Extract ONLY the booking details mentioned in the message.
 Do NOT invent or assume information.
 
-{self._build_date_extraction_prompt(dates_reference)}
+{self._build_date_extraction_prompt(dates_reference, today_date)}
 
 {self._build_time_extraction_prompt()}
 

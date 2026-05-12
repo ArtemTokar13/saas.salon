@@ -398,6 +398,33 @@ class BookingSearcher:
         end_datetime = datetime.combine(booking_date, start_time) + duration
         end_time = end_datetime.time()
         
+        # Check if staff is out of office during this time
+        from companies.models import StaffOutOfOffice
+        from django.utils import timezone as tz
+        
+        check_start = datetime.combine(booking_date, start_time)
+        check_end = end_datetime
+        
+        # Make timezone-aware if needed
+        if StaffOutOfOffice.objects.filter(staff=staff).exists():
+            first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+            if tz.is_aware(first_period.start_datetime):
+                if tz.is_naive(check_start):
+                    check_start = tz.make_aware(check_start)
+                if tz.is_naive(check_end):
+                    check_end = tz.make_aware(check_end)
+        
+        # Check if booking would overlap with any out-of-office period
+        overlapping_periods = StaffOutOfOffice.objects.filter(
+            staff=staff,
+            start_datetime__lt=check_end,
+            end_datetime__gt=check_start
+        )
+        if overlapping_periods.exists():
+            period = overlapping_periods.first()
+            logger.warning(f"Cannot create booking: {staff.name} is out of office during {booking_date} {booking_time}")
+            raise ValueError(f"This time slot is not available. {staff.name} is out of office.")
+        
         # Generate delete_code for cancellation link
         delete_code = md5(f"{customer.email if customer.email else customer.phone}{timezone.now().timestamp()}".encode()).hexdigest()
         

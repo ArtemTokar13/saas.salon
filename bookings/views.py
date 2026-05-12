@@ -175,6 +175,28 @@ def create_booking(request, company_id):
                     end_datetime = start_datetime + timedelta(minutes=service.duration + service.time_for_servicing)
                     end_time = end_datetime.time()
                     
+                    # Check if staff is out of office during this time
+                    check_start = start_datetime
+                    check_end = end_datetime
+                    
+                    # Make timezone-aware if needed
+                    if StaffOutOfOffice.objects.filter(staff=staff).exists():
+                        first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+                        if timezone.is_aware(first_period.start_datetime):
+                            if timezone.is_naive(check_start):
+                                check_start = timezone.make_aware(check_start)
+                            if timezone.is_naive(check_end):
+                                check_end = timezone.make_aware(check_end)
+                    
+                    # Check if booking would overlap with any out-of-office period
+                    overlapping_periods = StaffOutOfOffice.objects.filter(
+                        staff=staff,
+                        start_datetime__lt=check_end,
+                        end_datetime__gt=check_start
+                    )
+                    if overlapping_periods.exists():
+                        raise ValueError(_('This time slot is not available. Staff member is out of office.'))
+                    
                     # Generate delete code
                     delete_code = md5(f"{customer.phone}{timezone.now().timestamp()}{service.id}".encode()).hexdigest()
                     

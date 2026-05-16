@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-06 21:47+0200\n"
+"POT-Creation-Date: 2026-05-16 12:07+0200\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +60,7 @@ msgstr "Нагадування: Майбутнє Бронювання для"
 msgid "Add any notes about this booking..."
 msgstr "Додайте будь-які нотатки про це бронювання..."
 
-#: bookings/forms.py:33 templates/bookings/create_booking.html:189
+#: bookings/forms.py:33 templates/bookings/create_booking.html:195
 msgid "Add any special requests or notes..."
 msgstr "Додайте будь-які спеціальні побажання або нотатки..."
 
@@ -68,7 +68,7 @@ msgstr "Додайте будь-які спеціальні побажання �
 msgid "Client notes..."
 msgstr "Нотатки клієнта..."
 
-#: bookings/forms.py:99 bookings/views.py:90
+#: bookings/forms.py:99 bookings/views.py:92
 msgid "Phone number must include country code (e.g., +34612345678)"
 msgstr "Номер телефону має містити код країни (наприклад, +34612345678)"
 
@@ -78,7 +78,7 @@ msgstr ""
 "Номер телефону занадто короткий. Будь ласка, вкажіть код країни та повний "
 "номер."
 
-#: bookings/forms.py:136
+#: bookings/forms.py:149
 msgid ""
 "{staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d "
 "%H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select "
@@ -88,45 +88,61 @@ msgstr ""
 "%H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Будь ласка, "
 "виберіть іншу дату/час або іншого співробітника."
 
-#: bookings/views.py:77 companies/views.py:1379
+#: bookings/views.py:79 companies/views.py:1379
 msgid "Name is required"
 msgstr "Ім'я обов'язкове"
 
-#: bookings/views.py:82
+#: bookings/views.py:84
 msgid "Phone number is required"
 msgstr "Потрібен номер телефону"
 
-#: bookings/views.py:148
+#: bookings/views.py:153
 msgid "Please complete all required fields"
 msgstr "Будь ласка, заповніть необхідні поля:"
 
-#: bookings/views.py:310
+#: bookings/views.py:234
+msgid "This time slot is not available. Staff member is out of office."
+msgstr "Цей часовий проміжок недоступний. Співробітника немає на роботі."
+
+#: bookings/views.py:385
 msgid "Booking not found"
 msgstr "Бронювань не знайдено."
 
-#: bookings/views.py:390
+#: bookings/views.py:462
 msgid "Your booking has been cancelled."
 msgstr "Ваше бронювання скасовано"
 
-#: bookings/views.py:1532
+#: bookings/views.py:1699
 msgid "You do not have permission to confirm this booking."
 msgstr "У вас немає дозволу підтверджувати це бронювання."
 
-#: bookings/views.py:1535 bookings/views.py:1651
+#: bookings/views.py:1702 bookings/views.py:1818
 msgid "User profile not found."
 msgstr "Профіль користувача не знайдено"
 
-#: bookings/views.py:1543
+#: bookings/views.py:1710
 msgid "Duration and price are required."
 msgstr "Тривалість і ціна обов'язкові."
 
-#: bookings/views.py:1563
+#: bookings/views.py:1730
 msgid "Booking confirmed successfully!"
 msgstr "Бронювання Підтверджено!"
 
-#: bookings/views.py:1566
+#: bookings/views.py:1733
 msgid "Invalid duration or price format."
 msgstr "Недійсний формат тривалості або ціни."
+
+#: bookings/views.py:1894
+msgid "Error marking notification as read."
+msgstr "Помилка позначення сповіщення як прочитаного."
+
+#: bookings/views.py:1911
+msgid "All notifications marked as read."
+msgstr "Усі сповіщення позначено як прочитані."
+
+#: bookings/views.py:1916
+msgid "Error marking notifications as read."
+msgstr "Помилка позначення сповіщень як прочитаних."
 
 #: companies/forms.py:93 companies/models.py:11
 #: templates/companies/add_staff.html:108
@@ -720,33 +736,33 @@ msgstr "Зв'язатися з Нами"
 msgid "Salon Booking System. All rights reserved."
 msgstr "Система Бронювання Салону. Всі права захищені."
 
-#: templates/_header.html:17 templates/_header.html:70
+#: templates/_header.html:17 templates/_header.html:95
 msgid "Home"
 msgstr "Головна"
 
-#: templates/_header.html:18 templates/_header.html:71
+#: templates/_header.html:18 templates/_header.html:96
 msgid "Pricing"
 msgstr "Ціни"
 
-#: templates/_header.html:29 templates/_header.html:79
+#: templates/_header.html:42 templates/_header.html:104
 msgid "Platform Admin"
 msgstr "Адмін Платформи"
 
-#: templates/_header.html:32 templates/_header.html:82
+#: templates/_header.html:45 templates/_header.html:107
 msgid "Dashboard"
 msgstr "Панель керування"
 
-#: templates/_header.html:36 templates/_header.html:86
+#: templates/_header.html:49 templates/_header.html:111
 msgid "Logout"
 msgstr "Вийти"
 
-#: templates/_header.html:39 templates/_header.html:89
+#: templates/_header.html:52 templates/_header.html:114
 #: templates/users/login.html:5
 msgid "Login"
 msgstr "Увійти"
 
-#: templates/_header.html:40 templates/_header.html:48
-#: templates/_header.html:90
+#: templates/_header.html:53 templates/_header.html:61
+#: templates/_header.html:115
 msgid "Try Free"
 msgstr "Спробувати Безкоштовно"
 
@@ -784,7 +800,7 @@ msgstr "Кожен додатковий працівник"
 #: templates/billing/pricing_periods.html:51
 #: templates/billing/pricing_periods.html:76
 #: templates/billing/pricing_periods.html:101
-#: templates/billing/subscription_details.html:42
+#: templates/billing/subscription_details.html:67
 msgid "month"
 msgstr "місяць"
 
@@ -802,7 +818,7 @@ msgstr "Перейти до Оплати"
 
 #: templates/billing/change_plan.html:191
 #: templates/bookings/confirm_prebooked.html:90
-#: templates/bookings/create_booking.html:196
+#: templates/bookings/create_booking.html:202
 #: templates/bookings/edit_booking.html:213
 #: templates/companies/add_service.html:100
 #: templates/companies/add_staff.html:279
@@ -932,90 +948,111 @@ msgstr "Підписка та Оплата"
 msgid "Back"
 msgstr "Назад"
 
-#: templates/billing/subscription_details.html:31
+#: templates/billing/subscription_details.html:34
+msgid "Payment Issue"
+msgstr "Проблема з оплатою"
+
+#: templates/billing/subscription_details.html:36
+msgid ""
+"There was a problem with your last payment. Please update your payment "
+"method or retry the payment to avoid service interruption."
+msgstr ""
+"Виникла проблема з вашим останнім платежем. Будь ласка, оновіть свій спосіб "
+"оплати або повторіть спробу платежу, щоб уникнути переривання обслуговування."
+
+#: templates/billing/subscription_details.html:40
+#: templates/billing/subscription_details.html:88
+msgid "Update Payment Method"
+msgstr "Оновити спосіб оплати"
+
+#: templates/billing/subscription_details.html:43
+msgid "Retry Payment"
+msgstr "Повторити платіж"
+
+#: templates/billing/subscription_details.html:56
 msgid "Current Subscription"
 msgstr "Поточна Підписка"
 
-#: templates/billing/subscription_details.html:50
+#: templates/billing/subscription_details.html:75
 msgid "Start Date"
 msgstr "Дата Початку"
 
-#: templates/billing/subscription_details.html:54
+#: templates/billing/subscription_details.html:79
 msgid "Next Billing Date"
 msgstr "Наступна Дата Оплати"
 
-#: templates/billing/subscription_details.html:60
+#: templates/billing/subscription_details.html:85
 msgid "Change Plan"
 msgstr "Змінити План"
 
-#: templates/billing/subscription_details.html:63
+#: templates/billing/subscription_details.html:91
 msgid "Cancel Subscription"
 msgstr "Скасувати Підписку"
 
-#: templates/billing/subscription_details.html:69
+#: templates/billing/subscription_details.html:97
 msgid "No active subscription"
 msgstr "Немає активної підписки"
 
-#: templates/billing/subscription_details.html:71
+#: templates/billing/subscription_details.html:99
 msgid "View Available Plans"
 msgstr "Переглянути Доступні Плани"
 
-#: templates/billing/subscription_details.html:81
+#: templates/billing/subscription_details.html:109
 msgid "Billing History"
 msgstr "Історія Оплат"
 
-#: templates/billing/subscription_details.html:88
+#: templates/billing/subscription_details.html:116
 #: templates/bookings/bookings_list.html:64
 msgid "Date"
 msgstr "Дата"
 
-#: templates/billing/subscription_details.html:89
+#: templates/billing/subscription_details.html:117
 msgid "Transaction ID"
 msgstr "Ідентифікатор Транзакції"
 
-#: templates/billing/subscription_details.html:90
+#: templates/billing/subscription_details.html:118
 msgid "Plan"
 msgstr "План"
 
-#: templates/billing/subscription_details.html:91
+#: templates/billing/subscription_details.html:119
 #: templates/companies/analytics.html:150
 msgid "Status"
 msgstr "Статус"
 
-#: templates/billing/subscription_details.html:92
+#: templates/billing/subscription_details.html:120
 msgid "Amount"
 msgstr "Сума"
 
-#: templates/billing/subscription_details.html:128
+#: templates/billing/subscription_details.html:156
 msgid "No billing history yet"
 msgstr "Історії оплат ще немає"
 
-#: templates/billing/subscription_details.html:139
+#: templates/billing/subscription_details.html:167
 msgid "Account Summary"
 msgstr "Зведення Облікового Запису"
 
-#: templates/billing/subscription_details.html:142
+#: templates/billing/subscription_details.html:170
 #: templates/companies/analytics.html:423
 msgid "Total Spent"
 msgstr "Всього Витрачено"
 
-#: templates/billing/subscription_details.html:148
+#: templates/billing/subscription_details.html:176
 msgid "Active Since"
 msgstr "Активно З"
 
-#: templates/billing/subscription_details.html:158
+#: templates/billing/subscription_details.html:186
 msgid "Transactions"
 msgstr "Транзакції"
 
-#: templates/billing/subscription_details.html:166
+#: templates/billing/subscription_details.html:194
 msgid "Need Help?"
 msgstr "Потрібна Допомога?"
 
-#: templates/billing/subscription_details.html:168
+#: templates/billing/subscription_details.html:196
 msgid "Have questions about billing or your subscription?"
 msgstr "Є питання щодо оплати або вашої підписки?"
 
-#: templates/billing/subscription_details.html:171
+#: templates/billing/subscription_details.html:199
 #: templates/static_pages/faq.html:67
 msgid "Contact Support"
 msgstr "Зв'язатися з Підтримкою"
@@ -1095,10 +1132,12 @@ msgid "Search by name, phone, email"
 msgstr "Пошук за ім'ям чи номером телефону..."
 
 #: templates/bookings/bookings_list.html:44
+#: templates/bookings/notifications_list.html:22
 msgid "From"
 msgstr "Від"
 
 #: templates/bookings/bookings_list.html:45
+#: templates/bookings/notifications_list.html:26
 msgid "To"
 msgstr "До"
 
@@ -1107,14 +1146,15 @@ msgid "All Services"
 msgstr "Всі послуги"
 
 #: templates/bookings/bookings_list.html:52
+#: templates/bookings/notifications_list.html:30
 msgid "Filter"
 msgstr "Фільтр"
 
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
 #: templates/bookings/confirmation.html:134
-#: templates/bookings/create_booking.html:90
-#: templates/bookings/create_booking.html:101
+#: templates/bookings/create_booking.html:96
+#: templates/bookings/create_booking.html:107
 #: templates/bookings/edit_booking.html:88
 msgid "Service"
 msgstr "Послуга"
@@ -1158,8 +1198,8 @@ msgid "No bookings found."
 msgstr "Бронювань не знайдено."
 
 #: templates/bookings/confirm_prebooked.html:10
-#: templates/bookings/create_booking.html:199
-#: templates/bookings/create_booking.html:889
+#: templates/bookings/create_booking.html:205
+#: templates/bookings/create_booking.html:911
 #: templates/bookings/edit_booking.html:216
 #: templates/static_pages/how_it_works.html:74
 msgid "Confirm Booking"
@@ -1188,6 +1228,7 @@ msgid "Date & Time"
 msgstr "Дата і Час"
 
 #: templates/bookings/confirm_prebooked.html:46
+#: templates/bookings/create_booking.html:58
 #: templates/bookings/edit_booking.html:79
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
 #: templates/companies/edit_profile.html:76
@@ -1218,7 +1259,7 @@ msgid "Price"
 msgstr "Ціна"
 
 #: templates/bookings/confirm_prebooked.html:93
-#: templates/bookings/create_booking.html:885
+#: templates/bookings/create_booking.html:907
 msgid "Confirm"
 msgstr "Підтвердити"
 
@@ -1353,121 +1394,125 @@ msgstr "Ім'я"
 msgid "(e.g. +1234567890)"
 msgstr "(на приклад +1234567890)"
 
-#: templates/bookings/create_booking.html:66
+#: templates/bookings/create_booking.html:58
+msgid "(optional)"
+msgstr "(Опційно)"
+
+#: templates/bookings/create_booking.html:72
 #: templates/companies/add_staff.html:252 templates/companies/dashboard.html:35
 #: templates/companies/edit_staff.html:322
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Послуги"
 
-#: templates/bookings/create_booking.html:81
+#: templates/bookings/create_booking.html:87
 #: templates/companies/add_service.html:10
 #: templates/companies/add_service.html:103
 #: templates/companies/dashboard.html:89
 msgid "Add Service"
 msgstr "Додати Послугу"
 
-#: templates/bookings/create_booking.html:103
+#: templates/bookings/create_booking.html:109
 #: templates/bookings/edit_booking.html:91
 msgid "Choose a service..."
 msgstr "Оберіть послугу..."
 
-#: templates/bookings/create_booking.html:115
+#: templates/bookings/create_booking.html:121
 #: templates/bookings/edit_booking.html:116
 msgid "Select Specialist"
 msgstr "Оберіть Спеціаліста"
 
-#: templates/bookings/create_booking.html:115
-#: templates/bookings/create_booking.html:184
+#: templates/bookings/create_booking.html:121
+#: templates/bookings/create_booking.html:190
 msgid "Optional"
 msgstr "Опційно"
 
-#: templates/bookings/create_booking.html:118
+#: templates/bookings/create_booking.html:124
 #: templates/bookings/edit_booking.html:118
 msgid "Please select a service first"
 msgstr "Будь ласка, спочатку оберіть послугу"
 
-#: templates/bookings/create_booking.html:132
+#: templates/bookings/create_booking.html:138
 #: templates/bookings/edit_booking.html:135
 msgid "Select Date & Time"
 msgstr "Оберіть Дату і Час"
 
-#: templates/bookings/create_booking.html:137
+#: templates/bookings/create_booking.html:143
 #: templates/bookings/edit_booking.html:140
 #: templates/companies/add_service.html:53
 #: templates/companies/edit_service.html:53
 msgid "Available Dates"
 msgstr "Доступні Дати"
 
-#: templates/bookings/create_booking.html:153
+#: templates/bookings/create_booking.html:159
 #: templates/bookings/edit_booking.html:156
 msgid "Please select a specialist first"
 msgstr "Будь ласка, спочатку оберіть спеціаліста"
 
-#: templates/bookings/create_booking.html:157
+#: templates/bookings/create_booking.html:163
 #: templates/bookings/edit_booking.html:160
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:22
 msgid "Sun"
 msgstr "Нд"
 
-#: templates/bookings/create_booking.html:158
+#: templates/bookings/create_booking.html:164
 #: templates/bookings/edit_booking.html:161
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:16
 msgid "Mon"
 msgstr "Пн"
 
-#: templates/bookings/create_booking.html:159
+#: templates/bookings/create_booking.html:165
 #: templates/bookings/edit_booking.html:162
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:17
 msgid "Tue"
 msgstr "Вт"
 
-#: templates/bookings/create_booking.html:160
+#: templates/bookings/create_booking.html:166
 #: templates/bookings/edit_booking.html:163
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:18
 msgid "Wed"
 msgstr "Ср"
 
-#: templates/bookings/create_booking.html:161
+#: templates/bookings/create_booking.html:167
 #: templates/bookings/edit_booking.html:164
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:19
 msgid "Thu"
 msgstr "Чт"
 
-#: templates/bookings/create_booking.html:162
+#: templates/bookings/create_booking.html:168
 #: templates/bookings/edit_booking.html:165
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:20
 msgid "Fri"
 msgstr "Пт"
 
-#: templates/bookings/create_booking.html:163
+#: templates/bookings/create_booking.html:169
 #: templates/bookings/edit_booking.html:166
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:21
 msgid "Sat"
 msgstr "Сб"
 
-#: templates/bookings/create_booking.html:172
+#: templates/bookings/create_booking.html:178
 #: templates/bookings/edit_booking.html:178
 msgid "Available Time"
 msgstr "Доступний Час"
 
-#: templates/bookings/create_booking.html:184
+#: templates/bookings/create_booking.html:190
 msgid "Additional Notes"
 msgstr "Додаткові Примітки"
 
-#: templates/bookings/create_booking.html:186
+#: templates/bookings/create_booking.html:192
 msgid "Do you have any special requests or notes?"
 msgstr "Чи маєте ви якісь спеціальні побажання або примітки?"
 
-#: templates/bookings/create_booking.html:211
+#: templates/bookings/create_booking.html:217
 msgid "Any Available"
 msgstr "Будь-який Доступний"
 
-#: templates/bookings/create_booking.html:212
+#: templates/bookings/create_booking.html:218
 msgid "We'll assign"
 msgstr "Ми призначимо"
 
-#: templates/bookings/create_booking.html:886
+#: templates/bookings/create_booking.html:908
 msgid "services"
 msgstr "послуги"
 
@@ -1508,6 +1553,61 @@ msgstr "від клієнта"
 #: templates/bookings/edit_booking.html:333
 msgid "Phone (must include country code, e.g. +1234567890)"
 msgstr "Телефон (обов'язково вкажіть код країни, наприклад +1234567890)"
+
+#: templates/bookings/notifications_list.html:4
+#: templates/bookings/notifications_list.html:10
+msgid "Notifications"
+msgstr "Сповіщення"
+
+#: templates/bookings/notifications_list.html:13
+msgid "Mark all as read"
+msgstr "Позначити всі як прочитані"
+
+#: templates/bookings/notifications_list.html:34
+#: templates/companies/customers_list.html:43
+#: venv/lib/python3.12/site-packages/django/forms/widgets.py:463
+msgid "Clear"
+msgstr "Очистити"
+
+#: templates/bookings/notifications_list.html:57
+msgid "Mark as read"
+msgstr "Позначити як прочитане"
+
+#: templates/bookings/notifications_list.html:77
+#: templates/companies/customer_detail.html:104
+#: templates/companies/customers_list.html:88
+msgid "Previous"
+msgstr "Попередня"
+
+#: templates/bookings/notifications_list.html:82
+#: templates/companies/customer_detail.html:134
+#: templates/companies/customers_list.html:118
+msgid "Page"
+msgstr "Сторінка"
+
+#: templates/bookings/notifications_list.html:82
+#: templates/companies/customer_detail.html:134
+#: templates/companies/customers_list.html:118
+msgid "of"
+msgstr "з"
+
+#: templates/bookings/notifications_list.html:87
+#: templates/companies/customer_detail.html:123
+#: templates/companies/customers_list.html:107
+msgid "Next"
+msgstr "Наступна"
+
+#: templates/bookings/notifications_list.html:99
+msgid "No unread notifications"
+msgstr "Немає непрочитаних сповіщень"
+
+#: templates/bookings/notifications_list.html:100
+msgid "You're all caught up!"
+msgstr "Ви все встигли!"
+
+#: templates/bookings/notifications_list.html:138
+msgid "Mark all notifications as read?"
+msgstr "Позначити всі сповіщення як прочитані?"
 
 #: templates/companies/activate_staff_account.html:10
 #: templates/email/staff_activation.html:83
@@ -1934,30 +2034,10 @@ msgstr "з"
 msgid "First"
 msgstr "Перша"
 
-#: templates/companies/customer_detail.html:104
-#: templates/companies/customers_list.html:88
-msgid "Previous"
-msgstr "Попередня"
-
-#: templates/companies/customer_detail.html:123
-#: templates/companies/customers_list.html:107
-msgid "Next"
-msgstr "Наступна"
-
 #: templates/companies/customer_detail.html:127
 #: templates/companies/customers_list.html:111
 msgid "Last"
 msgstr "Остання"
-
-#: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
-msgid "Page"
-msgstr "Сторінка"
-
-#: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
-msgid "of"
-msgstr "з"
 
 #: templates/companies/customer_detail.html:135
 msgid "total bookings"
@@ -1982,11 +2062,6 @@ msgstr "Пошук"
 #: templates/companies/customers_list.html:32
 msgid "Search by name or phone number..."
 msgstr "Пошук за ім'ям чи номером телефону..."
-
-#: templates/companies/customers_list.html:43
-#: venv/lib/python3.12/site-packages/django/forms/widgets.py:463
-msgid "Clear"
-msgstr "Очистити"
 
 #: templates/companies/customers_list.html:68
 msgid "No customers found matching your search."
@@ -4783,3 +4858,15 @@ msgstr "Спільнота Django"
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
 msgid "Connect, get help, or contribute"
 msgstr "Підключіться, отримати допомогу або внести внесок"
+
+#: venv/lib/python3.12/site-packages/jsonfield/fields.py:49
+#, fuzzy
+#| msgid "Enter a valid JSON."
+msgid "Enter valid JSON."
+msgstr "Введіть дійсний JSON."
+
+#: venv/lib/python3.12/site-packages/jsonfield/forms.py:15
+#, fuzzy, python-format
+#| msgid "Value must be valid JSON."
+msgid "\"%(value)s\" value must be valid JSON."
+msgstr "Значення має бути дійсним JSON."

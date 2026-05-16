@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'hijack',
     'hijack.contrib.admin',
+    'notifications',  # django-notifications-hq
     'app',  # Main app with template tags
     'companies',
     'bookings',
@@ -95,6 +96,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
                 'app.context_processors.current_year',
+                'app.context_processors.unread_notifications',
             ],
         },
     },

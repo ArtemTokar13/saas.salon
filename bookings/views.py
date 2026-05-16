@@ -15,6 +15,7 @@ from django.views.decorators.cache import never_cache
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
+from notifications.signals import notify
 from .models import Booking, Customer
 from .forms import BookingForm
 from companies.models import Company, Staff, Service, WorkingHours, EmailLog, StaffWorkingHours, StaffOutOfOffice
@@ -261,6 +262,20 @@ def create_booking(request, company_id):
                     )
                     created_bookings.append(booking)
                     logger.info(f"Created booking: {booking.id} for {customer_name} - {service.name}")
+                    
+                    # Send notification to staff member
+                    try:
+                        staff_profile = UserProfile.objects.filter(staff=staff).first()
+                        if staff_profile and staff_profile.user:
+                            notify.send(
+                                sender=customer,
+                                recipient=staff_profile.user,
+                                verb='new booking',
+                                action_object=booking,
+                                description=f'{customer.name} booked {service.name} on {date.strftime("%b %d, %Y")} at {start_time.strftime("%H:%M")}'
+                            )
+                    except Exception as e:
+                        logger.error(f"Failed to send notification: {e}")
             
             # Send email confirmation for first booking (if customer has email)
             if customer.email and created_bookings:
@@ -1802,3 +1817,117 @@ def bookings_list(request):
     except UserProfile.DoesNotExist:
         messages.error(request, _('User profile not found.'))
         return redirect('/')
+
+
+@login_required
+@subscription_required
+def notifications_list(request):
+    """List of notifications for authenticated user"""
+    from notifications.models import Notification
+    
+    # Get only unread notifications for the user
+    notifications = Notification.objects.filter(
+        recipient=request.user,
+        unread=True
+    )
+    
+    # Filter by date range if provided
+    date_from = request.GET.get('date_from', '').strip()
+    date_to = request.GET.get('date_to', '').strip()
+    
+    if date_from:
+        try:
+            date_from_obj = datetime.strptime(date_from, '%Y-%m-%d').date()
+            notifications = notifications.filter(timestamp__gte=date_from_obj)
+        except Exception:
+            pass
+    
+    if date_to:
+        try:
+            date_to_obj = datetime.strptime(date_to, '%Y-%m-%d').date()
+            # Add one day to include the entire day
+            date_to_obj = date_to_obj + timedelta(days=1)
+            notifications = notifications.filter(timestamp__lt=date_to_obj)
+        except Exception:
+            pass
+    
+    # Sort by date created (newest first)
+    notifications = notifications.order_by('-timestamp')
+    
+    # Pagination
+    from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+    page = request.GET.get('page', 1)
+    paginator = Paginator(notifications, 20)
+    try:
+        notifications_page = paginator.page(page)
+    except (PageNotAnInteger, EmptyPage):
+        notifications_page = paginator.page(1)
+    
+    context = {
+        'notifications': notifications_page,
+        'date_from': date_from,
+        'date_to': date_to,
+    }
+    
+    return render(request, 'bookings/notifications_list.html', context)
+
+
+@login_required
+@subscription_required
+def mark_notification_read(request, notification_id):
+    """Mark a single notification as read"""
+    from notifications.models import Notification
+    
+    try:
+        notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
+        notification.mark_as_read()
+        
+        # If this is an AJAX request, return JSON response
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        
+        # Otherwise, redirect back to notifications list
+        return redirect('notifications_list')
+    except Exception as e:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+        messages.error(request, _('Error marking notification as read.'))
+        return redirect('notifications_list')
+
+
+@login_required
+@subscription_required
+def mark_all_notifications_read(request):
+    """Mark all notifications as read for the current user"""
+    from notifications.models import Notification
+    
+    try:
+        Notification.objects.filter(recipient=request.user, unread=True).mark_all_as_read()
+        
+        # If this is an AJAX request, return JSON response
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        
+        messages.success(request, _('All notifications marked as read.'))
+        return redirect('notifications_list')
+    except Exception as e:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+        messages.error(request, _('Error marking notifications as read.'))
+        return redirect('notifications_list')
+
+
+@login_required
+def get_unread_notifications_count(request):
+    """API endpoint to get unread notification count"""
+    from notifications.models import Notification
+    
+    try:
+        count = Notification.objects.filter(
+            recipient=request.user,
+            unread=True
+        ).count()
+        
+        return JsonResponse({'count': count})
+    except Exception as e:
+        return JsonResponse({'count': 0, 'error': str(e)}, status=400)

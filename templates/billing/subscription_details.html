@@ -24,7 +24,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Payment Issue Warning -->
-        {% if current_subscription %}
+        {% if current_subscription and current_subscription.status == 'past_due' or current_subscription.status == 'unpaid' %}
         <div class="mb-6 bg-red-50 border-l-4 border-red-400 p-4 rounded-lg">
             <div class="flex items-center">
                 <div class="flex-shrink-0">

@@ -20,4 +20,9 @@ urlpatterns = [
     path('api/times/<int:company_id>/<int:staff_id>/<int:service_id>/<str:date_str>/', views.get_available_times, name='get_available_times'),
     path('api/dates-any/<int:company_id>/<int:service_id>/', views.get_available_dates_any_staff, name='get_available_dates_any_staff'),
     path('api/times-any/<int:company_id>/<int:service_id>/<str:date_str>/', views.get_available_times_any_staff, name='get_available_times_any_staff'),
+    # Notifications
+    path('notifications/', views.notifications_list, name='notifications_list'),
+    path('notifications/<int:notification_id>/mark-read/', views.mark_notification_read, name='mark_notification_read'),
+    path('notifications/mark-all-read/', views.mark_all_notifications_read, name='mark_all_notifications_read'),
+    path('api/notifications/count/', views.get_unread_notifications_count, name='get_unread_notifications_count'),
 ]

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-06 21:47+0200\n"
+"POT-Creation-Date: 2026-05-16 12:07+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,7 +59,7 @@ msgstr "Recordatorio: Próximas reservas para"
 msgid "Add any notes about this booking..."
 msgstr "Añade cualquier nota sobre esta reserva..."
 
-#: bookings/forms.py:33 templates/bookings/create_booking.html:189
+#: bookings/forms.py:33 templates/bookings/create_booking.html:195
 msgid "Add any special requests or notes..."
 msgstr "Añade cualquier solicitud o nota especial..."
 
@@ -67,7 +67,7 @@ msgstr "Añade cualquier solicitud o nota especial..."
 msgid "Client notes..."
 msgstr "Notas del cliente..."
 
-#: bookings/forms.py:99 bookings/views.py:90
+#: bookings/forms.py:99 bookings/views.py:92
 msgid "Phone number must include country code (e.g., +34612345678)"
 msgstr ""
 "El número de teléfono debe incluir el código de país (por ejemplo, "
@@ -79,7 +79,7 @@ msgstr ""
 "El número de teléfono es demasiado corto. Por favor, incluya el código de "
 "país y el número completo."
 
-#: bookings/forms.py:136
+#: bookings/forms.py:149
 msgid ""
 "{staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d "
 "%H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select "
@@ -89,45 +89,61 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} hasta {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Por favor, seleccione otra fecha, hora o miembro del personal."
 
-#: bookings/views.py:77 companies/views.py:1379
+#: bookings/views.py:79 companies/views.py:1379
 msgid "Name is required"
 msgstr "Se requiere el nombre"
 
-#: bookings/views.py:82
+#: bookings/views.py:84
 msgid "Phone number is required"
 msgstr "Se requiere teléfono"
 
-#: bookings/views.py:148
+#: bookings/views.py:153
 msgid "Please complete all required fields"
 msgstr "Por favor complete todos campos requeridos"
 
-#: bookings/views.py:310
+#: bookings/views.py:234
+msgid "This time slot is not available. Staff member is out of office."
+msgstr "Este horario no está disponible. El empleado no se encuentra en la oficina."
+
+#: bookings/views.py:385
 msgid "Booking not found"
 msgstr "No se encontraron reservas."
 
-#: bookings/views.py:390
+#: bookings/views.py:462
 msgid "Your booking has been cancelled."
 msgstr "Su reserva ha sido cancelada"
 
-#: bookings/views.py:1532
+#: bookings/views.py:1699
 msgid "You do not have permission to confirm this booking."
 msgstr "No tienes permiso para confirmar esta reserva."
 
-#: bookings/views.py:1535 bookings/views.py:1651
+#: bookings/views.py:1702 bookings/views.py:1818
 msgid "User profile not found."
 msgstr "Perfil de usuario no encontrado"
 
-#: bookings/views.py:1543
+#: bookings/views.py:1710
 msgid "Duration and price are required."
 msgstr "Se requiere conocer la duración y el precio."
 
-#: bookings/views.py:1563
+#: bookings/views.py:1730
 msgid "Booking confirmed successfully!"
 msgstr "¡Reserva confirmada!"
 
-#: bookings/views.py:1566
+#: bookings/views.py:1733
 msgid "Invalid duration or price format."
 msgstr "Formato de duración o precio no válido."
+
+#: bookings/views.py:1894
+msgid "Error marking notification as read."
+msgstr "Error al marcar la notificación como leída."
+
+#: bookings/views.py:1911
+msgid "All notifications marked as read."
+msgstr "Todas las notificaciones marcadas como leídas."
+
+#: bookings/views.py:1916
+msgid "Error marking notifications as read."
+msgstr "Error al marcar las notificaciones como leídas."
 
 #: companies/forms.py:93 companies/models.py:11
 #: templates/companies/add_staff.html:108
@@ -725,33 +741,33 @@ msgstr "Contacta con nosotros"
 msgid "Salon Booking System. All rights reserved."
 msgstr "Sistema de reservas para salones. Todos los derechos reservados."
 
-#: templates/_header.html:17 templates/_header.html:70
+#: templates/_header.html:17 templates/_header.html:95
 msgid "Home"
 msgstr "Inicio"
 
-#: templates/_header.html:18 templates/_header.html:71
+#: templates/_header.html:18 templates/_header.html:96
 msgid "Pricing"
 msgstr "Precios"
 
-#: templates/_header.html:29 templates/_header.html:79
+#: templates/_header.html:42 templates/_header.html:104
 msgid "Platform Admin"
 msgstr "Admin de Plataforma"
 
-#: templates/_header.html:32 templates/_header.html:82
+#: templates/_header.html:45 templates/_header.html:107
 msgid "Dashboard"
 msgstr "Panel"
 
-#: templates/_header.html:36 templates/_header.html:86
+#: templates/_header.html:49 templates/_header.html:111
 msgid "Logout"
 msgstr "Cerrar sesión"
 
-#: templates/_header.html:39 templates/_header.html:89
+#: templates/_header.html:52 templates/_header.html:114
 #: templates/users/login.html:5
 msgid "Login"
 msgstr "Iniciar Sesión"
 
-#: templates/_header.html:40 templates/_header.html:48
-#: templates/_header.html:90
+#: templates/_header.html:53 templates/_header.html:61
+#: templates/_header.html:115
 msgid "Try Free"
 msgstr "Pruébalo gratis"
 
@@ -789,7 +805,7 @@ msgstr "Cada trabajador adicional"
 #: templates/billing/pricing_periods.html:51
 #: templates/billing/pricing_periods.html:76
 #: templates/billing/pricing_periods.html:101
-#: templates/billing/subscription_details.html:42
+#: templates/billing/subscription_details.html:67
 msgid "month"
 msgstr "mes"
 
@@ -807,7 +823,7 @@ msgstr "Continuar con el pago"
 
 #: templates/billing/change_plan.html:191
 #: templates/bookings/confirm_prebooked.html:90
-#: templates/bookings/create_booking.html:196
+#: templates/bookings/create_booking.html:202
 #: templates/bookings/edit_booking.html:213
 #: templates/companies/add_service.html:100
 #: templates/companies/add_staff.html:279
@@ -937,90 +953,111 @@ msgstr "Suscripción y facturación"
 msgid "Back"
 msgstr "Volver"
 
-#: templates/billing/subscription_details.html:31
+#: templates/billing/subscription_details.html:34
+msgid "Payment Issue"
+msgstr "Problema de pago"
+
+#: templates/billing/subscription_details.html:36
+msgid ""
+"There was a problem with your last payment. Please update your payment "
+"method or retry the payment to avoid service interruption."
+msgstr ""
+"Hubo un problema con su último pago. Por favor, actualice su método de "
+"pago o vuelva a intentarlo para evitar la interrupción del servicio."
+
+#: templates/billing/subscription_details.html:40
+#: templates/billing/subscription_details.html:88
+msgid "Update Payment Method"
+msgstr "Actualizar método de pago"
+
+#: templates/billing/subscription_details.html:43
+msgid "Retry Payment"
+msgstr "Repetir el pago"
+
+#: templates/billing/subscription_details.html:56
 msgid "Current Subscription"
 msgstr "Suscripción actual"
 
-#: templates/billing/subscription_details.html:50
+#: templates/billing/subscription_details.html:75
 msgid "Start Date"
 msgstr "Fecha de inicio"
 
-#: templates/billing/subscription_details.html:54
+#: templates/billing/subscription_details.html:79
 msgid "Next Billing Date"
 msgstr "Próxima fecha de facturación"
 
-#: templates/billing/subscription_details.html:60
+#: templates/billing/subscription_details.html:85
 msgid "Change Plan"
 msgstr "Plan Actual"
 
-#: templates/billing/subscription_details.html:63
+#: templates/billing/subscription_details.html:91
 msgid "Cancel Subscription"
 msgstr "Cancelar suscripción"
 
-#: templates/billing/subscription_details.html:69
+#: templates/billing/subscription_details.html:97
 msgid "No active subscription"
 msgstr "No hay suscripción activa"
 
-#: templates/billing/subscription_details.html:71
+#: templates/billing/subscription_details.html:99
 msgid "View Available Plans"
 msgstr "Ver planes disponibles"
 
-#: templates/billing/subscription_details.html:81
+#: templates/billing/subscription_details.html:109
 msgid "Billing History"
 msgstr "Historial de facturación"
 
-#: templates/billing/subscription_details.html:88
+#: templates/billing/subscription_details.html:116
 #: templates/bookings/bookings_list.html:64
 msgid "Date"
 msgstr "Fecha"
 
-#: templates/billing/subscription_details.html:89
+#: templates/billing/subscription_details.html:117
 msgid "Transaction ID"
 msgstr "ID de transacción"
 
-#: templates/billing/subscription_details.html:90
+#: templates/billing/subscription_details.html:118
 msgid "Plan"
 msgstr "Plan"
 
-#: templates/billing/subscription_details.html:91
+#: templates/billing/subscription_details.html:119
 #: templates/companies/analytics.html:150
 msgid "Status"
 msgstr "Estado"
 
-#: templates/billing/subscription_details.html:92
+#: templates/billing/subscription_details.html:120
 msgid "Amount"
 msgstr "Cantidad"
 
-#: templates/billing/subscription_details.html:128
+#: templates/billing/subscription_details.html:156
 msgid "No billing history yet"
 msgstr "Aún no hay historial de facturación"
 
-#: templates/billing/subscription_details.html:139
+#: templates/billing/subscription_details.html:167
 msgid "Account Summary"
 msgstr "Resumen de la cuenta"
 
-#: templates/billing/subscription_details.html:142
+#: templates/billing/subscription_details.html:170
 #: templates/companies/analytics.html:423
 msgid "Total Spent"
 msgstr "Total gastado"
 
-#: templates/billing/subscription_details.html:148
+#: templates/billing/subscription_details.html:176
 msgid "Active Since"
 msgstr "Plan Activo"
 
-#: templates/billing/subscription_details.html:158
+#: templates/billing/subscription_details.html:186
 msgid "Transactions"
 msgstr "Transacciones"
 
-#: templates/billing/subscription_details.html:166
+#: templates/billing/subscription_details.html:194
 msgid "Need Help?"
 msgstr "¿Necesitar ayuda?"
 
-#: templates/billing/subscription_details.html:168
+#: templates/billing/subscription_details.html:196
 msgid "Have questions about billing or your subscription?"
 msgstr "¿Tiene preguntas sobre la facturación o su suscripción?"
 
-#: templates/billing/subscription_details.html:171
+#: templates/billing/subscription_details.html:199
 #: templates/static_pages/faq.html:67
 msgid "Contact Support"
 msgstr "Contactar con soporte técnico"
@@ -1100,10 +1137,12 @@ msgid "Search by name, phone, email"
 msgstr "Buscar por nombre o número de teléfono..."
 
 #: templates/bookings/bookings_list.html:44
+#: templates/bookings/notifications_list.html:22
 msgid "From"
 msgstr "Desde"
 
 #: templates/bookings/bookings_list.html:45
+#: templates/bookings/notifications_list.html:26
 msgid "To"
 msgstr "Hasta"
 
@@ -1112,14 +1151,15 @@ msgid "All Services"
 msgstr "Todos Servicios"
 
 #: templates/bookings/bookings_list.html:52
+#: templates/bookings/notifications_list.html:30
 msgid "Filter"
 msgstr "Filtro"
 
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
 #: templates/bookings/confirmation.html:134
-#: templates/bookings/create_booking.html:90
-#: templates/bookings/create_booking.html:101
+#: templates/bookings/create_booking.html:96
+#: templates/bookings/create_booking.html:107
 #: templates/bookings/edit_booking.html:88
 msgid "Service"
 msgstr "Servicio"
@@ -1163,8 +1203,8 @@ msgid "No bookings found."
 msgstr "No se encontraron reservas."
 
 #: templates/bookings/confirm_prebooked.html:10
-#: templates/bookings/create_booking.html:199
-#: templates/bookings/create_booking.html:889
+#: templates/bookings/create_booking.html:205
+#: templates/bookings/create_booking.html:911
 #: templates/bookings/edit_booking.html:216
 #: templates/static_pages/how_it_works.html:74
 msgid "Confirm Booking"
@@ -1193,6 +1233,7 @@ msgid "Date & Time"
 msgstr "Fecha y hora"
 
 #: templates/bookings/confirm_prebooked.html:46
+#: templates/bookings/create_booking.html:58
 #: templates/bookings/edit_booking.html:79
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
 #: templates/companies/edit_profile.html:76
@@ -1223,7 +1264,7 @@ msgid "Price"
 msgstr "Precios"
 
 #: templates/bookings/confirm_prebooked.html:93
-#: templates/bookings/create_booking.html:885
+#: templates/bookings/create_booking.html:907
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -1373,121 +1414,125 @@ msgstr "Nombre"
 msgid "(e.g. +1234567890)"
 msgstr "(por ejemplo +1234567890)"
 
-#: templates/bookings/create_booking.html:66
+#: templates/bookings/create_booking.html:58
+msgid "(optional)"
+msgstr "(opcional)"
+
+#: templates/bookings/create_booking.html:72
 #: templates/companies/add_staff.html:252 templates/companies/dashboard.html:35
 #: templates/companies/edit_staff.html:322
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Servicios"
 
-#: templates/bookings/create_booking.html:81
+#: templates/bookings/create_booking.html:87
 #: templates/companies/add_service.html:10
 #: templates/companies/add_service.html:103
 #: templates/companies/dashboard.html:89
 msgid "Add Service"
 msgstr "Añadir Servicio"
 
-#: templates/bookings/create_booking.html:103
+#: templates/bookings/create_booking.html:109
 #: templates/bookings/edit_booking.html:91
 msgid "Choose a service..."
 msgstr "Elija un servicio..."
 
-#: templates/bookings/create_booking.html:115
+#: templates/bookings/create_booking.html:121
 #: templates/bookings/edit_booking.html:116
 msgid "Select Specialist"
 msgstr "Elija un Especialista"
 
-#: templates/bookings/create_booking.html:115
-#: templates/bookings/create_booking.html:184
+#: templates/bookings/create_booking.html:121
+#: templates/bookings/create_booking.html:190
 msgid "Optional"
 msgstr "Opcional"
 
-#: templates/bookings/create_booking.html:118
+#: templates/bookings/create_booking.html:124
 #: templates/bookings/edit_booking.html:118
 msgid "Please select a service first"
 msgstr "Por favor seleccione un servicio primero"
 
-#: templates/bookings/create_booking.html:132
+#: templates/bookings/create_booking.html:138
 #: templates/bookings/edit_booking.html:135
 msgid "Select Date & Time"
 msgstr "Fecha y hora"
 
-#: templates/bookings/create_booking.html:137
+#: templates/bookings/create_booking.html:143
 #: templates/bookings/edit_booking.html:140
 #: templates/companies/add_service.html:53
 #: templates/companies/edit_service.html:53
 msgid "Available Dates"
 msgstr "Planes disponibles"
 
-#: templates/bookings/create_booking.html:153
+#: templates/bookings/create_booking.html:159
 #: templates/bookings/edit_booking.html:156
 msgid "Please select a specialist first"
 msgstr "Por favor seleccione un especialista primero"
 
-#: templates/bookings/create_booking.html:157
+#: templates/bookings/create_booking.html:163
 #: templates/bookings/edit_booking.html:160
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:22
 msgid "Sun"
 msgstr "Dom"
 
-#: templates/bookings/create_booking.html:158
+#: templates/bookings/create_booking.html:164
 #: templates/bookings/edit_booking.html:161
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:16
 msgid "Mon"
 msgstr "Lun"
 
-#: templates/bookings/create_booking.html:159
+#: templates/bookings/create_booking.html:165
 #: templates/bookings/edit_booking.html:162
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:17
 msgid "Tue"
 msgstr "Mar"
 
-#: templates/bookings/create_booking.html:160
+#: templates/bookings/create_booking.html:166
 #: templates/bookings/edit_booking.html:163
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:18
 msgid "Wed"
 msgstr "Mie"
 
-#: templates/bookings/create_booking.html:161
+#: templates/bookings/create_booking.html:167
 #: templates/bookings/edit_booking.html:164
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:19
 msgid "Thu"
 msgstr "Jue"
 
-#: templates/bookings/create_booking.html:162
+#: templates/bookings/create_booking.html:168
 #: templates/bookings/edit_booking.html:165
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:20
 msgid "Fri"
 msgstr "Vie"
 
-#: templates/bookings/create_booking.html:163
+#: templates/bookings/create_booking.html:169
 #: templates/bookings/edit_booking.html:166
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:21
 msgid "Sat"
 msgstr "Sab"
 
-#: templates/bookings/create_booking.html:172
+#: templates/bookings/create_booking.html:178
 #: templates/bookings/edit_booking.html:178
 msgid "Available Time"
 msgstr "Tiempos disponibles"
 
-#: templates/bookings/create_booking.html:184
+#: templates/bookings/create_booking.html:190
 msgid "Additional Notes"
 msgstr "Notas adicionales"
 
-#: templates/bookings/create_booking.html:186
+#: templates/bookings/create_booking.html:192
 msgid "Do you have any special requests or notes?"
 msgstr "¿Tiene alguna petición o nota especial?"
 
-#: templates/bookings/create_booking.html:211
+#: templates/bookings/create_booking.html:217
 msgid "Any Available"
 msgstr "Cualquiera disponible"
 
-#: templates/bookings/create_booking.html:212
+#: templates/bookings/create_booking.html:218
 msgid "We'll assign"
 msgstr "Nosotros asignaremos"
 
-#: templates/bookings/create_booking.html:886
+#: templates/bookings/create_booking.html:908
 msgid "services"
 msgstr "servicios"
 
@@ -1528,6 +1573,61 @@ msgstr "del cliente"
 #: templates/bookings/edit_booking.html:333
 msgid "Phone (must include country code, e.g. +1234567890)"
 msgstr "Teléfono (debe incluir el código de país, por ejemplo, +1234567890)"
+
+#: templates/bookings/notifications_list.html:4
+#: templates/bookings/notifications_list.html:10
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: templates/bookings/notifications_list.html:13
+msgid "Mark all as read"
+msgstr "Marcar todo como leído"
+
+#: templates/bookings/notifications_list.html:34
+#: templates/companies/customers_list.html:43
+#: venv/lib/python3.12/site-packages/django/forms/widgets.py:463
+msgid "Clear"
+msgstr "Clear"
+
+#: templates/bookings/notifications_list.html:57
+msgid "Mark as read"
+msgstr "Marcar como leído"
+
+#: templates/bookings/notifications_list.html:77
+#: templates/companies/customer_detail.html:104
+#: templates/companies/customers_list.html:88
+msgid "Previous"
+msgstr "Previa"
+
+#: templates/bookings/notifications_list.html:82
+#: templates/companies/customer_detail.html:134
+#: templates/companies/customers_list.html:118
+msgid "Page"
+msgstr "Pagina"
+
+#: templates/bookings/notifications_list.html:82
+#: templates/companies/customer_detail.html:134
+#: templates/companies/customers_list.html:118
+msgid "of"
+msgstr "de"
+
+#: templates/bookings/notifications_list.html:87
+#: templates/companies/customer_detail.html:123
+#: templates/companies/customers_list.html:107
+msgid "Next"
+msgstr "Próxima"
+
+#: templates/bookings/notifications_list.html:99
+msgid "No unread notifications"
+msgstr "No unread notifications"
+
+#: templates/bookings/notifications_list.html:100
+msgid "You're all caught up!"
+msgstr "¡Ya estás al día!"
+
+#: templates/bookings/notifications_list.html:138
+msgid "Mark all notifications as read?"
+msgstr "¿Marcar todas las notificaciones como leídas?"
 
 #: templates/companies/activate_staff_account.html:10
 #: templates/email/staff_activation.html:83
@@ -1956,30 +2056,10 @@ msgstr "con"
 msgid "First"
 msgstr "Primera"
 
-#: templates/companies/customer_detail.html:104
-#: templates/companies/customers_list.html:88
-msgid "Previous"
-msgstr "Previa"
-
-#: templates/companies/customer_detail.html:123
-#: templates/companies/customers_list.html:107
-msgid "Next"
-msgstr "Próxima"
-
 #: templates/companies/customer_detail.html:127
 #: templates/companies/customers_list.html:111
 msgid "Last"
 msgstr "Última"
-
-#: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
-msgid "Page"
-msgstr "Pagina"
-
-#: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
-msgid "of"
-msgstr "de"
 
 #: templates/companies/customer_detail.html:135
 msgid "total bookings"
@@ -2004,11 +2084,6 @@ msgstr "Buscar"
 #: templates/companies/customers_list.html:32
 msgid "Search by name or phone number..."
 msgstr "Buscar por nombre o número de teléfono..."
-
-#: templates/companies/customers_list.html:43
-#: venv/lib/python3.12/site-packages/django/forms/widgets.py:463
-msgid "Clear"
-msgstr "Clear"
 
 #: templates/companies/customers_list.html:68
 msgid "No customers found matching your search."
@@ -4807,4 +4882,15 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
 msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/jsonfield/fields.py:49
+#, fuzzy
+#| msgid "Enter a valid URL."
+msgid "Enter valid JSON."
+msgstr "Introduzca una URL válida."
+
+#: venv/lib/python3.12/site-packages/jsonfield/forms.py:15
+#, python-format
+msgid "\"%(value)s\" value must be valid JSON."
 msgstr ""

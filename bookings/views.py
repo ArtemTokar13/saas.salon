@@ -162,15 +162,7 @@ def create_booking(request, company_id):
                 for booking_data in bookings_data:
                     service = get_object_or_404(Service, id=booking_data['service_id'], company=company)
                     
-                    # Get staff or auto-assign
-                    if booking_data['staff_id']:
-                        staff = get_object_or_404(Staff, id=booking_data['staff_id'], company=company)
-                    else:
-                        staff = service.staff_members.filter(is_active=True).first()
-                        if not staff:
-                            raise ValueError(f'No staff available for service: {service.name}')
-                    
-                    # Parse date and time
+                    # Parse date and time first (needed for availability checks)
                     date = datetime.strptime(booking_data['date'], '%Y-%m-%d').date()
                     start_time = datetime.strptime(booking_data['start_time'], '%H:%M').time()
                     
@@ -178,6 +170,45 @@ def create_booking(request, company_id):
                     start_datetime = datetime.combine(date, start_time)
                     end_datetime = start_datetime + timedelta(minutes=service.duration + service.time_for_servicing)
                     end_time = end_datetime.time()
+                    
+                    # Get staff or auto-assign (with conflict checking)
+                    if booking_data['staff_id']:
+                        staff = get_object_or_404(Staff, id=booking_data['staff_id'], company=company)
+                    else:
+                        # Auto-assign: find an available staff member
+                        # Check against both existing DB bookings AND bookings created in this transaction
+                        available_staff = None
+                        for candidate_staff in service.staff_members.filter(is_active=True):
+                            # Check existing bookings in database
+                            existing_conflict = Booking.objects.filter(
+                                staff=candidate_staff,
+                                date=date,
+                                status__in=[1, 3],  # Confirmed or PreBooked
+                                start_time__lt=end_time,
+                                end_time__gt=start_time
+                            ).exists()
+                            
+                            if existing_conflict:
+                                continue  # This staff has a conflict in DB
+                            
+                            # Check bookings being created in this transaction
+                            transaction_conflict = False
+                            for created_booking in created_bookings:
+                                if (created_booking.staff == candidate_staff and 
+                                    created_booking.date == date and
+                                    created_booking.start_time < end_time and
+                                    created_booking.end_time > start_time):
+                                    transaction_conflict = True
+                                    break
+                            
+                            if not transaction_conflict:
+                                available_staff = candidate_staff
+                                break  # Found an available staff member
+                        
+                        if not available_staff:
+                            raise ValueError(f'No staff available for service "{service.name}" at {start_time.strftime("%H:%M")} on {date.strftime("%Y-%m-%d")}. Please select a different time or specific staff member.')
+                        
+                        staff = available_staff
                     
                     # Check if staff is out of office during this time
                     check_start = start_datetime

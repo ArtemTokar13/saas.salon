@@ -34,6 +34,22 @@ def subscription_details(request):
 
         company = profile.company
         current_subscription = Subscription.objects.filter(company=company, is_active=True).first()
+        
+        # Sync subscription status from Stripe
+        # if current_subscription and current_subscription.stripe_subscription_id:
+        #     try:
+        #         sync_subscription_from_stripe(current_subscription.stripe_subscription_id)
+        #         # Refresh subscription from DB after sync
+        #         current_subscription = Subscription.objects.filter(company=company, is_active=True).first()
+        #     except Exception as e:
+        #         # Log error but continue showing page
+        #         StripeErrorLog.log_error(
+        #             function_name='subscription_details_sync',
+        #             error=e,
+        #             company=company,
+        #             subscription=current_subscription
+        #         )
+        
         subscription_history = Subscription.objects.filter(company=company).order_by('-start_date')
         transactions = Transaction.objects.filter(subscription__company=company).order_by('-transaction_date')
         total_spent = sum(t.amount for t in transactions)
@@ -178,6 +194,100 @@ def payment_success(request):
 def payment_cancelled(request):
     messages.warning(request, "Payment was cancelled.")
     return redirect("view_plans")
+
+
+@login_required
+def update_payment_method(request):
+    """Redirect to Stripe Customer Portal to update payment method"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            messages.error(request, "Access denied.")
+            return redirect("home")
+
+        company = profile.company
+        subscription = Subscription.objects.filter(company=company, is_active=True).first()
+        
+        if not subscription:
+            messages.error(request, "No active subscription found.")
+            return redirect("subscription_details")
+        
+        if not subscription.stripe_customer_id:
+            messages.error(request, "No Stripe customer ID found. Please contact support.")
+            return redirect("subscription_details")
+        
+        # Create Stripe Customer Portal session
+        return_url = request.build_absolute_uri("/billing/subscription-details/")
+        
+        try:
+            portal_session = create_customer_portal_session(
+                customer_id=subscription.stripe_customer_id,
+                return_url=return_url
+            )
+            # Redirect to Stripe Customer Portal
+            return redirect(portal_session.url)
+        except Exception as e:
+            messages.error(request, f"Error creating portal session: {str(e)}")
+            return redirect("subscription_details")
+
+    except UserProfile.DoesNotExist:
+        messages.error(request, "User profile not found.")
+        return redirect("home")
+
+
+@login_required
+def retry_payment(request):
+    """Manually retry failed payment"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            messages.error(request, "Access denied.")
+            return redirect("home")
+
+        company = profile.company
+        subscription = Subscription.objects.filter(company=company, is_active=True).first()
+        
+        if not subscription or not subscription.stripe_subscription_id:
+            messages.error(request, "No active subscription found.")
+            return redirect("subscription_details")
+        
+        try:
+            # Get subscription from Stripe
+            stripe_sub = stripe.Subscription.retrieve(subscription.stripe_subscription_id)
+            
+            if stripe_sub.latest_invoice:
+                invoice = stripe.Invoice.retrieve(stripe_sub.latest_invoice)
+                
+                if invoice.status == 'open' and not invoice.paid:
+                    # Try to pay the invoice
+                    try:
+                        paid_invoice = stripe.Invoice.pay(invoice.id)
+                        messages.success(request, "Payment successful! Your subscription has been reactivated.")
+                        
+                        # Update local subscription status
+                        subscription.status = Subscription.STATUS_ACTIVE
+                        subscription.is_active = True
+                        subscription.save()
+                        
+                    except stripe.error.CardError as e:
+                        # Card was declined
+                        error_msg = e.user_message or "Your card was declined."
+                        messages.error(request, f"Payment failed: {error_msg}")
+                        if e.error and e.error.decline_code:
+                            messages.warning(request, f"Reason: {e.error.decline_code}. Please update your payment method.")
+                else:
+                    messages.info(request, "No pending invoice found.")
+            else:
+                messages.info(request, "No invoice found for this subscription.")
+                
+        except stripe.error.StripeError as e:
+            messages.error(request, f"Stripe error: {str(e)}")
+        
+        return redirect("subscription_details")
+
+    except UserProfile.DoesNotExist:
+        messages.error(request, "User profile not found.")
+        return redirect("home")
 
 
 @login_required

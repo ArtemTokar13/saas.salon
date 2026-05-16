@@ -10,7 +10,7 @@ from companies.models import Company, Staff, Service
 class BookingForm(forms.ModelForm):
     customer_name = forms.CharField(max_length=255, required=True)
     customer_phone = forms.CharField(max_length=50, required=True)
-    # customer_email = forms.EmailField(required=False)
+    customer_email = forms.EmailField(required=False)
     # customer_country_code = forms.ChoiceField(
     #     choices=[('', _('Select Country'))] + list(COUNTRY_CHOICES), 
     #     required=True, 
@@ -54,7 +54,7 @@ class BookingForm(forms.ModelForm):
         if self.instance and self.instance.pk:
             self.fields['customer_name'].required = False
             self.fields['customer_phone'].required = False
-            # self.fields['customer_email'].required = False
+            self.fields['customer_email'].required = False
             # self.fields['customer_country_code'].required = False
             
             # Make client_notes readonly when editing
@@ -69,7 +69,7 @@ class BookingForm(forms.ModelForm):
             if hasattr(self.instance, 'customer'):
                 self.fields['customer_name'].initial = self.instance.customer.name
                 self.fields['customer_phone'].initial = self.instance.customer.phone
-                # self.fields['customer_email'].initial = self.instance.customer.email
+                self.fields['customer_email'].initial = self.instance.customer.email
                 # self.fields['customer_country_code'].initial = self.instance.customer.country_code
 
     def clean_date(self):
@@ -176,7 +176,9 @@ class BookingForm(forms.ModelForm):
             if customer:
                 # Update existing customer info
                 customer.name = self.cleaned_data['customer_name']
-                # customer.email = self.cleaned_data.get('customer_email', '')
+                provided_email = self.cleaned_data.get('customer_email', '').strip()
+                if provided_email:
+                    customer.email = provided_email
                 # customer.country_code = self.cleaned_data.get('customer_country_code', '')
                 customer.save()
             else:
@@ -184,7 +186,7 @@ class BookingForm(forms.ModelForm):
                 customer = Customer.objects.create(
                     phone=self.cleaned_data['customer_phone'],
                     name=self.cleaned_data['customer_name'],
-                    # email=self.cleaned_data.get('customer_email', ''),
+                    email=self.cleaned_data.get('customer_email', '').strip(),
                     # country_code=self.cleaned_data.get('customer_country_code', ''),
                 )
             

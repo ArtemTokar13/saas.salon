@@ -70,6 +70,7 @@ def create_booking(request, company_id):
             # Get customer information
             customer_name = request.POST.get('customer_name', '').strip()
             customer_phone = request.POST.get('customer_phone', '').strip()
+            customer_email = request.POST.get('customer_email', '').strip()
             client_notes = request.POST.get('client_notes', '').strip()
             
             # Validate customer info
@@ -97,11 +98,14 @@ def create_booking(request, company_id):
             customer = Customer.objects.filter(phone=customer_phone).first()
             if customer:
                 customer.name = customer_name
+                if customer_email:
+                    customer.email = customer_email
                 customer.save()
             else:
                 customer = Customer.objects.create(
                     name=customer_name,
-                    phone=customer_phone
+                    phone=customer_phone,
+                    email=customer_email or ''
                 )
             
             # Parse booking data (support both single and multiple bookings)
@@ -233,9 +237,8 @@ def create_booking(request, company_id):
                 booking_link = request.build_absolute_uri(
                     redirect('booking_confirmation', booking_id=booking.id).url
                 )
-                cancel_link = request.build_absolute_uri(
-                    redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
-                )
+                # Build cancel link without language prefix
+                cancel_link = f"{request.scheme}://{request.get_host()}/bookings/cancel/{booking.id}/{booking.delete_code}/"
                 
                 subject = f'Your Booking Confirmation' + (f' - {len(created_bookings)} Services' if len(created_bookings) > 1 else '')
                 html_message = render_to_string('email/booking_confirmation.html', {
@@ -342,9 +345,8 @@ def booking_confirmation(request, booking_id):
         # Generate cancel links for all bookings
         bookings_with_links = []
         for booking in bookings:
-            cancel_link = request.build_absolute_uri(
-                redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
-            )
+            # Build cancel link without language prefix
+            cancel_link = f"{request.scheme}://{request.get_host()}/bookings/cancel/{booking.id}/{booking.delete_code}/"
             bookings_with_links.append({
                 'booking': booking,
                 'cancel_link': cancel_link
@@ -360,10 +362,8 @@ def booking_confirmation(request, booking_id):
         # Single booking
         booking = get_object_or_404(Booking, id=booking_id)
         
-        # Generate cancel link with delete_code
-        cancel_link = request.build_absolute_uri(
-            redirect("cancel_booking", booking_id=booking.id, delete_code=booking.delete_code).url
-        )
+        # Generate cancel link with delete_code (without language prefix)
+        cancel_link = f"{request.scheme}://{request.get_host()}/bookings/cancel/{booking.id}/{booking.delete_code}/"
         
         context = {
             'booking': booking,
@@ -378,40 +378,40 @@ def cancel_booking(request, booking_id, delete_code):
     """Customer-facing booking cancellation page"""
     booking = get_object_or_404(Booking, id=booking_id, delete_code=delete_code)
     
-    if request.method == 'POST':
-        booking.status = 2
-        booking.save()
+    # if request.method == 'POST':
+    booking.status = 2
+    booking.save()
 
-        # Send cancellation email to customer (only if they have an email)
-        if booking.customer.email:
-            subject = 'Your Booking Cancellation'
-            html_message = render_to_string('email/booking_cancellation.html', {
-                'booking': booking,
-                'company': booking.company,
-                'cancellation_date': timezone.now(),
-                'booking_link': request.build_absolute_uri(f'/companies/{booking.company.id}/'),
-                'current_year': timezone.now().year,
-            })
-            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-            recipient_list = [booking.customer.email]
-            email_log = EmailLog.objects.create(
-                recipient_email=booking.customer.email,
-                subject=subject,
-                email_type='booking_cancellation',
-                status='pending'
-            )
-            try:
-                msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-                msg.attach_alternative(html_message, "text/html")
-                msg.send()
-                email_log.status = 'sent'
-                email_log.sent_at = timezone.now()
-                email_log.save()
-            except Exception as e:
-                email_log.status = 'failed'
-                email_log.error_message = str(e)
-                email_log.save()
-                logger.error(f"Failed to send booking cancellation email: {e}")
+    # Send cancellation email to customer (only if they have an email)
+    if booking.customer.email:
+        subject = 'Your Booking Cancellation'
+        html_message = render_to_string('email/booking_cancellation.html', {
+            'booking': booking,
+            'company': booking.company,
+            'cancellation_date': timezone.now(),
+            'booking_link': request.build_absolute_uri(f'/companies/{booking.company.id}/'),
+            'current_year': timezone.now().year,
+        })
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+        recipient_list = [booking.customer.email]
+        email_log = EmailLog.objects.create(
+            recipient_email=booking.customer.email,
+            subject=subject,
+            email_type='booking_cancellation',
+            status='pending'
+        )
+        try:
+            msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+            msg.attach_alternative(html_message, "text/html")
+            msg.send()
+            email_log.status = 'sent'
+            email_log.sent_at = timezone.now()
+            email_log.save()
+        except Exception as e:
+            email_log.status = 'failed'
+            email_log.error_message = str(e)
+            email_log.save()
+            logger.error(f"Failed to send booking cancellation email: {e}")
 
         messages.success(request, _('Your booking has been cancelled.'))
     return HttpResponseRedirect(f'/companies/{booking.company.id}/')

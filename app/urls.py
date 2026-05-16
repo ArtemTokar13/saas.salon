@@ -24,6 +24,7 @@ from app.views import Index, privacy_policy, terms_of_service, cookie_policy, co
 from app import admin_views
 from billing.views import stripe_webhook
 from companies.views import update_customer
+from bookings.views import cancel_booking
 
 
 urlpatterns = [
@@ -38,6 +39,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     # WhatsApp webhook (no i18n prefix, no CSRF)
     path('whatsapp/', include('whatsapp_bot.urls')),
+    # Booking cancellation (no i18n prefix so cancel links work from emails)
+    path('bookings/cancel/<int:booking_id>/<str:delete_code>/', cancel_booking, name='cancel_booking_no_prefix'),
 ]
 
 urlpatterns += i18n_patterns(

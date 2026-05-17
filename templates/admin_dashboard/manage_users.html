@@ -30,6 +30,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -84,10 +85,22 @@
                                     </span>
                                 {% endif %}
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                {% if not user.is_active %}
+                                    <button 
+                                        onclick="sendActivationEmail({{ user.id }})"
+                                        class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+                                        id="activation-btn-{{ user.id }}">
+                                        <i class="fas fa-envelope mr-1"></i> Send Activation Email
+                                    </button>
+                                {% else %}
+                                    <span class="text-gray-400 text-xs">-</span>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                            <td colspan="7" class="px-6 py-12 text-center text-gray-500">
                                 No users found
                             </td>
                         </tr>
@@ -97,4 +110,59 @@
         </div>
     </div>
 </div>
+
+<script>
+function sendActivationEmail(userId) {
+    if (!confirm('Are you sure you want to send the activation email to this user?')) {
+        return;
+    }
+    
+    const btn = document.getElementById(`activation-btn-${userId}`);
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Sending...';
+    
+    fetch(`/platform-admin/users/${userId}/send-activation/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message || 'Activation email sent successfully!');
+            btn.innerHTML = '<i class="fas fa-check mr-1"></i> Email Sent';
+            btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            btn.classList.add('bg-green-600');
+        } else {
+            alert('Error: ' + (data.error || 'Failed to send activation email'));
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error sending activation email. Please try again.');
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 {% endblock %}

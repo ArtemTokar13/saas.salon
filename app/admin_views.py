@@ -4,14 +4,27 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Count, Sum, Q
-from django.http import HttpResponse
-from companies.models import Company, Staff, Service
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_POST
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.urls import reverse
+from django.utils import timezone
+from django.conf import settings
+from companies.models import Company, Staff, Service, EmailLog
 from bookings.models import Booking, Customer
 from billing.models import Plan, Subscription, Transaction
 from users.models import UserProfile
 from users.models import DailyVisit
 import qrcode
 from io import BytesIO
+import traceback
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def is_superuser(user):
@@ -76,6 +89,77 @@ def manage_users(request):
     }
     
     return render(request, 'admin_dashboard/manage_users.html', context)
+
+
+@login_required
+@user_passes_test(is_superuser)
+@require_POST
+def send_activation_email(request, user_id):
+    """Send or resend activation email to a user"""
+    try:
+        user = get_object_or_404(User, id=user_id)
+        
+        # Check if user is already active
+        if user.is_active:
+            return JsonResponse({'success': False, 'error': 'User is already active.'}, status=400)
+        
+        # Build activation link (uid + token)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = default_token_generator.make_token(user)
+        activate_path = reverse('activate_company', args=[uid, token])
+        activate_link = request.build_absolute_uri(activate_path)
+
+        # Send activation email
+        subject = 'Activate your account'
+        html_message = render_to_string('email/account_activation.html', {
+            'activate_link': activate_link,
+            'current_year': timezone.now().year,
+            'site_name': 'Salon Booking System',
+        })
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+        recipient_list = [user.email]
+
+        # Create email log entry
+        email_log = EmailLog.objects.create(
+            recipient_email=user.email,
+            subject=subject,
+            email_type='account_activation',
+            status='pending'
+        )
+
+        try:
+            msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+            msg.attach_alternative(html_message, "text/html")
+            # Send copy to admin and requesting superuser
+            bcc_list = ['artemtokartouch@gmail.com']
+            if request.user.email:
+                bcc_list.append(request.user.email)
+            msg.bcc = bcc_list
+            msg.send()
+            
+            email_log.status = 'success'
+            email_log.sent_at = timezone.now()
+            email_log.save()
+            
+            return JsonResponse({'success': True, 'message': 'Activation email sent successfully!'})
+        except Exception as e:
+            error_msg = str(e)
+            error_trace = traceback.format_exc()
+
+            email_log.status = 'failed'
+            email_log.error_message = error_msg
+            email_log.error_traceback = error_trace
+            email_log.save()
+
+            logger.error(
+                f"Email sending failed for user activation. User: {user.email}, Error: {error_msg}",
+                exc_info=True
+            )
+            
+            return JsonResponse({'success': False, 'error': 'Failed to send activation email. Please try again later.'}, status=500)
+    except Exception as e:
+        logger.error(f"Error in send_activation_email: {str(e)}", exc_info=True)
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 
 @login_required

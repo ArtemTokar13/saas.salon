@@ -1552,7 +1552,7 @@ msgstr "від клієнта"
 
 #: templates/bookings/edit_booking.html:333
 msgid "Phone (must include country code, e.g. +1234567890)"
-msgstr "Телефон (обов'язково вкажіть код країни, наприклад +1234567890)"
+msgstr "Телефон (необхідно вказати код країни, наприклад +1234567890)"
 
 #: templates/bookings/notifications_list.html:4
 #: templates/bookings/notifications_list.html:10

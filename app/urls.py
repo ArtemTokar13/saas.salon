@@ -41,6 +41,8 @@ urlpatterns = [
     path('whatsapp/', include('whatsapp_bot.urls')),
     # Booking cancellation (no i18n prefix so cancel links work from emails)
     path('bookings/cancel/<int:booking_id>/<str:delete_code>/', cancel_booking, name='cancel_booking_no_prefix'),
+    # Admin API endpoints (no i18n prefix to avoid POST to GET conversion)
+    path('platform-admin/users/<int:user_id>/send-activation/', admin_views.send_activation_email, name='send_activation_email'),
 ]
 
 urlpatterns += i18n_patterns(
@@ -66,7 +68,6 @@ urlpatterns += i18n_patterns(
     # Super admin dashboard
     path('platform-admin/', admin_views.admin_dashboard, name='admin_dashboard'),
     path('platform-admin/users/', admin_views.manage_users, name='manage_users'),
-    path('platform-admin/users/<int:user_id>/send-activation/', admin_views.send_activation_email, name='send_activation_email'),
     path('platform-admin/companies/', admin_views.manage_companies, name='manage_companies'),
     path('platform-admin/plans/', admin_views.manage_plans, name='manage_plans'),
     path('platform-admin/subscriptions/', admin_views.manage_subscriptions, name='manage_subscriptions'),

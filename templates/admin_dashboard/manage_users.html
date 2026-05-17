@@ -129,7 +129,20 @@ function sendActivationEmail(userId) {
             'Content-Type': 'application/json',
         },
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            // Check if response is JSON
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Failed to send activation email');
+                });
+            } else {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             alert(data.message || 'Activation email sent successfully!');
@@ -144,7 +157,7 @@ function sendActivationEmail(userId) {
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error sending activation email. Please try again.');
+        alert('Error: ' + error.message);
         btn.disabled = false;
         btn.innerHTML = originalText;
     });

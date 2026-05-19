@@ -27,26 +27,109 @@ class BookingSearcher:
         
         companies = Company.objects.filter(online_appointments_enabled=True)
         
-        # Try exact match first
-        exact = companies.filter(name__iexact=company_name).first()
-        if exact:
-            return exact
+        # Normalize search term
+        search_normalized = self._normalize_company_name(company_name)
         
-        # Fuzzy matching
+        # Try exact match first (normalized)
+        for company in companies:
+            if search_normalized == self._normalize_company_name(company.name):
+                logger.info(f"✓ Exact match: {company.name}")
+                return company
+        
+        # Fuzzy matching with multiple strategies
         best_match = None
         best_score = 0
         
         for company in companies:
-            score = fuzz.ratio(company_name.lower(), company.name.lower())
+            company_normalized = self._normalize_company_name(company.name)
+            
+            # Strategy 1: Full string fuzzy match
+            score1 = fuzz.ratio(search_normalized, company_normalized)
+            
+            # Strategy 2: Partial ratio (handles "Roxy" matching "Roxy_hairdresser")
+            score2 = fuzz.partial_ratio(search_normalized, company_normalized)
+            
+            # Strategy 3: Token sort (handles word order differences)
+            score3 = fuzz.token_sort_ratio(search_normalized, company_normalized)
+            
+            # Strategy 4: Check if search term is at start of company name (high priority)
+            score4 = 100 if company_normalized.startswith(search_normalized) else 0
+            
+            # Take the best score from all strategies
+            score = max(score1, score2, score3, score4)
+            
+            logger.info(f"  '{company.name}' = {score}% (strategies: {score1}/{score2}/{score3}/{score4})")
+            
             if score > best_score:
                 best_score = score
                 best_match = company
         
         # Return if confidence is high enough
-        if best_score > 70:
+        # Lower threshold for partial matches (60% instead of 70%)
+        if best_score >= 60:
+            logger.info(f"✓ Best match: {best_match.name} ({best_score}%)")
             return best_match
         
+        logger.warning(f"✗ No match found for: '{company_name}' (best score: {best_score}%)")
         return None
+    
+    def _normalize_company_name(self, name: str) -> str:
+        """
+        Normalize company name for better matching
+        - Convert to lowercase
+        - Replace underscores with spaces
+        - Remove extra whitespace
+        - Remove special characters
+        """
+        if not name:
+            return ""
+        
+        normalized = name.lower()
+        # Replace underscores and dashes with spaces
+        normalized = normalized.replace('_', ' ').replace('-', ' ')
+        # Remove common punctuation
+        normalized = normalized.replace('.', '').replace(',', '').replace('!', '')
+        # Remove extra whitespace
+        normalized = ' '.join(normalized.split())
+        
+        return normalized.strip()
+    
+    def find_similar_companies(self, company_name: str, limit: int = 3) -> list:
+        """
+        Find similar companies for "did you mean?" suggestions
+        Returns list of tuples: [(Company, score), ...]
+        """
+        if not company_name:
+            return []
+        
+        companies = Company.objects.filter(online_appointments_enabled=True)
+        search_normalized = self._normalize_company_name(company_name)
+        
+        matches = []
+        
+        for company in companies:
+            company_normalized = self._normalize_company_name(company.name)
+            
+            # Use multiple matching strategies
+            score1 = fuzz.ratio(search_normalized, company_normalized)
+            score2 = fuzz.partial_ratio(search_normalized, company_normalized)
+            score3 = fuzz.token_sort_ratio(search_normalized, company_normalized)
+            
+            # Boost score if search term appears at the start
+            if company_normalized.startswith(search_normalized):
+                score1 += 20
+            
+            score = max(score1, score2, score3)
+            
+            # Only include if similarity is above 40%
+            if score >= 40:
+                matches.append((company, score))
+        
+        # Sort by score descending
+        matches.sort(key=lambda x: x[1], reverse=True)
+        
+        # Return top matches
+        return matches[:limit]
     
     def find_service(self, company: Company, service_name: str) -> Service:
         """

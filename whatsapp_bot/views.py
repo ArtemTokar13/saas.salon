@@ -139,7 +139,7 @@ def get_or_create_conversation(phone_number: str) -> WhatsAppConversation:
     # Get or create active conversation
     conversation, created = WhatsAppConversation.objects.get_or_create(
         phone_number=phone_number,
-        current_state__in=['idle', 'selecting_language', 'selecting_service', 'selecting_staff', 'collecting_info', 'showing_slots', 'confirming'],
+        current_state__in=['idle', 'selecting_language', 'selecting_salon', 'selecting_service', 'selecting_staff', 'collecting_info', 'showing_slots', 'confirming'],
         defaults={'current_state': 'idle'}
     )
 
@@ -216,6 +216,10 @@ def process_message(conversation: WhatsAppConversation, message: str) -> str:
     if not state.get('language'):
         # First message - ask for language
         return ask_language_preference(conversation, message)
+    
+    # Check if user is selecting a salon from suggestions
+    if conversation.current_state == 'selecting_salon':
+        return handle_salon_selection(conversation, message)
     
     # Detect salon-specific entry codes (first message from QR/link)
     salon_detected = detect_salon_code(conversation, message)
@@ -658,13 +662,123 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
             else:
                 return get_message('welcome_menu_with_salon', lang, company=company, company_name=company.name)
         else:
-            # Salon not found but user sent a greeting
-            if is_greeting_with_salon:
-                logger.warning(f"Salon name '{salon_name}' not found after greeting")
-                # Return generic greeting since salon wasn't found
-                return handle_greeting(conversation)
+            # Salon not found - try to find similar salons
+            similar_salons = searcher.find_similar_companies(salon_name, limit=3)
+            
+            if similar_salons:
+                # Store salon suggestions in conversation state
+                state = conversation.conversation_state
+                state['salon_suggestions'] = [{'id': comp.id, 'name': comp.name} for comp, score in similar_salons]
+                state['awaiting_salon_confirmation'] = True
+                conversation.conversation_state = state
+                conversation.current_state = 'selecting_salon'
+                conversation.save()
+                
+                # Show "did you mean?" message
+                return show_salon_suggestions(salon_name, similar_salons, lang)
+            else:
+                # No similar salons found
+                if is_greeting_with_salon:
+                    logger.warning(f"No salons found similar to '{salon_name}'")
+                    return get_message('salon_not_found', lang, salon_name=salon_name)
+                else:
+                    # Not a greeting, just return generic greeting
+                    return handle_greeting(conversation)
     
     return None  # No salon detected
+
+
+def show_salon_suggestions(search_term: str, similar_salons: list, lang: str) -> str:
+    """
+    Show "did you mean?" suggestions when salon name is ambiguous
+    
+    Args:
+        search_term: What the user searched for
+        similar_salons: List of (Company, score) tuples
+        lang: Language code
+    """
+    # Build list of options
+    options = []
+    for idx, (company, score) in enumerate(similar_salons, 1):
+        options.append(f"{idx}️⃣ {company.name}")
+    
+    options_text = '\n'.join(options)
+    
+    # Messages for "did you mean?"
+    messages = {
+        'es': f"🔍 No encontré un salón llamado exactamente '{search_term}'.\n\n¿Te refieres a alguno de estos?\n\n{options_text}\n\n📝 Responde con el número (1-{len(similar_salons)}) o escribe el nombre completo.",
+        'en': f"🔍 I couldn't find a salon named exactly '{search_term}'.\n\nDid you mean one of these?\n\n{options_text}\n\n📝 Reply with the number (1-{len(similar_salons)}) or type the full name.",
+        'ru': f"🔍 Я не нашел салон с именем '{search_term}'.\n\nВы имели в виду один из этих?\n\n{options_text}\n\n📝 Ответьте номером (1-{len(similar_salons)}) или напишите полное название.",
+        'uk': f"🔍 Я не знайшов салон з назвою '{search_term}'.\n\nВи мали на увазі один з цих?\n\n{options_text}\n\n📝 Відповідайте номером (1-{len(similar_salons)}) або напишіть повну назву.",
+    }
+    
+    return messages.get(lang, messages['es'])
+
+
+def handle_salon_selection(conversation: WhatsAppConversation, message: str) -> str:
+    """
+    Handle salon selection from suggestions
+    """
+    lang = conversation.conversation_state.get('language', 'es')
+    state = conversation.conversation_state
+    
+    suggestions = state.get('salon_suggestions', [])
+    if not suggestions:
+        # No suggestions stored, reset
+        conversation.current_state = 'idle'
+        conversation.save()
+        return handle_greeting(conversation)
+    
+    # Check if user sent a number
+    if message.strip().isdigit():
+        choice = int(message.strip())
+        if 1 <= choice <= len(suggestions):
+            # Valid selection
+            selected_salon = suggestions[choice - 1]
+            from companies.models import Company
+            
+            try:
+                company = Company.objects.get(id=selected_salon['id'])
+                
+                # Set salon in conversation
+                conversation.company = company
+                conversation.current_state = 'idle'
+                state['company_name'] = company.name
+                state['salon_auto_selected'] = True
+                # Clear suggestions
+                state.pop('salon_suggestions', None)
+                state.pop('awaiting_salon_confirmation', None)
+                conversation.conversation_state = state
+                conversation.save()
+                
+                logger.info(f"User selected salon: {company.name}")
+                
+                return get_message('welcome_menu_with_salon', lang, company=company, company_name=company.name)
+            except Company.DoesNotExist:
+                logger.error(f"Company {selected_salon['id']} not found")
+                conversation.current_state = 'idle'
+                state.pop('salon_suggestions', None)
+                state.pop('awaiting_salon_confirmation', None)
+                conversation.conversation_state = state
+                conversation.save()
+                return get_message('service_error', lang)
+        else:
+            # Invalid number
+            return get_message('invalid_salon_choice', lang, max_choice=len(suggestions))
+    else:
+        # User typed a name instead - try to match again
+        conversation.current_state = 'idle'
+        state.pop('salon_suggestions', None)
+        state.pop('awaiting_salon_confirmation', None)
+        conversation.conversation_state = state
+        conversation.save()
+        
+        # Try to detect salon from the new message
+        result = detect_salon_code(conversation, message)
+        if result:
+            return result
+        else:
+            return get_message('salon_not_found', lang, salon_name=message)
 
 
 
@@ -1565,6 +1679,18 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
             'en': "⚠️ Sorry, there's a problem with the service. Please try again later or call the salon directly.",
             'ru': "⚠️ Извините, проблема с сервисом. Пожалуйста, попробуйте позже или позвоните в салон напрямую.",
             'uk': "⚠️ Вибачте, проблема з сервісом. Будь ласка, спробуйте пізніше або зателефонуйте безпосередньо до салону.",
+        },
+        'salon_not_found': {
+            'es': "⚠️ Lo siento, no encontré un salón llamado '{salon_name}'.\n\nPor favor, verifica el nombre e intenta nuevamente, o escribe 'menu' para ver otras opciones.",
+            'en': "⚠️ Sorry, I couldn't find a salon named '{salon_name}'.\n\nPlease check the name and try again, or type 'menu' for other options.",
+            'ru': "⚠️ Извините, я не нашел салон с именем '{salon_name}'.\n\nПожалуйста, проверьте название и попробуйте снова, или напишите 'menu' для других опций.",
+            'uk': "⚠️ Вибачте, я не знайшов салон з назвою '{salon_name}'.\n\nБудь ласка, перевірте назву і спробуйте знову, або напишіть 'menu' для інших опцій.",
+        },
+        'invalid_salon_choice': {
+            'es': "⚠️ Por favor, elige un número del 1 al {max_choice}, o escribe el nombre del salón.",
+            'en': "⚠️ Please choose a number from 1 to {max_choice}, or type the salon name.",
+            'ru': "⚠️ Пожалуйста, выберите номер от 1 до {max_choice}, или напишите название салона.",
+            'uk': "⚠️ Будь ласка, виберіть номер від 1 до {max_choice}, або напишіть назву салону.",
         },
         'help_message': {
             'es': "Puedo ayudarte a:\n• Hacer una reserva\n• Consultar disponibilidad\n• Ver servicios disponibles\n\nEscribe 'menu' para ver todas las opciones.\nEscribe 'idioma' para cambiar el idioma.\n\n¿Qué necesitas?",

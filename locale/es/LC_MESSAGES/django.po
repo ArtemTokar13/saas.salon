@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-16 12:07+0200\n"
+"POT-Creation-Date: 2026-05-19 22:08+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,7 +89,7 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} hasta {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Por favor, seleccione otra fecha, hora o miembro del personal."
 
-#: bookings/views.py:79 companies/views.py:1379
+#: bookings/views.py:79 companies/views.py:1387
 msgid "Name is required"
 msgstr "Se requiere el nombre"
 
@@ -103,7 +103,8 @@ msgstr "Por favor complete todos campos requeridos"
 
 #: bookings/views.py:234
 msgid "This time slot is not available. Staff member is out of office."
-msgstr "Este horario no está disponible. El empleado no se encuentra en la oficina."
+msgstr ""
+"Este horario no está disponible. El empleado no se encuentra en la oficina."
 
 #: bookings/views.py:385
 msgid "Booking not found"
@@ -117,7 +118,13 @@ msgstr "Su reserva ha sido cancelada"
 msgid "You do not have permission to confirm this booking."
 msgstr "No tienes permiso para confirmar esta reserva."
 
-#: bookings/views.py:1702 bookings/views.py:1818
+#: bookings/views.py:1702 bookings/views.py:1818 companies/views.py:208
+#: companies/views.py:265 companies/views.py:310 companies/views.py:335
+#: companies/views.py:363 companies/views.py:393 companies/views.py:414
+#: companies/views.py:563 companies/views.py:847 companies/views.py:865
+#: companies/views.py:1019 companies/views.py:1038 companies/views.py:1082
+#: companies/views.py:1133 companies/views.py:1152 companies/views.py:1224
+#: companies/views.py:1264 companies/views.py:1360 companies/views.py:1691
 msgid "User profile not found."
 msgstr "Perfil de usuario no encontrado"
 
@@ -212,23 +219,168 @@ msgstr ""
 "Intervalo de tiempo para su calendario de reservas en minutos (p. ej., 15, "
 "30, 60)."
 
-#: companies/views.py:1364
+#: companies/views.py:80
+msgid "Company registered successfully!"
+msgstr "¡Empresa registrada con éxito!"
+
+#: companies/views.py:90
+msgid "Activate your account"
+msgstr "Activa tu cuenta"
+
+#: companies/views.py:94 companies/views.py:594 companies/views.py:881
+msgid "Salon Booking System"
+msgstr "Sistema de reservas para salones de belleza"
+
+#: companies/views.py:134 companies/views.py:922
+msgid "Failed to send activation email. Please try again later."
+msgstr ""
+"No se pudo enviar el correo electrónico de activación. Inténtelo de nuevo más tarde."
+
+#: companies/views.py:137
+msgid "Registration successful. Check your email for the activation link."
+msgstr "Registro exitoso. Revisa tu correo electrónico para obtener el enlace de activación."
+
+#: companies/views.py:166
+msgid "Your account has been activated."
+msgstr "Tu cuenta ha sido activada."
+
+#: companies/views.py:169
+msgid "Activation link is invalid or has expired."
+msgstr "El enlace de activación no es válido o ha caducado."
+
+#: companies/views.py:180 companies/views.py:219 companies/views.py:298
+#: companies/views.py:304 companies/views.py:324 companies/views.py:352
+#: companies/views.py:377 companies/views.py:406 companies/views.py:424
+#: companies/views.py:723 companies/views.py:859 companies/views.py:936
+#: companies/views.py:990 companies/views.py:1011 companies/views.py:1030
+#: companies/views.py:1048 companies/views.py:1092 companies/views.py:1144
+#: companies/views.py:1163 companies/views.py:1521
+msgid "Access denied."
+msgstr "Acceso denegado"
+
+#: companies/views.py:258
+msgid "Company profile updated successfully!"
+msgstr "¡Perfil de la empresa actualizado correctamente!"
+
+#: companies/views.py:319 companies/views.py:347
+msgid "Method not allowed"
+msgstr "Método no permitido"
+
+#: companies/views.py:332
+msgid "No logo to delete"
+msgstr "No hay logotipo para eliminar"
+
+#: companies/views.py:360
+msgid "No avatar to delete"
+msgstr "No hay avatar para eliminar"
+
+#: companies/views.py:372
+msgid "Only POST requests are allowed"
+msgstr "Solo se permiten solicitudes POST."
+
+#: companies/views.py:554
+msgid "Staff member added and activated successfully!"
+msgstr "¡Miembro del personal añadido y activado correctamente!"
+
+#: companies/views.py:556
+msgid "Staff member added successfully! Activation email sent."
+msgstr "¡Miembro del personal añadido correctamente! Correo electrónico de activación enviado."
+
+#: companies/views.py:590
+msgid "Your staff account has been activated"
+msgstr "Tu cuenta de personal ha sido activada."
+
+#: companies/views.py:615
+msgid "Account activated successfully!"
+msgstr "¡Cuenta activada con éxito!"
+
+#: companies/views.py:618 companies/views.py:709
+msgid "Passwords do not match."
+msgstr "Las contraseñas no coinciden."
+
+#: companies/views.py:620
+msgid ""
+"Activation link is invalid or has expired. Please contact your administrator."
+msgstr ""
+"El enlace de activación no es válido o ha caducado. Póngase en contacto con su administrador."
+
+#: companies/views.py:656
+msgid "Password reset link sent to your email."
+msgstr ""
+"Se ha enviado un enlace para restablecer la contraseña a su correo electrónico."
+
+#: companies/views.py:658
+msgid "No user found with that email address."
+msgstr "No se ha encontrado ningún usuario con esa dirección de correo electrónico."
+
+#: companies/views.py:706
+msgid "Password reset successfully!"
+msgstr "¡Contraseña restablecida con éxito!"
+
+#: companies/views.py:711
+msgid ""
+"Reset link is invalid or has expired. Please contact your administrator."
+msgstr ""
+"El enlace de restablecimiento no es válido o ha caducado. Póngase en contacto "
+"con su administrador."
+
+#: companies/views.py:783
+msgid "Staff member updated successfully!"
+msgstr "¡El miembro del personal se actualizó correctamente!"
+
+#: companies/views.py:876
+msgid "Activate your staff account"
+msgstr "Activa tu cuenta de empleado."
+
+#: companies/views.py:907 templates/companies/edit_staff.html:390
+msgid "Activation email sent successfully!"
+msgstr "¡Correo electrónico de activación enviado correctamente!"
+
+#: companies/views.py:948
+msgid "Start and end datetime are required."
+msgstr "Se requieren la fecha y hora de inicio y finalización."
+
+#: companies/views.py:965
+msgid "End time must be after start time."
+msgstr "La hora de finalización debe ser posterior a la hora de inicio."
+
+#: companies/views.py:1016
+msgid "Staff member deleted successfully!"
+msgstr "¡Eliminado miembro del personal con éxito!"
+
+#: companies/views.py:1075
+msgid "Service added successfully!"
+msgstr "¡Servicio añadido correctamente!"
+
+#: companies/views.py:1117
+msgid "Service updated successfully!"
+msgstr "¡Servicio actualizado correctamente!"
+
+#: companies/views.py:1149
+msgid "Service deleted successfully!"
+msgstr "¡Servicio eliminado correctamente!"
+
+#: companies/views.py:1194
+msgid "Working hours updated successfully."
+msgstr "Horario laboral actualizado correctamente."
+
+#: companies/views.py:1316 companies/views.py:1372
 msgid "User profile not found"
 msgstr "Perfil de usuario no encontrado"
 
-#: companies/views.py:1370
+#: companies/views.py:1378
 msgid "Access denied"
 msgstr "Acceso denegado"
 
-#: companies/views.py:1382
+#: companies/views.py:1390
 msgid "Phone is required"
 msgstr "Se requiere teléfono"
 
-#: companies/views.py:1385
+#: companies/views.py:1393
 msgid "Phone must include country code (e.g. +1234567890)"
 msgstr "Teléfono debe incluir el código de país (por ejemplo, +1234567890)"
 
-#: companies/views.py:1402
+#: companies/views.py:1410
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "JSON no válido: %(error)s"
@@ -962,8 +1114,8 @@ msgid ""
 "There was a problem with your last payment. Please update your payment "
 "method or retry the payment to avoid service interruption."
 msgstr ""
-"Hubo un problema con su último pago. Por favor, actualice su método de "
-"pago o vuelva a intentarlo para evitar la interrupción del servicio."
+"Hubo un problema con su último pago. Por favor, actualice su método de pago "
+"o vuelva a intentarlo para evitar la interrupción del servicio."
 
 #: templates/billing/subscription_details.html:40
 #: templates/billing/subscription_details.html:88
@@ -2398,10 +2550,6 @@ msgstr "Activo"
 msgid "Are you sure you want to resend the activation email?"
 msgstr ""
 "¿Estás seguro de que quieres reenviar el correo electrónico de activación?"
-
-#: templates/companies/edit_staff.html:390
-msgid "Activation email sent successfully!"
-msgstr "¡Correo electrónico de activación enviado correctamente!"
 
 #: templates/companies/edit_staff.html:392
 #: templates/companies/edit_staff.html:510

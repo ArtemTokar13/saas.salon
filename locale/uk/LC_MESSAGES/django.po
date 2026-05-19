@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-16 12:07+0200\n"
+"POT-Creation-Date: 2026-05-19 22:08+0200\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +88,7 @@ msgstr ""
 "%H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Будь ласка, "
 "виберіть іншу дату/час або іншого співробітника."
 
-#: bookings/views.py:79 companies/views.py:1379
+#: bookings/views.py:79 companies/views.py:1387
 msgid "Name is required"
 msgstr "Ім'я обов'язкове"
 
@@ -116,7 +116,13 @@ msgstr "Ваше бронювання скасовано"
 msgid "You do not have permission to confirm this booking."
 msgstr "У вас немає дозволу підтверджувати це бронювання."
 
-#: bookings/views.py:1702 bookings/views.py:1818
+#: bookings/views.py:1702 bookings/views.py:1818 companies/views.py:208
+#: companies/views.py:265 companies/views.py:310 companies/views.py:335
+#: companies/views.py:363 companies/views.py:393 companies/views.py:414
+#: companies/views.py:563 companies/views.py:847 companies/views.py:865
+#: companies/views.py:1019 companies/views.py:1038 companies/views.py:1082
+#: companies/views.py:1133 companies/views.py:1152 companies/views.py:1224
+#: companies/views.py:1264 companies/views.py:1360 companies/views.py:1691
 msgid "User profile not found."
 msgstr "Профіль користувача не знайдено"
 
@@ -211,23 +217,166 @@ msgstr ""
 "Інтервал часових слотів для вашого календаря бронювання в хвилинах "
 "(наприклад, 15, 30, 60)"
 
-#: companies/views.py:1364
+#: companies/views.py:80
+msgid "Company registered successfully!"
+msgstr "Компанія успішно зареєстрована!"
+
+#: companies/views.py:90
+msgid "Activate your account"
+msgstr "Активуйте свій обліковий запис"
+
+#: companies/views.py:94 companies/views.py:594 companies/views.py:881
+msgid "Salon Booking System"
+msgstr "Система бронювання салонів"
+
+#: companies/views.py:134 companies/views.py:922
+msgid "Failed to send activation email. Please try again later."
+msgstr "Не вдалося надіслати активаційний лист. Будь ласка, спробуйте пізніше."
+
+#: companies/views.py:137
+msgid "Registration successful. Check your email for the activation link."
+msgstr "Реєстрація успішна. Перевірте свою електронну пошту, щоб "
+"отримати посилання для активації."
+
+#: companies/views.py:166
+msgid "Your account has been activated."
+msgstr "Ваш обліковий запис активовано."
+
+#: companies/views.py:169
+msgid "Activation link is invalid or has expired."
+msgstr "Посилання для активації недійсне або термін його дії минув."
+
+#: companies/views.py:180 companies/views.py:219 companies/views.py:298
+#: companies/views.py:304 companies/views.py:324 companies/views.py:352
+#: companies/views.py:377 companies/views.py:406 companies/views.py:424
+#: companies/views.py:723 companies/views.py:859 companies/views.py:936
+#: companies/views.py:990 companies/views.py:1011 companies/views.py:1030
+#: companies/views.py:1048 companies/views.py:1092 companies/views.py:1144
+#: companies/views.py:1163 companies/views.py:1521
+msgid "Access denied."
+msgstr "Доступ заборонено"
+
+#: companies/views.py:258
+msgid "Company profile updated successfully!"
+msgstr "Профіль компанії успішно оновлено!"
+
+#: companies/views.py:319 companies/views.py:347
+msgid "Method not allowed"
+msgstr "Метод заборонено"
+
+#: companies/views.py:332
+msgid "No logo to delete"
+msgstr "Немає логотипу для видалення"
+
+#: companies/views.py:360
+msgid "No avatar to delete"
+msgstr "Немає аватара для видалення"
+
+#: companies/views.py:372
+msgid "Only POST requests are allowed"
+msgstr "Дозволені лише POST-запити"
+
+#: companies/views.py:554
+msgid "Staff member added and activated successfully!"
+msgstr "Співробітника додано та успішно активовано!"
+
+#: companies/views.py:556
+msgid "Staff member added successfully! Activation email sent."
+msgstr "Співробітника успішно додано! Активаційний лист надіслано."
+
+#: companies/views.py:590
+msgid "Your staff account has been activated"
+msgstr "Ваш обліковий запис співробітника активовано"
+
+#: companies/views.py:615
+msgid "Account activated successfully!"
+msgstr "Обліковий запис успішно активовано!"
+
+#: companies/views.py:618 companies/views.py:709
+msgid "Passwords do not match."
+msgstr "Паролі не збігаються."
+
+#: companies/views.py:620
+msgid ""
+"Activation link is invalid or has expired. Please contact your administrator."
+msgstr ""
+"Посилання для активації недійсне або термін його дії минув. Зверніться до адміністратора."
+
+#: companies/views.py:656
+msgid "Password reset link sent to your email."
+msgstr "Посилання для скидання пароля надіслано на вашу електронну адресу."
+
+#: companies/views.py:658
+msgid "No user found with that email address."
+msgstr "Користувача з цією адресою електронної пошти не знайдено."
+
+#: companies/views.py:706
+msgid "Password reset successfully!"
+msgstr "Скидання пароля успішне!"
+
+#: companies/views.py:711
+msgid ""
+"Reset link is invalid or has expired. Please contact your administrator."
+msgstr ""
+"Посилання для скидання недійсне або термін його дії минув. Зверніться до адміністратора."
+
+#: companies/views.py:783
+msgid "Staff member updated successfully!"
+msgstr "Інформацію про співробітника успішно оновлено!"
+
+#: companies/views.py:876
+msgid "Activate your staff account"
+msgstr "Активуйте свій обліковий запис співробітника"
+
+#: companies/views.py:907 templates/companies/edit_staff.html:390
+msgid "Activation email sent successfully!"
+msgstr "Активаційний лист успішно надіслано!"
+
+#: companies/views.py:948
+msgid "Start and end datetime are required."
+msgstr "Обов’язкові дата та час початку."
+
+#: companies/views.py:965
+msgid "End time must be after start time."
+msgstr "Час завершення має бути після часу початку."
+
+#: companies/views.py:1016
+msgid "Staff member deleted successfully!"
+msgstr "Співробітника успішно видалено!"
+
+#: companies/views.py:1075
+msgid "Service added successfully!"
+msgstr "Послугу успішно додано!"
+
+#: companies/views.py:1117
+msgid "Service updated successfully!"
+msgstr "Сервіс успішно оновлено!"
+
+#: companies/views.py:1149
+msgid "Service deleted successfully!"
+msgstr "Послугу успішно видалено!"
+
+#: companies/views.py:1194
+msgid "Working hours updated successfully."
+msgstr "Робочий час успішно оновлено."
+
+#: companies/views.py:1316 companies/views.py:1372
 msgid "User profile not found"
 msgstr "Профіль користувача не знайдено"
 
-#: companies/views.py:1370
+#: companies/views.py:1378
 msgid "Access denied"
 msgstr "Доступ заборонено"
 
-#: companies/views.py:1382
+#: companies/views.py:1390
 msgid "Phone is required"
 msgstr "Потрібен номер телефону"
 
-#: companies/views.py:1385
+#: companies/views.py:1393
 msgid "Phone must include country code (e.g. +1234567890)"
 msgstr "Телефон (обов'язково вкажіть код країни, наприклад +1234567890)"
 
-#: companies/views.py:1402
+#: companies/views.py:1410
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "Недійсний JSON: %(error)s"
@@ -2375,10 +2524,6 @@ msgstr "Активний"
 #: templates/companies/edit_staff.html:374
 msgid "Are you sure you want to resend the activation email?"
 msgstr "Ви впевнені, що хочете повторно надіслати активаційний лист?"
-
-#: templates/companies/edit_staff.html:390
-msgid "Activation email sent successfully!"
-msgstr "Активаційний лист успішно надіслано!"
 
 #: templates/companies/edit_staff.html:392
 #: templates/companies/edit_staff.html:510

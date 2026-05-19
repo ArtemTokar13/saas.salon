@@ -9,7 +9,7 @@ class WhatsAppConversation(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     conversation_state = models.JSONField(default=dict, blank=True)
-    # States: 'idle', 'collecting_info', 'showing_slots', 'confirming'
+    # States: 'idle', 'selecting_language', 'selecting_salon', 'selecting_service', 'selecting_staff', 'collecting_info', 'showing_slots', 'confirming'
     current_state = models.CharField(max_length=50, default='idle')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

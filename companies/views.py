@@ -77,7 +77,7 @@ def register_company(request):
 
             if user_already_exists:
                 # User already authenticated, just redirect to dashboard
-                messages.success(request, 'Company registered successfully!')
+                messages.success(request, _('Company registered successfully!'))
                 return redirect('company_dashboard')
             else:
                 # build activation link (uid + token)
@@ -87,11 +87,11 @@ def register_company(request):
                 activate_link = request.build_absolute_uri(activate_path)
 
                 # send activation email
-                subject = 'Activate your account'
+                subject = _('Activate your account')
                 html_message = render_to_string('email/account_activation.html', {
                     'activate_link': activate_link,
                     'current_year': timezone.now().year,
-                    'site_name': 'Salon Booking System',
+                    'site_name': _('Salon Booking System'),
                 })
                 from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
                 recipient_list = [user.email]
@@ -131,10 +131,10 @@ def register_company(request):
                     # If email sending fails, remove created objects to avoid orphaned entries
                     user.delete()
                     company.delete()
-                    messages.error(request, 'Failed to send activation email. Please try again later.')
+                    messages.error(request, _('Failed to send activation email. Please try again later.'))
                     return redirect('register_company')
 
-                messages.success(request, 'Registration successful. Check your email for the activation link.')
+                messages.success(request, _('Registration successful. Check your email for the activation link.'))
                 return redirect('register_company')
     else:
         # Initialize form with user_exists parameter
@@ -163,10 +163,10 @@ def activate_company(request, uidb64, token):
         # login the user with explicit backend
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        messages.success(request, 'Your account has been activated.')
+        messages.success(request, _('Your account has been activated.'))
         return redirect('company_dashboard')
     else:
-        messages.error(request, 'Activation link is invalid or has expired.')
+        messages.error(request, _('Activation link is invalid or has expired.'))
         return redirect('register_company')
 
 
@@ -177,8 +177,8 @@ def company_dashboard(request):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
-            redirect('/')
+            messages.error(request, _('Access denied.'))
+            return redirect('/')
         
         company = profile.company
         staff_count = Staff.objects.filter(company=company).count()
@@ -205,7 +205,7 @@ def company_dashboard(request):
         
         return render(request, 'companies/dashboard.html', context)
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
 
 
@@ -216,7 +216,7 @@ def edit_company_profile(request):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         company = profile.company
@@ -255,14 +255,14 @@ def edit_company_profile(request):
                         if len(images) > remaining_slots:
                             messages.warning(request, f'Only {remaining_slots} image(s) added. Maximum {max_images} images allowed.')
                 
-                messages.success(request, 'Company profile updated successfully!')
+                messages.success(request, _('Company profile updated successfully!'))
                 return redirect('company_dashboard')
         else:
             form = CompanyProfileForm(instance=company)
         
         return render(request, 'companies/edit_profile.html', {'form': form, 'company': company, 'company_images': company_images})
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
 
 
@@ -295,19 +295,19 @@ def delete_company_image(request, image_id):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
+            return JsonResponse({'success': False, 'error': _('Access denied.')}, status=403)
         
         image = get_object_or_404(CompanyImage, id=image_id)
         
         # Verify the image belongs to the user's company
         if image.company != profile.company:
-            return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
+            return JsonResponse({'success': False, 'error': _('Access denied.')}, status=403)
         
         image.delete()
         return JsonResponse({'success': True})
         
     except UserProfile.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'User profile not found'}, status=403)
+        return JsonResponse({'success': False, 'error': _('User profile not found.')}, status=403)
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
@@ -316,12 +316,12 @@ def delete_company_logo(request):
     """Delete company logo via AJAX"""
     
     if request.method != 'DELETE':
-        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+        return JsonResponse({'success': False, 'error': _('Method not allowed')}, status=405)
     
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
+            return JsonResponse({'success': False, 'error': _('Access denied.')}, status=403)
         
         company = profile.company
         
@@ -329,10 +329,10 @@ def delete_company_logo(request):
             company.logo.delete(save=True)
             return JsonResponse({'success': True})
         else:
-            return JsonResponse({'success': False, 'error': 'No logo to delete'}, status=404)
+            return JsonResponse({'success': False, 'error': _('No logo to delete')}, status=404)
         
     except UserProfile.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'User profile not found'}, status=403)
+        return JsonResponse({'success': False, 'error': _('User profile not found.')}, status=403)
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
@@ -344,12 +344,12 @@ def delete_staff_avatar(request, staff_id):
     """Delete staff avatar via AJAX"""
     
     if request.method != 'DELETE':
-        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+        return JsonResponse({'success': False, 'error': _('Method not allowed')}, status=405)
     
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
+            return JsonResponse({'success': False, 'error': _('Access denied.')}, status=403)
         
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         
@@ -357,10 +357,10 @@ def delete_staff_avatar(request, staff_id):
             staff_member.avatar.delete(save=True)
             return JsonResponse({'success': True})
         else:
-            return JsonResponse({'success': False, 'error': 'No avatar to delete'}, status=404)
+            return JsonResponse({'success': False, 'error': _('No avatar to delete')}, status=404)
         
     except UserProfile.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'User profile not found'}, status=403)
+        return JsonResponse({'success': False, 'error': _('User profile not found.')}, status=403)
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
@@ -369,12 +369,12 @@ def reorder_company_images(request):
     """Reorder company images via AJAX"""
     
     if request.method != 'POST':
-        return JsonResponse({'success': False, 'error': 'Only POST requests are allowed'}, status=405)
+        return JsonResponse({'success': False, 'error': _('Only POST requests are allowed')}, status=405)
     
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
+            return JsonResponse({'success': False, 'error': _('Access denied.')}, status=403)
         
         company = profile.company
         data = json.loads(request.body)
@@ -390,7 +390,7 @@ def reorder_company_images(request):
         return JsonResponse({'success': True})
         
     except UserProfile.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'User profile not found'}, status=403)
+        return JsonResponse({'success': False, 'error': _('User profile not found.')}, status=403)
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
@@ -403,7 +403,7 @@ def staff_list(request):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         company = profile.company
@@ -411,18 +411,17 @@ def staff_list(request):
         
         return render(request, 'companies/staff_list.html', {'staff_members': staff_members, 'company': company})
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
 
 
 @login_required
-@subscription_required
 def add_staff(request):
     """Add a new staff member"""
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         if request.method == 'POST':
@@ -467,7 +466,9 @@ def add_staff(request):
 
                 # Check if user with this email already exists
                 user = User.objects.filter(email=form.cleaned_data['email']).first()
-                if user:
+                user_already_exists = user is not None
+                
+                if user_already_exists:
                     # If user exists, update or create UserProfile and associate staff
                     user_profile, created = UserProfile.objects.get_or_create(user=user)
                     user_profile.company = profile.company
@@ -475,6 +476,10 @@ def add_staff(request):
                     user_profile.phone_number = form.cleaned_data.get('phone', '')
                     user_profile.staff = staff_member
                     user_profile.save()
+                    
+                    # Activate staff immediately since user already exists
+                    staff_member.is_active = True
+                    staff_member.save()
                 else:
                     # Create new user and UserProfile
                     simple_password = make_random_password()
@@ -491,65 +496,71 @@ def add_staff(request):
                     user_profile.staff = staff_member
                     user_profile.save()
 
-                # build activation link (uid + token)
-                uid = urlsafe_base64_encode(force_bytes(user.pk))
-                token = default_token_generator.make_token(user)
-                activate_path = reverse('activate_staff_account', args=[uid, token])
-                activate_link = request.build_absolute_uri(activate_path)
+                # Only send activation email for new users
+                if not user_already_exists:
+                    # build activation link (uid + token)
+                    uid = urlsafe_base64_encode(force_bytes(user.pk))
+                    token = default_token_generator.make_token(user)
+                    activate_path = reverse('activate_staff_account', args=[uid, token])
+                    activate_link = request.build_absolute_uri(activate_path)
 
-                # send activation email
-                subject = 'Activate your staff account'
-                html_message = render_to_string('email/staff_activation.html', {
-                    'activate_link': activate_link,
-                    'company_name': profile.company.name,
-                    'current_year': timezone.now().year,
-                    'site_name': 'Salon Booking System',
-                })
-                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
-                recipient_list = [user.email]
+                    # send activation email
+                    subject = 'Activate your staff account'
+                    html_message = render_to_string('email/staff_activation.html', {
+                        'activate_link': activate_link,
+                        'company_name': profile.company.name,
+                        'current_year': timezone.now().year,
+                        'site_name': 'Salon Booking System',
+                    })
+                    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+                    recipient_list = [user.email]
 
-                # Create email log entry
-                email_log = EmailLog.objects.create(
-                    recipient_email=user.email,
-                    subject=subject,
-                    email_type='staff_registration',
-                    status='pending'
-                )
-
-                try:
-                    msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
-                    msg.attach_alternative(html_message, "text/html")
-                    # Send copy to company admin and artemtokartouch@gmail.com
-                    bcc_list = ['artemtokartouch@gmail.com']
-                    if profile.company.administrator.email:
-                        bcc_list.append(profile.company.administrator.email)
-                    msg.bcc = bcc_list
-                    msg.send()
-                    email_log.status = 'success'
-                    email_log.sent_at = timezone.now()
-                    email_log.save()
-                except Exception as e:
-                    error_msg = str(e)
-                    error_trace = traceback.format_exc()
-
-                    email_log.status = 'failed'
-                    email_log.error_message = error_msg
-                    email_log.error_traceback = error_trace
-                    email_log.save()
-
-                    logger.error(
-                        f"Email sending failed for staff registration. User: {user.email}, Error: {error_msg}",
-                        exc_info=True
+                    # Create email log entry
+                    email_log = EmailLog.objects.create(
+                        recipient_email=user.email,
+                        subject=subject,
+                        email_type='staff_registration',
+                        status='pending'
                     )
 
-                messages.success(request, 'Staff member added successfully!')
+                    try:
+                        msg = EmailMultiAlternatives(subject, '', from_email, recipient_list)
+                        msg.attach_alternative(html_message, "text/html")
+                        # Send copy to company admin and artemtokartouch@gmail.com
+                        bcc_list = ['artemtokartouch@gmail.com']
+                        if profile.company.administrator.email:
+                            bcc_list.append(profile.company.administrator.email)
+                        msg.bcc = bcc_list
+                        msg.send()
+                        email_log.status = 'success'
+                        email_log.sent_at = timezone.now()
+                        email_log.save()
+                    except Exception as e:
+                        error_msg = str(e)
+                        error_trace = traceback.format_exc()
+
+                        email_log.status = 'failed'
+                        email_log.error_message = error_msg
+                        email_log.error_traceback = error_trace
+                        email_log.save()
+
+                        logger.error(
+                            f"Email sending failed for staff registration. User: {user.email}, Error: {error_msg}",
+                            exc_info=True
+                        )
+
+                # Provide appropriate success message
+                if user_already_exists:
+                    messages.success(request, _('Staff member added and activated successfully!'))
+                else:
+                    messages.success(request, _('Staff member added successfully! Activation email sent.'))
                 return redirect('staff_list')
         else:
             form = CompanyStaffForm(company=profile.company)
         
         return render(request, 'companies/add_staff.html', {'form': form})
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
     
 def activate_staff_account(request, uidb64, token):
@@ -576,11 +587,11 @@ def activate_staff_account(request, uidb64, token):
                     staff.save()
 
                     # send confirmation email
-                    subject = 'Your staff account has been activated'
+                    subject = _('Your staff account has been activated')
                     html_message = render_to_string('email/account_activated.html', {
                         'user_name': user.first_name or user.username,
                         'current_year': timezone.now().year,
-                        'site_name': 'Salon Booking System',
+                        'site_name': _('Salon Booking System'),
                     })
                     from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
                     recipient_list = [user.email]
@@ -601,12 +612,12 @@ def activate_staff_account(request, uidb64, token):
 
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                    messages.success(request, 'Account activated successfully!')
+                    messages.success(request, _('Account activated successfully!'))
                     return redirect('login')  # Redirect to staff calendar or login
                 else:
-                    messages.error(request, 'Passwords do not match.')
+                    messages.error(request, _('Passwords do not match.'))
             else:
-                messages.error(request, 'Activation link is invalid or has expired. Please contact your administrator.')
+                messages.error(request, _('Activation link is invalid or has expired. Please contact your administrator.'))
     else:
         form = CompanyStaffActivateForm()
     return render(request, 'companies/activate_staff_account.html', {'form': form})
@@ -642,9 +653,9 @@ def forgot_password(request):
             except Exception as e:
                 logger.error(f"Failed to send password reset email: {e}")
 
-            messages.success(request, 'Password reset link sent to your email.')
+            messages.success(request, _('Password reset link sent to your email.'))
         except User.DoesNotExist:
-            messages.error(request, 'No user found with that email address.')
+            messages.error(request, _('No user found with that email address.'))
         return redirect('login')
 
     return render(request, 'companies/forgot_password.html', {"email": email})
@@ -692,25 +703,24 @@ def reset_password(request, uidb64, token):
                     except Exception as e:
                         logger.error(f"Failed to send confirmation email: {e}")
 
-                    messages.success(request, 'Password reset successfully!')
+                    messages.success(request, _('Password reset successfully!'))
                     return redirect('login')  # Redirect to login
                 else:
-                    messages.error(request, 'Passwords do not match.')
+                    messages.error(request, _('Passwords do not match.'))
             else:
-                messages.error(request, 'Reset link is invalid or has expired. Please contact your administrator.')
+                messages.error(request, _('Reset link is invalid or has expired. Please contact your administrator.'))
     else:
         form = CompanyStaffActivateForm()
     return render(request, 'companies/reset_password.html', {'form': form})
 
 
 @login_required
-@subscription_required
 def edit_staff(request, staff_id):
     """Edit an existing staff member"""
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         user_profile = UserProfile.objects.filter(staff=staff_member).first()
@@ -770,7 +780,7 @@ def edit_staff(request, staff_id):
                     # Don't block the update if profile update fails
                     pass
 
-                messages.success(request, 'Staff member updated successfully!')
+                messages.success(request, _('Staff member updated successfully!'))
                 return redirect('staff_list')
         else:
             import pytz
@@ -834,7 +844,7 @@ def edit_staff(request, staff_id):
             'out_of_office_periods': out_of_office_periods
         })
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
 
 
@@ -846,13 +856,13 @@ def resend_staff_activation(request, staff_id):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            return JsonResponse({'success': False, 'error': 'Access denied.'}, status=403)
+            return JsonResponse({'success': False, 'error': _('Access denied.')}, status=403)
         
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         user_profile = UserProfile.objects.filter(staff=staff_member).first()
         
         if not user_profile or not user_profile.user:
-            return JsonResponse({'success': False, 'error': 'User profile not found.'}, status=404)
+            return JsonResponse({'success': False, 'error': _('User profile not found.')}, status=404)
         
         user = user_profile.user
         
@@ -863,12 +873,12 @@ def resend_staff_activation(request, staff_id):
         activate_link = request.build_absolute_uri(activate_path)
 
         # Send activation email
-        subject = 'Activate your staff account'
+        subject = _('Activate your staff account')
         html_message = render_to_string('email/staff_activation.html', {
             'activate_link': activate_link,
             'company_name': profile.company.name,
             'current_year': timezone.now().year,
-            'site_name': 'Salon Booking System',
+            'site_name': _('Salon Booking System'),
         })
         from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
         recipient_list = [user.email]
@@ -894,7 +904,7 @@ def resend_staff_activation(request, staff_id):
             email_log.sent_at = timezone.now()
             email_log.save()
             
-            return JsonResponse({'success': True, 'message': 'Activation email sent successfully!'})
+            return JsonResponse({'success': True, 'message': _('Activation email sent successfully!')})
         except Exception as e:
             error_msg = str(e)
             error_trace = traceback.format_exc()
@@ -909,7 +919,7 @@ def resend_staff_activation(request, staff_id):
                 exc_info=True
             )
             
-            return JsonResponse({'success': False, 'error': 'Failed to send activation email. Please try again later.'}, status=500)
+            return JsonResponse({'success': False, 'error': _('Failed to send activation email. Please try again later.')}, status=500)
     except Exception as e:
         logger.error(f"Error in resend_staff_activation: {str(e)}", exc_info=True)
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
@@ -923,7 +933,7 @@ def add_staff_out_of_office(request, staff_id):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            return JsonResponse({'success': False, 'error': 'Access denied.'}, status=403)
+            return JsonResponse({'success': False, 'error': _('Access denied.')}, status=403)
         
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         
@@ -935,7 +945,7 @@ def add_staff_out_of_office(request, staff_id):
         reason = data.get('reason', '')
         
         if not start_datetime_str or not end_datetime_str:
-            return JsonResponse({'success': False, 'error': 'Start and end datetime are required.'}, status=400)
+            return JsonResponse({'success': False, 'error': _('Start and end datetime are required.')}, status=400)
         
         # Parse datetime strings and localize to Spain timezone
         from datetime import datetime
@@ -952,7 +962,7 @@ def add_staff_out_of_office(request, staff_id):
         
         # Validate
         if end_aware <= start_aware:
-            return JsonResponse({'success': False, 'error': 'End time must be after start time.'}, status=400)
+            return JsonResponse({'success': False, 'error': _('End time must be after start time.')}, status=400)
         
         # Create the period
         StaffOutOfOffice.objects.create(
@@ -977,7 +987,7 @@ def delete_staff_out_of_office(request, staff_id, period_id):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            return JsonResponse({'success': False, 'error': 'Access denied.'}, status=403)
+            return JsonResponse({'success': False, 'error': _('Access denied.')}, status=403)
         
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         period = get_object_or_404(StaffOutOfOffice, id=period_id, staff=staff_member)
@@ -998,15 +1008,15 @@ def delete_staff(request, staff_id):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         staff_member = get_object_or_404(Staff, id=staff_id, company=profile.company)
         staff_member.delete()
-        messages.success(request, 'Staff member deleted successfully!')
+        messages.success(request, _('Staff member deleted successfully!'))
         return redirect('staff_list')
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
     
 
@@ -1017,7 +1027,7 @@ def service_list(request):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         company = profile.company
@@ -1025,18 +1035,17 @@ def service_list(request):
         
         return render(request, 'companies/services_list.html', {'services': services, 'company': company})
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
     
 
 @login_required
-@subscription_required
 def add_service(request):
     """Add a new service"""
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         if request.method == 'POST':
@@ -1063,25 +1072,24 @@ def add_service(request):
                     restrict_to_available_dates=form.cleaned_data['restrict_to_available_dates'],
                     available_dates=available_dates
                 )
-                messages.success(request, 'Service added successfully!')
+                messages.success(request, _('Service added successfully!'))
                 return redirect('service_list')
         else:
             form = ServiceForm()
         
         return render(request, 'companies/add_service.html', {'form': form})
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
 
 
 @login_required
-@subscription_required
 def edit_service(request, service_id):
     """Edit an existing service"""
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         service = get_object_or_404(Service, id=service_id, company=profile.company)
         if request.method == 'POST':
@@ -1106,7 +1114,7 @@ def edit_service(request, service_id):
                 service.restrict_to_available_dates = form.cleaned_data['restrict_to_available_dates']
                 service.available_dates = available_dates
                 service.save()
-                messages.success(request, 'Service updated successfully!')
+                messages.success(request, _('Service updated successfully!'))
                 return redirect('service_list')
         else:
             initial_data = {
@@ -1122,7 +1130,7 @@ def edit_service(request, service_id):
         
         return render(request, 'companies/edit_service.html', {'form': form, 'service': service})
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
     
 
@@ -1133,15 +1141,15 @@ def delete_service(request, service_id):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         service = get_object_or_404(Service, id=service_id, company=profile.company)
         service.delete()
-        messages.success(request, 'Service deleted successfully!')
+        messages.success(request, _('Service deleted successfully!'))
         return redirect('service_list')
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
 
 
@@ -1152,7 +1160,7 @@ def working_hours(request):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         company = profile.company
@@ -1183,7 +1191,7 @@ def working_hours(request):
                             working_hour.end_time = end_time
                     working_hour.save()
             
-            messages.success(request, 'Working hours updated successfully.')
+            messages.success(request, _('Working hours updated successfully.'))
             return redirect('company_dashboard')
         working_hours = WorkingHours.objects.filter(company=company).order_by('day_of_week')
         working_hours_dict = {wh.day_of_week: wh for wh in working_hours}
@@ -1213,7 +1221,7 @@ def working_hours(request):
             'company': company
         })
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
     
 
@@ -1253,7 +1261,7 @@ def customers_list(request):
         return render(request, 'companies/customers_list.html', context)
     
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
 
 
@@ -1305,7 +1313,7 @@ def search_customers_ajax(request):
         })
     
     except UserProfile.DoesNotExist:
-        return JsonResponse({'error': 'User profile not found'}, status=403)
+        return JsonResponse({'error': _('User profile not found')}, status=403)
 
 
 @login_required
@@ -1349,7 +1357,7 @@ def customer_detail(request, customer_id):
         return render(request, 'companies/customer_detail.html', context)
     
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')
 
 
@@ -1510,7 +1518,7 @@ def service_analytics(request):
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
-            messages.error(request, 'Access denied.')
+            messages.error(request, _('Access denied.'))
             return redirect('/')
         
         company = profile.company
@@ -1680,5 +1688,5 @@ def service_analytics(request):
         return render(request, 'companies/analytics.html', context)
     
     except UserProfile.DoesNotExist:
-        messages.error(request, 'User profile not found.')
+        messages.error(request, _('User profile not found.'))
         return redirect('/')

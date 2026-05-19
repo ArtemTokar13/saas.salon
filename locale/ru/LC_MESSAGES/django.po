@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-16 12:07+0200\n"
+"POT-Creation-Date: 2026-05-19 22:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,7 +100,7 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Пожалуйста, выберите другую дату/время или другого сотрудника."
 
-#: bookings/views.py:79 companies/views.py:1379
+#: bookings/views.py:79 companies/views.py:1387
 msgid "Name is required"
 msgstr "Имя обязательно."
 
@@ -128,7 +128,13 @@ msgstr "Ваше бронирование было отменено"
 msgid "You do not have permission to confirm this booking."
 msgstr "У вас нет разрешения на подтверждение этого бронирования."
 
-#: bookings/views.py:1702 bookings/views.py:1818
+#: bookings/views.py:1702 bookings/views.py:1818 companies/views.py:208
+#: companies/views.py:265 companies/views.py:310 companies/views.py:335
+#: companies/views.py:363 companies/views.py:393 companies/views.py:414
+#: companies/views.py:563 companies/views.py:847 companies/views.py:865
+#: companies/views.py:1019 companies/views.py:1038 companies/views.py:1082
+#: companies/views.py:1133 companies/views.py:1152 companies/views.py:1224
+#: companies/views.py:1264 companies/views.py:1360 companies/views.py:1691
 msgid "User profile not found."
 msgstr "Профиль пользователя не найден"
 
@@ -221,24 +227,169 @@ msgstr "В ожидании"
 msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
 msgstr "Интервал временного интервала в минутах (например, 15, 30, 60)"
 
-#: companies/views.py:1364
+#: companies/views.py:80
+msgid "Company registered successfully!"
+msgstr "Компания успешно зарегистрирована!"
+
+#: companies/views.py:90
+msgid "Activate your account"
+msgstr "Активируйте свой аккаунт"
+
+#: companies/views.py:94 companies/views.py:594 companies/views.py:881
+msgid "Salon Booking System"
+msgstr "Система бронирования салонов"
+
+#: companies/views.py:134 companies/views.py:922
+msgid "Failed to send activation email. Please try again later."
+msgstr ""
+"Не удалось отправить письмо с активацией. Пожалуйста, попробуйте позже."
+
+#: companies/views.py:137
+msgid "Registration successful. Check your email for the activation link."
+msgstr ""
+"Регистрация прошла успешно. Проверьте свою электронную почту, там будет ссылка для активации."
+
+#: companies/views.py:166
+msgid "Your account has been activated."
+msgstr "Ваш аккаунт активирован."
+
+#: companies/views.py:169
+msgid "Activation link is invalid or has expired."
+msgstr "Ссылка для активации недействительна или срок ее действия истек."
+
+#: companies/views.py:180 companies/views.py:219 companies/views.py:298
+#: companies/views.py:304 companies/views.py:324 companies/views.py:352
+#: companies/views.py:377 companies/views.py:406 companies/views.py:424
+#: companies/views.py:723 companies/views.py:859 companies/views.py:936
+#: companies/views.py:990 companies/views.py:1011 companies/views.py:1030
+#: companies/views.py:1048 companies/views.py:1092 companies/views.py:1144
+#: companies/views.py:1163 companies/views.py:1521
+msgid "Access denied."
+msgstr "Доступ запрещен"
+
+#: companies/views.py:258
+msgid "Company profile updated successfully!"
+msgstr "Профиль компании успешно обновлен!"
+
+#: companies/views.py:319 companies/views.py:347
+msgid "Method not allowed"
+msgstr "Метод не разрешен"
+
+#: companies/views.py:332
+msgid "No logo to delete"
+msgstr "Нет логотипа для удаления."
+
+#: companies/views.py:360
+msgid "No avatar to delete"
+msgstr "Нет аватара для удаления."
+
+#: companies/views.py:372
+msgid "Only POST requests are allowed"
+msgstr "Разрешены только POST-запросы."
+
+#: companies/views.py:554
+msgid "Staff member added and activated successfully!"
+msgstr "Сотрудник успешно добавлен и активирован!"
+
+#: companies/views.py:556
+msgid "Staff member added successfully! Activation email sent."
+msgstr "Сотрудник успешно добавлен! Письмо с активацией отправлено."
+
+#: companies/views.py:590
+msgid "Your staff account has been activated"
+msgstr "Ваш личный кабинет сотрудника активирован."
+
+#: companies/views.py:615
+msgid "Account activated successfully!"
+msgstr "Аккаунт успешно активирован!"
+
+#: companies/views.py:618 companies/views.py:709
+msgid "Passwords do not match."
+msgstr "Пароли не совпадают."
+
+#: companies/views.py:620
+msgid ""
+"Activation link is invalid or has expired. Please contact your administrator."
+msgstr ""
+"Ссылка для активации недействительна или истекла. Пожалуйста, свяжитесь с "
+"администратором."
+
+#: companies/views.py:656
+msgid "Password reset link sent to your email."
+msgstr "Ссылка для сброса пароля будет отправлена ​​на вашу электронную почту."
+
+#: companies/views.py:658
+msgid "No user found with that email address."
+msgstr "Пользователь с таким адресом электронной почты не найден."
+
+#: companies/views.py:706
+msgid "Password reset successfully!"
+msgstr "Пароль успешно сброшен!"
+
+#: companies/views.py:711
+msgid ""
+"Reset link is invalid or has expired. Please contact your administrator."
+msgstr ""
+"Reset link is invalid or has expired. Please contact your administrator."
+
+#: companies/views.py:783
+msgid "Staff member updated successfully!"
+msgstr "Информация о сотруднике успешно обновлена!"
+
+#: companies/views.py:876
+msgid "Activate your staff account"
+msgstr "Активируйте учетную запись сотрудника."
+
+#: companies/views.py:907 templates/companies/edit_staff.html:390
+msgid "Activation email sent successfully!"
+msgstr "Письмо с активацией успешно отправлено!"
+
+#: companies/views.py:948
+msgid "Start and end datetime are required."
+msgstr "Требуются начальная и конечная даты и время."
+
+#: companies/views.py:965
+msgid "End time must be after start time."
+msgstr "Окончание должно произойти после начала."
+
+#: companies/views.py:1016
+msgid "Staff member deleted successfully!"
+msgstr "Сотрудник успешно удален!"
+
+#: companies/views.py:1075
+msgid "Service added successfully!"
+msgstr "Сервис успешно добавлен!"
+
+#: companies/views.py:1117
+msgid "Service updated successfully!"
+msgstr "Сервис успешно обновлен!"
+
+#: companies/views.py:1149
+msgid "Service deleted successfully!"
+msgstr "Сервис успешно удален!"
+
+#: companies/views.py:1194
+msgid "Working hours updated successfully."
+msgstr "Информация о рабочем времени успешно обновлена."
+
+#: companies/views.py:1316 companies/views.py:1372
 msgid "User profile not found"
 msgstr "Профиль пользователя не найден"
 
-#: companies/views.py:1370
+#: companies/views.py:1378
 msgid "Access denied"
 msgstr "Доступ запрещен"
 
-#: companies/views.py:1382
+#: companies/views.py:1390
 msgid "Phone is required"
 msgstr "Номер телефона обязательно."
 
-#: companies/views.py:1385
+#: companies/views.py:1393
 msgid "Phone must include country code (e.g. +1234567890)"
 msgstr ""
 "Номер телефона обязательно должен включать код страны (например, +1234567890)"
 
-#: companies/views.py:1402
+#: companies/views.py:1410
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "Недопустимый JSON: %(error)s"
@@ -978,7 +1129,8 @@ msgid ""
 "method or retry the payment to avoid service interruption."
 msgstr ""
 "Возникла проблема с вашим последним платежом. Пожалуйста, обновите способ "
-"оплаты или повторите попытку платежа, чтобы избежать перебоев в работе сервиса."
+"оплаты или повторите попытку платежа, чтобы избежать перебоев в работе "
+"сервиса."
 
 #: templates/billing/subscription_details.html:40
 #: templates/billing/subscription_details.html:88
@@ -2405,10 +2557,6 @@ msgstr "Активен"
 #: templates/companies/edit_staff.html:374
 msgid "Are you sure you want to resend the activation email?"
 msgstr "Вы уверены, что хотите повторно отправить письмо с активацией?"
-
-#: templates/companies/edit_staff.html:390
-msgid "Activation email sent successfully!"
-msgstr "Письмо с активацией успешно отправлено!"
 
 #: templates/companies/edit_staff.html:392
 #: templates/companies/edit_staff.html:510

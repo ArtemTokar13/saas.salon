@@ -606,6 +606,17 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
     company = None
     salon_name = None
     
+    # Skip if message is just a number (likely a menu selection, not a salon name)
+    if message_clean.isdigit():
+        return None
+    
+    # Skip if message is a system keyword (language change, menu, etc.)
+    system_keywords = ['menu', 'menú', 'меню', 'start', 'inicio', 'help', 'ayuda', 'допомога',
+                       'language', 'idioma', 'язык', 'мова', 'lingua', 'lengua',
+                       'cancelar', 'cancel', 'stop', 'exit', 'скасувати', 'зупинити']
+    if message_clean.lower() in system_keywords:
+        return None
+    
     # Pattern 1: "Hola SalonName" or "Hola! SalonName"
     is_greeting_with_salon = False
     if message_clean.lower().startswith(('hola', 'hello', 'привіт', 'hi')):

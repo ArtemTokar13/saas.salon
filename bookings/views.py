@@ -1540,8 +1540,10 @@ def guess_customer_data(request):
     try:
         phone = request.GET.get('phone', '')
         name = request.GET.get('name', '')
+        company_id = request.GET.get('company_id')
         
-        customers = Customer.objects.all()
+        # Single query with JOIN - filter customers who have bookings in this company
+        customers = Customer.objects.filter(booking__company_id=company_id).distinct()
         
         if phone:
             customers = customers.filter(phone__icontains=phone)

@@ -44,14 +44,18 @@
                             <input type="text" name="customer_name" id="customer_name" required
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                         </div>
-                        <div>
+                        <div class="relative">
                             <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Phone" %} <span class="text-gray-400">{% trans "(e.g. +1234567890)" %}</span> *</label>
-                            <div class="flex gap-2 relative">
-                                <div class="flex-1 relative">
+                            <div class="flex gap-2">
+                                <div class="flex-1">
                                     <input type="tel" name="customer_phone" id="customer_phone" required
                                            placeholder="+34612345678"
                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                                 </div>
+                            </div>
+                            <!-- Customers list dropdown - positioned below phone field -->
+                            <div id="customersList" class="absolute z-50 bg-white border border-gray-300 rounded-lg shadow-xl mt-2 hidden" style="max-height: 300px; overflow-y: auto; top: 100%; left: 0; right: 0;">
+                                <!-- Customer suggestions will be populated here -->
                             </div>
                         </div>
                         <div>
@@ -59,10 +63,6 @@
                             <input type="email" name="customer_email" id="customer_email"
                                    placeholder="name@example.com"
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <!-- Customers list - positioned dynamically -->
-                        <div id="customersList" class="absolute z-10 bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-60 overflow-y-auto" style="min-width: 300px;">
-                            <!-- Customer suggestions will be populated here -->
                         </div>
                     </div>
                 </div>
@@ -304,6 +304,20 @@ document.addEventListener('DOMContentLoaded', function() {
             guessCustomerData('name');
         });
     }
+    
+    // Hide customers list when clicking outside
+    document.addEventListener('click', function(e) {
+        const customersList = document.getElementById('customersList');
+        if (customersList && !customersList.classList.contains('hidden')) {
+            const isClickInsidePhone = phoneInput && phoneInput.contains(e.target);
+            const isClickInsideName = nameInput && nameInput.contains(e.target);
+            const isClickInsideList = customersList.contains(e.target);
+            
+            if (!isClickInsidePhone && !isClickInsideName && !isClickInsideList) {
+                customersList.classList.add('hidden');
+            }
+        }
+    });
     
     // Add first booking row automatically
     addBookingRow();
@@ -969,39 +983,44 @@ function guessCustomerData(searchBy) {
         return;
     }
     
-    if (searchValue.length >= 3) {
-        fetch(`/bookings/api/guess-customer/?${queryParam}`)
+    if (searchValue.length >= 5) {
+        fetch(`/bookings/api/guess-customer/?${queryParam}&company_id=${companyId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.customers && data.customers.length > 0) {
                     customersList.innerHTML = '';
+                    
+                    // Add header with close button
+                    const header = document.createElement('div');
+                    header.className = 'flex items-center justify-between px-4 py-2 border-b bg-gray-50 sticky top-0';
+                    header.innerHTML = `
+                        <span class="text-sm font-medium text-gray-700">{% trans "Select Customer" %}</span>
+                        <button type="button" class="text-gray-400 hover:text-gray-600 p-1" onclick="document.getElementById('customersList').classList.add('hidden')">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    `;
+                    customersList.appendChild(header);
+                    
+                    // Add customer items
                     data.customers.forEach(customer => {
                         var item = document.createElement('div');
-                        item.className = 'px-4 py-2 cursor-pointer hover:bg-gray-100';
-                        item.textContent = `${customer.name} (${customer.phone})`;
+                        item.className = 'px-4 py-3 cursor-pointer hover:bg-blue-50 border-b border-gray-100 transition';
+                        item.innerHTML = `
+                            <div class="font-medium text-gray-900">${customer.name}</div>
+                            <div class="text-sm text-gray-600">${customer.phone}</div>
+                        `;
                         item.addEventListener('click', function() {
                             if (nameInput) nameInput.value = customer.name;
                             if (document.getElementById('customer_email')) {
                                 document.getElementById('customer_email').value = customer.email || '';
                             }
-                            // if (document.getElementById('id_customer_country_code')) {
-                            //     document.getElementById('id_customer_country_code').value = customer.country_code || '';
-                            // }
                             if (phoneInput) phoneInput.value = customer.phone;
-                            // updateCountry();
                             customersList.classList.add('hidden');
                         });
                         customersList.appendChild(item);
                     });
-                    
-                    // Position the dropdown below the active input
-                    if (activeInput) {
-                        const rect = activeInput.getBoundingClientRect();
-                        const parentRect = activeInput.offsetParent.getBoundingClientRect();
-                        customersList.style.top = `${activeInput.offsetTop + activeInput.offsetHeight + 4}px`;
-                        customersList.style.left = `${activeInput.offsetLeft}px`;
-                        customersList.style.width = `${rect.width}px`;
-                    }
                     
                     customersList.classList.remove('hidden');
                 } else {

@@ -23,6 +23,7 @@ class Customer(models.Model):
     country_code = models.CharField(max_length=10, blank=True, null=True, choices=COUNTRY_CHOICES)
     phone = models.CharField(max_length=50)
     email = models.EmailField(blank=True, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
     preferred_language = models.CharField(max_length=5, blank=True, null=True, choices=LANGUAGE_CHOICES, help_text="Customer's preferred language for communications")
 
     def total_bookings(self):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-19 22:07+0200\n"
+"POT-Creation-Date: 2026-05-25 22:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,9 +40,9 @@ msgstr "6 месяцев"
 msgid "Yearly"
 msgstr "Ежегодно"
 
-#: billing/models.py:107 templates/companies/add_service.html:92
+#: billing/models.py:107 templates/companies/add_service.html:110
 #: templates/companies/analytics.html:192
-#: templates/companies/edit_service.html:101
+#: templates/companies/edit_service.html:119
 #: templates/companies/services_list.html:29
 #: templates/companies/services_list.html:42
 #: templates/companies/staff_list.html:27
@@ -100,7 +100,7 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Пожалуйста, выберите другую дату/время или другого сотрудника."
 
-#: bookings/views.py:79 companies/views.py:1387
+#: bookings/views.py:79 companies/views.py:1393
 msgid "Name is required"
 msgstr "Имя обязательно."
 
@@ -124,41 +124,41 @@ msgstr "Бронирования не найдены."
 msgid "Your booking has been cancelled."
 msgstr "Ваше бронирование было отменено"
 
-#: bookings/views.py:1699
+#: bookings/views.py:1701
 msgid "You do not have permission to confirm this booking."
 msgstr "У вас нет разрешения на подтверждение этого бронирования."
 
-#: bookings/views.py:1702 bookings/views.py:1818 companies/views.py:208
+#: bookings/views.py:1704 bookings/views.py:1820 companies/views.py:208
 #: companies/views.py:265 companies/views.py:310 companies/views.py:335
 #: companies/views.py:363 companies/views.py:393 companies/views.py:414
 #: companies/views.py:563 companies/views.py:847 companies/views.py:865
-#: companies/views.py:1019 companies/views.py:1038 companies/views.py:1082
-#: companies/views.py:1133 companies/views.py:1152 companies/views.py:1224
-#: companies/views.py:1264 companies/views.py:1360 companies/views.py:1691
+#: companies/views.py:1019 companies/views.py:1038 companies/views.py:1084
+#: companies/views.py:1139 companies/views.py:1158 companies/views.py:1230
+#: companies/views.py:1270 companies/views.py:1366 companies/views.py:1697
 msgid "User profile not found."
 msgstr "Профиль пользователя не найден"
 
-#: bookings/views.py:1710
+#: bookings/views.py:1712
 msgid "Duration and price are required."
 msgstr "Требуется указать продолжительность и цену."
 
-#: bookings/views.py:1730
+#: bookings/views.py:1732
 msgid "Booking confirmed successfully!"
 msgstr "Бронирование подтверждено!"
 
-#: bookings/views.py:1733
+#: bookings/views.py:1735
 msgid "Invalid duration or price format."
 msgstr "Неверный формат продолжительности или цены."
 
-#: bookings/views.py:1894
+#: bookings/views.py:1896
 msgid "Error marking notification as read."
 msgstr "Ошибка, из-за которой уведомление помечено как прочитанное."
 
-#: bookings/views.py:1911
+#: bookings/views.py:1913
 msgid "All notifications marked as read."
 msgstr "Все уведомления помечены как прочитанные."
 
-#: bookings/views.py:1916
+#: bookings/views.py:1918
 msgid "Error marking notifications as read."
 msgstr "Ошибка при пометке уведомлений как прочитанных."
 
@@ -247,7 +247,8 @@ msgstr ""
 #: companies/views.py:137
 msgid "Registration successful. Check your email for the activation link."
 msgstr ""
-"Регистрация прошла успешно. Проверьте свою электронную почту, там будет ссылка для активации."
+"Регистрация прошла успешно. Проверьте свою электронную почту, там будет "
+"ссылка для активации."
 
 #: companies/views.py:166
 msgid "Your account has been activated."
@@ -262,8 +263,8 @@ msgstr "Ссылка для активации недействительна и
 #: companies/views.py:377 companies/views.py:406 companies/views.py:424
 #: companies/views.py:723 companies/views.py:859 companies/views.py:936
 #: companies/views.py:990 companies/views.py:1011 companies/views.py:1030
-#: companies/views.py:1048 companies/views.py:1092 companies/views.py:1144
-#: companies/views.py:1163 companies/views.py:1521
+#: companies/views.py:1048 companies/views.py:1094 companies/views.py:1150
+#: companies/views.py:1169 companies/views.py:1527
 msgid "Access denied."
 msgstr "Доступ запрещен"
 
@@ -356,40 +357,40 @@ msgstr "Окончание должно произойти после начал
 msgid "Staff member deleted successfully!"
 msgstr "Сотрудник успешно удален!"
 
-#: companies/views.py:1075
+#: companies/views.py:1077
 msgid "Service added successfully!"
 msgstr "Сервис успешно добавлен!"
 
-#: companies/views.py:1117
+#: companies/views.py:1121
 msgid "Service updated successfully!"
 msgstr "Сервис успешно обновлен!"
 
-#: companies/views.py:1149
+#: companies/views.py:1155
 msgid "Service deleted successfully!"
 msgstr "Сервис успешно удален!"
 
-#: companies/views.py:1194
+#: companies/views.py:1200
 msgid "Working hours updated successfully."
 msgstr "Информация о рабочем времени успешно обновлена."
 
-#: companies/views.py:1316 companies/views.py:1372
+#: companies/views.py:1322 companies/views.py:1378
 msgid "User profile not found"
 msgstr "Профиль пользователя не найден"
 
-#: companies/views.py:1378
+#: companies/views.py:1384
 msgid "Access denied"
 msgstr "Доступ запрещен"
 
-#: companies/views.py:1390
+#: companies/views.py:1396
 msgid "Phone is required"
 msgstr "Номер телефона обязательно."
 
-#: companies/views.py:1393
+#: companies/views.py:1399
 msgid "Phone must include country code (e.g. +1234567890)"
 msgstr ""
 "Номер телефона обязательно должен включать код страны (например, +1234567890)"
 
-#: companies/views.py:1410
+#: companies/views.py:1416
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "Недопустимый JSON: %(error)s"
@@ -896,7 +897,7 @@ msgstr "Часто задаваемые вопросы"
 msgid "Support"
 msgstr "Поддержка"
 
-#: templates/_footer.html:40 templates/companies/public_page.html:165
+#: templates/_footer.html:40 templates/companies/public_page.html:180
 #: templates/static_pages/contact.html:4 templates/static_pages/contact.html:10
 msgid "Contact Us"
 msgstr "Связаться с нами"
@@ -989,10 +990,10 @@ msgstr "Перейти к оплате"
 #: templates/bookings/confirm_prebooked.html:90
 #: templates/bookings/create_booking.html:202
 #: templates/bookings/edit_booking.html:213
-#: templates/companies/add_service.html:100
+#: templates/companies/add_service.html:118
 #: templates/companies/add_staff.html:279
 #: templates/companies/edit_profile.html:196
-#: templates/companies/edit_service.html:109
+#: templates/companies/edit_service.html:127
 #: templates/companies/edit_staff.html:273
 #: templates/companies/edit_staff.html:360
 #: templates/companies/working_hours.html:72
@@ -1373,7 +1374,7 @@ msgstr "Бронирования не найдены."
 
 #: templates/bookings/confirm_prebooked.html:10
 #: templates/bookings/create_booking.html:205
-#: templates/bookings/create_booking.html:911
+#: templates/bookings/create_booking.html:925
 #: templates/bookings/edit_booking.html:216
 #: templates/static_pages/how_it_works.html:74
 msgid "Confirm Booking"
@@ -1402,7 +1403,7 @@ msgid "Date & Time"
 msgstr "Дата и время"
 
 #: templates/bookings/confirm_prebooked.html:46
-#: templates/bookings/create_booking.html:58
+#: templates/bookings/create_booking.html:62
 #: templates/bookings/edit_booking.html:79
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
 #: templates/companies/edit_profile.html:76
@@ -1414,8 +1415,8 @@ msgstr "Электронная почта"
 
 #: templates/bookings/confirm_prebooked.html:58
 #: templates/bookings/edit_booking.html:105
-#: templates/companies/add_service.html:29
-#: templates/companies/edit_service.html:29
+#: templates/companies/add_service.html:38
+#: templates/companies/edit_service.html:38
 msgid "Duration (minutes)"
 msgstr "Длительность (в минутах)"
 
@@ -1426,14 +1427,14 @@ msgstr "Минимум 15 минут"
 #: templates/bookings/confirm_prebooked.html:72
 #: templates/bookings/confirmation.html:62
 #: templates/bookings/confirmation.html:155
-#: templates/companies/add_service.html:45
-#: templates/companies/edit_service.html:45
+#: templates/companies/add_service.html:54
+#: templates/companies/edit_service.html:54
 #: templates/companies/services_list.html:26
 msgid "Price"
 msgstr "Цена"
 
 #: templates/bookings/confirm_prebooked.html:93
-#: templates/bookings/create_booking.html:907
+#: templates/bookings/create_booking.html:921
 msgid "Confirm"
 msgstr "Подтвердить"
 
@@ -1571,7 +1572,7 @@ msgstr "Имя"
 msgid "(e.g. +1234567890)"
 msgstr "(например, +1234567890)"
 
-#: templates/bookings/create_booking.html:58
+#: templates/bookings/create_booking.html:62
 msgid "(optional)"
 msgstr "(Необязательно)"
 
@@ -1584,7 +1585,7 @@ msgstr "Услуги"
 
 #: templates/bookings/create_booking.html:87
 #: templates/companies/add_service.html:10
-#: templates/companies/add_service.html:103
+#: templates/companies/add_service.html:121
 #: templates/companies/dashboard.html:89
 msgid "Add Service"
 msgstr "Добавить услугу"
@@ -1616,8 +1617,8 @@ msgstr "Выберите дату и время"
 
 #: templates/bookings/create_booking.html:143
 #: templates/bookings/edit_booking.html:140
-#: templates/companies/add_service.html:53
-#: templates/companies/edit_service.html:53
+#: templates/companies/add_service.html:71
+#: templates/companies/edit_service.html:71
 msgid "Available Dates"
 msgstr "Доступные даты"
 
@@ -1689,9 +1690,13 @@ msgstr "Любой доступный"
 msgid "We'll assign"
 msgstr "Мы назначим"
 
-#: templates/bookings/create_booking.html:908
+#: templates/bookings/create_booking.html:922
 msgid "services"
 msgstr "услуги"
+
+#: templates/bookings/create_booking.html:997
+msgid "Select Customer"
+msgstr "Выберите клиента"
 
 #: templates/bookings/edit_booking.html:19
 msgid "Edit Booking"
@@ -1819,18 +1824,42 @@ msgstr "Активировать"
 msgid "Return to homepage"
 msgstr "Вернуться на главную страницу"
 
-#: templates/companies/add_service.html:37
-#: templates/companies/edit_service.html:37
+#: templates/companies/add_service.html:29
+#: templates/companies/edit_service.html:29
+msgid "Short Description"
+msgstr "Краткое описание"
+
+#: templates/companies/add_service.html:31
+#: templates/companies/edit_service.html:31
+msgid "Brief description of the service (max 250 characters)"
+msgstr "Краткое описание услуги (максимум 250 символов)"
+
+#: templates/companies/add_service.html:46
+#: templates/companies/edit_service.html:46
 msgid "Time for Servicing (minutes)"
 msgstr "Время, затраченное на обслуживание инструментов (в минутах)"
 
-#: templates/companies/add_service.html:60
-#: templates/companies/edit_service.html:60
+#: templates/companies/add_service.html:62
+#: templates/companies/edit_service.html:62
+msgid "Maximum Price"
+msgstr "Максимальная цена"
+
+#: templates/companies/add_service.html:64
+#: templates/companies/edit_service.html:64
+msgid ""
+"Optional maximum price for pre-booking confirmation (will display as price "
+"range)"
+msgstr ""
+"Дополнительная опция: максимальная цена для предварительного подтверждения "
+"бронирования (будет отображаться как диапазон цен)."
+
+#: templates/companies/add_service.html:78
+#: templates/companies/edit_service.html:78
 msgid "Restrict service to specific dates only"
 msgstr "Ограничьте предоставление услуг только определенными датами."
 
-#: templates/companies/add_service.html:63
-#: templates/companies/edit_service.html:63
+#: templates/companies/add_service.html:81
+#: templates/companies/edit_service.html:81
 msgid ""
 "Specify up to 10 dates when this service is available. Leave empty if always "
 "available."
@@ -1838,18 +1867,18 @@ msgstr ""
 "Укажите до 10 дат, когда эта услуга доступна. Оставьте поле пустым, если "
 "услуга всегда доступна."
 
-#: templates/companies/add_service.html:70
-#: templates/companies/edit_service.html:79
+#: templates/companies/add_service.html:88
+#: templates/companies/edit_service.html:97
 msgid "+ Add Date"
 msgstr "+ Добавить дату"
 
-#: templates/companies/add_service.html:79
-#: templates/companies/edit_service.html:88
+#: templates/companies/add_service.html:97
+#: templates/companies/edit_service.html:106
 msgid "Require Staff Confirmation"
 msgstr "Требуется подтверждение от персонала."
 
-#: templates/companies/add_service.html:132
-#: templates/companies/edit_service.html:144
+#: templates/companies/add_service.html:150
+#: templates/companies/edit_service.html:162
 msgid "Maximum 10 dates allowed"
 msgstr "Допускается максимум 10 дат."
 
@@ -2490,7 +2519,7 @@ msgid "Choose file"
 msgstr "Выберите файл"
 
 #: templates/companies/edit_profile.html:199
-#: templates/companies/edit_service.html:112
+#: templates/companies/edit_service.html:130
 #: templates/companies/edit_staff.html:270
 #: templates/companies/edit_staff.html:363
 #: templates/companies/working_hours.html:75
@@ -2626,19 +2655,19 @@ msgstr "Информация о персонале появится в ближ�
 msgid "Our Services"
 msgstr "Наши услуги"
 
-#: templates/companies/public_page.html:146
+#: templates/companies/public_page.html:161
 msgid "No services available at the moment."
 msgstr "В данный момент услуги недоступны."
 
-#: templates/companies/public_page.html:157
+#: templates/companies/public_page.html:172
 msgid "Book an Appointment"
 msgstr "Записаться на прием"
 
-#: templates/companies/public_page.html:160
+#: templates/companies/public_page.html:175
 msgid "Book Now"
 msgstr "Забронируйте сейчас"
 
-#: templates/companies/public_page.html:166
+#: templates/companies/public_page.html:181
 msgid ""
 "Online booking is currently unavailable. Please contact us directly to "
 "schedule an appointment."
@@ -2646,15 +2675,15 @@ msgstr ""
 "Онлайн-бронирование в настоящее время недоступно. Пожалуйста, свяжитесь с "
 "нами напрямую, чтобы записаться на прием."
 
-#: templates/companies/public_page.html:172
+#: templates/companies/public_page.html:187
 msgid "Contact Information"
 msgstr "Контактная информация"
 
-#: templates/companies/public_page.html:241
+#: templates/companies/public_page.html:256
 msgid "Working Hours"
 msgstr "Рабочее время"
 
-#: templates/companies/public_page.html:247
+#: templates/companies/public_page.html:262
 msgid "Closed"
 msgstr "Закрыто"
 

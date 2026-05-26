@@ -170,9 +170,11 @@ class CompanyStaffActivateForm(forms.Form):
 
 class ServiceForm(forms.Form):
     name = forms.CharField(max_length=255, required=True)
+    short_description = forms.CharField(max_length=250, required=False, widget=forms.Textarea(attrs={'rows': 2}))
     duration = forms.IntegerField(min_value=1, required=True, help_text="Duration in minutes")
     time_for_servicing = forms.IntegerField(min_value=0, required=False, help_text="Additional time for servicing after the appointment in minutes")
     price = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=True)
+    max_price = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=False, help_text="Optional maximum price for pre-booking confirmation")
     is_active = forms.BooleanField(initial=True, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
     need_staff_confirmation = forms.BooleanField(initial=False, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))
     restrict_to_available_dates = forms.BooleanField(initial=False, required=False, widget=forms.CheckboxInput(attrs={"class": "toggle"}))

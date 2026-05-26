@@ -483,6 +483,7 @@ def show_services_list(conversation: WhatsAppConversation) -> str:
         return get_message('no_salon_selected', lang)
     
     from companies.models import Service
+    # Show all services (compact format allows more items)
     services = Service.objects.filter(company=conversation.company, is_active=True).order_by('name')
     
     if not services:
@@ -490,17 +491,21 @@ def show_services_list(conversation: WhatsAppConversation) -> str:
     
     # Build numbered list
     message_templates = {
-        'es': "💅 **Servicios disponibles:**\n\n{services}\n\n📝 Responde con el número del servicio (1-{count}) o escribe el nombre del servicio.",
-        'en': "💅 **Available services:**\n\n{services}\n\n📝 Reply with the service number (1-{count}) or type the service name.",
-        'ru': "💅 **Доступные услуги:**\n\n{services}\n\n📝 Ответьте номером услуги (1-{count}) или напишите название услуги.",
-        'uk': "💅 **Доступні послуги:**\n\n{services}\n\n📝 Відповідайте номером послуги (1-{count}) або напишіть назву послуги."
+        'es': "💅 Servicios disponibles:\n\n{services}\n\n📝 Responde con el número del servicio (1-{count}) o escribe el nombre del servicio.",
+        'en': "💅 Available services:\n\n{services}\n\n📝 Reply with the service number (1-{count}) or type the service name.",
+        'ru': "💅 Доступные услуги:\n\n{services}\n\n📝 Ответьте номером услуги (1-{count}) или напишите название услуги.",
+        'uk': "💅 Доступні послуги:\n\n{services}\n\n📝 Відповідайте номером послуги (1-{count}) або напишіть назву послуги."
     }
     
     services_text = ""
     service_list = []
     for idx, service in enumerate(services, 1):
-        duration_text = {'es': 'min', 'en': 'min', 'ru': 'мин', 'uk': 'хв'}.get(lang, 'min')
-        services_text += f"{idx}. **{service.name}** - {service.duration} {duration_text} - €{service.price}\n"
+        # Truncate long service names (over 35 chars)
+        service_name = service.name
+        if len(service_name) > 35:
+            service_name = service_name[:32] + "..."
+        
+        services_text += f"{idx}. {service_name} - €{service.price}\n"
         service_list.append({'id': service.id, 'name': service.name})
     
     # Save service list to state
@@ -693,8 +698,9 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
                     logger.warning(f"No salons found similar to '{salon_name}'")
                     return get_message('salon_not_found', lang, salon_name=salon_name)
                 else:
-                    # Not a greeting, just return generic greeting
-                    return handle_greeting(conversation)
+                    # Not a greeting, just ignore and let other handlers process it
+                    logger.debug(f"No salon match for '{salon_name}', passing to other handlers")
+                    return None
     
     return None  # No salon detected
 
@@ -886,15 +892,26 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
             }
             return messages_salon.get(lang, messages_salon['es'])
     
-    # Find service
+    # Find service - PRIORITY: 1) By ID from state, 2) By name with fuzzy matching
     service = None
-    if state.get('service_name'):
+    if state.get('service_id'):
+        # Try to get service by ID first (most reliable)
+        from companies.models import Service
+        try:
+            service = Service.objects.get(id=state['service_id'], company=company, is_active=True)
+            logger.info(f"Found service by ID: {service.name}")
+        except Service.DoesNotExist:
+            logger.warning(f"Service ID {state['service_id']} not found or inactive")
+            service = None
+    
+    if not service and state.get('service_name'):
+        # Fall back to fuzzy name matching
         service = searcher.find_service(company, state['service_name'])
     
     if not service:
         # List available services
         from companies.models import Service
-        services = Service.objects.filter(company=company, is_active=True)[:10]
+        services = Service.objects.filter(company=company, is_active=True).order_by('name')
         lang = state.get('language', 'es')
         if services.exists():
             # Store services in state for numbered selection
@@ -904,36 +921,27 @@ def handle_booking_request(conversation: WhatsAppConversation, intent_data: dict
             conversation.current_state = 'selecting_service'
             conversation.save()
             
-            # Create numbered list
-            service_list = "\n".join([f"{i+1}️⃣ {s.name}" for i, s in enumerate(services)])
-            
-            # Add contact info for complex inquiries
-            contact_info = ""
-            if company.phone or company.email:
-                contact_lines = {
-                    'es': "\n\n💡 Para consultas sobre servicios específicos:",
-                    'en': "\n\n💡 For specific service inquiries:",
-                    'ru': "\n\n💡 Для вопросов о конкретных услугах:",
-                    'uk': "\n\n💡 Для питань про конкретні послуги:"
-                }
-                contact_info = contact_lines.get(lang, contact_lines['es'])
-                public_page_url = f"https://reserva-ya.es/companies/{company.id}/"
-                contact_info += f"\n🌐 {public_page_url}"
-                if company.phone:
-                    contact_info += f"\n📞 {company.phone}"
+            # Create numbered list with compact format
+            service_items = []
+            for i, s in enumerate(services):
+                service_name = s.name
+                if len(service_name) > 35:
+                    service_name = service_name[:32] + "..."
+                service_items.append(f"{i+1}. {service_name} - €{s.price}")
+            service_list = "\n".join(service_items)
             
             reply_instructions = {
-                'es': "\n\n✏️ Responde con el número o el nombre del servicio. Solo puedes reservar un servicio a la vez.",
-                'en': "\n\n✏️ Reply with the number or service name. You can only book one service at a time.",
-                'ru': "\n\n✏️ Ответьте номером или названием услуги. Одновременно можно записаться на одну услугу.",
-                'uk': "\n\n✏️ Відповідь номером або назвою послуги. Одночасно можна записатися лише на одну послугу."
+                'es': "\n\n📝 Responde con el número o el nombre del servicio.",
+                'en': "\n\n📝 Reply with the number or service name.",
+                'ru': "\n\n📝 Ответьте номером или названием услуги.",
+                'uk': "\n\n📝 Відповідь номером або назвою послуги."
             }
             
             messages_service = {
-                'es': f"¿Qué servicio necesitas?\n\nServicios disponibles:\n{service_list}{reply_instructions['es']}{contact_info}",
-                'en': f"What service do you need?\n\nAvailable services:\n{service_list}{reply_instructions['en']}{contact_info}",
-                'ru': f"Какая услуга вам нужна?\n\nДоступные услуги:\n{service_list}{reply_instructions['ru']}{contact_info}",
-                'uk': f"Яка послуга вам потрібна?\n\nДоступні послуги:\n{service_list}{reply_instructions['uk']}{contact_info}"
+                'es': f"💅 ¿Qué servicio necesitas?\n\n{service_list}{reply_instructions['es']}",
+                'en': f"💅 What service do you need?\n\n{service_list}{reply_instructions['en']}",
+                'ru': f"💅 Какая услуга вам нужна?\n\n{service_list}{reply_instructions['ru']}",
+                'uk': f"💅 Яка послуга вам потрібна?\n\n{service_list}{reply_instructions['uk']}"
             }
             return messages_service.get(lang, messages_service['es'])
         else:

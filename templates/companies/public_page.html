@@ -131,13 +131,28 @@
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <h3 class="font-semibold text-lg text-gray-900">{{ service.name }}</h3>
-                                        <p class="text-sm text-gray-600">{{ service.duration }} minutes</p>
+                                        {% if service.short_description %}
+                                            <p class="text-sm text-gray-700 mt-1">{{ service.short_description }}</p>
+                                        {% endif %}
+                                        <p class="text-sm text-gray-600 mt-1">{{ service.duration }} minutes</p>
                                     </div>
                                     <div class="text-right">
                                         {% if company.online_appointments_enabled %}
-                                            <a href="{% url 'create_booking' company.id %}?service_id={{ service.id }}" class="block w-full bg-gray-800 text-white text-center px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition">{{ service.price }} €</a>
+                                            <a href="{% url 'create_booking' company.id %}?service_id={{ service.id }}" class="block w-full bg-gray-800 text-white text-center px-6 py-2 rounded-lg font-semibold hover:bg-gray-600 transition">
+                                                {% if service.max_price %}
+                                                    {{ service.price }} - {{ service.max_price }} €
+                                                {% else %}
+                                                    {{ service.price }} €
+                                                {% endif %}
+                                            </a>
                                         {% else %}
-                                            <span class="block w-full bg-gray-300 text-gray-600 text-center px-6 py-2 rounded-lg font-semibold">{{ service.price }} €</span>
+                                            <span class="block w-full bg-gray-300 text-gray-600 text-center px-6 py-2 rounded-lg font-semibold">
+                                                {% if service.max_price %}
+                                                    {{ service.price }} - {{ service.max_price }} €
+                                                {% else %}
+                                                    {{ service.price }} €
+                                                {% endif %}
+                                            </span>
                                         {% endif %}
                                     </div>
                                 </div>

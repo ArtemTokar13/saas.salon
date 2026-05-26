@@ -1064,9 +1064,11 @@ def add_service(request):
                 Service.objects.create(
                     company=profile.company,
                     name=form.cleaned_data['name'],
+                    short_description=form.cleaned_data.get('short_description'),
                     duration=form.cleaned_data['duration'],
                     time_for_servicing=form.cleaned_data['time_for_servicing'],
                     price=form.cleaned_data['price'],
+                    max_price=form.cleaned_data.get('max_price'),
                     need_staff_confirmation=form.cleaned_data['need_staff_confirmation'],
                     is_active=form.cleaned_data['is_active'],
                     restrict_to_available_dates=form.cleaned_data['restrict_to_available_dates'],
@@ -1106,9 +1108,11 @@ def edit_service(request, service_id):
                 available_dates = available_dates[:10]
                 
                 service.name = form.cleaned_data['name']
+                service.short_description = form.cleaned_data.get('short_description')
                 service.duration = form.cleaned_data['duration']
                 service.time_for_servicing = form.cleaned_data['time_for_servicing']
                 service.price = form.cleaned_data['price']
+                service.max_price = form.cleaned_data.get('max_price')
                 service.need_staff_confirmation = form.cleaned_data['need_staff_confirmation']
                 service.is_active = form.cleaned_data['is_active']
                 service.restrict_to_available_dates = form.cleaned_data['restrict_to_available_dates']
@@ -1119,9 +1123,11 @@ def edit_service(request, service_id):
         else:
             initial_data = {
                 'name': service.name,
+                'short_description': service.short_description,
                 'duration': service.duration,
                 'time_for_servicing': service.time_for_servicing,
                 'price': service.price,
+                'max_price': service.max_price,
                 'need_staff_confirmation': service.need_staff_confirmation,
                 'is_active': service.is_active,
                 'restrict_to_available_dates': service.restrict_to_available_dates,

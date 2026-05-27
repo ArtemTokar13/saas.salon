@@ -62,7 +62,7 @@ def send_booking_reminders():
                 email_log.error_message = str(e)
                 email_log.save()
 
-        # Send WhatsApp reminder if company has WhatsApp feature
+        # Send WhatsApp reminder if company has WhatsApp feature or only one staff
         if has_whatsapp_feature(booking.company):
             # Use booking_phone if available, otherwise fall back to customer.phone
             phone_to_use = booking.get_phone_for_notifications()

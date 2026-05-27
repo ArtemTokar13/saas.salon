@@ -1031,7 +1031,7 @@ def service_list(request):
             return redirect('/')
         
         company = profile.company
-        services = Service.objects.filter(company=company)
+        services = Service.objects.filter(company=company).order_by('id')
         
         return render(request, 'companies/services_list.html', {'services': services, 'company': company})
     except UserProfile.DoesNotExist:

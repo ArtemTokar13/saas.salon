@@ -9,7 +9,7 @@ class CompanyAdmin(admin.ModelAdmin):
     list_filter = ['city', 'created_at']
     fields = ['administrator', 'name', 'description', 'address', 'city', 'map_location',
               'phone', 'email', 'website', 'logo', 'online_appointments_enabled',
-              'calendar_step_minutes']
+              'calendar_step_minutes', 'options']
 
 
 @admin.register(Staff)

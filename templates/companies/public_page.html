@@ -125,6 +125,12 @@
                 <!-- Services -->
                 <div class="bg-white rounded-lg shadow p-6">
                     <h2 class="text-2xl font-bold text-gray-900 mb-4">{% trans "Our Services" %}</h2>
+                    <!-- Services comments section -->
+                    {% if company.options.service_comments %}
+                    <div class="mb-6">
+                        <p class="text-sm text-gray-600">{{ company.options.service_comments }}</p>
+                    </div>
+                    {% endif %}
                     <div class="space-y-4">
                         {% for service in services %}
                             <div class="border border-gray-400 rounded-lg p-4 hover:border-gray-800 hover:bg-gray-100 transition">

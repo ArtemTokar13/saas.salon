@@ -60,6 +60,7 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
     online_appointments_enabled = models.BooleanField(default=True)
+    options = models.JSONField(default=dict, blank=True)
     calendar_step_minutes = models.PositiveIntegerField(
         default=15,
         help_text=_("Calendar time slot interval in minutes (e.g., 15, 30, 60)")

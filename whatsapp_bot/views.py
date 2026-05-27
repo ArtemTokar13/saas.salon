@@ -491,21 +491,21 @@ def show_services_list(conversation: WhatsAppConversation) -> str:
     
     # Build numbered list
     message_templates = {
-        'es': "💅 Servicios disponibles:\n\n{services}\n\n📝 Responde con el número del servicio (1-{count}) o escribe el nombre del servicio.",
-        'en': "💅 Available services:\n\n{services}\n\n📝 Reply with the service number (1-{count}) or type the service name.",
-        'ru': "💅 Доступные услуги:\n\n{services}\n\n📝 Ответьте номером услуги (1-{count}) или напишите название услуги.",
-        'uk': "💅 Доступні послуги:\n\n{services}\n\n📝 Відповідайте номером послуги (1-{count}) або напишіть назву послуги."
+        'es': "💅 Servicios disponibles:\n\n{services}\n\n📝 Responde con el número",
+        'en': "💅 Available services:\n\n{services}\n\n📝 Reply with the number",
+        'ru': "💅 Доступные услуги:\n\n{services}\n\n📝 Ответьте номером",
+        'uk': "💅 Доступні послуги:\n\n{services}\n\n📝 Відповідайте номером"
     }
     
     services_text = ""
     service_list = []
     for idx, service in enumerate(services, 1):
-        # Truncate long service names (over 35 chars)
+        # Truncate long service names (over 28 chars)
         service_name = service.name
-        if len(service_name) > 35:
-            service_name = service_name[:32] + "..."
+        if len(service_name) > 28:
+            service_name = service_name[:25] + "..."
         
-        services_text += f"{idx}. {service_name} - €{service.price}\n"
+        services_text += f"{idx}.{service_name}-€{service.price}\n"
         service_list.append({'id': service.id, 'name': service.name})
     
     # Save service list to state

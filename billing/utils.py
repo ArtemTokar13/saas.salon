@@ -10,7 +10,7 @@ def has_whatsapp_feature(company):
             status='active'
         ).first()
         if subscription and subscription.plan:
-            return subscription.plan.whatsapp_included
+            return subscription.plan.whatsapp_included or company.staff_set.count() == 1
     except Exception as e:
         print(f"Error checking WhatsApp feature for company {company.id}: {e}")
     return False

@@ -409,10 +409,57 @@ def staff_list(request):
         company = profile.company
         staff_members = Staff.objects.filter(company=company)
         
-        return render(request, 'companies/staff_list.html', {'staff_members': staff_members, 'company': company})
+        # Check if the current user (admin) is already a staff member
+        is_admin_staff = profile.staff is not None
+        
+        return render(request, 'companies/staff_list.html', {
+            'staff_members': staff_members, 
+            'company': company,
+            'is_admin_staff': is_admin_staff
+        })
     except UserProfile.DoesNotExist:
         messages.error(request, _('User profile not found.'))
         return redirect('/')
+
+
+@login_required
+@subscription_required
+def make_myself_staff(request):
+    """Allow company administrator to make themselves a staff member"""
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            messages.error(request, _('Access denied.'))
+            return redirect('/')
+        
+        # Check if already a staff member
+        if profile.staff:
+            messages.info(request, _('You are already a staff member.'))
+            return redirect('staff_list')
+        
+        company = profile.company
+        
+        # Create a staff member for the administrator
+        staff_member = Staff.objects.create(
+            company=company,
+            name=request.user.get_full_name() or request.user.username,
+            specialization='',
+            is_active=True
+        )
+        
+        # Link the staff member to the user profile
+        profile.staff = staff_member
+        profile.save()
+        
+        messages.success(request, _('You have been successfully added as a staff member.'))
+        return redirect('staff_list')
+        
+    except UserProfile.DoesNotExist:
+        messages.error(request, _('User profile not found.'))
+        return redirect('/')
+    except Exception as e:
+        messages.error(request, _(f'Error creating staff member: {str(e)}'))
+        return redirect('staff_list')
 
 
 @login_required

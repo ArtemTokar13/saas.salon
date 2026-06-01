@@ -16,6 +16,32 @@
             <i class="fas fa-plus text-3xl font-bold"></i>
         </a>
     </div>
+    
+    {% if not is_admin_staff %}
+    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+        <div class="items-center justify-between">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-info-circle text-blue-400"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-blue-700">
+                        {% trans "You are not yet a staff member. Would you like to add yourself to be able to receive bookings?" %}
+                    </p>
+                </div>
+            </div>
+            <div class="ml-4">
+                <form method="post" action="{% url 'make_myself_staff' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition whitespace-nowrap">
+                        <i class="fas fa-user-plus mr-2"></i>{% trans "Add Myself as Staff" %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
     {% if staff_members %}
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">

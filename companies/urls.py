@@ -13,6 +13,7 @@ urlpatterns = [
     path('reorder-images/', views.reorder_company_images, name='reorder_company_images'),
     path('<int:company_id>/', views.company_public_page, name='company_public_page'),
     path('staff/', views.staff_list, name='staff_list'),
+    path('staff/make-myself-staff/', views.make_myself_staff, name='make_myself_staff'),
     path('staff/add/', views.add_staff, name='add_staff'),
     path('staff/activate/<uidb64>/<token>/', views.activate_staff_account, name='activate_staff_account'),
     path('staff/edit/<int:staff_id>/', views.edit_staff, name='edit_staff'),

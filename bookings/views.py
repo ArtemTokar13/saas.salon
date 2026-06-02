@@ -171,15 +171,65 @@ def create_booking(request, company_id):
                     start_datetime = datetime.combine(date, start_time)
                     end_datetime = start_datetime + timedelta(minutes=service.duration + service.time_for_servicing)
                     end_time = end_datetime.time()
+                    day_of_week = date.weekday()
                     
                     # Get staff or auto-assign (with conflict checking)
                     if booking_data['staff_id']:
                         staff = get_object_or_404(Staff, id=booking_data['staff_id'], company=company)
+                        
+                        # Validate staff works on this day
+                        if staff.working_days and day_of_week not in staff.working_days:
+                            raise ValueError(f'Staff member {staff.name} does not work on {date.strftime("%A")}. Please select a different date or staff member.')
+                        
+                        # Check if staff has custom hours and it's marked as day off
+                        staff_day_off = StaffWorkingHours.objects.filter(
+                            staff=staff,
+                            day_of_week=day_of_week,
+                            is_day_off=True
+                        ).exists()
+                        if staff_day_off:
+                            raise ValueError(f'Staff member {staff.name} does not work on {date.strftime("%A")}. Please select a different date or staff member.')
                     else:
                         # Auto-assign: find an available staff member
                         # Check against both existing DB bookings AND bookings created in this transaction
                         available_staff = None
                         for candidate_staff in service.staff_members.filter(is_active=True):
+                            # Check if staff works on this day
+                            if candidate_staff.working_days and day_of_week not in candidate_staff.working_days:
+                                continue
+                            
+                            # Check if staff has this day marked as day off
+                            staff_day_off = StaffWorkingHours.objects.filter(
+                                staff=candidate_staff,
+                                day_of_week=day_of_week,
+                                is_day_off=True
+                            ).exists()
+                            if staff_day_off:
+                                continue
+                            
+                            # Check if staff is out of office during this time
+                            check_start = start_datetime
+                            check_end = end_datetime
+                            
+                            # Make timezone-aware if needed
+                            if StaffOutOfOffice.objects.filter(staff=candidate_staff).exists():
+                                first_period = StaffOutOfOffice.objects.filter(staff=candidate_staff).first()
+                                if timezone.is_aware(first_period.start_datetime):
+                                    if timezone.is_naive(check_start):
+                                        check_start = timezone.make_aware(check_start)
+                                    if timezone.is_naive(check_end):
+                                        check_end = timezone.make_aware(check_end)
+                            
+                            # Skip if staff is out of office during this time
+                            out_of_office_conflict = StaffOutOfOffice.objects.filter(
+                                staff=candidate_staff,
+                                start_datetime__lt=check_end,
+                                end_datetime__gt=check_start
+                            ).exists()
+                            
+                            if out_of_office_conflict:
+                                continue  # This staff is out of office
+                            
                             # Check existing bookings in database
                             existing_conflict = Booking.objects.filter(
                                 staff=candidate_staff,
@@ -897,23 +947,26 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
                 check_start = current_time
                 check_end = potential_end_time
                 
-                # Make timezone-aware if needed
-                if StaffOutOfOffice.objects.filter(staff=staff).exists():
-                    first_period = StaffOutOfOffice.objects.filter(staff=staff).first()
+                # Make timezone-aware if needed (check if USE_TZ is enabled)
+                # Get out-of-office periods to check timezone
+                out_of_office_periods = StaffOutOfOffice.objects.filter(staff=staff)
+                if out_of_office_periods.exists():
+                    # If any period is timezone-aware, make our check times timezone-aware too
+                    first_period = out_of_office_periods.first()
                     if timezone.is_aware(first_period.start_datetime):
                         if timezone.is_naive(check_start):
                             check_start = timezone.make_aware(check_start)
                         if timezone.is_naive(check_end):
                             check_end = timezone.make_aware(check_end)
-                
-                # Skip if time slot overlaps with any out-of-office period
-                overlapping_periods = StaffOutOfOffice.objects.filter(
-                    staff=staff,
-                    start_datetime__lt=check_end,
-                    end_datetime__gt=check_start
-                )
-                if overlapping_periods.exists():
-                    continue  # Skip this staff member
+                    
+                    # Skip if time slot overlaps with any out-of-office period
+                    overlapping_periods = out_of_office_periods.filter(
+                        start_datetime__lt=check_end,
+                        end_datetime__gt=check_start
+                    )
+                    if overlapping_periods.exists():
+                        logger.debug(f"Staff {staff.name} is out of office during {time_str} on {date_str}")
+                        continue  # Skip this staff member
                 
                 # Skip staff who don't work on this day
                 if staff.working_days and day_of_week not in staff.working_days:

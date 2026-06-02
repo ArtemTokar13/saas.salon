@@ -783,7 +783,20 @@ async function loadAvailableTimesForRow(rowIndex) {
 // Check if a time slot is already booked for the same staff and date
 function isTimeSlotBooked(staffId, date, time, currentRowIndex, serviceDuration = 30) {
     return bookedSlots.some(slot => {
-        if (slot.rowIndex === currentRowIndex || slot.staffId !== staffId || slot.date !== date) {
+        // Skip checking against the same row
+        if (slot.rowIndex === currentRowIndex) {
+            return false;
+        }
+        
+        // Different date? Not a conflict
+        if (slot.date !== date) {
+            return false;
+        }
+        
+        // If "Any Available" is selected (staffId is null/empty), check ALL booked slots
+        // because the backend will assign one of the available staff
+        // If specific staff selected, only check slots for that staff
+        if (staffId && slot.staffId !== staffId) {
             return false;
         }
         

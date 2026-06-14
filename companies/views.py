@@ -269,8 +269,8 @@ def edit_company_profile(request):
 def company_public_page(request, company_id):
     """Public-facing company page for customers"""
     company = get_object_or_404(Company, id=company_id)
-    staff = Staff.objects.filter(company=company, is_active=True)
-    services = Service.objects.filter(company=company, is_active=True)
+    staff = Staff.objects.filter(company=company, is_active=True).order_by('id')
+    services = Service.objects.filter(company=company, is_active=True).order_by('id')
     working_hours = WorkingHours.objects.filter(company=company).order_by('day_of_week')
     images = CompanyImage.objects.filter(company=company).order_by('order')
     

@@ -442,21 +442,28 @@ async function loadStaffForRow(rowIndex) {
         staffGrid.innerHTML = '';
         
         if (data.staff && data.staff.length > 0) {
-            // Add "Any Available" option
-            const anyStaffCard = createStaffCard(null, translations.anyAvailable, null, rowIndex);
-            staffGrid.appendChild(anyStaffCard);
+            // Add "Any Available" option - TEMPORARILY DISABLED
+            // const anyStaffCard = createStaffCard(null, translations.anyAvailable, null, rowIndex);
+            // staffGrid.appendChild(anyStaffCard);
             
             // Add staff members
-            data.staff.forEach(member => {
+            let firstStaffCard = null;
+            data.staff.forEach((member, index) => {
                 const staffCard = createStaffCard(member.id, member.name, member.avatar, rowIndex);
                 staffGrid.appendChild(staffCard);
+                if (index === 0) {
+                    firstStaffCard = staffCard;
+                }
             });
             
             staffContainer.classList.add('hidden');
             staffSelectContainer.classList.remove('hidden');
             
-            // Auto-select "Any Available" and load dates
-            selectStaffForRow(rowIndex, null, anyStaffCard);
+            // Auto-select first staff member instead of "Any Available"
+            if (firstStaffCard) {
+                const firstStaffId = data.staff[0].id;
+                selectStaffForRow(rowIndex, firstStaffId, firstStaffCard);
+            }
         } else {
             staffContainer.classList.remove('hidden');
             staffContainer.innerHTML = '<p class="text-red-500 text-sm">No staff available</p>';
@@ -793,12 +800,16 @@ function isTimeSlotBooked(staffId, date, time, currentRowIndex, serviceDuration 
             return false;
         }
         
-        // If "Any Available" is selected (staffId is null/empty), check ALL booked slots
-        // because the backend will assign one of the available staff
-        // If specific staff selected, only check slots for that staff
-        if (staffId && slot.staffId !== staffId) {
+        // Staff conflict logic:
+        // - Check if same staff is selected for both bookings
+        // - If different staff, no conflict
+        
+        if (staffId !== slot.staffId) {
+            // Different staff - no conflict
             return false;
         }
+        
+        // Same staff - check for time overlap
         
         // Check for time overlap considering service durations
         const checkTimeMinutes = timeToMinutes(time);

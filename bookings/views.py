@@ -189,6 +189,43 @@ def create_booking(request, company_id):
                         ).exists()
                         if staff_day_off:
                             raise ValueError(f'Staff member {staff.name} does not work on {date.strftime("%A")}. Please select a different date or staff member.')
+                        
+                        # Check if booking time fits within staff working hours
+                        staff_hours = StaffWorkingHours.objects.filter(
+                            staff=staff,
+                            day_of_week=day_of_week,
+                            is_day_off=False
+                        ).first()
+                        
+                        if staff_hours:
+                            # Use staff-specific hours
+                            work_start_time = staff_hours.start_time
+                            work_end_time = staff_hours.end_time
+                        else:
+                            # Fall back to company working hours
+                            company_hours = WorkingHours.objects.filter(
+                                company=company,
+                                day_of_week=day_of_week,
+                                is_day_off=False
+                            ).first()
+                            
+                            if not company_hours:
+                                raise ValueError(f'No working hours defined for {date.strftime("%A")}.')
+                            
+                            work_start_time = company_hours.start_time
+                            work_end_time = company_hours.end_time
+                        
+                        # Validate booking time is within working hours
+                        if start_time < work_start_time or end_time > work_end_time:
+                            raise ValueError(f'Booking time ({start_time.strftime("%H:%M")} - {end_time.strftime("%H:%M")}) is outside working hours ({work_start_time.strftime("%H:%M")} - {work_end_time.strftime("%H:%M")}).')
+                        
+                        # Check for conflicts with bookings being created in this transaction
+                        for created_booking in created_bookings:
+                            if (created_booking.staff == staff and 
+                                created_booking.date == date and
+                                created_booking.start_time < end_time and
+                                created_booking.end_time > start_time):
+                                raise ValueError(f'Staff member {staff.name} is already booked from {created_booking.start_time.strftime("%H:%M")} to {created_booking.end_time.strftime("%H:%M")} on {date.strftime("%Y-%m-%d")}. Please select a different time.')
                     else:
                         # Auto-assign: find an available staff member
                         # Check against both existing DB bookings AND bookings created in this transaction
@@ -206,6 +243,35 @@ def create_booking(request, company_id):
                             ).exists()
                             if staff_day_off:
                                 continue
+                            
+                            # Check if booking time fits within staff working hours
+                            staff_hours = StaffWorkingHours.objects.filter(
+                                staff=candidate_staff,
+                                day_of_week=day_of_week,
+                                is_day_off=False
+                            ).first()
+                            
+                            if staff_hours:
+                                # Use staff-specific hours
+                                work_start_time = staff_hours.start_time
+                                work_end_time = staff_hours.end_time
+                            else:
+                                # Fall back to company working hours
+                                company_hours = WorkingHours.objects.filter(
+                                    company=company,
+                                    day_of_week=day_of_week,
+                                    is_day_off=False
+                                ).first()
+                                
+                                if not company_hours:
+                                    continue  # No working hours defined, skip this staff
+                                
+                                work_start_time = company_hours.start_time
+                                work_end_time = company_hours.end_time
+                            
+                            # Check if booking fits within working hours
+                            if start_time < work_start_time or end_time > work_end_time:
+                                continue  # Booking time outside working hours
                             
                             # Check if staff is out of office during this time
                             check_start = start_datetime

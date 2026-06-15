@@ -19,15 +19,24 @@
         </div>
 
         <div class="bg-white rounded-lg shadow-lg p-8">
-            <!-- Validation Error Message -->
-            <div id="validationError" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
-                <div class="flex items-start">
-                    <svg class="h-5 w-5 text-red-400 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                    </svg>
-                    <div>
-                        <h3 class="font-medium mb-1">{% trans "Please complete the following fields:" %}</h3>
-                        <ul id="validationErrorList" class="list-disc list-inside text-sm"></ul>
+            <!-- Validation Error Modal -->
+            <div id="validationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-lg shadow-2xl max-w-md w-full p-6 transform transition-all">
+                    <div class="flex items-start mb-4">
+                        <div class="flex-shrink-0">
+                            <svg class="h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">{% trans "Please Fix the Following Errors" %}</h3>
+                            <ul id="validationErrorList" class="list-disc list-inside text-sm text-gray-700 space-y-1"></ul>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <button type="button" id="dismissModalBtn" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-red-700 transition">
+                            {% trans "Got it, I'll fix these" %}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -954,31 +963,118 @@ function updateSubmitButton() {
 // Form validation on submit
 bookingForm.addEventListener('submit', function(e) {
     const errors = [];
-    const rows = document.querySelectorAll('.booking-row');
+    const invalidFields = [];
     
+    // Clear previous error styling
+    document.querySelectorAll('.border-red-500, .ring-red-500').forEach(el => {
+        el.classList.remove('border-red-500', 'border-2', 'ring-red-500', 'ring-2');
+        if (!el.classList.contains('border-gray-300')) {
+            el.classList.add('border-gray-300');
+        }
+    });
+    
+    // Validate customer information
+    const nameInput = document.getElementById('customer_name');
+    const phoneInput = document.getElementById('customer_phone');
+    const emailInput = document.getElementById('customer_email');
+    
+    if (!nameInput.value.trim()) {
+        errors.push('{% trans "Name is required" %}');
+        invalidFields.push(nameInput);
+    }
+    
+    if (!phoneInput.value.trim()) {
+        errors.push('{% trans "Phone number is required" %}');
+        invalidFields.push(phoneInput);
+    } else if (!phoneInput.value.trim().startsWith('+')) {
+        errors.push('{% trans "Phone number must include country code (e.g., +34612345678)" %}');
+        invalidFields.push(phoneInput);
+    } else if (phoneInput.value.trim().length < 8) {
+        errors.push('{% trans "Phone number is too short" %}');
+        invalidFields.push(phoneInput);
+    }
+    
+    // Validate email format if provided
+    if (emailInput.value.trim()) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(emailInput.value.trim())) {
+            errors.push('{% trans "Please enter a valid email address" %}');
+            invalidFields.push(emailInput);
+        }
+    }
+    
+    // Validate booking rows
+    const rows = document.querySelectorAll('.booking-row');
     rows.forEach((row, index) => {
         const serviceSelect = row.querySelector('.service-select');
         const selectedDate = row.querySelector('.selected-date');
         const selectedTime = row.querySelector('.selected-time');
         
         if (!serviceSelect.value) {
-            errors.push(`Service ${index + 1}: Please select a service`);
+            errors.push(`{% trans "Service" %} ${index + 1}: {% trans "Please select a service" %}`);
+            invalidFields.push(serviceSelect);
         }
         if (!selectedDate.value) {
-            errors.push(`Service ${index + 1}: Please select a date`);
+            errors.push(`{% trans "Service" %} ${index + 1}: {% trans "Please select a date" %}`);
         }
         if (!selectedTime.value) {
-            errors.push(`Service ${index + 1}: Please select a time`);
+            errors.push(`{% trans "Service" %} ${index + 1}: {% trans "Please select a time" %}`);
         }
     });
     
     if (errors.length > 0) {
         e.preventDefault();
+        
+        // Mark invalid fields with red border (make sure they stay visible)
+        invalidFields.forEach(field => {
+            field.classList.remove('border-gray-300', 'border');
+            field.classList.add('border-red-500', 'border-2');
+            // Add a data attribute to track which fields have errors
+            field.dataset.hasError = 'true';
+        });
+        
+        // Show modal with errors
         validationErrorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
-        validationError.classList.remove('hidden');
-        validationError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    } else {
-        validationError.classList.add('hidden');
+        const modal = document.getElementById('validationModal');
+        modal.classList.remove('hidden');
+        
+        // Scroll to first invalid field
+        if (invalidFields.length > 0) {
+            invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+});
+
+// Dismiss modal button
+document.getElementById('dismissModalBtn').addEventListener('click', function() {
+    document.getElementById('validationModal').classList.add('hidden');
+});
+
+// Remove red border when user starts typing/selecting
+document.getElementById('customer_name').addEventListener('input', function() {
+    this.classList.remove('border-red-500', 'border-2');
+    this.classList.add('border-gray-300', 'border');
+    delete this.dataset.hasError;
+});
+
+document.getElementById('customer_phone').addEventListener('input', function() {
+    this.classList.remove('border-red-500', 'border-2');
+    this.classList.add('border-gray-300', 'border');
+    delete this.dataset.hasError;
+});
+
+document.getElementById('customer_email').addEventListener('input', function() {
+    this.classList.remove('border-red-500', 'border-2');
+    this.classList.add('border-gray-300', 'border');
+    delete this.dataset.hasError;
+});
+
+// Remove red border from service selects when changed
+document.addEventListener('change', function(e) {
+    if (e.target.classList.contains('service-select')) {
+        e.target.classList.remove('border-red-500', 'border-2');
+        e.target.classList.add('border-gray-300', 'border');
+        delete e.target.dataset.hasError;
     }
 });
 
@@ -1074,6 +1170,17 @@ function guessCustomerData(searchBy) {
         outline: none;
         border-color: #3b82f6;
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Error state styling */
+    input[data-has-error="true"], select[data-has-error="true"] {
+        border-color: #ef4444 !important;
+        border-width: 2px !important;
+    }
+    
+    input[data-has-error="true"]:focus, select[data-has-error="true"]:focus {
+        border-color: #ef4444 !important;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
     }
     
     .staff-card {

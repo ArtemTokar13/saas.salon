@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 22:38+0200\n"
+"POT-Creation-Date: 2026-06-14 15:40+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,8 +34,8 @@ msgstr "Anual"
 #: templates/companies/edit_service.html:119
 #: templates/companies/services_list.html:29
 #: templates/companies/services_list.html:42
-#: templates/companies/staff_list.html:27
-#: templates/companies/staff_list.html:47
+#: templates/companies/staff_list.html:53
+#: templates/companies/staff_list.html:73
 msgid "Active"
 msgstr "Activo"
 
@@ -59,7 +59,7 @@ msgstr "Recordatorio: Próximas reservas para"
 msgid "Add any notes about this booking..."
 msgstr "Añade cualquier nota sobre esta reserva..."
 
-#: bookings/forms.py:33 templates/bookings/create_booking.html:195
+#: bookings/forms.py:33 templates/bookings/create_booking.html:204
 msgid "Add any special requests or notes..."
 msgstr "Añade cualquier solicitud o nota especial..."
 
@@ -68,6 +68,7 @@ msgid "Client notes..."
 msgstr "Notas del cliente..."
 
 #: bookings/forms.py:99 bookings/views.py:92
+#: templates/bookings/create_booking.html:990
 msgid "Phone number must include country code (e.g., +34612345678)"
 msgstr ""
 "El número de teléfono debe incluir el código de país (por ejemplo, "
@@ -89,11 +90,12 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} hasta {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Por favor, seleccione otra fecha, hora o miembro del personal."
 
-#: bookings/views.py:79 companies/views.py:1393
+#: bookings/views.py:79 companies/views.py:1440
+#: templates/bookings/create_booking.html:982
 msgid "Name is required"
 msgstr "Se requiere el nombre"
 
-#: bookings/views.py:84
+#: bookings/views.py:84 templates/bookings/create_booking.html:987
 msgid "Phone number is required"
 msgstr "Se requiere teléfono"
 
@@ -101,54 +103,55 @@ msgstr "Se requiere teléfono"
 msgid "Please complete all required fields"
 msgstr "Por favor complete todos campos requeridos"
 
-#: bookings/views.py:234
+#: bookings/views.py:350
 msgid "This time slot is not available. Staff member is out of office."
 msgstr ""
 "Este horario no está disponible. El empleado no se encuentra en la oficina."
 
-#: bookings/views.py:385
+#: bookings/views.py:501
 msgid "Booking not found"
 msgstr "No se encontraron reservas."
 
-#: bookings/views.py:462
+#: bookings/views.py:578
 msgid "Your booking has been cancelled."
 msgstr "Su reserva ha sido cancelada"
 
-#: bookings/views.py:1701
+#: bookings/views.py:1820
 msgid "You do not have permission to confirm this booking."
 msgstr "No tienes permiso para confirmar esta reserva."
 
-#: bookings/views.py:1704 bookings/views.py:1820 companies/views.py:208
+#: bookings/views.py:1823 bookings/views.py:1939 companies/views.py:208
 #: companies/views.py:265 companies/views.py:310 companies/views.py:335
-#: companies/views.py:363 companies/views.py:393 companies/views.py:414
-#: companies/views.py:563 companies/views.py:847 companies/views.py:865
-#: companies/views.py:1019 companies/views.py:1038 companies/views.py:1084
-#: companies/views.py:1139 companies/views.py:1158 companies/views.py:1230
-#: companies/views.py:1270 companies/views.py:1366 companies/views.py:1697
+#: companies/views.py:363 companies/views.py:393 companies/views.py:421
+#: companies/views.py:458 companies/views.py:610 companies/views.py:894
+#: companies/views.py:912 companies/views.py:1066 companies/views.py:1085
+#: companies/views.py:1131 companies/views.py:1186 companies/views.py:1205
+#: companies/views.py:1277 companies/views.py:1317 companies/views.py:1413
+#: companies/views.py:1744
 msgid "User profile not found."
 msgstr "Perfil de usuario no encontrado"
 
-#: bookings/views.py:1712
+#: bookings/views.py:1831
 msgid "Duration and price are required."
 msgstr "Se requiere conocer la duración y el precio."
 
-#: bookings/views.py:1732
+#: bookings/views.py:1851
 msgid "Booking confirmed successfully!"
 msgstr "¡Reserva confirmada!"
 
-#: bookings/views.py:1735
+#: bookings/views.py:1854
 msgid "Invalid duration or price format."
 msgstr "Formato de duración o precio no válido."
 
-#: bookings/views.py:1896
+#: bookings/views.py:2015
 msgid "Error marking notification as read."
 msgstr "Error al marcar la notificación como leída."
 
-#: bookings/views.py:1913
+#: bookings/views.py:2032
 msgid "All notifications marked as read."
 msgstr "Todas las notificaciones marcadas como leídas."
 
-#: bookings/views.py:1918
+#: bookings/views.py:2037
 msgid "Error marking notifications as read."
 msgstr "Error al marcar las notificaciones como leídas."
 
@@ -213,7 +216,7 @@ msgstr "Fallido"
 msgid "Pending"
 msgstr "Pendiente"
 
-#: companies/models.py:65
+#: companies/models.py:66
 msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
 msgstr ""
 "Intervalo de tiempo para su calendario de reservas en minutos (p. ej., 15, "
@@ -227,11 +230,11 @@ msgstr "¡Empresa registrada con éxito!"
 msgid "Activate your account"
 msgstr "Activa tu cuenta"
 
-#: companies/views.py:94 companies/views.py:594 companies/views.py:881
+#: companies/views.py:94 companies/views.py:641 companies/views.py:928
 msgid "Salon Booking System"
 msgstr "Sistema de reservas para salones de belleza"
 
-#: companies/views.py:134 companies/views.py:922
+#: companies/views.py:134 companies/views.py:969
 msgid "Failed to send activation email. Please try again later."
 msgstr ""
 "No se pudo enviar el correo electrónico de activación. Inténtelo de nuevo "
@@ -253,11 +256,11 @@ msgstr "El enlace de activación no es válido o ha caducado."
 
 #: companies/views.py:180 companies/views.py:219 companies/views.py:298
 #: companies/views.py:304 companies/views.py:324 companies/views.py:352
-#: companies/views.py:377 companies/views.py:406 companies/views.py:424
-#: companies/views.py:723 companies/views.py:859 companies/views.py:936
-#: companies/views.py:990 companies/views.py:1011 companies/views.py:1030
-#: companies/views.py:1048 companies/views.py:1094 companies/views.py:1150
-#: companies/views.py:1169 companies/views.py:1527
+#: companies/views.py:377 companies/views.py:406 companies/views.py:432
+#: companies/views.py:471 companies/views.py:770 companies/views.py:906
+#: companies/views.py:983 companies/views.py:1037 companies/views.py:1058
+#: companies/views.py:1077 companies/views.py:1095 companies/views.py:1141
+#: companies/views.py:1197 companies/views.py:1216 companies/views.py:1574
 msgid "Access denied."
 msgstr "Acceso denegado"
 
@@ -281,114 +284,126 @@ msgstr "No hay avatar para eliminar"
 msgid "Only POST requests are allowed"
 msgstr "Solo se permiten solicitudes POST."
 
-#: companies/views.py:554
+#: companies/views.py:437
+msgid "You are already a staff member."
+msgstr "Usted ya es miembro del personal."
+
+#: companies/views.py:454
+msgid "You have been successfully added as a staff member."
+msgstr "Has sido añadido correctamente como miembro del personal."
+
+#: companies/views.py:461
+msgid "Error creating staff member: {str(e)}"
+msgstr "Error al crear el miembro del personal: {str(e)}"
+
+#: companies/views.py:601
 msgid "Staff member added and activated successfully!"
 msgstr "¡Miembro del personal añadido y activado correctamente!"
 
-#: companies/views.py:556
+#: companies/views.py:603
 msgid "Staff member added successfully! Activation email sent."
 msgstr ""
 "¡Miembro del personal añadido correctamente! Correo electrónico de "
 "activación enviado."
 
-#: companies/views.py:590
+#: companies/views.py:637
 msgid "Your staff account has been activated"
 msgstr "Tu cuenta de personal ha sido activada."
 
-#: companies/views.py:615
+#: companies/views.py:662
 msgid "Account activated successfully!"
 msgstr "¡Cuenta activada con éxito!"
 
-#: companies/views.py:618 companies/views.py:709
+#: companies/views.py:665 companies/views.py:756
 msgid "Passwords do not match."
 msgstr "Las contraseñas no coinciden."
 
-#: companies/views.py:620
+#: companies/views.py:667
 msgid ""
 "Activation link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "El enlace de activación no es válido o ha caducado. Póngase en contacto con "
 "su administrador."
 
-#: companies/views.py:656
+#: companies/views.py:703
 msgid "Password reset link sent to your email."
 msgstr ""
 "Se ha enviado un enlace para restablecer la contraseña a su correo "
 "electrónico."
 
-#: companies/views.py:658
+#: companies/views.py:705
 msgid "No user found with that email address."
 msgstr ""
 "No se ha encontrado ningún usuario con esa dirección de correo electrónico."
 
-#: companies/views.py:706
+#: companies/views.py:753
 msgid "Password reset successfully!"
 msgstr "¡Contraseña restablecida con éxito!"
 
-#: companies/views.py:711
+#: companies/views.py:758
 msgid ""
 "Reset link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "El enlace de restablecimiento no es válido o ha caducado. Póngase en "
 "contacto con su administrador."
 
-#: companies/views.py:783
+#: companies/views.py:830
 msgid "Staff member updated successfully!"
 msgstr "¡El miembro del personal se actualizó correctamente!"
 
-#: companies/views.py:876
+#: companies/views.py:923
 msgid "Activate your staff account"
 msgstr "Activa tu cuenta de empleado."
 
-#: companies/views.py:907 templates/companies/edit_staff.html:390
+#: companies/views.py:954 templates/companies/edit_staff.html:390
 msgid "Activation email sent successfully!"
 msgstr "¡Correo electrónico de activación enviado correctamente!"
 
-#: companies/views.py:948
+#: companies/views.py:995
 msgid "Start and end datetime are required."
 msgstr "Se requieren la fecha y hora de inicio y finalización."
 
-#: companies/views.py:965
+#: companies/views.py:1012
 msgid "End time must be after start time."
 msgstr "La hora de finalización debe ser posterior a la hora de inicio."
 
-#: companies/views.py:1016
+#: companies/views.py:1063
 msgid "Staff member deleted successfully!"
 msgstr "¡Eliminado miembro del personal con éxito!"
 
-#: companies/views.py:1077
+#: companies/views.py:1124
 msgid "Service added successfully!"
 msgstr "¡Servicio añadido correctamente!"
 
-#: companies/views.py:1121
+#: companies/views.py:1168
 msgid "Service updated successfully!"
 msgstr "¡Servicio actualizado correctamente!"
 
-#: companies/views.py:1155
+#: companies/views.py:1202
 msgid "Service deleted successfully!"
 msgstr "¡Servicio eliminado correctamente!"
 
-#: companies/views.py:1200
+#: companies/views.py:1247
 msgid "Working hours updated successfully."
 msgstr "Horario laboral actualizado correctamente."
 
-#: companies/views.py:1322 companies/views.py:1378
+#: companies/views.py:1369 companies/views.py:1425
 msgid "User profile not found"
 msgstr "Perfil de usuario no encontrado"
 
-#: companies/views.py:1384
+#: companies/views.py:1431
 msgid "Access denied"
 msgstr "Acceso denegado"
 
-#: companies/views.py:1396
+#: companies/views.py:1443
 msgid "Phone is required"
 msgstr "Se requiere teléfono"
 
-#: companies/views.py:1399
+#: companies/views.py:1446
 msgid "Phone must include country code (e.g. +1234567890)"
 msgstr "Teléfono debe incluir el código de país (por ejemplo, +1234567890)"
 
-#: companies/views.py:1416
+#: companies/views.py:1463
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "JSON no válido: %(error)s"
@@ -892,7 +907,7 @@ msgstr "Preguntas frecuentes"
 msgid "Support"
 msgstr "Apoyo"
 
-#: templates/_footer.html:40 templates/companies/public_page.html:180
+#: templates/_footer.html:40 templates/companies/public_page.html:186
 #: templates/static_pages/contact.html:4 templates/static_pages/contact.html:10
 msgid "Contact Us"
 msgstr "Contacta con nosotros"
@@ -983,7 +998,7 @@ msgstr "Continuar con el pago"
 
 #: templates/billing/change_plan.html:191
 #: templates/bookings/confirm_prebooked.html:90
-#: templates/bookings/create_booking.html:202
+#: templates/bookings/create_booking.html:211
 #: templates/bookings/edit_booking.html:213
 #: templates/companies/add_service.html:118
 #: templates/companies/add_staff.html:279
@@ -1318,8 +1333,11 @@ msgstr "Filtro"
 #: templates/bookings/bookings_list.html:62
 #: templates/bookings/confirm_prebooked.html:33
 #: templates/bookings/confirmation.html:134
-#: templates/bookings/create_booking.html:96
-#: templates/bookings/create_booking.html:107
+#: templates/bookings/create_booking.html:105
+#: templates/bookings/create_booking.html:116
+#: templates/bookings/create_booking.html:1014
+#: templates/bookings/create_booking.html:1018
+#: templates/bookings/create_booking.html:1021
 #: templates/bookings/edit_booking.html:88
 msgid "Service"
 msgstr "Servicio"
@@ -1346,14 +1364,14 @@ msgstr "Correo y telefono"
 #: templates/bookings/bookings_list.html:68
 #: templates/companies/analytics.html:426
 #: templates/companies/services_list.html:30
-#: templates/companies/staff_list.html:28
+#: templates/companies/staff_list.html:54
 msgid "Actions"
 msgstr "Acciones"
 
 #: templates/bookings/bookings_list.html:84
 #: templates/companies/customer_detail.html:20
 #: templates/companies/services_list.html:48
-#: templates/companies/staff_list.html:53
+#: templates/companies/staff_list.html:79
 msgid "Edit"
 msgstr "Cambiar"
 
@@ -1363,8 +1381,8 @@ msgid "No bookings found."
 msgstr "No se encontraron reservas."
 
 #: templates/bookings/confirm_prebooked.html:10
-#: templates/bookings/create_booking.html:205
-#: templates/bookings/create_booking.html:925
+#: templates/bookings/create_booking.html:214
+#: templates/bookings/create_booking.html:958
 #: templates/bookings/edit_booking.html:216
 #: templates/static_pages/how_it_works.html:74
 msgid "Confirm Booking"
@@ -1376,7 +1394,7 @@ msgid "Booking Details"
 msgstr "Detalles de la reserva"
 
 #: templates/bookings/confirm_prebooked.html:29
-#: templates/bookings/create_booking.html:48
+#: templates/bookings/create_booking.html:57
 #: templates/bookings/edit_booking.html:69
 #: templates/companies/customer_detail.html:33
 #: templates/companies/customers_list.html:55
@@ -1393,7 +1411,7 @@ msgid "Date & Time"
 msgstr "Fecha y hora"
 
 #: templates/bookings/confirm_prebooked.html:46
-#: templates/bookings/create_booking.html:62
+#: templates/bookings/create_booking.html:71
 #: templates/bookings/edit_booking.html:79
 #: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
 #: templates/companies/edit_profile.html:76
@@ -1424,7 +1442,7 @@ msgid "Price"
 msgstr "Precios"
 
 #: templates/bookings/confirm_prebooked.html:93
-#: templates/bookings/create_booking.html:921
+#: templates/bookings/create_booking.html:954
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -1547,16 +1565,19 @@ msgstr "Cancelar Reservas"
 msgid "Book Your Appointment"
 msgstr "Reserve su cita"
 
-#: templates/bookings/create_booking.html:29
-#: templates/bookings/edit_booking.html:34
-msgid "Please complete the following fields:"
-msgstr "Por favor complete los siguientes campos:"
+#: templates/bookings/create_booking.html:32
+msgid "Please Fix the Following Errors"
+msgstr "Por favor, corrija los siguientes errores."
 
-#: templates/bookings/create_booking.html:40
+#: templates/bookings/create_booking.html:38
+msgid "Got it, I'll fix these"
+msgstr "Entendido, lo arreglaré."
+
+#: templates/bookings/create_booking.html:49
 msgid "Your Information"
 msgstr "Su información"
 
-#: templates/bookings/create_booking.html:43
+#: templates/bookings/create_booking.html:52
 #: templates/companies/add_service.html:21
 #: templates/companies/add_staff.html:53
 #: templates/companies/customer_detail.html:28
@@ -1564,145 +1585,169 @@ msgstr "Su información"
 #: templates/companies/edit_service.html:21
 #: templates/companies/edit_staff.html:32
 #: templates/companies/services_list.html:25
-#: templates/companies/staff_list.html:25
+#: templates/companies/staff_list.html:51
 #: templates/static_pages/contact.html:17
 msgid "Name"
 msgstr "Nombre"
 
-#: templates/bookings/create_booking.html:48
+#: templates/bookings/create_booking.html:57
 #: templates/bookings/edit_booking.html:69
 msgid "(e.g. +1234567890)"
 msgstr "(por ejemplo +1234567890)"
 
-#: templates/bookings/create_booking.html:62
+#: templates/bookings/create_booking.html:71
 msgid "(optional)"
 msgstr "(opcional)"
 
-#: templates/bookings/create_booking.html:72
+#: templates/bookings/create_booking.html:81
 #: templates/companies/add_staff.html:252 templates/companies/dashboard.html:35
 #: templates/companies/edit_staff.html:322
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Servicios"
 
-#: templates/bookings/create_booking.html:87
+#: templates/bookings/create_booking.html:96
 #: templates/companies/add_service.html:10
 #: templates/companies/add_service.html:121
 #: templates/companies/dashboard.html:89
 msgid "Add Service"
 msgstr "Añadir Servicio"
 
-#: templates/bookings/create_booking.html:109
+#: templates/bookings/create_booking.html:118
 #: templates/bookings/edit_booking.html:91
 msgid "Choose a service..."
 msgstr "Elija un servicio..."
 
-#: templates/bookings/create_booking.html:121
+#: templates/bookings/create_booking.html:130
 #: templates/bookings/edit_booking.html:116
 msgid "Select Specialist"
 msgstr "Elija un Especialista"
 
-#: templates/bookings/create_booking.html:121
-#: templates/bookings/create_booking.html:190
+#: templates/bookings/create_booking.html:130
+#: templates/bookings/create_booking.html:199
 msgid "Optional"
 msgstr "Opcional"
 
-#: templates/bookings/create_booking.html:124
+#: templates/bookings/create_booking.html:133
 #: templates/bookings/edit_booking.html:118
 msgid "Please select a service first"
 msgstr "Por favor seleccione un servicio primero"
 
-#: templates/bookings/create_booking.html:138
+#: templates/bookings/create_booking.html:147
 #: templates/bookings/edit_booking.html:135
 msgid "Select Date & Time"
 msgstr "Fecha y hora"
 
-#: templates/bookings/create_booking.html:143
+#: templates/bookings/create_booking.html:152
 #: templates/bookings/edit_booking.html:140
 #: templates/companies/add_service.html:71
 #: templates/companies/edit_service.html:71
 msgid "Available Dates"
 msgstr "Planes disponibles"
 
-#: templates/bookings/create_booking.html:159
+#: templates/bookings/create_booking.html:168
 #: templates/bookings/edit_booking.html:156
 msgid "Please select a specialist first"
 msgstr "Por favor seleccione un especialista primero"
 
-#: templates/bookings/create_booking.html:163
+#: templates/bookings/create_booking.html:172
 #: templates/bookings/edit_booking.html:160
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:22
 msgid "Sun"
 msgstr "Dom"
 
-#: templates/bookings/create_booking.html:164
+#: templates/bookings/create_booking.html:173
 #: templates/bookings/edit_booking.html:161
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:16
 msgid "Mon"
 msgstr "Lun"
 
-#: templates/bookings/create_booking.html:165
+#: templates/bookings/create_booking.html:174
 #: templates/bookings/edit_booking.html:162
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:17
 msgid "Tue"
 msgstr "Mar"
 
-#: templates/bookings/create_booking.html:166
+#: templates/bookings/create_booking.html:175
 #: templates/bookings/edit_booking.html:163
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:18
 msgid "Wed"
 msgstr "Mie"
 
-#: templates/bookings/create_booking.html:167
+#: templates/bookings/create_booking.html:176
 #: templates/bookings/edit_booking.html:164
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:19
 msgid "Thu"
 msgstr "Jue"
 
-#: templates/bookings/create_booking.html:168
+#: templates/bookings/create_booking.html:177
 #: templates/bookings/edit_booking.html:165
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:20
 msgid "Fri"
 msgstr "Vie"
 
-#: templates/bookings/create_booking.html:169
+#: templates/bookings/create_booking.html:178
 #: templates/bookings/edit_booking.html:166
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:21
 msgid "Sat"
 msgstr "Sab"
 
-#: templates/bookings/create_booking.html:178
+#: templates/bookings/create_booking.html:187
 #: templates/bookings/edit_booking.html:178
 msgid "Available Time"
 msgstr "Tiempos disponibles"
 
-#: templates/bookings/create_booking.html:190
+#: templates/bookings/create_booking.html:199
 msgid "Additional Notes"
 msgstr "Notas adicionales"
 
-#: templates/bookings/create_booking.html:192
+#: templates/bookings/create_booking.html:201
 msgid "Do you have any special requests or notes?"
 msgstr "¿Tiene alguna petición o nota especial?"
 
-#: templates/bookings/create_booking.html:217
+#: templates/bookings/create_booking.html:226
 msgid "Any Available"
 msgstr "Cualquiera disponible"
 
-#: templates/bookings/create_booking.html:218
+#: templates/bookings/create_booking.html:227
 msgid "We'll assign"
 msgstr "Nosotros asignaremos"
 
-#: templates/bookings/create_booking.html:922
+#: templates/bookings/create_booking.html:955
 msgid "services"
 msgstr "servicios"
 
-#: templates/bookings/create_booking.html:997
+#: templates/bookings/create_booking.html:993
+msgid "Phone number is too short"
+msgstr "El número de teléfono es demasiado corto."
+
+#: templates/bookings/create_booking.html:1001
+msgid "Please enter a valid email address"
+msgstr "Por favor, introduce una dirección de correo electrónico válida"
+
+#: templates/bookings/create_booking.html:1014
+msgid "Please select a service"
+msgstr "Seleccione un servicio"
+
+#: templates/bookings/create_booking.html:1018
+msgid "Please select a date"
+msgstr "Seleccione una fecha"
+
+#: templates/bookings/create_booking.html:1021
+msgid "Please select a time"
+msgstr "Por favor, seleccione una hora."
+
+#: templates/bookings/create_booking.html:1117
 msgid "Select Customer"
 msgstr "Seleccionar cliente"
 
 #: templates/bookings/edit_booking.html:19
 msgid "Edit Booking"
 msgstr "Editar reserva"
+
+#: templates/bookings/edit_booking.html:34
+msgid "Please complete the following fields:"
+msgstr "Por favor complete los siguientes campos:"
 
 #: templates/bookings/edit_booking.html:52
 #: templates/companies/customer_detail.html:18
@@ -1887,7 +1932,7 @@ msgid "Add Staff Member"
 msgstr "Agregar personal"
 
 #: templates/companies/add_staff.html:61 templates/companies/edit_staff.html:39
-#: templates/companies/staff_list.html:26
+#: templates/companies/staff_list.html:52
 msgid "Specialization"
 msgstr "Especialización"
 
@@ -2077,7 +2122,7 @@ msgstr "Clientes únicos"
 
 #: templates/companies/analytics.html:196
 #: templates/companies/services_list.html:44
-#: templates/companies/staff_list.html:49
+#: templates/companies/staff_list.html:75
 msgid "Inactive"
 msgstr "Inactivo"
 
@@ -2496,7 +2541,7 @@ msgstr "Plan Actual"
 #: templates/companies/edit_staff.html:69
 #: templates/companies/edit_staff.html:303
 #: templates/companies/services_list.html:49
-#: templates/companies/staff_list.html:54
+#: templates/companies/staff_list.html:80
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
 msgid "Delete"
 msgstr "Borrar"
@@ -2663,19 +2708,19 @@ msgstr "Información sobre el personal próximamente."
 msgid "Our Services"
 msgstr "Nuestros servicios"
 
-#: templates/companies/public_page.html:161
+#: templates/companies/public_page.html:167
 msgid "No services available at the moment."
 msgstr "No hay servicios disponibles en este momento."
 
-#: templates/companies/public_page.html:172
+#: templates/companies/public_page.html:178
 msgid "Book an Appointment"
 msgstr "Reservar una cita"
 
-#: templates/companies/public_page.html:175
+#: templates/companies/public_page.html:181
 msgid "Book Now"
 msgstr "Reservar ahora"
 
-#: templates/companies/public_page.html:181
+#: templates/companies/public_page.html:187
 msgid ""
 "Online booking is currently unavailable. Please contact us directly to "
 "schedule an appointment."
@@ -2683,15 +2728,15 @@ msgstr ""
 "Las reservas en línea no están disponibles en este momento. Contáctenos "
 "directamente para programar una cita."
 
-#: templates/companies/public_page.html:187
+#: templates/companies/public_page.html:193
 msgid "Contact Information"
 msgstr "Información del contacto"
 
-#: templates/companies/public_page.html:256
+#: templates/companies/public_page.html:262
 msgid "Working Hours"
 msgstr "Horas de trabajo"
 
-#: templates/companies/public_page.html:262
+#: templates/companies/public_page.html:268
 msgid "Closed"
 msgstr "Cerrado"
 
@@ -2768,15 +2813,27 @@ msgstr "Aún no has añadido ningún servicio."
 msgid "Add Your First Service"
 msgstr "Añadir Servicio"
 
-#: templates/companies/staff_list.html:64
+#: templates/companies/staff_list.html:29
+msgid ""
+"You are not yet a staff member. Would you like to add yourself to be able to "
+"receive bookings?"
+msgstr ""
+"Aún no eres miembro del personal. ¿Te gustaría agregarte para poder "
+"recibir reservas?"
+
+#: templates/companies/staff_list.html:37
+msgid "Add Myself as Staff"
+msgstr "Agregarme como miembro del personal"
+
+#: templates/companies/staff_list.html:90
 msgid "No Staff Members Found"
 msgstr "No se encontraron miembros del personal"
 
-#: templates/companies/staff_list.html:65
+#: templates/companies/staff_list.html:91
 msgid "You haven't added any staff members yet."
 msgstr "Aún no has añadido ningún miembro del personal."
 
-#: templates/companies/staff_list.html:67
+#: templates/companies/staff_list.html:93
 msgid "Add Your First Staff Member"
 msgstr "Agregue su primer miembro del personal"
 

@@ -221,10 +221,14 @@ def process_message(conversation: WhatsAppConversation, message: str) -> str:
     if conversation.current_state == 'selecting_salon':
         return handle_salon_selection(conversation, message)
     
-    # Detect salon-specific entry codes (first message from QR/link)
-    salon_detected = detect_salon_code(conversation, message)
-    if salon_detected:
-        return salon_detected  # Returns welcome message
+    # Detect salon only if message starts with a greeting (hola, hello, привет, привіт)
+    message_lower = message.strip().lower()
+    is_greeting = any(message_lower.startswith(greeting) for greeting in ['hola', 'hello', 'привет', 'привіт'])
+    
+    if is_greeting:
+        salon_detected = detect_salon_code(conversation, message)
+        if salon_detected:
+            return salon_detected  # Returns welcome message
     
     # Check if user is selecting a service by number
     if conversation.current_state == 'selecting_service':
@@ -599,7 +603,7 @@ def show_availability_prompt(conversation: WhatsAppConversation) -> str:
 
 def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
     """
-    Detect salon-specific entry codes from QR codes or links
+    Detect salon name when message starts with greeting (Hola, Hello, Привет, Привіт)
     
     Returns welcome message if salon detected, None otherwise
     """
@@ -608,99 +612,87 @@ def detect_salon_code(conversation: WhatsAppConversation, message: str) -> str:
     
     from companies.models import Company
     searcher = BookingSearcher()
-    company = None
     salon_name = None
     
-    # Skip if message is just a number (likely a menu selection, not a salon name)
-    if message_clean.isdigit():
-        return None
-    
-    # Skip if message is a system keyword (language change, menu, etc.)
-    system_keywords = ['menu', 'menú', 'меню', 'start', 'inicio', 'help', 'ayuda', 'допомога',
-                       'language', 'idioma', 'язык', 'мова', 'lingua', 'lengua',
-                       'cancelar', 'cancel', 'stop', 'exit', 'скасувати', 'зупинити']
-    if message_clean.lower() in system_keywords:
-        return None
-    
-    # Pattern 1: "Hola SalonName" or "Hola! SalonName"
-    is_greeting_with_salon = False
-    if message_clean.lower().startswith(('hola', 'hello', 'привіт', 'hi')):
-        is_greeting_with_salon = True
-        # Extract potential salon name
-        # Remove greeting words
-        message_lower = message_clean.lower()
-        for greeting in ['hello', 'hola!', 'hello!', 'hola', 'привіт', 'hi']:
+    # Only process if message starts with a greeting
+    message_lower = message_clean.lower()
+    if message_lower.startswith(('hola', 'hello', 'привет', 'привіт')):
+        # Extract salon name after greeting
+        for greeting in ['hello!', 'hola!', 'привет!', 'привіт!', 'hello', 'hola', 'привет', 'привіт']:
             if message_lower.startswith(greeting):
                 salon_name = message_clean[len(greeting):].strip()
                 break
-        else:
-            salon_name = message_clean
         
-        logger.info(f"Detected greeting with potential salon: '{salon_name}'")
-    # Pattern 2: Standalone salon name (e.g., just "ANIMA" when asked which salon)
-    else:
-        # Try to match as salon name directly
-        salon_name = message_clean
-    
-    if salon_name:
-        # Try to find company by name
-        logger.info(f"Searching for company: '{salon_name}'")
-        company = searcher.find_company(salon_name)
-        logger.info(f"Company found: {company.name if company else 'None'}")
-        
-        if company:
-            # Check if this is a salon switch (different from current)
-            is_switch = conversation.company and conversation.company.id != company.id
+        if salon_name:
+            logger.info(f"Detected greeting with salon: '{salon_name}'")
             
-            # Set salon in conversation
-            conversation.company = company
-            conversation.current_state = 'idle'  # Reset state
-            state = conversation.conversation_state
-            state['company_name'] = company.name
-            state['salon_auto_selected'] = True
-            conversation.conversation_state = state
-            conversation.save()
+            # Try to find company by name
+            company = searcher.find_company(salon_name)
+            logger.info(f"Company found: {company.name if company else 'None'}")
             
-            # Clear any pending bookings for old salon
-            PendingBooking.objects.filter(conversation=conversation).delete()
-            
-            logger.info(f"{'Switched to' if is_switch else 'Auto-selected'} salon: {company.name} for {conversation.phone_number}")
-            
-            # Return personalized welcome in selected language with menu
-            if is_switch:
-                messages_switch = {
-                    'es': f'¡Perfecto! Ahora estás reservando en **{company.name}**.\n\nEscribe "menu" para ver las opciones.',
-                    'en': f'Perfect! You are now booking at **{company.name}**.\n\nType "menu" to see options.',
-                    'ru': f'Отлично! Теперь вы бронируете в **{company.name}**.\n\nНапишите "menu" чтобы увидеть опции.',
-                    'uk': f'Чудово! Тепер ви бронюєте в **{company.name}**.\n\nНапишіть "menu" щоб побачити опції.'
-                }
-                return messages_switch.get(lang, messages_switch['es'])
-            else:
-                return get_message('welcome_menu_with_salon', lang, company=company, company_name=company.name)
-        else:
-            # Salon not found - try to find similar salons
-            similar_salons = searcher.find_similar_companies(salon_name, limit=3)
-            
-            if similar_salons:
-                # Store salon suggestions in conversation state
+            if company:
+                # Check if this is a salon switch (different from current)
+                is_switch = conversation.company and conversation.company.id != company.id
+                
+                # Set salon in conversation
+                conversation.company = company
+                conversation.current_state = 'idle'  # Reset state
                 state = conversation.conversation_state
-                state['salon_suggestions'] = [{'id': comp.id, 'name': comp.name} for comp, score in similar_salons]
-                state['awaiting_salon_confirmation'] = True
+                
+                # Clear old booking data when switching salons
+                state['company_name'] = company.name
+                state['salon_auto_selected'] = True
+                state.pop('service_name', None)
+                state.pop('service_id', None)
+                state.pop('staff_name', None)
+                state.pop('staff_id', None)
+                state.pop('date', None)
+                state.pop('time', None)
+                state.pop('time_after', None)
+                state.pop('time_before', None)
+                state.pop('time_preference', None)
+                state.pop('selected_slot', None)
+                state.pop('service_list', None)
+                state.pop('staff_list', None)
+                
                 conversation.conversation_state = state
-                conversation.current_state = 'selecting_salon'
                 conversation.save()
                 
-                # Show "did you mean?" message
-                return show_salon_suggestions(salon_name, similar_salons, lang)
+                # Clear any pending bookings for old salon
+                PendingBooking.objects.filter(conversation=conversation).delete()
+                
+                logger.info(f"{'Switched to' if is_switch else 'Auto-selected'} salon: {company.name} for {conversation.phone_number}")
+                
+                # Return personalized welcome in selected language with menu
+                if is_switch:
+                    messages_switch = {
+                        'es': f'¡Perfecto! Ahora estás reservando en **{company.name}**.\n\nEscribe "menu" para ver las opciones.',
+                        'en': f'Perfect! You are now booking at **{company.name}**.\n\nType "menu" to see options.',
+                        'ru': f'Отлично! Теперь вы бронируете в **{company.name}**.\n\nНапишите "menu" чтобы увидеть опции.',
+                        'uk': f'Чудово! Тепер ви бронюєте в **{company.name}**.\n\nНапишіть "menu" щоб побачити опції.'
+                    }
+                    return messages_switch.get(lang, messages_switch['es'])
+                else:
+                    return get_message('welcome_menu_with_salon', lang, company=company, company_name=company.name)
             else:
-                # No similar salons found
-                if is_greeting_with_salon:
+                # Salon not found - try to find similar salons
+                similar_salons = searcher.find_similar_companies(salon_name, limit=3)
+                
+                if similar_salons:
+                    # Store salon suggestions in conversation state
+                    state = conversation.conversation_state
+                    state['salon_suggestions'] = [{'id': comp.id, 'name': comp.name} for comp, score in similar_salons]
+                    state['awaiting_salon_confirmation'] = True
+                    conversation.conversation_state = state
+                    conversation.current_state = 'selecting_salon'
+                    conversation.save()
+                    
+                    # Show "did you mean?" message
+                    return show_salon_suggestions(salon_name, similar_salons, lang)
+                else:
+                    # No similar salons found
                     logger.warning(f"No salons found similar to '{salon_name}'")
                     return get_message('salon_not_found', lang, salon_name=salon_name)
-                else:
-                    # Not a greeting, just ignore and let other handlers process it
-                    logger.debug(f"No salon match for '{salon_name}', passing to other handlers")
-                    return None
     
     return None  # No salon detected
 
@@ -1201,10 +1193,10 @@ def show_staff_selection(conversation: WhatsAppConversation, selected_service: d
     
     # Build staff list with "Any Available" option
     message_templates = {
-        'es': "✅ **{service}** seleccionado.\n\n👥 **Selecciona un especialista:**\n\n0️⃣ Cualquier disponible\n{staff}\n\n📝 Responde con el número (0-{count}).",
-        'en': "✅ **{service}** selected.\n\n👥 **Select a specialist:**\n\n0️⃣ Any available\n{staff}\n\n📝 Reply with the number (0-{count}).",
-        'ru': "✅ **{service}** выбран.\n\n👥 **Выберите специалиста:**\n\n0️⃣ Любой доступный\n{staff}\n\n📝 Ответьте номером (0-{count}).",
-        'uk': "✅ **{service}** вибрано.\n\n👥 **Виберіть спеціаліста:**\n\n0️⃣ Будь-який доступний\n{staff}\n\n📝 Відповідайте номером (0-{count})."
+        'es': "✅ **{service}** seleccionado.\n\n👥 **Selecciona un especialista:**\n\n{staff}\n\n📝 Responde con el número (0-{count}).",
+        'en': "✅ **{service}** selected.\n\n👥 **Select a specialist:**\n\n{staff}\n\n📝 Reply with the number (0-{count}).",
+        'ru': "✅ **{service}** выбран.\n\n👥 **Выберите специалиста:**\n\n{staff}\n\n📝 Ответьте номером (0-{count}).",
+        'uk': "✅ **{service}** вибрано.\n\n👥 **Виберіть спеціаліста:**\n\n{staff}\n\n📝 Відповідайте номером (0-{count})."
     }
     
     staff_text = ""
@@ -1238,26 +1230,26 @@ def handle_staff_selection(conversation: WhatsAppConversation, staff_number: int
     staff_list = state.get('staff_list', [])
     
     # staff_number 0 means "any available"
-    if staff_number == 0:
-        # Clear any previously selected staff and old time constraints
-        state.pop('staff_name', None)
-        state.pop('staff_id', None)
-        # Clear any old time filters from previous searches
-        state.pop('time_after', None)
-        state.pop('time_before', None)
-        state.pop('time_preference', None)
-        conversation.conversation_state = state
-        conversation.current_state = 'idle'
-        conversation.save()
+    # if staff_number == 0:
+    #     # Clear any previously selected staff and old time constraints
+    #     state.pop('staff_name', None)
+    #     state.pop('staff_id', None)
+    #     # Clear any old time filters from previous searches
+    #     state.pop('time_after', None)
+    #     state.pop('time_before', None)
+    #     state.pop('time_preference', None)
+    #     conversation.conversation_state = state
+    #     conversation.current_state = 'idle'
+    #     conversation.save()
         
-        # Ask for date
-        messages_date = {
-            'es': "✅ Buscaremos cualquier especialista disponible.\n\n¿Para qué día quieres la cita? (ej: mañana, viernes, 21 de abril)",
-            'en': "✅ We'll find any available specialist.\n\nWhat day would you like the appointment? (e.g., tomorrow, Friday, April 21)",
-            'ru': "✅ Найдём любого доступного специалиста.\n\nНа какой день вы хотите записаться? (напр.: завтра, пятница, 21 апреля)",
-            'uk': "✅ Знайдемо будь-якого доступного спеціаліста.\n\nНа який день ви хочете записатися? (напр.: завтра, п'ятниця, 21 квітня)"
-        }
-        return messages_date.get(lang, messages_date['es'])
+    #     # Ask for date
+    #     messages_date = {
+    #         'es': "✅ Buscaremos cualquier especialista disponible.\n\n¿Para qué día quieres la cita? (ej: mañana, viernes, 21 de abril)",
+    #         'en': "✅ We'll find any available specialist.\n\nWhat day would you like the appointment? (e.g., tomorrow, Friday, April 21)",
+    #         'ru': "✅ Найдём любого доступного специалиста.\n\nНа какой день вы хотите записаться? (напр.: завтра, пятница, 21 апреля)",
+    #         'uk': "✅ Знайдемо будь-якого доступного спеціаліста.\n\nНа який день ви хочете записатися? (напр.: завтра, п'ятниця, 21 квітня)"
+    #     }
+    #     return messages_date.get(lang, messages_date['es'])
     
     # Validate staff number
     if staff_number < 0 or staff_number > len(staff_list):
@@ -1641,13 +1633,13 @@ def get_message(key: str, lang: str, company=None, **kwargs) -> str:
     messages = {
         'welcome_menu_with_salon': {
             'es': "👋 ¡Hola{name_greeting}! Bienvenido a **{company_name}**.\n\n¿Qué te gustaría hacer?\n\n1️⃣ 📅 Reservar una cita\n2️⃣ 💅 Ver servicios\n3️⃣ 👥 Ver equipo\n4️⃣ 📍 Ver ubicación\n5️⃣ 🕐 Consultar disponibilidad\n\n📝 Responde con el número (1-5) o escribe tu solicitud.",
-            'en': "👋 Hello{name_greeting}! Welcome to **{company_name}**.\n\nWhat would you like to do?\n\n1️⃣ 📅 Book an appointment\n2️⃣ 💅 View services\n3️⃣ 👥 View team\n4️⃣ 📍 View location\n5️⃣ 🕐 Check availability\n\n📝 Reply with the number (1-5) or type your request.",
+            'en': "👋 Hello{name_greeting}! Welcome to **{company_name}**.\n\nWhat would you like to do?\n\n1️⃣ 📅 Book an appointment\n2️⃣ 💅 View services\n3️⃣ � View team\n4️⃣ �📍 View location\n5️⃣ 🕐 Check availability\n\n📝 Reply with the number (1-5) or type your request.",
             'ru': "👋 Здравствуйте{name_greeting}! Добро пожаловать в **{company_name}**.\n\nЧто вы хотите сделать?\n\n1️⃣ 📅 Забронировать визит\n2️⃣ 💅 Посмотреть услуги\n3️⃣ 👥 Посмотреть команду\n4️⃣ 📍 Посмотреть адрес\n5️⃣ 🕐 Проверить доступность\n\n📝 Ответьте номером (1-5) или напишите ваш запрос.",
-            'uk': "👋 Привіт{name_greeting}! Ласкаво просимо до **{company_name}**.\n\nЩо ви хочете зробити?\n\n1️⃣ 📅 Забронювати візит\n2️⃣ 💅 Подивитися послуги\n3️⃣ 👥 Подивитися команду\n4️⃣ 📍 Подивитися адресу\n5️⃣ 🕐 Перевірити доступність\n\n📝 Відповідайте номером (1-5) або напишіть ваш запит.",
+            'uk': "👋 Привіт{name_greeting}! Ласкаво просимо до **{company_name}**.\n\nЩо ви хочете зробити?\n\n1️⃣ 📅 Забронювати візит\n2️⃣ 💅 Подивитися послуги\n3️⃣ � Подивитися команду\n4️⃣ �📍 Подивитися адресу\n5️⃣ 🕐 Перевірити доступність\n\n📝 Відповідайте номером (1-5) або напишіть ваш запит.",
         },
         'welcome_menu_general': {
-            'es': "👋 ¡Hola{name_greeting}! Soy tu asistente de reservas.\n\n¿Qué te gustaría hacer?\n\n1️⃣ 📅 Reservar una cita\n2️⃣ 💅 Ver servicios\n3️⃣ 👥 Ver equipo\n4️⃣ 📍 Ver ubicación\n5️⃣ 🕐 Consultar disponibilidad\n\n📝 Responde con el número (1-5) o escribe tu solicitud.",
-            'en': "👋 Hello{name_greeting}! I'm your booking assistant.\n\nWhat would you like to do?\n\n1️⃣ 📅 Book an appointment\n2️⃣ 💅 View services\n3️⃣ 👥 View team\n4️⃣ 📍 View location\n5️⃣ 🕐 Check availability\n\n📝 Reply with the number (1-5) or type your request.",
+            'es': "👋 ¡Hola{name_greeting}! Soy tu asistente de reservas.\n\n¿Qué te gustaría hacer?\n\n1️⃣ 📅 Reservar una cita\n2️⃣ 💅 Ver servicios\n3️⃣ � Ver equipo\n4️⃣ �📍 Ver ubicación\n5️⃣ 🕐 Consultar disponibilidad\n\n📝 Responde con el número (1-5) o escribe tu solicitud.",
+            'en': "👋 Hello{name_greeting}! I'm your booking assistant.\n\nWhat would you like to do?\n\n1️⃣ 📅 Book an appointment\n2️⃣ 💅 View services\n3️⃣ � View team\n4️⃣ �📍 View location\n5️⃣ 🕐 Check availability\n\n📝 Reply with the number (1-5) or type your request.",
             'ru': "👋 Здравствуйте{name_greeting}! Я ваш помощник по бронированию.\n\nЧто вы хотите сделать?\n\n1️⃣ 📅 Забронировать визит\n2️⃣ 💅 Посмотреть услуги\n3️⃣ 👥 Посмотреть команду\n4️⃣ 📍 Посмотреть адрес\n5️⃣ 🕐 Проверить доступность\n\n📝 Ответьте номером (1-5) или напишите ваш запрос.",
             'uk': "👋 Привіт{name_greeting}! Я ваш помічник з бронювання.\n\nЩо ви хочете зробити?\n\n1️⃣ 📅 Забронювати візит\n2️⃣ 💅 Подивитися послуги\n3️⃣ 👥 Подивитися команду\n4️⃣ 📍 Подивитися адресу\n5️⃣ 🕐 Перевірити доступність\n\n📝 Відповідайте номером (1-5) або напишіть ваш запит.",
         },

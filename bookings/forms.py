@@ -80,31 +80,8 @@ class BookingForm(forms.ModelForm):
         return date
     
     def clean_customer_phone(self):
-        """Validate that phone number includes country code"""
+        """Clean phone number"""
         phone = self.cleaned_data.get('customer_phone')
-        
-        # Skip validation if editing existing booking (customer fields readonly)
-        if self.instance and self.instance.pk:
-            return phone
-        
-        if not phone:
-            return phone
-        
-        # Remove whitespace for validation
-        phone_stripped = phone.strip()
-        
-        # Check if phone starts with + (country code)
-        if not phone_stripped.startswith('+'):
-            raise forms.ValidationError(
-                _("Phone number must include country code (e.g., +34612345678)")
-            )
-        
-        # Check if there are digits after the +
-        if len(phone_stripped) < 8:  # Minimum: +1234567
-            raise forms.ValidationError(
-                _("Phone number is too short. Please include country code and full number.")
-            )
-        
         return phone
     
     def clean(self):

@@ -1531,11 +1531,11 @@ msgstr "хвилин"
 
 #: templates/bookings/confirmation.html:174
 msgid "Cancel Booking"
-msgstr "Керувати Бронюваннями"
+msgstr "Відмінити Бронювання"
 
 #: templates/bookings/create_booking.html:17
 msgid "Book Your Appointment"
-msgstr "Забронювати Ваш Запис"
+msgstr "Забронювати ваш вапис"
 
 #: templates/bookings/create_booking.html:32
 msgid "Please Fix the Following Errors"

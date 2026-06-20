@@ -57,7 +57,7 @@ def subscription_required(view_func):
             active_subscription = Subscription.objects.filter(
                 company=company,
                 is_active=True,
-                status=Subscription.STATUS_ACTIVE
+                end_date__gte=timezone.now()
             ).first()
             
             if active_subscription:

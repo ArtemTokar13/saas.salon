@@ -322,17 +322,7 @@ bookingForm.addEventListener('submit', function(e) {
     if (!selectedTimeInput.value) {
         errors.push('Time');
     }
-    
-    // Phone number regex validation for country code
-    const phoneInput = document.getElementById('id_customer_phone');
-    if (phoneInput) {
-        const phoneValue = phoneInput.value.trim();
-        // Regex: starts with +, then at least 6 digits (e.g. +123456)
-        const phoneRegex = /^\+\d{6,}$/;
-        if (!phoneRegex.test(phoneValue)) {
-            errors.push('{% trans "Phone (must include country code, e.g. +1234567890)" %}');
-        }
-    }
+
 
     if (errors.length > 0) {
         e.preventDefault();

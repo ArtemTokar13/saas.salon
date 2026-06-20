@@ -35,6 +35,7 @@ def subscription_details(request):
         company = profile.company
         current_subscription = Subscription.objects.filter(company=company, is_active=True).first()
         
+        # KEEP THIS COMMENTED OUT FOR NOW - Syncing from Stripe can be done via webhook or manual sync
         # Sync subscription status from Stripe
         # if current_subscription and current_subscription.stripe_subscription_id:
         #     try:

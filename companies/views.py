@@ -487,8 +487,6 @@ def add_staff(request):
                     specialization=form.cleaned_data.get('specialization', ''),
                     avatar=form.cleaned_data.get('avatar'),
                     working_days=working_days,
-                    break_start=form.cleaned_data.get('break_start'),
-                    break_end=form.cleaned_data.get('break_end'),
                     out_of_office_start=out_of_office_start,
                     out_of_office_end=out_of_office_end,
                     is_active=False
@@ -500,6 +498,8 @@ def add_staff(request):
                 for day_num, day_name in enumerate(day_names):
                     start_time = form.cleaned_data.get(f'{day_name}_start')
                     end_time = form.cleaned_data.get(f'{day_name}_end')
+                    break_start = form.cleaned_data.get(f'{day_name}_break_start')
+                    break_end = form.cleaned_data.get(f'{day_name}_break_end')
                     
                     if start_time and end_time:
                         StaffWorkingHours.objects.create(
@@ -507,6 +507,8 @@ def add_staff(request):
                             day_of_week=day_num,
                             start_time=start_time,
                             end_time=end_time,
+                            break_start=break_start,
+                            break_end=break_end,
                             is_day_off=False
                         )
 
@@ -780,8 +782,6 @@ def edit_staff(request, staff_id):
                 # Convert working_days from strings to integers
                 working_days = [int(day) for day in form.cleaned_data.get('working_days', [])]
                 staff_member.working_days = working_days
-                staff_member.break_start = form.cleaned_data.get('break_start')
-                staff_member.break_end = form.cleaned_data.get('break_end')
                 
                 # Form clean methods already handle timezone conversion
                 staff_member.out_of_office_start = form.cleaned_data.get('out_of_office_start')
@@ -800,6 +800,8 @@ def edit_staff(request, staff_id):
                 for day_num, day_name in enumerate(day_names):
                     start_time = form.cleaned_data.get(f'{day_name}_start')
                     end_time = form.cleaned_data.get(f'{day_name}_end')
+                    break_start = form.cleaned_data.get(f'{day_name}_break_start')
+                    break_end = form.cleaned_data.get(f'{day_name}_break_end')
                     
                     # Delete existing hours for this day
                     StaffWorkingHours.objects.filter(staff=staff_member, day_of_week=day_num).delete()
@@ -811,6 +813,8 @@ def edit_staff(request, staff_id):
                             day_of_week=day_num,
                             start_time=start_time,
                             end_time=end_time,
+                            break_start=break_start,
+                            break_end=break_end,
                             is_day_off=False
                         )
                 
@@ -850,8 +854,6 @@ def edit_staff(request, staff_id):
                 'specialization': staff_member.specialization,
                 'avatar': staff_member.avatar,
                 'working_days': [str(day) for day in staff_member.working_days],
-                'break_start': staff_member.break_start,
-                'break_end': staff_member.break_end,
                 'out_of_office_start': out_of_office_start_display,
                 'out_of_office_end': out_of_office_end_display,
                 'is_active': staff_member.is_active,
@@ -865,6 +867,8 @@ def edit_staff(request, staff_id):
                 day_name = day_names[hours.day_of_week]
                 initial_data[f'{day_name}_start'] = hours.start_time
                 initial_data[f'{day_name}_end'] = hours.end_time
+                initial_data[f'{day_name}_break_start'] = hours.break_start
+                initial_data[f'{day_name}_break_end'] = hours.break_end
             
             # populate phone and country_code from related UserProfile if available
             user_profile = UserProfile.objects.filter(staff=staff_member).first()
@@ -1441,9 +1445,6 @@ def update_customer(request, customer_id):
         
         if not phone:
             return JsonResponse({'error': _('Phone is required')}, status=400)
-        
-        if not phone.startswith('+'):
-            return JsonResponse({'error': _('Phone must include country code (e.g. +1234567890)')}, status=400)
         
         # Update customer
         customer.name = name

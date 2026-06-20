@@ -118,8 +118,6 @@ class Staff(models.Model):
     specialization = models.CharField(max_length=100, blank=True, null=True)
     avatar = models.ImageField(upload_to=company_img_upload, blank=True, null=True)
     working_days = models.JSONField(default=list, blank=True)  # List of day numbers (0=Monday, 6=Sunday)
-    break_start = models.TimeField(blank=True, null=True)
-    break_end = models.TimeField(blank=True, null=True)
     out_of_office = models.BooleanField(default=False)
     out_of_office_start = models.DateTimeField(blank=True, null=True)
     out_of_office_end = models.DateTimeField(blank=True, null=True)
@@ -204,6 +202,8 @@ class StaffWorkingHours(models.Model):
     day_of_week = models.IntegerField(choices=DAYS_OF_WEEK)
     start_time = models.TimeField()
     end_time = models.TimeField()
+    break_start = models.TimeField(blank=True, null=True)
+    break_end = models.TimeField(blank=True, null=True)
     is_day_off = models.BooleanField(default=False)
 
     class Meta:

@@ -986,7 +986,7 @@ bookingForm.addEventListener('submit', function(e) {
     if (!phoneInput.value.trim()) {
         errors.push('{% trans "Phone number is required" %}');
         invalidFields.push(phoneInput);
-    } else if (!phoneInput.value.trim().startsWith('+')) {
+    } else if (!phoneInput.value.includes('+')) {
         errors.push('{% trans "Phone number must include country code (e.g., +34612345678)" %}');
         invalidFields.push(phoneInput);
     } else if (phoneInput.value.trim().length < 8) {

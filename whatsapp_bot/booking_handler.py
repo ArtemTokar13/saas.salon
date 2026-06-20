@@ -376,10 +376,10 @@ class BookingSearcher:
             if potential_end_time > end_time:
                 break
             
-            # Check break time
-            if staff.break_start and staff.break_end:
-                break_start_dt = datetime.combine(date, staff.break_start)
-                break_end_dt = datetime.combine(date, staff.break_end)
+            # Check break time (from StaffWorkingHours if available)
+            if hasattr(working_hours, 'break_start') and working_hours.break_start and working_hours.break_end:
+                break_start_dt = datetime.combine(date, working_hours.break_start)
+                break_end_dt = datetime.combine(date, working_hours.break_end)
                 if current_time < break_end_dt and potential_end_time > break_start_dt:
                     current_time += timedelta(minutes=30)
                     continue
@@ -511,11 +511,8 @@ class BookingSearcher:
         # Generate delete_code for cancellation link
         delete_code = md5(f"{customer.email if customer.email else customer.phone}{timezone.now().timestamp()}".encode()).hexdigest()
         
-        # Validate phone has country code (WhatsApp should always provide this, but double-check)
+        # Normalize phone number
         normalized_phone = normalize_phone_number(customer_phone)
-        if not normalized_phone.startswith('+'):
-            logger.error(f"Phone number missing country code: {customer_phone}")
-            raise ValueError("Phone number must include country code")
         
         # Create booking
         booking = Booking.objects.create(

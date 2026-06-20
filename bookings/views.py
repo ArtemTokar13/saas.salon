@@ -84,15 +84,9 @@ def create_booking(request, company_id):
                 messages.error(request, _('Phone number is required'))
                 return redirect('create_booking', company_id=company.id)
             
-            # Remove ALL whitespace including Unicode variants and zero-width characters
+            # Clean phone number
             cleaned_phone = re.sub(r'\s+', '', customer_phone)
             cleaned_phone = ''.join(c for c in cleaned_phone if c.isprintable() or c == '+')
-            
-            if not cleaned_phone.startswith('+'):
-                messages.error(request, _('Phone number must include country code (e.g., +34612345678)'))
-                return redirect('create_booking', company_id=company.id)
-            
-            # Use cleaned phone for the rest of the processing
             customer_phone = cleaned_phone
             
             # Find or create customer
@@ -219,6 +213,11 @@ def create_booking(request, company_id):
                         if start_time < work_start_time or end_time > work_end_time:
                             raise ValueError(f'Booking time ({start_time.strftime("%H:%M")} - {end_time.strftime("%H:%M")}) is outside working hours ({work_start_time.strftime("%H:%M")} - {work_end_time.strftime("%H:%M")}).')
                         
+                        # Check if booking overlaps with staff break time
+                        if staff_hours and staff_hours.break_start and staff_hours.break_end:
+                            if start_time < staff_hours.break_end and end_time > staff_hours.break_start:
+                                raise ValueError(f'Booking time conflicts with staff break time ({staff_hours.break_start.strftime("%H:%M")} - {staff_hours.break_end.strftime("%H:%M")}). Please select a different time.')
+                        
                         # Check for conflicts with bookings being created in this transaction
                         for created_booking in created_bookings:
                             if (created_booking.staff == staff and 
@@ -272,6 +271,11 @@ def create_booking(request, company_id):
                             # Check if booking fits within working hours
                             if start_time < work_start_time or end_time > work_end_time:
                                 continue  # Booking time outside working hours
+                            
+                            # Check if booking overlaps with staff break time
+                            if staff_hours and staff_hours.break_start and staff_hours.break_end:
+                                if start_time < staff_hours.break_end and end_time > staff_hours.break_start:
+                                    continue  # Booking conflicts with break time
                             
                             # Check if staff is out of office during this time
                             check_start = start_datetime
@@ -816,9 +820,9 @@ def get_available_times(request, company_id, staff_id, service_id, date_str):
                 continue
             
             # Check if this time slot would overlap with staff break time
-            if staff.break_start and staff.break_end:
-                break_start_dt = datetime.combine(date, staff.break_start)
-                break_end_dt = datetime.combine(date, staff.break_end)
+            if staff_hours and staff_hours.break_start and staff_hours.break_end:
+                break_start_dt = datetime.combine(date, staff_hours.break_start)
+                break_end_dt = datetime.combine(date, staff_hours.break_end)
                 # Skip if the booking would overlap with break time
                 if current_time < break_end_dt and potential_end_time > break_start_dt:
                     current_time += time_step
@@ -1059,9 +1063,9 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
                     continue
                 
                 # Check if this time slot would overlap with staff break time
-                if staff.break_start and staff.break_end:
-                    break_start_dt = datetime.combine(date, staff.break_start)
-                    break_end_dt = datetime.combine(date, staff.break_end)
+                if staff_hours and staff_hours.break_start and staff_hours.break_end:
+                    break_start_dt = datetime.combine(date, staff_hours.break_start)
+                    break_end_dt = datetime.combine(date, staff_hours.break_end)
                     # Skip this staff if the booking would overlap with their break time
                     if current_time < break_end_dt and potential_end_time > break_start_dt:
                         continue
@@ -1273,8 +1277,15 @@ def booking_calendar(request):
         # Calculate occupancy for each staff member
         staff_occupancy = {}
         for staff in staff_list:
+            # Get staff working hours for the current day
+            staff_wh = StaffWorkingHours.objects.filter(
+                staff=staff,
+                day_of_week=current_date.weekday(),
+                is_day_off=False
+            ).first()
+            
             # Get working hours for this staff member (use break times if available)
-            staff_working_hours = working_hours
+            staff_working_hours = staff_wh if staff_wh else working_hours
             if not staff_working_hours:
                 # Default 8 hours if no working hours defined
                 available_minutes = 12 * 60  # 12 hours default
@@ -1284,11 +1295,11 @@ def booking_calendar(request):
                 end_time = datetime.combine(current_date, staff_working_hours.end_time)
                 total_minutes = int((end_time - start_time).total_seconds() / 60)
                 
-                # Subtract break time if defined
+                # Subtract break time if defined (from StaffWorkingHours)
                 break_minutes = 0
-                if staff.break_start and staff.break_end:
-                    break_start = datetime.combine(current_date, staff.break_start)
-                    break_end = datetime.combine(current_date, staff.break_end)
+                if staff_wh and staff_wh.break_start and staff_wh.break_end:
+                    break_start = datetime.combine(current_date, staff_wh.break_start)
+                    break_end = datetime.combine(current_date, staff_wh.break_end)
                     break_minutes = int((break_end - break_start).total_seconds() / 60)
                 
                 available_minutes = total_minutes - break_minutes
@@ -1420,8 +1431,15 @@ def calendar_api(request):
         # Calculate occupancy for each staff member
         staff_occupancy = {}
         for staff in staff_list:
+            # Get staff working hours for the current day
+            staff_wh = StaffWorkingHours.objects.filter(
+                staff=staff,
+                day_of_week=current_date.weekday(),
+                is_day_off=False
+            ).first()
+            
             # Get working hours for this staff member
-            staff_working_hours = working_hours
+            staff_working_hours = staff_wh if staff_wh else working_hours
             if not staff_working_hours:
                 available_minutes = 12 * 60
             else:
@@ -1430,9 +1448,9 @@ def calendar_api(request):
                 total_minutes = int((end_time - start_time).total_seconds() / 60)
                 
                 break_minutes = 0
-                if staff.break_start and staff.break_end:
-                    break_start = datetime.combine(current_date, staff.break_start)
-                    break_end = datetime.combine(current_date, staff.break_end)
+                if staff_wh and staff_wh.break_start and staff_wh.break_end:
+                    break_start = datetime.combine(current_date, staff_wh.break_start)
+                    break_end = datetime.combine(current_date, staff_wh.break_end)
                     break_minutes = int((break_end - break_start).total_seconds() / 60)
                 
                 available_minutes = total_minutes - break_minutes

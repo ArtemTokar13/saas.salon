@@ -92,7 +92,7 @@ msgstr ""
 #: bookings/views.py:79 companies/views.py:1440
 #: templates/bookings/create_booking.html:982
 msgid "Name is required"
-msgstr "Ім'я обов'язкове"
+msgstr "Ім`я обов`язкове"
 
 #: bookings/views.py:84 templates/bookings/create_booking.html:987
 msgid "Phone number is required"

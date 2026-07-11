@@ -16,7 +16,9 @@ from django.utils import timezone
 from django.conf import settings
 from companies.models import Company, Staff, Service, EmailLog
 from bookings.models import Booking, Customer
-from billing.models import Plan, Subscription, Transaction
+from billing.models import Plan, Subscription, Transaction, SellerBillingInfo, ManualInvoice
+from billing.forms import SellerBillingInfoForm, ManualInvoiceForm
+from xhtml2pdf import pisa
 from users.models import UserProfile
 from users.models import DailyVisit
 import qrcode
@@ -263,3 +265,68 @@ def qrcode_generator(request):
         return response
     
     return render(request, 'admin_dashboard/qrcode_generator.html')
+
+
+@login_required
+@user_passes_test(is_superuser)
+def seller_billing_info(request):
+    """Edit the platform seller billing info (singleton)."""
+    instance = SellerBillingInfo.objects.filter(pk=1).first()
+    if request.method == 'POST':
+        form = SellerBillingInfoForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Seller billing information saved.')
+            return redirect('seller_billing_info')
+    else:
+        form = SellerBillingInfoForm(instance=instance)
+    return render(request, 'admin_dashboard/seller_billing_info.html', {'form': form, 'existing': instance})
+
+
+@login_required
+@user_passes_test(is_superuser)
+def manage_invoices(request):
+    """List all manual invoices."""
+    invoices = ManualInvoice.objects.select_related('company').order_by('-invoice_date', '-created_at')
+    return render(request, 'admin_dashboard/manage_invoices.html', {'invoices': invoices})
+
+
+@login_required
+@user_passes_test(is_superuser)
+def invoice_form(request, invoice_id=None):
+    """Create or edit a manual invoice."""
+    instance = None
+    if invoice_id:
+        instance = get_object_or_404(ManualInvoice, pk=invoice_id)
+
+    if request.method == 'POST':
+        form = ManualInvoiceForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Receipt saved successfully.')
+            return redirect('manage_invoices')
+    else:
+        form = ManualInvoiceForm(instance=instance)
+
+    return render(request, 'admin_dashboard/invoice_form.html', {'form': form, 'instance': instance})
+
+
+@login_required
+@user_passes_test(is_superuser)
+def invoice_pdf_download(request, invoice_id):
+    """Download a receipt as PDF."""
+    invoice = get_object_or_404(ManualInvoice, pk=invoice_id)
+    html = render_to_string('billing/manual_invoice_print.html', {'invoice': invoice}, request=request)
+    
+    # Generate PDF using xhtml2pdf
+    result = BytesIO()
+    pdf = pisa.CreatePDF(BytesIO(html.encode('utf-8')), dest=result)
+    
+    if pdf.err:
+        return HttpResponse('Error generating PDF', status=500)
+    
+    response = HttpResponse(result.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="receipt_{invoice.invoice_number}.pdf"'
+    return response
+
+

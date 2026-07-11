@@ -1,0 +1,133 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% if instance %}Edit Receipt {{ instance.invoice_number }}{% else %}New Receipt{% endif %} - Platform Admin{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <div class="bg-white shadow">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">
+                        {% if instance %}Edit Receipt {{ instance.invoice_number }}{% else %}New Receipt{% endif %}
+                    </h1>
+                    <p class="text-gray-600 mt-1">Generate a receipt for a completed payment</p>
+                </div>
+                <a href="{% url 'manage_invoices' %}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="mb-4 p-4 rounded-lg {% if msg.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                    {{ msg }}
+                    {% if msg.tags == 'success' and instance and instance.pk %}
+                        <a href="{% url 'invoice_pdf_download' instance.pk %}" class="ml-4 font-semibold underline hover:no-underline">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+            <p class="text-sm text-blue-800">
+                <i class="fas fa-info-circle mr-2"></i>
+                Client billing details are automatically filled from their saved information. Just select the company and enter payment details.
+            </p>
+        </div>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Receipt Information</h2>
+                
+                <div class="space-y-4">
+                    <!-- Company -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ form.company.label }} <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.company }}
+                        {% if form.company.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.company.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Payment Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ form.invoice_date.label }} <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.invoice_date }}
+                        {% if form.invoice_date.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.invoice_date.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ form.description.label }} <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.description.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Quantity and Amount -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                {{ form.quantity.label }}
+                            </label>
+                            {{ form.quantity }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                {{ form.unit_price.label }} <span class="text-red-500">*</span>
+                            </label>
+                            {{ form.unit_price }}
+                            {% if form.unit_price.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.unit_price.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ form.payment_method.label }}
+                        </label>
+                        {{ form.payment_method }}
+                    </div>
+
+                    <!-- Notes -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ form.notes.label }}
+                        </label>
+                        {{ form.notes }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-3">
+                <a href="{% url 'manage_invoices' %}" class="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50 transition font-medium">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-gray-800 text-white px-8 py-2 rounded-lg hover:bg-gray-700 transition font-medium">
+                    <i class="fas fa-save mr-2"></i>Generate Receipt
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

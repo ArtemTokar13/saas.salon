@@ -1,0 +1,196 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Invoice" %} {{ transaction.invoice_number }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .invoice-wrapper { box-shadow: none !important; max-width: 100% !important; }
+        }
+        body { background: #f3f4f6; font-family: 'Helvetica Neue', Arial, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen py-10">
+
+    <!-- Toolbar -->
+    <div class="no-print max-w-3xl mx-auto mb-4 flex items-center justify-between px-2">
+        <a href="javascript:history.back()" class="text-gray-600 hover:text-gray-900 font-medium flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            {% trans "Back" %}
+        </a>
+        <div class="flex gap-3">
+            <button onclick="window.print()" class="bg-gray-700 text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition font-medium flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                </svg>
+                {% trans "Download / Print PDF" %}
+            </button>
+        </div>
+    </div>
+
+    <!-- Invoice Card -->
+    <div class="invoice-wrapper max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+
+        <!-- Header -->
+        <div class="px-10 pt-10 pb-6 border-b border-gray-200">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">{% trans "Receipt" %}</h1>
+            <div class="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                <div>
+                    <span class="font-semibold">{% trans "Invoice number" %}</span>
+                </div>
+                <div>{{ transaction.invoice_number|default:transaction.transaction_id }}</div>
+                {% if transaction.stripe_invoice_id %}
+                <div><span class="font-semibold">{% trans "Receipt number" %}</span></div>
+                <div>{{ transaction.stripe_invoice_id }}</div>
+                {% endif %}
+                <div><span class="font-semibold">{% trans "Payment date" %}</span></div>
+                <div>{{ transaction.transaction_date|date:"d \d\e F \d\e Y" }}</div>
+            </div>
+        </div>
+
+        <!-- Parties -->
+        <div class="px-10 py-6 border-b border-gray-200">
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Seller -->
+                <div>
+                    {% if seller %}
+                    <p class="font-bold text-gray-900 mb-1">{{ seller.company_name }}</p>
+                    {% if seller.tax_id %}<p class="text-sm text-gray-600">{{ seller.tax_id }}</p>{% endif %}
+                    <p class="text-sm text-gray-600">{{ seller.address }}</p>
+                    <p class="text-sm text-gray-600">
+                        {{ seller.postal_code }}{% if seller.postal_code %} {% endif %}{{ seller.city }}
+                        {% if seller.province %}, {{ seller.province }}{% endif %}
+                    </p>
+                    <p class="text-sm text-gray-600">{{ seller.country }}</p>
+                    {% if seller.phone %}<p class="text-sm text-gray-600">{{ seller.phone }}</p>{% endif %}
+                    {% if seller.email %}<p class="text-sm text-gray-600">{{ seller.email }}</p>{% endif %}
+                    {% else %}
+                    <p class="text-sm text-gray-400 italic">{% trans "Seller info not configured. Please ask the administrator to set up billing info." %}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Client -->
+                <div>
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{% trans "Bill to" %}</p>
+                    {% if client %}
+                    <p class="font-bold text-gray-900 mb-1">{{ client.billing_name }}</p>
+                    {% if client.tax_id %}<p class="text-sm text-gray-600">{% trans "Tax ID" %}: {{ client.tax_id }}</p>{% endif %}
+                    <p class="text-sm text-gray-600">{{ client.address }}</p>
+                    <p class="text-sm text-gray-600">
+                        {{ client.postal_code }}{% if client.postal_code %} {% endif %}{{ client.city }}
+                        {% if client.province %}, {{ client.province }}{% endif %}
+                    </p>
+                    <p class="text-sm text-gray-600">{{ client.country }}</p>
+                    {% if client.phone %}<p class="text-sm text-gray-600">{{ client.phone }}</p>{% endif %}
+                    {% if client.email %}<p class="text-sm text-gray-600">{{ client.email }}</p>{% endif %}
+                    {% else %}
+                    <p class="font-bold text-gray-900 mb-1">{{ company.name }}</p>
+                    {% if company.address %}<p class="text-sm text-gray-600">{{ company.address }}</p>{% endif %}
+                    {% if company.city %}<p class="text-sm text-gray-600">{{ company.city }}</p>{% endif %}
+                    {% if company.phone %}<p class="text-sm text-gray-600">{{ company.phone }}</p>{% endif %}
+                    {% if company.email %}<p class="text-sm text-gray-600">{{ company.email }}</p>{% endif %}
+                    <p class="text-xs text-orange-500 mt-2">
+                        <a href="{% url 'client_billing_info' %}" class="underline">{% trans "Add billing details for a complete invoice" %}</a>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment summary headline -->
+        <div class="px-10 py-5 border-b border-gray-200 bg-gray-50">
+            <p class="text-lg font-bold text-gray-900">
+                €{{ transaction.amount }} {% trans "paid on" %} {{ transaction.transaction_date|date:"d \d\e F \d\e Y" }}
+            </p>
+        </div>
+
+        <!-- Line Items -->
+        <div class="px-10 py-6">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-gray-200">
+                        <th class="text-left pb-3 font-semibold text-gray-600">{% trans "Description" %}</th>
+                        <th class="text-right pb-3 font-semibold text-gray-600">{% trans "Qty" %}</th>
+                        <th class="text-right pb-3 font-semibold text-gray-600">{% trans "Unit price" %}</th>
+                        <th class="text-right pb-3 font-semibold text-gray-600">{% trans "Amount" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4">
+                            <p class="font-medium text-gray-900">{{ transaction.subscription.plan.name }} ({{ transaction.subscription.get_billing_period_display }})</p>
+                            <p class="text-gray-500 text-xs mt-1">
+                                {{ transaction.subscription.start_date|date:"d M Y" }} – {{ transaction.subscription.end_date|date:"d M Y" }}
+                            </p>
+                        </td>
+                        <td class="py-4 text-right text-gray-700">1</td>
+                        <td class="py-4 text-right text-gray-700">€{{ transaction.amount }}</td>
+                        <td class="py-4 text-right font-medium text-gray-900">€{{ transaction.amount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Totals -->
+            <div class="mt-4 flex justify-end">
+                <div class="w-56 text-sm space-y-2">
+                    <div class="flex justify-between text-gray-600">
+                        <span>{% trans "Subtotal" %}</span>
+                        <span>€{{ transaction.amount }}</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-gray-900 border-t border-gray-200 pt-2">
+                        <span>{% trans "Total" %}</span>
+                        <span>€{{ transaction.amount }}</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-gray-900">
+                        <span>{% trans "Amount paid" %}</span>
+                        <span>€{{ transaction.amount }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment history -->
+        <div class="px-10 py-6 border-t border-gray-200">
+            <h2 class="text-base font-bold text-gray-900 mb-4">{% trans "Payment history" %}</h2>
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-gray-200">
+                        <th class="text-left pb-2 font-semibold text-gray-500">{% trans "Payment method" %}</th>
+                        <th class="text-left pb-2 font-semibold text-gray-500">{% trans "Date" %}</th>
+                        <th class="text-right pb-2 font-semibold text-gray-500">{% trans "Amount paid" %}</th>
+                        <th class="text-right pb-2 font-semibold text-gray-500">{% trans "Receipt number" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-3 text-gray-700">
+                            {% if transaction.payment_method_display %}
+                                {{ transaction.payment_method_display }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                        <td class="py-3 text-gray-700">{{ transaction.transaction_date|date:"d \d\e F \d\e Y" }}</td>
+                        <td class="py-3 text-right text-gray-700">€{{ transaction.amount }}</td>
+                        <td class="py-3 text-right text-gray-500 text-xs">
+                            {{ transaction.stripe_invoice_id|default:transaction.transaction_id }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="px-10 py-4 bg-gray-50 border-t border-gray-200 text-xs text-gray-400 text-right">
+            {% trans "Page" %} 1 {% trans "of" %} 1
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Billing Information" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="mb-4">
+                <a href="{% url 'subscription_details' %}" class="text-gray-700 hover:text-gray-900 font-semibold flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> {% trans "Back to Billing" %}
+                </a>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900">{% trans "Billing Information" %}</h1>
+            <p class="text-gray-500 mt-1 text-sm">{% trans "This information will appear on your invoices." %}</p>
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="bg-blue-100 rounded-full p-2">
+                    <i class="fas fa-file-invoice text-blue-600 text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        {% if existing %}{% trans "Edit Billing Information" %}{% else %}{% trans "Add Billing Information" %}{% endif %}
+                    </h2>
+                    <p class="text-sm text-gray-500">{% trans "Used in the TO section of invoices." %}</p>
+                </div>
+            </div>
+
+            <form method="post" class="p-6 space-y-5">
+                {% csrf_token %}
+
+                <!-- Billing Name & Tax ID -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ form.billing_name.label }} <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.billing_name }}
+                        {% if form.billing_name.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.billing_name.errors|join:", " }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ form.tax_id.label }}
+                            <span class="text-gray-400 text-xs">({% trans "NIE / NIF / VAT" %})</span>
+                        </label>
+                        {{ form.tax_id }}
+                        {% if form.tax_id.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.tax_id.errors|join:", " }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ form.address.label }} <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.address }}
+                    {% if form.address.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.address.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- City, Province, Postal Code -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ form.city.label }} <span class="text-red-500">*</span></label>
+                        {{ form.city }}
+                        {% if form.city.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.city.errors|join:", " }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ form.province.label }}</label>
+                        {{ form.province }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ form.postal_code.label }}</label>
+                        {{ form.postal_code }}
+                    </div>
+                </div>
+
+                <!-- Country -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ form.country.label }} <span class="text-red-500">*</span></label>
+                    {{ form.country }}
+                    {% if form.country.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.country.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Phone & Email -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.email.errors|join:", " }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="{% url 'subscription_details' %}" class="flex-1 bg-gray-200 text-gray-700 py-2 text-center rounded-lg font-semibold hover:bg-gray-300 transition">
+                        {% trans "Cancel" %}
+                    </a>
+                    <button type="submit" class="flex-1 bg-gray-800 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition">
+                        <i class="fas fa-save mr-2"></i>{% trans "Save Billing Information" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

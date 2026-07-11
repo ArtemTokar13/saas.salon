@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recibo {{ invoice.invoice_number }}</title>
+    <style>
+        @page { margin: 1.5cm; }
+        body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; font-size: 11px; color: #333; }
+        h1 { font-size: 24px; margin: 0 0 15px 0; color: #111; }
+        .header-table { width: 100%; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 15px; }
+        .header-table td { padding: 3px 0; }
+        .label { font-weight: bold; width: 150px; }
+        .parties-table { width: 100%; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 15px; }
+        .parties-table td { vertical-align: top; padding: 5px; }
+        .party-title { font-size: 9px; font-weight: bold; text-transform: uppercase; color: #666; margin-bottom: 5px; }
+        .party-name { font-weight: bold; font-size: 13px; margin-bottom: 3px; }
+        .party-detail { font-size: 10px; color: #555; margin: 1px 0; }
+        .payment-box { background: #f5f5f5; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; }
+        .payment-box p { font-size: 15px; font-weight: bold; margin: 0; }
+        .items-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .items-table th { text-align: left; padding: 8px 5px; border-bottom: 2px solid #ddd; font-weight: bold; color: #555; font-size: 10px; }
+        .items-table td { padding: 10px 5px; }
+        .items-table .right { text-align: right; }
+        .total-row td { border-bottom: none; font-weight: bold; padding-top: 20px; }
+        .notes { margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd; }
+        .notes-title { font-weight: bold; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Recibo</h1>
+    
+    <!-- Header Info -->
+    <table class="header-table">
+        <tr>
+            <td class="label">Número de recibo:</td>
+            <td>{{ invoice.invoice_number }}</td>
+        </tr>
+        <tr>
+            <td class="label">Fecha de pago:</td>
+            <td>{{ invoice.invoice_date|date:"d/m/Y" }}</td>
+        </tr>
+        {% if invoice.payment_method %}
+        <tr>
+            <td class="label">Método de pago:</td>
+            <td>{{ invoice.payment_method }}</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    <!-- Parties (Seller & Client) -->
+    <table class="parties-table">
+        <tr>
+            <!-- Seller (Left) -->
+            <td style="width: 50%;">
+                <p class="party-name">{{ invoice.seller_company_name }}</p>
+                {% if invoice.seller_tax_id %}<p class="party-detail">{{ invoice.seller_tax_id }}</p>{% endif %}
+                {% if invoice.seller_address %}<p class="party-detail">{{ invoice.seller_address }}</p>{% endif %}
+                <p class="party-detail">{% if invoice.seller_postal_code %}{{ invoice.seller_postal_code }} {% endif %}{{ invoice.seller_city }}{% if invoice.seller_province %}, {{ invoice.seller_province }}{% endif %}</p>
+                {% if invoice.seller_country %}<p class="party-detail">{{ invoice.seller_country }}</p>{% endif %}
+                {% if invoice.seller_phone %}<p class="party-detail">{{ invoice.seller_phone }}</p>{% endif %}
+                {% if invoice.seller_email %}<p class="party-detail">{{ invoice.seller_email }}</p>{% endif %}
+            </td>
+            
+            <!-- Client (Right) -->
+            <td style="width: 50%;">
+                <p class="party-title">Facturar a</p>
+                <p class="party-name">{{ invoice.client_name }}</p>
+                {% if invoice.client_tax_id %}<p class="party-detail">{{ invoice.client_tax_id }}</p>{% endif %}
+                {% if invoice.client_address %}<p class="party-detail">{{ invoice.client_address }}</p>{% endif %}
+                <p class="party-detail">{% if invoice.client_postal_code %}{{ invoice.client_postal_code }} {% endif %}{{ invoice.client_city }}{% if invoice.client_province %}, {{ invoice.client_province }}{% endif %}</p>
+                {% if invoice.client_country %}<p class="party-detail">{{ invoice.client_country }}</p>{% endif %}
+                {% if invoice.client_phone %}<p class="party-detail">{{ invoice.client_phone }}</p>{% endif %}
+                {% if invoice.client_email %}<p class="party-detail">{{ invoice.client_email }}</p>{% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <!-- Payment Summary -->
+    <div class="payment-box">
+        <p>€{{ invoice.total }} pagado el {{ invoice.invoice_date|date:"d/m/Y" }}</p>
+    </div>
+
+    <!-- Line Items -->
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th class="right" style="width: 60px;">Cant.</th>
+                <th class="right" style="width: 90px;">Precio unit.</th>
+                <th class="right" style="width: 80px;">Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <strong>{{ invoice.description }}</strong>
+                    {% if invoice.period_start and invoice.period_end %}
+                    <br><span style="font-size: 9px; color: #666;">{{ invoice.period_start|date:"d/m/Y" }} – {{ invoice.period_end|date:"d/m/Y" }}</span>
+                    {% endif %}
+                </td>
+                <td class="right">{{ invoice.quantity }}</td>
+                <td class="right">€{{ invoice.unit_price }}</td>
+                <td class="right"><strong>€{{ invoice.total }}</strong></td>
+            </tr>
+            <tr class="total-row">
+                <td colspan="3" class="right">TOTAL</td>
+                <td class="right">€{{ invoice.total }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if invoice.notes %}
+    <div class="notes">
+        <p class="notes-title">Notas:</p>
+        <p>{{ invoice.notes }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>

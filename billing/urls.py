@@ -12,4 +12,5 @@ urlpatterns = [
     path('update-payment-method/', views.update_payment_method, name='update_payment_method'),
     path('retry-payment/', views.retry_payment, name='retry_payment'),
     path('webhook/', views.stripe_webhook, name='stripe_webhook'),
+    path('billing-info/', views.client_billing_info, name='client_billing_info'),
 ]

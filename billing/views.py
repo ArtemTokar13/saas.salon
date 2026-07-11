@@ -9,8 +9,8 @@ from datetime import timedelta
 import uuid
 import stripe
 import json
-from .models import Plan, Subscription, Transaction, StripeErrorLog
-from .forms import ChangePlanForm
+from .models import Plan, Subscription, Transaction, StripeErrorLog, SellerBillingInfo, ClientBillingInfo
+from .forms import ChangePlanForm, ClientBillingInfoForm, SellerBillingInfoForm
 from .stripe_utils import (
     create_stripe_checkout_session, 
     cancel_stripe_subscription,
@@ -486,3 +486,33 @@ def handle_invoice_payment_failed(invoice):
             subscription=subscription,
             request_params=invoice
         )
+
+
+# ---------------------------------------------------------------------------
+# Billing information views
+# ---------------------------------------------------------------------------
+
+@login_required
+def client_billing_info(request):
+    try:
+        profile = request.user.userprofile
+        if not profile.is_admin:
+            messages.error(request, 'Access denied.')
+            return redirect('index')
+        company = profile.company
+        instance = getattr(company, 'billing_info', None)
+        if request.method == 'POST':
+            form = ClientBillingInfoForm(request.POST, instance=instance)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.company = company
+                obj.save()
+                messages.success(request, 'Billing information saved successfully.')
+                return redirect('subscription_details')
+        else:
+            form = ClientBillingInfoForm(instance=instance)
+        return render(request, 'billing/billing_info_form.html', {'form': form, 'existing': instance})
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'User profile not found.')
+        return redirect('index')
+

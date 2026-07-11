@@ -1,0 +1,84 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+
+{% block title %}Receipts - Platform Admin{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <div class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Payment Receipts</h1>
+                    <p class="text-gray-600 mt-1">{{ invoices.count }} receipt{{ invoices.count|pluralize }}</p>
+                </div>
+                <div class="flex space-x-3">
+                    <a href="{% url 'invoice_add' %}" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+                        <i class="fas fa-plus mr-2"></i>New Receipt
+                    </a>
+                    <a href="{% url 'admin_dashboard' %}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">
+                        <i class="fas fa-arrow-left mr-2"></i>Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="mb-4 p-4 rounded-lg {% if msg.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if invoices %}
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Receipt #</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
+                        <th class="px-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for inv in invoices %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ inv.invoice_number|default:"–" }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ inv.invoice_date }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ inv.client_name }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">{{ inv.description }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">€{{ inv.total }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ inv.payment_method|default:"–" }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm space-x-3">
+                            <a href="{% url 'invoice_pdf_download' inv.pk %}" class="text-green-600 hover:text-green-800 font-medium" title="Download PDF">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                            <a href="{% url 'invoice_edit' inv.pk %}" class="text-blue-600 hover:text-blue-800 font-medium">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="bg-white rounded-lg shadow p-12 text-center">
+            <i class="fas fa-receipt text-gray-300 text-6xl mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-500">No receipts yet</h3>
+            <p class="text-gray-400 mt-2 mb-6">Generate your first receipt when a client makes a payment.</p>
+            <a href="{% url 'invoice_add' %}" class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition">
+                <i class="fas fa-plus mr-2"></i>New Receipt
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

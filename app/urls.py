@@ -72,6 +72,11 @@ urlpatterns += i18n_patterns(
     path('platform-admin/plans/', admin_views.manage_plans, name='manage_plans'),
     path('platform-admin/subscriptions/', admin_views.manage_subscriptions, name='manage_subscriptions'),
     path('platform-admin/qrcode/', admin_views.qrcode_generator, name='qrcode_generator'),
+    path('platform-admin/seller-billing-info/', admin_views.seller_billing_info, name='seller_billing_info'),
+    path('platform-admin/invoices/', admin_views.manage_invoices, name='manage_invoices'),
+    path('platform-admin/invoices/add/', admin_views.invoice_form, name='invoice_add'),
+    path('platform-admin/invoices/<int:invoice_id>/edit/', admin_views.invoice_form, name='invoice_edit'),
+    path('platform-admin/invoices/<int:invoice_id>/pdf/', admin_views.invoice_pdf_download, name='invoice_pdf_download'),
 
     ################################################################
     path("schedule/", schedule_page, name="schedule_page"),

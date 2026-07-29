@@ -3,33 +3,33 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-14 15:40+0200\n"
+"POT-Creation-Date: 2026-07-29 14:02+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: billing/models.py:95 templates/billing/pricing_periods.html:26
+#: billing/models.py:96 templates/billing/pricing_periods.html:26
 #: templates/billing/pricing_periods.html:137
 msgid "Monthly"
 msgstr "Mensual"
 
-#: billing/models.py:96 templates/billing/pricing_periods.html:45
+#: billing/models.py:97 templates/billing/pricing_periods.html:45
 #: templates/billing/pricing_periods.html:144
 msgid "3 Months"
 msgstr "3 meses"
 
-#: billing/models.py:97 templates/billing/pricing_periods.html:70
+#: billing/models.py:98 templates/billing/pricing_periods.html:70
 #: templates/billing/pricing_periods.html:151
 msgid "6 Months"
 msgstr "6 meses"
 
-#: billing/models.py:98 templates/billing/pricing_periods.html:95
+#: billing/models.py:99 templates/billing/pricing_periods.html:95
 #: templates/billing/pricing_periods.html:158
 msgid "Yearly"
 msgstr "Anual"
 
-#: billing/models.py:107 templates/companies/add_service.html:110
+#: billing/models.py:108 templates/companies/add_service.html:110
 #: templates/companies/analytics.html:192
 #: templates/companies/edit_service.html:119
 #: templates/companies/services_list.html:29
@@ -39,17 +39,231 @@ msgstr "Anual"
 msgid "Active"
 msgstr "Activo"
 
-#: billing/models.py:108
+#: billing/models.py:109
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: billing/models.py:109
+#: billing/models.py:110
 msgid "Past Due"
 msgstr "Vencido"
 
-#: billing/models.py:110
+#: billing/models.py:111
 msgid "Unpaid"
 msgstr "No pagado"
+
+#: billing/models.py:224 templates/companies/edit_profile.html:22
+msgid "Company Name"
+msgstr "Nombre de la Empresa"
+
+#: billing/models.py:225
+msgid "Tax ID (NIF/VAT)"
+msgstr "Número de identificación fiscal (NIF/IVA)"
+
+#: billing/models.py:226 billing/models.py:251
+#: templates/companies/dashboard.html:132
+#: templates/companies/edit_profile.html:39
+#: templates/companies/register.html:106
+msgid "Address"
+msgstr "Dirección"
+
+#: billing/models.py:227 billing/models.py:252
+#: templates/companies/edit_profile.html:46
+#: templates/companies/register.html:113
+msgid "City"
+msgstr "Ciudad"
+
+#: billing/models.py:228 billing/models.py:253
+msgid "Province / State"
+msgstr "Provincia/Estado"
+
+#: billing/models.py:229 billing/models.py:254
+msgid "Postal Code"
+msgstr "Código Postal"
+
+#: billing/models.py:230 billing/models.py:255
+msgid "Country"
+msgstr "País"
+
+#: billing/models.py:231 billing/models.py:256
+#: templates/bookings/confirm_prebooked.html:29
+#: templates/bookings/create_booking.html:57
+#: templates/bookings/edit_booking.html:69
+#: templates/companies/customer_detail.html:33
+#: templates/companies/customers_list.html:55
+#: templates/companies/dashboard.html:137
+#: templates/companies/edit_profile.html:69
+#: templates/companies/register.html:122
+msgid "Phone"
+msgstr "Teléfono"
+
+#: billing/models.py:232 billing/models.py:257
+#: templates/bookings/confirm_prebooked.html:46
+#: templates/bookings/create_booking.html:71
+#: templates/bookings/edit_booking.html:79
+#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:143
+#: templates/companies/edit_profile.html:76
+#: templates/companies/edit_staff.html:17
+#: templates/companies/forgot_password.html:15
+#: templates/companies/register.html:57 templates/static_pages/contact.html:23
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#: billing/models.py:235 billing/models.py:236
+msgid "Seller Billing Info"
+msgstr "Información de facturación del vendedor"
+
+#: billing/models.py:249
+msgid "Billing Name (company or person)"
+msgstr "Nombre de facturación (empresa o persona)"
+
+#: billing/models.py:250
+msgid "Tax ID (NIE/NIF/VAT)"
+msgstr "Número de identificación fiscal (NIE/NIF/IVA)"
+
+#: billing/models.py:260 billing/models.py:261
+msgid "Client Billing Info"
+msgstr "Información de facturación del cliente"
+
+#: billing/models.py:271
+msgid "Invoice Number"
+msgstr "Número de factura"
+
+#: billing/models.py:272
+msgid "Auto-generated if left blank (e.g. INV-2026-0001)"
+msgstr "Generado automáticamente si se deja en blanco (p. ej., INV-2026-0001)"
+
+#: billing/models.py:273
+msgid "Invoice Date"
+msgstr "Fecha de la factura"
+
+#: billing/models.py:274
+msgid "Internal Notes"
+msgstr "Notas internas"
+
+#: billing/models.py:278
+msgid "Company (reference)"
+msgstr "Empresa (referencia)"
+
+#: billing/models.py:279
+msgid "Select to auto-fill client fields from saved billing info"
+msgstr ""
+"Seleccione esta opción para rellenar automáticamente los campos del cliente "
+"con la información de facturación guardada."
+
+#: billing/models.py:282
+msgid "Seller – Company Name"
+msgstr "Vendedor - Nombre de la empresa"
+
+#: billing/models.py:283
+msgid "Seller – Tax ID"
+msgstr "Vendedor - Identificación fiscal"
+
+#: billing/models.py:284
+msgid "Seller – Address"
+msgstr "Vendedor - Dirección"
+
+#: billing/models.py:285
+msgid "Seller – City"
+msgstr "Vendedor - Ciudad"
+
+#: billing/models.py:286
+msgid "Seller – Province"
+msgstr "Vendedor - Provincia"
+
+#: billing/models.py:287
+msgid "Seller – Postal Code"
+msgstr "Vendedor - Código Postal"
+
+#: billing/models.py:288
+msgid "Seller – Country"
+msgstr "Vendedor - País"
+
+#: billing/models.py:289
+msgid "Seller – Phone"
+msgstr "Vendedor - Teléfono"
+
+#: billing/models.py:290
+msgid "Seller – Email"
+msgstr "Vendedor – Correo electrónico"
+
+#: billing/models.py:293
+msgid "Client – Billing Name"
+msgstr "Cliente – Nombre de facturación"
+
+#: billing/models.py:294
+msgid "Client – Tax ID (NIE/NIF/VAT)"
+msgstr "Cliente – Número de Identificación Fiscal (NIE/NIF/IVA)"
+
+#: billing/models.py:295
+msgid "Client – Address"
+msgstr "Cliente – Dirección"
+
+#: billing/models.py:296
+msgid "Client – City"
+msgstr "Cliente – Ciudad"
+
+#: billing/models.py:297
+msgid "Client – Province"
+msgstr "Cliente – Provincia"
+
+#: billing/models.py:298
+msgid "Client – Postal Code"
+msgstr "Cliente – Código postal"
+
+#: billing/models.py:299
+msgid "Client – Country"
+msgstr "Cliente – País"
+
+#: billing/models.py:300
+msgid "Client – Phone"
+msgstr "Cliente – Teléfono"
+
+#: billing/models.py:301
+msgid "Client – Email"
+msgstr "Cliente – Correo electrónico"
+
+#: billing/models.py:304 templates/billing/invoice.html:119
+#: templates/companies/edit_profile.html:30
+#: templates/companies/register.html:98
+#: templates/static_pages/cookie_policy.html:68
+msgid "Description"
+msgstr "Descripción"
+
+#: billing/models.py:305
+msgid "e.g. Connect (1 month)"
+msgstr "p. ej. Conectar (1 mes)"
+
+#: billing/models.py:306
+msgid "Period Start"
+msgstr "Inicio del período"
+
+#: billing/models.py:307
+msgid "Period End"
+msgstr "Fin de período"
+
+#: billing/models.py:308
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: billing/models.py:309
+msgid "Unit Price (€)"
+msgstr "Precio unitario (€)"
+
+#: billing/models.py:312
+msgid "Payment Method"
+msgstr "Método de pago"
+
+#: billing/models.py:313
+msgid "e.g. Mastercard - 4985"
+msgstr "Por ejemplo, Mastercard - 4985"
+
+#: billing/models.py:318
+msgid "Manual Invoice"
+msgstr "Facturación manual"
+
+#: billing/models.py:319
+msgid "Manual Invoices"
+msgstr "Facturas manuales"
 
 #: bookings/cron.py:38
 msgid "Reminder: Upcoming Booking for"
@@ -67,20 +281,7 @@ msgstr "Añade cualquier solicitud o nota especial..."
 msgid "Client notes..."
 msgstr "Notas del cliente..."
 
-#: bookings/forms.py:99 bookings/views.py:92
-#: templates/bookings/create_booking.html:990
-msgid "Phone number must include country code (e.g., +34612345678)"
-msgstr ""
-"El número de teléfono debe incluir el código de país (por ejemplo, "
-"+34612345678)."
-
-#: bookings/forms.py:105
-msgid "Phone number is too short. Please include country code and full number."
-msgstr ""
-"El número de teléfono es demasiado corto. Por favor, incluya el código de "
-"país y el número completo."
-
-#: bookings/forms.py:149
+#: bookings/forms.py:126
 msgid ""
 "{staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d "
 "%H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select "
@@ -90,7 +291,7 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} hasta {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Por favor, seleccione otra fecha, hora o miembro del personal."
 
-#: bookings/views.py:79 companies/views.py:1440
+#: bookings/views.py:79 companies/views.py:1444
 #: templates/bookings/create_booking.html:982
 msgid "Name is required"
 msgstr "Se requiere el nombre"
@@ -99,59 +300,59 @@ msgstr "Se requiere el nombre"
 msgid "Phone number is required"
 msgstr "Se requiere teléfono"
 
-#: bookings/views.py:153
+#: bookings/views.py:147
 msgid "Please complete all required fields"
 msgstr "Por favor complete todos campos requeridos"
 
-#: bookings/views.py:350
+#: bookings/views.py:354
 msgid "This time slot is not available. Staff member is out of office."
 msgstr ""
 "Este horario no está disponible. El empleado no se encuentra en la oficina."
 
-#: bookings/views.py:501
+#: bookings/views.py:505
 msgid "Booking not found"
 msgstr "No se encontraron reservas."
 
-#: bookings/views.py:578
+#: bookings/views.py:582
 msgid "Your booking has been cancelled."
 msgstr "Su reserva ha sido cancelada"
 
-#: bookings/views.py:1820
+#: bookings/views.py:1838
 msgid "You do not have permission to confirm this booking."
 msgstr "No tienes permiso para confirmar esta reserva."
 
-#: bookings/views.py:1823 bookings/views.py:1939 companies/views.py:208
+#: bookings/views.py:1841 bookings/views.py:1957 companies/views.py:208
 #: companies/views.py:265 companies/views.py:310 companies/views.py:335
 #: companies/views.py:363 companies/views.py:393 companies/views.py:421
-#: companies/views.py:458 companies/views.py:610 companies/views.py:894
-#: companies/views.py:912 companies/views.py:1066 companies/views.py:1085
-#: companies/views.py:1131 companies/views.py:1186 companies/views.py:1205
-#: companies/views.py:1277 companies/views.py:1317 companies/views.py:1413
-#: companies/views.py:1744
+#: companies/views.py:458 companies/views.py:612 companies/views.py:898
+#: companies/views.py:916 companies/views.py:1070 companies/views.py:1089
+#: companies/views.py:1135 companies/views.py:1190 companies/views.py:1209
+#: companies/views.py:1281 companies/views.py:1321 companies/views.py:1417
+#: companies/views.py:1745
 msgid "User profile not found."
 msgstr "Perfil de usuario no encontrado"
 
-#: bookings/views.py:1831
+#: bookings/views.py:1849
 msgid "Duration and price are required."
 msgstr "Se requiere conocer la duración y el precio."
 
-#: bookings/views.py:1851
+#: bookings/views.py:1869
 msgid "Booking confirmed successfully!"
 msgstr "¡Reserva confirmada!"
 
-#: bookings/views.py:1854
+#: bookings/views.py:1872
 msgid "Invalid duration or price format."
 msgstr "Formato de duración o precio no válido."
 
-#: bookings/views.py:2015
+#: bookings/views.py:2033
 msgid "Error marking notification as read."
 msgstr "Error al marcar la notificación como leída."
 
-#: bookings/views.py:2032
+#: bookings/views.py:2050
 msgid "All notifications marked as read."
 msgstr "Todas las notificaciones marcadas como leídas."
 
-#: bookings/views.py:2037
+#: bookings/views.py:2055
 msgid "Error marking notifications as read."
 msgstr "Error al marcar las notificaciones como leídas."
 
@@ -163,43 +364,43 @@ msgid "Monday"
 msgstr "Lunes"
 
 #: companies/forms.py:93 companies/models.py:12
-#: templates/companies/add_staff.html:124
-#: templates/companies/edit_staff.html:127
+#: templates/companies/add_staff.html:137
+#: templates/companies/edit_staff.html:140
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:8
 msgid "Tuesday"
 msgstr "Martes"
 
 #: companies/forms.py:93 companies/models.py:13
-#: templates/companies/add_staff.html:140
-#: templates/companies/edit_staff.html:143
+#: templates/companies/add_staff.html:166
+#: templates/companies/edit_staff.html:169
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:9
 msgid "Wednesday"
 msgstr "Miércoles"
 
 #: companies/forms.py:93 companies/models.py:14
-#: templates/companies/add_staff.html:156
-#: templates/companies/edit_staff.html:159
+#: templates/companies/add_staff.html:195
+#: templates/companies/edit_staff.html:198
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:10
 msgid "Thursday"
 msgstr "Jueves"
 
 #: companies/forms.py:94 companies/models.py:15
-#: templates/companies/add_staff.html:172
-#: templates/companies/edit_staff.html:175
+#: templates/companies/add_staff.html:224
+#: templates/companies/edit_staff.html:227
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:11
 msgid "Friday"
 msgstr "Viernes"
 
 #: companies/forms.py:94 companies/models.py:16
-#: templates/companies/add_staff.html:188
-#: templates/companies/edit_staff.html:191
+#: templates/companies/add_staff.html:253
+#: templates/companies/edit_staff.html:256
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:12
 msgid "Saturday"
 msgstr "Sábado"
 
 #: companies/forms.py:94 companies/models.py:17
-#: templates/companies/add_staff.html:204
-#: templates/companies/edit_staff.html:207
+#: templates/companies/add_staff.html:282
+#: templates/companies/edit_staff.html:285
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
 msgid "Sunday"
 msgstr "Domingo"
@@ -230,11 +431,11 @@ msgstr "¡Empresa registrada con éxito!"
 msgid "Activate your account"
 msgstr "Activa tu cuenta"
 
-#: companies/views.py:94 companies/views.py:641 companies/views.py:928
+#: companies/views.py:94 companies/views.py:643 companies/views.py:932
 msgid "Salon Booking System"
 msgstr "Sistema de reservas para salones de belleza"
 
-#: companies/views.py:134 companies/views.py:969
+#: companies/views.py:134 companies/views.py:973
 msgid "Failed to send activation email. Please try again later."
 msgstr ""
 "No se pudo enviar el correo electrónico de activación. Inténtelo de nuevo "
@@ -257,10 +458,10 @@ msgstr "El enlace de activación no es válido o ha caducado."
 #: companies/views.py:180 companies/views.py:219 companies/views.py:298
 #: companies/views.py:304 companies/views.py:324 companies/views.py:352
 #: companies/views.py:377 companies/views.py:406 companies/views.py:432
-#: companies/views.py:471 companies/views.py:770 companies/views.py:906
-#: companies/views.py:983 companies/views.py:1037 companies/views.py:1058
-#: companies/views.py:1077 companies/views.py:1095 companies/views.py:1141
-#: companies/views.py:1197 companies/views.py:1216 companies/views.py:1574
+#: companies/views.py:471 companies/views.py:772 companies/views.py:910
+#: companies/views.py:987 companies/views.py:1041 companies/views.py:1062
+#: companies/views.py:1081 companies/views.py:1099 companies/views.py:1145
+#: companies/views.py:1201 companies/views.py:1220 companies/views.py:1575
 msgid "Access denied."
 msgstr "Acceso denegado"
 
@@ -296,114 +497,110 @@ msgstr "Has sido añadido correctamente como miembro del personal."
 msgid "Error creating staff member: {str(e)}"
 msgstr "Error al crear el miembro del personal: {str(e)}"
 
-#: companies/views.py:601
+#: companies/views.py:603
 msgid "Staff member added and activated successfully!"
 msgstr "¡Miembro del personal añadido y activado correctamente!"
 
-#: companies/views.py:603
+#: companies/views.py:605
 msgid "Staff member added successfully! Activation email sent."
 msgstr ""
 "¡Miembro del personal añadido correctamente! Correo electrónico de "
 "activación enviado."
 
-#: companies/views.py:637
+#: companies/views.py:639
 msgid "Your staff account has been activated"
 msgstr "Tu cuenta de personal ha sido activada."
 
-#: companies/views.py:662
+#: companies/views.py:664
 msgid "Account activated successfully!"
 msgstr "¡Cuenta activada con éxito!"
 
-#: companies/views.py:665 companies/views.py:756
+#: companies/views.py:667 companies/views.py:758
 msgid "Passwords do not match."
 msgstr "Las contraseñas no coinciden."
 
-#: companies/views.py:667
+#: companies/views.py:669
 msgid ""
 "Activation link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "El enlace de activación no es válido o ha caducado. Póngase en contacto con "
 "su administrador."
 
-#: companies/views.py:703
+#: companies/views.py:705
 msgid "Password reset link sent to your email."
 msgstr ""
 "Se ha enviado un enlace para restablecer la contraseña a su correo "
 "electrónico."
 
-#: companies/views.py:705
+#: companies/views.py:707
 msgid "No user found with that email address."
 msgstr ""
 "No se ha encontrado ningún usuario con esa dirección de correo electrónico."
 
-#: companies/views.py:753
+#: companies/views.py:755
 msgid "Password reset successfully!"
 msgstr "¡Contraseña restablecida con éxito!"
 
-#: companies/views.py:758
+#: companies/views.py:760
 msgid ""
 "Reset link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "El enlace de restablecimiento no es válido o ha caducado. Póngase en "
 "contacto con su administrador."
 
-#: companies/views.py:830
+#: companies/views.py:834
 msgid "Staff member updated successfully!"
 msgstr "¡El miembro del personal se actualizó correctamente!"
 
-#: companies/views.py:923
+#: companies/views.py:927
 msgid "Activate your staff account"
 msgstr "Activa tu cuenta de empleado."
 
-#: companies/views.py:954 templates/companies/edit_staff.html:390
+#: companies/views.py:958 templates/companies/edit_staff.html:466
 msgid "Activation email sent successfully!"
 msgstr "¡Correo electrónico de activación enviado correctamente!"
 
-#: companies/views.py:995
+#: companies/views.py:999
 msgid "Start and end datetime are required."
 msgstr "Se requieren la fecha y hora de inicio y finalización."
 
-#: companies/views.py:1012
+#: companies/views.py:1016
 msgid "End time must be after start time."
 msgstr "La hora de finalización debe ser posterior a la hora de inicio."
 
-#: companies/views.py:1063
+#: companies/views.py:1067
 msgid "Staff member deleted successfully!"
 msgstr "¡Eliminado miembro del personal con éxito!"
 
-#: companies/views.py:1124
+#: companies/views.py:1128
 msgid "Service added successfully!"
 msgstr "¡Servicio añadido correctamente!"
 
-#: companies/views.py:1168
+#: companies/views.py:1172
 msgid "Service updated successfully!"
 msgstr "¡Servicio actualizado correctamente!"
 
-#: companies/views.py:1202
+#: companies/views.py:1206
 msgid "Service deleted successfully!"
 msgstr "¡Servicio eliminado correctamente!"
 
-#: companies/views.py:1247
+#: companies/views.py:1251
 msgid "Working hours updated successfully."
 msgstr "Horario laboral actualizado correctamente."
 
-#: companies/views.py:1369 companies/views.py:1425
+#: companies/views.py:1373 companies/views.py:1429
 msgid "User profile not found"
 msgstr "Perfil de usuario no encontrado"
 
-#: companies/views.py:1431
+#: companies/views.py:1435
 msgid "Access denied"
 msgstr "Acceso denegado"
 
-#: companies/views.py:1443
+#: companies/views.py:1447
 msgid "Phone is required"
 msgstr "Se requiere teléfono"
 
-#: companies/views.py:1446
-msgid "Phone must include country code (e.g. +1234567890)"
-msgstr "Teléfono debe incluir el código de país (por ejemplo, +1234567890)"
-
-#: companies/views.py:1463
+#: companies/views.py:1464
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "JSON no válido: %(error)s"
@@ -437,19 +634,19 @@ msgstr "Cómo Funciona"
 msgid "Everything You Need to Run Your Salon Smoothly"
 msgstr "Todo lo que necesitas para que tu salón funcione sin problemas"
 
-#: templates/Index.html:62 templates/companies/dashboard.html:189
+#: templates/Index.html:62 templates/companies/dashboard.html:193
 msgid "WhatsApp Booking"
 msgstr "Reserva por WhatsApp"
 
-#: templates/Index.html:63 templates/companies/dashboard.html:190
+#: templates/Index.html:63 templates/companies/dashboard.html:194
 msgid "NEW!"
 msgstr "¡NUEVO!"
 
-#: templates/Index.html:72 templates/companies/dashboard.html:199
+#: templates/Index.html:72 templates/companies/dashboard.html:203
 msgid "AI-Powered Booking via WhatsApp"
 msgstr "Reservas con IA a través de WhatsApp"
 
-#: templates/Index.html:75 templates/companies/dashboard.html:202
+#: templates/Index.html:75 templates/companies/dashboard.html:206
 msgid ""
 "Your customers can now book appointments by simply sending a WhatsApp "
 "message! The AI assistant will:"
@@ -457,23 +654,23 @@ msgstr ""
 "¡Tus clientes ahora pueden reservar citas simplemente enviando un mensaje de "
 "WhatsApp! El asistente de IA hará lo siguiente:"
 
-#: templates/Index.html:78 templates/companies/dashboard.html:205
+#: templates/Index.html:78 templates/companies/dashboard.html:209
 msgid "Understand natural language requests"
 msgstr "Comprender las solicitudes en lenguaje natural"
 
-#: templates/Index.html:79 templates/companies/dashboard.html:206
+#: templates/Index.html:79 templates/companies/dashboard.html:210
 msgid "Show available time slots"
 msgstr "Mostrar franjas horarias disponibles"
 
-#: templates/Index.html:80 templates/companies/dashboard.html:207
+#: templates/Index.html:80 templates/companies/dashboard.html:211
 msgid "Create confirmed bookings automatically"
 msgstr "Crear reservas confirmadas automáticamente"
 
-#: templates/Index.html:81 templates/companies/dashboard.html:208
+#: templates/Index.html:81 templates/companies/dashboard.html:212
 msgid "Support multiple languages (ES/EN/CA/UK)"
 msgstr "Soporta múltiples idiomas (ES/EN/UK)"
 
-#: templates/Index.html:90 templates/companies/dashboard.html:268
+#: templates/Index.html:90 templates/companies/dashboard.html:272
 msgid "Example conversation:"
 msgstr "Ejemplo de conversación:"
 
@@ -946,6 +1143,58 @@ msgstr "Iniciar Sesión"
 msgid "Try Free"
 msgstr "Pruébalo gratis"
 
+#: templates/billing/billing_info_form.html:4
+#: templates/billing/billing_info_form.html:16
+#: templates/billing/change_plan.html:203
+#: templates/billing/subscription_details.html:186
+#: templates/companies/dashboard.html:117
+msgid "Billing Information"
+msgstr "Información de la Cuenta"
+
+#: templates/billing/billing_info_form.html:13
+msgid "Back to Billing"
+msgstr "Volver a Facturación"
+
+#: templates/billing/billing_info_form.html:17
+msgid "This information will appear on your invoices."
+msgstr "Esta información aparecerá en sus facturas."
+
+#: templates/billing/billing_info_form.html:29
+msgid "Edit Billing Information"
+msgstr "Editar información de facturación"
+
+#: templates/billing/billing_info_form.html:29
+msgid "Add Billing Information"
+msgstr "Agregar información de facturación"
+
+#: templates/billing/billing_info_form.html:31
+msgid "Used in the TO section of invoices."
+msgstr "Se utiliza en la sección PARA de las facturas."
+
+#: templates/billing/billing_info_form.html:52
+msgid "NIE / NIF / VAT"
+msgstr "NIE / NIF / IVA"
+
+#: templates/billing/billing_info_form.html:118
+#: templates/billing/change_plan.html:191
+#: templates/bookings/confirm_prebooked.html:90
+#: templates/bookings/create_booking.html:211
+#: templates/bookings/edit_booking.html:213
+#: templates/companies/add_service.html:118
+#: templates/companies/add_staff.html:354
+#: templates/companies/edit_profile.html:196
+#: templates/companies/edit_service.html:127
+#: templates/companies/edit_staff.html:349
+#: templates/companies/edit_staff.html:436
+#: templates/companies/working_hours.html:72
+#: templates/socialaccount/signup.html:56
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: templates/billing/billing_info_form.html:121
+msgid "Save Billing Information"
+msgstr "Guardar información de facturación"
+
 #: templates/billing/change_plan.html:4
 msgid "Choose Plan"
 msgstr "Elige tu Plan"
@@ -996,25 +1245,6 @@ msgstr "AHORRAS"
 msgid "Continue to Payment"
 msgstr "Continuar con el pago"
 
-#: templates/billing/change_plan.html:191
-#: templates/bookings/confirm_prebooked.html:90
-#: templates/bookings/create_booking.html:211
-#: templates/bookings/edit_booking.html:213
-#: templates/companies/add_service.html:118
-#: templates/companies/add_staff.html:279
-#: templates/companies/edit_profile.html:196
-#: templates/companies/edit_service.html:127
-#: templates/companies/edit_staff.html:273
-#: templates/companies/edit_staff.html:360
-#: templates/companies/working_hours.html:72
-#: templates/socialaccount/signup.html:56
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: templates/billing/change_plan.html:203
-msgid "Billing Information"
-msgstr "Información de la Cuenta"
-
 #: templates/billing/change_plan.html:206
 msgid "You will be redirected to Stripe to complete your payment securely."
 msgstr "Serás redirigido a Stripe para completar tu pago de forma segura."
@@ -1030,6 +1260,114 @@ msgstr "Cancelar en cualquier momento"
 #: templates/billing/change_plan.html:211
 msgid "Automatic renewal"
 msgstr "Renovación automática"
+
+#: templates/billing/invoice.html:7
+msgid "Invoice"
+msgstr "Factura"
+
+#: templates/billing/invoice.html:26
+#: templates/billing/subscription_details.html:13
+#: templates/companies/customer_detail.html:11
+#: templates/companies/customers_list.html:11
+#: templates/companies/services_list.html:10
+#: templates/companies/staff_list.html:10
+msgid "Back"
+msgstr "Volver"
+
+#: templates/billing/invoice.html:33
+msgid "Download / Print PDF"
+msgstr "Descargar / Imprimir PDF"
+
+#: templates/billing/invoice.html:43
+msgid "Receipt"
+msgstr "Recibo"
+
+#: templates/billing/invoice.html:46
+msgid "Invoice number"
+msgstr "Número de factura"
+
+#: templates/billing/invoice.html:50 templates/billing/invoice.html:168
+msgid "Receipt number"
+msgstr "Número de recibo"
+
+#: templates/billing/invoice.html:53
+msgid "Payment date"
+msgstr "Fecha de pago"
+
+#: templates/billing/invoice.html:75
+msgid ""
+"Seller info not configured. Please ask the administrator to set up billing "
+"info."
+msgstr ""
+
+#: templates/billing/invoice.html:81
+msgid "Bill to"
+msgstr "Cobrar a"
+
+#: templates/billing/invoice.html:84
+msgid "Tax ID"
+msgstr "Número de identificación fiscal"
+
+#: templates/billing/invoice.html:100
+msgid "Add billing details for a complete invoice"
+msgstr "Agregue los datos de facturación para obtener una factura completa."
+
+#: templates/billing/invoice.html:110
+msgid "paid on"
+msgstr "pagado en"
+
+#: templates/billing/invoice.html:120
+msgid "Qty"
+msgstr "Cantidad"
+
+#: templates/billing/invoice.html:121
+msgid "Unit price"
+msgstr "Precio unitario"
+
+#: templates/billing/invoice.html:122
+#: templates/billing/subscription_details.html:120
+msgid "Amount"
+msgstr "Cantidad"
+
+#: templates/billing/invoice.html:144
+msgid "Subtotal"
+msgstr "Total parcial"
+
+#: templates/billing/invoice.html:148
+msgid "Total"
+msgstr "Total"
+
+#: templates/billing/invoice.html:152 templates/billing/invoice.html:167
+msgid "Amount paid"
+msgstr "Cantidad pagada"
+
+#: templates/billing/invoice.html:161
+msgid "Payment history"
+msgstr "Problema de pago"
+
+#: templates/billing/invoice.html:165
+msgid "Payment method"
+msgstr "Método de pago"
+
+#: templates/billing/invoice.html:166
+#: templates/billing/subscription_details.html:116
+#: templates/bookings/bookings_list.html:64
+msgid "Date"
+msgstr "Fecha"
+
+#: templates/billing/invoice.html:192
+#: templates/bookings/notifications_list.html:82
+#: templates/companies/customer_detail.html:134
+#: templates/companies/customers_list.html:118
+msgid "Page"
+msgstr "Pagina"
+
+#: templates/billing/invoice.html:192
+#: templates/bookings/notifications_list.html:82
+#: templates/companies/customer_detail.html:134
+#: templates/companies/customers_list.html:118
+msgid "of"
+msgstr "de"
 
 #: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:5
 #: templates/billing/view_plans.html:11
@@ -1120,14 +1458,6 @@ msgstr "Ahorras"
 msgid "Subscription & Billing"
 msgstr "Suscripción y facturación"
 
-#: templates/billing/subscription_details.html:13
-#: templates/companies/customer_detail.html:11
-#: templates/companies/customers_list.html:11
-#: templates/companies/services_list.html:10
-#: templates/companies/staff_list.html:10
-msgid "Back"
-msgstr "Volver"
-
 #: templates/billing/subscription_details.html:34
 msgid "Payment Issue"
 msgstr "Problema de pago"
@@ -1181,11 +1511,6 @@ msgstr "Ver planes disponibles"
 msgid "Billing History"
 msgstr "Historial de facturación"
 
-#: templates/billing/subscription_details.html:116
-#: templates/bookings/bookings_list.html:64
-msgid "Date"
-msgstr "Fecha"
-
 #: templates/billing/subscription_details.html:117
 msgid "Transaction ID"
 msgstr "ID de transacción"
@@ -1199,10 +1524,6 @@ msgstr "Plan"
 msgid "Status"
 msgstr "Estado"
 
-#: templates/billing/subscription_details.html:120
-msgid "Amount"
-msgstr "Cantidad"
-
 #: templates/billing/subscription_details.html:156
 msgid "No billing history yet"
 msgstr "Aún no hay historial de facturación"
@@ -1212,27 +1533,22 @@ msgid "Account Summary"
 msgstr "Resumen de la cuenta"
 
 #: templates/billing/subscription_details.html:170
-#: templates/companies/analytics.html:423
-msgid "Total Spent"
-msgstr "Total gastado"
-
-#: templates/billing/subscription_details.html:176
 msgid "Active Since"
 msgstr "Plan Activo"
 
-#: templates/billing/subscription_details.html:186
+#: templates/billing/subscription_details.html:180
 msgid "Transactions"
 msgstr "Transacciones"
 
-#: templates/billing/subscription_details.html:194
+#: templates/billing/subscription_details.html:193
 msgid "Need Help?"
 msgstr "¿Necesitar ayuda?"
 
-#: templates/billing/subscription_details.html:196
+#: templates/billing/subscription_details.html:195
 msgid "Have questions about billing or your subscription?"
 msgstr "¿Tiene preguntas sobre la facturación o su suscripción?"
 
-#: templates/billing/subscription_details.html:199
+#: templates/billing/subscription_details.html:198
 #: templates/static_pages/faq.html:67
 msgid "Contact Support"
 msgstr "Contactar con soporte técnico"
@@ -1393,33 +1709,11 @@ msgstr "Confirmar reserva"
 msgid "Booking Details"
 msgstr "Detalles de la reserva"
 
-#: templates/bookings/confirm_prebooked.html:29
-#: templates/bookings/create_booking.html:57
-#: templates/bookings/edit_booking.html:69
-#: templates/companies/customer_detail.html:33
-#: templates/companies/customers_list.html:55
-#: templates/companies/dashboard.html:133
-#: templates/companies/edit_profile.html:69
-#: templates/companies/register.html:122
-msgid "Phone"
-msgstr "Teléfono"
-
 #: templates/bookings/confirm_prebooked.html:37
 #: templates/bookings/confirmation.html:51
 #: templates/bookings/confirmation.html:142
 msgid "Date & Time"
 msgstr "Fecha y hora"
-
-#: templates/bookings/confirm_prebooked.html:46
-#: templates/bookings/create_booking.html:71
-#: templates/bookings/edit_booking.html:79
-#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
-#: templates/companies/edit_profile.html:76
-#: templates/companies/edit_staff.html:17
-#: templates/companies/forgot_password.html:15
-#: templates/companies/register.html:57 templates/static_pages/contact.html:23
-msgid "Email"
-msgstr "Correo Electrónico"
 
 #: templates/bookings/confirm_prebooked.html:58
 #: templates/bookings/edit_booking.html:105
@@ -1600,8 +1894,8 @@ msgid "(optional)"
 msgstr "(opcional)"
 
 #: templates/bookings/create_booking.html:81
-#: templates/companies/add_staff.html:252 templates/companies/dashboard.html:35
-#: templates/companies/edit_staff.html:322
+#: templates/companies/add_staff.html:327 templates/companies/dashboard.html:35
+#: templates/companies/edit_staff.html:398
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Servicios"
@@ -1717,6 +2011,12 @@ msgstr "Nosotros asignaremos"
 msgid "services"
 msgstr "servicios"
 
+#: templates/bookings/create_booking.html:990
+msgid "Phone number must include country code (e.g., +34612345678)"
+msgstr ""
+"El número de teléfono debe incluir el código de país (por ejemplo, "
+"+34612345678)."
+
 #: templates/bookings/create_booking.html:993
 msgid "Phone number is too short"
 msgstr "El número de teléfono es demasiado corto."
@@ -1779,10 +2079,6 @@ msgstr "Notas del cliente"
 msgid "from customer"
 msgstr "del cliente"
 
-#: templates/bookings/edit_booking.html:333
-msgid "Phone (must include country code, e.g. +1234567890)"
-msgstr "Teléfono (debe incluir el código de país, por ejemplo, +1234567890)"
-
 #: templates/bookings/notifications_list.html:4
 #: templates/bookings/notifications_list.html:10
 msgid "Notifications"
@@ -1807,18 +2103,6 @@ msgstr "Marcar como leído"
 #: templates/companies/customers_list.html:88
 msgid "Previous"
 msgstr "Previa"
-
-#: templates/bookings/notifications_list.html:82
-#: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
-msgid "Page"
-msgstr "Pagina"
-
-#: templates/bookings/notifications_list.html:82
-#: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
-msgid "of"
-msgstr "de"
 
 #: templates/bookings/notifications_list.html:87
 #: templates/companies/customer_detail.html:123
@@ -1927,7 +2211,7 @@ msgstr "Requiere confirmación del personal"
 msgid "Maximum 10 dates allowed"
 msgstr "Máximo 10 fechas permitidas"
 
-#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:282
+#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:357
 msgid "Add Staff Member"
 msgstr "Agregar personal"
 
@@ -1964,56 +2248,80 @@ msgstr ""
 "Establezca un horario laboral específico para cada día (deje este campo en "
 "blanco para usar el horario de la empresa)."
 
-#: templates/companies/add_staff.html:111
-#: templates/companies/add_staff.html:127
-#: templates/companies/add_staff.html:143
-#: templates/companies/add_staff.html:159
-#: templates/companies/add_staff.html:175
-#: templates/companies/add_staff.html:191
-#: templates/companies/add_staff.html:207
-#: templates/companies/edit_staff.html:114
-#: templates/companies/edit_staff.html:130
-#: templates/companies/edit_staff.html:146
-#: templates/companies/edit_staff.html:162
-#: templates/companies/edit_staff.html:178
-#: templates/companies/edit_staff.html:194
-#: templates/companies/edit_staff.html:210
+#: templates/companies/add_staff.html:112
+#: templates/companies/add_staff.html:141
+#: templates/companies/add_staff.html:170
+#: templates/companies/add_staff.html:199
+#: templates/companies/add_staff.html:228
+#: templates/companies/add_staff.html:257
+#: templates/companies/add_staff.html:286
+#: templates/companies/edit_staff.html:115
+#: templates/companies/edit_staff.html:144
+#: templates/companies/edit_staff.html:173
+#: templates/companies/edit_staff.html:202
+#: templates/companies/edit_staff.html:231
+#: templates/companies/edit_staff.html:260
+#: templates/companies/edit_staff.html:289
 msgid "Start"
 msgstr "Inicio"
 
-#: templates/companies/add_staff.html:116
-#: templates/companies/add_staff.html:132
-#: templates/companies/add_staff.html:148
-#: templates/companies/add_staff.html:164
-#: templates/companies/add_staff.html:180
-#: templates/companies/add_staff.html:196
-#: templates/companies/add_staff.html:212
-#: templates/companies/edit_staff.html:119
-#: templates/companies/edit_staff.html:135
-#: templates/companies/edit_staff.html:151
-#: templates/companies/edit_staff.html:167
-#: templates/companies/edit_staff.html:183
-#: templates/companies/edit_staff.html:199
-#: templates/companies/edit_staff.html:215
+#: templates/companies/add_staff.html:117
+#: templates/companies/add_staff.html:146
+#: templates/companies/add_staff.html:175
+#: templates/companies/add_staff.html:204
+#: templates/companies/add_staff.html:233
+#: templates/companies/add_staff.html:262
+#: templates/companies/add_staff.html:291
+#: templates/companies/edit_staff.html:120
+#: templates/companies/edit_staff.html:149
+#: templates/companies/edit_staff.html:178
+#: templates/companies/edit_staff.html:207
+#: templates/companies/edit_staff.html:236
+#: templates/companies/edit_staff.html:265
+#: templates/companies/edit_staff.html:294
 msgid "End"
 msgstr "fin"
 
-#: templates/companies/add_staff.html:221
-#: templates/companies/edit_staff.html:223
-msgid "Break Start Time"
-msgstr "Hora de inicio del descanso"
-
-#: templates/companies/add_staff.html:229
-#: templates/companies/edit_staff.html:231
-msgid "Break End Time"
-msgstr "Hora de finalización del descanso"
-
-#: templates/companies/add_staff.html:243
+#: templates/companies/add_staff.html:123
+#: templates/companies/add_staff.html:152
+#: templates/companies/add_staff.html:181
+#: templates/companies/add_staff.html:210
+#: templates/companies/add_staff.html:239
+#: templates/companies/add_staff.html:268
+#: templates/companies/add_staff.html:297
+#: templates/companies/edit_staff.html:126
+#: templates/companies/edit_staff.html:155
+#: templates/companies/edit_staff.html:184
+#: templates/companies/edit_staff.html:213
 #: templates/companies/edit_staff.html:242
+#: templates/companies/edit_staff.html:271
+#: templates/companies/edit_staff.html:300
+msgid "Break Start"
+msgstr "Inicio del descanso"
+
+#: templates/companies/add_staff.html:128
+#: templates/companies/add_staff.html:157
+#: templates/companies/add_staff.html:186
+#: templates/companies/add_staff.html:215
+#: templates/companies/add_staff.html:244
+#: templates/companies/add_staff.html:273
+#: templates/companies/add_staff.html:302
+#: templates/companies/edit_staff.html:131
+#: templates/companies/edit_staff.html:160
+#: templates/companies/edit_staff.html:189
+#: templates/companies/edit_staff.html:218
+#: templates/companies/edit_staff.html:247
+#: templates/companies/edit_staff.html:276
+#: templates/companies/edit_staff.html:305
+msgid "Break End"
+msgstr "Finalización del descanso"
+
+#: templates/companies/add_staff.html:318
+#: templates/companies/edit_staff.html:318
 msgid "Out of Office Periods"
 msgstr "Períodos fuera de la oficina"
 
-#: templates/companies/add_staff.html:245
+#: templates/companies/add_staff.html:320
 msgid ""
 "You can manage multiple out-of-office periods after creating the staff "
 "member."
@@ -2200,6 +2508,10 @@ msgstr "Clientes principales"
 msgid "Total Bookings"
 msgstr "Reservas totales"
 
+#: templates/companies/analytics.html:423
+msgid "Total Spent"
+msgstr "Total gastado"
+
 #: templates/companies/analytics.html:444
 msgid "View Details"
 msgstr "Ver detalles"
@@ -2374,95 +2686,73 @@ msgstr "Establecer Horarios"
 msgid "View Public Page"
 msgstr "Ver Página Pública"
 
-#: templates/companies/dashboard.html:123 templates/companies/register.html:88
+#: templates/companies/dashboard.html:127
 msgid "Company Information"
 msgstr "Información de la Empresa"
 
-#: templates/companies/dashboard.html:128
-#: templates/companies/edit_profile.html:39
-#: templates/companies/register.html:106
-msgid "Address"
-msgstr "Dirección"
-
-#: templates/companies/dashboard.html:145
+#: templates/companies/dashboard.html:149
 #: templates/companies/edit_profile.html:85
 msgid "Website"
 msgstr "Sitio Web"
 
-#: templates/companies/dashboard.html:155
+#: templates/companies/dashboard.html:159
 msgid "Booking Link"
 msgstr "Enlace de Reservas"
 
-#: templates/companies/dashboard.html:158
+#: templates/companies/dashboard.html:162
 msgid "Share this link with your customers:"
 msgstr "Comparte este enlace con tus clientes:"
 
-#: templates/companies/dashboard.html:163
+#: templates/companies/dashboard.html:167
 msgid "Copy"
 msgstr "Copiar"
 
-#: templates/companies/dashboard.html:169
-#: templates/companies/dashboard.html:238
+#: templates/companies/dashboard.html:173
+#: templates/companies/dashboard.html:242
 msgid "Download QR Code"
 msgstr "Descargar código QR"
 
-#: templates/companies/dashboard.html:175
+#: templates/companies/dashboard.html:179
 msgid "QR Code Preview:"
 msgstr "Vista previa del código QR:"
 
-#: templates/companies/dashboard.html:212
+#: templates/companies/dashboard.html:216
 msgid "WhatsApp Link:"
 msgstr "Enlace de WhatsApp:"
 
-#: templates/companies/dashboard.html:222
+#: templates/companies/dashboard.html:226
 msgid "Use this link on your website, social media, or anywhere online"
 msgstr ""
 "Utilice este enlace en su sitio web, redes sociales o en cualquier lugar en "
 "línea."
 
-#: templates/companies/dashboard.html:232
+#: templates/companies/dashboard.html:236
 msgid "WhatsApp QR Code"
 msgstr "Código QR de WhatsApp"
 
-#: templates/companies/dashboard.html:243
+#: templates/companies/dashboard.html:247
 msgid "Preview QR"
 msgstr "Vista previa QR"
 
-#: templates/companies/dashboard.html:255
+#: templates/companies/dashboard.html:259
 msgid "Print this QR code on:"
 msgstr "Imprime este código QR en:"
 
-#: templates/companies/dashboard.html:258
+#: templates/companies/dashboard.html:262
 msgid "Business cards • Posters • Window stickers • Flyers"
 msgstr "Tarjetas de visita • Carteles • Pegatinas para ventanas • Folletos"
 
-#: templates/companies/dashboard.html:292
+#: templates/companies/dashboard.html:296
 msgid "Link copied to clipboard!"
 msgstr "¡Enlace copiado al portapapeles!"
 
-#: templates/companies/dashboard.html:329
+#: templates/companies/dashboard.html:333
 msgid "WhatsApp link copied!"
 msgstr "¡Enlace de WhatsApp copiado!"
 
 #: templates/companies/edit_profile.html:10
 msgid "Edit Company Profile"
 msgstr "Editar Perfil"
-
-#: templates/companies/edit_profile.html:22
-#: templates/companies/register.html:91
-msgid "Company Name"
-msgstr "Nombre de la Empresa"
-
-#: templates/companies/edit_profile.html:30
-#: templates/companies/register.html:98
-#: templates/static_pages/cookie_policy.html:68
-msgid "Description"
-msgstr "Descripción"
-
-#: templates/companies/edit_profile.html:46
-#: templates/companies/register.html:113
-msgid "City"
-msgstr "Ciudad"
 
 #: templates/companies/edit_profile.html:55
 msgid "Map Location"
@@ -2539,7 +2829,7 @@ msgstr "Plan Actual"
 
 #: templates/companies/edit_profile.html:147
 #: templates/companies/edit_staff.html:69
-#: templates/companies/edit_staff.html:303
+#: templates/companies/edit_staff.html:379
 #: templates/companies/services_list.html:49
 #: templates/companies/staff_list.html:80
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
@@ -2564,8 +2854,8 @@ msgstr "Elige fichero"
 
 #: templates/companies/edit_profile.html:199
 #: templates/companies/edit_service.html:130
-#: templates/companies/edit_staff.html:270
-#: templates/companies/edit_staff.html:363
+#: templates/companies/edit_staff.html:346
+#: templates/companies/edit_staff.html:439
 #: templates/companies/working_hours.html:75
 msgid "Save Changes"
 msgstr "Guardar cambios"
@@ -2586,92 +2876,92 @@ msgstr "Reenviar correo electrónico de activación"
 msgid "Current avatar"
 msgstr "Imagen Actual"
 
-#: templates/companies/edit_staff.html:247
+#: templates/companies/edit_staff.html:323
 msgid "Add Period"
 msgstr "Añadir Periodo"
 
-#: templates/companies/edit_staff.html:253
+#: templates/companies/edit_staff.html:329
 msgid "New Out of Office Period"
 msgstr "Nuevo período fuera del salon"
 
-#: templates/companies/edit_staff.html:256
+#: templates/companies/edit_staff.html:332
 msgid "Start Date & Time"
 msgstr "Fecha y hora de inicio"
 
-#: templates/companies/edit_staff.html:260
+#: templates/companies/edit_staff.html:336
 msgid "End Date & Time"
 msgstr "Fecha y hora del fin"
 
-#: templates/companies/edit_staff.html:265
+#: templates/companies/edit_staff.html:341
 msgid "Reason (Optional)"
 msgstr "Motivo (opcional)"
 
-#: templates/companies/edit_staff.html:266
+#: templates/companies/edit_staff.html:342
 msgid "e.g., Vacation, Medical appointment..."
 msgstr "Por ejemplo, vacaciones, cita médica..."
 
-#: templates/companies/edit_staff.html:296
+#: templates/companies/edit_staff.html:372
 msgid "Reason:"
 msgstr "Motivo:"
 
-#: templates/companies/edit_staff.html:300
+#: templates/companies/edit_staff.html:376
 msgid "Added"
 msgstr "Agregado"
 
-#: templates/companies/edit_staff.html:315
-#: templates/companies/edit_staff.html:547
+#: templates/companies/edit_staff.html:391
+#: templates/companies/edit_staff.html:623
 msgid "No out of office periods scheduled"
 msgstr "No hay períodos de ausencia programados."
 
-#: templates/companies/edit_staff.html:352
+#: templates/companies/edit_staff.html:428
 msgid "Is Active"
 msgstr "Activo"
 
-#: templates/companies/edit_staff.html:374
+#: templates/companies/edit_staff.html:450
 msgid "Are you sure you want to resend the activation email?"
 msgstr ""
 "¿Estás seguro de que quieres reenviar el correo electrónico de activación?"
 
-#: templates/companies/edit_staff.html:392
-#: templates/companies/edit_staff.html:510
-#: templates/companies/edit_staff.html:552
+#: templates/companies/edit_staff.html:468
+#: templates/companies/edit_staff.html:586
+#: templates/companies/edit_staff.html:628
 msgid "Error:"
 msgstr "Error:"
 
-#: templates/companies/edit_staff.html:392
-#: templates/companies/edit_staff.html:510
-#: templates/companies/edit_staff.html:552
+#: templates/companies/edit_staff.html:468
+#: templates/companies/edit_staff.html:586
+#: templates/companies/edit_staff.html:628
 msgid "Unknown error"
 msgstr "Error desconocido"
 
-#: templates/companies/edit_staff.html:397
+#: templates/companies/edit_staff.html:473
 msgid "Error sending activation email. Please try again."
 msgstr ""
 "Error al enviar el correo electrónico de activación. Inténtalo de nuevo."
 
-#: templates/companies/edit_staff.html:480
+#: templates/companies/edit_staff.html:556
 msgid "Please fill in both start and end date/time"
 msgstr ""
 
-#: templates/companies/edit_staff.html:488
+#: templates/companies/edit_staff.html:564
 msgid "End date must be after start date"
 msgstr ""
 
-#: templates/companies/edit_staff.html:515
+#: templates/companies/edit_staff.html:591
 #, fuzzy
 #| msgid "Error sending activation email. Please try again."
 msgid "Error saving period. Please try again."
 msgstr ""
 "Error al enviar el correo electrónico de activación. Inténtalo de nuevo."
 
-#: templates/companies/edit_staff.html:520
+#: templates/companies/edit_staff.html:596
 #, fuzzy
 #| msgid "Are you sure you want to resend the activation email?"
 msgid "Are you sure you want to delete this out of office period?"
 msgstr ""
 "¿Estás seguro de que quieres reenviar el correo electrónico de activación?"
 
-#: templates/companies/edit_staff.html:557
+#: templates/companies/edit_staff.html:633
 #, fuzzy
 #| msgid "Error sending activation email. Please try again."
 msgid "Error deleting period. Please try again."
@@ -2772,13 +3062,25 @@ msgstr "Información de la Cuenta"
 msgid "Logged in via Google"
 msgstr "Sesión iniciada a través de Google"
 
+#: templates/companies/register.html:88
+msgid "Salon Information"
+msgstr "Información del salón"
+
+#: templates/companies/register.html:91
+msgid "Salon Name"
+msgstr "Nombre del salón"
+
 #: templates/companies/register.html:129
-msgid "Company Email"
-msgstr "Correo de la Empresa"
+#, fuzzy
+#| msgid "Phone & Email"
+msgid "Salon Email"
+msgstr "Correo y telefono"
 
 #: templates/companies/register.html:137
-msgid "Company Logo"
-msgstr "Logo de la Empresa"
+#, fuzzy
+#| msgid "Company Logo"
+msgid "Salon Logo"
+msgstr "Logo del salón"
 
 #: templates/companies/register.html:148
 msgid "Back to home"
@@ -2818,8 +3120,8 @@ msgid ""
 "You are not yet a staff member. Would you like to add yourself to be able to "
 "receive bookings?"
 msgstr ""
-"Aún no eres miembro del personal. ¿Te gustaría agregarte para poder "
-"recibir reservas?"
+"Aún no eres miembro del personal. ¿Te gustaría agregarte para poder recibir "
+"reservas?"
 
 #: templates/companies/staff_list.html:37
 msgid "Add Myself as Staff"

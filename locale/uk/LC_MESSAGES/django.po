@@ -3,34 +3,34 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-14 15:40+0200\n"
+"POT-Creation-Date: 2026-07-29 14:02+0200\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: billing/models.py:95 templates/billing/pricing_periods.html:26
+#: billing/models.py:96 templates/billing/pricing_periods.html:26
 #: templates/billing/pricing_periods.html:137
 msgid "Monthly"
 msgstr "Щомісяця"
 
-#: billing/models.py:96 templates/billing/pricing_periods.html:45
+#: billing/models.py:97 templates/billing/pricing_periods.html:45
 #: templates/billing/pricing_periods.html:144
 msgid "3 Months"
 msgstr "3 Місяці"
 
-#: billing/models.py:97 templates/billing/pricing_periods.html:70
+#: billing/models.py:98 templates/billing/pricing_periods.html:70
 #: templates/billing/pricing_periods.html:151
 msgid "6 Months"
 msgstr "6 Місяців"
 
-#: billing/models.py:98 templates/billing/pricing_periods.html:95
+#: billing/models.py:99 templates/billing/pricing_periods.html:95
 #: templates/billing/pricing_periods.html:158
 msgid "Yearly"
 msgstr "Річний"
 
-#: billing/models.py:107 templates/companies/add_service.html:110
+#: billing/models.py:108 templates/companies/add_service.html:110
 #: templates/companies/analytics.html:192
 #: templates/companies/edit_service.html:119
 #: templates/companies/services_list.html:29
@@ -40,17 +40,229 @@ msgstr "Річний"
 msgid "Active"
 msgstr "Активний"
 
-#: billing/models.py:108
+#: billing/models.py:109
 msgid "Cancelled"
 msgstr "Скасовано"
 
-#: billing/models.py:109
+#: billing/models.py:110
 msgid "Past Due"
 msgstr "Прострочено"
 
-#: billing/models.py:110
+#: billing/models.py:111
 msgid "Unpaid"
 msgstr "Неоплачено"
+
+#: billing/models.py:224 templates/companies/edit_profile.html:22
+msgid "Company Name"
+msgstr "Назва Компанії"
+
+#: billing/models.py:225
+msgid "Tax ID (NIF/VAT)"
+msgstr "Податковий ідентифікатор (NIF/ПДВ)"
+
+#: billing/models.py:226 billing/models.py:251
+#: templates/companies/dashboard.html:132
+#: templates/companies/edit_profile.html:39
+#: templates/companies/register.html:106
+msgid "Address"
+msgstr "Адреса"
+
+#: billing/models.py:227 billing/models.py:252
+#: templates/companies/edit_profile.html:46
+#: templates/companies/register.html:113
+msgid "City"
+msgstr "Місто"
+
+#: billing/models.py:228 billing/models.py:253
+msgid "Province / State"
+msgstr "Провінція / Штат"
+
+#: billing/models.py:229 billing/models.py:254
+msgid "Postal Code"
+msgstr "Поштовий індекс"
+
+#: billing/models.py:230 billing/models.py:255
+msgid "Country"
+msgstr "Країна"
+
+#: billing/models.py:231 billing/models.py:256
+#: templates/bookings/confirm_prebooked.html:29
+#: templates/bookings/create_booking.html:57
+#: templates/bookings/edit_booking.html:69
+#: templates/companies/customer_detail.html:33
+#: templates/companies/customers_list.html:55
+#: templates/companies/dashboard.html:137
+#: templates/companies/edit_profile.html:69
+#: templates/companies/register.html:122
+msgid "Phone"
+msgstr "Телефон"
+
+#: billing/models.py:232 billing/models.py:257
+#: templates/bookings/confirm_prebooked.html:46
+#: templates/bookings/create_booking.html:71
+#: templates/bookings/edit_booking.html:79
+#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:143
+#: templates/companies/edit_profile.html:76
+#: templates/companies/edit_staff.html:17
+#: templates/companies/forgot_password.html:15
+#: templates/companies/register.html:57 templates/static_pages/contact.html:23
+msgid "Email"
+msgstr "Електронна Пошта"
+
+#: billing/models.py:235 billing/models.py:236
+msgid "Seller Billing Info"
+msgstr "Податкова інформація продавця"
+
+#: billing/models.py:249
+msgid "Billing Name (company or person)"
+msgstr "Платіжне ім'я (компанія або особа)"
+
+#: billing/models.py:250
+msgid "Tax ID (NIE/NIF/VAT)"
+msgstr "Податковий ідентифікатор (NIE/NIF/ПДВ)"
+
+#: billing/models.py:260 billing/models.py:261
+msgid "Client Billing Info"
+msgstr "Платіжна інформація клієнта"
+
+#: billing/models.py:271
+msgid "Invoice Number"
+msgstr "Номер рахунку-фактури"
+
+#: billing/models.py:272
+msgid "Auto-generated if left blank (e.g. INV-2026-0001)"
+msgstr "Автоматично згенеровано, якщо залишити поле порожнім (наприклад, INV-2026-0001)"
+
+#: billing/models.py:273
+msgid "Invoice Date"
+msgstr "Дата рахунку-фактури"
+
+#: billing/models.py:274
+msgid "Internal Notes"
+msgstr "Додаткові Примітки"
+
+#: billing/models.py:278
+msgid "Company (reference)"
+msgstr "Компанія (посилання)"
+
+#: billing/models.py:279
+msgid "Select to auto-fill client fields from saved billing info"
+msgstr "Виберіть автоматичне заповнення полів клієнта зі збереженої платіжної інформації"
+
+#: billing/models.py:282
+msgid "Seller – Company Name"
+msgstr "Продавець – Назва компанії"
+
+#: billing/models.py:283
+msgid "Seller – Tax ID"
+msgstr "Продавець – ідентифікаційний номер платника податків"
+
+#: billing/models.py:284
+msgid "Seller – Address"
+msgstr "Продавець – адреса"
+
+#: billing/models.py:285
+msgid "Seller – City"
+msgstr "Продавець – місто"
+
+#: billing/models.py:286
+msgid "Seller – Province"
+msgstr "Продавець - провінція"
+
+#: billing/models.py:287
+msgid "Seller – Postal Code"
+msgstr "Продавець - поштовий індекс"
+
+#: billing/models.py:288
+msgid "Seller – Country"
+msgstr "Продавець - країна"
+
+#: billing/models.py:289
+msgid "Seller – Phone"
+msgstr "Продавець - телефон"
+
+#: billing/models.py:290
+msgid "Seller – Email"
+msgstr "Продавець - Email"
+
+#: billing/models.py:293
+msgid "Client – Billing Name"
+msgstr "Клієнт – Ім'я платника"
+
+#: billing/models.py:294
+msgid "Client – Tax ID (NIE/NIF/VAT)"
+msgstr "Клієнт – ідентифікаційний номер платника податку (NIE/NIF/ПДВ)"
+
+#: billing/models.py:295
+msgid "Client – Address"
+msgstr "Клієнт – адреса"
+
+#: billing/models.py:296
+msgid "Client – City"
+msgstr "Клієнт – місто"
+
+#: billing/models.py:297
+msgid "Client – Province"
+msgstr "Клієнт – провінція"
+
+#: billing/models.py:298
+msgid "Client – Postal Code"
+msgstr "Клієнт – поштовий індекс"
+
+#: billing/models.py:299
+msgid "Client – Country"
+msgstr "Клієнт – країна"
+
+#: billing/models.py:300
+msgid "Client – Phone"
+msgstr "Клієнт – телефон"
+
+#: billing/models.py:301
+msgid "Client – Email"
+msgstr "Клієнт – Email"
+
+#: billing/models.py:304 templates/billing/invoice.html:119
+#: templates/companies/edit_profile.html:30
+#: templates/companies/register.html:98
+#: templates/static_pages/cookie_policy.html:68
+msgid "Description"
+msgstr "Опис"
+
+#: billing/models.py:305
+msgid "e.g. Connect (1 month)"
+msgstr "наприклад, Connect (1 місяць)"
+
+#: billing/models.py:306
+msgid "Period Start"
+msgstr "Початок періоду"
+
+#: billing/models.py:307
+msgid "Period End"
+msgstr "Кінець періоду"
+
+#: billing/models.py:308
+msgid "Quantity"
+msgstr "Кількість"
+
+#: billing/models.py:309
+msgid "Unit Price (€)"
+msgstr "Ціна за одиницю (€)"
+
+#: billing/models.py:312
+msgid "Payment Method"
+msgstr "Спосіб оплати"
+
+#: billing/models.py:313
+msgid "e.g. Mastercard - 4985"
+msgstr "наприклад, Mastercard - 4985"
+
+#: billing/models.py:318
+msgid "Manual Invoice"
+msgstr "Ручний рахунок-фактура"
+
+#: billing/models.py:319
+msgid "Manual Invoices"
+msgstr "Ручні рахунок-фактури"
 
 #: bookings/cron.py:38
 msgid "Reminder: Upcoming Booking for"
@@ -68,18 +280,7 @@ msgstr "Додайте будь-які спеціальні побажання �
 msgid "Client notes..."
 msgstr "Нотатки клієнта..."
 
-#: bookings/forms.py:99 bookings/views.py:92
-#: templates/bookings/create_booking.html:990
-msgid "Phone number must include country code (e.g., +34612345678)"
-msgstr "Номер телефону має містити код країни (наприклад, +34612345678)"
-
-#: bookings/forms.py:105
-msgid "Phone number is too short. Please include country code and full number."
-msgstr ""
-"Номер телефону занадто короткий. Будь ласка, вкажіть код країни та повний "
-"номер."
-
-#: bookings/forms.py:149
+#: bookings/forms.py:126
 msgid ""
 "{staff.name} is out of office from {period.start_datetime.strftime('%Y-%m-%d "
 "%H:%M')} to {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Please select "
@@ -89,7 +290,7 @@ msgstr ""
 "%H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:%M')}. Будь ласка, "
 "виберіть іншу дату/час або іншого співробітника."
 
-#: bookings/views.py:79 companies/views.py:1440
+#: bookings/views.py:79 companies/views.py:1444
 #: templates/bookings/create_booking.html:982
 msgid "Name is required"
 msgstr "Ім`я обов`язкове"
@@ -98,58 +299,58 @@ msgstr "Ім`я обов`язкове"
 msgid "Phone number is required"
 msgstr "Потрібен номер телефону"
 
-#: bookings/views.py:153
+#: bookings/views.py:147
 msgid "Please complete all required fields"
 msgstr "Будь ласка, заповніть необхідні поля:"
 
-#: bookings/views.py:350
+#: bookings/views.py:354
 msgid "This time slot is not available. Staff member is out of office."
 msgstr "Цей часовий проміжок недоступний. Співробітника немає на роботі."
 
-#: bookings/views.py:501
+#: bookings/views.py:505
 msgid "Booking not found"
 msgstr "Бронювань не знайдено."
 
-#: bookings/views.py:578
+#: bookings/views.py:582
 msgid "Your booking has been cancelled."
 msgstr "Ваше бронювання скасовано"
 
-#: bookings/views.py:1820
+#: bookings/views.py:1838
 msgid "You do not have permission to confirm this booking."
 msgstr "У вас немає дозволу підтверджувати це бронювання."
 
-#: bookings/views.py:1823 bookings/views.py:1939 companies/views.py:208
+#: bookings/views.py:1841 bookings/views.py:1957 companies/views.py:208
 #: companies/views.py:265 companies/views.py:310 companies/views.py:335
 #: companies/views.py:363 companies/views.py:393 companies/views.py:421
-#: companies/views.py:458 companies/views.py:610 companies/views.py:894
-#: companies/views.py:912 companies/views.py:1066 companies/views.py:1085
-#: companies/views.py:1131 companies/views.py:1186 companies/views.py:1205
-#: companies/views.py:1277 companies/views.py:1317 companies/views.py:1413
-#: companies/views.py:1744
+#: companies/views.py:458 companies/views.py:612 companies/views.py:898
+#: companies/views.py:916 companies/views.py:1070 companies/views.py:1089
+#: companies/views.py:1135 companies/views.py:1190 companies/views.py:1209
+#: companies/views.py:1281 companies/views.py:1321 companies/views.py:1417
+#: companies/views.py:1745
 msgid "User profile not found."
 msgstr "Профіль користувача не знайдено"
 
-#: bookings/views.py:1831
+#: bookings/views.py:1849
 msgid "Duration and price are required."
 msgstr "Тривалість і ціна обов'язкові."
 
-#: bookings/views.py:1851
+#: bookings/views.py:1869
 msgid "Booking confirmed successfully!"
 msgstr "Бронювання Підтверджено!"
 
-#: bookings/views.py:1854
+#: bookings/views.py:1872
 msgid "Invalid duration or price format."
 msgstr "Недійсний формат тривалості або ціни."
 
-#: bookings/views.py:2015
+#: bookings/views.py:2033
 msgid "Error marking notification as read."
 msgstr "Помилка позначення сповіщення як прочитаного."
 
-#: bookings/views.py:2032
+#: bookings/views.py:2050
 msgid "All notifications marked as read."
 msgstr "Усі сповіщення позначено як прочитані."
 
-#: bookings/views.py:2037
+#: bookings/views.py:2055
 msgid "Error marking notifications as read."
 msgstr "Помилка позначення сповіщень як прочитаних."
 
@@ -161,43 +362,43 @@ msgid "Monday"
 msgstr "Понеділок"
 
 #: companies/forms.py:93 companies/models.py:12
-#: templates/companies/add_staff.html:124
-#: templates/companies/edit_staff.html:127
+#: templates/companies/add_staff.html:137
+#: templates/companies/edit_staff.html:140
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:8
 msgid "Tuesday"
 msgstr "Вівторок"
 
 #: companies/forms.py:93 companies/models.py:13
-#: templates/companies/add_staff.html:140
-#: templates/companies/edit_staff.html:143
+#: templates/companies/add_staff.html:166
+#: templates/companies/edit_staff.html:169
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:9
 msgid "Wednesday"
 msgstr "Середа"
 
 #: companies/forms.py:93 companies/models.py:14
-#: templates/companies/add_staff.html:156
-#: templates/companies/edit_staff.html:159
+#: templates/companies/add_staff.html:195
+#: templates/companies/edit_staff.html:198
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:10
 msgid "Thursday"
 msgstr "Четвер"
 
 #: companies/forms.py:94 companies/models.py:15
-#: templates/companies/add_staff.html:172
-#: templates/companies/edit_staff.html:175
+#: templates/companies/add_staff.html:224
+#: templates/companies/edit_staff.html:227
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:11
 msgid "Friday"
 msgstr "Пʼятниця"
 
 #: companies/forms.py:94 companies/models.py:16
-#: templates/companies/add_staff.html:188
-#: templates/companies/edit_staff.html:191
+#: templates/companies/add_staff.html:253
+#: templates/companies/edit_staff.html:256
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:12
 msgid "Saturday"
 msgstr "Субота"
 
 #: companies/forms.py:94 companies/models.py:17
-#: templates/companies/add_staff.html:204
-#: templates/companies/edit_staff.html:207
+#: templates/companies/add_staff.html:282
+#: templates/companies/edit_staff.html:285
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
 msgid "Sunday"
 msgstr "Неділя"
@@ -228,11 +429,11 @@ msgstr "Компанія успішно зареєстрована!"
 msgid "Activate your account"
 msgstr "Активуйте свій обліковий запис"
 
-#: companies/views.py:94 companies/views.py:641 companies/views.py:928
+#: companies/views.py:94 companies/views.py:643 companies/views.py:932
 msgid "Salon Booking System"
 msgstr "Система бронювання салонів"
 
-#: companies/views.py:134 companies/views.py:969
+#: companies/views.py:134 companies/views.py:973
 msgid "Failed to send activation email. Please try again later."
 msgstr "Не вдалося надіслати активаційний лист. Будь ласка, спробуйте пізніше."
 
@@ -253,10 +454,10 @@ msgstr "Посилання для активації недійсне або т�
 #: companies/views.py:180 companies/views.py:219 companies/views.py:298
 #: companies/views.py:304 companies/views.py:324 companies/views.py:352
 #: companies/views.py:377 companies/views.py:406 companies/views.py:432
-#: companies/views.py:471 companies/views.py:770 companies/views.py:906
-#: companies/views.py:983 companies/views.py:1037 companies/views.py:1058
-#: companies/views.py:1077 companies/views.py:1095 companies/views.py:1141
-#: companies/views.py:1197 companies/views.py:1216 companies/views.py:1574
+#: companies/views.py:471 companies/views.py:772 companies/views.py:910
+#: companies/views.py:987 companies/views.py:1041 companies/views.py:1062
+#: companies/views.py:1081 companies/views.py:1099 companies/views.py:1145
+#: companies/views.py:1201 companies/views.py:1220 companies/views.py:1575
 msgid "Access denied."
 msgstr "Доступ заборонено"
 
@@ -292,109 +493,105 @@ msgstr "Вас успішно додано до списку співробіт�
 msgid "Error creating staff member: {str(e)}"
 msgstr "Помилка створення співробітника: {str(e)}"
 
-#: companies/views.py:601
+#: companies/views.py:603
 msgid "Staff member added and activated successfully!"
 msgstr "Співробітника додано та успішно активовано!"
 
-#: companies/views.py:603
+#: companies/views.py:605
 msgid "Staff member added successfully! Activation email sent."
 msgstr "Співробітника успішно додано! Активаційний лист надіслано."
 
-#: companies/views.py:637
+#: companies/views.py:639
 msgid "Your staff account has been activated"
 msgstr "Ваш обліковий запис співробітника активовано"
 
-#: companies/views.py:662
+#: companies/views.py:664
 msgid "Account activated successfully!"
 msgstr "Обліковий запис успішно активовано!"
 
-#: companies/views.py:665 companies/views.py:756
+#: companies/views.py:667 companies/views.py:758
 msgid "Passwords do not match."
 msgstr "Паролі не збігаються."
 
-#: companies/views.py:667
+#: companies/views.py:669
 msgid ""
 "Activation link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "Посилання для активації недійсне або термін його дії минув. Зверніться до "
 "адміністратора."
 
-#: companies/views.py:703
+#: companies/views.py:705
 msgid "Password reset link sent to your email."
 msgstr "Посилання для скидання пароля надіслано на вашу електронну адресу."
 
-#: companies/views.py:705
+#: companies/views.py:707
 msgid "No user found with that email address."
 msgstr "Користувача з цією адресою електронної пошти не знайдено."
 
-#: companies/views.py:753
+#: companies/views.py:755
 msgid "Password reset successfully!"
 msgstr "Скидання пароля успішне!"
 
-#: companies/views.py:758
+#: companies/views.py:760
 msgid ""
 "Reset link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "Посилання для скидання недійсне або термін його дії минув. Зверніться до "
 "адміністратора."
 
-#: companies/views.py:830
+#: companies/views.py:834
 msgid "Staff member updated successfully!"
 msgstr "Інформацію про співробітника успішно оновлено!"
 
-#: companies/views.py:923
+#: companies/views.py:927
 msgid "Activate your staff account"
 msgstr "Активуйте свій обліковий запис співробітника"
 
-#: companies/views.py:954 templates/companies/edit_staff.html:390
+#: companies/views.py:958 templates/companies/edit_staff.html:466
 msgid "Activation email sent successfully!"
 msgstr "Активаційний лист успішно надіслано!"
 
-#: companies/views.py:995
+#: companies/views.py:999
 msgid "Start and end datetime are required."
 msgstr "Обов’язкові дата та час початку."
 
-#: companies/views.py:1012
+#: companies/views.py:1016
 msgid "End time must be after start time."
 msgstr "Час завершення має бути після часу початку."
 
-#: companies/views.py:1063
+#: companies/views.py:1067
 msgid "Staff member deleted successfully!"
 msgstr "Співробітника успішно видалено!"
 
-#: companies/views.py:1124
+#: companies/views.py:1128
 msgid "Service added successfully!"
 msgstr "Послугу успішно додано!"
 
-#: companies/views.py:1168
+#: companies/views.py:1172
 msgid "Service updated successfully!"
 msgstr "Сервіс успішно оновлено!"
 
-#: companies/views.py:1202
+#: companies/views.py:1206
 msgid "Service deleted successfully!"
 msgstr "Послугу успішно видалено!"
 
-#: companies/views.py:1247
+#: companies/views.py:1251
 msgid "Working hours updated successfully."
 msgstr "Робочий час успішно оновлено."
 
-#: companies/views.py:1369 companies/views.py:1425
+#: companies/views.py:1373 companies/views.py:1429
 msgid "User profile not found"
 msgstr "Профіль користувача не знайдено"
 
-#: companies/views.py:1431
+#: companies/views.py:1435
 msgid "Access denied"
 msgstr "Доступ заборонено"
 
-#: companies/views.py:1443
+#: companies/views.py:1447
 msgid "Phone is required"
 msgstr "Потрібен номер телефону"
 
-#: companies/views.py:1446
-msgid "Phone must include country code (e.g. +1234567890)"
-msgstr "Телефон (обов'язково вкажіть код країни, наприклад +1234567890)"
-
-#: companies/views.py:1463
+#: companies/views.py:1464
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "Недійсний JSON: %(error)s"
@@ -427,19 +624,19 @@ msgstr "Подивитися, Як це працює"
 msgid "Everything You Need to Run Your Salon Smoothly"
 msgstr "Все, що потрібно для гладкої роботи вашого салону"
 
-#: templates/Index.html:62 templates/companies/dashboard.html:189
+#: templates/Index.html:62 templates/companies/dashboard.html:193
 msgid "WhatsApp Booking"
 msgstr "Бронювання у WhatsApp"
 
-#: templates/Index.html:63 templates/companies/dashboard.html:190
+#: templates/Index.html:63 templates/companies/dashboard.html:194
 msgid "NEW!"
 msgstr "NEW!"
 
-#: templates/Index.html:72 templates/companies/dashboard.html:199
+#: templates/Index.html:72 templates/companies/dashboard.html:203
 msgid "AI-Powered Booking via WhatsApp"
 msgstr "Бронювання через WhatsApp на основі штучного інтелекту"
 
-#: templates/Index.html:75 templates/companies/dashboard.html:202
+#: templates/Index.html:75 templates/companies/dashboard.html:206
 msgid ""
 "Your customers can now book appointments by simply sending a WhatsApp "
 "message! The AI assistant will:"
@@ -447,23 +644,23 @@ msgstr ""
 "Тепер ваші клієнти можуть записатися на прийом, просто надіславши "
 "повідомлення у WhatsApp! Помічник зі штучним інтелектом:"
 
-#: templates/Index.html:78 templates/companies/dashboard.html:205
+#: templates/Index.html:78 templates/companies/dashboard.html:209
 msgid "Understand natural language requests"
 msgstr "Розуміє запити природньою мовою"
 
-#: templates/Index.html:79 templates/companies/dashboard.html:206
+#: templates/Index.html:79 templates/companies/dashboard.html:210
 msgid "Show available time slots"
 msgstr "Показано всі доступні вікна"
 
-#: templates/Index.html:80 templates/companies/dashboard.html:207
+#: templates/Index.html:80 templates/companies/dashboard.html:211
 msgid "Create confirmed bookings automatically"
 msgstr "Автоматично створювати підтверджені бронювання"
 
-#: templates/Index.html:81 templates/companies/dashboard.html:208
+#: templates/Index.html:81 templates/companies/dashboard.html:212
 msgid "Support multiple languages (ES/EN/CA/UK)"
 msgstr "Підтримка кількох мов (ES/EN/UK)"
 
-#: templates/Index.html:90 templates/companies/dashboard.html:268
+#: templates/Index.html:90 templates/companies/dashboard.html:272
 msgid "Example conversation:"
 msgstr "Приклади:"
 
@@ -933,6 +1130,58 @@ msgstr "Увійти"
 msgid "Try Free"
 msgstr "Спробувати Безкоштовно"
 
+#: templates/billing/billing_info_form.html:4
+#: templates/billing/billing_info_form.html:16
+#: templates/billing/change_plan.html:203
+#: templates/billing/subscription_details.html:186
+#: templates/companies/dashboard.html:117
+msgid "Billing Information"
+msgstr "Інформація про Оплату"
+
+#: templates/billing/billing_info_form.html:13
+msgid "Back to Billing"
+msgstr "Назад до оплати"
+
+#: templates/billing/billing_info_form.html:17
+msgid "This information will appear on your invoices."
+msgstr "Ця інформація відображатиметься у ваших рахунках-фактурах."
+
+#: templates/billing/billing_info_form.html:29
+msgid "Edit Billing Information"
+msgstr "Редагувати платіжну інформацію"
+
+#: templates/billing/billing_info_form.html:29
+msgid "Add Billing Information"
+msgstr "Додати платіжну інформацію"
+
+#: templates/billing/billing_info_form.html:31
+msgid "Used in the TO section of invoices."
+msgstr "Використовується в розділі КОМУ рахунків-фактур."
+
+#: templates/billing/billing_info_form.html:52
+msgid "NIE / NIF / VAT"
+msgstr "NIE / NIF / VAT"
+
+#: templates/billing/billing_info_form.html:118
+#: templates/billing/change_plan.html:191
+#: templates/bookings/confirm_prebooked.html:90
+#: templates/bookings/create_booking.html:211
+#: templates/bookings/edit_booking.html:213
+#: templates/companies/add_service.html:118
+#: templates/companies/add_staff.html:354
+#: templates/companies/edit_profile.html:196
+#: templates/companies/edit_service.html:127
+#: templates/companies/edit_staff.html:349
+#: templates/companies/edit_staff.html:436
+#: templates/companies/working_hours.html:72
+#: templates/socialaccount/signup.html:56
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: templates/billing/billing_info_form.html:121
+msgid "Save Billing Information"
+msgstr "Зберегти платіжну інформацію"
+
 #: templates/billing/change_plan.html:4
 msgid "Choose Plan"
 msgstr "Оберіть План"
@@ -983,25 +1232,6 @@ msgstr "ЕКОНОМІЯ"
 msgid "Continue to Payment"
 msgstr "Перейти до Оплати"
 
-#: templates/billing/change_plan.html:191
-#: templates/bookings/confirm_prebooked.html:90
-#: templates/bookings/create_booking.html:211
-#: templates/bookings/edit_booking.html:213
-#: templates/companies/add_service.html:118
-#: templates/companies/add_staff.html:279
-#: templates/companies/edit_profile.html:196
-#: templates/companies/edit_service.html:127
-#: templates/companies/edit_staff.html:273
-#: templates/companies/edit_staff.html:360
-#: templates/companies/working_hours.html:72
-#: templates/socialaccount/signup.html:56
-msgid "Cancel"
-msgstr "Скасувати"
-
-#: templates/billing/change_plan.html:203
-msgid "Billing Information"
-msgstr "Інформація про Оплату"
-
 #: templates/billing/change_plan.html:206
 msgid "You will be redirected to Stripe to complete your payment securely."
 msgstr "Вас буде перенаправлено до Stripe для безпечного завершення оплати."
@@ -1017,6 +1247,116 @@ msgstr "Скасування будь-коли"
 #: templates/billing/change_plan.html:211
 msgid "Automatic renewal"
 msgstr "Автоматичне поновлення"
+
+#: templates/billing/invoice.html:7
+msgid "Invoice"
+msgstr "Рахунок-фактура"
+
+#: templates/billing/invoice.html:26
+#: templates/billing/subscription_details.html:13
+#: templates/companies/customer_detail.html:11
+#: templates/companies/customers_list.html:11
+#: templates/companies/services_list.html:10
+#: templates/companies/staff_list.html:10
+msgid "Back"
+msgstr "Назад"
+
+#: templates/billing/invoice.html:33
+msgid "Download / Print PDF"
+msgstr "Завантажити / Роздрукувати PDF"
+
+#: templates/billing/invoice.html:43
+msgid "Receipt"
+msgstr "Квитанція"
+
+#: templates/billing/invoice.html:46
+msgid "Invoice number"
+msgstr "Номер рахунку-фактури"
+
+#: templates/billing/invoice.html:50 templates/billing/invoice.html:168
+msgid "Receipt number"
+msgstr "Номер квитанції"
+
+#: templates/billing/invoice.html:53
+msgid "Payment date"
+msgstr "Дата платежу"
+
+#: templates/billing/invoice.html:75
+msgid ""
+"Seller info not configured. Please ask the administrator to set up billing "
+"info."
+msgstr ""
+"Інформацію про продавця не налаштовано. Будь ласка, зверніться до "
+"адміністратора з проханням налаштувати платіжну інформацію."
+
+#: templates/billing/invoice.html:81
+msgid "Bill to"
+msgstr "Рахунок на ім'я"
+
+#: templates/billing/invoice.html:84
+msgid "Tax ID"
+msgstr "Податковий ідентифікатор"
+
+#: templates/billing/invoice.html:100
+msgid "Add billing details for a complete invoice"
+msgstr "Додайте платіжні дані для повного рахунку-фактури"
+
+#: templates/billing/invoice.html:110
+msgid "paid on"
+msgstr "оплачено"
+
+#: templates/billing/invoice.html:120
+msgid "Qty"
+msgstr "К-сть"
+
+#: templates/billing/invoice.html:121
+msgid "Unit price"
+msgstr "Ціна за одиницю"
+
+#: templates/billing/invoice.html:122
+#: templates/billing/subscription_details.html:120
+msgid "Amount"
+msgstr "Сума"
+
+#: templates/billing/invoice.html:144
+msgid "Subtotal"
+msgstr "Проміжний підсумок"
+
+#: templates/billing/invoice.html:148
+msgid "Total"
+msgstr "Всього"
+
+#: templates/billing/invoice.html:152 templates/billing/invoice.html:167
+msgid "Amount paid"
+msgstr "Сума сплати"
+
+#: templates/billing/invoice.html:161
+msgid "Payment history"
+msgstr "Історія оплат"
+
+#: templates/billing/invoice.html:165
+msgid "Payment method"
+msgstr "Спосіб оплати"
+
+#: templates/billing/invoice.html:166
+#: templates/billing/subscription_details.html:116
+#: templates/bookings/bookings_list.html:64
+msgid "Date"
+msgstr "Дата"
+
+#: templates/billing/invoice.html:192
+#: templates/bookings/notifications_list.html:82
+#: templates/companies/customer_detail.html:134
+#: templates/companies/customers_list.html:118
+msgid "Page"
+msgstr "Сторінка"
+
+#: templates/billing/invoice.html:192
+#: templates/bookings/notifications_list.html:82
+#: templates/companies/customer_detail.html:134
+#: templates/companies/customers_list.html:118
+msgid "of"
+msgstr "з"
 
 #: templates/billing/pricing_periods.html:5 templates/billing/view_plans.html:5
 #: templates/billing/view_plans.html:11
@@ -1107,14 +1447,6 @@ msgstr "Ви Заощаджуєте"
 msgid "Subscription & Billing"
 msgstr "Підписка та Оплата"
 
-#: templates/billing/subscription_details.html:13
-#: templates/companies/customer_detail.html:11
-#: templates/companies/customers_list.html:11
-#: templates/companies/services_list.html:10
-#: templates/companies/staff_list.html:10
-msgid "Back"
-msgstr "Назад"
-
 #: templates/billing/subscription_details.html:34
 msgid "Payment Issue"
 msgstr "Проблема з оплатою"
@@ -1168,11 +1500,6 @@ msgstr "Переглянути Доступні Плани"
 msgid "Billing History"
 msgstr "Історія Оплат"
 
-#: templates/billing/subscription_details.html:116
-#: templates/bookings/bookings_list.html:64
-msgid "Date"
-msgstr "Дата"
-
 #: templates/billing/subscription_details.html:117
 msgid "Transaction ID"
 msgstr "Ідентифікатор Транзакції"
@@ -1186,10 +1513,6 @@ msgstr "План"
 msgid "Status"
 msgstr "Статус"
 
-#: templates/billing/subscription_details.html:120
-msgid "Amount"
-msgstr "Сума"
-
 #: templates/billing/subscription_details.html:156
 msgid "No billing history yet"
 msgstr "Історії оплат ще немає"
@@ -1199,27 +1522,22 @@ msgid "Account Summary"
 msgstr "Зведення Облікового Запису"
 
 #: templates/billing/subscription_details.html:170
-#: templates/companies/analytics.html:423
-msgid "Total Spent"
-msgstr "Всього Витрачено"
-
-#: templates/billing/subscription_details.html:176
 msgid "Active Since"
 msgstr "Активно З"
 
-#: templates/billing/subscription_details.html:186
+#: templates/billing/subscription_details.html:180
 msgid "Transactions"
 msgstr "Транзакції"
 
-#: templates/billing/subscription_details.html:194
+#: templates/billing/subscription_details.html:193
 msgid "Need Help?"
 msgstr "Потрібна Допомога?"
 
-#: templates/billing/subscription_details.html:196
+#: templates/billing/subscription_details.html:195
 msgid "Have questions about billing or your subscription?"
 msgstr "Є питання щодо оплати або вашої підписки?"
 
-#: templates/billing/subscription_details.html:199
+#: templates/billing/subscription_details.html:198
 #: templates/static_pages/faq.html:67
 msgid "Contact Support"
 msgstr "Зв'язатися з Підтримкою"
@@ -1380,33 +1698,11 @@ msgstr "Підтвердити Бронювання"
 msgid "Booking Details"
 msgstr "Деталі Бронювання"
 
-#: templates/bookings/confirm_prebooked.html:29
-#: templates/bookings/create_booking.html:57
-#: templates/bookings/edit_booking.html:69
-#: templates/companies/customer_detail.html:33
-#: templates/companies/customers_list.html:55
-#: templates/companies/dashboard.html:133
-#: templates/companies/edit_profile.html:69
-#: templates/companies/register.html:122
-msgid "Phone"
-msgstr "Телефон"
-
 #: templates/bookings/confirm_prebooked.html:37
 #: templates/bookings/confirmation.html:51
 #: templates/bookings/confirmation.html:142
 msgid "Date & Time"
 msgstr "Дата і Час"
-
-#: templates/bookings/confirm_prebooked.html:46
-#: templates/bookings/create_booking.html:71
-#: templates/bookings/edit_booking.html:79
-#: templates/companies/add_staff.html:27 templates/companies/dashboard.html:139
-#: templates/companies/edit_profile.html:76
-#: templates/companies/edit_staff.html:17
-#: templates/companies/forgot_password.html:15
-#: templates/companies/register.html:57 templates/static_pages/contact.html:23
-msgid "Email"
-msgstr "Електронна Пошта"
 
 #: templates/bookings/confirm_prebooked.html:58
 #: templates/bookings/edit_booking.html:105
@@ -1572,8 +1868,8 @@ msgid "(optional)"
 msgstr "(Опційно)"
 
 #: templates/bookings/create_booking.html:81
-#: templates/companies/add_staff.html:252 templates/companies/dashboard.html:35
-#: templates/companies/edit_staff.html:322
+#: templates/companies/add_staff.html:327 templates/companies/dashboard.html:35
+#: templates/companies/edit_staff.html:398
 #: templates/companies/services_list.html:15
 msgid "Services"
 msgstr "Послуги"
@@ -1689,6 +1985,10 @@ msgstr "Ми призначимо"
 msgid "services"
 msgstr "послуги"
 
+#: templates/bookings/create_booking.html:990
+msgid "Phone number must include country code (e.g., +34612345678)"
+msgstr "Номер телефону має містити код країни (наприклад, +34612345678)"
+
 #: templates/bookings/create_booking.html:993
 msgid "Phone number is too short"
 msgstr "Номер телефону занадто короткий"
@@ -1751,10 +2051,6 @@ msgstr "Примітки Клієнта"
 msgid "from customer"
 msgstr "від клієнта"
 
-#: templates/bookings/edit_booking.html:333
-msgid "Phone (must include country code, e.g. +1234567890)"
-msgstr "Телефон (необхідно вказати код країни, наприклад +1234567890)"
-
 #: templates/bookings/notifications_list.html:4
 #: templates/bookings/notifications_list.html:10
 msgid "Notifications"
@@ -1779,18 +2075,6 @@ msgstr "Позначити як прочитане"
 #: templates/companies/customers_list.html:88
 msgid "Previous"
 msgstr "Попередня"
-
-#: templates/bookings/notifications_list.html:82
-#: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
-msgid "Page"
-msgstr "Сторінка"
-
-#: templates/bookings/notifications_list.html:82
-#: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
-msgid "of"
-msgstr "з"
 
 #: templates/bookings/notifications_list.html:87
 #: templates/companies/customer_detail.html:123
@@ -1899,7 +2183,7 @@ msgstr "Потрібне Підтвердження Персоналу"
 msgid "Maximum 10 dates allowed"
 msgstr "Максимум 10 дат дозволено"
 
-#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:282
+#: templates/companies/add_staff.html:15 templates/companies/add_staff.html:357
 msgid "Add Staff Member"
 msgstr "Додати Члена Персоналу"
 
@@ -1934,56 +2218,80 @@ msgstr ""
 "Встановіть конкретний робочий час для кожного дня (залиште порожнім, щоб "
 "використовувати робочі години компанії)"
 
-#: templates/companies/add_staff.html:111
-#: templates/companies/add_staff.html:127
-#: templates/companies/add_staff.html:143
-#: templates/companies/add_staff.html:159
-#: templates/companies/add_staff.html:175
-#: templates/companies/add_staff.html:191
-#: templates/companies/add_staff.html:207
-#: templates/companies/edit_staff.html:114
-#: templates/companies/edit_staff.html:130
-#: templates/companies/edit_staff.html:146
-#: templates/companies/edit_staff.html:162
-#: templates/companies/edit_staff.html:178
-#: templates/companies/edit_staff.html:194
-#: templates/companies/edit_staff.html:210
+#: templates/companies/add_staff.html:112
+#: templates/companies/add_staff.html:141
+#: templates/companies/add_staff.html:170
+#: templates/companies/add_staff.html:199
+#: templates/companies/add_staff.html:228
+#: templates/companies/add_staff.html:257
+#: templates/companies/add_staff.html:286
+#: templates/companies/edit_staff.html:115
+#: templates/companies/edit_staff.html:144
+#: templates/companies/edit_staff.html:173
+#: templates/companies/edit_staff.html:202
+#: templates/companies/edit_staff.html:231
+#: templates/companies/edit_staff.html:260
+#: templates/companies/edit_staff.html:289
 msgid "Start"
 msgstr "Початок"
 
-#: templates/companies/add_staff.html:116
-#: templates/companies/add_staff.html:132
-#: templates/companies/add_staff.html:148
-#: templates/companies/add_staff.html:164
-#: templates/companies/add_staff.html:180
-#: templates/companies/add_staff.html:196
-#: templates/companies/add_staff.html:212
-#: templates/companies/edit_staff.html:119
-#: templates/companies/edit_staff.html:135
-#: templates/companies/edit_staff.html:151
-#: templates/companies/edit_staff.html:167
-#: templates/companies/edit_staff.html:183
-#: templates/companies/edit_staff.html:199
-#: templates/companies/edit_staff.html:215
+#: templates/companies/add_staff.html:117
+#: templates/companies/add_staff.html:146
+#: templates/companies/add_staff.html:175
+#: templates/companies/add_staff.html:204
+#: templates/companies/add_staff.html:233
+#: templates/companies/add_staff.html:262
+#: templates/companies/add_staff.html:291
+#: templates/companies/edit_staff.html:120
+#: templates/companies/edit_staff.html:149
+#: templates/companies/edit_staff.html:178
+#: templates/companies/edit_staff.html:207
+#: templates/companies/edit_staff.html:236
+#: templates/companies/edit_staff.html:265
+#: templates/companies/edit_staff.html:294
 msgid "End"
 msgstr "кінець"
 
-#: templates/companies/add_staff.html:221
-#: templates/companies/edit_staff.html:223
-msgid "Break Start Time"
-msgstr "Час Початку Перерви"
-
-#: templates/companies/add_staff.html:229
-#: templates/companies/edit_staff.html:231
-msgid "Break End Time"
-msgstr "Час Закінчення Перерви"
-
-#: templates/companies/add_staff.html:243
+#: templates/companies/add_staff.html:123
+#: templates/companies/add_staff.html:152
+#: templates/companies/add_staff.html:181
+#: templates/companies/add_staff.html:210
+#: templates/companies/add_staff.html:239
+#: templates/companies/add_staff.html:268
+#: templates/companies/add_staff.html:297
+#: templates/companies/edit_staff.html:126
+#: templates/companies/edit_staff.html:155
+#: templates/companies/edit_staff.html:184
+#: templates/companies/edit_staff.html:213
 #: templates/companies/edit_staff.html:242
+#: templates/companies/edit_staff.html:271
+#: templates/companies/edit_staff.html:300
+msgid "Break Start"
+msgstr "Початок перерви"
+
+#: templates/companies/add_staff.html:128
+#: templates/companies/add_staff.html:157
+#: templates/companies/add_staff.html:186
+#: templates/companies/add_staff.html:215
+#: templates/companies/add_staff.html:244
+#: templates/companies/add_staff.html:273
+#: templates/companies/add_staff.html:302
+#: templates/companies/edit_staff.html:131
+#: templates/companies/edit_staff.html:160
+#: templates/companies/edit_staff.html:189
+#: templates/companies/edit_staff.html:218
+#: templates/companies/edit_staff.html:247
+#: templates/companies/edit_staff.html:276
+#: templates/companies/edit_staff.html:305
+msgid "Break End"
+msgstr "Закінчення перерви"
+
+#: templates/companies/add_staff.html:318
+#: templates/companies/edit_staff.html:318
 msgid "Out of Office Periods"
 msgstr "Періоди відсутності"
 
-#: templates/companies/add_staff.html:245
+#: templates/companies/add_staff.html:320
 msgid ""
 "You can manage multiple out-of-office periods after creating the staff "
 "member."
@@ -2170,6 +2478,10 @@ msgstr "Топ Клієнтів"
 msgid "Total Bookings"
 msgstr "Всього Бронювань"
 
+#: templates/companies/analytics.html:423
+msgid "Total Spent"
+msgstr "Всього Витрачено"
+
 #: templates/companies/analytics.html:444
 msgid "View Details"
 msgstr "Переглянути Деталі"
@@ -2344,95 +2656,73 @@ msgstr "Встановити Години"
 msgid "View Public Page"
 msgstr "Переглянути Публічну Сторінку"
 
-#: templates/companies/dashboard.html:123 templates/companies/register.html:88
+#: templates/companies/dashboard.html:127
 msgid "Company Information"
 msgstr "Інформація Про Компанію"
 
-#: templates/companies/dashboard.html:128
-#: templates/companies/edit_profile.html:39
-#: templates/companies/register.html:106
-msgid "Address"
-msgstr "Адреса"
-
-#: templates/companies/dashboard.html:145
+#: templates/companies/dashboard.html:149
 #: templates/companies/edit_profile.html:85
 msgid "Website"
 msgstr "Веб-сайт"
 
-#: templates/companies/dashboard.html:155
+#: templates/companies/dashboard.html:159
 msgid "Booking Link"
 msgstr "Посилання для Бронювання"
 
-#: templates/companies/dashboard.html:158
+#: templates/companies/dashboard.html:162
 msgid "Share this link with your customers:"
 msgstr "Поділіться цим посиланням з вашими клієнтами:"
 
-#: templates/companies/dashboard.html:163
+#: templates/companies/dashboard.html:167
 msgid "Copy"
 msgstr "Копіювати"
 
-#: templates/companies/dashboard.html:169
-#: templates/companies/dashboard.html:238
+#: templates/companies/dashboard.html:173
+#: templates/companies/dashboard.html:242
 msgid "Download QR Code"
 msgstr "Завантажити QR Код"
 
-#: templates/companies/dashboard.html:175
+#: templates/companies/dashboard.html:179
 msgid "QR Code Preview:"
 msgstr "Попередній Перегляд QR Коду:"
 
-#: templates/companies/dashboard.html:212
+#: templates/companies/dashboard.html:216
 msgid "WhatsApp Link:"
 msgstr "Посилання WhatsApp"
 
-#: templates/companies/dashboard.html:222
+#: templates/companies/dashboard.html:226
 msgid "Use this link on your website, social media, or anywhere online"
 msgstr ""
 "Використовуйте це посилання на своєму вебсайті, у соціальних мережах або "
 "будь-де в Інтернеті"
 
-#: templates/companies/dashboard.html:232
+#: templates/companies/dashboard.html:236
 msgid "WhatsApp QR Code"
 msgstr "QR Code WhatsApp"
 
-#: templates/companies/dashboard.html:243
+#: templates/companies/dashboard.html:247
 msgid "Preview QR"
 msgstr "Попередній перегляд QR-коду"
 
-#: templates/companies/dashboard.html:255
+#: templates/companies/dashboard.html:259
 msgid "Print this QR code on:"
 msgstr "Роздрукуйте цей QR-код на:"
 
-#: templates/companies/dashboard.html:258
+#: templates/companies/dashboard.html:262
 msgid "Business cards • Posters • Window stickers • Flyers"
 msgstr "Візитки • Плакати • Наклейки на вікна • Флаєри"
 
-#: templates/companies/dashboard.html:292
+#: templates/companies/dashboard.html:296
 msgid "Link copied to clipboard!"
 msgstr "Посилання скопійовано в буфер обміну!"
 
-#: templates/companies/dashboard.html:329
+#: templates/companies/dashboard.html:333
 msgid "WhatsApp link copied!"
 msgstr "WhatsApp посилання скопійовано!"
 
 #: templates/companies/edit_profile.html:10
 msgid "Edit Company Profile"
 msgstr "Редагувати Профіль Компанії"
-
-#: templates/companies/edit_profile.html:22
-#: templates/companies/register.html:91
-msgid "Company Name"
-msgstr "Назва Компанії"
-
-#: templates/companies/edit_profile.html:30
-#: templates/companies/register.html:98
-#: templates/static_pages/cookie_policy.html:68
-msgid "Description"
-msgstr "Опис"
-
-#: templates/companies/edit_profile.html:46
-#: templates/companies/register.html:113
-msgid "City"
-msgstr "Місто"
 
 #: templates/companies/edit_profile.html:55
 msgid "Map Location"
@@ -2509,7 +2799,7 @@ msgstr "Поточний логотип"
 
 #: templates/companies/edit_profile.html:147
 #: templates/companies/edit_staff.html:69
-#: templates/companies/edit_staff.html:303
+#: templates/companies/edit_staff.html:379
 #: templates/companies/services_list.html:49
 #: templates/companies/staff_list.html:80
 #: venv/lib/python3.12/site-packages/django/forms/formsets.py:499
@@ -2534,8 +2824,8 @@ msgstr "Оберіть файл"
 
 #: templates/companies/edit_profile.html:199
 #: templates/companies/edit_service.html:130
-#: templates/companies/edit_staff.html:270
-#: templates/companies/edit_staff.html:363
+#: templates/companies/edit_staff.html:346
+#: templates/companies/edit_staff.html:439
 #: templates/companies/working_hours.html:75
 msgid "Save Changes"
 msgstr "Зберегти Зміни"
@@ -2556,88 +2846,88 @@ msgstr "Повторно надіслати активаційний лист"
 msgid "Current avatar"
 msgstr "Поточний аватар"
 
-#: templates/companies/edit_staff.html:247
+#: templates/companies/edit_staff.html:323
 msgid "Add Period"
 msgstr "Додати період"
 
-#: templates/companies/edit_staff.html:253
+#: templates/companies/edit_staff.html:329
 msgid "New Out of Office Period"
 msgstr "Новий період відсутності"
 
-#: templates/companies/edit_staff.html:256
+#: templates/companies/edit_staff.html:332
 msgid "Start Date & Time"
 msgstr "Дату і час початку"
 
-#: templates/companies/edit_staff.html:260
+#: templates/companies/edit_staff.html:336
 msgid "End Date & Time"
 msgstr "Дата і Час закінчення"
 
-#: templates/companies/edit_staff.html:265
+#: templates/companies/edit_staff.html:341
 msgid "Reason (Optional)"
 msgstr "Причина відсутності (опційно)"
 
-#: templates/companies/edit_staff.html:266
+#: templates/companies/edit_staff.html:342
 msgid "e.g., Vacation, Medical appointment..."
 msgstr "наприклад, відпустка, медичний огляд..."
 
-#: templates/companies/edit_staff.html:296
+#: templates/companies/edit_staff.html:372
 msgid "Reason:"
 msgstr "Причина:"
 
-#: templates/companies/edit_staff.html:300
+#: templates/companies/edit_staff.html:376
 msgid "Added"
 msgstr "Додано"
 
-#: templates/companies/edit_staff.html:315
-#: templates/companies/edit_staff.html:547
+#: templates/companies/edit_staff.html:391
+#: templates/companies/edit_staff.html:623
 msgid "No out of office periods scheduled"
 msgstr "Немає запланованих періодів відсутності"
 
-#: templates/companies/edit_staff.html:352
+#: templates/companies/edit_staff.html:428
 msgid "Is Active"
 msgstr "Активний"
 
-#: templates/companies/edit_staff.html:374
+#: templates/companies/edit_staff.html:450
 msgid "Are you sure you want to resend the activation email?"
 msgstr "Ви впевнені, що хочете повторно надіслати активаційний лист?"
 
-#: templates/companies/edit_staff.html:392
-#: templates/companies/edit_staff.html:510
-#: templates/companies/edit_staff.html:552
+#: templates/companies/edit_staff.html:468
+#: templates/companies/edit_staff.html:586
+#: templates/companies/edit_staff.html:628
 msgid "Error:"
 msgstr "Помилка:"
 
-#: templates/companies/edit_staff.html:392
-#: templates/companies/edit_staff.html:510
-#: templates/companies/edit_staff.html:552
+#: templates/companies/edit_staff.html:468
+#: templates/companies/edit_staff.html:586
+#: templates/companies/edit_staff.html:628
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
-#: templates/companies/edit_staff.html:397
+#: templates/companies/edit_staff.html:473
 msgid "Error sending activation email. Please try again."
 msgstr "Помилка надсилання активаційного листа. Будь ласка, спробуйте ще раз."
 
-#: templates/companies/edit_staff.html:480
+#: templates/companies/edit_staff.html:556
 msgid "Please fill in both start and end date/time"
 msgstr ""
 
-#: templates/companies/edit_staff.html:488
+#: templates/companies/edit_staff.html:564
 msgid "End date must be after start date"
 msgstr ""
 
-#: templates/companies/edit_staff.html:515
+#: templates/companies/edit_staff.html:591
 #, fuzzy
 #| msgid "Error sending activation email. Please try again."
 msgid "Error saving period. Please try again."
 msgstr "Помилка надсилання активаційного листа. Будь ласка, спробуйте ще раз."
 
-#: templates/companies/edit_staff.html:520
+#: templates/companies/edit_staff.html:596
 #, fuzzy
 #| msgid "Are you sure you want to switch to"
 msgid "Are you sure you want to delete this out of office period?"
 msgstr "Ви впевнені, що хочете змінити на"
 
-#: templates/companies/edit_staff.html:557
+#: templates/companies/edit_staff.html:633
 #, fuzzy
 #| msgid "Error sending activation email. Please try again."
 msgid "Error deleting period. Please try again."
@@ -2737,13 +3027,21 @@ msgstr "Інформація Облікового Запису"
 msgid "Logged in via Google"
 msgstr "Увійшли через Google"
 
+#: templates/companies/register.html:88
+msgid "Salon Information"
+msgstr "Інформація про салон"
+
+#: templates/companies/register.html:91
+msgid "Salon Name"
+msgstr "Назва салону"
+
 #: templates/companies/register.html:129
-msgid "Company Email"
-msgstr "Електронна Пошта Компанії"
+msgid "Salon Email"
+msgstr "Email салону"
 
 #: templates/companies/register.html:137
-msgid "Company Logo"
-msgstr "Логотип Компанії"
+msgid "Salon Logo"
+msgstr "Логотип салону"
 
 #: templates/companies/register.html:148
 msgid "Back to home"
@@ -2751,12 +3049,12 @@ msgstr "Повернутися на головну"
 
 #: templates/companies/register.html:151
 msgid "Create Account"
-msgstr "Створити Обліковий Запис"
+msgstr "Створити обліковий запис"
 
 #: templates/companies/reset_password.html:10
 #: templates/email/password_reset.html:83
 msgid "Reset Password"
-msgstr "Скинути Пароль"
+msgstr "Скинути пароль"
 
 #: templates/companies/reset_password.html:11
 msgid "Please set your password to reset your account."
@@ -2783,8 +3081,8 @@ msgid ""
 "You are not yet a staff member. Would you like to add yourself to be able to "
 "receive bookings?"
 msgstr ""
-"Ви ще не є співробітником. Бажаєте додати себе, щоб мати змогу "
-"отримувати бронювання?"
+"Ви ще не є співробітником. Бажаєте додати себе, щоб мати змогу отримувати "
+"бронювання?"
 
 #: templates/companies/staff_list.html:37
 msgid "Add Myself as Staff"

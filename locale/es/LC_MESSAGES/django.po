@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 14:02+0200\n"
+"POT-Creation-Date: 2026-07-31 17:03+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -606,8 +606,8 @@ msgid "Invalid JSON: %(error)s"
 msgstr "JSON no válido: %(error)s"
 
 #: templates/Index.html:4 templates/Index.html:14
-msgid "A Simple Client Management System for Your Salon"
-msgstr "Un sistema sencillo de gestión de clientes para su salón"
+msgid "Less calls. Less messages. More bookings."
+msgstr "Menos llamadas. Menos mensajes. Más reservas."
 
 #: templates/Index.html:17
 msgid ""
@@ -3074,7 +3074,7 @@ msgstr "Nombre del salón"
 #, fuzzy
 #| msgid "Phone & Email"
 msgid "Salon Email"
-msgstr "Correo y telefono"
+msgstr "Correo electronico"
 
 #: templates/companies/register.html:137
 #, fuzzy

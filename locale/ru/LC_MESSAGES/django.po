@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 14:02+0200\n"
+"POT-Creation-Date: 2026-07-31 17:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,7 +141,9 @@ msgstr "Номер счета-фактуры"
 
 #: billing/models.py:272
 msgid "Auto-generated if left blank (e.g. INV-2026-0001)"
-msgstr "Если оставить поле пустым, оно будет сгенерировано автоматически (например, INV-2026-0001)."
+msgstr ""
+"Если оставить поле пустым, оно будет сгенерировано автоматически (например, "
+"INV-2026-0001)."
 
 #: billing/models.py:273
 msgid "Invoice Date"
@@ -157,7 +159,9 @@ msgstr "Компания (рекомендация)"
 
 #: billing/models.py:279
 msgid "Select to auto-fill client fields from saved billing info"
-msgstr "Выберите этот параметр, чтобы поля клиента автоматически заполнялись на основе сохраненной платежной информации."
+msgstr ""
+"Выберите этот параметр, чтобы поля клиента автоматически заполнялись на "
+"основе сохраненной платежной информации."
 
 #: billing/models.py:282
 msgid "Seller – Company Name"
@@ -605,8 +609,8 @@ msgid "Invalid JSON: %(error)s"
 msgstr "Недопустимый JSON: %(error)s"
 
 #: templates/Index.html:4 templates/Index.html:14
-msgid "A Simple Client Management System for Your Salon"
-msgstr "Простая система управления клиентами для вашего салона."
+msgid "Less calls. Less messages. More bookings."
+msgstr "Меньше звонков. Меньше сообщений. Больше бронирований."
 
 #: templates/Index.html:17
 msgid ""

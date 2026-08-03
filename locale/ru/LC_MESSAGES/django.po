@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 17:03+0200\n"
+"POT-Creation-Date: 2026-08-03 17:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -608,11 +608,23 @@ msgstr "Номер телефона обязательно."
 msgid "Invalid JSON: %(error)s"
 msgstr "Недопустимый JSON: %(error)s"
 
-#: templates/Index.html:4 templates/Index.html:14
+#: templates/Index.html:4 templates/Index.html:39
 msgid "Less calls. Less messages. More bookings."
 msgstr "Меньше звонков. Меньше сообщений. Больше бронирований."
 
 #: templates/Index.html:17
+msgid "Start Your Free Trial Today!"
+msgstr "Начните бесплатную пробную версию сегодня!"
+
+#: templates/Index.html:20
+msgid "No credit card required • 30 days free"
+msgstr "Кредитная карта не требуется • 30 дней бесплатно"
+
+#: templates/Index.html:26 templates/Index.html:48 templates/Index.html:520
+msgid "Start Free"
+msgstr "Начать бесплатнуо"
+
+#: templates/Index.html:42
 msgid ""
 "Reduce no‑shows, save time, and let clients book 24/7 — all in one simple "
 "platform."
@@ -620,35 +632,31 @@ msgstr ""
 "Сократите количество неявок, сэкономьте время и позвольте клиентам "
 "бронировать круглосуточно — все это на одной простой платформе."
 
-#: templates/Index.html:23
-msgid "Start Free Trial"
-msgstr "Начать бесплатную пробную версию"
-
-#: templates/Index.html:28
+#: templates/Index.html:53
 msgid "Go to Dashboard"
 msgstr "Перейдите на панель управления."
 
-#: templates/Index.html:33
+#: templates/Index.html:58
 msgid "See How It Works"
 msgstr "Посмотрите, как это работает."
 
-#: templates/Index.html:52
+#: templates/Index.html:77
 msgid "Everything You Need to Run Your Salon Smoothly"
 msgstr "Всё необходимое для бесперебойной работы вашего салона."
 
-#: templates/Index.html:62 templates/companies/dashboard.html:193
+#: templates/Index.html:87 templates/companies/dashboard.html:193
 msgid "WhatsApp Booking"
 msgstr "Бронирование через WhatsApp"
 
-#: templates/Index.html:63 templates/companies/dashboard.html:194
+#: templates/Index.html:88 templates/companies/dashboard.html:194
 msgid "NEW!"
 msgstr "NEW!"
 
-#: templates/Index.html:72 templates/companies/dashboard.html:203
+#: templates/Index.html:97 templates/companies/dashboard.html:203
 msgid "AI-Powered Booking via WhatsApp"
 msgstr "Бронирование через WhatsApp с помощью ИИ"
 
-#: templates/Index.html:75 templates/companies/dashboard.html:206
+#: templates/Index.html:100 templates/companies/dashboard.html:206
 msgid ""
 "Your customers can now book appointments by simply sending a WhatsApp "
 "message! The AI assistant will:"
@@ -656,257 +664,261 @@ msgstr ""
 "Теперь ваши клиенты могут записываться на прием, просто отправив сообщение в "
 "WhatsApp! Искусственный интеллект-помощник выполнит следующие действия:"
 
-#: templates/Index.html:78 templates/companies/dashboard.html:209
+#: templates/Index.html:103 templates/companies/dashboard.html:209
 msgid "Understand natural language requests"
-msgstr "Понимание запросов на естественном языке."
+msgstr "Понимает запросы на естественном языке."
 
-#: templates/Index.html:79 templates/companies/dashboard.html:210
+#: templates/Index.html:104 templates/companies/dashboard.html:210
 msgid "Show available time slots"
-msgstr "Показать доступные временные интервалы"
+msgstr "Показывает доступные окна"
 
-#: templates/Index.html:80 templates/companies/dashboard.html:211
+#: templates/Index.html:105 templates/companies/dashboard.html:211
 msgid "Create confirmed bookings automatically"
-msgstr "Автоматическое создание подтвержденных бронирований"
+msgstr "Автоматически создает бронированя"
 
-#: templates/Index.html:81 templates/companies/dashboard.html:212
+#: templates/Index.html:106 templates/companies/dashboard.html:212
 msgid "Support multiple languages (ES/EN/CA/UK)"
-msgstr "Поддержка нескольких языков (ES/EN/RU/UK)"
+msgstr "Поддержывает несколько языков (ES/EN/RU/UK)"
 
-#: templates/Index.html:90 templates/companies/dashboard.html:272
+#: templates/Index.html:115 templates/companies/dashboard.html:272
 msgid "Example conversation:"
 msgstr "Пример диалога:"
 
-#: templates/Index.html:115
+#: templates/Index.html:140
 msgid "Online Booking"
 msgstr "Онлайн-бронирование"
 
-#: templates/Index.html:117
+#: templates/Index.html:142
 msgid ""
 "Let clients book appointments anytime. Automatic confirmations included."
 msgstr ""
 "Позвольте клиентам записываться на прием в любое время. Автоматическое "
 "подтверждение включено."
 
-#: templates/Index.html:126
+#: templates/Index.html:151
 msgid "WhatsApp Reminders"
 msgstr "Напоминания WhatsApp"
 
-#: templates/Index.html:128
+#: templates/Index.html:153
 msgid ""
 "Reduce no‑shows with instant WhatsApp notifications clients actually read."
 msgstr ""
 "Сократите количество неявок благодаря мгновенным уведомлениям в WhatsApp, "
 "которые клиенты действительно читают."
 
-#: templates/Index.html:137
+#: templates/Index.html:162
 msgid "Staff Management"
 msgstr "Управление персоналом"
 
-#: templates/Index.html:139
+#: templates/Index.html:164
 msgid "Each staff member gets their own calendar and schedule."
 msgstr "Каждый сотрудник получает собственный календарь и расписание."
 
-#: templates/Index.html:148
+#: templates/Index.html:173
 msgid "Service Management"
 msgstr "Управление услугами"
 
-#: templates/Index.html:150
+#: templates/Index.html:175
 msgid "Create services, durations, prices, and assign them to staff."
 msgstr ""
 "Создавайте услуги, устанавливайте продолжительность, цены и назначайте их "
 "сотрудникам."
 
-#: templates/Index.html:159
+#: templates/Index.html:184
 msgid "Client Profiles"
 msgstr "Профили клиентов"
 
-#: templates/Index.html:161
+#: templates/Index.html:186
 msgid "Keep track of client history, notes, and preferences."
 msgstr ""
 "Отслеживайте историю взаимодействия с клиентами, заметки и их предпочтения."
 
-#: templates/Index.html:170
+#: templates/Index.html:195
 msgid "Analytics Dashboard"
 msgstr "Панель аналитики"
 
-#: templates/Index.html:172
+#: templates/Index.html:197
 msgid "Track your bookings, no-shows, and business performance."
 msgstr "Отслеживайте бронирования, неявки и показатели эффективности бизнеса."
 
-#: templates/Index.html:185
+#: templates/Index.html:210
 msgid "Why WhatsApp Reminders Matter"
 msgstr "Почему напоминания в WhatsApp важны"
 
-#: templates/Index.html:191
+#: templates/Index.html:216
 msgid "Clients read WhatsApp messages instantly"
 msgstr "Клиенты мгновенно читают сообщения WhatsApp."
 
-#: templates/Index.html:192
+#: templates/Index.html:217
 #, python-format
 msgid "Higher open rates than email — 97%% read rate within minutes"
 msgstr ""
 "Более высокий процент открытия, чем у электронной почты — 97%% прочитанных "
 "за минуты"
 
-#: templates/Index.html:198
+#: templates/Index.html:223
 msgid "Reduce missed appointments"
 msgstr "Сократите количество пропущенных приемов."
 
-#: templates/Index.html:199
+#: templates/Index.html:224
 msgid "Cut no-shows with timely reminders"
 msgstr "Прекратите неявку на мероприятия, своевременно напоминая о ней."
 
-#: templates/Index.html:205
+#: templates/Index.html:230
 msgid "Automatic reminders before each visit"
 msgstr "Автоматические напоминания перед каждым визитом"
 
-#: templates/Index.html:206
+#: templates/Index.html:231
 msgid "Set it up once and let it run automatically"
 msgstr "Настройте один раз и пусть работает автоматически."
 
-#: templates/Index.html:212
+#: templates/Index.html:237
 msgid "Works even if clients ignore email"
 msgstr "Работает, даже если клиенты игнорируют электронные письма."
 
-#: templates/Index.html:213
+#: templates/Index.html:238
 msgid "Reach your clients where they actually are"
 msgstr "Находите своих клиентов там, где они действительно находятся."
 
-#: templates/Index.html:224
+#: templates/Index.html:249
 msgid "Example WhatsApp Message"
 msgstr "Пример сообщения в WhatsApp"
 
-#: templates/Index.html:227
+#: templates/Index.html:252
 msgid "Hi Maria! 💅"
 msgstr "Привет, Мария!"
 
-#: templates/Index.html:228
+#: templates/Index.html:253
 msgid "Your appointment reminder:"
 msgstr "Напоминание о вашей записи на прием:"
 
-#: templates/Index.html:229
+#: templates/Index.html:254
 msgid "Tomorrow at 3:00 PM"
 msgstr "Завтра в 15:00"
 
-#: templates/Index.html:230
+#: templates/Index.html:255
 msgid "Haircut - 60 min"
 msgstr "Стрижка - 60 мин."
 
-#: templates/Index.html:231
+#: templates/Index.html:256
 msgid "With Anna"
 msgstr "С Анной"
 
-#: templates/Index.html:232
+#: templates/Index.html:257
 msgid "See you soon!"
 msgstr "До скорой встречи!"
 
-#: templates/Index.html:245
+#: templates/Index.html:270
 msgid "Perfect for beauty & wellness businesses"
 msgstr "Идеально подходит для предприятий индустрии красоты и здоровья."
 
-#: templates/Index.html:248
+#: templates/Index.html:273
 msgid "If you run any of these, Reserva-Ya is for you"
 msgstr ""
 "Если вы используете что-либо из перечисленного, Reserva-Ya — это то, что вам "
 "нужно."
 
-#: templates/Index.html:255
+#: templates/Index.html:280
 msgid "Hair salons"
 msgstr "Парикмахерские"
 
-#: templates/Index.html:259
+#: templates/Index.html:284
 msgid "Barber shops"
 msgstr "Мужские парикмахерские"
 
-#: templates/Index.html:263
+#: templates/Index.html:288
 msgid "Nail & manicure studios"
 msgstr "Студии маникюра и педикюра"
 
-#: templates/Index.html:267
+#: templates/Index.html:292
 msgid "Beauty & aesthetics"
 msgstr "Салоны красоты и эстетики"
 
-#: templates/Index.html:271
+#: templates/Index.html:296
 msgid "Massage & wellness"
 msgstr "Массаж и оздоровление"
 
-#: templates/Index.html:282
+#: templates/Index.html:307
 msgid "Get Started in Minutes"
 msgstr "Начните работу за считанные минуты"
 
-#: templates/Index.html:285
+#: templates/Index.html:310
 msgid "Simple setup, immediate results"
 msgstr "Простая настройка, мгновенный результат"
 
-#: templates/Index.html:294 templates/static_pages/how_it_works.html:21
+#: templates/Index.html:319 templates/static_pages/how_it_works.html:21
 msgid "Sign Up"
 msgstr "Зарегистрироваться"
 
-#: templates/Index.html:296
+#: templates/Index.html:321
 msgid "Create your company account in under 2 minutes."
 msgstr "Создайте корпоративный аккаунт менее чем за 2 минуты."
 
-#: templates/Index.html:304
+#: templates/Index.html:329
 msgid "Set Up"
 msgstr "Настройте"
 
-#: templates/Index.html:306
+#: templates/Index.html:331
 msgid "Add staff, services, and working hours."
 msgstr "Добавьте информацию о персонале, услугах и рабочем времени."
 
-#: templates/Index.html:314
+#: templates/Index.html:339
 msgid "Share"
 msgstr "Поделитесь"
 
-#: templates/Index.html:316
+#: templates/Index.html:341
 msgid "Send your booking link to clients."
 msgstr "Отправьте клиентам ссылку для бронирования."
 
-#: templates/Index.html:324
+#: templates/Index.html:349
 msgid "Grow"
 msgstr "Растите"
 
-#: templates/Index.html:326
+#: templates/Index.html:351
 msgid "Receive bookings automatically and reduce no‑shows."
 msgstr "Получайте бронирования автоматически и сокращайте количество неявок."
 
-#: templates/Index.html:338
+#: templates/Index.html:363
 msgid "Simple, transparent pricing"
 msgstr "Простое и прозрачное ценообразование"
 
-#: templates/Index.html:341
+#: templates/Index.html:366
 msgid "Choose the perfect plan for your business"
 msgstr "Выберите идеальный план для вашего бизнеса."
 
-#: templates/Index.html:345
+#: templates/Index.html:370
 msgid "View Our Pricing Plans"
 msgstr "Посмотреть наши тарифные планы"
 
-#: templates/Index.html:351
+#: templates/Index.html:376
 msgid "All plans include:"
 msgstr "Все тарифные планы включают:"
 
-#: templates/Index.html:356
+#: templates/Index.html:381
 msgid "Online booking"
 msgstr "Онлайн-бронирование"
 
-#: templates/Index.html:360
+#: templates/Index.html:385
+msgid "WhatsApp bookings"
+msgstr "Бронирование через WhatsApp"
+
+#: templates/Index.html:389
 msgid "Staff calendars"
 msgstr "Календари сотрудников"
 
-#: templates/Index.html:364
+#: templates/Index.html:393
 msgid "Unlimited appointments"
 msgstr "Неограниченное количество приемов"
 
-#: templates/Index.html:376 templates/static_pages/faq.html:10
+#: templates/Index.html:405 templates/static_pages/faq.html:10
 msgid "Frequently Asked Questions"
 msgstr "Часто задаваемые вопросы"
 
-#: templates/Index.html:384
+#: templates/Index.html:412
 msgid "Do I need to install anything?"
 msgstr "Нужно ли мне что-нибудь устанавливать?"
 
-#: templates/Index.html:388
+#: templates/Index.html:416
 msgid ""
 "No, everything works in your browser. No downloads or installations needed — "
 "just sign up and start using it immediately."
@@ -914,11 +926,11 @@ msgstr ""
 "Нет, всё работает в вашем браузере. Никаких загрузок или установок не "
 "требуется — просто зарегистрируйтесь и начните использовать его немедленно."
 
-#: templates/Index.html:395
+#: templates/Index.html:421
 msgid "Can clients book without downloading an app?"
 msgstr "Могут ли клиенты бронировать услуги без скачивания приложения?"
 
-#: templates/Index.html:399
+#: templates/Index.html:425
 msgid ""
 "Yes, bookings work on any device through a web link. Clients don't need to "
 "download anything — they simply click your booking link and book."
@@ -927,11 +939,11 @@ msgstr ""
 "нужно ничего скачивать — они просто переходят по вашей ссылке для "
 "бронирования и бронируют."
 
-#: templates/Index.html:406
+#: templates/Index.html:430
 msgid "Is WhatsApp included?"
 msgstr "Включен ли WhatsApp?"
 
-#: templates/Index.html:410
+#: templates/Index.html:434
 msgid ""
 "WhatsApp reminders are available in our Connect plan. You'll be able to send "
 "automatic reminders to all your clients."
@@ -939,11 +951,11 @@ msgstr ""
 "В нашем тарифном плане Connect доступны напоминания WhatsApp. Вы сможете "
 "отправлять автоматические напоминания всем своим клиентам."
 
-#: templates/Index.html:417
+#: templates/Index.html:439
 msgid "Can I cancel anytime?"
 msgstr "Могу ли я отменить заказ в любое время?"
 
-#: templates/Index.html:421
+#: templates/Index.html:443
 msgid ""
 "Of course — no long-term contracts. You can cancel your subscription anytime "
 "from your account settings."
@@ -951,11 +963,11 @@ msgstr ""
 "Конечно, никаких долгосрочных контрактов. Вы можете отменить подписку в "
 "любое время в настройках своей учетной записи."
 
-#: templates/Index.html:428
+#: templates/Index.html:448
 msgid "How do I connect WhatsApp?"
 msgstr "Как подключить WhatsApp?"
 
-#: templates/Index.html:432
+#: templates/Index.html:452
 msgid ""
 "We provide step-by-step instructions to connect your WhatsApp account. It's "
 "a simple 5-minute setup process."
@@ -963,50 +975,46 @@ msgstr ""
 "Мы предоставляем пошаговые инструкции по подключению вашей учетной записи "
 "WhatsApp. Это простой процесс настройки, занимающий всего 5 минут."
 
-#: templates/Index.html:444
+#: templates/Index.html:464
 msgid "See the Platform in Action"
 msgstr "Посмотрите, как работает платформа."
 
-#: templates/Index.html:453
+#: templates/Index.html:473
 msgid "Calendar View"
 msgstr "Календарный вид"
 
-#: templates/Index.html:462
+#: templates/Index.html:482
 msgid "Staff Schedule"
 msgstr "График работы персонала"
 
-#: templates/Index.html:471
+#: templates/Index.html:491
 msgid "Booking Form"
 msgstr "Форма бронирования"
 
-#: templates/Index.html:480
+#: templates/Index.html:500
 msgid "WhatsApp Reminder"
 msgstr "Напоминание в WhatsApp"
 
-#: templates/Index.html:493
+#: templates/Index.html:513
 msgid "Ready to Grow Your Salon?"
 msgstr "Готовы развивать свой салон?"
 
-#: templates/Index.html:496
+#: templates/Index.html:516
 msgid "Start your free trial today — no credit card required."
 msgstr ""
 "Начните бесплатную пробную версию сегодня — кредитная карта не требуется."
 
-#: templates/Index.html:500
-msgid "Start Your Free Trial Today"
-msgstr "Начните бесплатную пробную версию сегодня!"
-
-#: templates/Index.html:503
+#: templates/Index.html:523
 msgid "30 days free. No credit card. Cancel anytime."
 msgstr ""
 "30 дней бесплатно. Кредитная карта не требуется. Отменить можно в любое "
 "время."
 
-#: templates/Index.html:511
+#: templates/Index.html:531
 msgid "Welcome back!"
 msgstr "Добро пожаловать!"
 
-#: templates/Index.html:515
+#: templates/Index.html:535
 msgid "Go to your dashboard"
 msgstr "Перейдите в свою панель управления."
 
@@ -1119,35 +1127,30 @@ msgstr "Связаться с нами"
 msgid "Salon Booking System. All rights reserved."
 msgstr "Система бронирования салона. Все права защищены."
 
-#: templates/_header.html:17 templates/_header.html:95
+#: templates/_header.html:17 templates/_header.html:91
 msgid "Home"
 msgstr "Домой"
 
-#: templates/_header.html:18 templates/_header.html:96
+#: templates/_header.html:18 templates/_header.html:92
 msgid "Pricing"
 msgstr "Цены"
 
-#: templates/_header.html:42 templates/_header.html:104
+#: templates/_header.html:42 templates/_header.html:100
 msgid "Platform Admin"
 msgstr "Администратор платформы"
 
-#: templates/_header.html:45 templates/_header.html:107
+#: templates/_header.html:45 templates/_header.html:103
 msgid "Dashboard"
 msgstr "Панель управления"
 
-#: templates/_header.html:49 templates/_header.html:111
+#: templates/_header.html:49 templates/_header.html:107
 msgid "Logout"
 msgstr "Выйти"
 
-#: templates/_header.html:52 templates/_header.html:114
+#: templates/_header.html:52 templates/_header.html:110
 #: templates/users/login.html:5
 msgid "Login"
 msgstr "Авторизоваться"
-
-#: templates/_header.html:53 templates/_header.html:61
-#: templates/_header.html:115
-msgid "Try Free"
-msgstr "Попробуйте бесплатно"
 
 #: templates/billing/billing_info_form.html:4
 #: templates/billing/billing_info_form.html:16
@@ -3027,11 +3030,11 @@ msgstr "Зарегистрируйте свою компанию"
 
 #: templates/companies/register.html:11
 msgid "Register Your Business"
-msgstr "Зарегистрируйте свой бизнес"
+msgstr "Зарегистрируйте свой салон"
 
 #: templates/companies/register.html:12
 msgid "Create your company account and start accepting bookings"
-msgstr "Создайте корпоративный аккаунт и начните принимать заказы."
+msgstr "Создайте аккаунт и начните принимать заказы."
 
 #: templates/companies/register.html:19
 msgid "Quick sign up with Google"

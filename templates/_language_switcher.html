@@ -9,11 +9,12 @@
     @click="open = !open"
     @click.outside="open = false"
     type="button"
+    aria-label="{% trans 'Select language' %}"
     class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
   >
-    <i class="fas fa-globe"></i>
+    <span class="font-bold text-gray-900">{{ LANGUAGE_CODE|upper }}</span>
 
-    {# Показуємо назву мови, а не код #}
+    {# Показуємо назву мови на десктопі #}
     {% for code, name in LANGUAGES %}
       {% if code == LANGUAGE_CODE %}
         <span class="hidden sm:inline">{{ name }}</span>

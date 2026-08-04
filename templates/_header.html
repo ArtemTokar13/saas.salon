@@ -22,7 +22,7 @@
       <div class="hidden md:flex md:items-center md:gap-4">
         {% if user.is_authenticated %}
           <a href="{% url 'booking_calendar' %}" class="bg-gray-800 text-white px-3 py-1 rounded-lg font-semibold hover:bg-gray-700 transition"><i class="fas fa-calendar-alt"></i></a>
-          <a href="{% url 'bookings_list' %}" class="bg-gray-800 text-white px-3 py-1 rounded-lg font-semibold hover:bg-gray-700 transition"><i class="fas fa-book"></i></a>
+          <!-- <a href="{% url 'bookings_list' %}" class="bg-gray-800 text-white px-3 py-1 rounded-lg font-semibold hover:bg-gray-700 transition"><i class="fas fa-book"></i></a> -->
           
           <!-- Notifications Bell -->
           <a href="{% url 'notifications_list' %}" class="relative text-gray-700 hover:text-gray-900">
@@ -58,7 +58,7 @@
       <div class="md:hidden flex items-center gap-4">
         {% if user.is_authenticated %}
           <a href="{% url 'booking_calendar' %}" class="bg-gray-800 text-white px-3 py-1 rounded-lg font-semibold hover:bg-gray-700 transition"><i class="fas fa-calendar-alt"></i></a>
-          <a href="{% url 'bookings_list' %}" class="bg-gray-800 text-white px-3 py-1 rounded-lg font-semibold hover:bg-gray-700 transition"><i class="fas fa-book"></i></a>
+          <!-- <a href="{% url 'bookings_list' %}" class="bg-gray-800 text-white px-3 py-1 rounded-lg font-semibold hover:bg-gray-700 transition"><i class="fas fa-book"></i></a> -->
           
           <!-- Notifications Bell (Mobile) -->
           <a href="{% url 'notifications_list' %}" class="relative text-gray-700 hover:text-gray-900">
@@ -73,7 +73,7 @@
           </a>
         {% endif %}
         {% include '_language_switcher.html' %}
-        <button id="nav-toggle" onclick="toggleMobileMenu()" class="text-gray-700 ml-4">
+        <button id="nav-toggle" onclick="toggleMobileMenu()" aria-label="{% trans 'Toggle navigation menu' %}" aria-expanded="false" class="text-gray-700 ml-4">
           <svg id="burger-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
@@ -118,16 +118,19 @@
     const menu = document.getElementById('mobile-menu');
     const openIcon = document.getElementById('burger-open');
     const closeIcon = document.getElementById('burger-close');
+    const navToggle = document.getElementById('nav-toggle');
     if (!menu) return;
     const isHidden = menu.classList.contains('hidden');
     if (isHidden) {
       menu.classList.remove('hidden');
       openIcon.classList.add('hidden');
       closeIcon.classList.remove('hidden');
+      navToggle.setAttribute('aria-expanded', 'true');
     } else {
       menu.classList.add('hidden');
       openIcon.classList.remove('hidden');
       closeIcon.classList.add('hidden');
+      navToggle.setAttribute('aria-expanded', 'false');
     }
   }
 

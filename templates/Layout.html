@@ -121,8 +121,31 @@
     <!-- CSS preload polyfill -->
     <script>!function(e){"use strict";var t=function(t,n,r){var o,a=e.document,i=a.createElement("link");if(n)o=n;else{var s=(a.body||a.getElementsByTagName("head")[0]).childNodes;o=s[s.length-1]}var d=a.styleSheets;if(i.rel="stylesheet",i.href=t,i.media="only x",function e(t){if(a.body)return t();setTimeout(function(){e(t)})}(function(){o.parentNode.insertBefore(i,n?o:o.nextSibling)}),i.addEventListener){var l=function(e){for(var t=i.href,n=d.length;n--;)if(d[n].href===t)return e();setTimeout(function(){l(e)})};i.addEventListener("load",r),i.onloadcssdefined=l,l(r)}return i};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);</script>
     
-    <!-- Google Tag Manager - defer to end of head -->
-    <script>window.dataLayer=window.dataLayer||[];(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TRR894G5');</script>
+    <!-- Google Tag Manager - Deferred with cookie consent -->
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    // Load GTM only if user consented to preference cookies
+    setTimeout(function() {
+        try {
+            const consent = JSON.parse(localStorage.getItem('cookie_consent') || '{}');
+            if (consent.preference || !localStorage.getItem('cookie_consent')) {
+                // Load if consented or not decided yet (first visit)
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','GTM-TRR894G5');
+            }
+        } catch(e) {
+            // Fallback: load GTM if error
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TRR894G5');
+        }
+    }, 500); // Delay 500ms to not block initial render
+    </script>
     
     <title>{% block title %}{% endblock %}</title>
     {% block header %}{% endblock %}
@@ -143,15 +166,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 {% block hide_footer %}{% include '_footer.html' %}{% endblock %}
 {% include '_cookie-consent.html' %}
 
-<!-- Microsoft Clarity - loaded at end for better performance -->
-<!-- <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "PUT_YOUR_CLARITY_PROJECT_ID_HERE");
-</script> -->
-<!-- End Microsoft Clarity -->
+<!-- Analytics scripts are loaded via GTM (disabled Clarity placeholder removed) -->
 
 </body>
 </html>

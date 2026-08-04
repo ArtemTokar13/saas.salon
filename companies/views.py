@@ -60,10 +60,10 @@ def register_company(request):
 
             company = Company.objects.create(
                 administrator=user,
-                name=form.cleaned_data['company_name'],
+                name=form.cleaned_data.get('company_name', ''),
                 description=form.cleaned_data.get('company_description', ''),
-                address=form.cleaned_data['company_address'],
-                city=form.cleaned_data['company_city'],
+                address=form.cleaned_data.get('company_address', ''),
+                city=form.cleaned_data.get('company_city', ''),
                 phone=form.cleaned_data.get('company_phone', ''),
                 email=form.cleaned_data.get('company_email', ''),
                 logo=form.cleaned_data.get('company_logo')

@@ -3,6 +3,14 @@
 {% load booking_extras %}
 
 {% block title %}Booking Calendar - {{ company.name }}{% endblock %}
+
+{% block extra_head %}
+<!-- Alpine.js for interactivity -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<!-- Subscription check -->
+<script src="{% static 'js/subscription-check.js' %}"></script>
+{% endblock %}
+
 {% block header %}
 
 <!-- Django JavaScript translations -->

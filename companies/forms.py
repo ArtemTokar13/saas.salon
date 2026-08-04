@@ -14,10 +14,10 @@ class CompanyRegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password", required=False)
     
     # Company information
-    company_name = forms.CharField(max_length=255, required=True)
+    company_name = forms.CharField(max_length=255, required=False)
     company_description = forms.CharField(widget=forms.Textarea, required=False)
-    company_address = forms.CharField(max_length=255, required=True)
-    company_city = forms.CharField(max_length=100, required=True)
+    company_address = forms.CharField(max_length=255, required=False)
+    company_city = forms.CharField(max_length=100, required=False)
     company_phone = forms.CharField(max_length=50, required=False)
     company_email = forms.EmailField(required=False)
     company_logo = forms.ImageField(required=False)

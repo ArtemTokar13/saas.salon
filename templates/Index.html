@@ -3,26 +3,31 @@
 
 {% block title %}{% trans "Less calls. Less messages. More bookings." %}{% endblock %}
 
+{% block extra_head %}
+<!-- Preload LCP image for faster rendering -->
+<link rel="preload" as="image" href="{% static 'img/calendar_example.png' %}" fetchpriority="high">
+{% endblock %}
+
 {% block content %}
 
-<!-- CTA Banner -->
+<!-- CTA Banner - Sticky below nav -->
 {% if not user.is_authenticated %}
-<div class="w-full bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 py-4 shadow-lg sticky top-0 z-50">
+<div class="w-full bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 py-3 shadow-lg sticky top-16 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <span class="text-2xl">🚀</span>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <span class="text-xl" aria-hidden="true">🚀</span>
                 <div>
-                    <p class="text-gray-900 font-bold text-lg">
+                    <p class="text-gray-900 font-bold text-base">
                         {% trans "Start Your Free Trial Today!" %}
                     </p>
-                    <p class="text-gray-800 text-sm">
+                    <p class="text-gray-800 text-xs">
                         {% trans "No credit card required • 30 days free" %}
                     </p>
                 </div>
             </div>
             <a id="banner_trial_button" href="{% url 'register_company' %}" 
-               class="banner-cta-button bg-gray-900 text-white px-8 py-3 rounded-lg font-bold text-base hover:bg-gray-800 transition-all duration-300 whitespace-nowrap shadow-xl">
+               class="banner-cta-button bg-gray-900 text-white px-6 py-2 rounded-lg font-bold text-sm hover:bg-gray-800 transition-all duration-300 whitespace-nowrap shadow-xl">
                 {% trans "Start Free" %} →
             </a>
         </div>
@@ -30,14 +35,14 @@
 </div>
 {% endif %}
 
-<!-- 1. HERO SECTION -->
+<!-- 1. HERO SECTION - Optimized for LCP -->
 <div class="bg-gradient-to-br from-gray-900 to-black text-white py-8 sm:py-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                     {% trans "Less calls. Less messages. More bookings." %}
-                </h2>
+                </h1>
                 <p class="text-xl text-gray-100 mb-8 leading-relaxed">
                     {% trans "Reduce no‑shows, save time, and let clients book 24/7 — all in one simple platform." %}
                 </p>
@@ -61,7 +66,13 @@
             </div>
             <div class="hidden lg:block">
                 <div class="bg-white rounded-lg shadow-2xl p-6">
-                    <img src="{% static 'img/calendar_example.png' %}" alt="Calendar Example" class="w-full h-auto rounded">
+                    <!-- LCP image optimized -->
+                    <img src="{% static 'img/calendar_example.png' %}" 
+                         alt="Booking Calendar Interface" 
+                         class="w-full h-auto rounded" 
+                         width="800" 
+                         height="600"
+                         fetchpriority="high">
                 </div>
             </div>
         </div>

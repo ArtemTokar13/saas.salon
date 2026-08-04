@@ -48,10 +48,10 @@ class EmailLog(models.Model):
 
 class Company(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True, default='')
     description = models.TextField(blank=True, null=True)
-    address = models.CharField(max_length=255)
-    city = models.CharField(max_length=100)
+    address = models.CharField(max_length=255, blank=True, default='')
+    city = models.CharField(max_length=100, blank=True, default='')
     map_location = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=50, blank=True)
     email = models.EmailField(blank=True)
@@ -108,8 +108,12 @@ class Company(models.Model):
             os.remove(self.logo.path)
         super().delete(*args, **kwargs)
 
+    def is_profile_complete(self):
+        """Check if company profile has essential information filled out"""
+        return bool(self.name and self.address and self.city)
+
     def __str__(self):
-        return self.name
+        return self.name or f"Company #{self.pk}"
 
 
 class Staff(models.Model):

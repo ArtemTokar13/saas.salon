@@ -42,6 +42,15 @@ def register_company(request):
     # Check if user is already authenticated (e.g., via Google OAuth)
     user_already_exists = request.user.is_authenticated
     
+    # If user is authenticated and already has a company, redirect to dashboard
+    if user_already_exists:
+        try:
+            if hasattr(request.user, 'userprofile') and request.user.userprofile.company:
+                messages.info(request, _('You already have a company registered.'))
+                return redirect('company_dashboard')
+        except Exception:
+            pass  # Continue to registration if there's any issue
+    
     if request.method == 'POST':
         form = CompanyRegistrationForm(request.POST, request.FILES, user_exists=user_already_exists)
         if form.is_valid():

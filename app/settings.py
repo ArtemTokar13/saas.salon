@@ -199,8 +199,9 @@ SESSION_COOKIE_SAMESITE = 'Lax'     # оптимально для SaaS
 ACCOUNT_LOGIN_METHODS = {'email'}  # Login using email
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']  # Required signup fields
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # or 'mandatory' if you want to require email verification
-LOGIN_REDIRECT_URL = '/'  # Redirect after login
+LOGIN_REDIRECT_URL = 'company_dashboard'  # Redirect after login (name, not URL)
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+SOCIALACCOUNT_LOGIN_ON_GET = True  # Allow login on GET request (for OAuth callbacks)
 
 # Custom adapters
 ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'

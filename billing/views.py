@@ -188,7 +188,7 @@ def cancel_subscription(request):
 @login_required
 def payment_success(request):
     messages.success(request, "Payment successful! Your subscription has been activated.")
-    return redirect("subscription_details")
+    return redirect("subscription_details" + "?payment_success=true")
 
 
 @login_required

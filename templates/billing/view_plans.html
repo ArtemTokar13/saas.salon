@@ -87,4 +87,35 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Track when user views pricing plans
+    if (typeof fbq === 'function') {
+        fbq('track', 'ViewContent', {
+            content_name: 'Pricing Plans',
+            content_category: 'Subscription'
+        });
+    }
+    
+    // Track InitiateCheckout when user clicks on a plan
+    const planButtons = document.querySelectorAll('a[href*="change_plan"], a[href*="register_company"]');
+    planButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (typeof fbq === 'function') {
+                const planCard = this.closest('.bg-white');
+                const planName = planCard ? planCard.querySelector('h3').textContent.trim() : 'Unknown';
+                const planPrice = planCard ? planCard.querySelector('.text-5xl').textContent.replace(/[^0-9]/g, '') : '0';
+                
+                fbq('track', 'InitiateCheckout', {
+                    content_name: planName,
+                    value: parseFloat(planPrice),
+                    currency: 'EUR'
+                });
+            }
+        });
+    });
+});
+</script>
+
 {% endblock %}

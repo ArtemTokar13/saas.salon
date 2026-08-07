@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-04 23:00+0200\n"
+"POT-Creation-Date: 2026-08-07 10:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -300,7 +300,7 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Пожалуйста, выберите другую дату/время или другого сотрудника."
 
-#: bookings/views.py:79 companies/views.py:1444
+#: bookings/views.py:79 companies/views.py:1453
 #: templates/bookings/create_booking.html:982
 msgid "Name is required"
 msgstr "Имя обязательно."
@@ -329,14 +329,14 @@ msgstr "Ваше бронирование было отменено"
 msgid "You do not have permission to confirm this booking."
 msgstr "У вас нет разрешения на подтверждение этого бронирования."
 
-#: bookings/views.py:1841 bookings/views.py:1957 companies/views.py:208
-#: companies/views.py:265 companies/views.py:310 companies/views.py:335
-#: companies/views.py:363 companies/views.py:393 companies/views.py:421
-#: companies/views.py:458 companies/views.py:612 companies/views.py:898
-#: companies/views.py:916 companies/views.py:1070 companies/views.py:1089
-#: companies/views.py:1135 companies/views.py:1190 companies/views.py:1209
-#: companies/views.py:1281 companies/views.py:1321 companies/views.py:1417
-#: companies/views.py:1745
+#: bookings/views.py:1841 bookings/views.py:1957 companies/views.py:217
+#: companies/views.py:274 companies/views.py:319 companies/views.py:344
+#: companies/views.py:372 companies/views.py:402 companies/views.py:430
+#: companies/views.py:467 companies/views.py:621 companies/views.py:907
+#: companies/views.py:925 companies/views.py:1079 companies/views.py:1098
+#: companies/views.py:1144 companies/views.py:1199 companies/views.py:1218
+#: companies/views.py:1290 companies/views.py:1330 companies/views.py:1426
+#: companies/views.py:1754
 msgid "User profile not found."
 msgstr "Профиль пользователя не найден"
 
@@ -429,177 +429,181 @@ msgstr "В ожидании"
 msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
 msgstr "Интервал временного интервала в минутах (например, 15, 30, 60)"
 
-#: companies/views.py:80
+#: companies/views.py:49
+msgid "You already have a company registered."
+msgstr "У вас уже зарегистрирована компания."
+
+#: companies/views.py:89
 msgid "Company registered successfully!"
 msgstr "Компания успешно зарегистрирована!"
 
-#: companies/views.py:90
+#: companies/views.py:99
 msgid "Activate your account"
 msgstr "Активируйте свой аккаунт"
 
-#: companies/views.py:94 companies/views.py:643 companies/views.py:932
+#: companies/views.py:103 companies/views.py:652 companies/views.py:941
 msgid "Salon Booking System"
 msgstr "Система бронирования салонов"
 
-#: companies/views.py:134 companies/views.py:973
+#: companies/views.py:143 companies/views.py:982
 msgid "Failed to send activation email. Please try again later."
 msgstr ""
 "Не удалось отправить письмо с активацией. Пожалуйста, попробуйте позже."
 
-#: companies/views.py:137
+#: companies/views.py:146
 msgid "Registration successful. Check your email for the activation link."
 msgstr ""
 "Регистрация прошла успешно. Проверьте свою электронную почту, там будет "
 "ссылка для активации."
 
-#: companies/views.py:166
+#: companies/views.py:175
 msgid "Your account has been activated."
 msgstr "Ваш аккаунт активирован."
 
-#: companies/views.py:169
+#: companies/views.py:178
 msgid "Activation link is invalid or has expired."
 msgstr "Ссылка для активации недействительна или срок ее действия истек."
 
-#: companies/views.py:180 companies/views.py:219 companies/views.py:298
-#: companies/views.py:304 companies/views.py:324 companies/views.py:352
-#: companies/views.py:377 companies/views.py:406 companies/views.py:432
-#: companies/views.py:471 companies/views.py:772 companies/views.py:910
-#: companies/views.py:987 companies/views.py:1041 companies/views.py:1062
-#: companies/views.py:1081 companies/views.py:1099 companies/views.py:1145
-#: companies/views.py:1201 companies/views.py:1220 companies/views.py:1575
+#: companies/views.py:189 companies/views.py:228 companies/views.py:307
+#: companies/views.py:313 companies/views.py:333 companies/views.py:361
+#: companies/views.py:386 companies/views.py:415 companies/views.py:441
+#: companies/views.py:480 companies/views.py:781 companies/views.py:919
+#: companies/views.py:996 companies/views.py:1050 companies/views.py:1071
+#: companies/views.py:1090 companies/views.py:1108 companies/views.py:1154
+#: companies/views.py:1210 companies/views.py:1229 companies/views.py:1584
 msgid "Access denied."
 msgstr "Доступ запрещен"
 
-#: companies/views.py:258
+#: companies/views.py:267
 msgid "Company profile updated successfully!"
 msgstr "Профиль компании успешно обновлен!"
 
-#: companies/views.py:319 companies/views.py:347
+#: companies/views.py:328 companies/views.py:356
 msgid "Method not allowed"
 msgstr "Метод не разрешен"
 
-#: companies/views.py:332
+#: companies/views.py:341
 msgid "No logo to delete"
 msgstr "Нет логотипа для удаления."
 
-#: companies/views.py:360
+#: companies/views.py:369
 msgid "No avatar to delete"
 msgstr "Нет аватара для удаления."
 
-#: companies/views.py:372
+#: companies/views.py:381
 msgid "Only POST requests are allowed"
 msgstr "Разрешены только POST-запросы."
 
-#: companies/views.py:437
+#: companies/views.py:446
 msgid "You are already a staff member."
 msgstr "Вы уже являетесь сотрудником."
 
-#: companies/views.py:454
+#: companies/views.py:463
 msgid "You have been successfully added as a staff member."
 msgstr "Вы успешно добавлены в состав персонала."
 
-#: companies/views.py:461
+#: companies/views.py:470
 msgid "Error creating staff member: {str(e)}"
 msgstr "Ошибка при создании сотрудника: {str(e)}"
 
-#: companies/views.py:603
+#: companies/views.py:612
 msgid "Staff member added and activated successfully!"
 msgstr "Сотрудник успешно добавлен и активирован!"
 
-#: companies/views.py:605
+#: companies/views.py:614
 msgid "Staff member added successfully! Activation email sent."
 msgstr "Сотрудник успешно добавлен! Письмо с активацией отправлено."
 
-#: companies/views.py:639
+#: companies/views.py:648
 msgid "Your staff account has been activated"
 msgstr "Ваш личный кабинет сотрудника активирован."
 
-#: companies/views.py:664
+#: companies/views.py:673
 msgid "Account activated successfully!"
 msgstr "Аккаунт успешно активирован!"
 
-#: companies/views.py:667 companies/views.py:758
+#: companies/views.py:676 companies/views.py:767
 msgid "Passwords do not match."
 msgstr "Пароли не совпадают."
 
-#: companies/views.py:669
+#: companies/views.py:678
 msgid ""
 "Activation link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "Ссылка для активации недействительна или истекла. Пожалуйста, свяжитесь с "
 "администратором."
 
-#: companies/views.py:705
+#: companies/views.py:714
 msgid "Password reset link sent to your email."
 msgstr "Ссылка для сброса пароля будет отправлена ​​на вашу электронную почту."
 
-#: companies/views.py:707
+#: companies/views.py:716
 msgid "No user found with that email address."
 msgstr "Пользователь с таким адресом электронной почты не найден."
 
-#: companies/views.py:755
+#: companies/views.py:764
 msgid "Password reset successfully!"
 msgstr "Пароль успешно сброшен!"
 
-#: companies/views.py:760
+#: companies/views.py:769
 msgid ""
 "Reset link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "Reset link is invalid or has expired. Please contact your administrator."
 
-#: companies/views.py:834
+#: companies/views.py:843
 msgid "Staff member updated successfully!"
 msgstr "Информация о сотруднике успешно обновлена!"
 
-#: companies/views.py:927
+#: companies/views.py:936
 msgid "Activate your staff account"
 msgstr "Активируйте учетную запись сотрудника."
 
-#: companies/views.py:958 templates/companies/edit_staff.html:466
+#: companies/views.py:967 templates/companies/edit_staff.html:466
 msgid "Activation email sent successfully!"
 msgstr "Письмо с активацией успешно отправлено!"
 
-#: companies/views.py:999
+#: companies/views.py:1008
 msgid "Start and end datetime are required."
 msgstr "Требуются начальная и конечная даты и время."
 
-#: companies/views.py:1016
+#: companies/views.py:1025
 msgid "End time must be after start time."
 msgstr "Окончание должно произойти после начала."
 
-#: companies/views.py:1067
+#: companies/views.py:1076
 msgid "Staff member deleted successfully!"
 msgstr "Сотрудник успешно удален!"
 
-#: companies/views.py:1128
+#: companies/views.py:1137
 msgid "Service added successfully!"
 msgstr "Сервис успешно добавлен!"
 
-#: companies/views.py:1172
+#: companies/views.py:1181
 msgid "Service updated successfully!"
 msgstr "Сервис успешно обновлен!"
 
-#: companies/views.py:1206
+#: companies/views.py:1215
 msgid "Service deleted successfully!"
 msgstr "Сервис успешно удален!"
 
-#: companies/views.py:1251
+#: companies/views.py:1260
 msgid "Working hours updated successfully."
 msgstr "Информация о рабочем времени успешно обновлена."
 
-#: companies/views.py:1373 companies/views.py:1429
+#: companies/views.py:1382 companies/views.py:1438
 msgid "User profile not found"
 msgstr "Профиль пользователя не найден"
 
-#: companies/views.py:1435
+#: companies/views.py:1444
 msgid "Access denied"
 msgstr "Доступ запрещен"
 
-#: companies/views.py:1447
+#: companies/views.py:1456
 msgid "Phone is required"
 msgstr "Номер телефона обязательно."
 
-#: companies/views.py:1464
+#: companies/views.py:1473
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "Недопустимый JSON: %(error)s"
@@ -616,7 +620,7 @@ msgstr "Начните бесплатную пробную версию сего
 msgid "No credit card required • 30 days free"
 msgstr "Кредитная карта не требуется • 30 дней бесплатно"
 
-#: templates/Index.html:31 templates/Index.html:53 templates/Index.html:531
+#: templates/Index.html:31 templates/Index.html:60 templates/Index.html:538
 msgid "Start Free"
 msgstr "Начать бесплатнуо"
 
@@ -628,31 +632,39 @@ msgstr ""
 "Сократите количество неявок, сэкономьте время и позвольте клиентам "
 "бронировать круглосуточно — все это на одной простой платформе."
 
-#: templates/Index.html:58
+#: templates/Index.html:54
+msgid "Try it free for 30 days"
+msgstr "Попробуйте 30 дней бесплатно"
+
+#: templates/Index.html:56
+msgid "without credit card"
+msgstr "без кредитной карты"
+
+#: templates/Index.html:65
 msgid "Go to Dashboard"
 msgstr "Перейдите на панель управления."
 
-#: templates/Index.html:63
+#: templates/Index.html:70
 msgid "See How It Works"
 msgstr "Посмотрите, как это работает."
 
-#: templates/Index.html:88
+#: templates/Index.html:95
 msgid "Everything You Need to Run Your Salon Smoothly"
 msgstr "Всё необходимое для бесперебойной работы вашего салона."
 
-#: templates/Index.html:98 templates/companies/dashboard.html:219
+#: templates/Index.html:105 templates/companies/dashboard.html:219
 msgid "WhatsApp Booking"
 msgstr "Бронирование через WhatsApp"
 
-#: templates/Index.html:99 templates/companies/dashboard.html:220
+#: templates/Index.html:106 templates/companies/dashboard.html:220
 msgid "NEW!"
 msgstr "NEW!"
 
-#: templates/Index.html:108 templates/companies/dashboard.html:229
+#: templates/Index.html:115 templates/companies/dashboard.html:229
 msgid "AI-Powered Booking via WhatsApp"
 msgstr "Бронирование через WhatsApp с помощью ИИ"
 
-#: templates/Index.html:111 templates/companies/dashboard.html:232
+#: templates/Index.html:118 templates/companies/dashboard.html:232
 msgid ""
 "Your customers can now book appointments by simply sending a WhatsApp "
 "message! The AI assistant will:"
@@ -660,261 +672,261 @@ msgstr ""
 "Теперь ваши клиенты могут записываться на прием, просто отправив сообщение в "
 "WhatsApp! Искусственный интеллект-помощник выполнит следующие действия:"
 
-#: templates/Index.html:114 templates/companies/dashboard.html:235
+#: templates/Index.html:121 templates/companies/dashboard.html:235
 msgid "Understand natural language requests"
 msgstr "Понимает запросы на естественном языке."
 
-#: templates/Index.html:115 templates/companies/dashboard.html:236
+#: templates/Index.html:122 templates/companies/dashboard.html:236
 msgid "Show available time slots"
 msgstr "Показывает доступные окна"
 
-#: templates/Index.html:116 templates/companies/dashboard.html:237
+#: templates/Index.html:123 templates/companies/dashboard.html:237
 msgid "Create confirmed bookings automatically"
 msgstr "Автоматически создает бронированя"
 
-#: templates/Index.html:117 templates/companies/dashboard.html:238
+#: templates/Index.html:124 templates/companies/dashboard.html:238
 msgid "Support multiple languages (ES/EN/CA/UK)"
 msgstr "Поддержывает несколько языков (ES/EN/RU/UK)"
 
-#: templates/Index.html:126 templates/companies/dashboard.html:298
+#: templates/Index.html:133 templates/companies/dashboard.html:298
 msgid "Example conversation:"
 msgstr "Пример диалога:"
 
-#: templates/Index.html:151
+#: templates/Index.html:158
 msgid "Online Booking"
 msgstr "Онлайн-бронирование"
 
-#: templates/Index.html:153
+#: templates/Index.html:160
 msgid ""
 "Let clients book appointments anytime. Automatic confirmations included."
 msgstr ""
 "Позвольте клиентам записываться на прием в любое время. Автоматическое "
 "подтверждение включено."
 
-#: templates/Index.html:162
+#: templates/Index.html:169
 msgid "WhatsApp Reminders"
 msgstr "Напоминания WhatsApp"
 
-#: templates/Index.html:164
+#: templates/Index.html:171
 msgid ""
 "Reduce no‑shows with instant WhatsApp notifications clients actually read."
 msgstr ""
 "Сократите количество неявок благодаря мгновенным уведомлениям в WhatsApp, "
 "которые клиенты действительно читают."
 
-#: templates/Index.html:173
+#: templates/Index.html:180
 msgid "Staff Management"
 msgstr "Управление персоналом"
 
-#: templates/Index.html:175
+#: templates/Index.html:182
 msgid "Each staff member gets their own calendar and schedule."
 msgstr "Каждый сотрудник получает собственный календарь и расписание."
 
-#: templates/Index.html:184
+#: templates/Index.html:191
 msgid "Service Management"
 msgstr "Управление услугами"
 
-#: templates/Index.html:186
+#: templates/Index.html:193
 msgid "Create services, durations, prices, and assign them to staff."
 msgstr ""
 "Создавайте услуги, устанавливайте продолжительность, цены и назначайте их "
 "сотрудникам."
 
-#: templates/Index.html:195
+#: templates/Index.html:202
 msgid "Client Profiles"
 msgstr "Профили клиентов"
 
-#: templates/Index.html:197
+#: templates/Index.html:204
 msgid "Keep track of client history, notes, and preferences."
 msgstr ""
 "Отслеживайте историю взаимодействия с клиентами, заметки и их предпочтения."
 
-#: templates/Index.html:206
+#: templates/Index.html:213
 msgid "Analytics Dashboard"
 msgstr "Панель аналитики"
 
-#: templates/Index.html:208
+#: templates/Index.html:215
 msgid "Track your bookings, no-shows, and business performance."
 msgstr "Отслеживайте бронирования, неявки и показатели эффективности бизнеса."
 
-#: templates/Index.html:221
+#: templates/Index.html:228
 msgid "Why WhatsApp Reminders Matter"
 msgstr "Почему напоминания в WhatsApp важны"
 
-#: templates/Index.html:227
+#: templates/Index.html:234
 msgid "Clients read WhatsApp messages instantly"
 msgstr "Клиенты мгновенно читают сообщения WhatsApp."
 
-#: templates/Index.html:228
+#: templates/Index.html:235
 #, python-format
 msgid "Higher open rates than email — 97%% read rate within minutes"
 msgstr ""
 "Более высокий процент открытия, чем у электронной почты — 97%% прочитанных "
 "за минуты"
 
-#: templates/Index.html:234
+#: templates/Index.html:241
 msgid "Reduce missed appointments"
 msgstr "Сократите количество пропущенных приемов."
 
-#: templates/Index.html:235
+#: templates/Index.html:242
 msgid "Cut no-shows with timely reminders"
 msgstr "Прекратите неявку на мероприятия, своевременно напоминая о ней."
 
-#: templates/Index.html:241
+#: templates/Index.html:248
 msgid "Automatic reminders before each visit"
 msgstr "Автоматические напоминания перед каждым визитом"
 
-#: templates/Index.html:242
+#: templates/Index.html:249
 msgid "Set it up once and let it run automatically"
 msgstr "Настройте один раз и пусть работает автоматически."
 
-#: templates/Index.html:248
+#: templates/Index.html:255
 msgid "Works even if clients ignore email"
 msgstr "Работает, даже если клиенты игнорируют электронные письма."
 
-#: templates/Index.html:249
+#: templates/Index.html:256
 msgid "Reach your clients where they actually are"
 msgstr "Находите своих клиентов там, где они действительно находятся."
 
-#: templates/Index.html:260
+#: templates/Index.html:267
 msgid "Example WhatsApp Message"
 msgstr "Пример сообщения в WhatsApp"
 
-#: templates/Index.html:263
+#: templates/Index.html:270
 msgid "Hi Maria! 💅"
 msgstr "Привет, Мария!"
 
-#: templates/Index.html:264
+#: templates/Index.html:271
 msgid "Your appointment reminder:"
 msgstr "Напоминание о вашей записи на прием:"
 
-#: templates/Index.html:265
+#: templates/Index.html:272
 msgid "Tomorrow at 3:00 PM"
 msgstr "Завтра в 15:00"
 
-#: templates/Index.html:266
+#: templates/Index.html:273
 msgid "Haircut - 60 min"
 msgstr "Стрижка - 60 мин."
 
-#: templates/Index.html:267
+#: templates/Index.html:274
 msgid "With Anna"
 msgstr "С Анной"
 
-#: templates/Index.html:268
+#: templates/Index.html:275
 msgid "See you soon!"
 msgstr "До скорой встречи!"
 
-#: templates/Index.html:281
+#: templates/Index.html:288
 msgid "Perfect for beauty & wellness businesses"
 msgstr "Идеально подходит для предприятий индустрии красоты и здоровья."
 
-#: templates/Index.html:284
+#: templates/Index.html:291
 msgid "If you run any of these, Reserva-Ya is for you"
 msgstr ""
 "Если вы используете что-либо из перечисленного, Reserva-Ya — это то, что вам "
 "нужно."
 
-#: templates/Index.html:291
+#: templates/Index.html:298
 msgid "Hair salons"
 msgstr "Парикмахерские"
 
-#: templates/Index.html:295
+#: templates/Index.html:302
 msgid "Barber shops"
 msgstr "Мужские парикмахерские"
 
-#: templates/Index.html:299
+#: templates/Index.html:306
 msgid "Nail & manicure studios"
 msgstr "Студии маникюра и педикюра"
 
-#: templates/Index.html:303
+#: templates/Index.html:310
 msgid "Beauty & aesthetics"
 msgstr "Салоны красоты и эстетики"
 
-#: templates/Index.html:307
+#: templates/Index.html:314
 msgid "Massage & wellness"
 msgstr "Массаж и оздоровление"
 
-#: templates/Index.html:318
+#: templates/Index.html:325
 msgid "Get Started in Minutes"
 msgstr "Начните работу за считанные минуты"
 
-#: templates/Index.html:321
+#: templates/Index.html:328
 msgid "Simple setup, immediate results"
 msgstr "Простая настройка, мгновенный результат"
 
-#: templates/Index.html:330 templates/static_pages/how_it_works.html:21
+#: templates/Index.html:337 templates/static_pages/how_it_works.html:21
 msgid "Sign Up"
 msgstr "Зарегистрироваться"
 
-#: templates/Index.html:332
+#: templates/Index.html:339
 msgid "Create your company account in under 2 minutes."
 msgstr "Создайте корпоративный аккаунт менее чем за 2 минуты."
 
-#: templates/Index.html:340
+#: templates/Index.html:347
 msgid "Set Up"
 msgstr "Настройте"
 
-#: templates/Index.html:342
+#: templates/Index.html:349
 msgid "Add staff, services, and working hours."
 msgstr "Добавьте информацию о персонале, услугах и рабочем времени."
 
-#: templates/Index.html:350
+#: templates/Index.html:357
 msgid "Share"
 msgstr "Поделитесь"
 
-#: templates/Index.html:352
+#: templates/Index.html:359
 msgid "Send your booking link to clients."
 msgstr "Отправьте клиентам ссылку для бронирования."
 
-#: templates/Index.html:360
+#: templates/Index.html:367
 msgid "Grow"
 msgstr "Растите"
 
-#: templates/Index.html:362
+#: templates/Index.html:369
 msgid "Receive bookings automatically and reduce no‑shows."
 msgstr "Получайте бронирования автоматически и сокращайте количество неявок."
 
-#: templates/Index.html:374
+#: templates/Index.html:381
 msgid "Simple, transparent pricing"
 msgstr "Простое и прозрачное ценообразование"
 
-#: templates/Index.html:377
+#: templates/Index.html:384
 msgid "Choose the perfect plan for your business"
 msgstr "Выберите идеальный план для вашего бизнеса."
 
-#: templates/Index.html:381
+#: templates/Index.html:388
 msgid "View Our Pricing Plans"
 msgstr "Посмотреть наши тарифные планы"
 
-#: templates/Index.html:387
+#: templates/Index.html:394
 msgid "All plans include:"
 msgstr "Все тарифные планы включают:"
 
-#: templates/Index.html:392
+#: templates/Index.html:399
 msgid "Online booking"
 msgstr "Онлайн-бронирование"
 
-#: templates/Index.html:396
+#: templates/Index.html:403
 msgid "WhatsApp bookings"
 msgstr "Бронирование через WhatsApp"
 
-#: templates/Index.html:400
+#: templates/Index.html:407
 msgid "Staff calendars"
 msgstr "Календари сотрудников"
 
-#: templates/Index.html:404
+#: templates/Index.html:411
 msgid "Unlimited appointments"
 msgstr "Неограниченное количество приемов"
 
-#: templates/Index.html:416 templates/static_pages/faq.html:10
+#: templates/Index.html:423 templates/static_pages/faq.html:10
 msgid "Frequently Asked Questions"
 msgstr "Часто задаваемые вопросы"
 
-#: templates/Index.html:423
+#: templates/Index.html:430
 msgid "Do I need to install anything?"
 msgstr "Нужно ли мне что-нибудь устанавливать?"
 
-#: templates/Index.html:427
+#: templates/Index.html:434
 msgid ""
 "No, everything works in your browser. No downloads or installations needed — "
 "just sign up and start using it immediately."
@@ -922,11 +934,11 @@ msgstr ""
 "Нет, всё работает в вашем браузере. Никаких загрузок или установок не "
 "требуется — просто зарегистрируйтесь и начните использовать его немедленно."
 
-#: templates/Index.html:432
+#: templates/Index.html:439
 msgid "Can clients book without downloading an app?"
 msgstr "Могут ли клиенты бронировать услуги без скачивания приложения?"
 
-#: templates/Index.html:436
+#: templates/Index.html:443
 msgid ""
 "Yes, bookings work on any device through a web link. Clients don't need to "
 "download anything — they simply click your booking link and book."
@@ -935,11 +947,11 @@ msgstr ""
 "нужно ничего скачивать — они просто переходят по вашей ссылке для "
 "бронирования и бронируют."
 
-#: templates/Index.html:441
+#: templates/Index.html:448
 msgid "Is WhatsApp included?"
 msgstr "Включен ли WhatsApp?"
 
-#: templates/Index.html:445
+#: templates/Index.html:452
 msgid ""
 "WhatsApp reminders are available in our Connect plan. You'll be able to send "
 "automatic reminders to all your clients."
@@ -947,11 +959,11 @@ msgstr ""
 "В нашем тарифном плане Connect доступны напоминания WhatsApp. Вы сможете "
 "отправлять автоматические напоминания всем своим клиентам."
 
-#: templates/Index.html:450
+#: templates/Index.html:457
 msgid "Can I cancel anytime?"
 msgstr "Могу ли я отменить заказ в любое время?"
 
-#: templates/Index.html:454
+#: templates/Index.html:461
 msgid ""
 "Of course — no long-term contracts. You can cancel your subscription anytime "
 "from your account settings."
@@ -959,11 +971,11 @@ msgstr ""
 "Конечно, никаких долгосрочных контрактов. Вы можете отменить подписку в "
 "любое время в настройках своей учетной записи."
 
-#: templates/Index.html:459
+#: templates/Index.html:466
 msgid "How do I connect WhatsApp?"
 msgstr "Как подключить WhatsApp?"
 
-#: templates/Index.html:463
+#: templates/Index.html:470
 msgid ""
 "We provide step-by-step instructions to connect your WhatsApp account. It's "
 "a simple 5-minute setup process."
@@ -971,46 +983,46 @@ msgstr ""
 "Мы предоставляем пошаговые инструкции по подключению вашей учетной записи "
 "WhatsApp. Это простой процесс настройки, занимающий всего 5 минут."
 
-#: templates/Index.html:475
+#: templates/Index.html:482
 msgid "See the Platform in Action"
 msgstr "Посмотрите, как работает платформа."
 
-#: templates/Index.html:484
+#: templates/Index.html:491
 msgid "Calendar View"
 msgstr "Календарный вид"
 
-#: templates/Index.html:493
+#: templates/Index.html:500
 msgid "Staff Schedule"
 msgstr "График работы персонала"
 
-#: templates/Index.html:502
+#: templates/Index.html:509
 msgid "Booking Form"
 msgstr "Форма бронирования"
 
-#: templates/Index.html:511
+#: templates/Index.html:518
 msgid "WhatsApp Reminder"
 msgstr "Напоминание в WhatsApp"
 
-#: templates/Index.html:524
+#: templates/Index.html:531
 msgid "Ready to Grow Your Salon?"
 msgstr "Готовы развивать свой салон?"
 
-#: templates/Index.html:527
+#: templates/Index.html:534
 msgid "Start your free trial today — no credit card required."
 msgstr ""
 "Начните бесплатную пробную версию сегодня — кредитная карта не требуется."
 
-#: templates/Index.html:534
+#: templates/Index.html:541
 msgid "30 days free. No credit card. Cancel anytime."
 msgstr ""
 "30 дней бесплатно. Кредитная карта не требуется. Отменить можно в любое "
 "время."
 
-#: templates/Index.html:542
+#: templates/Index.html:549
 msgid "Welcome back!"
 msgstr "Добро пожаловать!"
 
-#: templates/Index.html:546
+#: templates/Index.html:553
 msgid "Go to your dashboard"
 msgstr "Перейдите в свою панель управления."
 

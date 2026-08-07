@@ -117,16 +117,30 @@
                 window.dataLayer.push({
                     'event': 'signup_with_google_click'
                 });
+                
+                // Track as Lead for Meta Pixel
+                if (typeof fbq === 'function') {
+                    fbq('track', 'Lead', {
+                        content_name: 'Google Sign Up Click'
+                    });
+                }
             });
         }
 
         const createAccountButton = document.getElementById('create_account_button');
         if (createAccountButton) {
-            createAccountButton.addEventListener('click', function() {
+            createAccountButton.addEventListener('click', function(e) {
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push({
                     'event': 'create_account_click'
                 });
+                
+                // Track as Lead for Meta Pixel
+                if (typeof fbq === 'function') {
+                    fbq('track', 'Lead', {
+                        content_name: 'Create Account Click'
+                    });
+                }
             });
         }
     });

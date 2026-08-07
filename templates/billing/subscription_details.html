@@ -202,4 +202,30 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Track Subscribe event after successful payment
+    // Check if user just completed a payment (from success page redirect)
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromPaymentSuccess = urlParams.get('payment_success') === 'true' || document.referrer.includes('/payment-success/');
+    
+    // Also check for success message in Django messages
+    const hasSuccessMessage = document.querySelector('.alert-success, .bg-green-50, .bg-green-100');
+    
+    if ((fromPaymentSuccess || hasSuccessMessage) && typeof fbq === 'function') {
+        // Check if we already tracked this subscription
+        const subscriptionTracked = sessionStorage.getItem('fb_subscribe_tracked');
+        if (!subscriptionTracked) {
+            fbq('track', 'Subscribe', {
+                value: {{ current_subscription.price|default:"0" }},
+                currency: 'EUR',
+                predicted_ltv: {{ current_subscription.price|default:"0" }}
+            });
+            sessionStorage.setItem('fb_subscribe_tracked', 'true');
+        }
+    }
+});
+</script>
+
 {% endblock %}

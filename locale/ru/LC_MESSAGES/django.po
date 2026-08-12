@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-07 10:56+0200\n"
+"POT-Creation-Date: 2026-08-07 11:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,7 +112,7 @@ msgstr "Телефон"
 #: templates/companies/edit_profile.html:76
 #: templates/companies/edit_staff.html:17
 #: templates/companies/forgot_password.html:15
-#: templates/companies/register.html:30 templates/static_pages/contact.html:23
+#: templates/companies/register.html:61 templates/static_pages/contact.html:23
 msgid "Email"
 msgstr "Электронная почта"
 
@@ -364,49 +364,57 @@ msgstr "Все уведомления помечены как прочитанн
 msgid "Error marking notifications as read."
 msgstr "Ошибка при пометке уведомлений как прочитанных."
 
-#: companies/forms.py:93 companies/models.py:11
+#: companies/forms.py:50
+msgid "Email already registered."
+msgstr "Адрес электронной почты уже зарегистрирован."
+
+#: companies/forms.py:56
+msgid "Password must be at least 8 characters long."
+msgstr "Пароль должен состоять не менее чем из 8 символов."
+
+#: companies/forms.py:89 companies/models.py:11
 #: templates/companies/add_staff.html:108
 #: templates/companies/edit_staff.html:111
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:7
 msgid "Monday"
 msgstr "Понедельник"
 
-#: companies/forms.py:93 companies/models.py:12
+#: companies/forms.py:89 companies/models.py:12
 #: templates/companies/add_staff.html:137
 #: templates/companies/edit_staff.html:140
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:8
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: companies/forms.py:93 companies/models.py:13
+#: companies/forms.py:89 companies/models.py:13
 #: templates/companies/add_staff.html:166
 #: templates/companies/edit_staff.html:169
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:9
 msgid "Wednesday"
 msgstr "Среда"
 
-#: companies/forms.py:93 companies/models.py:14
+#: companies/forms.py:89 companies/models.py:14
 #: templates/companies/add_staff.html:195
 #: templates/companies/edit_staff.html:198
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:10
 msgid "Thursday"
 msgstr "Четверг"
 
-#: companies/forms.py:94 companies/models.py:15
+#: companies/forms.py:90 companies/models.py:15
 #: templates/companies/add_staff.html:224
 #: templates/companies/edit_staff.html:227
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:11
 msgid "Friday"
 msgstr "Пятница"
 
-#: companies/forms.py:94 companies/models.py:16
+#: companies/forms.py:90 companies/models.py:16
 #: templates/companies/add_staff.html:253
 #: templates/companies/edit_staff.html:256
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:12
 msgid "Saturday"
 msgstr "Суббота"
 
-#: companies/forms.py:94 companies/models.py:17
+#: companies/forms.py:90 companies/models.py:17
 #: templates/companies/add_staff.html:282
 #: templates/companies/edit_staff.html:285
 #: venv/lib/python3.12/site-packages/django/utils/dates.py:13
@@ -2156,13 +2164,12 @@ msgid "Please set your password to activate your account."
 msgstr "Пожалуйста, установите пароль для активации вашей учетной записи."
 
 #: templates/companies/activate_staff_account.html:31
-#: templates/companies/register.html:42
+#: templates/companies/register.html:74
 #: templates/companies/reset_password.html:31 templates/users/login.html:45
 msgid "Password"
 msgstr "Пароль"
 
 #: templates/companies/activate_staff_account.html:39
-#: templates/companies/register.html:49
 #: templates/companies/reset_password.html:39
 msgid "Confirm Password"
 msgstr "Подтвердить пароль"
@@ -3069,28 +3076,60 @@ msgid "Create Your Account"
 msgstr "Зарегистрироваться"
 
 #: templates/companies/register.html:12
-msgid "Get started in 30 seconds - add salon details later"
+msgid "Get started in 30 seconds"
 msgstr "Начните за 30 секунд!"
 
-#: templates/companies/register.html:27
-msgid "Your Account"
-msgstr "Ваш аккаунт"
+#: templates/companies/register.html:20
+msgid "RECOMMENDED"
+msgstr "РЕКОМЕНДУЕТСЯ"
 
-#: templates/companies/register.html:36
+#: templates/companies/register.html:22
+msgid "Fastest way to get started"
+msgstr "Самый быстрый способ начать"
+
+#: templates/companies/register.html:31 templates/socialaccount/login.html:31
+msgid "Continue with Google"
+msgstr "Продолжить с Google"
+
+#: templates/companies/register.html:33
+msgid "No credit card required • 30 days free trial"
+msgstr "Кредитная карта не требуется • 30 дней бесплатно"
+
+#: templates/companies/register.html:43
+msgid "or sign up with email"
+msgstr "или зарегистрироваться по электронной почте"
+
+#: templates/companies/register.html:67
 msgid "Logged in via Google"
 msgstr "Вход через Google"
 
-#: templates/companies/register.html:61
+#: templates/companies/register.html:78 templates/users/login.html:49
+msgid "Enter your password"
+msgstr "Введите пароль"
+
+#: templates/companies/register.html:96
+msgid "Minimum 8 characters"
+msgstr "Минимум 8 символов"
+
+#: templates/companies/register.html:105
 msgid "Create Account"
 msgstr "Зарегистрироваться"
 
-#: templates/companies/register.html:71
-msgid "Quick sign up with Google"
-msgstr "Быстрая регистрация через Google"
+#: templates/companies/register.html:110
+msgid "By signing up, you agree to our Terms of Service and Privacy Policy"
+msgstr "Регистрируясь, вы соглашаетесь с нашими Условиями обслуживания и Политикой конфиденциальности."
 
-#: templates/companies/register.html:80
-msgid "Sign up with Google"
-msgstr "Зарегистрируйтесь через Google"
+#: templates/companies/register.html:118
+msgid "Secure"
+msgstr "Безопасно"
+
+#: templates/companies/register.html:119
+msgid "Data Protected"
+msgstr "Данные защищены"
+
+#: templates/companies/register.html:120
+msgid "30 Days Free"
+msgstr "30 дней бесплатно"
 
 #: templates/companies/reset_password.html:10
 #: templates/email/password_reset.html:83
@@ -3528,10 +3567,6 @@ msgstr "Войти через Google"
 #: templates/socialaccount/login.html:12
 msgid "You are about to sign in using a third-party account from Google."
 msgstr "Вы собираетесь войти, используя сторонний аккаунт Google."
-
-#: templates/socialaccount/login.html:31
-msgid "Continue with Google"
-msgstr "Продолжить с Google"
 
 #: templates/socialaccount/signup.html:4
 msgid "Sign Up with Google"
@@ -4269,10 +4304,6 @@ msgstr "Имя пользователя"
 #: templates/users/login.html:40
 msgid "Enter your username"
 msgstr "Введите имя пользователя"
-
-#: templates/users/login.html:49
-msgid "Enter your password"
-msgstr "Введите пароль"
 
 #: templates/users/login.html:57
 msgid "Remember me"

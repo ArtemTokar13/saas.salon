@@ -10,10 +10,15 @@ from django.utils.translation import gettext as _
 class CompanyRegistrationForm(forms.Form):
     # User information
     email = forms.EmailField(required=True)
-    password1 = forms.CharField(widget=forms.PasswordInput, label="Password", required=False)
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password", required=False)
+    password1 = forms.CharField(
+        widget=forms.PasswordInput, 
+        label="Password", 
+        required=False,
+        min_length=8,
+        help_text="Minimum 8 characters"
+    )
     
-    # Company information
+    # Company information (all optional for initial registration)
     company_name = forms.CharField(max_length=255, required=False)
     company_description = forms.CharField(widget=forms.Textarea, required=False)
     company_address = forms.CharField(max_length=255, required=False)
@@ -27,38 +32,29 @@ class CompanyRegistrationForm(forms.Form):
         super().__init__(*args, **kwargs)
         
         if self.user_exists:
-            # User already exists (logged in via OAuth), make email readonly but not disabled
+            # User already exists (logged in via OAuth), make email readonly
             self.fields['email'].widget.attrs['readonly'] = True
             self.fields['email'].widget.attrs['class'] = 'bg-gray-100 cursor-not-allowed'
-            self.fields['email'].required = True  # Keep it required for validation
-            # Remove password fields from the form
+            self.fields['email'].required = True
+            # Remove password field for OAuth users
             del self.fields['password1']
-            del self.fields['password2']
         else:
             # New user registration, password is required
             self.fields['password1'].required = True
-            self.fields['password2'].required = True
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         # Only check if email exists if this is a new user registration
         if not self.user_exists:
             if User.objects.filter(email=email).exists():
-                raise forms.ValidationError("Email already registered.")
+                raise forms.ValidationError(_("Email already registered."))
         return email
 
-    def clean(self):
-        cleaned_data = super().clean()
-        
-        # Only validate passwords if user doesn't exist (new registration)
-        if not self.user_exists:
-            password1 = cleaned_data.get('password1')
-            password2 = cleaned_data.get('password2')
-            
-            if password1 and password2 and password1 != password2:
-                raise forms.ValidationError("Passwords don't match.")
-        
-        return cleaned_data
+    def clean_password1(self):
+        password = self.cleaned_data.get('password1')
+        if password and len(password) < 8:
+            raise forms.ValidationError(_("Password must be at least 8 characters long."))
+        return password
 
 
 class CompanyProfileForm(forms.ModelForm):

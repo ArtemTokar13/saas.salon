@@ -216,3 +216,4 @@ docker-compose.yml
 .vscode/launch.json
 .vscode/launch.json
 update_stripe_ids.py
+META_PIXEL_SETUP.md

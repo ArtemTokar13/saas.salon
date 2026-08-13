@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.views.i18n import JavaScriptCatalog
-from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, faq, contact, schedule_page, generate_schedule
+from app.views import Index, privacy_policy, terms_of_service, cookie_policy, cookie_settings, about_us, how_it_works, faq, contact, schedule_page, generate_schedule, registration_thank_you
 from app import admin_views
 from billing.views import stripe_webhook
 from companies.views import update_customer
@@ -50,6 +50,7 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('allauth.urls')),
     path('hijack/', include('hijack.urls')),
     path('', Index, name='index'),
+    path('thank-you/', registration_thank_you, name='registration_thank_you'),
     path('companies/', include('companies.urls')),
     path('bookings/', include('bookings.urls')),
     path('users/', include('users.urls')),

@@ -119,3 +119,12 @@ def generate_schedule(request):
     response = HttpResponse(csv_content, content_type="text/csv")
     response["Content-Disposition"] = 'attachment; filename="schedule.csv"'
     return response
+
+
+def registration_thank_you(request):
+    """Thank you page after successful registration"""
+    # Redirect to dashboard if user is not authenticated
+    if not request.user.is_authenticated:
+        return redirect('/')
+    
+    return render(request, 'registration_thank_you.html')

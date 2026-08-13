@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-07 11:28+0200\n"
+"POT-Creation-Date: 2026-08-12 12:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -648,7 +648,7 @@ msgstr "Попробуйте 30 дней бесплатно"
 msgid "without credit card"
 msgstr "без кредитной карты"
 
-#: templates/Index.html:65
+#: templates/Index.html:65 templates/registration_thank_you.html:28
 msgid "Go to Dashboard"
 msgstr "Перейдите на панель управления."
 
@@ -3117,7 +3117,9 @@ msgstr "Зарегистрироваться"
 
 #: templates/companies/register.html:110
 msgid "By signing up, you agree to our Terms of Service and Privacy Policy"
-msgstr "Регистрируясь, вы соглашаетесь с нашими Условиями обслуживания и Политикой конфиденциальности."
+msgstr ""
+"Регистрируясь, вы соглашаетесь с нашими Условиями обслуживания и Политикой "
+"конфиденциальности."
 
 #: templates/companies/register.html:118
 msgid "Secure"
@@ -3541,6 +3543,22 @@ msgstr "Нажмите «Освободить», чтобы вернуться �
 #: templates/hijack/notification.html:17
 msgid "Release Hijack"
 msgstr "Освободить"
+
+#: templates/registration_thank_you.html:4
+msgid "Thank You for Registering!"
+msgstr "Спасибо за регистрацию!"
+
+#: templates/registration_thank_you.html:19
+msgid "Thank You!"
+msgstr "Спасибо!"
+
+#: templates/registration_thank_you.html:22
+msgid "Your registration was successful. Welcome to our platform!"
+msgstr "Ваша регистрация прошла успешно. Добро пожаловать на нашу платформу!"
+
+#: templates/registration_thank_you.html:33
+msgid "Start managing your bookings and services now"
+msgstr "Начните управлять своими бронированиями и услугами прямо сейчас!"
 
 #: templates/socialaccount/authentication_error.html:4
 #: templates/socialaccount/authentication_error.html:10

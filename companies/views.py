@@ -173,7 +173,7 @@ def activate_company(request, uidb64, token):
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         messages.success(request, _('Your account has been activated.'))
-        return redirect('company_dashboard')
+        return redirect('registration_thank_you')
     else:
         messages.error(request, _('Activation link is invalid or has expired.'))
         return redirect('register_company')

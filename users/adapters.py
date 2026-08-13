@@ -1,6 +1,7 @@
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.account.adapter import DefaultAccountAdapter
 from django.urls import reverse
+from django.contrib import messages
 
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
@@ -38,8 +39,8 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
             profile.company = company
             profile.is_admin = True
             profile.save()
+            return reverse('registration_thank_you')
         
-        # Always redirect to dashboard
         return reverse('company_dashboard')
     
     def get_signup_redirect_url(self, request):

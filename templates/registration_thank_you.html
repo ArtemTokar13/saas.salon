@@ -35,4 +35,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const registrationTracked = localStorage.getItem('fb_registration_tracked_{{ user.id }}');
+        if (!registrationTracked && typeof fbq === 'function') {
+            fbq('track', 'CompleteRegistration');
+            localStorage.setItem('fb_registration_tracked_{{ user.id }}', 'true');
+        }
+    });
+</script>
 {% endblock %}

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Recibo {{ invoice.invoice_number }}</title>
+    <title>Factura {{ invoice.invoice_number }}</title>
     <style>
         @page { margin: 1.5cm; }
         body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; font-size: 11px; color: #333; }
@@ -27,12 +27,12 @@
     </style>
 </head>
 <body>
-    <h1>Recibo</h1>
+    <h1>Factura</h1>
     
     <!-- Header Info -->
     <table class="header-table">
         <tr>
-            <td class="label">Número de recibo:</td>
+            <td class="label">Número de factura:</td>
             <td>{{ invoice.invoice_number }}</td>
         </tr>
         <tr>

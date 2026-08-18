@@ -5,6 +5,7 @@ from django.conf import settings
 from datetime import datetime
 from app.services import send_whatsapp_template
 from companies.models import Company
+from app.meta_pixel import send_fb_capi_event
 
 
 def Index(request):
@@ -124,6 +125,20 @@ def generate_schedule(request):
 def registration_thank_you(request):
     """Thank you page after successful registration"""
     # Redirect to dashboard if user is not authenticated
+    user_agent = request.META.get('HTTP_USER_AGENT')
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    print(f'UA is: {user_agent}')
+    if x_forwarded_for:
+        ip_address = x_forwarded_for.split(',')[0]
+    else:
+        ip_address = request.META.get('REMOTE_ADDR')
+    print(f'IP address is: {ip_address}')
+    send_fb_capi_event(
+        user_email=request.user.email,
+        user_agent=user_agent,
+        user_ip=ip_address,
+        event_name='CompleteRegistration'
+    )
     if not request.user.is_authenticated:
         return redirect('/')
     

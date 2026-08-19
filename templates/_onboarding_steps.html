@@ -13,27 +13,27 @@
   <h2 class="text-xl font-bold text-gray-900 mb-6">{% trans "What type of salon do you run?" %}</h2>
   <div class="grid grid-cols-2 gap-4">
     <button type="button" class="salon-type-btn text-left p-4 border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all focus:outline-none" data-value="barbershop">
-      <img src="{% static 'img/barbershop.png' %}" class="w-10 h-10 mb-2 object-contain" alt="">
+      <picture><source srcset="{% static 'img/barbershop.webp' %}" type="image/webp"><img src="{% static 'img/barbershop.png' %}" class="w-10 h-10 mb-2 object-contain" alt="" loading="lazy"></picture>
       <div class="font-semibold text-gray-800 text-sm">{% trans "Barbershop" %}</div>
     </button>
     <button type="button" class="salon-type-btn text-left p-4 border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all focus:outline-none" data-value="beauty_salon">
-      <img src="{% static 'img/beauty.png' %}" class="w-10 h-10 mb-2 object-contain" alt="">
+      <picture><source srcset="{% static 'img/beauty.webp' %}" type="image/webp"><img src="{% static 'img/beauty.png' %}" class="w-10 h-10 mb-2 object-contain" alt="" loading="lazy"></picture>
       <div class="font-semibold text-gray-800 text-sm">{% trans "Beauty Salon" %}</div>
     </button>
     <button type="button" class="salon-type-btn text-left p-4 border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all focus:outline-none" data-value="nail_salon">
-      <img src="{% static 'img/nails.png' %}" class="w-10 h-10 mb-2 object-contain" alt="">
+      <picture><source srcset="{% static 'img/nails.webp' %}" type="image/webp"><img src="{% static 'img/nails.png' %}" class="w-10 h-10 mb-2 object-contain" alt="" loading="lazy"></picture>
       <div class="font-semibold text-gray-800 text-sm">{% trans "Nail Salon" %}</div>
     </button>
     <button type="button" class="salon-type-btn text-left p-4 border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all focus:outline-none" data-value="spa_massage">
-      <img src="{% static 'img/spa.png' %}" class="w-10 h-10 mb-2 object-contain" alt="">
+      <picture><source srcset="{% static 'img/spa.webp' %}" type="image/webp"><img src="{% static 'img/spa.png' %}" class="w-10 h-10 mb-2 object-contain" alt="" loading="lazy"></picture>
       <div class="font-semibold text-gray-800 text-sm">{% trans "Spa / Massage" %}</div>
     </button>
     <button type="button" class="salon-type-btn text-left p-4 border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all focus:outline-none" data-value="esthetic_depilation">
-      <img src="{% static 'img/estetic.png' %}" class="w-10 h-10 mb-2 object-contain" alt="">
+      <picture><source srcset="{% static 'img/estetic.webp' %}" type="image/webp"><img src="{% static 'img/estetic.png' %}" class="w-10 h-10 mb-2 object-contain" alt="" loading="lazy"></picture>
       <div class="font-semibold text-gray-800 text-sm">{% trans "Esthetic / Depilation" %}</div>
     </button>
     <button type="button" class="salon-type-btn text-left p-4 border-2 border-gray-200 rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all focus:outline-none" data-value="other">
-      <img src="{% static 'img/other.png' %}" class="w-10 h-10 mb-2 object-contain" alt="">
+      <picture><source srcset="{% static 'img/other.webp' %}" type="image/webp"><img src="{% static 'img/other.png' %}" class="w-10 h-10 mb-2 object-contain" alt="" loading="lazy"></picture>
       <div class="font-semibold text-gray-800 text-sm">{% trans "Other" %}</div>
     </button>
   </div>

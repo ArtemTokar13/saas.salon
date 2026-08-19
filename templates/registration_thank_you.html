@@ -1,48 +1,309 @@
 {% extends 'Layout.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{% trans "Thank You for Registering!" %}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full text-center">
-        <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-            <!-- Success Icon -->
-            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6">
-                <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-            </div>
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
 
-            <!-- Thank You Message -->
-            <h1 class="text-3xl font-bold text-gray-900 mb-4">
-                {% trans "Thank You!" %}
-            </h1>
-            <p class="text-lg text-gray-600 mb-8">
-                {% trans "Your registration was successful. Welcome to our platform!" %}
-            </p>
-
-            <!-- Dashboard Button -->
-            <a href="{% url 'company_dashboard' %}" 
-               class="inline-block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
-                {% trans "Go to Dashboard" %}
-            </a>
-
-            <!-- Optional: Additional info -->
-            <p class="mt-6 text-sm text-gray-500">
-                {% trans "Start managing your bookings and services now" %}
-            </p>
-        </div>
+{% if has_completed_onboarding %}
+  <!-- Already set up: simple thank-you card -->
+  <div class="max-w-md mx-auto text-center">
+    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+      <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6">
+        <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">{% trans "Thank You!" %}</h1>
+      <p class="text-lg text-gray-600 mb-8">{% trans "Your registration was successful. Welcome to our platform!" %}</p>
+      <a href="{% url 'booking_calendar' %}"
+         class="inline-block w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-4 px-8 rounded-lg shadow-md transition-all duration-200">
+        {% trans "Go to Calendar" %}
+      </a>
     </div>
+  </div>
+
+{% else %}
+  <!-- Multi-step onboarding wizard -->
+  <div class="max-w-2xl mx-auto" id="onboarding-wizard">
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gray-100 mb-4">
+        <svg class="h-9 w-9 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-900">{% trans "Let's set up your salon!" %}</h1>
+      <p class="text-gray-500 mt-1">{% trans "It only takes 2 minutes." %}</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="mb-6">
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-sm font-medium text-blue-600" id="step-counter">{% trans "Step 1 of 5" %}</span>
+        <span class="text-sm text-gray-500" id="step-name-label">{% trans "Salon Type" %}</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-1.5">
+        <div id="progress-bar" class="bg-gray-800 h-1.5 rounded-full transition-all duration-400" style="width:20%"></div></div>
+      </div>
+      <div class="flex justify-between mt-3">
+        {% for i in "12345" %}
+        <div id="dot-{{ forloop.counter }}"
+             class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200
+                    {% if forloop.counter == 1 %}bg-gray-800 text-white{% else %}bg-gray-200 text-gray-500{% endif %}">
+          {{ forloop.counter }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Card container -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+
+      {% include '_onboarding_steps.html' with company_name=company.name company_address=company.address company_city=company.city show_avatar=True %}
+
+      <!-- ── STEP 5: Phone ── -->
+      <div class="step-panel p-8 hidden" id="step-5">
+        <h2 class="text-xl font-bold text-gray-900 mb-1">{% trans "Contact phone number" %}</h2>
+        <p class="text-gray-500 text-sm mb-6">{% trans "Clients may use this number to reach your salon." %}</p>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">{% trans "Phone" %} *</label>
+          <input type="tel" id="phone" value="{{ company.phone|default:'' }}"
+                 class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                 placeholder="+1 555 000 0000">
+          <p class="text-xs text-red-500 mt-1 hidden" id="err-phone">{% trans "Please enter a phone number." %}</p>
+        </div>
+
+        <div class="mt-6 flex justify-between">
+          <button type="button" onclick="prevStep()"
+                  class="border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium px-6 py-2 rounded-lg transition">
+            ← {% trans "Back" %}
+          </button>
+          <button type="button" id="btn-finish" onclick="submitOnboarding()"
+                  class="bg-gray-800 hover:bg-gray-600 text-white font-medium px-8 py-2 rounded-lg transition flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {% trans "Finish Setup" %}
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP done (success) ── -->
+      <div class="step-panel p-8 hidden text-center" id="step-done">
+        <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6">
+          <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">{% trans "All set!" %}</h2>
+        <p class="text-gray-500 mb-6">{% trans "Your salon is ready. Redirecting to the calendar…" %}</p>
+        <div class="flex justify-center">
+          <svg class="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+          </svg>
+        </div>
+      </div>
+
+    </div><!-- /card -->
+  </div><!-- /wizard -->
+{% endif %}
+
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const registrationTracked = localStorage.getItem('fb_registration_tracked_{{ user.id }}');
-        if (!registrationTracked && typeof fbq === 'function') {
-            fbq('track', 'CompleteRegistration');
-            localStorage.setItem('fb_registration_tracked_{{ user.id }}', 'true');
-        }
+(function () {
+  var currentStep = 1;
+  var totalSteps = 5;
+  var stepTitles = {
+    1: "{% trans 'Salon Type' %}",
+    2: "{% trans 'Name & Address' %}",
+    3: "{% trans 'Service' %}",
+    4: "{% trans 'Staff' %}",
+    5: "{% trans 'Phone' %}"
+  };
+  var formData = {};
+
+  function updateProgress() {
+    var pct = (currentStep / totalSteps) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('step-counter').textContent = '{% trans "Step" %} ' + currentStep + ' {% trans "of" %} ' + totalSteps;
+    document.getElementById('step-name-label').textContent = stepTitles[currentStep] || '';
+
+    for (var i = 1; i <= totalSteps; i++) {
+      var dot = document.getElementById('dot-' + i);
+      dot.className = 'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200 ';
+      if (i < currentStep) {
+        dot.className += 'bg-gray-800 text-white';
+        dot.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>';
+      } else if (i === currentStep) {
+        dot.className += 'bg-gray-800 text-white';
+        dot.textContent = i;
+      } else {
+        dot.className += 'bg-gray-200 text-gray-500';
+        dot.textContent = i;
+      }
+    }
+
+    document.querySelectorAll('.step-panel').forEach(function (p) { p.classList.add('hidden'); });
+    var panel = document.getElementById('step-' + currentStep);
+    if (panel) panel.classList.remove('hidden');
+  }
+
+  function validateStep(step) {
+    var ok = true;
+    if (step === 1) {
+      if (!formData.salon_type) { ok = false; }
+    } else if (step === 2) {
+      var name = document.getElementById('company_name').value.trim();
+      var addr = document.getElementById('company_address').value.trim();
+      var city = document.getElementById('company_city').value.trim();
+      document.getElementById('err-name').classList.toggle('hidden', !!name);
+      document.getElementById('err-address').classList.toggle('hidden', !!addr);
+      document.getElementById('err-city').classList.toggle('hidden', !!city);
+      if (!name || !addr || !city) ok = false;
+    } else if (step === 3) {
+      var svcName = document.getElementById('service_name').value.trim();
+      document.getElementById('err-service').classList.toggle('hidden', !!svcName);
+      if (!svcName) ok = false;
+    } else if (step === 4) {
+      var ownerCb = document.getElementById('owner_is_staff').checked;
+      if (!ownerCb) {
+        var sName = document.getElementById('staff_name').value.trim();
+        document.getElementById('err-staff').classList.toggle('hidden', !!sName);
+        if (!sName) ok = false;
+      }
+    } else if (step === 5) {
+      var phone = document.getElementById('phone').value.trim();
+      document.getElementById('err-phone').classList.toggle('hidden', !!phone);
+      if (!phone) ok = false;
+    }
+    return ok;
+  }
+
+  window.nextStep = function () {
+    if (!validateStep(currentStep)) return;
+    currentStep++;
+    updateProgress();
+  };
+
+  window.prevStep = function () {
+    if (currentStep > 1) {
+      currentStep--;
+      updateProgress();
+    }
+  };
+
+  window.submitOnboarding = function () {
+    if (!validateStep(5)) return;
+
+    var btn = document.getElementById('btn-finish');
+    btn.disabled = true;
+    btn.textContent = '{% trans "Saving…" %}';
+
+    var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+    csrfToken = csrfToken ? csrfToken.value : (document.cookie.match(/csrftoken=([^;]+)/) || ['', ''])[1];
+
+    var fd = new FormData();
+    fd.append('salon_type', formData.salon_type || '');
+    fd.append('company_name', document.getElementById('company_name').value.trim());
+    fd.append('company_address', document.getElementById('company_address').value.trim());
+    fd.append('company_city', document.getElementById('company_city').value.trim());
+    fd.append('service_name', document.getElementById('service_name').value.trim());
+    fd.append('service_duration', document.getElementById('service_duration').value);
+    fd.append('service_price', document.getElementById('service_price').value || '0');
+    fd.append('owner_is_staff', document.getElementById('owner_is_staff').checked ? 'true' : 'false');
+    fd.append('staff_name', document.getElementById('staff_name').value.trim());
+    fd.append('staff_position', document.getElementById('staff_position').value.trim());
+    fd.append('phone', document.getElementById('phone').value.trim());
+    var avatarFile = document.getElementById('staff_avatar').files[0];
+    if (avatarFile) fd.append('staff_avatar', avatarFile);
+
+    fetch('{% url "save_onboarding" %}', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': csrfToken },
+      body: fd
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data.success) {
+        document.querySelectorAll('.step-panel').forEach(function (p) { p.classList.add('hidden'); });
+        document.getElementById('step-done').classList.remove('hidden');
+        document.getElementById('progress-bar').style.width = '100%';
+        document.getElementById('step-counter').textContent = '{% trans "Done!" %}';
+        document.getElementById('step-name-label').textContent = '';
+        setTimeout(function () { window.location.href = data.redirect; }, 1800);
+      } else {
+        btn.disabled = false;
+        btn.textContent = '{% trans "Finish Setup" %}';
+        alert('{% trans "Something went wrong. Please try again." %}');
+      }
+    })
+    .catch(function () {
+      btn.disabled = false;
+      btn.textContent = '{% trans "Finish Setup" %}';
+      alert('{% trans "Network error. Please try again." %}');
     });
+  };
+
+  // Salon type card: select and immediately advance
+  document.querySelectorAll('.salon-type-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.salon-type-btn').forEach(function (b) {
+        b.classList.remove('border-gray-800', 'bg-gray-50', 'ring-2', 'ring-gray-300');
+        b.classList.add('border-gray-200');
+      });
+      this.classList.remove('border-gray-200');
+      this.classList.add('border-gray-800', 'bg-gray-50', 'ring-2', 'ring-gray-300');
+      formData.salon_type = this.dataset.value;
+      nextStep();
+    });
+  });
+
+  // Avatar preview
+  document.getElementById('staff_avatar').addEventListener('change', function () {
+    var file = this.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var img = document.getElementById('avatar-img');
+      img.src = e.target.result;
+      img.classList.remove('hidden');
+      document.getElementById('avatar-placeholder').classList.add('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Toggle staff fields when "I am first employee" is checked
+  document.getElementById('owner_is_staff').addEventListener('change', function () {
+    var fields = document.getElementById('staff-fields');
+    if (this.checked) {
+      fields.style.opacity = '0.4';
+      fields.style.pointerEvents = 'none';
+      document.getElementById('err-staff').classList.add('hidden');
+    } else {
+      fields.style.opacity = '1';
+      fields.style.pointerEvents = 'auto';
+    }
+  });
+
+  // Initialise
+  updateProgress();
+}());
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var registrationTracked = localStorage.getItem('fb_registration_tracked_{{ user.id }}');
+    if (!registrationTracked && typeof fbq === 'function') {
+      fbq('track', 'CompleteRegistration');
+      localStorage.setItem('fb_registration_tracked_{{ user.id }}', 'true');
+    }
+  });
 </script>
 {% endblock %}
+

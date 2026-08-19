@@ -17,6 +17,15 @@ DAYS_OF_WEEK = [
     (6, _('Sunday')),
 ]
 
+SALON_TYPE_CHOICES = [
+    ('barbershop', _('Barbershop')),
+    ('beauty_salon', _('Beauty Salon')),
+    ('nail_salon', _('Nail Salon')),
+    ('spa_massage', _('Spa / Massage')),
+    ('esthetic_depilation', _('Esthetic / Depilation')),
+    ('other', _('Other')),
+]
+
 
 class EmailLog(models.Model):
     """Track email sending attempts and failures for debugging"""
@@ -74,6 +83,8 @@ class Company(models.Model):
     stripe_details_submitted = models.BooleanField(default=False)
     stripe_onboarding_completed = models.BooleanField(default=False)
     stripe_payouts_enabled = models.BooleanField(default=False)
+
+    salon_type = models.CharField(max_length=50, choices=SALON_TYPE_CHOICES, blank=True, null=True)
 
     MAX_LOGO_SIZE_KB = 200
     MAX_DIMENSIONS = (400, 400)

@@ -1752,4 +1752,148 @@ def service_analytics(request):
     
     except UserProfile.DoesNotExist:
         messages.error(request, _('User profile not found.'))
-        return redirect('/')
+
+
+def register_wizard(request):
+    """Pre-registration onboarding wizard — replaces the old register form"""
+    if request.user.is_authenticated:
+        return redirect('company_dashboard')
+    return render(request, 'get_started.html')
+
+
+def save_onboarding_session(request):
+    """Save wizard data to session before the user creates their account"""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    data = request.POST
+    request.session['onboarding_data'] = {
+        'salon_type':       data.get('salon_type', ''),
+        'company_name':     data.get('company_name', ''),
+        'company_address':  data.get('company_address', ''),
+        'company_city':     data.get('company_city', ''),
+        'service_name':     data.get('service_name', ''),
+        'service_duration': data.get('service_duration', '30'),
+        'service_price':    data.get('service_price', '0'),
+        'staff_name':       data.get('staff_name', ''),
+        'staff_position':   data.get('staff_position', ''),
+        'owner_is_staff':   data.get('owner_is_staff', 'false'),
+        'phone':            data.get('phone', ''),
+    }
+    request.session.modified = True
+    return JsonResponse({'success': True})
+
+
+def get_started_register(request):
+    """Create user + company + service + staff from the wizard registration step"""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    if request.user.is_authenticated:
+        return JsonResponse({'error': 'Already logged in'}, status=400)
+
+    email    = (request.POST.get('email') or '').strip().lower()
+    password = (request.POST.get('password') or '').strip()
+
+    if not email:
+        return JsonResponse({'error': str(_('Email is required.'))}, status=400)
+    if not password or len(password) < 8:
+        return JsonResponse({'error': str(_('Password must be at least 8 characters.'))}, status=400)
+    if User.objects.filter(email=email).exists():
+        return JsonResponse({'error': str(_('An account with this email already exists.'))}, status=400)
+
+    onboarding = request.session.get('onboarding_data', {})
+
+    try:
+        service_duration = max(1, int(onboarding.get('service_duration') or 30))
+    except (ValueError, TypeError):
+        service_duration = 30
+    try:
+        service_price = float(onboarding.get('service_price') or 0)
+    except (ValueError, TypeError):
+        service_price = 0.0
+
+    company_name = (onboarding.get('company_name') or '').strip() or email.split('@')[0]
+
+    user = User.objects.create_user(username=email, email=email, password=password)
+    user.is_active = False
+    user.save()
+
+    company = Company.objects.create(
+        administrator=user,
+        name=company_name,
+        address=(onboarding.get('company_address') or '').strip(),
+        city=(onboarding.get('company_city') or '').strip(),
+        phone=(onboarding.get('phone') or '').strip(),
+        email=email,
+        salon_type=onboarding.get('salon_type') or None,
+    )
+    # post_save signal already created UserProfile; just link the company
+    UserProfile.objects.filter(user=user).update(company=company, is_admin=True)
+
+    service_name = (onboarding.get('service_name') or '').strip()
+    service = None
+    if service_name:
+        service = Service.objects.create(
+            company=company, name=service_name,
+            duration=service_duration, price=service_price,
+        )
+
+    owner_is_staff = onboarding.get('owner_is_staff') == 'true'
+    staff_name = (email.split('@')[0] if owner_is_staff
+                  else (onboarding.get('staff_name') or '').strip())
+    staff_spec  = '' if owner_is_staff else (onboarding.get('staff_position') or '').strip()
+
+    if staff_name:
+        staff = Staff.objects.create(
+            company=company, name=staff_name, specialization=staff_spec,
+            working_days=[0, 1, 2, 3, 4, 5, 6],
+        )
+        if service:
+            staff.services.add(service)
+        if owner_is_staff:
+            UserProfile.objects.filter(user=user).update(staff=staff)
+
+    # Default working hours: Mon-Sat 9:00-18:00, Sun off
+    from datetime import time as _time
+    for day in range(7):
+        WorkingHours.objects.create(
+            company=company,
+            day_of_week=day,
+            start_time=_time(9, 0),
+            end_time=_time(18, 0),
+            is_day_off=(day == 6),
+        )
+
+    if 'onboarding_data' in request.session:
+        del request.session['onboarding_data']
+
+    uid   = urlsafe_base64_encode(force_bytes(user.pk))
+    token = default_token_generator.make_token(user)
+    activate_link = request.build_absolute_uri(reverse('activate_company', args=[uid, token]))
+    subject = str(_('Activate your account'))
+    html_message = render_to_string('email/account_activation.html', {
+        'activate_link': activate_link,
+        'current_year':  timezone.now().year,
+        'site_name':     str(_('Salon Booking System')),
+    })
+    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+
+    email_log = EmailLog.objects.create(
+        recipient_email=email, subject=subject, email_type='registration', status='pending'
+    )
+    try:
+        msg = EmailMultiAlternatives(subject, '', from_email, [email])
+        msg.attach_alternative(html_message, 'text/html')
+        msg.send()
+        email_log.status = 'success'
+        email_log.sent_at = timezone.now()
+        email_log.save()
+    except Exception as e:
+        email_log.status = 'failed'
+        email_log.error_message = str(e)
+        email_log.error_traceback = traceback.format_exc()
+        email_log.save()
+        user.delete()
+        company.delete()
+        return JsonResponse({'error': str(_('Failed to send activation email. Please try again.'))}, status=500)
+
+    return JsonResponse({'success': True, 'message': str(_('Check your email for the activation link.'))})

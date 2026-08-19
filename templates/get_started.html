@@ -1,0 +1,332 @@
+{% extends 'Layout.html' %}
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}{% trans "Get Started" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl mx-auto" id="gs-wizard">
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-2xl font-bold text-gray-900">{% trans "Let's set up your salon!" %}</h1>
+      <p class="text-gray-500 mt-1">{% trans "It only takes 2 minutes." %}</p>
+      <p class="inline-block mt-3 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full">🎁 {% trans "30 days free — no credit card required" %}</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="mb-6" id="progress-wrap">
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-sm font-medium text-blue-600" id="step-counter">{% trans "Step 1 of 6" %}</span>
+        <span class="text-sm text-gray-500" id="step-name-label">{% trans "Salon Type" %}</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-1.5">
+        <div id="progress-bar" class="bg-gray-800 h-1.5 rounded-full transition-all duration-400" style="width:16.6%"></div></div>
+      </div>
+      <div class="flex justify-between mt-3">
+        {% for i in "123456" %}
+        <div id="dot-{{ forloop.counter }}"
+             class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200
+                    {% if forloop.counter == 1 %}bg-gray-800 text-white{% else %}bg-gray-200 text-gray-500{% endif %}">
+          {{ forloop.counter }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+
+      {% include '_onboarding_steps.html' %}
+
+      <!-- STEP 5: Phone -->
+      <div class="step-panel p-8 hidden" id="step-5">
+        <h2 class="text-xl font-bold text-gray-900 mb-1">{% trans "Contact phone number" %}</h2>
+        <p class="text-gray-500 text-sm mb-6">{% trans "Clients may use this to reach your salon." %}</p>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">{% trans "Phone" %} *</label>
+          <input type="tel" id="phone"
+                 class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                 placeholder="+1 555 000 0000">
+          <p class="text-xs text-red-500 mt-1 hidden" id="err-phone">{% trans "Please enter a phone number." %}</p>
+        </div>
+        <div class="mt-6 flex justify-between">
+          <button type="button" onclick="prevStep()"
+                  class="border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium px-6 py-2 rounded-lg transition">
+            &larr; {% trans "Back" %}
+          </button>
+          <button type="button" id="btn-next-5" onclick="nextStep()"
+                  class="bg-gray-800 hover:bg-gray-600 text-white font-medium px-8 py-2 rounded-lg transition">
+            {% trans "Next" %} &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 6: Account creation -->
+      <div class="step-panel p-8 hidden" id="step-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-1">{% trans "Create your account" %}</h2>
+        <p class="text-gray-500 text-sm mb-6">{% trans "Your salon info is saved. Now create your free account." %}</p>
+
+        <div class="bg-gray-50 rounded-lg p-5 mb-5 border border-gray-200">
+          <p class="text-xs font-semibold text-gray-600 mb-3 text-center tracking-wide">&#9889; {% trans "RECOMMENDED" %}</p>
+          <a id="google-btn" href="{% provider_login_url 'google' %}"
+             class="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-white border-2 border-gray-200 rounded-lg font-semibold text-gray-800 hover:bg-gray-50 hover:border-blue-300 transition-all shadow-sm hover:shadow-md">
+            <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            <span>{% trans "Continue with Google" %}</span>
+          </a>
+          <p class="text-xs text-gray-400 mt-2 text-center">{% trans "No credit card required" %}</p>
+        </div>
+
+        <div class="relative mb-5">
+          <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-4 bg-white text-gray-400 font-medium">{% trans "or sign up with email" %}</span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div id="reg-error" class="hidden text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3"></div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{% trans "Email" %} *</label>
+            <input type="email" id="reg-email" autocomplete="email"
+                   class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="you@example.com">
+            <p class="text-xs text-red-500 mt-1 hidden" id="err-email">{% trans "Please enter a valid email." %}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{% trans "Password" %} *</label>
+            <div class="relative">
+              <input type="password" id="reg-password" autocomplete="new-password"
+                     class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+                     placeholder="{% trans 'Min. 8 characters' %}">
+              <button type="button" id="toggle-pwd"
+                      class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                <svg id="eye-show" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                <svg id="eye-hide" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                </svg>
+              </button>
+            </div>
+            <p class="text-xs text-red-500 mt-1 hidden" id="err-password">{% trans "Password must be at least 8 characters." %}</p>
+          </div>
+          <button type="button" id="btn-register"
+                  class="w-full bg-gray-800 hover:bg-gray-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium py-2 px-8 rounded-lg transition">
+            {% trans "Create Account" %}
+          </button>
+        </div>
+
+        <div class="mt-5">
+          <button type="button" onclick="prevStep()"
+                  class="border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium px-6 py-2 rounded-lg transition">
+            &larr; {% trans "Back" %}
+          </button>
+        </div>
+      </div>
+
+      <!-- Check-email state -->
+      <div class="step-panel p-8 hidden text-center" id="step-check-email">
+        <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-blue-100 mb-6">
+          <svg class="h-11 w-11 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">{% trans "Check your email!" %}</h2>
+        <p class="text-gray-500 mb-2">
+          {% trans "We sent an activation link to" %}
+          <strong class="text-gray-800" id="confirm-email"></strong>.
+        </p>
+        <p class="text-sm text-gray-400">{% trans "Click the link to activate your account and go to your calendar." %}</p>
+        <p class="text-xs text-gray-400 mt-4">{% trans "Didn't receive it? Check your spam folder." %}</p>
+      </div>
+
+    </div><!-- /card -->
+
+    <p class="text-center text-sm text-gray-500 mt-6">
+      {% trans "Already have an account?" %}
+      <a href="{% url 'account_login' %}" class="text-blue-600 hover:text-blue-700 font-medium">{% trans "Log in" %}</a>
+    </p>
+
+  </div><!-- /wizard -->
+</div>
+
+<script>
+(function () {
+  var step = 1;
+  var total = 6;
+  var titles = {
+    1: "{% trans 'Salon Type' %}",
+    2: "{% trans 'Name & Address' %}",
+    3: "{% trans 'Service' %}",
+    4: "{% trans 'Staff' %}",
+    5: "{% trans 'Phone' %}",
+    6: "{% trans 'Account' %}"
+  };
+  var formData = {};
+
+  var csrfToken = (function () {
+    var el = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (el) return el.value;
+    var m = document.cookie.match(/csrftoken=([^;]+)/);
+    return m ? m[1] : '';
+  }());
+
+  var saveSessionUrl = '{% url "save_onboarding_session" %}';
+  var registerUrl    = '{% url "get_started_register" %}';
+
+  function updateProgress() {
+    document.getElementById('progress-bar').style.width = (step / total * 100) + '%';
+    document.getElementById('step-counter').textContent = '{% trans "Step" %} ' + step + ' {% trans "of" %} ' + total;
+    document.getElementById('step-name-label').textContent = titles[step] || '';
+    for (var i = 1; i <= total; i++) {
+      var dot = document.getElementById('dot-' + i);
+      dot.className = 'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200 ';
+      if (i < step) {
+        dot.className += 'bg-gray-800 text-white';
+        dot.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>';
+      } else if (i === step) {
+        dot.className += 'bg-gray-800 text-white';
+        dot.textContent = i;
+      } else {
+        dot.className += 'bg-gray-200 text-gray-500';
+        dot.textContent = i;
+      }
+    }
+    document.querySelectorAll('.step-panel').forEach(function (p) { p.classList.add('hidden'); });
+    var panel = document.getElementById('step-' + step);
+    if (panel) panel.classList.remove('hidden');
+  }
+
+  function validate(s) {
+    if (s === 1) return !!formData.salon_type;
+    if (s === 2) {
+      var n = v('company_name'), a = v('company_address'), c = v('company_city');
+      toggle('err-name', !n); toggle('err-address', !a); toggle('err-city', !c);
+      return !!(n && a && c);
+    }
+    if (s === 3) { var sn = v('service_name'); toggle('err-service', !sn); return !!sn; }
+    if (s === 4) {
+      if (document.getElementById('owner_is_staff').checked) return true;
+      var sname = v('staff_name'); toggle('err-staff', !sname); return !!sname;
+    }
+    if (s === 5) { var ph = v('phone'); toggle('err-phone', !ph); return !!ph; }
+    return true;
+  }
+
+  function v(id) { return document.getElementById(id).value.trim(); }
+  function toggle(id, show) { document.getElementById(id).classList.toggle('hidden', !show); }
+
+  function saveSession(cb) {
+    var fd = new FormData();
+    fd.append('salon_type',       formData.salon_type || '');
+    fd.append('company_name',     v('company_name'));
+    fd.append('company_address',  v('company_address'));
+    fd.append('company_city',     v('company_city'));
+    fd.append('service_name',     v('service_name'));
+    fd.append('service_duration', document.getElementById('service_duration').value);
+    fd.append('service_price',    document.getElementById('service_price').value || '0');
+    fd.append('owner_is_staff',   document.getElementById('owner_is_staff').checked ? 'true' : 'false');
+    fd.append('staff_name',       v('staff_name'));
+    fd.append('staff_position',   v('staff_position'));
+    fd.append('phone',            v('phone'));
+    fetch(saveSessionUrl, { method: 'POST', headers: { 'X-CSRFToken': csrfToken }, body: fd })
+      .then(function () { if (cb) cb(); }).catch(function () { if (cb) cb(); });
+  }
+
+  window.nextStep = function () {
+    if (!validate(step)) return;
+    if (step === 5) {
+      var btn = document.getElementById('btn-next-5');
+      btn.disabled = true;
+      btn.textContent = '{% trans "Saving\u2026" %}';
+      saveSession(function () {
+        btn.disabled = false;
+        btn.textContent = '{% trans "Next" %} \u2192';
+        step++; updateProgress();
+      });
+      return;
+    }
+    step++; updateProgress();
+  };
+
+  window.prevStep = function () { if (step > 1) { step--; updateProgress(); } };
+
+  document.querySelectorAll('.salon-type-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.salon-type-btn').forEach(function (b) {
+        b.classList.remove('border-gray-800', 'bg-gray-50', 'ring-2', 'ring-gray-300');
+        b.classList.add('border-gray-200');
+      });
+      this.classList.remove('border-gray-200');
+      this.classList.add('border-gray-800', 'bg-gray-50', 'ring-2', 'ring-gray-300');
+      formData.salon_type = this.dataset.value;
+      nextStep();
+    });
+  });
+
+  document.getElementById('owner_is_staff').addEventListener('change', function () {
+    var fields = document.getElementById('staff-fields');
+    fields.style.opacity = this.checked ? '0.4' : '1';
+    fields.style.pointerEvents = this.checked ? 'none' : 'auto';
+    if (this.checked) toggle('err-staff', false);
+  });
+
+  document.getElementById('toggle-pwd').addEventListener('click', function () {
+    var pwd = document.getElementById('reg-password');
+    var isText = pwd.type === 'text';
+    pwd.type = isText ? 'password' : 'text';
+    document.getElementById('eye-show').classList.toggle('hidden', !isText);
+    document.getElementById('eye-hide').classList.toggle('hidden', isText);
+  });
+
+  document.getElementById('btn-register').addEventListener('click', function () {
+    var email    = document.getElementById('reg-email').value.trim();
+    var password = document.getElementById('reg-password').value;
+    var errEl = document.getElementById('reg-error');
+    errEl.classList.add('hidden');
+    toggle('err-email', false); toggle('err-password', false);
+    var ok = true;
+    if (!email || !email.includes('@')) { toggle('err-email', true); ok = false; }
+    if (!password || password.length < 8) { toggle('err-password', true); ok = false; }
+    if (!ok) return;
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = '{% trans "Creating account\u2026" %}';
+    var fd = new FormData();
+    fd.append('email', email); fd.append('password', password);
+    fetch(registerUrl, { method: 'POST', headers: { 'X-CSRFToken': csrfToken }, body: fd })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.success) {
+          document.getElementById('confirm-email').textContent = email;
+          document.querySelectorAll('.step-panel').forEach(function (p) { p.classList.add('hidden'); });
+          document.getElementById('step-check-email').classList.remove('hidden');
+          document.getElementById('progress-bar').style.width = '100%';
+          document.getElementById('progress-wrap').classList.add('hidden');
+        } else {
+          btn.disabled = false;
+          btn.textContent = '{% trans "Create Account" %}';
+          errEl.textContent = data.error || '{% trans "Something went wrong. Please try again." %}';
+          errEl.classList.remove('hidden');
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = '{% trans "Create Account" %}';
+        errEl.textContent = '{% trans "Network error. Please try again." %}';
+        errEl.classList.remove('hidden');
+      });
+  });
+
+  updateProgress();
+}());
+</script>
+{% endblock %}

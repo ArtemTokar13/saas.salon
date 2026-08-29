@@ -95,7 +95,8 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
                 return reverse('booking_calendar')
             return reverse('registration_thank_you')
 
-        return reverse('company_dashboard')
+        # Existing user with company — go to calendar (most-used page after login)
+        return reverse('booking_calendar')
     
     def get_signup_redirect_url(self, request):
         """

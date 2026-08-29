@@ -70,7 +70,7 @@
 
         <div class="bg-gray-50 rounded-lg p-5 mb-5 border border-gray-200">
           <p class="text-xs font-semibold text-gray-600 mb-3 text-center tracking-wide">&#9889; {% trans "RECOMMENDED" %}</p>
-          <a id="google-btn" href="{% provider_login_url 'google' %}"
+          <a id="google-btn" href="{% provider_login_url 'google' %}?next={% url 'registration_thank_you' %}"
              class="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-white border-2 border-gray-200 rounded-lg font-semibold text-gray-800 hover:bg-gray-50 hover:border-blue-300 transition-all shadow-sm hover:shadow-md">
             <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>

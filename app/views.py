@@ -155,8 +155,65 @@ def registration_thank_you(request):
     company = None
     has_completed_onboarding = False
     try:
+        from companies.models import WorkingHours
+        from datetime import time as _time
+
         profile = request.user.userprofile
         company = profile.company
+
+        # ?next= bypasses get_login_redirect_url — create company+data from session here
+        if not company:
+            onboarding = request.session.pop('onboarding_data', None) or {}
+            company_name = (onboarding.get('company_name') or '').strip() or \
+                           request.user.get_full_name() or request.user.email.split('@')[0]
+            company = Company.objects.create(
+                administrator=request.user,
+                name=company_name,
+                address=(onboarding.get('company_address') or '').strip(),
+                city=(onboarding.get('company_city') or '').strip(),
+                phone=(onboarding.get('phone') or '').strip(),
+                email=request.user.email,
+                salon_type=onboarding.get('salon_type') or None,
+            )
+            profile.company = company
+            profile.is_admin = True
+            profile.save()
+
+            service_name = (onboarding.get('service_name') or '').strip()
+            service = None
+            if service_name:
+                try:
+                    dur = max(1, int(onboarding.get('service_duration') or 30))
+                except (ValueError, TypeError):
+                    dur = 30
+                try:
+                    price = float(onboarding.get('service_price') or 0)
+                except (ValueError, TypeError):
+                    price = 0.0
+                service = Service.objects.create(
+                    company=company, name=service_name, duration=dur, price=price)
+
+            owner_is_staff = onboarding.get('owner_is_staff') == 'true'
+            staff_name = (request.user.get_full_name() or request.user.username
+                          if owner_is_staff
+                          else (onboarding.get('staff_name') or '').strip())
+            staff_spec = '' if owner_is_staff else (onboarding.get('staff_position') or '').strip()
+            if staff_name:
+                staff = Staff.objects.create(
+                    company=company, name=staff_name, specialization=staff_spec,
+                    working_days=[0, 1, 2, 3, 4, 5, 6])
+                if service:
+                    staff.services.add(service)
+                if owner_is_staff:
+                    profile.staff = staff
+                    profile.save()
+
+            for day in range(7):
+                WorkingHours.objects.create(
+                    company=company, day_of_week=day,
+                    start_time=_time(9, 0), end_time=_time(18, 0),
+                    is_day_off=(day == 6))
+
         has_completed_onboarding = Service.objects.filter(company=company).exists()
     except Exception:
         pass

@@ -190,3 +190,9 @@ class ServiceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         company = kwargs.pop('company', None)
         super().__init__(*args, **kwargs)
+
+    def clean_time_for_servicing(self):
+        time_for_servicing = self.cleaned_data.get('time_for_servicing')
+        if time_for_servicing is None:
+            return 0
+        return time_for_servicing

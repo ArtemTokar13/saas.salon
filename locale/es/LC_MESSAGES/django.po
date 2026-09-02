@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ReservaYa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-19 23:03+0200\n"
+"POT-Creation-Date: 2026-09-02 10:03+0200\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,7 @@ msgstr "País"
 #: templates/companies/customers_list.html:55
 #: templates/companies/dashboard.html:163
 #: templates/companies/edit_profile.html:69 templates/get_started.html:48
-#: templates/get_started.html:170 templates/registration_thank_you.html:73
+#: templates/get_started.html:173 templates/registration_thank_you.html:73
 #: templates/registration_thank_you.html:127
 msgid "Phone"
 msgstr "Teléfono"
@@ -290,7 +290,7 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} hasta {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Por favor, seleccione otra fecha, hora o miembro del personal."
 
-#: bookings/views.py:79 companies/views.py:1453
+#: bookings/views.py:79 companies/views.py:1459
 #: templates/bookings/create_booking.html:982
 msgid "Name is required"
 msgstr "Se requiere el nombre"
@@ -320,14 +320,14 @@ msgstr "Su reserva ha sido cancelada"
 msgid "You do not have permission to confirm this booking."
 msgstr "No tienes permiso para confirmar esta reserva."
 
-#: bookings/views.py:1841 bookings/views.py:1957 companies/views.py:217
-#: companies/views.py:274 companies/views.py:319 companies/views.py:344
-#: companies/views.py:372 companies/views.py:402 companies/views.py:430
-#: companies/views.py:467 companies/views.py:621 companies/views.py:907
-#: companies/views.py:925 companies/views.py:1079 companies/views.py:1098
-#: companies/views.py:1144 companies/views.py:1199 companies/views.py:1218
-#: companies/views.py:1290 companies/views.py:1330 companies/views.py:1426
-#: companies/views.py:1754
+#: bookings/views.py:1841 bookings/views.py:1957 companies/views.py:219
+#: companies/views.py:276 companies/views.py:321 companies/views.py:346
+#: companies/views.py:374 companies/views.py:404 companies/views.py:432
+#: companies/views.py:473 companies/views.py:627 companies/views.py:913
+#: companies/views.py:931 companies/views.py:1085 companies/views.py:1104
+#: companies/views.py:1150 companies/views.py:1205 companies/views.py:1224
+#: companies/views.py:1296 companies/views.py:1336 companies/views.py:1432
+#: companies/views.py:1760
 msgid "User profile not found."
 msgstr "Perfil de usuario no encontrado"
 
@@ -454,213 +454,232 @@ msgstr ""
 "Intervalo de tiempo para su calendario de reservas en minutos (p. ej., 15, "
 "30, 60)."
 
-#: companies/views.py:49
+#: companies/views.py:51
 msgid "You already have a company registered."
 msgstr "Usted ya tiene un salon registrada."
 
-#: companies/views.py:89
+#: companies/views.py:91
 msgid "Company registered successfully!"
 msgstr "¡Empresa registrada con éxito!"
 
-#: companies/views.py:99 companies/views.py:1872
+#: companies/views.py:101 companies/views.py:1878 companies/views.py:1934
 msgid "Activate your account"
 msgstr "Activa tu cuenta"
 
-#: companies/views.py:103 companies/views.py:652 companies/views.py:941
-#: companies/views.py:1876
+#: companies/views.py:105 companies/views.py:658 companies/views.py:947
+#: companies/views.py:1882 companies/views.py:1938
 msgid "Salon Booking System"
 msgstr "Sistema de reservas para salones de belleza"
 
-#: companies/views.py:143 companies/views.py:982
+#: companies/views.py:145 companies/views.py:988
 msgid "Failed to send activation email. Please try again later."
 msgstr ""
 "No se pudo enviar el correo electrónico de activación. Inténtelo de nuevo "
 "más tarde."
 
-#: companies/views.py:146
+#: companies/views.py:148
 msgid "Registration successful. Check your email for the activation link."
 msgstr ""
 "Registro exitoso. Revisa tu correo electrónico para obtener el enlace de "
 "activación."
 
-#: companies/views.py:175
+#: companies/views.py:177
 msgid "Your account has been activated."
 msgstr "Tu cuenta ha sido activada."
 
-#: companies/views.py:178
+#: companies/views.py:180
 msgid "Activation link is invalid or has expired."
 msgstr "El enlace de activación no es válido o ha caducado."
 
-#: companies/views.py:189 companies/views.py:228 companies/views.py:307
-#: companies/views.py:313 companies/views.py:333 companies/views.py:361
-#: companies/views.py:386 companies/views.py:415 companies/views.py:441
-#: companies/views.py:480 companies/views.py:781 companies/views.py:919
-#: companies/views.py:996 companies/views.py:1050 companies/views.py:1071
-#: companies/views.py:1090 companies/views.py:1108 companies/views.py:1154
-#: companies/views.py:1210 companies/views.py:1229 companies/views.py:1584
+#: companies/views.py:191 companies/views.py:230 companies/views.py:309
+#: companies/views.py:315 companies/views.py:335 companies/views.py:363
+#: companies/views.py:388 companies/views.py:417 companies/views.py:443
+#: companies/views.py:486 companies/views.py:787 companies/views.py:925
+#: companies/views.py:1002 companies/views.py:1056 companies/views.py:1077
+#: companies/views.py:1096 companies/views.py:1114 companies/views.py:1160
+#: companies/views.py:1216 companies/views.py:1235 companies/views.py:1590
 msgid "Access denied."
 msgstr "Acceso denegado"
 
-#: companies/views.py:267
+#: companies/views.py:269
 msgid "Company profile updated successfully!"
 msgstr "¡Perfil de la empresa actualizado correctamente!"
 
-#: companies/views.py:328 companies/views.py:356
+#: companies/views.py:330 companies/views.py:358
 msgid "Method not allowed"
 msgstr "Método no permitido"
 
-#: companies/views.py:341
+#: companies/views.py:343
 msgid "No logo to delete"
 msgstr "No hay logotipo para eliminar"
 
-#: companies/views.py:369
+#: companies/views.py:371
 msgid "No avatar to delete"
 msgstr "No hay avatar para eliminar"
 
-#: companies/views.py:381
+#: companies/views.py:383
 msgid "Only POST requests are allowed"
 msgstr "Solo se permiten solicitudes POST."
 
-#: companies/views.py:446
+#: companies/views.py:448
 msgid "You are already a staff member."
 msgstr "Usted ya es miembro del personal."
 
-#: companies/views.py:463
+#: companies/views.py:454 companies/views.py:490
+#, python-format
+msgid "You have reached the maximum of %(max)s staff members for your plan."
+msgstr "Has alcanzado el máximo de %(max)s miembros del personal para tu plan."
+
+#: companies/views.py:469
 msgid "You have been successfully added as a staff member."
 msgstr "Has sido añadido correctamente como miembro del personal."
 
-#: companies/views.py:470
+#: companies/views.py:476
 msgid "Error creating staff member: {str(e)}"
 msgstr "Error al crear el miembro del personal: {str(e)}"
 
-#: companies/views.py:612
+#: companies/views.py:618
 msgid "Staff member added and activated successfully!"
 msgstr "¡Miembro del personal añadido y activado correctamente!"
 
-#: companies/views.py:614
+#: companies/views.py:620
 msgid "Staff member added successfully! Activation email sent."
 msgstr ""
 "¡Miembro del personal añadido correctamente! Correo electrónico de "
 "activación enviado."
 
-#: companies/views.py:648
+#: companies/views.py:654
 msgid "Your staff account has been activated"
 msgstr "Tu cuenta de personal ha sido activada."
 
-#: companies/views.py:673
+#: companies/views.py:679
 msgid "Account activated successfully!"
 msgstr "¡Cuenta activada con éxito!"
 
-#: companies/views.py:676 companies/views.py:767
+#: companies/views.py:682 companies/views.py:773
 msgid "Passwords do not match."
 msgstr "Las contraseñas no coinciden."
 
-#: companies/views.py:678
+#: companies/views.py:684
 msgid ""
 "Activation link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "El enlace de activación no es válido o ha caducado. Póngase en contacto con "
 "su administrador."
 
-#: companies/views.py:714
+#: companies/views.py:720
 msgid "Password reset link sent to your email."
 msgstr ""
 "Se ha enviado un enlace para restablecer la contraseña a su correo "
 "electrónico."
 
-#: companies/views.py:716
+#: companies/views.py:722
 msgid "No user found with that email address."
 msgstr ""
 "No se ha encontrado ningún usuario con esa dirección de correo electrónico."
 
-#: companies/views.py:764
+#: companies/views.py:770
 msgid "Password reset successfully!"
 msgstr "¡Contraseña restablecida con éxito!"
 
-#: companies/views.py:769
+#: companies/views.py:775
 msgid ""
 "Reset link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "El enlace de restablecimiento no es válido o ha caducado. Póngase en "
 "contacto con su administrador."
 
-#: companies/views.py:843
+#: companies/views.py:849
 msgid "Staff member updated successfully!"
 msgstr "¡El miembro del personal se actualizó correctamente!"
 
-#: companies/views.py:936
+#: companies/views.py:942
 msgid "Activate your staff account"
 msgstr "Activa tu cuenta de empleado."
 
-#: companies/views.py:967 templates/companies/edit_staff.html:466
+#: companies/views.py:973 templates/companies/edit_staff.html:466
 msgid "Activation email sent successfully!"
 msgstr "¡Correo electrónico de activación enviado correctamente!"
 
-#: companies/views.py:1008
+#: companies/views.py:1014
 msgid "Start and end datetime are required."
 msgstr "Se requieren la fecha y hora de inicio y finalización."
 
-#: companies/views.py:1025
+#: companies/views.py:1031
 msgid "End time must be after start time."
 msgstr "La hora de finalización debe ser posterior a la hora de inicio."
 
-#: companies/views.py:1076
+#: companies/views.py:1082
 msgid "Staff member deleted successfully!"
 msgstr "¡Eliminado miembro del personal con éxito!"
 
-#: companies/views.py:1137
+#: companies/views.py:1143
 msgid "Service added successfully!"
 msgstr "¡Servicio añadido correctamente!"
 
-#: companies/views.py:1181
+#: companies/views.py:1187
 msgid "Service updated successfully!"
 msgstr "¡Servicio actualizado correctamente!"
 
-#: companies/views.py:1215
+#: companies/views.py:1221
 msgid "Service deleted successfully!"
 msgstr "¡Servicio eliminado correctamente!"
 
-#: companies/views.py:1260
+#: companies/views.py:1266
 msgid "Working hours updated successfully."
 msgstr "Horario laboral actualizado correctamente."
 
-#: companies/views.py:1382 companies/views.py:1438
+#: companies/views.py:1388 companies/views.py:1444
 msgid "User profile not found"
 msgstr "Perfil de usuario no encontrado"
 
-#: companies/views.py:1444
+#: companies/views.py:1450
 msgid "Access denied"
 msgstr "Acceso denegado"
 
-#: companies/views.py:1456
+#: companies/views.py:1462
 msgid "Phone is required"
 msgstr "Se requiere teléfono"
 
-#: companies/views.py:1473
+#: companies/views.py:1479
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "JSON no válido: %(error)s"
 
-#: companies/views.py:1797
+#: companies/views.py:1803 companies/views.py:1919
 msgid "Email is required."
 msgstr "Se requiere correo electrónico"
 
-#: companies/views.py:1799 templates/get_started.html:119
+#: companies/views.py:1805 templates/get_started.html:119
 msgid "Password must be at least 8 characters."
 msgstr "La contraseña debe tener al menos 8 caracteres."
 
-#: companies/views.py:1801
+#: companies/views.py:1807
 msgid "An account with this email already exists."
 msgstr "Ya existe una cuenta con este correo electrónico."
 
-#: companies/views.py:1897
-msgid "Failed to send activation email. Please try again."
+#: companies/views.py:1906
+msgid ""
+"Your account was created, but we could not send the activation email. Use "
+"\"Resend email\" below."
 msgstr ""
-"No se pudo enviar el correo electrónico de activación. Inténtalo de nuevo."
+"Tu cuenta se creó, pero no pudimos enviarte el correo electrónico de "
+"activación. Usa la opción 'Reenviar correo electrónico' que aparece a "
+"continuación."
 
-#: companies/views.py:1899
+#: companies/views.py:1909
 msgid "Check your email for the activation link."
 msgstr "Revisa tu correo electrónico para obtener el enlace de activación."
+
+#: companies/views.py:1923
+msgid "If that account is pending activation, a new email is on its way."
+msgstr ""
+
+#: companies/views.py:1958
+msgid "Failed to send the email. Please try again in a moment."
+msgstr ""
+"No se pudo enviar el correo electrónico de activación. Inténtelo de nuevo "
+"más tarde."
 
 #: templates/Index.html:4 templates/Index.html:44
 msgid "Less calls. Less messages. More bookings."
@@ -1281,7 +1300,7 @@ msgstr "Volver"
 #: templates/bookings/notifications_list.html:87
 #: templates/companies/customer_detail.html:123
 #: templates/companies/customers_list.html:107 templates/get_started.html:61
-#: templates/get_started.html:252
+#: templates/get_started.html:251
 msgid "Next"
 msgstr "Próxima"
 
@@ -1296,6 +1315,12 @@ msgstr "You can add more services later from the dashboard."
 #: templates/_onboarding_steps.html:88
 msgid "Service name"
 msgstr "Nombre del servicio"
+
+#: templates/_onboarding_steps.html:88 templates/_onboarding_steps.html:139
+#: templates/_onboarding_steps.html:153 templates/get_started.html:48
+#: templates/registration_thank_you.html:73
+msgid "optional"
+msgstr "opcional"
 
 #: templates/_onboarding_steps.html:91
 msgid "e.g. Haircut"
@@ -1369,10 +1394,6 @@ msgstr "p. ej., barbero, estilista"
 msgid "Photo"
 msgstr "Foto"
 
-#: templates/_onboarding_steps.html:153
-msgid "optional"
-msgstr "opcional"
-
 #: templates/_onboarding_steps.html:168
 msgid "Upload photo"
 msgstr "Subir foto"
@@ -1383,7 +1404,7 @@ msgstr "JPG, PNG up to 5 MB"
 
 #: templates/billing/billing_info_form.html:4
 #: templates/billing/billing_info_form.html:16
-#: templates/billing/change_plan.html:203
+#: templates/billing/change_plan.html:185
 #: templates/billing/subscription_details.html:186
 #: templates/companies/dashboard.html:143
 msgid "Billing Information"
@@ -1414,7 +1435,7 @@ msgid "NIE / NIF / VAT"
 msgstr "NIE / NIF / IVA"
 
 #: templates/billing/billing_info_form.html:118
-#: templates/billing/change_plan.html:191
+#: templates/billing/change_plan.html:173
 #: templates/bookings/confirm_prebooked.html:90
 #: templates/bookings/create_booking.html:211
 #: templates/bookings/edit_booking.html:213
@@ -1437,32 +1458,20 @@ msgstr "Guardar información de facturación"
 msgid "Choose Plan"
 msgstr "Elige tu Plan"
 
-#: templates/billing/change_plan.html:127
-msgid "How many workers do you need?"
-msgstr "Cuantos trabajadores necesitas?"
+#: templates/billing/change_plan.html:128
+#, python-format
+msgid "Up to %(count)s workers included in the price."
+msgstr "Hasta% (cuenta) s trabajadores incluidos en el precio."
 
-#: templates/billing/change_plan.html:137
-msgid "worker"
-msgstr "trabajador"
+#: templates/billing/change_plan.html:133
+msgid "Select Billing Period"
+msgstr "Seleccionar período de facturación"
 
-#: templates/billing/change_plan.html:137
-msgid "s"
-msgstr "es"
+#: templates/billing/change_plan.html:153
+msgid "SAVE"
+msgstr "AHORRAS"
 
-#: templates/billing/change_plan.html:145
-msgid "Base"
-msgstr "Base"
-
-#: templates/billing/change_plan.html:145
-msgid "workers included"
-msgstr "trabajadores incluidos"
-
-#: templates/billing/change_plan.html:145
-msgid "Each additional worker"
-msgstr "Cada trabajador adicional"
-
-#: templates/billing/change_plan.html:145
-#: templates/billing/change_plan.html:179
+#: templates/billing/change_plan.html:161
 #: templates/billing/pricing_periods.html:29
 #: templates/billing/pricing_periods.html:51
 #: templates/billing/pricing_periods.html:76
@@ -1471,31 +1480,23 @@ msgstr "Cada trabajador adicional"
 msgid "month"
 msgstr "mes"
 
-#: templates/billing/change_plan.html:151
-msgid "Select Billing Period"
-msgstr "Seleccionar período de facturación"
-
-#: templates/billing/change_plan.html:171
-msgid "SAVE"
-msgstr "AHORRAS"
-
-#: templates/billing/change_plan.html:188
+#: templates/billing/change_plan.html:170
 msgid "Continue to Payment"
 msgstr "Continuar con el pago"
 
-#: templates/billing/change_plan.html:206
+#: templates/billing/change_plan.html:188
 msgid "You will be redirected to Stripe to complete your payment securely."
 msgstr "Serás redirigido a Stripe para completar tu pago de forma segura."
 
-#: templates/billing/change_plan.html:209
+#: templates/billing/change_plan.html:191
 msgid "Secure payment processing"
 msgstr "Procesamiento de pagos seguro"
 
-#: templates/billing/change_plan.html:210
+#: templates/billing/change_plan.html:192
 msgid "Cancel anytime"
 msgstr "Cancelar en cualquier momento"
 
-#: templates/billing/change_plan.html:211
+#: templates/billing/change_plan.html:193
 msgid "Automatic renewal"
 msgstr "Renovación automática"
 
@@ -1594,7 +1595,7 @@ msgstr "Pagina"
 #: templates/billing/invoice.html:192
 #: templates/bookings/notifications_list.html:82
 #: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118 templates/get_started.html:187
+#: templates/companies/customers_list.html:118 templates/get_started.html:191
 #: templates/registration_thank_you.html:134
 msgid "of"
 msgstr "de"
@@ -1884,13 +1885,13 @@ msgstr "Filtro"
 #: templates/bookings/create_booking.html:1014
 #: templates/bookings/create_booking.html:1018
 #: templates/bookings/create_booking.html:1021
-#: templates/bookings/edit_booking.html:88 templates/get_started.html:168
+#: templates/bookings/edit_booking.html:88 templates/get_started.html:171
 #: templates/registration_thank_you.html:125
 msgid "Service"
 msgstr "Servicio"
 
 #: templates/bookings/bookings_list.html:63
-#: templates/bookings/confirm_prebooked.html:41 templates/get_started.html:169
+#: templates/bookings/confirm_prebooked.html:41 templates/get_started.html:172
 #: templates/registration_thank_you.html:126
 msgid "Staff"
 msgstr "Personal"
@@ -2801,8 +2802,8 @@ msgstr "Reservas"
 msgid "Error updating customer"
 msgstr "Error al actualizar la cliente"
 
-#: templates/companies/customer_detail.html:214 templates/get_started.html:324
-#: templates/registration_thank_you.html:249
+#: templates/companies/customer_detail.html:214 templates/get_started.html:328
+#: templates/get_started.html:352 templates/registration_thank_you.html:235
 msgid "Network error. Please try again."
 msgstr "Error de red. Por favor, inténtelo de nuevo."
 
@@ -3269,7 +3270,7 @@ msgid "Minimum 8 characters"
 msgstr "Mínimo 8 caracteres"
 
 #: templates/companies/register.html:105 templates/get_started.html:123
-#: templates/get_started.html:316 templates/get_started.html:323
+#: templates/get_started.html:320 templates/get_started.html:327
 msgid "Create Account"
 msgstr "Crear Cuenta"
 
@@ -3688,8 +3689,8 @@ msgid "Get Started"
 msgstr "Comience"
 
 #: templates/get_started.html:14
-msgid "Your clients book via WhatsApp — automatically"
-msgstr "Tus clientes reservan automáticamente a través de WhatsApp."
+msgid "Your clients book automatically"
+msgstr "Tus clientes reservan automáticamente"
 
 #: templates/get_started.html:15
 msgid "Set up your salon in 2 minutes."
@@ -3703,7 +3704,7 @@ msgstr "30 días gratis — no se requiere tarjeta de crédito"
 msgid "Step 1 of 6"
 msgstr "Paso 1 de 6"
 
-#: templates/get_started.html:23 templates/get_started.html:166
+#: templates/get_started.html:23 templates/get_started.html:169
 #: templates/registration_thank_you.html:47
 #: templates/registration_thank_you.html:123
 msgid "Salon Type"
@@ -3755,38 +3756,55 @@ msgstr ""
 "Haz clic en el enlace para activar tu cuenta y acceder a tu calendario."
 
 #: templates/get_started.html:148
-msgid "Didn't receive it? Check your spam folder."
+msgid "Didn't receive it? Check your spam folder, or"
 msgstr "¿No lo recibiste? Revisa tu carpeta de correo no deseado."
 
-#: templates/get_started.html:154
+#: templates/get_started.html:149
+msgid "resend the email"
+msgstr "reenviar el correo electrónico"
+
+#: templates/get_started.html:157
 msgid "Already have an account?"
 msgstr "¿Ya tienes una cuenta?"
 
-#: templates/get_started.html:155
+#: templates/get_started.html:158
 msgid "Log in"
 msgstr "Acceso"
 
-#: templates/get_started.html:167 templates/registration_thank_you.html:124
+#: templates/get_started.html:170 templates/registration_thank_you.html:124
 msgid "Name & Address"
 msgstr "Nombre y dirección"
 
-#: templates/get_started.html:171
+#: templates/get_started.html:174
 msgid "Account"
 msgstr "Cantidad"
 
-#: templates/get_started.html:187 templates/registration_thank_you.html:134
+#: templates/get_started.html:191 templates/registration_thank_you.html:134
 msgid "Step"
 msgstr "Paso"
 
-#: templates/get_started.html:249
+#: templates/get_started.html:248
 msgid "Saving\\u2026"
 msgstr "Guardando\\u2026"
 
-#: templates/get_started.html:302
+#: templates/get_started.html:301
 msgid "Creating account\\u2026"
 msgstr "Creando cuenta\\u2026"
 
-#: templates/get_started.html:317 templates/registration_thank_you.html:243
+#: templates/get_started.html:314
+msgid "Account created — email delayed"
+msgstr "Cuenta creada; el correo electrónico se ha retrasado."
+
+#: templates/get_started.html:316
+msgid ""
+"We could not send the activation email right away. Click “resend the email” "
+"below to try again."
+msgstr ""
+"No pudimos enviar el correo electrónico de activación de inmediato. Haz clic "
+"en 'Reenviar correo electrónico' a continuación para intentarlo de nuevo."
+
+#: templates/get_started.html:321 templates/get_started.html:346
+#: templates/registration_thank_you.html:229
 msgid "Something went wrong. Please try again."
 msgstr "Algo salió mal. Por favor, inténtalo de nuevo."
 
@@ -3837,8 +3855,8 @@ msgid "Clients may use this number to reach your salon."
 msgstr "Los clientes pueden usar este número para comunicarse con su salón."
 
 #: templates/registration_thank_you.html:90
-#: templates/registration_thank_you.html:242
-#: templates/registration_thank_you.html:248
+#: templates/registration_thank_you.html:228
+#: templates/registration_thank_you.html:234
 msgid "Finish Setup"
 msgstr "Finalizar configuración"
 
@@ -3850,11 +3868,11 @@ msgstr "¡Listo!"
 msgid "Your salon is ready. Redirecting to the calendar…"
 msgstr "Tu salón está listo. Redireccionando al calendario…"
 
-#: templates/registration_thank_you.html:206
+#: templates/registration_thank_you.html:192
 msgid "Saving…"
 msgstr "Guardando..."
 
-#: templates/registration_thank_you.html:237
+#: templates/registration_thank_you.html:223
 msgid "Done!"
 msgstr "¡Listo!"
 

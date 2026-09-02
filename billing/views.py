@@ -105,7 +105,7 @@ def view_plans(request):
 
 @login_required
 def change_plan(request, plan_id):
-    """Change subscription plan with worker selection and Stripe payment"""
+    """Change subscription plan and start Stripe payment"""
     try:
         profile = request.user.userprofile
         if not profile.is_admin:
@@ -117,16 +117,11 @@ def change_plan(request, plan_id):
 
         if request.method == "POST":
             billing_period = request.POST.get("billing_period", "monthly")
-            num_workers = int(request.POST.get("num_workers", new_plan.base_workers))
-
-            if num_workers < 1:
-                messages.error(request, "Number of workers must be at least 1.")
-                return redirect("change_plan", plan_id=plan_id)
 
             # Створюємо Stripe Checkout сесію
             success_url = request.build_absolute_uri("/billing/payment-success/")
             cancel_url = request.build_absolute_uri(f"/billing/change-plan/{plan_id}/")
-            
+
             try:
                 checkout_session = create_stripe_checkout_session(
                     company=company,
@@ -134,7 +129,6 @@ def change_plan(request, plan_id):
                     billing_period=billing_period,
                     success_url=success_url,
                     cancel_url=cancel_url,
-                    num_workers=num_workers
                 )
                 # Перенаправляємо на Stripe для введення картки
                 return redirect(checkout_session.url)

@@ -73,6 +73,7 @@ urlpatterns += i18n_patterns(
     path('platform-admin/companies/', admin_views.manage_companies, name='manage_companies'),
     path('platform-admin/plans/', admin_views.manage_plans, name='manage_plans'),
     path('platform-admin/subscriptions/', admin_views.manage_subscriptions, name='manage_subscriptions'),
+    path('platform-admin/whatsapp-usage/', admin_views.whatsapp_usage, name='whatsapp_usage'),
     path('platform-admin/qrcode/', admin_views.qrcode_generator, name='qrcode_generator'),
     path('platform-admin/seller-billing-info/', admin_views.seller_billing_info, name='seller_billing_info'),
     path('platform-admin/invoices/', admin_views.manage_invoices, name='manage_invoices'),

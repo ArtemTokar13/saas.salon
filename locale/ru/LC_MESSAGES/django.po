@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-12 12:45+0200\n"
+"POT-Creation-Date: 2026-09-02 10:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,13 +71,13 @@ msgid "Tax ID (NIF/VAT)"
 msgstr "ИНН (ИНН/НДС)"
 
 #: billing/models.py:226 billing/models.py:251
-#: templates/companies/dashboard.html:158
+#: templates/_onboarding_steps.html:56 templates/companies/dashboard.html:158
 #: templates/companies/edit_profile.html:39
 msgid "Address"
 msgstr "Адрес"
 
 #: billing/models.py:227 billing/models.py:252
-#: templates/companies/edit_profile.html:46
+#: templates/_onboarding_steps.html:63 templates/companies/edit_profile.html:46
 msgid "City"
 msgstr "Город"
 
@@ -100,7 +100,9 @@ msgstr "Страна"
 #: templates/companies/customer_detail.html:33
 #: templates/companies/customers_list.html:55
 #: templates/companies/dashboard.html:163
-#: templates/companies/edit_profile.html:69
+#: templates/companies/edit_profile.html:69 templates/get_started.html:48
+#: templates/get_started.html:173 templates/registration_thank_you.html:73
+#: templates/registration_thank_you.html:127
 msgid "Phone"
 msgstr "Телефон"
 
@@ -112,7 +114,8 @@ msgstr "Телефон"
 #: templates/companies/edit_profile.html:76
 #: templates/companies/edit_staff.html:17
 #: templates/companies/forgot_password.html:15
-#: templates/companies/register.html:61 templates/static_pages/contact.html:23
+#: templates/companies/register.html:61 templates/get_started.html:96
+#: templates/static_pages/contact.html:23
 msgid "Email"
 msgstr "Электронная почта"
 
@@ -300,7 +303,7 @@ msgstr ""
 "strftime('%Y-%m-%d %H:%M')} до {period.end_datetime.strftime('%Y-%m-%d %H:"
 "%M')}. Пожалуйста, выберите другую дату/время или другого сотрудника."
 
-#: bookings/views.py:79 companies/views.py:1453
+#: bookings/views.py:79 companies/views.py:1459
 #: templates/bookings/create_booking.html:982
 msgid "Name is required"
 msgstr "Имя обязательно."
@@ -329,14 +332,14 @@ msgstr "Ваше бронирование было отменено"
 msgid "You do not have permission to confirm this booking."
 msgstr "У вас нет разрешения на подтверждение этого бронирования."
 
-#: bookings/views.py:1841 bookings/views.py:1957 companies/views.py:217
-#: companies/views.py:274 companies/views.py:319 companies/views.py:344
-#: companies/views.py:372 companies/views.py:402 companies/views.py:430
-#: companies/views.py:467 companies/views.py:621 companies/views.py:907
-#: companies/views.py:925 companies/views.py:1079 companies/views.py:1098
-#: companies/views.py:1144 companies/views.py:1199 companies/views.py:1218
-#: companies/views.py:1290 companies/views.py:1330 companies/views.py:1426
-#: companies/views.py:1754
+#: bookings/views.py:1841 bookings/views.py:1957 companies/views.py:219
+#: companies/views.py:276 companies/views.py:321 companies/views.py:346
+#: companies/views.py:374 companies/views.py:404 companies/views.py:432
+#: companies/views.py:473 companies/views.py:627 companies/views.py:913
+#: companies/views.py:931 companies/views.py:1085 companies/views.py:1104
+#: companies/views.py:1150 companies/views.py:1205 companies/views.py:1224
+#: companies/views.py:1296 companies/views.py:1336 companies/views.py:1432
+#: companies/views.py:1760
 msgid "User profile not found."
 msgstr "Профиль пользователя не найден"
 
@@ -421,200 +424,267 @@ msgstr "Суббота"
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: companies/models.py:24
+#: companies/models.py:21 templates/_onboarding_steps.html:17
+msgid "Barbershop"
+msgstr "Барбершоп"
+
+#: companies/models.py:22 templates/_onboarding_steps.html:21
+msgid "Beauty Salon"
+msgstr "Салон красоты"
+
+#: companies/models.py:23 templates/_onboarding_steps.html:25
+msgid "Nail Salon"
+msgstr "Маникюрный салон"
+
+#: companies/models.py:24 templates/_onboarding_steps.html:29
+msgid "Spa / Massage"
+msgstr "Спа / масаж"
+
+#: companies/models.py:25 templates/_onboarding_steps.html:33
+msgid "Esthetic / Depilation"
+msgstr "Эстетика / Депиляция"
+
+#: companies/models.py:26 templates/_onboarding_steps.html:37
+msgid "Other"
+msgstr "Другое"
+
+#: companies/models.py:33
 msgid "Success"
 msgstr "Успех"
 
-#: companies/models.py:25
+#: companies/models.py:34
 msgid "Failed"
 msgstr "Неуспешный"
 
-#: companies/models.py:26
+#: companies/models.py:35
 msgid "Pending"
 msgstr "В ожидании"
 
-#: companies/models.py:66
+#: companies/models.py:75
 msgid "Calendar time slot interval in minutes (e.g., 15, 30, 60)"
 msgstr "Интервал временного интервала в минутах (например, 15, 30, 60)"
 
-#: companies/views.py:49
+#: companies/views.py:51
 msgid "You already have a company registered."
 msgstr "У вас уже зарегистрирована компания."
 
-#: companies/views.py:89
+#: companies/views.py:91
 msgid "Company registered successfully!"
 msgstr "Компания успешно зарегистрирована!"
 
-#: companies/views.py:99
+#: companies/views.py:101 companies/views.py:1878 companies/views.py:1934
 msgid "Activate your account"
 msgstr "Активируйте свой аккаунт"
 
-#: companies/views.py:103 companies/views.py:652 companies/views.py:941
+#: companies/views.py:105 companies/views.py:658 companies/views.py:947
+#: companies/views.py:1882 companies/views.py:1938
 msgid "Salon Booking System"
 msgstr "Система бронирования салонов"
 
-#: companies/views.py:143 companies/views.py:982
+#: companies/views.py:145 companies/views.py:988
 msgid "Failed to send activation email. Please try again later."
 msgstr ""
 "Не удалось отправить письмо с активацией. Пожалуйста, попробуйте позже."
 
-#: companies/views.py:146
+#: companies/views.py:148
 msgid "Registration successful. Check your email for the activation link."
 msgstr ""
 "Регистрация прошла успешно. Проверьте свою электронную почту, там будет "
 "ссылка для активации."
 
-#: companies/views.py:175
+#: companies/views.py:177
 msgid "Your account has been activated."
 msgstr "Ваш аккаунт активирован."
 
-#: companies/views.py:178
+#: companies/views.py:180
 msgid "Activation link is invalid or has expired."
 msgstr "Ссылка для активации недействительна или срок ее действия истек."
 
-#: companies/views.py:189 companies/views.py:228 companies/views.py:307
-#: companies/views.py:313 companies/views.py:333 companies/views.py:361
-#: companies/views.py:386 companies/views.py:415 companies/views.py:441
-#: companies/views.py:480 companies/views.py:781 companies/views.py:919
-#: companies/views.py:996 companies/views.py:1050 companies/views.py:1071
-#: companies/views.py:1090 companies/views.py:1108 companies/views.py:1154
-#: companies/views.py:1210 companies/views.py:1229 companies/views.py:1584
+#: companies/views.py:191 companies/views.py:230 companies/views.py:309
+#: companies/views.py:315 companies/views.py:335 companies/views.py:363
+#: companies/views.py:388 companies/views.py:417 companies/views.py:443
+#: companies/views.py:486 companies/views.py:787 companies/views.py:925
+#: companies/views.py:1002 companies/views.py:1056 companies/views.py:1077
+#: companies/views.py:1096 companies/views.py:1114 companies/views.py:1160
+#: companies/views.py:1216 companies/views.py:1235 companies/views.py:1590
 msgid "Access denied."
 msgstr "Доступ запрещен"
 
-#: companies/views.py:267
+#: companies/views.py:269
 msgid "Company profile updated successfully!"
 msgstr "Профиль компании успешно обновлен!"
 
-#: companies/views.py:328 companies/views.py:356
+#: companies/views.py:330 companies/views.py:358
 msgid "Method not allowed"
 msgstr "Метод не разрешен"
 
-#: companies/views.py:341
+#: companies/views.py:343
 msgid "No logo to delete"
 msgstr "Нет логотипа для удаления."
 
-#: companies/views.py:369
+#: companies/views.py:371
 msgid "No avatar to delete"
 msgstr "Нет аватара для удаления."
 
-#: companies/views.py:381
+#: companies/views.py:383
 msgid "Only POST requests are allowed"
 msgstr "Разрешены только POST-запросы."
 
-#: companies/views.py:446
+#: companies/views.py:448
 msgid "You are already a staff member."
 msgstr "Вы уже являетесь сотрудником."
 
-#: companies/views.py:463
+#: companies/views.py:454 companies/views.py:490
+#, python-format
+msgid "You have reached the maximum of %(max)s staff members for your plan."
+msgstr ""
+"Вы достигли максимального количества %(max)s сотрудников для вашего "
+"тарифного плана."
+
+#: companies/views.py:469
 msgid "You have been successfully added as a staff member."
 msgstr "Вы успешно добавлены в состав персонала."
 
-#: companies/views.py:470
+#: companies/views.py:476
 msgid "Error creating staff member: {str(e)}"
 msgstr "Ошибка при создании сотрудника: {str(e)}"
 
-#: companies/views.py:612
+#: companies/views.py:618
 msgid "Staff member added and activated successfully!"
 msgstr "Сотрудник успешно добавлен и активирован!"
 
-#: companies/views.py:614
+#: companies/views.py:620
 msgid "Staff member added successfully! Activation email sent."
 msgstr "Сотрудник успешно добавлен! Письмо с активацией отправлено."
 
-#: companies/views.py:648
+#: companies/views.py:654
 msgid "Your staff account has been activated"
 msgstr "Ваш личный кабинет сотрудника активирован."
 
-#: companies/views.py:673
+#: companies/views.py:679
 msgid "Account activated successfully!"
 msgstr "Аккаунт успешно активирован!"
 
-#: companies/views.py:676 companies/views.py:767
+#: companies/views.py:682 companies/views.py:773
 msgid "Passwords do not match."
 msgstr "Пароли не совпадают."
 
-#: companies/views.py:678
+#: companies/views.py:684
 msgid ""
 "Activation link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "Ссылка для активации недействительна или истекла. Пожалуйста, свяжитесь с "
 "администратором."
 
-#: companies/views.py:714
+#: companies/views.py:720
 msgid "Password reset link sent to your email."
 msgstr "Ссылка для сброса пароля будет отправлена ​​на вашу электронную почту."
 
-#: companies/views.py:716
+#: companies/views.py:722
 msgid "No user found with that email address."
 msgstr "Пользователь с таким адресом электронной почты не найден."
 
-#: companies/views.py:764
+#: companies/views.py:770
 msgid "Password reset successfully!"
 msgstr "Пароль успешно сброшен!"
 
-#: companies/views.py:769
+#: companies/views.py:775
 msgid ""
 "Reset link is invalid or has expired. Please contact your administrator."
 msgstr ""
 "Reset link is invalid or has expired. Please contact your administrator."
 
-#: companies/views.py:843
+#: companies/views.py:849
 msgid "Staff member updated successfully!"
 msgstr "Информация о сотруднике успешно обновлена!"
 
-#: companies/views.py:936
+#: companies/views.py:942
 msgid "Activate your staff account"
 msgstr "Активируйте учетную запись сотрудника."
 
-#: companies/views.py:967 templates/companies/edit_staff.html:466
+#: companies/views.py:973 templates/companies/edit_staff.html:466
 msgid "Activation email sent successfully!"
 msgstr "Письмо с активацией успешно отправлено!"
 
-#: companies/views.py:1008
+#: companies/views.py:1014
 msgid "Start and end datetime are required."
 msgstr "Требуются начальная и конечная даты и время."
 
-#: companies/views.py:1025
+#: companies/views.py:1031
 msgid "End time must be after start time."
 msgstr "Окончание должно произойти после начала."
 
-#: companies/views.py:1076
+#: companies/views.py:1082
 msgid "Staff member deleted successfully!"
 msgstr "Сотрудник успешно удален!"
 
-#: companies/views.py:1137
+#: companies/views.py:1143
 msgid "Service added successfully!"
 msgstr "Сервис успешно добавлен!"
 
-#: companies/views.py:1181
+#: companies/views.py:1187
 msgid "Service updated successfully!"
 msgstr "Сервис успешно обновлен!"
 
-#: companies/views.py:1215
+#: companies/views.py:1221
 msgid "Service deleted successfully!"
 msgstr "Сервис успешно удален!"
 
-#: companies/views.py:1260
+#: companies/views.py:1266
 msgid "Working hours updated successfully."
 msgstr "Информация о рабочем времени успешно обновлена."
 
-#: companies/views.py:1382 companies/views.py:1438
+#: companies/views.py:1388 companies/views.py:1444
 msgid "User profile not found"
 msgstr "Профиль пользователя не найден"
 
-#: companies/views.py:1444
+#: companies/views.py:1450
 msgid "Access denied"
 msgstr "Доступ запрещен"
 
-#: companies/views.py:1456
+#: companies/views.py:1462
 msgid "Phone is required"
 msgstr "Номер телефона обязательно."
 
-#: companies/views.py:1473
+#: companies/views.py:1479
 #, python-format
 msgid "Invalid JSON: %(error)s"
 msgstr "Недопустимый JSON: %(error)s"
+
+#: companies/views.py:1803 companies/views.py:1919
+msgid "Email is required."
+msgstr "Email обязательно."
+
+#: companies/views.py:1805 templates/get_started.html:119
+msgid "Password must be at least 8 characters."
+msgstr "Пароль должен состоять не менее чем из 8 символов."
+
+#: companies/views.py:1807
+msgid "An account with this email already exists."
+msgstr "Учетная запись с этим адресом электронной почты уже существует."
+
+#: companies/views.py:1906
+msgid ""
+"Your account was created, but we could not send the activation email. Use "
+"\"Resend email\" below."
+msgstr ""
+"Ваша учетная запись создана, но мы не смогли отправить письмо с активацией. "
+"Воспользуйтесь функцией 'Повторно отправить письмо' ниже."
+
+#: companies/views.py:1909
+msgid "Check your email for the activation link."
+msgstr "Проверьте свою электронную почту, там будет ссылка для активации."
+
+#: companies/views.py:1923
+msgid "If that account is pending activation, a new email is on its way."
+msgstr ""
+"Если активация учетной записи еще не завершена, вам будет отправлено новое "
+"электронное письмо."
+
+#: companies/views.py:1958
+msgid "Failed to send the email. Please try again in a moment."
+msgstr ""
+"Не удалось отправить письмо с активацией. Пожалуйста, попробуйте позже."
 
 #: templates/Index.html:4 templates/Index.html:44
 msgid "Less calls. Less messages. More bookings."
@@ -648,7 +718,7 @@ msgstr "Попробуйте 30 дней бесплатно"
 msgid "without credit card"
 msgstr "без кредитной карты"
 
-#: templates/Index.html:65 templates/registration_thank_you.html:28
+#: templates/Index.html:65
 msgid "Go to Dashboard"
 msgstr "Перейдите на панель управления."
 
@@ -1182,9 +1252,167 @@ msgstr ""
 msgid "Select language"
 msgstr "Выберите язык"
 
+#: templates/_onboarding_steps.html:13
+msgid "What type of salon do you run?"
+msgstr "Каким типом салона красоты вы управляете?"
+
+#: templates/_onboarding_steps.html:45
+msgid "Salon name & address"
+msgstr "Адрес и название салона"
+
+#: templates/_onboarding_steps.html:46
+msgid "Clients will see this information."
+msgstr "Клиенты увидят эту информацию."
+
+#: templates/_onboarding_steps.html:49
+msgid "Salon name"
+msgstr "Название салона"
+
+#: templates/_onboarding_steps.html:52
+msgid "e.g. My Barbershop"
+msgstr ""
+
+#: templates/_onboarding_steps.html:53
+msgid "Please enter the salon name."
+msgstr "Пожалуйста введите название салона."
+
+#: templates/_onboarding_steps.html:59
+msgid "Street"
+msgstr "Улица"
+
+#: templates/_onboarding_steps.html:60
+msgid "Please enter the address."
+msgstr "Пожалуйста, введите адрес"
+
+#: templates/_onboarding_steps.html:66
+msgid "e.g. Barcelona"
+msgstr "например Барселона"
+
+#: templates/_onboarding_steps.html:67
+msgid "Please enter the city."
+msgstr "Пожалуйста, введите город."
+
+#: templates/_onboarding_steps.html:73 templates/_onboarding_steps.html:118
+#: templates/_onboarding_steps.html:181 templates/billing/invoice.html:26
+#: templates/billing/subscription_details.html:13
+#: templates/companies/customer_detail.html:11
+#: templates/companies/customers_list.html:11
+#: templates/companies/services_list.html:10
+#: templates/companies/staff_list.html:10 templates/get_started.html:57
+#: templates/get_started.html:130 templates/registration_thank_you.html:83
+msgid "Back"
+msgstr "Назад"
+
+#: templates/_onboarding_steps.html:77 templates/_onboarding_steps.html:122
+#: templates/_onboarding_steps.html:185
+#: templates/bookings/notifications_list.html:87
+#: templates/companies/customer_detail.html:123
+#: templates/companies/customers_list.html:107 templates/get_started.html:61
+#: templates/get_started.html:251
+msgid "Next"
+msgstr "Следующая"
+
+#: templates/_onboarding_steps.html:84
+msgid "Add your first service"
+msgstr "Добавить вашу первую услугу"
+
+#: templates/_onboarding_steps.html:85
+msgid "You can add more services later from the dashboard."
+msgstr "Дополнительные сервисы можно добавить позже с панели управления."
+
+#: templates/_onboarding_steps.html:88
+msgid "Service name"
+msgstr "Название услуги"
+
+#: templates/_onboarding_steps.html:88 templates/_onboarding_steps.html:139
+#: templates/_onboarding_steps.html:153 templates/get_started.html:48
+#: templates/registration_thank_you.html:73
+msgid "optional"
+msgstr "(Необязательно)"
+
+#: templates/_onboarding_steps.html:91
+msgid "e.g. Haircut"
+msgstr "например Стрижка"
+
+#: templates/_onboarding_steps.html:92
+msgid "Please enter the service name."
+msgstr "Пожалуйста, введите название услуги."
+
+#: templates/_onboarding_steps.html:96
+#: templates/bookings/confirm_prebooked.html:58
+#: templates/bookings/edit_booking.html:105
+#: templates/companies/add_service.html:38
+#: templates/companies/edit_service.html:38
+msgid "Duration (minutes)"
+msgstr "Длительность (в минутах)"
+
+#: templates/_onboarding_steps.html:99 templates/_onboarding_steps.html:100
+#: templates/_onboarding_steps.html:101 templates/_onboarding_steps.html:102
+#: templates/_onboarding_steps.html:103 templates/_onboarding_steps.html:104
+#: templates/bookings/confirmation.html:59
+#: templates/bookings/edit_booking.html:94
+#: templates/companies/analytics.html:159
+#: templates/companies/analytics.html:346
+msgid "min"
+msgstr "минут"
+
+#: templates/_onboarding_steps.html:108
+#: templates/bookings/confirm_prebooked.html:72
+#: templates/bookings/confirmation.html:62
+#: templates/bookings/confirmation.html:155
+#: templates/companies/add_service.html:54
+#: templates/companies/edit_service.html:54
+#: templates/companies/services_list.html:26
+msgid "Price"
+msgstr "Цена"
+
+#: templates/_onboarding_steps.html:129
+msgid "Add a staff member"
+msgstr "Добавить сотрудника"
+
+#: templates/_onboarding_steps.html:130
+msgid "They will be able to perform the service you just added."
+msgstr "Они смогут оказать только что добавленную вами услугу."
+
+#: templates/_onboarding_steps.html:134
+msgid "I am the first employee"
+msgstr "Я первый сотрудник."
+
+#: templates/_onboarding_steps.html:139
+msgid "Employee name"
+msgstr "Имя сотрудника"
+
+#: templates/_onboarding_steps.html:142
+msgid "e.g. Anna Smith"
+msgstr "например Анна"
+
+#: templates/_onboarding_steps.html:143
+msgid "Please enter the employee name."
+msgstr "Пожалуйста, введите имя сотрудника."
+
+#: templates/_onboarding_steps.html:146
+msgid "Position / Specialization"
+msgstr "Специализация"
+
+#: templates/_onboarding_steps.html:149
+msgid "e.g. Barber, Stylist"
+msgstr "например Стилист"
+
+#: templates/_onboarding_steps.html:153
+msgid "Photo"
+msgstr "Фото"
+
+#: templates/_onboarding_steps.html:168
+msgid "Upload photo"
+msgstr "Добавить фото"
+
+#: templates/_onboarding_steps.html:171
+msgid "JPG, PNG up to 5 MB"
+msgstr "JPG, PNG до 5 MB"
+
 #: templates/billing/billing_info_form.html:4
 #: templates/billing/billing_info_form.html:16
-#: templates/billing/change_plan.html:203
+#: templates/billing/change_plan.html:185
 #: templates/billing/subscription_details.html:186
 #: templates/companies/dashboard.html:143
 msgid "Billing Information"
@@ -1215,7 +1443,7 @@ msgid "NIE / NIF / VAT"
 msgstr "NIE / NIF / VAT"
 
 #: templates/billing/billing_info_form.html:118
-#: templates/billing/change_plan.html:191
+#: templates/billing/change_plan.html:173
 #: templates/bookings/confirm_prebooked.html:90
 #: templates/bookings/create_booking.html:211
 #: templates/bookings/edit_booking.html:213
@@ -1238,32 +1466,20 @@ msgstr "Сохранить латежную информацию"
 msgid "Choose Plan"
 msgstr "Выберите план"
 
-#: templates/billing/change_plan.html:127
-msgid "How many workers do you need?"
-msgstr "Сколько работников вам нужно?"
+#: templates/billing/change_plan.html:128
+#, python-format
+msgid "Up to %(count)s workers included in the price."
+msgstr "В цену включено до %(количество) работников."
 
-#: templates/billing/change_plan.html:137
-msgid "worker"
-msgstr "работник"
+#: templates/billing/change_plan.html:133
+msgid "Select Billing Period"
+msgstr "Выберите расчетный период"
 
-#: templates/billing/change_plan.html:137
-msgid "s"
-msgstr "а"
+#: templates/billing/change_plan.html:153
+msgid "SAVE"
+msgstr "СБЕРЕЧЬ"
 
-#: templates/billing/change_plan.html:145
-msgid "Base"
-msgstr "База"
-
-#: templates/billing/change_plan.html:145
-msgid "workers included"
-msgstr "работника включено"
-
-#: templates/billing/change_plan.html:145
-msgid "Each additional worker"
-msgstr "Каждый дополнительный работник"
-
-#: templates/billing/change_plan.html:145
-#: templates/billing/change_plan.html:179
+#: templates/billing/change_plan.html:161
 #: templates/billing/pricing_periods.html:29
 #: templates/billing/pricing_periods.html:51
 #: templates/billing/pricing_periods.html:76
@@ -1272,48 +1488,31 @@ msgstr "Каждый дополнительный работник"
 msgid "month"
 msgstr "месяц"
 
-#: templates/billing/change_plan.html:151
-msgid "Select Billing Period"
-msgstr "Выберите расчетный период"
-
-#: templates/billing/change_plan.html:171
-msgid "SAVE"
-msgstr "СБЕРЕЧЬ"
-
-#: templates/billing/change_plan.html:188
+#: templates/billing/change_plan.html:170
 msgid "Continue to Payment"
 msgstr "Перейти к оплате"
 
-#: templates/billing/change_plan.html:206
+#: templates/billing/change_plan.html:188
 msgid "You will be redirected to Stripe to complete your payment securely."
 msgstr ""
 "Вы будете перенаправлены в Stripe для безопасного завершения оплаты.Вы "
 "будете перенаправлены на сайт Stripe для безопасного завершения платежа."
 
-#: templates/billing/change_plan.html:209
+#: templates/billing/change_plan.html:191
 msgid "Secure payment processing"
 msgstr "Безопасная обработка платежей"
 
-#: templates/billing/change_plan.html:210
+#: templates/billing/change_plan.html:192
 msgid "Cancel anytime"
 msgstr "Отменить можно в любое время."
 
-#: templates/billing/change_plan.html:211
+#: templates/billing/change_plan.html:193
 msgid "Automatic renewal"
 msgstr "Автоматическое продление"
 
 #: templates/billing/invoice.html:7
 msgid "Invoice"
 msgstr "Счет"
-
-#: templates/billing/invoice.html:26
-#: templates/billing/subscription_details.html:13
-#: templates/companies/customer_detail.html:11
-#: templates/companies/customers_list.html:11
-#: templates/companies/services_list.html:10
-#: templates/companies/staff_list.html:10
-msgid "Back"
-msgstr "Назад"
 
 #: templates/billing/invoice.html:33
 msgid "Download / Print PDF"
@@ -1406,7 +1605,8 @@ msgstr "Страница"
 #: templates/billing/invoice.html:192
 #: templates/bookings/notifications_list.html:82
 #: templates/companies/customer_detail.html:134
-#: templates/companies/customers_list.html:118
+#: templates/companies/customers_list.html:118 templates/get_started.html:191
+#: templates/registration_thank_you.html:134
 msgid "of"
 msgstr "из"
 
@@ -1698,12 +1898,14 @@ msgstr "Фильтр"
 #: templates/bookings/create_booking.html:1014
 #: templates/bookings/create_booking.html:1018
 #: templates/bookings/create_booking.html:1021
-#: templates/bookings/edit_booking.html:88
+#: templates/bookings/edit_booking.html:88 templates/get_started.html:171
+#: templates/registration_thank_you.html:125
 msgid "Service"
 msgstr "Услуга"
 
 #: templates/bookings/bookings_list.html:63
-#: templates/bookings/confirm_prebooked.html:41
+#: templates/bookings/confirm_prebooked.html:41 templates/get_started.html:172
+#: templates/registration_thank_you.html:126
 msgid "Staff"
 msgstr "Работник"
 
@@ -1759,25 +1961,9 @@ msgstr "Детали бронирования"
 msgid "Date & Time"
 msgstr "Дата и время"
 
-#: templates/bookings/confirm_prebooked.html:58
-#: templates/bookings/edit_booking.html:105
-#: templates/companies/add_service.html:38
-#: templates/companies/edit_service.html:38
-msgid "Duration (minutes)"
-msgstr "Длительность (в минутах)"
-
 #: templates/bookings/confirm_prebooked.html:68
 msgid "Minimum 15 minutes"
 msgstr "Минимум 15 минут"
-
-#: templates/bookings/confirm_prebooked.html:72
-#: templates/bookings/confirmation.html:62
-#: templates/bookings/confirmation.html:155
-#: templates/companies/add_service.html:54
-#: templates/companies/edit_service.html:54
-#: templates/companies/services_list.html:26
-msgid "Price"
-msgstr "Цена"
 
 #: templates/bookings/confirm_prebooked.html:93
 #: templates/bookings/create_booking.html:954
@@ -1819,13 +2005,6 @@ msgstr "Специалист"
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:1793
 msgid "Duration"
 msgstr "Продолжительность"
-
-#: templates/bookings/confirmation.html:59
-#: templates/bookings/edit_booking.html:94
-#: templates/companies/analytics.html:159
-#: templates/companies/analytics.html:346
-msgid "min"
-msgstr "минут"
 
 #: templates/bookings/confirmation.html:69
 #: templates/bookings/confirmation.html:172
@@ -2136,12 +2315,6 @@ msgstr "Отметить как прочитанное"
 msgid "Previous"
 msgstr "Последняя"
 
-#: templates/bookings/notifications_list.html:87
-#: templates/companies/customer_detail.html:123
-#: templates/companies/customers_list.html:107
-msgid "Next"
-msgstr "Следующая"
-
 #: templates/bookings/notifications_list.html:99
 msgid "No unread notifications"
 msgstr "Нет непрочитанных уведомлений"
@@ -2165,7 +2338,8 @@ msgstr "Пожалуйста, установите пароль для акти�
 
 #: templates/companies/activate_staff_account.html:31
 #: templates/companies/register.html:74
-#: templates/companies/reset_password.html:31 templates/users/login.html:45
+#: templates/companies/reset_password.html:31 templates/get_started.html:103
+#: templates/users/login.html:45
 msgid "Password"
 msgstr "Пароль"
 
@@ -2645,7 +2819,8 @@ msgstr "всего бронирований"
 msgid "Error updating customer"
 msgstr "Ошибка при обновлении данных клиента."
 
-#: templates/companies/customer_detail.html:214
+#: templates/companies/customer_detail.html:214 templates/get_started.html:328
+#: templates/get_started.html:352 templates/registration_thank_you.html:235
 msgid "Network error. Please try again."
 msgstr "Сетевая ошибка. Пожалуйста, попробуйте еще раз."
 
@@ -3079,7 +3254,7 @@ msgstr "Зарегистрироваться"
 msgid "Get started in 30 seconds"
 msgstr "Начните за 30 секунд!"
 
-#: templates/companies/register.html:20
+#: templates/companies/register.html:20 templates/get_started.html:72
 msgid "RECOMMENDED"
 msgstr "РЕКОМЕНДУЕТСЯ"
 
@@ -3087,7 +3262,8 @@ msgstr "РЕКОМЕНДУЕТСЯ"
 msgid "Fastest way to get started"
 msgstr "Самый быстрый способ начать"
 
-#: templates/companies/register.html:31 templates/socialaccount/login.html:31
+#: templates/companies/register.html:31 templates/get_started.html:81
+#: templates/socialaccount/login.html:31
 msgid "Continue with Google"
 msgstr "Продолжить с Google"
 
@@ -3095,7 +3271,7 @@ msgstr "Продолжить с Google"
 msgid "No credit card required • 30 days free trial"
 msgstr "Кредитная карта не требуется • 30 дней бесплатно"
 
-#: templates/companies/register.html:43
+#: templates/companies/register.html:43 templates/get_started.html:89
 msgid "or sign up with email"
 msgstr "или зарегистрироваться по электронной почте"
 
@@ -3111,7 +3287,8 @@ msgstr "Введите пароль"
 msgid "Minimum 8 characters"
 msgstr "Минимум 8 символов"
 
-#: templates/companies/register.html:105
+#: templates/companies/register.html:105 templates/get_started.html:123
+#: templates/get_started.html:320 templates/get_started.html:327
 msgid "Create Account"
 msgstr "Зарегистрироваться"
 
@@ -3532,6 +3709,132 @@ msgstr "Пожалуйста, активируйте учетную запись
 msgid "If you didn't expect this, please ignore this email."
 msgstr "Если вы не ожидали этого, пожалуйста, проигнорируйте это письмо."
 
+#: templates/get_started.html:6
+msgid "Get Started"
+msgstr "Начните сейчас"
+
+#: templates/get_started.html:14
+msgid "Your clients book automatically"
+msgstr "Ваши клиенты бронируют автоматически."
+
+#: templates/get_started.html:15
+msgid "Set up your salon in 2 minutes."
+msgstr "Создайте свой салон за 2 минуты."
+
+#: templates/get_started.html:16
+msgid "30 days free — no credit card required"
+msgstr "30 дней бесплатно — кредитная карта не требуется"
+
+#: templates/get_started.html:22
+msgid "Step 1 of 6"
+msgstr "Шаг 1 из 6"
+
+#: templates/get_started.html:23 templates/get_started.html:169
+#: templates/registration_thank_you.html:47
+#: templates/registration_thank_you.html:123
+msgid "Salon Type"
+msgstr "Тип салона"
+
+#: templates/get_started.html:45 templates/registration_thank_you.html:70
+msgid "Contact phone number"
+msgstr "Введите номер телефона"
+
+#: templates/get_started.html:46
+msgid "Clients may use this to reach your salon."
+msgstr "Клиенты могут использовать это для связи с вашим салоном."
+
+#: templates/get_started.html:52 templates/registration_thank_you.html:77
+msgid "Please enter a phone number."
+msgstr "Введите номер телефона."
+
+#: templates/get_started.html:68
+msgid "Create your account"
+msgstr "Зарегистрироваться"
+
+#: templates/get_started.html:69
+msgid "Your salon info is saved. Now create your free account."
+msgstr ""
+"Информация о вашем салоне сохранена. Теперь создайте бесплатный аккаунт."
+
+#: templates/get_started.html:83
+msgid "No credit card required"
+msgstr "Кредитная карта не требуется"
+
+#: templates/get_started.html:100
+msgid "Please enter a valid email."
+msgstr "Пожалуйста, введите действительный адрес электронной почты."
+
+#: templates/get_started.html:107
+msgid "Min. 8 characters"
+msgstr "Минимум 8 символов"
+
+#: templates/get_started.html:142
+msgid "Check your email!"
+msgstr "Проверьте свою электронную почту!"
+
+#: templates/get_started.html:144
+msgid "We sent an activation link to"
+msgstr "Мы отправили ссылку для активации на"
+
+#: templates/get_started.html:147
+msgid "Click the link to activate your account and go to your calendar."
+msgstr ""
+"Нажмите на ссылку, чтобы активировать свою учетную запись, и перейдите в "
+"свой календарь."
+
+#: templates/get_started.html:148
+msgid "Didn't receive it? Check your spam folder, or"
+msgstr "Не получили? Проверьте папку со спамом, или"
+
+#: templates/get_started.html:149
+msgid "resend the email"
+msgstr "Отправьте электронное письмо повторно"
+
+#: templates/get_started.html:157
+msgid "Already have an account?"
+msgstr "У вас уже есть аккаунт?"
+
+#: templates/get_started.html:158
+msgid "Log in"
+msgstr "Войти"
+
+#: templates/get_started.html:170 templates/registration_thank_you.html:124
+msgid "Name & Address"
+msgstr "Название и адрес"
+
+#: templates/get_started.html:174
+msgid "Account"
+msgstr "Учетная запись"
+
+#: templates/get_started.html:191 templates/registration_thank_you.html:134
+msgid "Step"
+msgstr "Шаг"
+
+#: templates/get_started.html:248
+msgid "Saving\\u2026"
+msgstr "Сохранение\\u2026"
+
+#: templates/get_started.html:301
+msgid "Creating account\\u2026"
+msgstr "Создание учетной записи\\u2026"
+
+#: templates/get_started.html:314
+msgid "Account created — email delayed"
+msgstr "Учетная запись создана — отправка электронного письма задерживается"
+
+#: templates/get_started.html:316
+msgid ""
+"We could not send the activation email right away. Click “resend the email” "
+"below to try again."
+msgstr ""
+"Мы не смогли отправить письмо с активацией сразу. Нажмите 'Повторно "
+"отправить письмо' ниже, чтобы попробовать еще раз."
+
+#: templates/get_started.html:321 templates/get_started.html:346
+#: templates/registration_thank_you.html:229
+msgid "Something went wrong. Please try again."
+msgstr "Произошла ошибка. Пожалуйста, попробуйте еще раз."
+
 #: templates/hijack/notification.html:9
 msgid "You are currently hijacked as:"
 msgstr "Вы в данный момент вошли как:"
@@ -3544,7 +3847,7 @@ msgstr "Нажмите «Освободить», чтобы вернуться �
 msgid "Release Hijack"
 msgstr "Освободить"
 
-#: templates/registration_thank_you.html:4
+#: templates/registration_thank_you.html:5
 msgid "Thank You for Registering!"
 msgstr "Спасибо за регистрацию!"
 
@@ -3552,13 +3855,52 @@ msgstr "Спасибо за регистрацию!"
 msgid "Thank You!"
 msgstr "Спасибо!"
 
-#: templates/registration_thank_you.html:22
+#: templates/registration_thank_you.html:20
 msgid "Your registration was successful. Welcome to our platform!"
 msgstr "Ваша регистрация прошла успешно. Добро пожаловать на нашу платформу!"
 
-#: templates/registration_thank_you.html:33
-msgid "Start managing your bookings and services now"
-msgstr "Начните управлять своими бронированиями и услугами прямо сейчас!"
+#: templates/registration_thank_you.html:23
+msgid "Go to Calendar"
+msgstr "Календарь"
+
+#: templates/registration_thank_you.html:39
+msgid "Let's set up your salon!"
+msgstr "Давайте обустроим ваш салон!"
+
+#: templates/registration_thank_you.html:40
+msgid "It only takes 2 minutes."
+msgstr "Это займет всего 2 минуты."
+
+#: templates/registration_thank_you.html:46
+msgid "Step 1 of 5"
+msgstr "Шаг 1 из 5"
+
+#: templates/registration_thank_you.html:71
+msgid "Clients may use this number to reach your salon."
+msgstr ""
+"Клиенты могут использовать этот номер, чтобы связаться с вашим салоном."
+
+#: templates/registration_thank_you.html:90
+#: templates/registration_thank_you.html:228
+#: templates/registration_thank_you.html:234
+msgid "Finish Setup"
+msgstr "Послендий шаг"
+
+#: templates/registration_thank_you.html:102
+msgid "All set!"
+msgstr "Всё готово!"
+
+#: templates/registration_thank_you.html:103
+msgid "Your salon is ready. Redirecting to the calendar…"
+msgstr "Ваш салон готов. Перенаправление на календарь…"
+
+#: templates/registration_thank_you.html:192
+msgid "Saving…"
+msgstr "Сохранение…"
+
+#: templates/registration_thank_you.html:223
+msgid "Done!"
+msgstr "Готово!"
 
 #: templates/socialaccount/authentication_error.html:4
 #: templates/socialaccount/authentication_error.html:10
@@ -5555,3 +5897,7 @@ msgstr "Введите правильный JSON."
 #| msgid "\"%(value)s\" value must be valid JSON."
 msgid "\"%(value)s\" value must be valid JSON."
 msgstr "Значение должно быть допустимым JSON."
+
+#: venv/lib/python3.12/site-packages/pycountry/tests/test_general.py:197
+msgid "Germany"
+msgstr ""

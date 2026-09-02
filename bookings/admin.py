@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, Booking
+from .models import Customer, Booking, WhatsAppMessageLog
 
 
 @admin.register(Customer)
@@ -35,4 +35,13 @@ class BookingAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+
+
+@admin.register(WhatsAppMessageLog)
+class WhatsAppMessageLogAdmin(admin.ModelAdmin):
+    list_display = ['company', 'phone_number', 'message_type', 'status', 'created_at']
+    list_filter = ['company', 'status', 'message_type', 'created_at']
+    search_fields = ['phone_number', 'twilio_message_sid']
+    date_hierarchy = 'created_at'
+    readonly_fields = ['company', 'booking', 'message_type', 'phone_number', 'template_sid', 'status', 'twilio_message_sid', 'error_message', 'created_at']
 

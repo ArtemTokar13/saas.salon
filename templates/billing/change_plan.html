@@ -122,31 +122,13 @@
                     <form method="post" id="pricing-form">
                         {% csrf_token %}
                         
-                        <div class="mb-4">
-                            <label for="num_workers" class="form-label fw-semibold mb-3" style="font-size: 1rem; display: block;">
-                                {% trans "How many workers do you need?" %}
-                            </label>
-                            <select class="form-select form-select-lg worker-input" 
-                                    id="num_workers" 
-                                    name="num_workers" 
-                                    required
-                                    style="border: 2px solid #dee2e6; border-radius: 8px; padding: 0.75rem 1rem; font-size: 1.1rem; font-weight: 500;">
-                                {% for i in "123456789012345"|make_list %}
-                                    {% if forloop.counter <= 15 %}
-                                    <option value="{{ forloop.counter }}" {% if forloop.counter == plan.base_workers %}selected{% endif %}>
-                                        {{ forloop.counter }} {% trans "worker" %}{% if forloop.counter > 1 %}{% trans "s" %}{% endif %}
-                                    </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                            <div class="mt-2" style="background-color: #f8f9fa; padding: 0.75rem; border-radius: 6px; border-left: 4px solid #0d6efd;">
-                                <small class="text-muted" style="font-size: 0.9rem;">
-                                    <strong>💡 </strong>
-                                    {% trans "Base" %}: {{ plan.base_workers }} {% trans "workers included" %}. {% trans "Each additional worker" %}: €{{ plan.additional_worker_price }}/{% trans "month" %}
-                                </small>
-                            </div>
+                        <div class="mb-4" style="background-color: #f8f9fa; padding: 0.75rem; border-radius: 6px; border-left: 4px solid #0d6efd;">
+                            <small class="text-muted" style="font-size: 0.9rem;">
+                                <strong>💡 </strong>
+                                {% blocktrans with count=plan.base_workers %}Up to {{ count }} workers included in the price.{% endblocktrans %}
+                            </small>
                         </div>
-                        
+
                         <h5 class="mb-3" style="font-weight: 600; color: #212529;">
                             <span style="font-size: 1.2rem;">📅</span> {% trans "Select Billing Period" %}
                         </h5>
@@ -220,47 +202,33 @@
 // Pricing calculator
 // Use JSON stringify to ensure proper decimal handling regardless of locale
 const basePrice = parseFloat("{{ plan.base_monthly_price|stringformat:'s' }}".replace(',', '.'));
-const baseWorkers = parseInt("{{ plan.base_workers }}");
-const additionalWorkerPrice = parseFloat("{{ plan.additional_worker_price|stringformat:'s' }}".replace(',', '.'));
 
-// Check if values are valid
-if (isNaN(basePrice) || isNaN(baseWorkers) || isNaN(additionalWorkerPrice)) {
-    console.error('Invalid pricing data:', { basePrice, baseWorkers, additionalWorkerPrice });
+if (isNaN(basePrice)) {
+    console.error('Invalid pricing data:', { basePrice });
 }
 
-function calculatePrice(numWorkers, periodMultiplier, discount) {
-    const additionalWorkers = Math.max(0, numWorkers - baseWorkers);
-    const monthlyTotal = basePrice + (additionalWorkers * additionalWorkerPrice);
-    const periodTotal = monthlyTotal * periodMultiplier * (1 - discount / 100);
+function calculatePrice(periodMultiplier, discount) {
+    const periodTotal = basePrice * periodMultiplier * (1 - discount / 100);
     const monthlyEquivalent = periodTotal / periodMultiplier;
-    
+
     return {
-        monthlyTotal: monthlyTotal.toFixed(2),
         periodTotal: periodTotal.toFixed(2),
         monthlyEquivalent: monthlyEquivalent.toFixed(2),
-        additionalWorkers: additionalWorkers,
-        additionalCost: (additionalWorkers * additionalWorkerPrice).toFixed(2)
     };
 }
 
 function updatePricing() {
-    const numWorkers = parseInt(document.getElementById('num_workers').value) || baseWorkers;
-    
     // Update all period prices
     document.querySelectorAll('input[name="billing_period"]').forEach(radio => {
         const multiplier = parseInt(radio.dataset.multiplier);
         const discount = parseInt(radio.dataset.discount);
-        const prices = calculatePrice(numWorkers, multiplier, discount);
-        
-        const periodCode = radio.value;
+        const prices = calculatePrice(multiplier, discount);
+
         const periodContainer = radio.closest('.billing-period-option');
         periodContainer.querySelector(`.period-price`).textContent = `€${prices.periodTotal}`;
         periodContainer.querySelector(`.period-monthly`).textContent = `€${prices.monthlyEquivalent}`;
     });
 }
-
-// Update on worker count change
-document.getElementById('num_workers').addEventListener('change', updatePricing);
 
 // Update on period change
 document.querySelectorAll('input[name="billing_period"]').forEach(radio => {

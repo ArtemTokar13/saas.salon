@@ -15,7 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.conf import settings
 from companies.models import Company, Staff, Service, EmailLog
-from bookings.models import Booking, Customer
+from bookings.models import Booking, Customer, WhatsAppMessageLog
 from billing.models import Plan, Subscription, Transaction, SellerBillingInfo, ManualInvoice
 from billing.forms import SellerBillingInfoForm, ManualInvoiceForm
 from xhtml2pdf import pisa
@@ -192,6 +192,38 @@ def manage_plans(request):
     }
     
     return render(request, 'admin_dashboard/manage_plans.html', context)
+
+
+@login_required
+@user_passes_test(is_superuser)
+def whatsapp_usage(request):
+    """Monitor WhatsApp reminder message volume per company, for cost estimation"""
+    start_of_month = timezone.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+    month_logs = WhatsAppMessageLog.objects.filter(created_at__gte=start_of_month)
+
+    usage_by_company = (
+        month_logs.values('company__id', 'company__name')
+        .annotate(
+            total=Count('id'),
+            success=Count('id', filter=Q(status='success')),
+            failed=Count('id', filter=Q(status='failed')),
+        )
+        .order_by('-total')
+    )
+
+    total_success = month_logs.filter(status='success').count()
+    total_failed = month_logs.filter(status='failed').count()
+
+    context = {
+        'usage_by_company': usage_by_company,
+        'total_success': total_success,
+        'total_failed': total_failed,
+        'total_messages': total_success + total_failed,
+        'period_start': start_of_month,
+    }
+
+    return render(request, 'admin_dashboard/whatsapp_usage.html', context)
 
 
 @login_required

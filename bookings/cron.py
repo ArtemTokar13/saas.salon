@@ -78,7 +78,10 @@ def send_booking_reminders():
                     '5': booking.start_time.strftime("%H:%M"),
                     '6': booking.staff.name,
                     '7': booking_link
-                }
+                },
+                company=booking.company,
+                booking=booking,
+                message_type='booking_reminder',
             )
             print(f"WhatsApp API response: {res}")
         

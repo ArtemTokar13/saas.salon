@@ -33,6 +33,8 @@ from companies.models import DAYS_OF_WEEK
 from bookings.models import Customer, Booking
 from app.decorators import subscription_required
 
+MAX_STAFF_PER_COMPANY = 5
+
 
 logger = logging.getLogger(__name__)
 
@@ -445,8 +447,12 @@ def make_myself_staff(request):
         if profile.staff:
             messages.info(request, _('You are already a staff member.'))
             return redirect('staff_list')
-        
+
         company = profile.company
+
+        if Staff.objects.filter(company=company).count() >= MAX_STAFF_PER_COMPANY:
+            messages.error(request, _('You have reached the maximum of %(max)s staff members for your plan.') % {'max': MAX_STAFF_PER_COMPANY})
+            return redirect('staff_list')
         
         # Create a staff member for the administrator
         staff_member = Staff.objects.create(
@@ -479,7 +485,11 @@ def add_staff(request):
         if not profile.is_admin:
             messages.error(request, _('Access denied.'))
             return redirect('/')
-        
+
+        if Staff.objects.filter(company=profile.company).count() >= MAX_STAFF_PER_COMPANY:
+            messages.error(request, _('You have reached the maximum of %(max)s staff members for your plan.') % {'max': MAX_STAFF_PER_COMPANY})
+            return redirect('staff_list')
+
         if request.method == 'POST':
             form = CompanyStaffForm(request.POST, request.FILES, company=profile.company)
             if form.is_valid():
@@ -498,7 +508,7 @@ def add_staff(request):
                     working_days=working_days,
                     out_of_office_start=out_of_office_start,
                     out_of_office_end=out_of_office_end,
-                    is_active=False
+                    is_active=True
                 )
                 staff_member.services.set(form.cleaned_data.get('services', []))
                 
@@ -534,10 +544,6 @@ def add_staff(request):
                     user_profile.phone_number = form.cleaned_data.get('phone', '')
                     user_profile.staff = staff_member
                     user_profile.save()
-                    
-                    # Activate staff immediately since user already exists
-                    staff_member.is_active = True
-                    staff_member.save()
                 else:
                     # Create new user and UserProfile
                     simple_password = make_random_password()
@@ -1892,8 +1898,63 @@ def get_started_register(request):
         email_log.error_message = str(e)
         email_log.error_traceback = traceback.format_exc()
         email_log.save()
-        user.delete()
-        company.delete()
-        return JsonResponse({'error': str(_('Failed to send activation email. Please try again.'))}, status=500)
+        # Keep the account and company — the user already filled out the whole wizard.
+        # They can request a new activation email from the "check your email" screen.
+        return JsonResponse({
+            'success': True,
+            'email_failed': True,
+            'message': str(_('Your account was created, but we could not send the activation email. Use "Resend email" below.')),
+        })
 
     return JsonResponse({'success': True, 'message': str(_('Check your email for the activation link.'))})
+
+
+def resend_company_activation(request):
+    """Resend the account-activation email for a company owner who hasn't activated yet"""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    email = (request.POST.get('email') or '').strip().lower()
+    if not email:
+        return JsonResponse({'error': str(_('Email is required.'))}, status=400)
+
+    generic_response = JsonResponse({
+        'success': True,
+        'message': str(_('If that account is pending activation, a new email is on its way.')),
+    })
+
+    user = User.objects.filter(email=email, is_active=False).first()
+    if not user:
+        # Don't reveal whether the account exists or is already active.
+        return generic_response
+
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token = default_token_generator.make_token(user)
+    activate_link = request.build_absolute_uri(reverse('activate_company', args=[uid, token]))
+    subject = str(_('Activate your account'))
+    html_message = render_to_string('email/account_activation.html', {
+        'activate_link': activate_link,
+        'current_year': timezone.now().year,
+        'site_name': str(_('Salon Booking System')),
+    })
+    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
+
+    email_log = EmailLog.objects.create(
+        recipient_email=email, subject=subject, email_type='registration_resend', status='pending'
+    )
+    try:
+        msg = EmailMultiAlternatives(subject, '', from_email, [email])
+        msg.attach_alternative(html_message, 'text/html')
+        msg.send()
+        email_log.status = 'success'
+        email_log.sent_at = timezone.now()
+        email_log.save()
+    except Exception as e:
+        email_log.status = 'failed'
+        email_log.error_message = str(e)
+        email_log.error_traceback = traceback.format_exc()
+        email_log.save()
+        logger.error(f"Failed to resend company activation email to {email}: {e}", exc_info=True)
+        return JsonResponse({'error': str(_('Failed to send the email. Please try again in a moment.'))}, status=500)
+
+    return generic_response

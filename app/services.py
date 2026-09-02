@@ -4,12 +4,16 @@ from django.conf import settings
 from django.utils.translation import get_language
 
 
-def send_whatsapp_template(to, content_sid, variables):
-    
+def send_whatsapp_template(to, content_sid, variables, company=None, booking=None, message_type='booking_reminder'):
+
     client = Client(
         settings.TWILIO_ACCOUNT_SID,
         settings.TWILIO_AUTH_TOKEN
     )
+
+    message = None
+    status = 'failed'
+    error_message = ''
 
     try:
         message = client.messages.create(
@@ -18,11 +22,25 @@ def send_whatsapp_template(to, content_sid, variables):
             content_sid=content_sid,
             content_variables=json.dumps(variables),
         )
+        status = 'success'
         print("WhatsApp message sent successfully.")
     except Exception as e:
+        error_message = str(e)
         print(f"Failed to send WhatsApp message: {e}")
-        return
-    
+
+    if company is not None:
+        from bookings.models import WhatsAppMessageLog
+        WhatsAppMessageLog.objects.create(
+            company=company,
+            booking=booking,
+            message_type=message_type,
+            phone_number=to,
+            template_sid=content_sid,
+            status=status,
+            twilio_message_sid=getattr(message, 'sid', None),
+            error_message=error_message,
+        )
+
     return message
 
 

@@ -77,3 +77,31 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.customer.name} → {self.service.name} ({self.date})"
+
+
+class WhatsAppMessageLog(models.Model):
+    """Track outbound WhatsApp template messages sent via Twilio, for cost monitoring per company"""
+    STATUS_CHOICES = [
+        ('success', 'Success'),
+        ('failed', 'Failed'),
+    ]
+
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='whatsapp_message_logs')
+    booking = models.ForeignKey(Booking, on_delete=models.SET_NULL, blank=True, null=True, related_name='whatsapp_message_logs')
+    message_type = models.CharField(max_length=50, default='booking_reminder')
+    phone_number = models.CharField(max_length=50)
+    template_sid = models.CharField(max_length=64, blank=True, null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    twilio_message_sid = models.CharField(max_length=64, blank=True, null=True)
+    error_message = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['company', '-created_at']),
+            models.Index(fields=['status', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.company.name} - {self.phone_number} ({self.status})"

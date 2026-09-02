@@ -60,7 +60,7 @@
                             </div>
                             <div>
                                 <dt class="text-sm text-gray-600">{% trans "Price" %}</dt>
-                                <dd class="text-sm font-medium text-gray-900">€{{ item.booking.price }}</dd>
+                                <dd class="text-sm font-medium text-gray-900">€{{ item.booking.service.price }}{% if item.booking.service.max_price %} - €{{ item.booking.service.max_price }}{% endif %}</dd>
                             </div>
                         </dl>
                         
@@ -150,10 +150,10 @@
                                 <dd class="text-sm font-medium text-gray-900">{{ booking.duration }} {% trans "minutes" %}</dd>
                             </div>
                             {% endif %}
-                            {% if booking.price %}
+                            {% if booking.service.price %}
                             <div>
                                 <dt class="text-sm text-gray-600">{% trans "Price" %}</dt>
-                                <dd class="text-sm font-medium text-gray-900">€{{ booking.price }}</dd>
+                                <dd class="text-sm font-medium text-gray-900">€{{ booking.service.price }}{% if booking.service.max_price %} - €{{ booking.service.max_price }}{% endif %}</dd>
                             </div>
                             {% endif %}
                         </dl>

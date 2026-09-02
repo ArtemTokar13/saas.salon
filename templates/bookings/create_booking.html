@@ -118,7 +118,7 @@
                                 <option value="">{% trans "Choose a service..." %}</option>
                                 {% for service in services %}
                                     <option value="{{ service.id }}" data-duration="{{ service.duration }}" data-price="{{ service.price }}">
-                                        {{ service.name }} - {{ service.duration }} min - €{{ service.price }}
+                                        {{ service.name }} - {{ service.duration }} min - €{{ service.price }}{% if service.max_price %} - €{{ service.max_price }}{% endif %}
                                     </option>
                                 {% endfor %}
                             </select>

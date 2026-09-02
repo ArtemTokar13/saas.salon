@@ -311,9 +311,9 @@
           document.getElementById('progress-bar').style.width = '100%';
           document.getElementById('progress-wrap').classList.add('hidden');
           if (data.email_failed) {
-            document.getElementById('check-email-title').textContent = '{% trans "Account created — email delayed" %}';
+            document.getElementById('check-email-title').textContent = '{% trans "Account created — email delayed" as email_failed_title %}{{ email_failed_title|escapejs }}';
             document.getElementById('check-email-hint').textContent =
-              '{% trans "We could not send the activation email right away. Click “resend the email” below to try again." %}';
+              '{% trans "We could not send the activation email right away. Click the button below to try again." as email_failed_hint %}{{ email_failed_hint|escapejs }}';
           }
         } else {
           btn.disabled = false;

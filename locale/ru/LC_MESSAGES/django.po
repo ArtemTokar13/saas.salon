@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 10:03+0200\n"
+"POT-Creation-Date: 2026-09-02 13:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3824,11 +3824,11 @@ msgstr "Учетная запись создана — отправка элек
 
 #: templates/get_started.html:316
 msgid ""
-"We could not send the activation email right away. Click “resend the email” "
-"below to try again."
+"We could not send the activation email right away. Click the button below to "
+"try again."
 msgstr ""
-"Мы не смогли отправить письмо с активацией сразу. Нажмите 'Повторно "
-"отправить письмо' ниже, чтобы попробовать еще раз."
+"Мы не смогли отправить письмо с активацией сразу. Нажмите кнопку ниже, чтобы "
+"попробовать еще раз."
 
 #: templates/get_started.html:321 templates/get_started.html:346
 #: templates/registration_thank_you.html:229

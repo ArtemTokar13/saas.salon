@@ -1606,16 +1606,17 @@ def service_analytics(request):
         else:
             try:
                 days = int(date_range)
-                start_date = end_date - timedelta(days=days)
             except (ValueError, TypeError):
                 days = 30
-                start_date = end_date - timedelta(days=30)
+            # Inclusive range: "last 7 days" = today and the 6 days before it
+            start_date = end_date - timedelta(days=days - 1)
         
         # Get all services for this company
         services = Service.objects.filter(company=company)
         
         # Filter bookings by date if applicable
-        bookings = Booking.objects.filter(company=company)
+        # Upper bound is today: future bookings must not be counted in past-period stats
+        bookings = Booking.objects.filter(company=company, date__lte=end_date)
         if start_date:
             bookings = bookings.filter(date__gte=start_date)
         
@@ -1678,7 +1679,7 @@ def service_analytics(request):
         ]
         
         # Monthly trends (last 12 months or within date range)
-        if date_range == 'all' or int(date_range) >= 90:
+        if date_range == 'all' or days >= 90:
             from django.db.models.functions import TruncMonth
             monthly_data = confirmed_bookings.annotate(
                 month=TruncMonth('date')

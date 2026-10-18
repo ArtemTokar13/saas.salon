@@ -174,7 +174,8 @@ class ManualInvoiceAdmin(admin.ModelAdmin):
             'description': 'Auto-filled from company billing info when company is selected and client name is blank.',
         }),
         ('Line Item', {
-            'fields': ('description', 'period_start', 'period_end', 'quantity', 'unit_price'),
+            'fields': ('description', 'period_start', 'period_end', 'quantity', 'unit_price',
+                       'vat_rate', 'vat_exemption_note'),
         }),
         ('Payment', {
             'fields': ('payment_method',),
@@ -218,6 +219,6 @@ class ManualInvoiceAdmin(admin.ModelAdmin):
         if pdf.err:
             return HttpResponse('Error generating PDF', status=500)
         response = HttpResponse(result.getvalue(), content_type='application/pdf')
-        response['Content-Disposition'] = f'inline; filename="receipt_{invoice.invoice_number}.pdf"'
+        response['Content-Disposition'] = f'inline; filename="factura_{invoice.invoice_number}.pdf"'
         return response
 

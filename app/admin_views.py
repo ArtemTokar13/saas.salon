@@ -358,7 +358,7 @@ def invoice_pdf_download(request, invoice_id):
         return HttpResponse('Error generating PDF', status=500)
     
     response = HttpResponse(result.getvalue(), content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="receipt_{invoice.invoice_number}.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="factura_{invoice.invoice_number}.pdf"'
     return response
 
 

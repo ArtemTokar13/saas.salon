@@ -306,7 +306,15 @@ class ManualInvoice(models.Model):
     period_start = models.DateField(null=True, blank=True, verbose_name=_('Period Start'))
     period_end = models.DateField(null=True, blank=True, verbose_name=_('Period End'))
     quantity = models.PositiveIntegerField(default=1, verbose_name=_('Quantity'))
-    unit_price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_('Unit Price (€)'))
+    unit_price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_('Unit Price (€)'),
+                                     help_text=_('Amount actually charged, IVA included'))
+
+    # --- IVA (Régimen general, Modelo 036 casilla 510) ---
+    vat_rate = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('21.00'),
+                                   verbose_name=_('IVA (%)'))
+    vat_exemption_note = models.CharField(max_length=255, blank=True, verbose_name=_('IVA exemption note'),
+                                          help_text=_('Legal reason printed on the invoice when IVA is 0% '
+                                                      '(e.g. "Inversión del sujeto pasivo, art. 84.Uno.2º LIVA")'))
 
     # --- Payment ---
     payment_method = models.CharField(max_length=100, blank=True, verbose_name=_('Payment Method'),
@@ -324,7 +332,25 @@ class ManualInvoice(models.Model):
 
     @property
     def total(self):
+        """Total paid by the client, IVA included."""
         return self.unit_price * self.quantity
+
+    def _without_vat(self, amount):
+        return (amount / (Decimal('1') + self.vat_rate / Decimal('100'))).quantize(Decimal('0.01'))
+
+    @property
+    def unit_base_price(self):
+        return self._without_vat(self.unit_price)
+
+    @property
+    def base_amount(self):
+        """Base imponible"""
+        return self._without_vat(self.total)
+
+    @property
+    def vat_amount(self):
+        """Cuota de IVA"""
+        return self.total - self.base_amount
 
     def save(self, *args, **kwargs):
         # Auto-fill seller from SellerBillingInfo singleton if seller name is empty

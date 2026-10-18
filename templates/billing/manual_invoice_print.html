@@ -36,9 +36,15 @@
             <td>{{ invoice.invoice_number }}</td>
         </tr>
         <tr>
-            <td class="label">Fecha de pago:</td>
+            <td class="label">Fecha de expedición:</td>
             <td>{{ invoice.invoice_date|date:"d/m/Y" }}</td>
         </tr>
+        {% if invoice.period_start and invoice.period_end %}
+        <tr>
+            <td class="label">Periodo del servicio:</td>
+            <td>{{ invoice.period_start|date:"d/m/Y" }} – {{ invoice.period_end|date:"d/m/Y" }}</td>
+        </tr>
+        {% endif %}
         {% if invoice.payment_method %}
         <tr>
             <td class="label">Método de pago:</td>
@@ -53,7 +59,7 @@
             <!-- Seller (Left) -->
             <td style="width: 50%;">
                 <p class="party-name">{{ invoice.seller_company_name }}</p>
-                {% if invoice.seller_tax_id %}<p class="party-detail">{{ invoice.seller_tax_id }}</p>{% endif %}
+                {% if invoice.seller_tax_id %}<p class="party-detail">NIF: {{ invoice.seller_tax_id }}</p>{% endif %}
                 {% if invoice.seller_address %}<p class="party-detail">{{ invoice.seller_address }}</p>{% endif %}
                 <p class="party-detail">{% if invoice.seller_postal_code %}{{ invoice.seller_postal_code }} {% endif %}{{ invoice.seller_city }}{% if invoice.seller_province %}, {{ invoice.seller_province }}{% endif %}</p>
                 {% if invoice.seller_country %}<p class="party-detail">{{ invoice.seller_country }}</p>{% endif %}
@@ -65,7 +71,7 @@
             <td style="width: 50%;">
                 <p class="party-title">Facturar a</p>
                 <p class="party-name">{{ invoice.client_name }}</p>
-                {% if invoice.client_tax_id %}<p class="party-detail">{{ invoice.client_tax_id }}</p>{% endif %}
+                {% if invoice.client_tax_id %}<p class="party-detail">NIF: {{ invoice.client_tax_id }}</p>{% endif %}
                 {% if invoice.client_address %}<p class="party-detail">{{ invoice.client_address }}</p>{% endif %}
                 <p class="party-detail">{% if invoice.client_postal_code %}{{ invoice.client_postal_code }} {% endif %}{{ invoice.client_city }}{% if invoice.client_province %}, {{ invoice.client_province }}{% endif %}</p>
                 {% if invoice.client_country %}<p class="party-detail">{{ invoice.client_country }}</p>{% endif %}
@@ -99,15 +105,27 @@
                     {% endif %}
                 </td>
                 <td class="right">{{ invoice.quantity }}</td>
-                <td class="right">€{{ invoice.unit_price }}</td>
-                <td class="right"><strong>€{{ invoice.total }}</strong></td>
+                <td class="right">€{{ invoice.unit_base_price }}</td>
+                <td class="right"><strong>€{{ invoice.base_amount }}</strong></td>
             </tr>
             <tr class="total-row">
-                <td colspan="3" class="right">TOTAL</td>
-                <td class="right">€{{ invoice.total }}</td>
+                <td colspan="3" class="right">Base imponible</td>
+                <td class="right">€{{ invoice.base_amount }}</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="right">IVA ({{ invoice.vat_rate|floatformat:"-2" }}%)</td>
+                <td class="right">€{{ invoice.vat_amount }}</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="right" style="font-size: 13px;"><strong>TOTAL</strong></td>
+                <td class="right" style="font-size: 13px;"><strong>€{{ invoice.total }}</strong></td>
             </tr>
         </tbody>
     </table>
+
+    {% if invoice.vat_exemption_note %}
+    <p style="margin-top: 10px; font-size: 10px;">{{ invoice.vat_exemption_note }}</p>
+    {% endif %}
 
     {% if invoice.notes %}
     <div class="notes">

@@ -1106,6 +1106,50 @@ def get_available_times_any_staff(request, company_id, service_id, date_str):
 
 
 #################### ADMIN VIEWS #####################
+def _calendar_day_range(company, current_date, staff_list, bookings):
+    """
+    Visible time range for the calendar on `current_date`.
+
+    Union of: company working hours, every listed staff member's own working
+    hours for that weekday, and the actual bookings. This way a staff member
+    who works longer than the salon (e.g. Saturday until 18:00 while the salon
+    closes at 14:00) still gets their slots and bookings shown.
+    Start is rounded down and end rounded up to a full hour.
+    """
+    weekday = current_date.weekday()
+    starts, ends = [], []
+
+    company_wh = WorkingHours.objects.filter(
+        company=company, day_of_week=weekday, is_day_off=False
+    ).first()
+    if company_wh and company_wh.start_time and company_wh.end_time:
+        starts.append(company_wh.start_time)
+        ends.append(company_wh.end_time)
+
+    staff_whs = StaffWorkingHours.objects.filter(
+        staff__in=staff_list, day_of_week=weekday, is_day_off=False
+    )
+    for wh in staff_whs:
+        if wh.start_time and wh.end_time:
+            starts.append(wh.start_time)
+            ends.append(wh.end_time)
+
+    for b in bookings:
+        starts.append(b.start_time)
+        ends.append(b.end_time)
+
+    if not starts:
+        return dtime(hour=8, minute=0), dtime(hour=20, minute=0)
+
+    first, last = min(starts), max(ends)
+    day_start = dtime(hour=first.hour, minute=0)
+    if last.minute or last.second:
+        day_end = dtime(hour=last.hour + 1, minute=0) if last.hour < 23 else dtime(hour=23, minute=59)
+    else:
+        day_end = dtime(hour=last.hour, minute=0)
+    return day_start, day_end
+
+
 @login_required
 @subscription_required
 def booking_calendar(request):
@@ -1139,12 +1183,6 @@ def booking_calendar(request):
             staff_list = list(Staff.objects.filter(company=company, id=profile.staff.id, is_active=True))
 
         working_hours = WorkingHours.objects.filter(company=company, day_of_week=current_date.weekday()).first()
-        if working_hours:
-            day_start = dtime(hour=working_hours.start_time.hour, minute=0)
-            day_end = dtime(hour=working_hours.end_time.hour, minute=0)
-        else:
-            day_start = dtime(hour=8, minute=0)
-            day_end = dtime(hour=20, minute=0)
 
         # Get bookings for the selected date
         bookings = Booking.objects.filter(
@@ -1152,6 +1190,8 @@ def booking_calendar(request):
             date=current_date,
             status__in=status_in
         ).select_related('customer', 'staff', 'service').order_by('start_time')
+
+        day_start, day_end = _calendar_day_range(company, current_date, staff_list, bookings)
 
         # Serialize staff and bookings into JSON-friendly structures
         staff_data = []
@@ -1379,12 +1419,6 @@ def calendar_api(request):
             day_of_week=current_date.weekday(),
             is_day_off=False
         ).first()
-        if working_hours:
-            day_start = working_hours.start_time
-            day_end = working_hours.end_time
-        else:
-            day_start = dtime(hour=8, minute=0)
-            day_end = dtime(hour=20, minute=0)
 
         # Get bookings for the selected date
         bookings = Booking.objects.filter(
@@ -1392,6 +1426,8 @@ def calendar_api(request):
             date=current_date,
             status__in=status_in
         ).select_related('customer', 'staff', 'service').order_by('start_time')
+
+        day_start, day_end = _calendar_day_range(company, current_date, staff_list, bookings)
 
         # Serialize bookings into JSON-friendly structures
         bookings_data = []
